@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">BaseKotlin</string>
+    <string name="app_name">Absensi Kampung Marketer</string>
+    <string name="username">Username</string>
+    <string name="input_username">Masukkan Username</string>
+    <string name="password">Password</string>
+    <string name="input_password">Masukkan Password</string>
+    <string name="login">Log In</string>
 </resources>
