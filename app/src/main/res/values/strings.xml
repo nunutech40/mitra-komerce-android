@@ -5,4 +5,16 @@
     <string name="password">Password</string>
     <string name="input_password">Masukkan Password</string>
     <string name="login">Log In</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kelola_data_kantor">Kelola Data Kantor</string>
+    <string name="kelola_data_sdm">Kelola Data SDM</string>
+    <string name="admin">Admin</string>
+    <string name="kehadiran_semua_kantor_hari_ini">Kehadiran semua kantor hari ini</string>
+    <string name="report">Report</string>
+    <string name="kantor">Kantor</string>
+    <string name="report_absensi_tiap_kantor_cabang">Report absensi tiap kantor cabang</string>
+    <string name="sdm">SDM</string>
+    <string name="management">Management</string>
 </resources>

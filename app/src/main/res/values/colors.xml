@@ -6,4 +6,6 @@
 
     <color name="textColor">#5A5B5C</color>
     <color name="textWhite">#F4F6F8</color>
+
+    <color name="test">#BD000000</color>
 </resources>
