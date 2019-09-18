@@ -10,11 +10,12 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val groupAdapter: GroupAdapter<ViewHolder> = GroupAdapter()
     private val vm: MainViewModel by inject()

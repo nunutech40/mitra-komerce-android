@@ -121,7 +121,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
@@ -131,6 +131,7 @@
         android:layout_marginEnd="@dimen/_24sdp"
         android:text="@string/login"
         android:textAllCaps="false"
+        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />

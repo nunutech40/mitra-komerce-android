@@ -17,4 +17,17 @@
     <string name="report_absensi_tiap_kantor_cabang">Report absensi tiap kantor cabang</string>
     <string name="sdm">SDM</string>
     <string name="management">Management</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="nama_cabang">Nama Cabang</string>
+    <string name="masukkan_nama_cabang">Masukkan nama cabang</string>
+    <string name="alamat_cabang">Alamat Cabang</string>
+    <string name="masukkan_alamat_cabang">Masukkan alamat cabang</string>
+    <string name="masukkan_no_telepon">Masukkan no telepon</string>
+    <string name="no_telepon">No Telepon</string>
+    <string name="pilih_penanggung_jawab">Pilih penanggung jawab</string>
+    <string name="penanggung_jawab">Penanggung jawab</string>
+    <string name="simpan">Simpan</string>
+    <string name="pilih">Pilih</string>
+    <string name="lihat_list_staff">Lihat list staff</string>
 </resources>

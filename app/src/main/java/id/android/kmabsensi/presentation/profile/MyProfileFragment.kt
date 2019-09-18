@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.report
+package id.android.kmabsensi.presentation.profile
 
 
 import android.os.Bundle
@@ -12,19 +12,19 @@ import id.android.kmabsensi.R
 /**
  * A simple [Fragment] subclass.
  */
-class ReportFragment : Fragment() {
+class MyProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report, container, false)
+        return inflater.inflate(R.layout.fragment_my_profile, container, false)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = ReportFragment()
+        fun newInstance() = MyProfileFragment()
     }
 
 

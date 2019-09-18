@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.main.MainActivity
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_login.*
@@ -19,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             toast("Welcome")
-            startActivity<MainActivity>()
+            startActivity<HomeActivity>()
         }
 
     }

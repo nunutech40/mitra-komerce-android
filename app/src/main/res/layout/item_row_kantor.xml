@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="121dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtKantor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="@string/kantor"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/txtKelolaKantor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtKantor"
+            android:layout_toLeftOf="@id/img1"
+            android:layout_marginStart="8dp"
+            android:text="@string/report_absensi_tiap_kantor_cabang"/>
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ilu_gedung_kantor"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"/>
+
+    </RelativeLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>

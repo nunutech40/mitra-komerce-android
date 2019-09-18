@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_light"
     tools:context=".presentation.admin.HomeAdminFragment">
 
 
@@ -23,12 +24,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.Bold"
         tools:text="Hello, Jajat"
+        android:textStyle="bold"
         android:textColor="@color/test"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
-        app:layout_constraintTop_toTopOf="@+id/imgProfile" />
+        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+        tools:ignore="MissingPrefix" />
 
     <TextView
         android:id="@+id/textView4"
@@ -45,7 +47,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="@android:color/holo_blue_light"
+
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +57,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/rect_bg_red_gradient"
+                android:scaleType="centerCrop"/>
 
 
             <ImageView
@@ -118,10 +126,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,14 +136,20 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="120dp"
             android:layout_marginEnd="8dp"
-            app:cardElevation="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/btnKelolaDataKantor"
+
+            app:cardElevation="2dp"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <ImageView
@@ -166,9 +178,12 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="120dp"
             android:layout_marginStart="8dp"
-            app:cardElevation="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardElevation="2dp"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
