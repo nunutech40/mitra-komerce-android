@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.kantor.sdm.ListSdmActivity"></activity>
+        <activity android:name=".presentation.sdm.KelolaDataSdmActivity"></activity>
+        <activity android:name=".presentation.kantor.sdm.ListSdmActivity" />
         <activity android:name=".presentation.kantor.penanggungjawab.PenanggungJawabActivity" />
         <activity android:name=".presentation.kantor.cabang.TambahCabangActivity" />
         <activity android:name=".presentation.kantor.KelolaKantorActivity" />

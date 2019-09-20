@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
+import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.loadCircleImage
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.startActivity
@@ -34,6 +35,10 @@ class HomeAdminFragment : Fragment() {
 
         btnKelolaDataKantor.setOnClickListener {
             activity?.startActivity<KelolaKantorActivity>()
+        }
+
+        btnKelolaDataSdm.setOnClickListener {
+            activity?.startActivity<KelolaDataSdmActivity>()
         }
 
     }
