@@ -1,6 +1,8 @@
 package id.android.kmabsensi.di
 
 import androidx.room.Room
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -27,6 +29,8 @@ val appModule = module {
     }
 
     single { AppSchedulerProvider() as SchedulerProvider }
+
+    factory { GroupAdapter<ViewHolder>() }
 
 }
 

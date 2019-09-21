@@ -40,4 +40,9 @@
     <string name="masukkan_jenis_kelamin">Masukkan jenis kelamin</string>
     <string name="masukkan_no_hp">Masukkan no HP</string>
     <string name="masukkan_email">Masukkan email</string>
+    <string name="kantor_cabang">Kantor Cabang</string>
+    <string name="pilih_kantor_cabang">Pilih kantor cabang</string>
+    <string name="jabatan">Jabatan</string>
+    <string name="pilih_jabatan">Pilih jabatan</string>
+    <string name="password_lama">Password Lama</string>
 </resources>

@@ -8,9 +8,11 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.toolbar
 import kotlinx.android.synthetic.main.activity_kelola_kantor.*
+import org.jetbrains.anko.startActivity
 
 class KelolaDataSdmActivity : BaseActivity() {
 
@@ -35,6 +37,10 @@ class KelolaDataSdmActivity : BaseActivity() {
 
         data.forEach {
             groupAdapter.add(SdmItem(it))
+        }
+
+        btnTambahSdm.setOnClickListener {
+            startActivity<TambahSdmActivity>()
         }
 
     }

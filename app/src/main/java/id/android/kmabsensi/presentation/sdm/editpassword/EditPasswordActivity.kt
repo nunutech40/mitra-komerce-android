@@ -1,20 +1,21 @@
-package id.android.kmabsensi.presentation.sdm.tambahsdm
+package id.android.kmabsensi.presentation.sdm.editpassword
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
+import kotlinx.android.synthetic.main.activity_edit_password.*
 
-class TambahSdmActivity : BaseActivity() {
+class EditPasswordActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tambah_sdm)
+        setContentView(R.layout.activity_edit_password)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tambah SDM"
+        supportActionBar?.title = "Edit Password"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
     }
 }
