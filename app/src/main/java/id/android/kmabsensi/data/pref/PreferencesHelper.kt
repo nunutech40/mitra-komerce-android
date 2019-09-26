@@ -10,6 +10,8 @@ class PreferencesHelper(val context: Context){
 
         //KEY
         private val LEAGUE_NAME_KEY = "league_name"
+        val ACCESS_TOKEN_KEY = "access_token"
+        val PROFILE_KEY = "profile"
     }
 
     private var sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

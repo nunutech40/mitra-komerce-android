@@ -8,10 +8,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import id.android.kmabsensi.BuildConfig
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import java.util.concurrent.TimeUnit
 
 
-fun provideOkHttpClient(): OkHttpClient {
+fun provideOkHttpClient(preferencesHelper: PreferencesHelper): OkHttpClient {
     val httpClient = OkHttpClient.Builder()
     httpClient.apply {
         writeTimeout(60, TimeUnit.SECONDS)
@@ -22,13 +23,18 @@ fun provideOkHttpClient(): OkHttpClient {
             logging.level = HttpLoggingInterceptor.Level.BODY
             addInterceptor(logging)
         }
+
+        if (preferencesHelper.getString(PreferencesHelper.ACCESS_TOKEN_KEY) != ""){
+            addInterceptor(AuthInterceptor(preferencesHelper.getString(PreferencesHelper.ACCESS_TOKEN_KEY)))
+        }
+
     }
     return httpClient.build()
 }
 
-inline fun <reified T> createWebService(okHttpClient: OkHttpClient): T {
+inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: String): T {
     val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()

@@ -4,17 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
+import com.github.ajalt.timberkt.i
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
+import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
+import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import timber.log.Timber
 
 class HomeActivity : AppCompatActivity() {
 
     var prevMenuItem: MenuItem? = null
+
+    var role : String = ""
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -43,41 +48,50 @@ class HomeActivity : AppCompatActivity() {
 
         nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+        nav_view.itemIconTintList = null
+
+//        role = intent.getStringExtra("role") as String
+        role = "admin"
+
+        when(role){
+            "admin" -> {
+                nav_view.inflateMenu(R.menu.bottom_nav_menu)
+            }
+            "management" -> {
+                nav_view.inflateMenu(R.menu.bottom_nav_menu_management)
+            }
+            "sdm" -> {
+                nav_view.inflateMenu(R.menu.bottom_nav_menu_sdm)
+            }
+        }
+
+
         setupViewPager()
 
-        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                if (prevMenuItem != null) {
-                    prevMenuItem?.isChecked = false
-                } else {
-                    nav_view.menu.getItem(0).isChecked = false
-                }
-                Timber.d("onPageSelected: $position")
-                nav_view.menu.getItem(position).isChecked = true
-                prevMenuItem = nav_view.menu.getItem(position)
-
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-        })
     }
 
     private fun setupViewPager() {
-        viewpager.offscreenPageLimit = 3
+        viewpager.offscreenPageLimit = if (role == "management") 4 else 3
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(HomeAdminFragment.newInstance())
-        adapter.addFragment(ReportFragment.newInstance())
-        adapter.addFragment(MyProfileFragment.newInstance())
+
+        when(role){
+            "admin" -> {
+                adapter.addFragment(HomeAdminFragment.newInstance())
+                adapter.addFragment(ReportFragment.newInstance())
+                adapter.addFragment(MyProfileFragment.newInstance())
+            }
+            "management" -> {
+                adapter.addFragment(HomeManagementFragment.newInstance())
+                adapter.addFragment(ReportFragment.newInstance())
+                adapter.addFragment(MyProfileFragment.newInstance())
+            }
+            "sdm" -> {
+                adapter.addFragment(HomeSdmFragment.newInstance())
+                adapter.addFragment(ReportFragment.newInstance())
+                adapter.addFragment(MyProfileFragment.newInstance())
+            }
+        }
+
         viewpager.adapter = adapter
     }
 }

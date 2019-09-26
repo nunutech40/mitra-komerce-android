@@ -45,4 +45,8 @@
     <string name="jabatan">Jabatan</string>
     <string name="pilih_jabatan">Pilih jabatan</string>
     <string name="password_lama">Password Lama</string>
+    <string name="history">History</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="next">Next</string>
+    <string name="riwayat">Riwayat</string>
 </resources>

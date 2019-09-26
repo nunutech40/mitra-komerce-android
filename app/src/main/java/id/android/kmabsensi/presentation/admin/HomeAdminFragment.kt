@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
+import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.loadCircleImage
 import kotlinx.android.synthetic.main.fragment_home_admin.*
@@ -32,6 +33,10 @@ class HomeAdminFragment : Fragment() {
 
         imgProfile.loadCircleImage("https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
         txtHello.text = "Hello, Giselle"
+
+        layoutReport.setOnClickListener {
+            activity?.startActivity<PresentasiReportKantorActivity>()
+        }
 
         btnKelolaDataKantor.setOnClickListener {
             activity?.startActivity<KelolaKantorActivity>()
