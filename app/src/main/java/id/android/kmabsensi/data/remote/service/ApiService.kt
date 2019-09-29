@@ -120,4 +120,11 @@ interface ApiService {
     fun getDashboardInfo(
         @Query("user_id") userId : Int
     ) : Single<DashboardResponse>
+
+    @FormUrlEncoded
+    @POST("api/presence/check")
+    fun presenceCheck(
+        @Field("user_id") userId: Int,
+        @Field("date") date: String
+    ) : Single<PresenceCheckResponse>
 }

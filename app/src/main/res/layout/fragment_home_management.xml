@@ -123,7 +123,7 @@
         app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnKelolaDataKantor"
+            android:id="@+id/btnCheckIn"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginStart="16dp"
@@ -163,7 +163,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnKelolaDataSdm"
+            android:id="@+id/btnCheckOut"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"

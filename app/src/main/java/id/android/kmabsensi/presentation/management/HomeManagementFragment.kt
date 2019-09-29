@@ -7,16 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
 import com.github.ajalt.timberkt.Timber.e
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.presentation.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.loadCircleImage
+import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -26,16 +30,19 @@ class HomeManagementFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
 
-    private lateinit var user : User
+    private lateinit var user: User
+
+    private lateinit var myDialog: MyDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_home_management, container, false)
+        val view = inflater.inflate(R.layout.fragment_home_management, container, false)
 
         user = vm.getUserData()
+        myDialog = MyDialog(context!!)
 
         return view
     }
@@ -44,7 +51,7 @@ class HomeManagementFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Success -> {
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
@@ -56,21 +63,56 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
+        vm.presenceCheckResponse.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    context?.toast("${it.data.checkdeIn}")
+                    if (it.data.checkdeIn){
+                        MaterialDialog(context!!).show {
+                            title(text = "Check-In")
+                            message(text = "Anda sudah check-in hari ini")
+                            positiveButton(text = "OK"){
+                                it.dismiss()
+                            }
+                        }
+                    } else {
+                        context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned)
+                    }
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                    e { it.throwable.message.toString() }
+                }
+            }
+        })
+
         vm.getDashboardInfo(user.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        imgProfile.loadCircleImage(user.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
+        imgProfile.loadCircleImage(
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+        )
         txtHello.text = "Hello, ${user.full_name}"
         txtRoleName.text = user.role_name
 
         btnKelolaKaryawan.setOnClickListener {
-            context?.startActivity<KelolaDataSdmActivity>("isManagement" to true,
-                "userId" to user.id)
+            context?.startActivity<KelolaDataSdmActivity>(
+                "isManagement" to true,
+                "userId" to user.id
+            )
         }
 
+        btnCheckIn.setOnClickListener {
+            vm.presenceCheck(user.id)
+        }
 
 
     }
