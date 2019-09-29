@@ -116,4 +116,8 @@ interface ApiService {
         @Path("user_id") userId: Int
     ): Single<SingleUserResponse>
 
+    @GET("api/dashboard")
+    fun getDashboardInfo(
+        @Query("user_id") userId : Int
+    ) : Single<DashboardResponse>
 }
