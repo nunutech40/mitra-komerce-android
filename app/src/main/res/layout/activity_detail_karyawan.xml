@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.sdm.tambahsdm.TambahSdmActivity">
+    tools:context=".presentation.sdm.detail.DetailKaryawanActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -46,8 +46,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/username"
                 android:textColor="@color/textColor"/>
@@ -59,66 +58,13 @@
                 android:ems="10"
                 android:hint="@string/input_username"
                 android:inputType="textPersonName"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/password"
-                android:textColor="@color/textColor" />
-
-            <EditText
-                android:id="@+id/edtPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/ketikkan_password"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:inputType="textPassword"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/txtPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="16dp"
-                android:text="Konfirmasi Password"
-                android:textColor="@color/textColor" />
-
-            <EditText
-                android:id="@+id/edtKonfirmasiPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/ketikkan_password"
-                android:inputType="textPassword"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/biodata"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="6dp"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="NIP"
                 android:textColor="@color/textColor"/>
@@ -127,8 +73,6 @@
                 android:id="@+id/edtNip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:ems="10"
                 android:hint="@string/masukkan_nip"
                 android:inputType="number"
@@ -137,8 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Nama Lengkap"
                 android:textColor="@color/textColor" />
@@ -147,8 +90,6 @@
                 android:id="@+id/edtNamaLengkap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="@string/masukkan_nama_lengkap"
@@ -157,8 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Tanggal Lahir"
                 android:textColor="@color/textColor" />
@@ -169,8 +109,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Masukkan tanggal lahir"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:focusable="false"
                 android:clickable="true"
                 android:textSize="16sp"/>
@@ -178,8 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Tempat Lahir"
                 android:textColor="@color/textColor"/>
@@ -189,8 +126,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_tempat_lahir"
                 android:singleLine="true"
                 android:textSize="16sp" />
@@ -198,7 +133,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Jenis Kelamin"
                 android:textColor="@color/textColor" />
@@ -211,8 +146,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="No HP"
                 android:textColor="@color/textColor" />
@@ -222,8 +156,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_no_hp"
                 android:inputType="number"
                 android:textSize="16sp" />
@@ -231,8 +163,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Email"
                 android:textColor="@color/textColor" />
@@ -242,8 +173,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_email"
                 android:inputType="textEmailAddress"
                 android:textSize="16sp"/>
@@ -251,8 +180,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="No Partner"
                 android:textColor="@color/textColor" />
@@ -262,8 +190,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_no_partner"
                 android:inputType="number"
                 android:textSize="16sp"/>
@@ -271,8 +197,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Alamat"
                 android:textColor="@color/textColor" />
@@ -282,8 +207,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
                 android:hint="Masukkan alamat"
                 android:inputType="text"
                 android:textSize="16sp"/>
@@ -291,8 +214,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Role"
                 android:textColor="@color/textColor" />
@@ -305,8 +227,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Kantor Cabang"
                 android:textColor="@color/textColor" />
@@ -319,8 +240,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Jabatan"
                 android:textColor="@color/textColor" />
@@ -333,8 +253,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Divisi"
                 android:textColor="@color/textColor" />
@@ -353,8 +272,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="3dp"
                     android:layout_marginTop="16dp"
                     android:text="Management"
                     android:textColor="@color/textColor" />
@@ -367,94 +285,6 @@
             </LinearLayout>
 
 
-
-
-
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView11"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/kantor_cabang"-->
-<!--                    android:textColor="@color/textColor"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/editText5"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="32dp"-->
-<!--                    android:ems="10"-->
-<!--                    android:focusable="false"-->
-<!--                    android:enabled="false"-->
-<!--                    android:hint="@string/pilih_kantor_cabang"-->
-<!--                    android:inputType="textPersonName"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textView11" />-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageView11"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/editText5"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/textView11"-->
-<!--                    app:srcCompat="@drawable/ic_keyboard_arrow_right" />-->
-
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtJabatan"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/jabatan"-->
-<!--                    android:textColor="@color/textColor"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/edtJabatan"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="32dp"-->
-<!--                    android:ems="10"-->
-<!--                    android:focusable="false"-->
-<!--                    android:enabled="false"-->
-<!--                    android:hint="@string/pilih_jabatan"-->
-<!--                    android:inputType="textPersonName"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/txtJabatan" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/edtJabatan"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/txtJabatan"-->
-<!--                    app:srcCompat="@drawable/ic_keyboard_arrow_right" />-->
-
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSimpan"
                 android:layout_width="match_parent"
@@ -464,6 +294,7 @@
                 android:text="@string/simpan"
                 android:textAllCaps="false"
                 app:cornerRadius="8dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

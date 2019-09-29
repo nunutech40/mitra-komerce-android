@@ -25,6 +25,10 @@ import id.android.kmabsensi.presentation.login.LoginViewModel
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.presentation.kantor.OfficeViewModel
+import id.android.kmabsensi.data.repository.SdmRepository
+import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
+import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
+import id.android.kmabsensi.presentation.home.HomeViewModel
 
 val appModule = module {
 
@@ -53,11 +57,19 @@ val dataModule = module {
     single { AuthRepository(get()) }
     single { UserRepository(get()) }
     single { OfficeRepository(get()) }
+    single { SdmRepository(get()) }
 
+
+}
+
+val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel { TambahCabangViewModel(get(), get(), get()) }
     viewModel { OfficeViewModel(get(), get()) }
+    viewModel { KelolaDataSdmViewModel(get(), get(), get(), get()) }
+    viewModel { EditPasswordViewModel(get(), get()) }
+    viewModel { HomeViewModel(get()) }
 }
 
-val myAppModule = listOf(appModule, dataModule)
+val myAppModule = listOf(appModule, dataModule, viewModelModule)

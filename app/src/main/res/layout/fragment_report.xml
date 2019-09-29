@@ -10,11 +10,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/report"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
+        android:text="@string/report"
+        android:textColor="@color/test"
         android:textSize="18sp"
-        android:textAppearance="@style/TextAppearance.Bold"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

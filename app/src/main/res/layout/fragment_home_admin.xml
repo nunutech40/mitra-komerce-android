@@ -33,7 +33,7 @@
         tools:text="Hello, Jajat" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtRoleName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin"
@@ -49,7 +49,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/txtRoleName">
 
 
         <ImageView
@@ -150,7 +150,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/kelola_data_kantor"
+                    android:gravity="center"
                     android:textAppearance="@style/TextAppearance.Bold" />
 
             </LinearLayout>
@@ -190,6 +193,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
                     android:text="@string/kelola_data_sdm"
                     android:textAppearance="@style/TextAppearance.Bold" />
 

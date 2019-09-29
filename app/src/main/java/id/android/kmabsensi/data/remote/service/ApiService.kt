@@ -2,6 +2,8 @@ package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.response.*
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -14,11 +16,18 @@ interface ApiService {
     ): Single<LoginResponse>
 
     @FormUrlEncoded
+    @POST("api/reset_password")
+    fun resetPassword(
+        @Field("id") userId: String,
+        @Field("password") password: String
+    ) : Single<BaseResponse>
+
+    @FormUrlEncoded
     @POST("api/user/get-profile")
     fun getProfileData(
         @Header("Authorization") accessToken: String,
         @Field("user_id") userId: Int
-    ): Single<ProfileResponse>
+    ): Single<UserResponse>
 
     @FormUrlEncoded
     @POST("api/user")
@@ -56,5 +65,55 @@ interface ApiService {
     fun deleteOffice(
         @Path("office_id") officeId: Int
     ): Single<CrudOfficeResponse>
+
+
+    @Multipart
+    @POST("api/user/add")
+    fun addSdm(
+        @Part("username") username: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("password_confirmation") password_confirmation: RequestBody,
+        @Part("role_id") role_id: RequestBody,
+        @Part("full_name") full_name: RequestBody,
+        @Part("npk") npk: RequestBody,
+        @Part("division_id") divisionId: RequestBody,
+        @Part("office_id") officeId: RequestBody,
+        @Part("position_id") positionId: RequestBody,
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("origin_village") originVillage: RequestBody,
+        @Part("no_hp") no_hp: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("birth_date") birth_date: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("user_management_id") user_management_id: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?
+    ): Single<SingleUserResponse>
+
+    @Multipart
+    @POST("api/user/edit")
+    fun editSdm(
+        @Part("id") id: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("role_id") role_id: RequestBody,
+        @Part("full_name") full_name: RequestBody,
+        @Part("division_id") divisionId: RequestBody,
+        @Part("office_id") officeId: RequestBody,
+        @Part("position_id") positionId: RequestBody,
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("origin_village") originVillage: RequestBody,
+        @Part("no_hp") no_hp: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("birth_date") birth_date: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("user_management_id") user_management_id: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?
+    ): Single<SingleUserResponse>
+
+    @GET("api/user/delete/{user_id}")
+    fun deleteSdm(
+        @Path("user_id") userId: Int
+    ): Single<SingleUserResponse>
 
 }

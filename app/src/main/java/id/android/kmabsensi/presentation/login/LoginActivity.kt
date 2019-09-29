@@ -1,13 +1,10 @@
 package id.android.kmabsensi.presentation.login
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -16,17 +13,17 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
-import id.android.kmabsensi.presentation.main.MainActivity
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.ui.MyDialog
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
 import org.koin.android.ext.android.inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private val vm: LoginViewModel by inject()
 
@@ -56,15 +53,19 @@ class LoginActivity : AppCompatActivity() {
         })
 
         btnLogin.setOnClickListener {
-            vm.login(edtUsername.text.toString(), edtPassword.text.toString())
+            if (validation()) vm.login(edtEmail.text.toString(), edtPasword.text.toString())
         }
 
 
 
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+    fun validation() : Boolean {
+        val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
+        val password = ValidationForm.validationInput(edtPasword, "Password tidak boleh kosong")
+        val validEmail = ValidationForm.validationInput(edtEmail, "Email tidak valid")
+
+        return email && password && validEmail
     }
 
     private fun checkPermission(){

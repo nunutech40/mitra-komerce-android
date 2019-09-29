@@ -13,9 +13,12 @@ import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import kotlinx.android.synthetic.main.activity_home.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class HomeActivity : AppCompatActivity() {
+
+    private val vm: HomeViewModel by inject()
 
     var prevMenuItem: MenuItem? = null
 
@@ -51,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
         nav_view.itemIconTintList = null
 
 //        role = intent.getStringExtra("role") as String
-        role = "admin"
+        role = "management"
 
         when(role){
             "admin" -> {

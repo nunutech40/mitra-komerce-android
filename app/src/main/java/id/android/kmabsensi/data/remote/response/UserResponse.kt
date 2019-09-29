@@ -1,11 +1,15 @@
 package id.android.kmabsensi.data.remote.response
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class UserResponse(
     val code: Int,
     val `data`: List<User>,
     val message: String
 )
 
+@Parcelize
 data class User(
     val address: String,
     val birth_date: String,
@@ -22,7 +26,7 @@ data class User(
     val office_id: Int,
     val office_name: String,
     val origin_village: String,
-    val photo_profile_url: Any,
+    val photo_profile_url: String?,
     val position_id: Int,
     val position_name: String,
     val role_id: Int,
@@ -30,4 +34,4 @@ data class User(
     val updated_at: String,
     val user_management_id: Int,
     val username: String
-)
+) : Parcelable

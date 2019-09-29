@@ -1,11 +1,10 @@
 package id.android.kmabsensi.presentation.login
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.github.ajalt.timberkt.d
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.response.ProfileResponse
+import id.android.kmabsensi.data.remote.response.SingleUserResponse
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -21,7 +20,7 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
 
-    val loginState = MutableLiveData<UiState<ProfileResponse>>()
+    val loginState = MutableLiveData<UiState<UserResponse>>()
 
     fun login(
         usernameEmail: String,

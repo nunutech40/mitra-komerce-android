@@ -21,7 +21,7 @@ class LocationManager(private val activity: Activity) {
 
     private var onLocationChange: ((Location) -> Unit)? = null
 
-    private val REQUEST_CHECK_SETTINGS = 123
+    val REQUEST_CHECK_SETTINGS = 123
 
     init {
 
