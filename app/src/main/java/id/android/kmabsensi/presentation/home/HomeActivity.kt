@@ -11,6 +11,7 @@ import id.android.kmabsensi.presentation.admin.HomeAdminFragment
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
+import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.ext.android.inject
@@ -31,14 +32,18 @@ class HomeActivity : AppCompatActivity() {
                     viewpager.currentItem = 0
                     return@OnNavigationItemSelectedListener true
                 }
+                R.id.navigation_history -> {
+                    viewpager.currentItem = 1
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.navigation_report -> {
 
-                    viewpager.currentItem = 1
+                    viewpager.currentItem = if (role == "management") 2 else 1
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
 
-                    viewpager.currentItem = 2
+                    viewpager.currentItem = if (role == "management") 3 else 2
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -85,6 +90,7 @@ class HomeActivity : AppCompatActivity() {
             }
             "management" -> {
                 adapter.addFragment(HomeManagementFragment.newInstance())
+                adapter.addFragment(RiwayatFragment.newInstance())
                 adapter.addFragment(ReportFragment.newInstance())
                 adapter.addFragment(MyProfileFragment.newInstance())
             }

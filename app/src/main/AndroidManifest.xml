@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.sdm.detail.DetailKaryawanActivity"></activity>
-        <activity android:name=".presentation.CheckinActivity" />
+        <activity android:name=".presentation.checkin.CheckinActivity" />
         <activity android:name=".presentation.CekJangkauanActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

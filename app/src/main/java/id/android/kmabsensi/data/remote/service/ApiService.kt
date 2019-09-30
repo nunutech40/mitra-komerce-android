@@ -127,4 +127,23 @@ interface ApiService {
         @Field("user_id") userId: Int,
         @Field("date") date: String
     ) : Single<PresenceCheckResponse>
+
+    @Multipart
+    @POST("api/presence/check-in")
+    fun checkIn(
+        @Part file: MultipartBody.Part
+    ): Single<CheckinResponse>
+
+    @Multipart
+    @POST("api/presence/check-out/{absen_id}")
+    fun checkOut(
+        @Path("absen_id") absenId: Int,
+        @Part file: MultipartBody.Part
+    ): Single<CheckinResponse>
+
+    @GET("api/presence/history/{user_id}")
+    fun presenceHistory(
+        @Path("user_id") userId: Int
+    ): Single<PresenceHistoryResponse>
+
 }

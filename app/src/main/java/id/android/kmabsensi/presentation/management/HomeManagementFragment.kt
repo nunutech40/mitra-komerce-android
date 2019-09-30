@@ -34,6 +34,8 @@ class HomeManagementFragment : Fragment() {
 
     private lateinit var myDialog: MyDialog
 
+    var isCheckin = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,17 +72,37 @@ class HomeManagementFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    context?.toast("${it.data.checkdeIn}")
                     if (it.data.checkdeIn){
-                        MaterialDialog(context!!).show {
-                            title(text = "Check-In")
-                            message(text = "Anda sudah check-in hari ini")
-                            positiveButton(text = "OK"){
-                                it.dismiss()
+                        if (isCheckin){
+                            MaterialDialog(context!!).show {
+                                cornerRadius(16f)
+                                title(text = "Check-In")
+                                message(text = "Anda sudah check-in hari ini")
+                                positiveButton(text = "OK"){
+                                    it.dismiss()
+                                }
+                            }
+                        } else {
+                            //checkout
+                            context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned,
+                                "absenId" to it.data.presence_id)
+                        }
+
+                    } else {
+                        if (isCheckin){
+                            //checkin
+                            context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned)
+                        } else {
+                            MaterialDialog(context!!).show {
+                                cornerRadius(16f)
+                                title(text = "Tidak bisa Check-Out")
+                                message(text = "Silahkan checkin terlebih dahulu.")
+                                positiveButton(text = "OK"){
+                                    it.dismiss()
+                                }
                             }
                         }
-                    } else {
-                        context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned)
+
                     }
                 }
                 is UiState.Error -> {
@@ -111,6 +133,12 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnCheckIn.setOnClickListener {
+            isCheckin = true
+            vm.presenceCheck(user.id)
+        }
+
+        btnCheckOut.setOnClickListener {
+            isCheckin = false
             vm.presenceCheck(user.id)
         }
 

@@ -15,11 +15,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.LocationManager
-import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
 import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
+import kotlin.math.abs
 
 
 class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
@@ -28,6 +29,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
 
     private lateinit var data : OfficeAssigned
+    private var absenId = 0
 
     private var lastLocation: Location? = null
 
@@ -44,12 +46,19 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         data = intent.getParcelableExtra("data")
+        absenId = intent.getIntExtra("absenId", 0)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         locationManager = LocationManager(this)
+
+        btnNext.setOnClickListener {
+            startActivity<CheckinActivity>("data" to data,
+                "absenId" to absenId,
+                "isCheckin" to (absenId == 0))
+        }
 
     }
 
@@ -88,9 +97,11 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             if (distance > 200){
                 imgJangkauan.setImageResource(R.drawable.ic_circle_x)
                 txtJangkauan.text = "Anda diluar jangkauan, silahkan menuju jangkauan"
+                btnNext.isEnabled = false
             } else {
                 imgJangkauan.setImageResource(R.drawable.ic_circle_checked)
                 txtJangkauan.text = "Anda berada dalam jangkauan"
+                btnNext.isEnabled = true
             }
         }
 

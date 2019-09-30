@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.CheckinActivity">
+    tools:context=".presentation.checkin.CheckinActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,10 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgCheckin"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -34,18 +36,18 @@
         android:layout_height="1dp"
         android:layout_marginTop="32dp"
         android:background="@color/divider"
-        app:layout_constraintEnd_toEndOf="@+id/imageView20"
-        app:layout_constraintStart_toStartOf="@+id/imageView20"
-        app:layout_constraintTop_toBottomOf="@id/imageView20" />
+        app:layout_constraintEnd_toEndOf="@+id/imgCheckin"
+        app:layout_constraintStart_toStartOf="@+id/imgCheckin"
+        app:layout_constraintTop_toBottomOf="@id/imgCheckin" />
 
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/txtJam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="08.01"
-        app:layout_constraintStart_toEndOf="@+id/imageView22"
+        app:layout_constraintStart_toEndOf="@+id/iconCheckIn"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <ImageView
@@ -59,7 +61,7 @@
         app:srcCompat="@drawable/ic_time_hand" />
 
     <ImageView
-        android:id="@+id/imageView22"
+        android:id="@+id/iconCheckIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -68,15 +70,16 @@
         app:srcCompat="@drawable/ic_check_in" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/txtNamaKantor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kantor Cabang B"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView22"
-        app:layout_constraintStart_toStartOf="@+id/textView20"
-        app:layout_constraintTop_toTopOf="@+id/imageView22" />
+        app:layout_constraintBottom_toBottomOf="@+id/iconCheckIn"
+        app:layout_constraintStart_toStartOf="@+id/txtJam"
+        app:layout_constraintTop_toTopOf="@+id/iconCheckIn" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCheckIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

@@ -31,6 +31,8 @@ import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.data.repository.DashboardRepository
 import id.android.kmabsensi.data.repository.PresenceRepository
+import id.android.kmabsensi.presentation.checkin.CheckinViewModel
+import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 
 val appModule = module {
 
@@ -73,6 +75,8 @@ val viewModelModule = module {
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get(), get()) }
+    viewModel { CheckinViewModel(get(), get()) }
+    viewModel { RiwayatViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)
