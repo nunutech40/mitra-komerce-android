@@ -2,14 +2,18 @@ package id.android.kmabsensi.presentation.sdm.tambahsdm
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
@@ -20,6 +24,10 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import id.zelory.compressor.Compressor
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import kotlinx.android.synthetic.main.activity_tambah_sdm.btnSimpan
 import kotlinx.android.synthetic.main.activity_tambah_sdm.edtAddress
@@ -68,6 +76,10 @@ class TambahSdmActivity : BaseActivity() {
 
     private lateinit var myDialog: MyDialog
 
+    private val disposables = CompositeDisposable()
+
+    private var compressedImage : File? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_sdm)
@@ -87,15 +99,6 @@ class TambahSdmActivity : BaseActivity() {
         vm.getUserManagement(2)
 
         btnSimpan.setOnClickListener {
-            var compressedImageFile : File? = null
-
-            imagePath?.let {
-                //TODO compress this image
-//                val file = File(it)
-                compressedImageFile = File(it)
-
-//                compressedImageFile = Compressor(this).compressToFile(file)
-            }
 
             if (validation()){
                 vm.tambahSdm(
@@ -116,7 +119,7 @@ class TambahSdmActivity : BaseActivity() {
                     edtTanggalLahir.text.toString(),
                     genderSelectedId.toString(),
                     userManagementId.toString(),
-                    compressedImageFile
+                    compressedImage
                 )
             }
 
@@ -363,9 +366,33 @@ class TambahSdmActivity : BaseActivity() {
 
             imagePath = image.path
 
-            imgProfile.loadCircleImage(image.path)
+            compress(File(imagePath))
         }
+
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun compress(file: File) {
+        disposables.add(
+            Compressor(this)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).absolutePath
+                )
+                .compressToFileAsFlowable(file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    compressedImage = it
+
+                    Glide.with(this)
+                        .load(compressedImage)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imgProfile)
+
+                }) { e { it.message.toString() }})
     }
 
     fun validation() : Boolean {

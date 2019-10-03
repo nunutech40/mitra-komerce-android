@@ -2,8 +2,10 @@ package id.android.kmabsensi.presentation.sdm.detail
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +14,8 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
@@ -26,25 +30,11 @@ import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.loadCircleImage
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
+import id.zelory.compressor.Compressor
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
-import kotlinx.android.synthetic.main.activity_detail_karyawan.btnSimpan
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtAddress
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtEmail
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNamaLengkap
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNip
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNoHp
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNoPartner
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtTanggalLahir
-import kotlinx.android.synthetic.main.activity_detail_karyawan.edtTempatLahir
-import kotlinx.android.synthetic.main.activity_detail_karyawan.imgProfile
-import kotlinx.android.synthetic.main.activity_detail_karyawan.layout_spinner_management
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerDivisi
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerJabatan
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerJenisKelamin
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerKantorCabang
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerManagement
-import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerRole
-import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -76,6 +66,10 @@ class DetailKaryawanActivity : BaseActivity() {
 
     var isManagement = false
 
+    private val disposables = CompositeDisposable()
+
+    private var compressedImage : File? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_karyawan)
@@ -100,17 +94,6 @@ class DetailKaryawanActivity : BaseActivity() {
         vm.getUserManagement(2)
 
         btnSimpan.setOnClickListener {
-
-            var compressedImageFile : File? = null
-
-            imagePath?.let {
-                //TODO compress this image
-//                val file = File(it)
-                compressedImageFile = File(it)
-
-//                compressedImageFile = Compressor(this).compressToFile(file)
-            }
-
             vm.updateKaryawan(
                 karyawan.id.toString(),
                 edtUsername.text.toString(),
@@ -127,7 +110,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 edtTanggalLahir.text.toString(),
                 genderSelectedId.toString(),
                 userManagementSelectedId.toString(),
-                compressedImageFile
+                compressedImage
                 )
         }
     }
@@ -459,11 +442,34 @@ class DetailKaryawanActivity : BaseActivity() {
 
             val image = ImagePicker.getFirstImageOrNull(data)
 
-
             imagePath = image.path
 
-            imgProfile.loadCircleImage(image.path)
+            compress(File(imagePath))
+
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun compress(file: File) {
+        disposables.add(
+            Compressor(this)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).absolutePath
+                )
+                .compressToFileAsFlowable(file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    compressedImage = it
+
+                    Glide.with(this)
+                        .load(compressedImage)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imgProfile)
+
+                }) { Timber.e { it.message.toString() } })
     }
 }
