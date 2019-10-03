@@ -37,7 +37,6 @@ class HomeActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_report -> {
-
                     viewpager.currentItem = if (role == "management") 2 else 1
                     return@OnNavigationItemSelectedListener true
                 }
@@ -59,7 +58,7 @@ class HomeActivity : AppCompatActivity() {
         nav_view.itemIconTintList = null
 
 //        role = intent.getStringExtra("role") as String
-        role = "management"
+        role = "sdm"
 
         when(role){
             "admin" -> {
@@ -96,7 +95,7 @@ class HomeActivity : AppCompatActivity() {
             }
             "sdm" -> {
                 adapter.addFragment(HomeSdmFragment.newInstance())
-                adapter.addFragment(ReportFragment.newInstance())
+                adapter.addFragment(RiwayatFragment.newInstance())
                 adapter.addFragment(MyProfileFragment.newInstance())
             }
         }

@@ -7,7 +7,7 @@
         android:title="@string/home"/>
 
     <item
-        android:id="@+id/navigation_riwayat"
+        android:id="@+id/navigation_history"
         android:icon="@drawable/menu_riwayat"
         android:title="@string/riwayat"/>
 
