@@ -15,6 +15,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.tidakhadir.TidakHadirActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.loadCircleImage
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -142,6 +143,9 @@ class HomeManagementFragment : Fragment() {
             vm.presenceCheck(user.id)
         }
 
+        btnTidakHadir.setOnClickListener {
+            context?.startActivity<TidakHadirActivity>("user" to user)
+        }
 
     }
 

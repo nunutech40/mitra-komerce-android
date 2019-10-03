@@ -33,6 +33,8 @@ import id.android.kmabsensi.data.repository.DashboardRepository
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
+import id.android.kmabsensi.data.repository.PermissionRepository
+import id.android.kmabsensi.presentation.tidakhadir.PermissionViewModel
 
 val appModule = module {
 
@@ -64,6 +66,7 @@ val dataModule = module {
     single { SdmRepository(get()) }
     single { DashboardRepository(get()) }
     single { PresenceRepository(get()) }
+    single { PermissionRepository(get()) }
 
 }
 
@@ -77,6 +80,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
+    viewModel { PermissionViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

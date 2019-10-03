@@ -50,6 +50,7 @@
     <string name="next">Next</string>
     <string name="riwayat">Riwayat</string>
     <string name="masukkan_no_partner">Masukkan no partner</string>
+    <string name="submit">Submit</string>
 
     <string-array name="role">
         <item>Admin</item>

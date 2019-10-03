@@ -415,4 +415,9 @@ class TambahSdmActivity : BaseActivity() {
                 tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
+    }
+
 }

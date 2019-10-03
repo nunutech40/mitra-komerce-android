@@ -146,4 +146,19 @@ interface ApiService {
         @Path("user_id") userId: Int
     ): Single<PresenceHistoryResponse>
 
+    @Multipart
+    @POST("api/permission/create")
+    fun createPermission(
+        @Part("permission_type") permissionType: RequestBody,
+        @Part("user_id") userId: RequestBody,
+        @Part("office_id") officeId: RequestBody,
+        @Part("role_id") roleId: RequestBody,
+        @Part("user_management_id") userManagementId: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("explanation") explanation: RequestBody,
+        @Part("date_from") dateFrom: RequestBody,
+        @Part("date_to") dateTo: RequestBody,
+        @Part file: MultipartBody.Part
+    ) : Single<CreatePermissionResponse>
+
 }
