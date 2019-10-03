@@ -13,6 +13,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="Sendi"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
