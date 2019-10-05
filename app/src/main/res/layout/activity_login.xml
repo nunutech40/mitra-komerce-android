@@ -127,13 +127,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_24sdp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/_24sdp"
         android:text="@string/login"
         android:textAllCaps="false"
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLupaPassword" />
+
+    <TextView
+        android:id="@+id/btnLupaPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Lupa Password?"
+        android:textAppearance="@style/TextAppearance.Bold"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/edtPasword"
         app:layout_constraintTop_toBottomOf="@+id/edtPasword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

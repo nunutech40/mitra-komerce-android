@@ -17,4 +17,8 @@ class AuthRepository(private val apiService: ApiService) {
         return apiService.resetPassword(userId, password)
     }
 
+    fun forgetPassword(email: String): Single<BaseResponse> {
+        return apiService.forgetPassword(email)
+    }
+
 }

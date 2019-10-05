@@ -1,6 +1,6 @@
 package id.android.kmabsensi.data.repository
 
-import id.android.kmabsensi.data.remote.response.CreatePermissionResponse
+import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -19,7 +19,7 @@ class PermissionRepository(val apiService: ApiService) {
         dateFrom: RequestBody,
         dateTo: RequestBody,
         file: MultipartBody.Part
-    ): Single<CreatePermissionResponse> = apiService.createPermission(
+    ): Single<BaseResponse> = apiService.createPermission(
         permissionType,
         userId,
         officeId,

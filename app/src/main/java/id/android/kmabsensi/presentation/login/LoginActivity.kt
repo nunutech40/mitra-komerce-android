@@ -15,6 +15,7 @@ import com.karumi.dexter.listener.single.PermissionListener
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
+import id.android.kmabsensi.presentation.lupapassword.LupaPasswordActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -54,6 +55,10 @@ class LoginActivity : BaseActivity() {
 
         btnLogin.setOnClickListener {
             if (validation()) vm.login(edtEmail.text.toString(), edtPasword.text.toString())
+        }
+
+        btnLupaPassword.setOnClickListener {
+            startActivity<LupaPasswordActivity>()
         }
 
 

@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.tidakhadir
 
 import androidx.lifecycle.MutableLiveData
-import id.android.kmabsensi.data.remote.response.CreatePermissionResponse
+import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.repository.PermissionRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
@@ -12,12 +12,11 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.time.chrono.ChronoLocalDateTime
 
 class PermissionViewModel(val permissionRepository: PermissionRepository,
                           val schedulerProvider: SchedulerProvider) : BaseViewModel() {
 
-    val createPermissionResponse = MutableLiveData<UiState<CreatePermissionResponse>>()
+    val createPermissionResponse = MutableLiveData<UiState<BaseResponse>>()
 
     fun createPermission(
         permissionType: Int,

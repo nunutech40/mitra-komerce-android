@@ -35,6 +35,7 @@ import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.data.repository.PermissionRepository
 import id.android.kmabsensi.presentation.tidakhadir.PermissionViewModel
+import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
 
 val appModule = module {
 
@@ -81,6 +82,7 @@ val viewModelModule = module {
     viewModel { CheckinViewModel(get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }
+    viewModel { LupaPasswordViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

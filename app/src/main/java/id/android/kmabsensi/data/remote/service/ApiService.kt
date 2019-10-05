@@ -159,6 +159,12 @@ interface ApiService {
         @Part("date_from") dateFrom: RequestBody,
         @Part("date_to") dateTo: RequestBody,
         @Part file: MultipartBody.Part
-    ) : Single<CreatePermissionResponse>
+    ) : Single<BaseResponse>
+
+    @POST("api/forget_password")
+    @FormUrlEncoded
+    fun forgetPassword(
+        @Field("email") email: String
+    ): Single<BaseResponse>
 
 }
