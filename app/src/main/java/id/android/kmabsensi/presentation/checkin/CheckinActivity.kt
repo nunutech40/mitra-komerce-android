@@ -11,7 +11,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
-import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -51,7 +51,7 @@ class CheckinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin)
 
-        isCheckin = intent.getBooleanExtra("isCheckin", false)
+        isCheckin = intent.getBooleanExtra(IS_CHECKIN_KEY, false)
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = if (isCheckin) "Check in" else  "Check out"
@@ -59,8 +59,8 @@ class CheckinActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-        data = intent.getParcelableExtra("data")
-        absenId = intent.getIntExtra("absenId", 0)
+        data = intent.getParcelableExtra(DATA_OFFICE_KEY)
+        absenId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
 
         val timeFormat = SimpleDateFormat("kk:mm")
 

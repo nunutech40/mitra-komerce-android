@@ -1,21 +1,23 @@
 package id.android.kmabsensi.presentation.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.viewpager.widget.ViewPager
-import com.github.ajalt.timberkt.i
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
 import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
+import id.android.kmabsensi.utils.ROLE_ADMIN
+import id.android.kmabsensi.utils.ROLE_MANAGEMEMENT
+import id.android.kmabsensi.utils.ROLE_SDM
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class HomeActivity : AppCompatActivity() {
 
@@ -23,7 +25,9 @@ class HomeActivity : AppCompatActivity() {
 
     var prevMenuItem: MenuItem? = null
 
-    var role : String = ""
+    var role: String = ""
+
+    lateinit var user: User
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -37,12 +41,12 @@ class HomeActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_report -> {
-                    viewpager.currentItem = if (role == "management") 2 else 1
+                    viewpager.currentItem = if (role == ROLE_MANAGEMEMENT) 2 else 1
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
 
-                    viewpager.currentItem = if (role == "management") 3 else 2
+                    viewpager.currentItem = if (role == ROLE_MANAGEMEMENT) 3 else 2
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -57,17 +61,20 @@ class HomeActivity : AppCompatActivity() {
 
         nav_view.itemIconTintList = null
 
-//        role = intent.getStringExtra("role") as String
-        role = "sdm"
+        user = vm.getUserData()
 
-        when(role){
-            "admin" -> {
+        toast(user.id.toString())
+
+        role = user.role_name.toLowerCase()
+
+        when (role) {
+            ROLE_ADMIN -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu)
             }
-            "management" -> {
+            ROLE_MANAGEMEMENT -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu_management)
             }
-            "sdm" -> {
+            ROLE_SDM -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu_sdm)
             }
         }
@@ -78,22 +85,22 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupViewPager() {
-        viewpager.offscreenPageLimit = if (role == "management") 4 else 3
+        viewpager.offscreenPageLimit = if (role == ROLE_MANAGEMEMENT) 4 else 3
         val adapter = ViewPagerAdapter(supportFragmentManager)
 
-        when(role){
-            "admin" -> {
+        when (role) {
+            ROLE_ADMIN -> {
                 adapter.addFragment(HomeAdminFragment.newInstance())
                 adapter.addFragment(ReportFragment.newInstance())
                 adapter.addFragment(MyProfileFragment.newInstance())
             }
-            "management" -> {
+            ROLE_MANAGEMEMENT -> {
                 adapter.addFragment(HomeManagementFragment.newInstance())
                 adapter.addFragment(RiwayatFragment.newInstance())
                 adapter.addFragment(ReportFragment.newInstance())
                 adapter.addFragment(MyProfileFragment.newInstance())
             }
-            "sdm" -> {
+            ROLE_SDM -> {
                 adapter.addFragment(HomeSdmFragment.newInstance())
                 adapter.addFragment(RiwayatFragment.newInstance())
                 adapter.addFragment(MyProfileFragment.newInstance())

@@ -44,7 +44,8 @@ class LoginActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    startActivity<HomeActivity>("role" to it.data.data[0].role_name.toLowerCase())
+                    startActivity<HomeActivity>()
+                    finish()
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

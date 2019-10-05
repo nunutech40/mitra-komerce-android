@@ -2,16 +2,16 @@ package id.android.kmabsensi.presentation.profile
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.login.LoginActivity
+import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
+import id.android.kmabsensi.utils.USER_KEY
 import id.android.kmabsensi.utils.loadCircleImage
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
 import kotlinx.android.synthetic.main.fragment_my_profile.*
 import org.jetbrains.anko.startActivity
@@ -51,6 +51,10 @@ class MyProfileFragment : Fragment() {
             context?.startActivity<LoginActivity>()
             vm.clearPref()
             activity?.finish()
+        }
+
+        btnUbahPassword.setOnClickListener {
+            context?.startActivity<EditPasswordActivity>(USER_KEY to user)
         }
 
     }

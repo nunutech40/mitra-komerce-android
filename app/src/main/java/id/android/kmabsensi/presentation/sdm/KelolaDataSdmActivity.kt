@@ -2,7 +2,6 @@ package id.android.kmabsensi.presentation.sdm
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -16,15 +15,10 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.detail.DetailKaryawanActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
-import kotlinx.android.synthetic.main.activity_kelola_data_sdm.toolbar
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
-import java.io.StringReader
 
 class KelolaDataSdmActivity : BaseActivity() {
 
@@ -47,15 +41,15 @@ class KelolaDataSdmActivity : BaseActivity() {
         supportActionBar?.title = "Kelola Data Karyawan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        isManagement = intent.getBooleanExtra("isManagement", false)
-        userManagementId = intent.getIntExtra("userId", 0)
+        isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
+        userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
         if (isManagement) roles.removeAt(0)
 
         initRv()
 
         btnTambahSdm.setOnClickListener {
-            startActivityForResult<TambahSdmActivity>(121,"isManagement" to true,
-                "userId" to userManagementId)
+            startActivityForResult<TambahSdmActivity>(121, IS_MANAGEMENT_KEY to true,
+                USER_ID_KEY to userManagementId)
         }
 
         vm.userData.observe(this, Observer {
@@ -65,7 +59,7 @@ class KelolaDataSdmActivity : BaseActivity() {
                     progressBar.gone()
                     it.data.data.forEach { sdm ->
                         groupAdapter.add(SdmItem(sdm){
-                            startActivityForResult<DetailKaryawanActivity>(121,"karyawan" to it, "isManagement" to true)
+                            startActivityForResult<DetailKaryawanActivity>(121, USER_KEY to it, IS_MANAGEMENT_KEY to true)
                         })
                     }
 

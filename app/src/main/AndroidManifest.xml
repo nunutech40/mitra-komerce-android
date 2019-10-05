@@ -59,13 +59,15 @@
         <activity android:name=".presentation.kantor.KelolaKantorActivity" />
         <activity android:name=".presentation.home.HomeActivity"></activity>
         <activity android:name=".presentation.login.LoginActivity">
+
+        </activity>
+        <activity android:name=".presentation.splash.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.splash.SplashActivity" />
         <activity android:name=".presentation.main.MainActivity" />
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"

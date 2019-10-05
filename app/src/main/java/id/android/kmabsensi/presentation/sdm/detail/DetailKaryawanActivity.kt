@@ -25,11 +25,8 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.loadCircleImage
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import id.android.kmabsensi.utils.visible
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -81,8 +78,8 @@ class DetailKaryawanActivity : BaseActivity() {
 
 
         myDialog = MyDialog(this)
-        karyawan = intent.getParcelableExtra("karyawan")
-        isManagement = intent.getBooleanExtra("isManagement", false)
+        karyawan = intent.getParcelableExtra(USER_KEY)
+        isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementSelectedId = karyawan.id
 
         initSpinners()
@@ -416,7 +413,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
-                startActivity<EditPasswordActivity>("karyawan" to karyawan)
+                startActivity<EditPasswordActivity>(USER_KEY to karyawan)
             }
             R.id.action_delete -> {
 

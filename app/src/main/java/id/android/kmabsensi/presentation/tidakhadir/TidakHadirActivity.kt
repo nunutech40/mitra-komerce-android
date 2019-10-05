@@ -18,6 +18,7 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.utils.USER_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.loadImageFromUrl
@@ -60,7 +61,7 @@ class TidakHadirActivity : BaseActivity() {
         supportActionBar?.title = "Form Tidak Hadir"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        user = intent.getParcelableExtra("user")
+        user = intent.getParcelableExtra(USER_KEY)
 
         // spinner jabatan
         ArrayAdapter.createFromResource(

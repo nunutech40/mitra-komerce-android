@@ -11,6 +11,7 @@ import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangActivity
+import id.android.kmabsensi.utils.OFFICE_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
@@ -50,7 +51,8 @@ class KelolaKantorActivity : BaseActivity() {
                     progressBar.gone()
                     it.data.data.forEach {
                         groupAdapter.add(KantorItem(it){ office ->
-                            startActivityForResult<TambahCabangActivity>(REQUEST_MANAGE_OFFICE,"office" to office)
+                            startActivityForResult<TambahCabangActivity>(REQUEST_MANAGE_OFFICE,
+                                OFFICE_KEY to office)
                         })
                     }
                 }

@@ -35,11 +35,14 @@ class LoginViewModel(
             .with(schedulerProvider)
             .subscribe({
                 prefHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
+                prefHelper.saveBoolean(PreferencesHelper.IS_LOGIN, true)
                 loginState.value = UiState.Success(it)
             }, this::onError)
         )
 
     }
+
+    fun getIsLogin() = prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)
     
     override fun onError(error: Throwable) {
         loginState.value = UiState.Error(error)

@@ -15,8 +15,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.tidakhadir.TidakHadirActivity
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.loadCircleImage
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import org.jetbrains.anko.startActivity
@@ -71,14 +70,14 @@ class HomeSdmFragment : Fragment() {
                             }
                         } else {
                             //checkout
-                            context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned,
-                                "absenId" to it.data.presence_id)
+                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
+                                PRESENCE_ID_KEY to it.data.presence_id)
                         }
 
                     } else {
                         if (isCheckin){
                             //checkin
-                            context?.startActivity<CekJangkauanActivity>("data" to it.data.office_assigned)
+                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
                         } else {
                             MaterialDialog(context!!).show {
                                 cornerRadius(16f)
@@ -124,7 +123,7 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnTidakHadir.setOnClickListener {
-            context?.startActivity<TidakHadirActivity>("user" to user)
+            context?.startActivity<TidakHadirActivity>(USER_KEY to user)
         }
     }
 

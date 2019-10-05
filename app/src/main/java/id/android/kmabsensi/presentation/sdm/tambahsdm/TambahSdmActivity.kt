@@ -88,8 +88,8 @@ class TambahSdmActivity : BaseActivity() {
         supportActionBar?.title = "Tambah SDM"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        isManagement = intent.getBooleanExtra("isManagement", false)
-        userManagementId = intent.getIntExtra("userId", 0)
+        isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
+        userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
 
         myDialog = MyDialog(this)
         initViews()

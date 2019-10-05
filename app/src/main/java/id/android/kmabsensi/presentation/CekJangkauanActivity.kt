@@ -14,9 +14,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.utils.LocationManager
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
 import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import org.jetbrains.anko.startActivity
@@ -45,8 +45,8 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         supportActionBar?.title = "Cek Jangkauan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        data = intent.getParcelableExtra("data")
-        absenId = intent.getIntExtra("absenId", 0)
+        data = intent.getParcelableExtra(DATA_OFFICE_KEY)
+        absenId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -55,9 +55,10 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         locationManager = LocationManager(this)
 
         btnNext.setOnClickListener {
-            startActivity<CheckinActivity>("data" to data,
-                "absenId" to absenId,
-                "isCheckin" to (absenId == 0))
+            startActivity<CheckinActivity>(
+                DATA_OFFICE_KEY to data,
+                PRESENCE_ID_KEY to absenId,
+                IS_CHECKIN_KEY to (absenId == 0))
         }
 
     }

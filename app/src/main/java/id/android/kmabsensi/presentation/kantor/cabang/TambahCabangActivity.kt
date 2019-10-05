@@ -20,6 +20,7 @@ import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.LocationManager
+import id.android.kmabsensi.utils.OFFICE_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import kotlinx.android.synthetic.main.activity_tambah_cabang.*
@@ -53,7 +54,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_cabang)
 
-        office = intent.getParcelableExtra("office")
+        office = intent.getParcelableExtra(OFFICE_KEY)
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru"
