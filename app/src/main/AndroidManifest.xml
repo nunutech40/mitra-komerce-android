@@ -27,8 +27,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.lupapassword.LupaPasswordActivity"></activity>
-        <activity android:name=".presentation.tidakhadir.TidakHadirActivity" />
+        <activity android:name=".presentation.permission.manajemenizin.ManajemenIzinActivity"></activity>
+        <activity android:name=".presentation.permission.PermissionActivity" />
+        <activity android:name=".presentation.lupapassword.LupaPasswordActivity" />
+        <activity android:name=".presentation.permission.FormIzinActivity" />
         <activity android:name=".presentation.sdm.detail.DetailKaryawanActivity" />
         <activity android:name=".presentation.checkin.CheckinActivity" />
         <activity android:name=".presentation.CekJangkauanActivity" />
@@ -57,11 +59,9 @@
         <activity android:name=".presentation.kantor.penanggungjawab.PenanggungJawabActivity" />
         <activity android:name=".presentation.kantor.cabang.TambahCabangActivity" />
         <activity android:name=".presentation.kantor.KelolaKantorActivity" />
-        <activity android:name=".presentation.home.HomeActivity"></activity>
-        <activity android:name=".presentation.login.LoginActivity">
-
-        </activity>
-        <activity android:name=".presentation.splash.SplashActivity" >
+        <activity android:name=".presentation.home.HomeActivity" />
+        <activity android:name=".presentation.login.LoginActivity" />
+        <activity android:name=".presentation.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

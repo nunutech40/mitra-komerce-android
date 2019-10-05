@@ -1,6 +1,7 @@
 package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.ListPermissionResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -31,5 +32,20 @@ class PermissionRepository(val apiService: ApiService) {
         dateTo,
         file
     )
+
+    fun getListPermission(
+        roleId: Int,
+        userManagementId: Int,
+        userId: Int
+    ): Single<ListPermissionResponse> {
+        return apiService.getListPermission(roleId, userManagementId, userId)
+    }
+
+    fun approvePermission(
+        permissionId: Int,
+        status: Int
+    ): Single<BaseResponse> {
+        return apiService.approvePermission(permissionId, status)
+    }
 
 }

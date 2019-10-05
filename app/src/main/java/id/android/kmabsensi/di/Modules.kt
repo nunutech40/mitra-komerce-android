@@ -34,7 +34,7 @@ import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.data.repository.PermissionRepository
-import id.android.kmabsensi.presentation.tidakhadir.PermissionViewModel
+import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
 
 val appModule = module {

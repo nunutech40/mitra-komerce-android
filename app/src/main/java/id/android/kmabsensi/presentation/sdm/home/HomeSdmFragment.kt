@@ -14,7 +14,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.tidakhadir.TidakHadirActivity
+import id.android.kmabsensi.presentation.permission.FormIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
@@ -123,7 +123,7 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnTidakHadir.setOnClickListener {
-            context?.startActivity<TidakHadirActivity>(USER_KEY to user)
+            context?.startActivity<FormIzinActivity>(USER_KEY to user)
         }
     }
 

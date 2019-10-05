@@ -1,7 +1,8 @@
-package id.android.kmabsensi.presentation.tidakhadir
+package id.android.kmabsensi.presentation.permission
 
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.ListPermissionResponse
 import id.android.kmabsensi.data.repository.PermissionRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
@@ -17,6 +18,10 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
                           val schedulerProvider: SchedulerProvider) : BaseViewModel() {
 
     val createPermissionResponse = MutableLiveData<UiState<BaseResponse>>()
+
+    val listPermissionData = MutableLiveData<UiState<ListPermissionResponse>>()
+
+    val approvePermissionResponse = MutableLiveData<UiState<BaseResponse>>()
 
     fun createPermission(
         permissionType: Int,
@@ -50,6 +55,32 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
                 createPermissionResponse.value = UiState.Success(it)
             }, this::onError))
 
+    }
+
+    fun getListPermission(roleId: Int = 0,
+                          userManagementId: Int = 0,
+                          userId: Int = 0){
+        listPermissionData.value = UiState.Loading()
+        compositeDisposable.add(permissionRepository.getListPermission(roleId, userManagementId, userId)
+            .with(schedulerProvider)
+            .subscribe({
+                listPermissionData.value = UiState.Success(it)
+            },{
+                listPermissionData.value = UiState.Error(it)
+            }))
+
+    }
+
+    fun approvePermission(permissionId: Int,
+                          status: Int) {
+        approvePermissionResponse.value = UiState.Loading()
+        compositeDisposable.add(permissionRepository.approvePermission(permissionId, status)
+            .with(schedulerProvider)
+            .subscribe({
+                approvePermissionResponse.value = UiState.Success(it)
+            },{
+                approvePermissionResponse.value = UiState.Error(it)
+            }))
     }
 
     override fun onError(error: Throwable) {

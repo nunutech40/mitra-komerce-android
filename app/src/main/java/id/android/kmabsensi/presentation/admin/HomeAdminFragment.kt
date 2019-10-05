@@ -16,10 +16,20 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
+import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.utils.IS_MANAGEMENT_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.loadCircleImage
 import kotlinx.android.synthetic.main.fragment_home_admin.*
+import kotlinx.android.synthetic.main.fragment_home_admin.btnManajemenIzin
+import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_admin.txtHello
+import kotlinx.android.synthetic.main.fragment_home_admin.txtNotPresent
+import kotlinx.android.synthetic.main.fragment_home_admin.txtPresent
+import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_admin.txtTotalUser
+import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -81,6 +91,10 @@ class HomeAdminFragment : Fragment() {
 
         btnKelolaDataSdm.setOnClickListener {
             activity?.startActivity<KelolaDataSdmActivity>()
+        }
+
+        btnManajemenIzin.setOnClickListener {
+            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
         }
 
     }

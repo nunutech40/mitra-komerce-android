@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.tidakhadir
+package id.android.kmabsensi.presentation.permission
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -35,7 +35,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TidakHadirActivity : BaseActivity() {
+class FormIzinActivity : BaseActivity() {
 
     private val vm: PermissionViewModel by inject()
 

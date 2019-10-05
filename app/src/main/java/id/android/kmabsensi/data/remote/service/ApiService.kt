@@ -167,4 +167,19 @@ interface ApiService {
         @Field("email") email: String
     ): Single<BaseResponse>
 
+    @POST("api/permission")
+    @FormUrlEncoded
+    fun getListPermission(
+        @Field("role_id") roleId: Int = 0,
+        @Field("user_management_id") userManagementId: Int = 0,
+        @Field("user_id") userId: Int = 0
+    ): Single<ListPermissionResponse>
+
+    @POST("api/permission/approve")
+    @FormUrlEncoded
+    fun approvePermission(
+        @Field("permission_id") permissionId: Int,
+        @Field("status") status: Int
+    ): Single<BaseResponse>
+
 }
