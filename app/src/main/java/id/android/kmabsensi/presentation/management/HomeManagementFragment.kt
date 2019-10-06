@@ -16,6 +16,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.permission.FormIzinActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
+import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_management.*
@@ -143,6 +144,11 @@ class HomeManagementFragment : Fragment() {
 
         btnTidakHadir.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
+        }
+
+        btnManajemenIzin.setOnClickListener {
+            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to true,
+                USER_ID_KEY to user.id)
         }
 
     }

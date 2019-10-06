@@ -58,7 +58,7 @@ class FormIzinActivity : BaseActivity() {
         myDialog = MyDialog(this)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Form Tidak Hadir"
+        supportActionBar?.title = "Form Izin"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         user = intent.getParcelableExtra(USER_KEY)

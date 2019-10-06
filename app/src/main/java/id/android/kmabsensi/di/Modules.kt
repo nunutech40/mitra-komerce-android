@@ -16,8 +16,6 @@ import id.android.kmabsensi.data.repository.TeamRepository
 import id.android.kmabsensi.data.repository.TeamRepositoryImpl
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.data.repository.UserRepository
-import id.android.kmabsensi.data.remote.service.TeamService
-import id.android.kmabsensi.presentation.main.MainViewModel
 import id.android.momakan.utils.scheduler.AppSchedulerProvider
 import id.android.momakan.utils.scheduler.SchedulerProvider
 import id.android.kmabsensi.BuildConfig
@@ -42,7 +40,6 @@ val appModule = module {
     single { PreferencesHelper(androidContext()) }
 
     single { provideOkHttpClient(get()) }
-    single { createWebService<TeamService>(get(), BuildConfig.BASE_URL) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
 
 
@@ -73,7 +70,6 @@ val dataModule = module {
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get()) }
-    viewModel { MainViewModel(get(), get()) }
     viewModel { TambahCabangViewModel(get(), get(), get()) }
     viewModel { OfficeViewModel(get(), get()) }
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get()) }

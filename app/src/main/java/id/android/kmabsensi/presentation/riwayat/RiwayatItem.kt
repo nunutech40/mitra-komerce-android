@@ -17,8 +17,8 @@ class RiwayatItem(val presenceHistory: PresenceHistory,
 
         viewHolder.apply {
             itemView.txtNama.text = userName
-            itemView.txtCheckIn.text = presenceHistory.check_in_datetime.split(" ")[1]
-            itemView.txtCheckOut.text = presenceHistory.checkout_date_time.split(" ")[1]
+            itemView.txtCheckIn.text = presenceHistory.check_in_datetime.split(" ")[1].substring(0,5)
+            itemView.txtCheckOut.text = presenceHistory.checkout_date_time.split(" ")[1].substring(0,5)
 
             imgProfile.loadCircleImage(userPict.toString())
 

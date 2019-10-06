@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -12,26 +13,22 @@ import com.afollestad.materialdialogs.list.listItems
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionItem
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
-import id.android.kmabsensi.utils.IS_MANAGEMENT_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_manajemen_izin.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
-class ManajemenIzinActivity : AppCompatActivity() {
+class ManajemenIzinActivity : BaseActivity() {
 
     private val vm: PermissionViewModel by inject()
 
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
     val roles = mutableListOf("Management", "SDM")
-
-    val actions = listOf("Approved", "Rejected")
 
     var roleId = 0
 
@@ -51,6 +48,8 @@ class ManajemenIzinActivity : AppCompatActivity() {
         myDialog = MyDialog(this)
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
+        userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
+        if (isManagement) roles.removeAt(0)
 
         initRv()
 
@@ -62,17 +61,19 @@ class ManajemenIzinActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     groupAdapter.clear()
                     progressBar.gone()
+                    if (it.data.data.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(PermissionItem(it){ permission ->
                             MaterialDialog(this).show {
                                 cornerRadius(10f)
-                                title(text = "Action")
-                                listItems(items = actions){ dialog, index, text ->
-                                    if (index == 0){
-                                        vm.approvePermission(permission.id, 2)
-                                    } else {
-                                        vm.approvePermission(permission.id, 3)
-                                    }
+                                message(text = "Approve this permission request?")
+                                positiveButton(text = "Approve"){
+                                    it.dismiss()
+                                    vm.approvePermission(permission.id, 2)
+                                }
+                                negativeButton(text = "Rejected"){
+                                    it.dismiss()
+                                    vm.approvePermission(permission.id, 3)
 
                                 }
                             }
@@ -117,7 +118,7 @@ class ManajemenIzinActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     roleId = if (isManagement) position+3 else position+2
-                    vm.getListPermission(roleId = roleId)
+                    vm.getListPermission(roleId = roleId, userManagementId = userManagementId)
                 }
 
             }

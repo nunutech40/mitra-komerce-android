@@ -43,6 +43,7 @@ class RiwayatFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressBar.gone()
+                    if (it.data.data.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(RiwayatItem(it, user.full_name, user.photo_profile_url))
                     }
