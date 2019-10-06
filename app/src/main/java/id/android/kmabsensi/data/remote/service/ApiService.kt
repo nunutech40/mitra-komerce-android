@@ -182,4 +182,14 @@ interface ApiService {
         @Field("status") status: Int
     ): Single<BaseResponse>
 
+    @POST("api/presence/report")
+    @FormUrlEncoded
+    fun presenceReport(
+        @Field("role_id") roleId: Int,
+        @Field("user_management_id") userManagementId: Int,
+        @Field("office_id") officeId: Int,
+        @Field("report_date") reportDate: String
+    ): Single<PresenceReportResponse>
+
+
 }

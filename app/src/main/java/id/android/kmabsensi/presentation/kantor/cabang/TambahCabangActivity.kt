@@ -140,7 +140,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
             when (it) {
                 is UiState.Success -> {
                     pjData.addAll(it.data.data)
-                    pjNames.add("Pilih Penanggung Jawab (Opsional)")
+                    pjNames.add("Pilih Manajemen (Opsional)")
                     it.data.data.forEach {
                         pjNames.add(it.full_name)
                     }
@@ -188,7 +188,6 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
                 d { "Canceled" }
             }
             if (requestCode == locationManager.REQUEST_CHECK_SETTINGS){
-                toast("asd")
                 locationManager.startLocationUpdate()
             }
         }

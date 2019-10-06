@@ -43,7 +43,7 @@
         android:id="@+id/txtEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data Kosong."
+        android:text="Data absen masih kosong."
         android:textColor="@android:color/black"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

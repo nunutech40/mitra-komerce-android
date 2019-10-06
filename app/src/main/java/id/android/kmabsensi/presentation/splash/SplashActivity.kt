@@ -21,10 +21,13 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed(
             {
-                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN))
+                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)){
                     startActivity<HomeActivity>()
-                else
+                    finish()
+                } else {
                     startActivity<LoginActivity>()
+                    finish()
+                }
             }, 1500
         )
     }

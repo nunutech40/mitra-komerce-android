@@ -29,12 +29,14 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/edtDate"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:paddingStart="8dp"
         android:focusable="false"
+        android:textColor="@color/textColor"
         android:clickable="true"
         android:inputType="textPersonName"
         android:background="@drawable/bg_round_edt"
@@ -51,11 +53,11 @@
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText6"/>
+        app:layout_constraintTop_toBottomOf="@id/edtDate"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnPilihPenanggungJawab"
+        android:id="@+id/layoutKantorCabang"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -73,45 +75,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editText5"
+        <Spinner
+            android:id="@+id/spinnerKantorCabang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="4dp"
             android:ems="10"
-            android:focusable="false"
-            android:enabled="false"
+            android:layout_marginStart="8dp"
             android:hint="@string/pilih_kantor_cabang"
-            android:inputType="textPersonName"
-            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-        <ImageView
-            android:id="@+id/imageView11"
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutPj"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutKantorCabang">
+
+        <TextView
+            android:id="@+id/txtPj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editText5"
+            android:layout_marginStart="16dp"
+            android:text="Manajemen"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerPenanggungJawab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView11"
-            app:srcCompat="@drawable/ic_keyboard_arrow_right" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPj" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAktifkan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Aktifkan"
         android:textAllCaps="false"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPilihPenanggungJawab" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPj" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

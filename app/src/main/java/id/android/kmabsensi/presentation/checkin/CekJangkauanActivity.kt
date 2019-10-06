@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation
+package id.android.kmabsensi.presentation.checkin
 
 import android.graphics.Color
 import android.location.Location
@@ -15,12 +15,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.R
-import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
 import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import org.jetbrains.anko.startActivity
-import kotlin.math.abs
 
 
 class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {

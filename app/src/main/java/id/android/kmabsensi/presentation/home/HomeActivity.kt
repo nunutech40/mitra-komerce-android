@@ -63,8 +63,6 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
-        toast(user.id.toString())
-
         role = user.role_name.toLowerCase()
 
         when (role) {

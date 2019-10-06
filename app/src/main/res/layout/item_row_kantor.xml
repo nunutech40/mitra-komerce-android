@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtKantor"
+            android:layout_alignStart="@id/txtKantor"
             android:layout_toLeftOf="@id/img1"
-            android:layout_marginStart="8dp"
             android:text="@string/report_absensi_tiap_kantor_cabang"/>
 
         <ImageView

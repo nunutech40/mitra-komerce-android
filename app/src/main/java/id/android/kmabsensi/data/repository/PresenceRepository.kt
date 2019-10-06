@@ -1,6 +1,7 @@
 package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
+import id.android.kmabsensi.data.remote.response.PresenceReportResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -22,5 +23,14 @@ class PresenceRepository(val apiService: ApiService) {
     fun checkOut(absenId: Int, file: MultipartBody.Part) = apiService.checkOut(absenId, file)
 
     fun presenceHistory(userId: Int) = apiService.presenceHistory(userId)
+
+    fun presenceReport(
+        roleId: Int,
+        userManagementId: Int,
+        officeId: Int,
+        reportDate: String
+    ): Single<PresenceReportResponse>{
+        return apiService.presenceReport(roleId, userManagementId, officeId, reportDate)
+    }
 
 }

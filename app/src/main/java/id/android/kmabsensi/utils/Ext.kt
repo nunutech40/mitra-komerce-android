@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import okhttp3.MediaType
+import okhttp3.RequestBody
 
 fun ImageView.loadImageFromUrl(url: String){
     if (url.isEmpty()) return
@@ -32,4 +34,8 @@ fun View.invis(){
 
 fun View.gone(){
     this.visibility = View.GONE
+}
+
+fun String.createRequestBodyText() : RequestBody {
+    return RequestBody.create(MediaType.parse("text/plain"), this)
 }

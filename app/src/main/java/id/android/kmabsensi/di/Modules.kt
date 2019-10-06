@@ -1,37 +1,30 @@
 package id.android.kmabsensi.di
 
-import androidx.room.Room
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import org.koin.android.ext.koin.androidApplication
+import id.android.kmabsensi.BuildConfig
+import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.createWebService
+import id.android.kmabsensi.data.remote.provideOkHttpClient
+import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.data.repository.*
+import id.android.kmabsensi.presentation.checkin.CheckinViewModel
+import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.kantor.OfficeViewModel
+import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
+import id.android.kmabsensi.presentation.login.LoginViewModel
+import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
+import id.android.kmabsensi.presentation.permission.PermissionViewModel
+import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
+import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
+import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
+import id.android.momakan.utils.scheduler.AppSchedulerProvider
+import id.android.momakan.utils.scheduler.SchedulerProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import id.android.kmabsensi.data.db.AppDatabase
-import id.android.kmabsensi.data.remote.createWebService
-import id.android.kmabsensi.data.remote.provideOkHttpClient
-import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.service.ApiService
-import id.android.kmabsensi.data.repository.AuthRepository
-import id.android.kmabsensi.data.repository.UserRepository
-import id.android.momakan.utils.scheduler.AppSchedulerProvider
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.kmabsensi.BuildConfig
-import id.android.kmabsensi.presentation.login.LoginViewModel
-import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
-import id.android.kmabsensi.data.repository.OfficeRepository
-import id.android.kmabsensi.presentation.kantor.OfficeViewModel
-import id.android.kmabsensi.data.repository.SdmRepository
-import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
-import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
-import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.data.repository.DashboardRepository
-import id.android.kmabsensi.data.repository.PresenceRepository
-import id.android.kmabsensi.presentation.checkin.CheckinViewModel
-import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
-import id.android.kmabsensi.data.repository.PermissionRepository
-import id.android.kmabsensi.presentation.permission.PermissionViewModel
-import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
+import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportViewModel
+import id.android.kmabsensi.presentation.kantor.report.PresenceReportViewModel
 
 val appModule = module {
 
@@ -68,6 +61,8 @@ val viewModelModule = module {
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }
     viewModel { LupaPasswordViewModel(get(), get()) }
+    viewModel { FilterReportViewModel(get(), get(), get()) }
+    viewModel { PresenceReportViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

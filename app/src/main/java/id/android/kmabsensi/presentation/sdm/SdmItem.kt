@@ -4,6 +4,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.utils.loadCircleImage
 import kotlinx.android.synthetic.main.item_row_sdm.view.*
 
 class SdmItem(val sdm: User,
@@ -13,6 +14,10 @@ class SdmItem(val sdm: User,
         viewHolder.apply {
             itemView.txtNamaSdm.text = sdm.full_name
             itemView.txtPekerjaan.text = sdm.position_name
+            sdm.photo_profile_url?.let {
+                itemView.imageView13.loadCircleImage(it)
+            }
+
 
             itemView.setOnClickListener {
                 listener(sdm)
