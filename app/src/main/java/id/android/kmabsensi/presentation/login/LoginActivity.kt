@@ -79,7 +79,6 @@ class LoginActivity : BaseActivity() {
             .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             .withListener(object : PermissionListener{
                 override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                    toast("granted")
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
@@ -90,7 +89,6 @@ class LoginActivity : BaseActivity() {
                 }
 
                 override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                    toast("denied")
                     response?.let {
                         if (it.isPermanentlyDenied){
                             alert("This app needs permission to use this feature. You can grant them in app settings.", "Need Permission") {
