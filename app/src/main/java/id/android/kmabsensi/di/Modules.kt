@@ -12,8 +12,6 @@ import id.android.kmabsensi.data.remote.createWebService
 import id.android.kmabsensi.data.remote.provideOkHttpClient
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.service.ApiService
-import id.android.kmabsensi.data.repository.TeamRepository
-import id.android.kmabsensi.data.repository.TeamRepositoryImpl
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.momakan.utils.scheduler.AppSchedulerProvider
@@ -42,12 +40,6 @@ val appModule = module {
     single { provideOkHttpClient(get()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
 
-
-
-    single {
-        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database").build()
-    }
-
     single { AppSchedulerProvider() as SchedulerProvider }
 
     factory { GroupAdapter<ViewHolder>() }
@@ -55,9 +47,6 @@ val appModule = module {
 }
 
 val dataModule = module {
-    single { get<AppDatabase>().teamDao() }
-    single { TeamRepositoryImpl(get(), get()) as TeamRepository }
-
     single { AuthRepository(get()) }
     single { UserRepository(get()) }
     single { OfficeRepository(get()) }
