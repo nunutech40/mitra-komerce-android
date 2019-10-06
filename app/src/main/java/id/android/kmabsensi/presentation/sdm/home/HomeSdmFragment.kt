@@ -14,7 +14,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.permission.FormIzinActivity
+import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*

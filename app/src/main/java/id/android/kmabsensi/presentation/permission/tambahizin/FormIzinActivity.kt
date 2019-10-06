@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.permission
+package id.android.kmabsensi.presentation.permission.tambahizin
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,6 +18,7 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.USER_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm

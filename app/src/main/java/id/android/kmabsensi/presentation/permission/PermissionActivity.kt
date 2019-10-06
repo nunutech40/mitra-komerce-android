@@ -1,16 +1,14 @@
 package id.android.kmabsensi.presentation.permission
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItems
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.utils.USER_KEY
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
