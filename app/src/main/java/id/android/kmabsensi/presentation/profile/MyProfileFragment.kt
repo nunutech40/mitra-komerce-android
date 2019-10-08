@@ -43,7 +43,7 @@ class MyProfileFragment : Fragment() {
         val user = vm.getUserData()
 
         imgProfile.loadCircleImage(user.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
-        txtNama.text = user.full_name
+        textNama.text = user.full_name
         txtEmail.text = user.email
         txtPhone.text = user.no_hp
 

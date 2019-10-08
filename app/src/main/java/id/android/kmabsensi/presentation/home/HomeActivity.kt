@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
@@ -22,6 +23,8 @@ import org.koin.android.ext.android.inject
 class HomeActivity : AppCompatActivity() {
 
     private val vm: HomeViewModel by inject()
+
+    private val pref: PreferencesHelper by inject()
 
     var prevMenuItem: MenuItem? = null
 
@@ -63,7 +66,7 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
-        role = user.role_name.toLowerCase()
+        role = user.role_name!!.toLowerCase()
 
         when (role) {
             ROLE_ADMIN -> {
@@ -79,6 +82,10 @@ class HomeActivity : AppCompatActivity() {
 
 
         setupViewPager()
+
+
+
+//        toast(pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
 
     }
 

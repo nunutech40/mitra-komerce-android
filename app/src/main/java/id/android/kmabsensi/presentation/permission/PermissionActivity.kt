@@ -8,11 +8,9 @@ import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.permission.detailizin.DetailIzinActivity
 import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
-import id.android.kmabsensi.utils.USER_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_permission.*
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
@@ -46,7 +44,9 @@ class PermissionActivity : BaseActivity() {
                     progressBar.gone()
                     it.data.data.forEach {
                         groupAdapter.add(PermissionItem(it){
-
+                            startActivity<DetailIzinActivity>(
+                                PERMISSION_DATA_KEY to it,
+                                IS_FROM_MANAJEMEN_IZI to false)
                         })
                     }
                 }

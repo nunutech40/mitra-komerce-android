@@ -108,6 +108,7 @@ dependencies {
 
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.1.0'
+    implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 
 
 }

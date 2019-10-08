@@ -47,7 +47,7 @@ class AuthInterceptor(var accessToken: String) : Interceptor {
         val request = chain.request().newBuilder()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
-            .addHeader("Authorization", "Bearer " + accessToken)
+            .addHeader("Authorization", accessToken)
             .build()
         return chain.proceed(request)
     }

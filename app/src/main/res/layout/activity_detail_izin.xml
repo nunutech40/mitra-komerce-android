@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.permission.detailizin.DetailIzinActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Data Karyawan Pemohon"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgKaryawan"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            app:srcCompat="@drawable/shape_circle" />
+
+        <TextView
+            android:id="@+id/textNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Nama"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toEndOf="@+id/imgKaryawan"
+            app:layout_constraintTop_toTopOf="@+id/imgKaryawan" />
+
+        <TextView
+            android:id="@+id/textDivisi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Divisi"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textNama"
+            app:layout_constraintTop_toBottomOf="@+id/textNama" />
+
+        <TextView
+            android:id="@+id/textJabatan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Jabatan"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textDivisi"
+            app:layout_constraintTop_toBottomOf="@+id/textDivisi" />
+
+        <TextView
+            android:id="@+id/textKantor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Kantor"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textJabatan"
+            app:layout_constraintTop_toBottomOf="@+id/textJabatan" />
+
+        <TextView
+            android:id="@+id/textNamaAtasan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="Nama Atasan"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textKantor"
+            app:layout_constraintTop_toBottomOf="@+id/textKantor" />
+
+        <TextView
+            android:id="@+id/txtNamaKaryawan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textNama"
+            app:layout_constraintStart_toEndOf="@+id/textNamaAtasan"
+            app:layout_constraintTop_toTopOf="@+id/textNama" />
+
+        <TextView
+            android:id="@+id/txtDivisiKaryawan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textDivisi"
+            app:layout_constraintStart_toStartOf="@+id/txtNamaKaryawan"
+            app:layout_constraintTop_toTopOf="@+id/textDivisi" />
+
+        <TextView
+            android:id="@+id/txtJabatanKaryawan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textJabatan"
+            app:layout_constraintStart_toStartOf="@+id/txtDivisiKaryawan"
+            app:layout_constraintTop_toTopOf="@+id/textJabatan" />
+
+        <TextView
+            android:id="@+id/txtKantor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textKantor"
+            app:layout_constraintStart_toStartOf="@+id/txtJabatanKaryawan"
+            app:layout_constraintTop_toTopOf="@+id/textKantor" />
+
+        <TextView
+            android:id="@+id/txtNamaAtasan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textNamaAtasan"
+            app:layout_constraintStart_toStartOf="@+id/txtKantor"
+            app:layout_constraintTop_toTopOf="@+id/textNamaAtasan" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout2"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Keterangan Izin"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textJenisIzin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Jenis Izin"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textView21"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textDeskripsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Deskripsi"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textJenisIzin"
+            app:layout_constraintTop_toBottomOf="@+id/textJenisIzin" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Lampiran"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textDeskripsi"
+            app:layout_constraintTop_toBottomOf="@+id/textDeskripsi" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Waktu"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Status"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textView31"
+            app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+        <TextView
+            android:id="@+id/txtJenisIzin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textJenisIzin"
+            app:layout_constraintStart_toEndOf="@+id/textJenisIzin"
+            app:layout_constraintTop_toTopOf="@+id/textJenisIzin" />
+
+        <TextView
+            android:id="@+id/txtDeskripsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textDeskripsi"
+            app:layout_constraintStart_toStartOf="@+id/txtJenisIzin"
+            app:layout_constraintTop_toTopOf="@+id/textDeskripsi" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintStart_toStartOf="@+id/txtDeskripsi"
+            app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+        <TextView
+            android:id="@+id/txtWaktu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textView31"
+            app:layout_constraintStart_toStartOf="@+id/textView35"
+            app:layout_constraintTop_toTopOf="@+id/textView31" />
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="@+id/textView32"
+            app:layout_constraintStart_toStartOf="@+id/txtWaktu"
+            app:layout_constraintTop_toTopOf="@+id/textView32" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            app:backgroundTint="@color/divider"
+            android:textColor="@android:color/black"
+            android:text="Lihat"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView35"
+            app:layout_constraintStart_toEndOf="@+id/textView35"
+            app:layout_constraintTop_toTopOf="@+id/textView35" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutAction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetuju"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            app:backgroundTint="#4CAF50"
+            android:text="Setuju"
+            app:layout_constraintBottom_toBottomOf="@+id/textView35"
+            app:layout_constraintStart_toEndOf="@+id/textView35"
+            app:layout_constraintTop_toTopOf="@+id/textView35" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTolak"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#C00431"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Tolak"
+            app:layout_constraintBottom_toBottomOf="@+id/textView35"
+            app:layout_constraintStart_toEndOf="@+id/textView35"
+            app:layout_constraintTop_toTopOf="@+id/textView35" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

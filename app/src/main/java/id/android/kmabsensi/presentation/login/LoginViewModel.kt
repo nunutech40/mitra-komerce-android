@@ -29,7 +29,7 @@ class LoginViewModel(
         loginState.value = UiState.Loading()
         compositeDisposable.add(authRepository.login(usernameEmail, password)
             .flatMap {
-                prefHelper.saveString(PreferencesHelper.ACCESS_TOKEN_KEY, it.access_token)
+                prefHelper.saveString(PreferencesHelper.ACCESS_TOKEN_KEY, "Bearer ${it.access_token}")
                 userRepository.getProfileUser("Bearer ${it.access_token}", it.user_id)
             }
             .with(schedulerProvider)

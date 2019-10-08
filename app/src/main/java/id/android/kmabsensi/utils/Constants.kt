@@ -18,3 +18,5 @@ const val OFFICE_ID_FILTER = "office_id_filter"
 const val OFFICE_NAME_FILTER = "office_name_filter"
 
 const val CATEGORY_REPORT_KEY = "category_report"
+const val PERMISSION_DATA_KEY = "permission"
+const val IS_FROM_MANAJEMEN_IZI = "is_form_manajemen_izin"

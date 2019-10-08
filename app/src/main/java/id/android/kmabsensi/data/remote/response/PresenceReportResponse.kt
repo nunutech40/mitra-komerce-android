@@ -23,6 +23,8 @@ data class Presence(
     val role_id: Int,
     val updated_at: String,
     val user_id: Int,
+    val user: User,
+    val management: User,
     val user_management_id: Int
 )
 

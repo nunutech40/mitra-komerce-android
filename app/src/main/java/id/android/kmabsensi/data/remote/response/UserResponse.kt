@@ -30,7 +30,7 @@ data class User(
     val position_id: Int,
     val position_name: String,
     val role_id: Int,
-    val role_name: String,
+    val role_name: String?,
     val updated_at: String,
     val user_management_id: Int,
     val username: String

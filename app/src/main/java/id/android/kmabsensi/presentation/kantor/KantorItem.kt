@@ -10,7 +10,7 @@ class KantorItem(val office: Office,
                  val listener: (Office) -> Unit) : Item() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            itemView.txtKantor.text = office.office_name
+            itemView.textKantor.text = office.office_name
             itemView.txtKelolaKantor.text = "Kelola Data Kantor ${office.office_name}"
 
             itemView.setOnClickListener {
