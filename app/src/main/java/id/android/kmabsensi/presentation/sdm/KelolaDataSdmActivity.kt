@@ -107,6 +107,8 @@ class KelolaDataSdmActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 121 && resultCode == Activity.RESULT_OK){
+            val message = data?.getStringExtra("message")
+            createAlertSuccess(this, message.toString())
             groupAdapter.clear()
             vm.getUserData(roleId)
         }

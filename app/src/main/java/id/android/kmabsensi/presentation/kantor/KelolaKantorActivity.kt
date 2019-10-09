@@ -11,10 +11,7 @@ import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangActivity
-import id.android.kmabsensi.utils.OFFICE_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_kantor.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -77,6 +74,8 @@ class KelolaKantorActivity : BaseActivity() {
 
         if (requestCode == REQUEST_MANAGE_OFFICE){
             if (resultCode == Activity.RESULT_OK){
+                val message = data?.getStringExtra("message")
+                createAlertSuccess(this, message.toString())
                 groupAdapter.clear()
                 vm.getOffices()
             }

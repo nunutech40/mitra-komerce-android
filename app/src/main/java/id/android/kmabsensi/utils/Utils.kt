@@ -1,5 +1,8 @@
 package id.android.kmabsensi.utils
 
+import android.app.Activity
+import com.tapadoo.alerter.Alerter
+import id.android.kmabsensi.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,4 +26,22 @@ fun getDateString(date: Date): String{
 fun getDateStringFormatted(date: Date): String{
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT2, Locale.getDefault())
     return simpleDateFormat.format(date)
+}
+
+fun createAlertError(activity: Activity, title: String, message: String){
+    Alerter.create(activity)
+        .setTitle(title)
+        .setText(message)
+        .setDuration(5000)
+        .setBackgroundColorRes(R.color.colorAccent)
+        .show()
+}
+
+fun createAlertSuccess(activity: Activity, message: String){
+    Alerter.create(activity)
+        .setTitle("Berhasil")
+        .setText(message)
+        .setIcon(R.drawable.ic_done)
+        .setBackgroundColorRes(R.color.colorSuccess)
+        .show()
 }

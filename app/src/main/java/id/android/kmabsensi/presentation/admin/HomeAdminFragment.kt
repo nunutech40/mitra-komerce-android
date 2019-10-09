@@ -2,16 +2,13 @@ package id.android.kmabsensi.presentation.admin
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber.e
-import com.google.gson.Gson
-
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
@@ -29,9 +26,7 @@ import kotlinx.android.synthetic.main.fragment_home_admin.txtNotPresent
 import kotlinx.android.synthetic.main.fragment_home_admin.txtPresent
 import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_admin.txtTotalUser
-import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**

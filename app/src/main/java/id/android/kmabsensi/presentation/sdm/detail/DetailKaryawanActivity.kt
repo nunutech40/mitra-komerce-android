@@ -386,9 +386,8 @@ class DetailKaryawanActivity : BaseActivity() {
                 is UiState.Loading -> { myDialog.show() }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    toast(it.data.message)
-//                    if (deleteMode) finish()
                     val intent = Intent()
+                    intent.putExtra("message", it.data.message)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }

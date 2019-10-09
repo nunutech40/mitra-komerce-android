@@ -1,9 +1,12 @@
 package id.android.kmabsensi.presentation.login
 
 import androidx.lifecycle.MutableLiveData
+import com.github.ajalt.timberkt.Timber.d
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.response.LoginResponse
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.data.repository.UserRepository
@@ -20,30 +23,43 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
 
-    val loginState = MutableLiveData<UiState<UserResponse>>()
+    val loginState = MutableLiveData<UiState<LoginResponse>>()
+    val userProfileData = MutableLiveData<UiState<UserResponse>>()
 
     fun login(
         usernameEmail: String,
         password: String
     ) {
         loginState.value = UiState.Loading()
-        compositeDisposable.add(authRepository.login(usernameEmail, password)
-            .flatMap {
-                prefHelper.saveString(PreferencesHelper.ACCESS_TOKEN_KEY, "Bearer ${it.access_token}")
-                userRepository.getProfileUser("Bearer ${it.access_token}", it.user_id)
-            }
+        compositeDisposable.add(
+            authRepository.login(usernameEmail, password)
+                .with(schedulerProvider)
+                .subscribe({
+                    loginState.value = UiState.Success(it)
+                    if (it.message == null){
+                        prefHelper.saveString(PreferencesHelper.ACCESS_TOKEN_KEY, it.access_token)
+                        getUserProfile(it.user_id)
+                    }
+                }, this::onError)
+        )
+    }
+
+    fun getUserProfile(userId: Int) {
+        userProfileData.value = UiState.Loading()
+        compositeDisposable.add(userRepository.getProfileUser(userId)
             .with(schedulerProvider)
             .subscribe({
                 prefHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
                 prefHelper.saveBoolean(PreferencesHelper.IS_LOGIN, true)
-                loginState.value = UiState.Success(it)
-            }, this::onError)
+                userProfileData.value = UiState.Success(it)
+            }, {
+                userProfileData.value = UiState.Error(it)
+            })
         )
-
     }
 
     fun getIsLogin() = prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)
-    
+
     override fun onError(error: Throwable) {
         loginState.value = UiState.Error(error)
     }

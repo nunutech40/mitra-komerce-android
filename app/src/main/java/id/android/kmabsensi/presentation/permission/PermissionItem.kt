@@ -20,11 +20,11 @@ class PermissionItem(val permission: Permission,
                     itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_requested)
                 }
                 2 -> {
-                    itemView.txtStatus.text = "APPROVE"
+                    itemView.txtStatus.text = "DISETUJUI"
                     itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_approved)
                 }
                 3 -> {
-                    itemView.txtStatus.text = "REJECTED"
+                    itemView.txtStatus.text = "DITOLAK"
                     itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_rejected)
                 }
             }

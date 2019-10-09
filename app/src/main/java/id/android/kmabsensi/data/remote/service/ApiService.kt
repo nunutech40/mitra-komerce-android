@@ -25,7 +25,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/user/get-profile")
     fun getProfileData(
-        @Header("Authorization") accessToken: String,
+//        @Header("Authorization") accessToken: String,
         @Field("user_id") userId: Int
     ): Single<UserResponse>
 

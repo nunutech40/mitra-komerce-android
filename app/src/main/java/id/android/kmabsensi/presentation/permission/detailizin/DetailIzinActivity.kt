@@ -53,7 +53,8 @@ class DetailIzinActivity : BaseActivity() {
             txtDivisiKaryawan.text = ":   ${it.user.division_name}"
             txtJabatanKaryawan.text = ":   ${it.user.position_name}"
             txtKantor.text = ":   ${it.user.office_name}"
-
+            val namaAtasan = it.management?.full_name ?: "-"
+            txtNamaAtasan.text = ":   $namaAtasan"
             txtJenisIzin.text = when (it.permission_type) {
                 1 -> ":   Izin"
                 2 -> ":   Sakit"
@@ -101,7 +102,7 @@ class DetailIzinActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     isStatusChanged = true
-                    toast(it.data.message)
+                    createAlertSuccess(this, it.data.message)
                     layoutAction.gone()
                     txtStatus.text = when(isApprove){
                         true -> "Disetujui"

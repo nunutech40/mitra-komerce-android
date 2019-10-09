@@ -12,4 +12,6 @@
     <color name="divider">#CFD2D6</color>
 
     <color name="colorCircle">#9CE78A6E</color>
+
+    <color name="colorSuccess">#4CAF50</color>
 </resources>

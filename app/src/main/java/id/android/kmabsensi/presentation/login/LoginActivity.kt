@@ -18,6 +18,7 @@ import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
+import id.android.kmabsensi.utils.createAlertError
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
@@ -44,12 +45,30 @@ class LoginActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
+
+                   if (it.data.message != null){
+                       createAlertError(this, "Login gagal", it.data.message)
+                   }
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                }
+            }
+        })
+
+        vm.userProfileData.observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
                     startActivity<HomeActivity>()
+                    toast("Welcome, ${it.data.data[0].full_name}")
                     finish()
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
-                    toast(it.throwable.message.toString())
                 }
             }
         })
@@ -63,13 +82,12 @@ class LoginActivity : BaseActivity() {
         }
 
 
-
     }
 
     fun validation() : Boolean {
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPasword, "Password tidak boleh kosong")
-        val validEmail = ValidationForm.validationInput(edtEmail, "Email tidak valid")
+        val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
 
         return email && password && validEmail
     }

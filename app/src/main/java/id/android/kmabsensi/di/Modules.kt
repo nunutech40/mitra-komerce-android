@@ -4,8 +4,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.createWebService
-import id.android.kmabsensi.data.remote.provideOkHttpClient
 import id.android.kmabsensi.data.remote.service.ApiService
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
@@ -25,11 +23,15 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportViewModel
 import id.android.kmabsensi.presentation.kantor.report.PresenceReportViewModel
+//import id.android.kmabsensi.data.remote.ApiClient
+import id.android.kmabsensi.data.remote.AuthInterceptor
+import id.android.kmabsensi.data.remote.createWebService
+import id.android.kmabsensi.data.remote.provideOkHttpClient
 
 val appModule = module {
 
     single { PreferencesHelper(androidContext()) }
-
+    single { AuthInterceptor(get()) }
     single { provideOkHttpClient(get()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
 

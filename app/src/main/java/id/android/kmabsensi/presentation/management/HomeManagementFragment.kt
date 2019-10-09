@@ -13,6 +13,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
@@ -129,6 +130,10 @@ class HomeManagementFragment : Fragment() {
                 IS_MANAGEMENT_KEY to true,
                 USER_ID_KEY to user.id
             )
+        }
+
+        layoutReport.setOnClickListener {
+            activity?.startActivity<PresentasiReportKantorActivity>()
         }
 
         btnCheckIn.setOnClickListener {

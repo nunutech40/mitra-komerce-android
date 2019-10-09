@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.permission.tambahizin
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -19,10 +20,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
-import id.android.kmabsensi.utils.USER_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.ValidationForm
-import id.android.kmabsensi.utils.loadImageFromUrl
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -97,7 +95,8 @@ class FormIzinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    toast(it.data.message)
+                    setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
+                    finish()
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

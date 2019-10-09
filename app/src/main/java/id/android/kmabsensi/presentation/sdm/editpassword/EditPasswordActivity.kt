@@ -6,10 +6,7 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.utils.USER_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.ValidationForm
-import id.android.kmabsensi.utils.loadCircleImage
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_edit_password.*
 import org.jetbrains.anko.toast
@@ -44,7 +41,7 @@ class EditPasswordActivity : BaseActivity() {
                 is UiState.Loading -> { myDialog.show() }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    toast(it.data.message)
+                    createAlertSuccess(this, it.data.message)
                     edtEmail.setText("")
                     edtPasword.setText("")
                     edtConfirmPassword.setText("")

@@ -16,6 +16,7 @@ import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.ROLE_ADMIN
 import id.android.kmabsensi.utils.ROLE_MANAGEMEMENT
 import id.android.kmabsensi.utils.ROLE_SDM
+import id.android.kmabsensi.utils.createAlertSuccess
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -24,13 +25,13 @@ class HomeActivity : AppCompatActivity() {
 
     private val vm: HomeViewModel by inject()
 
-    private val pref: PreferencesHelper by inject()
-
     var prevMenuItem: MenuItem? = null
 
     var role: String = ""
 
     lateinit var user: User
+
+    var hasCheckin = false
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -68,6 +69,9 @@ class HomeActivity : AppCompatActivity() {
 
         role = user.role_name!!.toLowerCase()
 
+        hasCheckin = intent.getBooleanExtra("hasCheckin", false)
+        if (hasCheckin) createAlertSuccess(this, "CheckIn Success!")
+
         when (role) {
             ROLE_ADMIN -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu)
@@ -83,9 +87,6 @@ class HomeActivity : AppCompatActivity() {
 
         setupViewPager()
 
-
-
-//        toast(pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
 
     }
 
