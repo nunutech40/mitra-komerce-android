@@ -8,6 +8,8 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
+import id.android.kmabsensi.utils.createAlertError
+import id.android.kmabsensi.utils.createAlertSuccess
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_kelola_kantor.*
 import kotlinx.android.synthetic.main.activity_kelola_kantor.toolbar
@@ -37,7 +39,12 @@ class LupaPasswordActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    toast(it.data.message)
+                    if (it.data.status){
+                        createAlertSuccess(this, it.data.message)
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

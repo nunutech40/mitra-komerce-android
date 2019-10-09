@@ -109,6 +109,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
             if (edtPasword.text.isEmpty()) {
                 val locationPickerIntent = LocationPickerActivity.Builder()
                     .withGooglePlacesEnabled()
+                    .withGeolocApiKey("AIzaSyDyzQyjNW2HOJIYV7FrPah1sZkPN4uuE_w")
                     .withLocation(lastLocation?.latitude!!, lastLocation?.longitude!!)
                     .withSearchZone("in_ID")
                     .withDefaultLocaleSearchZone()
