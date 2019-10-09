@@ -347,6 +347,7 @@ class TambahSdmActivity : BaseActivity() {
                     myDialog.dismiss()
                     val intent = Intent()
                     intent.putExtra("message", it.data.message)
+                    intent.putExtra("status", it.data.code)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
