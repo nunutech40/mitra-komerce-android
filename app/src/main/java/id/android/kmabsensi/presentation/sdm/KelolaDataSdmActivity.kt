@@ -48,7 +48,7 @@ class KelolaDataSdmActivity : BaseActivity() {
         initRv()
 
         btnTambahSdm.setOnClickListener {
-            startActivityForResult<TambahSdmActivity>(121, IS_MANAGEMENT_KEY to true,
+            startActivityForResult<TambahSdmActivity>(121, IS_MANAGEMENT_KEY to isManagement,
                 USER_ID_KEY to userManagementId)
         }
 
@@ -59,7 +59,7 @@ class KelolaDataSdmActivity : BaseActivity() {
                     progressBar.gone()
                     it.data.data.forEach { sdm ->
                         groupAdapter.add(SdmItem(sdm){
-                            startActivityForResult<DetailKaryawanActivity>(121, USER_KEY to it, IS_MANAGEMENT_KEY to true)
+                            startActivityForResult<DetailKaryawanActivity>(121, USER_KEY to it, IS_MANAGEMENT_KEY to isManagement)
                         })
                     }
 

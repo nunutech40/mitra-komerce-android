@@ -91,6 +91,8 @@ class TambahSdmActivity : BaseActivity() {
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
 
+        toast(isManagement.toString())
+
         myDialog = MyDialog(this)
         initViews()
         observeData()

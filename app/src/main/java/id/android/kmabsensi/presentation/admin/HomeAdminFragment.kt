@@ -85,7 +85,7 @@ class HomeAdminFragment : Fragment() {
         }
 
         btnKelolaDataSdm.setOnClickListener {
-            activity?.startActivity<KelolaDataSdmActivity>()
+            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
         }
 
         btnManajemenIzin.setOnClickListener {
