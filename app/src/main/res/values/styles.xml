@@ -13,4 +13,10 @@
         <item name="fontPath">fonts/Proxima-Nova-Bold.otf</item>
     </style>
 
+    <style name="ImagePickerTheme" parent="ef_BaseTheme">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#FFFFFF</item>
+    </style>
+
 </resources>

@@ -31,19 +31,19 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
             }))
     }
 
-    fun checkOut(absenId: Int,file: File){
-        val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
-        val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
-
-        checkInResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.checkOut(absenId, photo)
-            .with(schedulerProvider)
-            .subscribe({
-                checkInResponse.value = UiState.Success(it)
-            },{
-                checkInResponse.value = UiState.Error(it)
-            }))
-    }
+//    fun checkOut(absenId: Int,file: File){
+//        val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
+//        val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
+//
+//        checkInResponse.value = UiState.Loading()
+//        compositeDisposable.add(presenceRepository.checkOut(absenId, photo)
+//            .with(schedulerProvider)
+//            .subscribe({
+//                checkInResponse.value = UiState.Success(it)
+//            },{
+//                checkInResponse.value = UiState.Error(it)
+//            }))
+//    }
 
     override fun onError(error: Throwable) {
 

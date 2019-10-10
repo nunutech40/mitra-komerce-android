@@ -128,10 +128,11 @@ class FormIzinActivity : BaseActivity() {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
                 .folderMode(true)
-                .toolbarFolderTitle("Images")
+                .toolbarFolderTitle("Folder")
                 .toolbarImageTitle("Ketuk untuk memilih")
-                .toolbarArrowColor(Color.BLACK)
+                .toolbarArrowColor(Color.WHITE)
                 .single()
+                .theme(R.style.ImagePickerTheme)
                 .enableLog(true)
                 .start()
         }

@@ -142,10 +142,11 @@ class DetailKaryawanActivity : BaseActivity() {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
                 .folderMode(true)
-                .toolbarFolderTitle("Images")
+                .toolbarFolderTitle("Folder")
                 .toolbarImageTitle("ketuk untuk memilih")
                 .toolbarArrowColor(Color.WHITE)
                 .single()
+                .theme(R.style.ImagePickerTheme)
                 .enableLog(true)
                 .start()
 

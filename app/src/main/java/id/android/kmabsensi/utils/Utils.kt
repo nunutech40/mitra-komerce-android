@@ -4,6 +4,7 @@ import android.app.Activity
 import com.tapadoo.alerter.Alerter
 import id.android.kmabsensi.R
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.util.*
 
 
@@ -28,20 +29,28 @@ fun getDateStringFormatted(date: Date): String{
     return simpleDateFormat.format(date)
 }
 
-fun createAlertError(activity: Activity, title: String, message: String){
+fun createAlertError(activity: Activity, title: String, message: String, duration: Long = 5000){
     Alerter.create(activity)
         .setTitle(title)
         .setText(message)
-        .setDuration(5000)
+        .setDuration(duration)
         .setBackgroundColorRes(R.color.colorAccent)
         .show()
 }
 
-fun createAlertSuccess(activity: Activity, message: String){
+fun createAlertSuccess(activity: Activity?, message: String){
     Alerter.create(activity)
         .setTitle("Berhasil")
         .setText(message)
         .setIcon(R.drawable.ic_done)
         .setBackgroundColorRes(R.color.colorSuccess)
         .show()
+//
+//    fun createAlertSuccess(activity: Activity?, message: String){
+//        Alerter.create(activity)
+//            .setTitle("Berhasil")
+//            .setText(message)
+//            .setIcon(R.drawable.ic_done)
+//            .setBackgroundColorRes(R.color.colorSuccess)
+//            .show()
 }

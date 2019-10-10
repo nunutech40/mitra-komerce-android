@@ -46,7 +46,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
     var lngSelected: String = ""
     var pjSelected: Int = 0
 
-    private var office : Office? = null
+    private var office: Office? = null
 
     private var crudMode = 0 // tambah -> 0, edit -> 1, delete -> 2
 
@@ -57,7 +57,8 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         office = intent.getParcelableExtra(OFFICE_KEY)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru"
+        supportActionBar?.title =
+            if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewListener()
@@ -124,11 +125,24 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         }
 
         btnSimpan.setOnClickListener {
-            if (crudMode == 0){
-                if (validation()) vm.addOffice(edtEmail.text.toString(), latSelected, lngSelected, edtPasword.text.toString(), pjSelected)
-            } else if(crudMode == 1) {
+            if (crudMode == 0) {
+                if (validation()) vm.addOffice(
+                    edtEmail.text.toString(),
+                    latSelected,
+                    lngSelected,
+                    edtPasword.text.toString(),
+                    pjSelected
+                )
+            } else if (crudMode == 1) {
                 office?.let {
-                    if (validation()) vm.editOffice(it.id, edtEmail.text.toString(), latSelected, lngSelected, edtPasword.text.toString(), pjSelected)
+                    if (validation()) vm.editOffice(
+                        it.id,
+                        edtEmail.text.toString(),
+                        latSelected,
+                        lngSelected,
+                        edtPasword.text.toString(),
+                        pjSelected
+                    )
                 }
 
             }
@@ -162,10 +176,9 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         vm.crudCabangState.observe(this, Observer {
             when (it) {
                 is UiState.Success -> {
-                    Intent().apply {
-                        putExtra("message", it.data.message)
-                        setResult(Activity.RESULT_OK)
-                    }
+                    val intent = Intent()
+                    intent.putExtra("message", it.data.message)
+                    setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
                 is UiState.Error -> {
@@ -191,7 +204,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
             if (resultCode == Activity.RESULT_CANCELED) {
                 d { "Canceled" }
             }
-            if (requestCode == locationManager.REQUEST_CHECK_SETTINGS){
+            if (requestCode == locationManager.REQUEST_CHECK_SETTINGS) {
                 locationManager.startLocationUpdate()
             }
         }
@@ -203,7 +216,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         locationManager.stopLocationUpdate()
     }
 
-    fun initViews(enabled: Boolean){
+    fun initViews(enabled: Boolean) {
         edtEmail.isEnabled = enabled
         edtPasword.isEnabled = enabled
         spinner_pj.isEnabled = enabled
@@ -230,7 +243,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.action_edit){
+        if (item.itemId == R.id.action_edit) {
             initViews(true)
             crudMode = 1
             invalidateOptionsMenu()
@@ -248,7 +261,8 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
 
     fun validation(): Boolean {
         val namaCabang = ValidationForm.validationInput(edtEmail, "Nama cabang tidak boleh kosong")
-        val alamatCabang = ValidationForm.validationInput(edtPasword, "Alamat cabang tidak boleh kosong")
+        val alamatCabang =
+            ValidationForm.validationInput(edtPasword, "Alamat cabang tidak boleh kosong")
 
         return namaCabang && alamatCabang
     }

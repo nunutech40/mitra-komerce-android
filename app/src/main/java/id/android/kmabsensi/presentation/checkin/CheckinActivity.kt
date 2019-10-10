@@ -32,8 +32,6 @@ class CheckinActivity : BaseActivity() {
     private val vm: CheckinViewModel by inject()
 
     private lateinit var data: OfficeAssigned
-    private var isCheckin = false
-    private var absenId = 0
 
     private val cal = Calendar.getInstance()
 
@@ -51,26 +49,16 @@ class CheckinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin)
 
-        isCheckin = intent.getBooleanExtra(IS_CHECKIN_KEY, false)
-
         setSupportActionBar(toolbar)
-        supportActionBar?.title = if (isCheckin) "Check in" else  "Check out"
+        supportActionBar?.title = "Check in"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         myDialog = MyDialog(this)
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
-        absenId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
 
         val timeFormat = SimpleDateFormat("kk:mm")
 
-        if (isCheckin){
-            iconCheckIn.setImageResource(R.drawable.ic_check_in)
-            btnCheckIn.text = "Check in"
-        } else {
-            iconCheckIn.setImageResource(R.drawable.ic_check_out)
-            btnCheckIn.text = "Check out"
-        }
 
         txtJam.text = timeFormat.format(cal.time)
         txtNamaKantor.text = data.office_name
@@ -98,7 +86,9 @@ class CheckinActivity : BaseActivity() {
 
         btnCheckIn.setOnClickListener {
             compressedImage?.let {
-                if (isCheckin) vm.checkIn(it) else vm.checkOut(absenId, it)
+                vm.checkIn(it)
+            } ?: run {
+                createAlertError(this, "Gagal", "Ambil foto terlebih dahulu", 3000)
             }
         }
     }
@@ -107,7 +97,6 @@ class CheckinActivity : BaseActivity() {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
 
             val image = ImagePicker.getFirstImageOrNull(data)
-
 
             imagePath = image.path
 

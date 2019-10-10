@@ -44,9 +44,8 @@ class LoginActivity : BaseActivity() {
                     myDialog.show()
                 }
                 is UiState.Success -> {
-                    myDialog.dismiss()
-
                    if (it.data.message != null){
+                       myDialog.dismiss()
                        createAlertError(this, "Login gagal", it.data.message)
                    }
                 }
@@ -59,7 +58,7 @@ class LoginActivity : BaseActivity() {
         vm.userProfileData.observe(this, Observer {
             when(it){
                 is UiState.Loading -> {
-                    myDialog.show()
+//                    myDialog.show()
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()

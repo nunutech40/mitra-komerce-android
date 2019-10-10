@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,7 +28,6 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
 
     private lateinit var data : OfficeAssigned
-    private var absenId = 0
 
     private var lastLocation: Location? = null
 
@@ -44,8 +44,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
-        absenId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
-
+//
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -54,9 +53,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
 
         btnNext.setOnClickListener {
             startActivity<CheckinActivity>(
-                DATA_OFFICE_KEY to data,
-                PRESENCE_ID_KEY to absenId,
-                IS_CHECKIN_KEY to (absenId == 0))
+                DATA_OFFICE_KEY to data)
         }
 
     }
@@ -83,6 +80,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         locationManager.listenLocationUpdate {
             lastLocation = it
             var myLocation = LatLng(it.latitude, it.longitude)
+            if (!layoutNext.isVisible) layoutNext.visible()
             marker?.let {
                 it.remove()
             }

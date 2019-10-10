@@ -23,6 +23,6 @@
 <!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBR-TTZKXH3_BiVJZMPN0G78PPEyKPYnAg</string>-->
 
     <!-- production -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDyzQyjNW2HOJIYV7FrPah1sZkPN4uuE_w</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBbN2wpGBldwCuFjPFpYTG82Evdewqhb-g</string>
 
 </resources>

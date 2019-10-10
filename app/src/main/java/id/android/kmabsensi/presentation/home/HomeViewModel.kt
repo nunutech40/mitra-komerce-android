@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.home
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.response.CheckinResponse
 import id.android.kmabsensi.data.remote.response.DashboardResponse
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.User
@@ -20,6 +21,8 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
 
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
     val presenceCheckResponse = MutableLiveData<UiState<PresenceCheckResponse>>()
+
+    val checkoutResponse = MutableLiveData<UiState<CheckinResponse>>()
 
     fun getDashboardInfo(userId: Int){
         compositeDisposable.add(dashboardRepository.getDashboardInfo(userId)
@@ -39,6 +42,17 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
                 presenceCheckResponse.value = UiState.Success(it)
             },{
                 presenceCheckResponse.value = UiState.Error(it)
+            }))
+    }
+
+    fun checkOut(absenId: Int){
+        checkoutResponse.value = UiState.Loading()
+        compositeDisposable.add(presenceRepository.checkOut(absenId)
+            .with(schedulerProvider)
+            .subscribe({
+                checkoutResponse.value = UiState.Success(it)
+            },{
+                checkoutResponse.value = UiState.Error(it)
             }))
     }
 

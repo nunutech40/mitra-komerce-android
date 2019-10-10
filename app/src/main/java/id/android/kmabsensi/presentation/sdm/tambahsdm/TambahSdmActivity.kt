@@ -237,10 +237,11 @@ class TambahSdmActivity : BaseActivity() {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
                 .folderMode(true)
-                .toolbarFolderTitle("folder")
-                .toolbarImageTitle("ketuk untuk memilih")
-                .toolbarArrowColor(Color.BLACK)
+                .toolbarFolderTitle("Folder")
+                .toolbarImageTitle("Ketuk untuk memilih")
+                .toolbarArrowColor(Color.WHITE)
                 .single()
+                .theme(R.style.ImagePickerTheme)
                 .enableLog(true)
                 .start()
 
@@ -345,11 +346,15 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Loading -> { myDialog.show() }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    val intent = Intent()
-                    intent.putExtra("message", it.data.message)
-                    intent.putExtra("status", it.data.code)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
+                    if (it.data.status){
+                        val intent = Intent()
+                        intent.putExtra("message", it.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

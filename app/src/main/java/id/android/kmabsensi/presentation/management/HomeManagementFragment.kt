@@ -84,8 +84,20 @@ class HomeManagementFragment : Fragment() {
                             }
                         } else {
                             //checkout
-                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
-                                PRESENCE_ID_KEY to it.data.presence_id)
+//                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
+//                                PRESENCE_ID_KEY to it.data.presence_id)
+                            MaterialDialog(context!!).show {
+                                cornerRadius(16f)
+                                title(text = "Checkout")
+                                message(text = "Apakah anda yakin ingin checkout?")
+                                positiveButton(text = "Ya"){ materialDialog ->
+                                    materialDialog.dismiss()
+                                    vm.checkOut(it.data.presence_id)
+                                }
+                                negativeButton(text = "Tidak"){
+                                    it.dismiss()
+                                }
+                            }
                         }
 
                     } else {
@@ -99,6 +111,7 @@ class HomeManagementFragment : Fragment() {
                                 message(text = "Silahkan checkin terlebih dahulu.")
                                 positiveButton(text = "OK"){
                                     it.dismiss()
+
                                 }
                             }
                         }
@@ -108,6 +121,21 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Error -> {
                     myDialog.dismiss()
                     e { it.throwable.message.toString() }
+                }
+            }
+        })
+
+        vm.checkoutResponse.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    createAlertSuccess(activity, it.data.message)
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
                 }
             }
         })
