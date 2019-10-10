@@ -32,7 +32,7 @@ val appModule = module {
 
     single { PreferencesHelper(androidContext()) }
     single { AuthInterceptor(get()) }
-    single { provideOkHttpClient(get()) }
+    single { provideOkHttpClient(get(), androidContext()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
 
     single { AppSchedulerProvider() as SchedulerProvider }

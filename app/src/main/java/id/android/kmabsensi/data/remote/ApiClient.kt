@@ -1,5 +1,7 @@
 package id.android.kmabsensi.data.remote
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import okhttp3.Interceptor
@@ -12,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-fun provideOkHttpClient(interceptor: AuthInterceptor): OkHttpClient {
+fun provideOkHttpClient(interceptor: AuthInterceptor, context:Context): OkHttpClient {
     val httpClient = OkHttpClient.Builder()
     httpClient.apply {
         writeTimeout(60, TimeUnit.SECONDS)
@@ -20,6 +22,7 @@ fun provideOkHttpClient(interceptor: AuthInterceptor): OkHttpClient {
         callTimeout(60, TimeUnit.SECONDS)
         addInterceptor(interceptor)
         if (BuildConfig.DEBUG) {
+            addInterceptor(ChuckerInterceptor(context))
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             addInterceptor(logging)

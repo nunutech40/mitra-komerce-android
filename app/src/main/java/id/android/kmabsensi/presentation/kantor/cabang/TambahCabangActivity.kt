@@ -19,10 +19,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.utils.LocationManager
-import id.android.kmabsensi.utils.OFFICE_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.ValidationForm
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_tambah_cabang.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
@@ -94,11 +91,11 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
     fun viewListener() {
 
         office?.let {
-            edtEmail.setText(it.office_name)
-            edtPasword.setText(it.address)
+            edtNamaCabang.setText(it.office_name)
+            edtAlamatCabang.setText(it.address)
 
-            edtPasword.isFocusableInTouchMode = true
-            edtPasword.isFocusable = true
+            edtAlamatCabang.isFocusableInTouchMode = true
+            edtAlamatCabang.isFocusable = true
 
             latSelected = it.lat.toString()
             lngSelected = it.lng.toString()
@@ -107,11 +104,10 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         }
 
 
-        edtPasword.setOnClickListener {
-            if (edtPasword.text.isEmpty()) {
+        edtAlamatCabang.setOnClickListener {
+            if (edtAlamatCabang.text.isEmpty()) {
                 val locationPickerIntent = LocationPickerActivity.Builder()
                     .withGooglePlacesEnabled()
-//                    .withGeolocApiKey("AIzaSyDyzQyjNW2HOJIYV7FrPah1sZkPN4uuE_w")
                     .withLocation(lastLocation?.latitude!!, lastLocation?.longitude!!)
                     .withSearchZone("in_ID")
                     .withDefaultLocaleSearchZone()
@@ -127,26 +123,40 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         btnSimpan.setOnClickListener {
             if (crudMode == 0) {
                 if (validation()) vm.addOffice(
-                    edtEmail.text.toString(),
+                    edtNamaCabang.text.toString(),
                     latSelected,
                     lngSelected,
-                    edtPasword.text.toString(),
+                    edtAlamatCabang.text.toString(),
                     pjSelected
                 )
             } else if (crudMode == 1) {
                 office?.let {
                     if (validation()) vm.editOffice(
                         it.id,
-                        edtEmail.text.toString(),
+                        edtNamaCabang.text.toString(),
                         latSelected,
                         lngSelected,
-                        edtPasword.text.toString(),
+                        edtAlamatCabang.text.toString(),
                         pjSelected
                     )
                 }
 
             }
 
+        }
+
+        btnMapPicker.setOnClickListener {
+            val locationPickerIntent = LocationPickerActivity.Builder()
+                .withGooglePlacesEnabled()
+                .withLocation(office!!.lat, office!!.lng)
+                .withSearchZone("in_ID")
+                .withDefaultLocaleSearchZone()
+                .withSatelliteViewHidden()
+                .withGoogleTimeZoneEnabled()
+                .withUnnamedRoadHidden()
+                .build(applicationContext)
+
+            startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
 
     }
@@ -196,10 +206,10 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
                 latSelected = data.getDoubleExtra(LATITUDE, 0.0).toString()
                 lngSelected = data.getDoubleExtra(LONGITUDE, 0.0).toString()
                 val address = data.getStringExtra(LOCATION_ADDRESS)
-                edtPasword.setText(address)
-                edtPasword.isFocusableInTouchMode = true
-                edtPasword.isFocusable = true
-                edtPasword.setSelection(edtPasword.text.toString().length)
+                edtAlamatCabang.setText(address)
+                edtAlamatCabang.isFocusableInTouchMode = true
+                edtAlamatCabang.isFocusable = true
+                edtAlamatCabang.setSelection(edtAlamatCabang.text.toString().length)
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 d { "Canceled" }
@@ -217,8 +227,8 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
     }
 
     fun initViews(enabled: Boolean) {
-        edtEmail.isEnabled = enabled
-        edtPasword.isEnabled = enabled
+        edtNamaCabang.isEnabled = enabled
+        edtAlamatCabang.isEnabled = enabled
         spinner_pj.isEnabled = enabled
         btnSimpan.isEnabled = enabled
     }
@@ -245,6 +255,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
 
         if (item.itemId == R.id.action_edit) {
             initViews(true)
+            btnMapPicker.visible()
             crudMode = 1
             invalidateOptionsMenu()
         } else if (item.itemId == R.id.action_delete) {
@@ -260,9 +271,9 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
     }
 
     fun validation(): Boolean {
-        val namaCabang = ValidationForm.validationInput(edtEmail, "Nama cabang tidak boleh kosong")
+        val namaCabang = ValidationForm.validationInput(edtNamaCabang, "Nama cabang tidak boleh kosong")
         val alamatCabang =
-            ValidationForm.validationInput(edtPasword, "Alamat cabang tidak boleh kosong")
+            ValidationForm.validationInput(edtAlamatCabang, "Alamat cabang tidak boleh kosong")
 
         return namaCabang && alamatCabang
     }

@@ -140,6 +140,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                             "Daftar absensi kantor cabang $officaName :" else
                             "Daftar absensi semua kantor cabang : "
 
+                        groupAdapter.clear()
                         vm.getPresenceReport(officeId = officeIdSelected, date = dateSelected)
                     }
                     1 -> {
@@ -153,7 +154,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         if (userManagementIdSelected != 0) txtDaftarAbsensi.text =
                             "Daftar absensi manajemen $userManagementName :" else
                             "Daftar absensi semua manajemen : "
-
+                        groupAdapter.clear()
                         vm.getPresenceReport(userManagementId = userManagementIdSelected, date = dateSelected)
                     }
                 }
