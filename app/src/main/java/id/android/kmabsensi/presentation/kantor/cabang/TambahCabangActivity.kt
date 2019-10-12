@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.d
+import com.github.ajalt.timberkt.e
 import com.schibstedspain.leku.LATITUDE
 import com.schibstedspain.leku.LOCATION_ADDRESS
 import com.schibstedspain.leku.LONGITUDE
@@ -192,7 +193,7 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
                     finish()
                 }
                 is UiState.Error -> {
-                    toast(it.throwable.message.toString())
+                    e(it.throwable)
                 }
             }
         })

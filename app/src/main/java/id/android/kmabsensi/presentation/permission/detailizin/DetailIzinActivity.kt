@@ -46,13 +46,16 @@ class DetailIzinActivity : BaseActivity() {
         if (isFromManajemenIzin) layoutAction.visible() else layoutAction.gone()
 
         permission?.let {
-            imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
-            d { it.user.photo_profile_url.toString() }
+            it.user?.let { user ->
+                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
+                d { it.user.photo_profile_url.toString() }
 
-            txtNamaKaryawan.text = ":   ${it.user.full_name}"
-            txtDivisiKaryawan.text = ":   ${it.user.division_name}"
-            txtJabatanKaryawan.text = ":   ${it.user.position_name}"
-            txtKantor.text = ":   ${it.user.office_name}"
+                txtNamaKaryawan.text = ":   ${it.user.full_name}"
+                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
+                txtJabatanKaryawan.text = ":   ${it.user.position_name}"
+                txtKantor.text = ":   ${it.user.office_name}"
+            }
+
             val namaAtasan = it.management?.full_name ?: "-"
             txtNamaAtasan.text = ":   $namaAtasan"
             txtJenisIzin.text = when (it.permission_type) {

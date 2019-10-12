@@ -3,11 +3,12 @@ package id.android.kmabsensi.data.remote.response
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class UserResponse(
     val code: Int,
     val `data`: List<User>,
     val message: String
-)
+):Parcelable
 
 @Parcelize
 data class User(

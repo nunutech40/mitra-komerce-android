@@ -11,11 +11,20 @@ class AbsensiReportItem(val presence: Presence) : Item() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            itemView.textNama.text = presence.user.full_name
-            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0,5)
-            itemView.txtCheckOut.text = presence.checkout_date_time.split(" ")[1].substring(0,5)
+            presence.user?.let {
+                itemView.textNama.text = it.full_name
+                itemView.imgProfile.loadCircleImage(it.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
+            } ?: run {
+                itemView.textNama.text = "-"
+            }
 
-            itemView.imgProfile.loadCircleImage(presence.user.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
+            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0,5)
+            presence.checkout_date_time?.let {
+                itemView.txtCheckOut.text = it.split(" ")[1].substring(0,5)
+            } ?: run {
+                itemView.txtCheckOut.text = "-"
+            }
+
         }
     }
 

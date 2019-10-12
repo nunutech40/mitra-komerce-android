@@ -15,7 +15,7 @@ data class Data(
 data class Presence(
     val checkIn_photo_url: String,
     val check_in_datetime: String,
-    val checkout_date_time: String,
+    val checkout_date_time: String?,
     val created_at: String,
     val id: Int,
     val office_id: Int,
@@ -23,7 +23,7 @@ data class Presence(
     val role_id: Int,
     val updated_at: String,
     val user_id: Int,
-    val user: User,
+    val user: User?,
     val management: User,
     val user_management_id: Int
 )

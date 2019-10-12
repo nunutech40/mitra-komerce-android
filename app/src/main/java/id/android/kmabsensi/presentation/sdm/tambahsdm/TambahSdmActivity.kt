@@ -91,7 +91,6 @@ class TambahSdmActivity : BaseActivity() {
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
 
-        toast(isManagement.toString())
 
         myDialog = MyDialog(this)
         initViews()
@@ -110,7 +109,7 @@ class TambahSdmActivity : BaseActivity() {
                     edtKonfirmasiPassword.text.toString(),
                     roleSelectedId.toString(),
                     edtNamaLengkap.text.toString(),
-                    edtNip.text.toString(),
+                    "", //tidak dipakai
                     divisiSelectedId.toString(),
                     officeId.toString(),
                     jabatanSelectedId.toString(),
@@ -260,7 +259,7 @@ class TambahSdmActivity : BaseActivity() {
 
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val dateSelected: String = dateFormat.format(date.time)
-                    toast(dateSelected)
+//                    toast(dateSelected)
                     setDateToView(dateSelected)
                 }
             }
@@ -407,7 +406,7 @@ class TambahSdmActivity : BaseActivity() {
         val username = ValidationForm.validationInput(edtUsername, "Username tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPassword, "Password tidak boleh kosong")
         val konfirmasiPassword = ValidationForm.validationInput(edtKonfirmasiPassword, "Konfirmasi password tidak boleh kosong")
-        val nip = ValidationForm.validationInput(edtNip, "Username tidak boleh kosong")
+//        val nip = ValidationForm.validationInput(edtNip, "Username tidak boleh kosong")
         val namaLengkap = ValidationForm.validationInput(edtNamaLengkap, "Nama lengkap tidak boleh kosong")
         val tanggalLahir = ValidationForm.validationInput(edtTanggalLahir, "Tanggal lahir tidak boleh kosong")
         val tempatLahir = ValidationForm.validationInput(edtTempatLahir, "Tempat lahir tidak boleh kosong")
@@ -419,7 +418,7 @@ class TambahSdmActivity : BaseActivity() {
 
         val matchPass = ValidationForm.validationSingkronPassword(edtPassword, edtKonfirmasiPassword, "Password tidak sama")
 
-        return username && password && konfirmasiPassword && nip && namaLengkap && tanggalLahir &&
+        return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
                 tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass
     }
 

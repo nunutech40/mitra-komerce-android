@@ -27,14 +27,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.permission.detailizin.DetailIzinActivity"></activity>
-        <activity android:name=".presentation.permission.manajemenizin.ManajemenIzinActivity" />
-        <activity android:name=".presentation.permission.PermissionActivity" />
-        <activity android:name=".presentation.lupapassword.LupaPasswordActivity" />
-        <activity android:name=".presentation.permission.tambahizin.FormIzinActivity" />
-        <activity android:name=".presentation.sdm.detail.DetailKaryawanActivity" />
-        <activity android:name=".presentation.checkin.CheckinActivity" />
-        <activity android:name=".presentation.checkin.CekJangkauanActivity" />
+        <activity android:name=".presentation.permission.detailizin.DetailIzinActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".presentation.permission.manajemenizin.ManajemenIzinActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.permission.PermissionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.lupapassword.LupaPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.permission.tambahizin.FormIzinActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.sdm.detail.DetailKaryawanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.checkin.CheckinActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.checkin.CekJangkauanActivity"
+            android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -47,16 +55,26 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".presentation.kantor.report.filter.FilterReportKantorActivity" />
-        <activity android:name=".presentation.kantor.report.PresentasiReportKantorActivity" />
-        <activity android:name=".presentation.sdm.editpassword.EditPasswordActivity" />
-        <activity android:name=".presentation.sdm.tambahsdm.TambahSdmActivity" />
-        <activity android:name=".presentation.sdm.KelolaDataSdmActivity" />
-        <activity android:name=".presentation.kantor.cabang.TambahCabangActivity" />
-        <activity android:name=".presentation.kantor.KelolaKantorActivity" />
-        <activity android:name=".presentation.home.HomeActivity" />
-        <activity android:name=".presentation.login.LoginActivity" />
-        <activity android:name=".presentation.splash.SplashActivity">
+        <activity android:name=".presentation.kantor.report.filter.FilterReportKantorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.kantor.report.PresentasiReportKantorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.sdm.editpassword.EditPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.sdm.tambahsdm.TambahSdmActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.sdm.KelolaDataSdmActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.kantor.cabang.TambahCabangActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.kantor.KelolaKantorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.HomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.login.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,6 +83,7 @@
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"
+            android:screenOrientation="portrait"
             android:label="@string/leku_title_activity_location_picker"
             android:parentActivityName=".presentation.kantor.cabang.TambahCabangActivity"
             android:theme="@style/AppTheme"

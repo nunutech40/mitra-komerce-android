@@ -10,8 +10,7 @@ import android.view.ViewGroup
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
-import id.android.kmabsensi.utils.CATEGORY_REPORT_KEY
-import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_report.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -39,7 +38,9 @@ class ReportFragment : Fragment() {
         }
 
         btnReportSdm.setOnClickListener {
-            activity?.startActivity<PresentasiReportKantorActivity>(CATEGORY_REPORT_KEY to 2)
+            activity?.startActivity<PresentasiReportKantorActivity>(CATEGORY_REPORT_KEY to 2,
+                IS_MANAGEMENT_KEY to (vm.getUserData().role_id == 2),
+                USER_KEY to vm.getUserData())
         }
 
         btnReportManajemen.setOnClickListener {

@@ -17,7 +17,7 @@ class UserRepository(val apiService: ApiService) {
 
 
     fun getUserByRole(roleId: Int, userManagementId: Int = 0): Single<UserResponse>{
-        return apiService.getUser(roleId = roleId)
+        return apiService.getUser(roleId = roleId, userManagementId = userManagementId)
     }
 
 }

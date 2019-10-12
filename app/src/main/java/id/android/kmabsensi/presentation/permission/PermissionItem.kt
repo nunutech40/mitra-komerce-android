@@ -29,6 +29,10 @@ class PermissionItem(val permission: Permission,
                 }
             }
 
+            permission.user?.let {
+                itemView.txtNamaPemohon.text = it.full_name
+            }
+
             itemView.setOnClickListener {
                 listener(permission)
             }

@@ -75,7 +75,7 @@ class CheckinActivity : BaseActivity() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     startActivity(intentFor<HomeActivity>("hasCheckin" to true).clearTask().newTask())
-                    toast(it.data.message)
+//                    toast(it.data.message)
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

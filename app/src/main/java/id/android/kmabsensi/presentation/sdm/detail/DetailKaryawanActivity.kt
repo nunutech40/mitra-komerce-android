@@ -162,7 +162,6 @@ class DetailKaryawanActivity : BaseActivity() {
 
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val dateSelected: String = dateFormat.format(date.time)
-                    toast(dateSelected)
                     setDateToView(dateSelected)
                 }
             }

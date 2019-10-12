@@ -91,7 +91,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupViewPager() {
-        viewpager.offscreenPageLimit = if (role == ROLE_MANAGEMEMENT) 4 else 3
         val adapter = ViewPagerAdapter(supportFragmentManager)
 
         when (role) {

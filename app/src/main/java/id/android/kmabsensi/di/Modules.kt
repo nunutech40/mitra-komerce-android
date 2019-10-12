@@ -64,7 +64,7 @@ val viewModelModule = module {
     viewModel { PermissionViewModel(get(), get()) }
     viewModel { LupaPasswordViewModel(get(), get()) }
     viewModel { FilterReportViewModel(get(), get(), get()) }
-    viewModel { PresenceReportViewModel(get(), get()) }
+    viewModel { PresenceReportViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

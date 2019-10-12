@@ -12,6 +12,7 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
@@ -23,7 +24,7 @@ class FilterReportKantorActivity : BaseActivity() {
 
     private val vm: FilterReportViewModel by inject()
 
-    private var dateSelectedString  = ""
+    private var dateSelectedString = ""
     private var dateSelected = Calendar.getInstance()
 
     val offices = mutableListOf<Office>()
@@ -34,10 +35,11 @@ class FilterReportKantorActivity : BaseActivity() {
     private var categoryReport: Int = 0 // 0 -> office, 1 -> manajemen, 2 -> sdm
 
     val userManagement = mutableListOf<User>()
-    val userManagementNames = mutableListOf<String>("Semua Manajemen")
+    val userManagementNames = mutableListOf<String>()
     var userManagementIdSelected = 0
     var userManagementNameSelected = ""
 
+    var userResponse: UserResponse? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,7 @@ class FilterReportKantorActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
+        userResponse = intent.getParcelableExtra("user_response")
 
         edtDate.setText(getTodayDate())
 
@@ -66,7 +69,7 @@ class FilterReportKantorActivity : BaseActivity() {
         btnAktifkan.setOnClickListener {
             val intent = Intent()
             intent.putExtra(DATE_FILTER_KEY, edtDate.text.toString())
-            when(categoryReport){
+            when (categoryReport) {
                 0 -> {
                     intent.putExtra(OFFICE_ID_FILTER, officeIdSelected)
                     intent.putExtra(OFFICE_NAME_FILTER, officeNameSelected)
@@ -84,7 +87,7 @@ class FilterReportKantorActivity : BaseActivity() {
 
 
         vm.officeData.observe(this, androidx.lifecycle.Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
 
                 }
@@ -96,32 +99,37 @@ class FilterReportKantorActivity : BaseActivity() {
                         officeNames.add(it.office_name)
                     }
 
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, officeNames).also { adapter ->
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        officeNames
+                    ).also { adapter ->
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         // Apply the adapter to the spinner
                         spinnerKantorCabang.adapter = adapter
 
-                        spinnerKantorCabang.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerKantorCabang.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                            }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position == 0){
-                                    officeIdSelected = 0
-                                    officeNameSelected = "Semua Kantor"
-                                } else {
-                                    officeIdSelected = offices[position-1].id
-                                    officeNameSelected = offices[position-1].office_name
                                 }
-                            }
 
-                        }
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position == 0) {
+                                        officeIdSelected = 0
+                                        officeNameSelected = "Semua Kantor"
+                                    } else {
+                                        officeIdSelected = offices[position - 1].id
+                                        officeNameSelected = offices[position - 1].office_name
+                                    }
+                                }
+
+                            }
                     }
                 }
                 is UiState.Error -> {
@@ -131,45 +139,12 @@ class FilterReportKantorActivity : BaseActivity() {
         })
 
         vm.userManagementData.observe(this, androidx.lifecycle.Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
 
                 }
                 is UiState.Success -> {
-
-                    userManagement.addAll(it.data.data)
-
-                    it.data.data.forEach {
-                        userManagementNames.add(it.full_name)
-                    }
-
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userManagementNames).also { adapter ->
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        // Apply the adapter to the spinner
-                        spinnerPenanggungJawab.adapter = adapter
-
-                        spinnerPenanggungJawab.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position == 0){
-                                    userManagementIdSelected = 0
-                                    userManagementNameSelected = "Semua PJ"
-                                } else {
-                                    userManagementIdSelected = userManagement[position-1].id
-                                    userManagementNameSelected = userManagement[position-1].full_name
-                                }
-                            }
-
-                        }
-                    }
+                    setSpinnerManajemen(it.data.data)
                 }
                 is UiState.Error -> {
                     e(it.throwable)
@@ -177,7 +152,7 @@ class FilterReportKantorActivity : BaseActivity() {
             }
         })
 
-        when(categoryReport){
+        when (categoryReport) {
             0 -> {
                 layoutPj.gone()
                 vm.getDataOffice()
@@ -188,13 +163,53 @@ class FilterReportKantorActivity : BaseActivity() {
             }
             2 -> {
                 layoutKantorCabang.gone()
-                vm.getUserManagement(2)
+                userResponse?.let {
+                    setSpinnerManajemen(it.data)
+                } ?: kotlin.run {
+                    vm.getUserManagement(2)
+                }
+
             }
         }
 
 
+    }
 
+    fun setSpinnerManajemen(manajemen: List<User>){
+        userManagement.addAll(manajemen)
 
+        manajemen.forEach {
+            userManagementNames.add(it.full_name)
+        }
+
+        ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item,
+            userManagementNames
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinnerPenanggungJawab.adapter = adapter
+
+            spinnerPenanggungJawab.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        userManagementIdSelected = userManagement[position].id
+                        userManagementNameSelected = userManagement[position].full_name
+
+                    }
+
+                }
+        }
     }
 
     private fun setDateToView(dateSelected: String) {

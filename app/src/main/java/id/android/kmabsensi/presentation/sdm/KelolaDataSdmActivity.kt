@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
@@ -18,6 +20,7 @@ import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class KelolaDataSdmActivity : BaseActivity() {
@@ -92,6 +95,8 @@ class KelolaDataSdmActivity : BaseActivity() {
 
             }
         }
+
+
 
 
     }

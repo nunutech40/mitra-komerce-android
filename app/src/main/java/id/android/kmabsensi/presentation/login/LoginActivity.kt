@@ -86,9 +86,8 @@ class LoginActivity : BaseActivity() {
     fun validation() : Boolean {
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPasword, "Password tidak boleh kosong")
-        val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
 
-        return email && password && validEmail
+        return email && password
     }
 
     private fun checkPermission(){

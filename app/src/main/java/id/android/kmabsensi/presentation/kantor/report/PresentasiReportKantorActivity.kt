@@ -3,6 +3,9 @@ package id.android.kmabsensi.presentation.kantor.report
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,11 +13,15 @@ import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportKantorActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
+import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.toolbar
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
@@ -35,6 +42,11 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
     private var categoryReport: Int = 0 // 0 -> office, 1 -> manajemen, 2 -> sdm
 
+    private var user : User? = null
+    private var isManagement = false
+
+    private lateinit var userResponse: UserResponse
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentasi_report_kantor)
@@ -46,6 +58,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
+        user = intent.getParcelableExtra(USER_KEY)
+        isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
 
         initRv()
 
@@ -53,17 +67,24 @@ class PresentasiReportKantorActivity : BaseActivity() {
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
 
         btnFilter.setOnClickListener {
-            startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport)
+            if (!isManagement){
+                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
+                    "user_response" to userResponse)
+            } else {
+                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport)
+            }
         }
 
         vm.presenceReportData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    myDialog.show()
+                    if (isManagement) myDialog.show()
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    txtPercentage.text = it.data.data.report.percentage.substring(0, 1) + "%"
+                    val percentage = it.data.data.report.percentage.substring(0, it.data.data.report.percentage.length-1).toDouble().toInt()
+                    circularProgressBar.progress = percentage.toFloat()
+                    txtPercentage.text = percentage.toString() + "%"
                     if (it.data.data.presence.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
                     it.data.data.presence.forEach {
                         groupAdapter.add(AbsensiReportItem(it))
@@ -71,6 +92,22 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
+                    e(it.throwable)
+                }
+            }
+        })
+
+        vm.userManagementData.observe(this, androidx.lifecycle.Observer {
+            when(it){
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    txtSubReport.text = it.data.data[0].full_name
+                    vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
+                    userResponse = it.data
+                }
+                is UiState.Error -> {
                     e(it.throwable)
                 }
             }
@@ -93,10 +130,16 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
             2 -> {
                 txtReport.text = "Manajemen"
-                txtSubReport.text = "Semua Manajemen"
+                if (isManagement){
+                    txtSubReport.text = user!!.full_name
+                    vm.getPresenceReport(userManagementId = user!!.id, date = dateSelected)
+                } else {
+                    //get data user management
+                    vm.getUserManagement()
+                }
                 txtDaftarAbsensi.text = "Daftar absensi semua manajemen : "
                 supportActionBar?.title = "Presentasi Report SDM"
-                vm.getPresenceReport(userManagementId = 0, date = dateSelected)
+
             }
         }
 

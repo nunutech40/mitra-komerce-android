@@ -28,7 +28,7 @@ class FilterReportViewModel(val officeRepository: OfficeRepository,
         )
     }
 
-    fun getUserManagement(roleId: Int){
+    fun getUserManagement(roleId: Int = 2){
         compositeDisposable.add(userRepository.getUserByRole(roleId)
             .with(schedulerProvider)
             .subscribe({

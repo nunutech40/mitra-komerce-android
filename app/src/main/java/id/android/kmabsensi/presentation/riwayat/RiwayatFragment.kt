@@ -39,17 +39,20 @@ class RiwayatFragment : Fragment() {
         vm.riwayatResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+//                    progressBar.visible()
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    swipeRefresh.isRefreshing = false
+//                    progressBar.gone()
+                    groupAdapter.clear()
                     if (it.data.data.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(RiwayatItem(it, user.full_name, user.photo_profile_url))
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    swipeRefresh.isRefreshing = false
+//                    progressBar.gone()
                 }
             }
         })
@@ -70,6 +73,11 @@ class RiwayatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRv()
+
+        swipeRefresh.setOnRefreshListener {
+
+            vm.getPresenceHistory(user.id)
+        }
 
     }
 

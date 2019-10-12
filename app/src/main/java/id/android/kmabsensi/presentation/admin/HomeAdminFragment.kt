@@ -15,9 +15,7 @@ import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
-import id.android.kmabsensi.utils.IS_MANAGEMENT_KEY
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.loadCircleImage
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_admin.btnManajemenIzin
 import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
@@ -55,22 +53,29 @@ class HomeAdminFragment : Fragment() {
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when(it){
+                is UiState.Loading -> {
+                    progressBar.visible()
+                }
                 is UiState.Success -> {
+                    progressBar.gone()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
                     txtNotPresent.text = "${it.data.data.total_not_present} orang belum hadir"
                 }
                 is UiState.Error -> {
+                    progressBar.gone()
                     e { it.throwable.message.toString() }
                 }
             }
         })
 
-        vm.getDashboardInfo(user.id)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        vm.getDashboardInfo(user.id)
 
         imgProfile.loadCircleImage(user.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
         txtHello.text = "Hello, ${user.full_name}"
@@ -90,6 +95,15 @@ class HomeAdminFragment : Fragment() {
 
         btnManajemenIzin.setOnClickListener {
             activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = false
+            txtPresent.text = ""
+            txtTotalUser.text = ""
+            txtNotPresent.text = ""
+            vm.getDashboardInfo(user.id)
+
         }
 
     }

@@ -25,6 +25,7 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
     val checkoutResponse = MutableLiveData<UiState<CheckinResponse>>()
 
     fun getDashboardInfo(userId: Int){
+        dashboardData.value = UiState.Loading()
         compositeDisposable.add(dashboardRepository.getDashboardInfo(userId)
             .with(schedulerProvider)
             .subscribe({

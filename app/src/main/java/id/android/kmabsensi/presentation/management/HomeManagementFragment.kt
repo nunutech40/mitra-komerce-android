@@ -54,12 +54,15 @@ class HomeManagementFragment : Fragment() {
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
+                is UiState.Loading -> progressBar.visible()
                 is UiState.Success -> {
+                    progressBar.gone()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
                     txtNotPresent.text = "${it.data.data.total_not_present} orang belum hadir"
                 }
                 is UiState.Error -> {
+                    progressBar.gone()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -145,6 +148,14 @@ class HomeManagementFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = false
+            txtPresent.text = ""
+            txtTotalUser.text = ""
+            txtNotPresent.text = ""
+            vm.getDashboardInfo(user.id)
+        }
 
         imgProfile.loadCircleImage(
             user.photo_profile_url

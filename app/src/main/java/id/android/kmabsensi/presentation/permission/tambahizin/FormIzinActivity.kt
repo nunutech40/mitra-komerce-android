@@ -40,7 +40,7 @@ class FormIzinActivity : BaseActivity() {
 
     private lateinit var myDialog: MyDialog
 
-    var imagePath : String? = ""
+    var imagePath: String? = ""
 
     var permissionType = 0
 
@@ -49,6 +49,9 @@ class FormIzinActivity : BaseActivity() {
     private var compressedImage: File? = null
 
     private val disposables = CompositeDisposable()
+
+    lateinit var dateFrom: Date
+    lateinit var dateTo: Date
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +85,7 @@ class FormIzinActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    permissionType = position+1
+                    permissionType = position + 1
                 }
 
             }
@@ -106,7 +109,7 @@ class FormIzinActivity : BaseActivity() {
 
         btnSubmit.setOnClickListener {
             compressedImage?.let {
-                if (validation()){
+                if (validation()) {
                     vm.createPermission(
                         permissionType,
                         user.id,
@@ -118,9 +121,9 @@ class FormIzinActivity : BaseActivity() {
                         edtDateFrom.text.toString(),
                         edtDateTo.text.toString(),
                         it
-                        )
+                    )
                 }
-            } ?: toast("Upload gambar terlebih dahulu.")
+            } ?: createAlertError(this, "Peringatan", "Upload gambar terlebih dahulu.")
 
         }
 
@@ -145,6 +148,8 @@ class FormIzinActivity : BaseActivity() {
 
                     dialog.dismiss()
 
+                    dateFrom = date.time
+
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val dateSelected: String = dateFormat.format(date.time)
                     setDateFrom(dateSelected)
@@ -157,23 +162,29 @@ class FormIzinActivity : BaseActivity() {
                 datePicker { dialog, date ->
 
                     // Use date (Calendar)
-
                     dialog.dismiss()
 
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val dateSelected: String = dateFormat.format(date.time)
-                    setDateTo(dateSelected)
+                    dateTo = date.time
+                    if (!dateFrom.before(dateTo)) {
+                        createAlertError(this@FormIzinActivity, "Peringatan", "dateTo kurang dari dateFrom", 3000)
+                    } else {
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val dateSelected: String = dateFormat.format(date.time)
+                        setDateTo(dateSelected)
+                    }
+
+
                 }
             }
         }
 
     }
 
-    private fun setDateFrom(dateFrom: String){
+    private fun setDateFrom(dateFrom: String) {
         edtDateFrom.setText(dateFrom)
     }
 
-    private fun setDateTo(dateTo: String){
+    private fun setDateTo(dateTo: String) {
         edtDateTo.setText(dateTo)
     }
 
@@ -213,7 +224,8 @@ class FormIzinActivity : BaseActivity() {
                 .setCompressFormat(Bitmap.CompressFormat.JPEG)
                 .setDestinationDirectoryPath(
                     Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).absolutePath
+                        Environment.DIRECTORY_PICTURES
+                    ).absolutePath
                 )
                 .compressToFileAsFlowable(file)
                 .subscribeOn(Schedulers.io())
@@ -225,7 +237,7 @@ class FormIzinActivity : BaseActivity() {
                         .load(compressedImage)
                         .into(imgUpload)
 
-                }) { e { it.message.toString() }})
+                }) { e { it.message.toString() } })
     }
 
     override fun onDestroy() {
