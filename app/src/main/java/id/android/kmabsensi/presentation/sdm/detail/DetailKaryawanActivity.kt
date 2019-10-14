@@ -75,8 +75,6 @@ class DetailKaryawanActivity : BaseActivity() {
         supportActionBar?.title = "Detail Karyawan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
@@ -133,6 +131,7 @@ class DetailKaryawanActivity : BaseActivity() {
         if (!isManagement) spinnerRole.setSelection(data.role_id-2)
 
         if (karyawan.role_id == 3){
+            toast("uy")
             layout_spinner_management.visible()
         } else {
             layout_spinner_management.gone()
@@ -291,8 +290,10 @@ class DetailKaryawanActivity : BaseActivity() {
                 ) {
                     roleSelectedId = if (isManagement) position+3 else position+2
                     if (position == 0){
-                        if (!isManagement) userManagementSelectedId = 0
-                        layout_spinner_management.gone()
+                        if (!isManagement) {
+                            userManagementSelectedId = 0
+                            layout_spinner_management.gone()
+                        }
                     } else {
                         layout_spinner_management.visible()
                     }

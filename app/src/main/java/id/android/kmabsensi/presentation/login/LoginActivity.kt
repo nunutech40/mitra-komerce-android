@@ -62,7 +62,7 @@ class LoginActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    startActivity<HomeActivity>()
+                    startActivity(intentFor<HomeActivity>().clearTask().newTask())
 //                    toast("Welcome, ${it.data.data[0].full_name}")
                     finish()
                 }

@@ -115,7 +115,7 @@ class KelolaDataSdmActivity : BaseActivity() {
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())
             groupAdapter.clear()
-            vm.getUserData(roleId)
+            vm.getUserData(roleId, userManagementId)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
