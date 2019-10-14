@@ -21,11 +21,11 @@
         android:id="@+id/imageView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textNama"
-        app:layout_constraintTop_toBottomOf="@id/textNama"
+        app:layout_constraintTop_toBottomOf="@+id/txtOfficeName"
         app:srcCompat="@drawable/ic_check_in" />
 
     <TextView
@@ -67,5 +67,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/shape_circle" />
+
+    <TextView
+        android:id="@+id/txtOfficeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/textColor"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="@+id/textNama"
+        app:layout_constraintTop_toBottomOf="@+id/textNama" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

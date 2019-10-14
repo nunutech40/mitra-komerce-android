@@ -171,10 +171,6 @@ class HomeManagementFragment : Fragment() {
             )
         }
 
-        layoutReport.setOnClickListener {
-            activity?.startActivity<PresentasiReportKantorActivity>()
-        }
-
         btnCheckIn.setOnClickListener {
             isCheckin = true
             vm.presenceCheck(user.id)

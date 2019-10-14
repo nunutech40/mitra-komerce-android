@@ -81,10 +81,6 @@ class HomeAdminFragment : Fragment() {
         txtHello.text = "Hello, ${user.full_name}"
         txtRoleName.text = user.role_name
 
-        layoutReport.setOnClickListener {
-            activity?.startActivity<PresentasiReportKantorActivity>()
-        }
-
         btnKelolaDataKantor.setOnClickListener {
             activity?.startActivity<KelolaKantorActivity>()
         }

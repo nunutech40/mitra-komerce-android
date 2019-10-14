@@ -18,5 +18,6 @@ data class PresenceHistory(
     val role_id: Int,
     val updated_at: String,
     val user_id: Int,
-    val user_management_id: Int
+    val user_management_id: Int,
+    val user: User?
 )

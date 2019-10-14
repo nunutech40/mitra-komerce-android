@@ -35,6 +35,10 @@ class RiwayatItem(val presenceHistory: PresenceHistory,
             val date = dateFormat.parse(presenceHistory.check_in_datetime)
             txtDate.text = getDateStringFormatted(date)
 
+            presenceHistory.user?.let {
+                txtOfficeName.text = it.office_name
+            }
+
         }
 
     }
