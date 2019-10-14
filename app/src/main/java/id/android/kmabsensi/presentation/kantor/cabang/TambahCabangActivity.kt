@@ -187,10 +187,15 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         vm.crudCabangState.observe(this, Observer {
             when (it) {
                 is UiState.Success -> {
-                    val intent = Intent()
-                    intent.putExtra("message", it.data.message)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
+                    if (it.data.status){
+                        val intent = Intent()
+                        intent.putExtra("message", it.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     e(it.throwable)
