@@ -78,7 +78,7 @@ class DetailKaryawanActivity : BaseActivity() {
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
-        userManagementSelectedId = karyawan.id
+        userManagementSelectedId = karyawan.user_management_id
 
         initSpinners()
         setDataToView(karyawan)
@@ -290,10 +290,8 @@ class DetailKaryawanActivity : BaseActivity() {
                 ) {
                     roleSelectedId = if (isManagement) position+3 else position+2
                     if (position == 0){
-                        if (!isManagement) {
-                            userManagementSelectedId = 0
-                            layout_spinner_management.gone()
-                        }
+                        if (!isManagement) userManagementSelectedId = 0
+                        layout_spinner_management.gone()
                     } else {
                         layout_spinner_management.visible()
                     }
