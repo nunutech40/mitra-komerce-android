@@ -1,8 +1,10 @@
 package id.android.kmabsensi.presentation.kantor.report
 
 import androidx.lifecycle.MutableLiveData
+import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.PresenceReportResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -12,8 +14,10 @@ import id.android.momakan.utils.scheduler.with
 
 class PresenceReportViewModel(val presenceRepository: PresenceRepository,
                               val userRepository: UserRepository,
+                              val officeRepository: OfficeRepository,
                               val schedulerProvider: SchedulerProvider): BaseViewModel() {
 
+    val officeData = MutableLiveData<UiState<OfficeResponse>>()
     val presenceReportData = MutableLiveData<UiState<PresenceReportResponse>>()
     val userManagementData = MutableLiveData<UiState<UserResponse>>()
 
@@ -33,6 +37,19 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
             .subscribe({
                 presenceReportData.value = UiState.Success(it)
             }, this::onError))
+    }
+
+
+    fun getDataOffice(){
+        userManagementData.value = UiState.Loading()
+        compositeDisposable.add(officeRepository.getOffices()
+            .with(schedulerProvider)
+            .subscribe({
+                officeData.value = UiState.Success(it)
+            },{
+                officeData.value = UiState.Error(it)
+            })
+        )
     }
 
     fun getUserManagement(roleId: Int = 2){

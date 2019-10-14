@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textColor"
-                android:text="Daftar absensi semua kantor cabang : "
+                android:text="Daftar absensi : "
                 app:layout_constraintStart_toStartOf="@+id/txtSubReport"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
 

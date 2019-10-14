@@ -1,7 +1,9 @@
 package id.android.kmabsensi.presentation.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.hadilq.liveevent.LiveEvent
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.CheckinResponse
 import id.android.kmabsensi.data.remote.response.DashboardResponse
@@ -20,9 +22,11 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
                     val schedulerProvider: SchedulerProvider) : BaseViewModel() {
 
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
-    val presenceCheckResponse = MutableLiveData<UiState<PresenceCheckResponse>>()
+    val presenceCheckResponse = LiveEvent<UiState<PresenceCheckResponse>>()
+    val checkoutResponse = LiveEvent<UiState<CheckinResponse>>()
 
-    val checkoutResponse = MutableLiveData<UiState<CheckinResponse>>()
+    val presenceCheckState: LiveData<UiState<PresenceCheckResponse>> = presenceCheckResponse
+    val checkoutState: LiveData<UiState<CheckinResponse>> = checkoutResponse
 
     fun getDashboardInfo(userId: Int){
         dashboardData.value = UiState.Loading()

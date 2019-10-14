@@ -72,6 +72,12 @@ class DetailIzinActivity : BaseActivity() {
                 else -> ":   Ditolak"
             }
 
+            it.created_at?.let {
+                txtTanggalPengajuan.text = ":   $it"
+            } ?: kotlin.run {
+                txtTanggalPengajuan.text = ":   -"
+            }
+
             button.setOnClickListener { view ->
                 StfalconImageViewer.Builder<String>(
                     this,

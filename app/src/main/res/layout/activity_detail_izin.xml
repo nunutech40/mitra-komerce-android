@@ -163,9 +163,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="@android:color/white"
+        android:layout_height="220dp"
         android:layout_marginTop="24dp"
+        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -240,7 +240,7 @@
             android:text="TextView"
             android:textColor="@color/textColor"
             app:layout_constraintBottom_toBottomOf="@+id/textJenisIzin"
-            app:layout_constraintStart_toEndOf="@+id/textJenisIzin"
+            app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toTopOf="@+id/textJenisIzin" />
 
         <TextView
@@ -288,13 +288,31 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginStart="12dp"
-            app:backgroundTint="@color/divider"
-            android:textColor="@android:color/black"
             android:text="Lihat"
+            android:textColor="@android:color/black"
             android:textSize="11sp"
+            app:backgroundTint="@color/divider"
             app:layout_constraintBottom_toBottomOf="@+id/textView35"
             app:layout_constraintStart_toEndOf="@+id/textView35"
             app:layout_constraintTop_toTopOf="@+id/textView35" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tanggal Pengajuan"
+            app:layout_constraintStart_toStartOf="@+id/textView32"
+            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+        <TextView
+            android:id="@+id/txtTanggalPengajuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/textView13"
+            app:layout_constraintStart_toStartOf="@+id/txtStatus"
+            app:layout_constraintTop_toTopOf="@+id/textView13" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

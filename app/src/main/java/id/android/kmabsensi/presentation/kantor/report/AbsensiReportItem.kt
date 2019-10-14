@@ -5,7 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
 import id.android.kmabsensi.utils.loadCircleImage
-import kotlinx.android.synthetic.main.item_row_absensi.view.*
+import kotlinx.android.synthetic.main.item_row_riwayat_absensi.view.*
 
 class AbsensiReportItem(val presence: Presence) : Item() {
 
@@ -28,5 +28,5 @@ class AbsensiReportItem(val presence: Presence) : Item() {
         }
     }
 
-    override fun getLayout(): Int = R.layout.item_row_absensi
+    override fun getLayout(): Int = R.layout.item_row_report_absensi
 }

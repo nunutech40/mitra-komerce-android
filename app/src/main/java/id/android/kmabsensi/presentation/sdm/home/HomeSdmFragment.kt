@@ -14,11 +14,13 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import org.jetbrains.anko.startActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -26,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 class HomeSdmFragment : Fragment() {
 
-    private val vm: HomeViewModel by sharedViewModel()
+    private val vm: HomeViewModel by inject()
 
     private lateinit var user: User
 
@@ -50,8 +52,7 @@ class HomeSdmFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-        vm.presenceCheckResponse.observe(viewLifecycleOwner, Observer {
+        vm.presenceCheckState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
@@ -69,9 +70,6 @@ class HomeSdmFragment : Fragment() {
                                 }
                             }
                         } else {
-                            //checkout
-//                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
-//                                PRESENCE_ID_KEY to it.data.presence_id)
                             MaterialDialog(context!!).show {
                                 cornerRadius(16f)
                                 title(text = "Checkout")
@@ -110,7 +108,7 @@ class HomeSdmFragment : Fragment() {
             }
         })
 
-        vm.checkoutResponse.observe(viewLifecycleOwner, Observer {
+        vm.checkoutState.observe(viewLifecycleOwner, Observer {
             when(it){
                 is UiState.Loading -> {
                     myDialog.show()
@@ -124,13 +122,11 @@ class HomeSdmFragment : Fragment() {
                 }
             }
         })
-
-        vm.getDashboardInfo(user.id)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
@@ -150,7 +146,7 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnTidakHadir.setOnClickListener {
-            context?.startActivity<FormIzinActivity>(USER_KEY to user)
+            context?.startActivity<PermissionActivity>(USER_KEY to user)
         }
     }
 

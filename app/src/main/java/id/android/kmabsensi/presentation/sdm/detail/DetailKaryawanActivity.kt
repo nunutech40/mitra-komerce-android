@@ -386,10 +386,15 @@ class DetailKaryawanActivity : BaseActivity() {
                 is UiState.Loading -> { myDialog.show() }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    val intent = Intent()
-                    intent.putExtra("message", it.data.message)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
+                    if(it.data.status){
+                        val intent = Intent()
+                        intent.putExtra("message", it.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

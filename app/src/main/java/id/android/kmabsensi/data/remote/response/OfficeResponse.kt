@@ -3,12 +3,13 @@ package id.android.kmabsensi.data.remote.response
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class OfficeResponse(
     val code: Int,
     val `data`: List<Office>,
     val message: String,
     val status: Boolean
-)
+): Parcelable
 
 @Parcelize
 data class Office(

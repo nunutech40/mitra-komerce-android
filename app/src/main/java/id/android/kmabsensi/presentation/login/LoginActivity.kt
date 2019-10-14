@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     startActivity<HomeActivity>()
-                    toast("Welcome, ${it.data.data[0].full_name}")
+//                    toast("Welcome, ${it.data.data[0].full_name}")
                     finish()
                 }
                 is UiState.Error -> {

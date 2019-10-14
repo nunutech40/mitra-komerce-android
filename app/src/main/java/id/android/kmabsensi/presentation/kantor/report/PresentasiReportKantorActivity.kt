@@ -13,6 +13,7 @@ import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -42,10 +43,11 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
     private var categoryReport: Int = 0 // 0 -> office, 1 -> manajemen, 2 -> sdm
 
-    private var user : User? = null
+    private var user: User? = null
     private var isManagement = false
 
-    private lateinit var userResponse: UserResponse
+    private var userResponse: UserResponse? = null
+    private var officeResponse: OfficeResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,12 +69,21 @@ class PresentasiReportKantorActivity : BaseActivity() {
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
 
         btnFilter.setOnClickListener {
-            if (!isManagement){
-                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
-                    "user_response" to userResponse)
-            } else {
-                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport)
-            }
+            startActivityForResult<FilterReportKantorActivity>(
+                REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
+                "user_response" to userResponse,
+                "office_response" to officeResponse,
+                "date" to dateSelected
+            )
+
+//            if (!isManagement){
+//                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
+//                    "user_response" to userResponse,
+//                    "office_response" to officeResponse)
+//            } else {
+//                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport)
+//            }
+
         }
 
         vm.presenceReportData.observe(this, Observer {
@@ -82,7 +93,10 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    val percentage = it.data.data.report.percentage.substring(0, it.data.data.report.percentage.length-1).toDouble().toInt()
+                    val percentage = it.data.data.report.percentage.substring(
+                        0,
+                        it.data.data.report.percentage.length - 1
+                    ).toDouble().toInt()
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
                     if (it.data.data.presence.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
@@ -98,12 +112,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
         })
 
         vm.userManagementData.observe(this, androidx.lifecycle.Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
                 }
                 is UiState.Success -> {
                     txtSubReport.text = it.data.data[0].full_name
+                    txtDaftarAbsensi.text =
+                        "Daftar absensi manajemen ${it.data.data[0].full_name}: "
                     vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
                     userResponse = it.data
                 }
@@ -113,13 +129,29 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
         })
 
-        when(categoryReport){
+        vm.officeData.observe(this, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    txtSubReport.text = it.data.data[0].office_name
+                    txtDaftarAbsensi.text =
+                        "Daftar absensi kantor cabang ${it.data.data[0].office_name}: "
+                    vm.getPresenceReport(officeId = it.data.data[0].id, date = dateSelected)
+                    officeResponse = it.data
+                }
+                is UiState.Error -> {
+
+                }
+            }
+        })
+
+        when (categoryReport) {
             0 -> {
                 txtReport.text = "Kantor Cabang"
-                txtSubReport.text = "Semua Kantor"
-                vm.getPresenceReport(date = dateSelected)
-                txtDaftarAbsensi.text = "Daftar absensi semua kantor cabang : "
                 supportActionBar?.title = "Presentasi Report Kantor"
+                vm.getDataOffice()
             }
             1 -> {
                 txtReport.text = "Kantor Cabang"
@@ -130,14 +162,15 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
             2 -> {
                 txtReport.text = "Manajemen"
-                if (isManagement){
+                if (isManagement) {
                     txtSubReport.text = user!!.full_name
+                    txtDaftarAbsensi.text =
+                        "Daftar absensi manajemen ${user!!.full_name}: "
                     vm.getPresenceReport(userManagementId = user!!.id, date = dateSelected)
                 } else {
                     //get data user management
                     vm.getUserManagement()
                 }
-                txtDaftarAbsensi.text = "Daftar absensi semua manajemen : "
                 supportActionBar?.title = "Presentasi Report SDM"
 
             }
@@ -172,17 +205,12 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
                 btnFilter.setImageResource(R.drawable.ic_filter_on)
 
-                when(categoryReport){
+                when (categoryReport) {
                     0 -> {
                         officeIdSelected = it.getIntExtra(OFFICE_ID_FILTER, 0)
                         val officaName = it.getStringExtra(OFFICE_NAME_FILTER)
                         txtSubReport.text = officaName
-
-
-                        if (officeIdSelected != 0) txtDaftarAbsensi.text =
-                            "Daftar absensi kantor cabang $officaName :" else
-                            "Daftar absensi semua kantor cabang : "
-
+                        txtDaftarAbsensi.text = "Daftar absensi kantor cabang $officaName :"
                         groupAdapter.clear()
                         vm.getPresenceReport(officeId = officeIdSelected, date = dateSelected)
                     }
@@ -193,12 +221,11 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
-
-                        if (userManagementIdSelected != 0) txtDaftarAbsensi.text =
-                            "Daftar absensi manajemen $userManagementName :" else
-                            "Daftar absensi semua manajemen : "
-                        groupAdapter.clear()
-                        vm.getPresenceReport(userManagementId = userManagementIdSelected, date = dateSelected)
+                        txtDaftarAbsensi.text = "Daftar absensi manajemen $userManagementName :"
+                        vm.getPresenceReport(
+                            userManagementId = userManagementIdSelected,
+                            date = dateSelected
+                        )
                     }
                 }
 

@@ -23,5 +23,6 @@ data class Permission(
     val status: Int,
     val user: User?,
     val user_id: Int,
-    val user_management_id: Int
+    val user_management_id: Int,
+    val created_at: String?
 ) : Parcelable
