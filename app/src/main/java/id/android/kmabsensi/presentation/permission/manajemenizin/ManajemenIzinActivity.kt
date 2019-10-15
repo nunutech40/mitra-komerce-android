@@ -90,7 +90,7 @@ class ManajemenIzinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    toast(it.data.message)
+                    if (it.data.status) createAlertSuccess(this, it.data.message) else createAlertError(this, "Gagal", it.data.message)
                     vm.getListPermission(roleId = roleId, userManagementId = userManagementId)
                 }
                 is UiState.Error -> {

@@ -1,20 +1,34 @@
 package id.android.kmabsensi.presentation.kantor.report
 
+import com.bumptech.glide.Glide
+import com.stfalcon.imageviewer.StfalconImageViewer
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
-import id.android.kmabsensi.utils.loadCircleImage
-import kotlinx.android.synthetic.main.item_row_riwayat_absensi.*
-import kotlinx.android.synthetic.main.item_row_riwayat_absensi.view.*
+import id.android.kmabsensi.utils.loadImageFromUrl
+import kotlinx.android.synthetic.main.item_row_report_absensi.*
+import kotlinx.android.synthetic.main.item_row_report_absensi.view.*
 
 class AbsensiReportItem(val presence: Presence) : Item() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            presence.user?.let {
-                itemView.textNama.text = it.full_name
-                itemView.imgProfile.loadCircleImage(it.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
+            presence.user?.let { user ->
+                itemView.textNama.text = user.full_name
+                itemView.img_checkin.loadImageFromUrl(user.photo_profile_url.toString())
+
+                user.photo_profile_url?.let {
+                    itemView.img_checkin.setOnClickListener { view ->
+                        StfalconImageViewer.Builder<String>(
+                            itemView.context,
+                            listOf(user.photo_profile_url)
+                        ) { view, image ->
+                            Glide.with(itemView.context)
+                                .load(image).into(view)
+                        }.show()
+                }
+                }
             } ?: run {
                 itemView.textNama.text = "-"
             }

@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.User
@@ -116,12 +117,15 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.setText(data.address)
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
-        edtNip.setText(data.npk)
+//        edtNip.setText(data.npk)
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtTempatLahir.setText(data.origin_village)
 
+
+
         data.photo_profile_url?.let {
+            d { it }
             imgProfile.loadCircleImage(it)
         }
 
@@ -131,7 +135,6 @@ class DetailKaryawanActivity : BaseActivity() {
         if (!isManagement) spinnerRole.setSelection(data.role_id-2)
 
         if (karyawan.role_id == 3){
-            toast("uy")
             layout_spinner_management.visible()
         } else {
             layout_spinner_management.gone()
@@ -181,7 +184,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.isEnabled = enabled
         edtEmail.isEnabled = enabled
         edtNamaLengkap.isEnabled = enabled
-        edtNip.isEnabled = enabled
+//        edtNip.isEnabled = enabled
         edtNoHp.isEnabled = enabled
         edtNoPartner.isEnabled = enabled
         edtTempatLahir.isEnabled = enabled

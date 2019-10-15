@@ -109,7 +109,7 @@ class TambahSdmActivity : BaseActivity() {
                     edtKonfirmasiPassword.text.toString(),
                     roleSelectedId.toString(),
                     edtNamaLengkap.text.toString(),
-                    "", //tidak dipakai
+                    "0",
                     divisiSelectedId.toString(),
                     officeId.toString(),
                     jabatanSelectedId.toString(),

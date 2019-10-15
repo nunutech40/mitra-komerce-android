@@ -59,14 +59,14 @@
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
     <ImageView
-        android:id="@+id/imgProfile"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:id="@+id/img_checkin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape_circle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtOfficeName"

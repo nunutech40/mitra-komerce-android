@@ -45,12 +45,5 @@ fun createAlertSuccess(activity: Activity?, message: String){
         .setIcon(R.drawable.ic_done)
         .setBackgroundColorRes(R.color.colorSuccess)
         .show()
-//
-//    fun createAlertSuccess(activity: Activity?, message: String){
-//        Alerter.create(activity)
-//            .setTitle("Berhasil")
-//            .setText(message)
-//            .setIcon(R.drawable.ic_done)
-//            .setBackgroundColorRes(R.color.colorSuccess)
-//            .show()
+
 }

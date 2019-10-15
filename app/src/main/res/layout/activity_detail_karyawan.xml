@@ -36,8 +36,8 @@
 
             <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 android:src="@drawable/shape_circle" />
@@ -61,22 +61,22 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="16dp"
-                android:text="NIP"
-                android:textColor="@color/textColor"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="3dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="NIP"-->
+<!--                android:textColor="@color/textColor"/>-->
 
-            <EditText
-                android:id="@+id/edtNip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/masukkan_nip"
-                android:inputType="number"
-                android:textSize="16sp" />
+<!--            <EditText-->
+<!--                android:id="@+id/edtNip"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:hint="@string/masukkan_nip"-->
+<!--                android:inputType="number"-->
+<!--                android:textSize="16sp" />-->
 
             <TextView
                 android:layout_width="wrap_content"

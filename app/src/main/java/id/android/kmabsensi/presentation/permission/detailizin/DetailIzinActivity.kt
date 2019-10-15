@@ -43,7 +43,7 @@ class DetailIzinActivity : BaseActivity() {
         permission = intent.getParcelableExtra(PERMISSION_DATA_KEY)
         isFromManajemenIzin = intent.getBooleanExtra(IS_FROM_MANAJEMEN_IZI, false)
 
-        if (isFromManajemenIzin) layoutAction.visible() else layoutAction.gone()
+
 
         permission?.let {
             it.user?.let { user ->
@@ -88,7 +88,13 @@ class DetailIzinActivity : BaseActivity() {
                 }.show()
             }
 
-            if (it.status == 0) layoutAction.visible() else layoutAction.gone()
+            if (isFromManajemenIzin) {
+                if (it.status == 0) layoutAction.visible() else layoutAction.gone()
+            } else {
+                layoutAction.gone()
+            }
+
+
 
         }
 
