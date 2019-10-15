@@ -11,6 +11,7 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
@@ -91,6 +92,10 @@ class HomeAdminFragment : Fragment() {
 
         btnManajemenIzin.setOnClickListener {
             activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
+        }
+
+        btnManajemenJabatan.setOnClickListener {
+            activity?.startActivity<ManajemenJabatanActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {

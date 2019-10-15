@@ -19,6 +19,7 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
+import id.android.kmabsensi.data.remote.response.Position
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -57,12 +58,13 @@ class TambahSdmActivity : BaseActivity() {
 
     private val vm: KelolaDataSdmViewModel by inject()
 
-    var imagePath : String? = ""
+    var imagePath: String? = ""
 
     var role = mutableListOf("Management", "SDM")
 
     var offices = mutableListOf<Office>()
     var userManagements = mutableListOf<User>()
+    var jabatans = mutableListOf<Position>()
 
     var roleSelectedId = 0
     var genderSelectedId = 0
@@ -78,7 +80,7 @@ class TambahSdmActivity : BaseActivity() {
 
     private val disposables = CompositeDisposable()
 
-    private var compressedImage : File? = null
+    private var compressedImage: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,10 +100,11 @@ class TambahSdmActivity : BaseActivity() {
 
         vm.getDataOffice()
         vm.getUserManagement(2)
+        vm.getPositions()
 
         btnSimpan.setOnClickListener {
 
-            if (validation()){
+            if (validation()) {
                 vm.tambahSdm(
                     edtUsername.text.toString(),
                     edtEmail.text.toString(),
@@ -129,32 +132,8 @@ class TambahSdmActivity : BaseActivity() {
 
     }
 
-    fun initViews(){
-        // spinner jabatan
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.position,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerJabatan.adapter = adapter
-
-            spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    jabatanSelectedId = position+1
-                }
-
-            }
-        }
+    fun initViews() {
+        
 
         // spinner divisi
         ArrayAdapter.createFromResource(
@@ -176,7 +155,7 @@ class TambahSdmActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    divisiSelectedId = position+1
+                    divisiSelectedId = position + 1
                 }
 
             }
@@ -188,21 +167,22 @@ class TambahSdmActivity : BaseActivity() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinnerJenisKelamin.adapter = adapter
 
-                spinnerJenisKelamin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                spinnerJenisKelamin.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            genderSelectedId = position + 1
+                        }
 
                     }
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        genderSelectedId = position+1
-                    }
-
-                }
             }
 
         //spinner role
@@ -222,8 +202,8 @@ class TambahSdmActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    roleSelectedId = if (isManagement) position+3 else position+2
-                    if (position == 0){
+                    roleSelectedId = if (isManagement) position + 3 else position + 2
+                    if (position == 0) {
                         if (!isManagement) userManagementId = 0
                         layout_spinner_management.gone()
                     } else {
@@ -270,35 +250,41 @@ class TambahSdmActivity : BaseActivity() {
         edtTanggalLahir.setText(date)
     }
 
-    fun observeData(){
+    fun observeData() {
         vm.officeData.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {}
+            when (it) {
+                is UiState.Loading -> {
+                }
                 is UiState.Success -> {
                     offices.addAll(it.data.data)
 
                     val officeNames = mutableListOf<String>()
                     offices.forEach { officeNames.add(it.office_name) }
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, officeNames).also { adapter ->
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        officeNames
+                    ).also { adapter ->
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         // Apply the adapter to the spinner
                         spinnerKantorCabang.adapter = adapter
 
-                        spinnerKantorCabang.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerKantorCabang.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    officeId = offices[position].id
+                                }
 
                             }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                officeId = offices[position].id
-                            }
-
-                        }
                     }
 
                 }
@@ -309,45 +295,55 @@ class TambahSdmActivity : BaseActivity() {
         })
 
         vm.userManagementData.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {}
+            when (it) {
+                is UiState.Loading -> {
+                }
                 is UiState.Success -> {
                     userManagements.addAll(it.data.data)
 
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userManagementNames).also { adapter ->
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        userManagementNames
+                    ).also { adapter ->
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         // Apply the adapter to the spinner
                         spinnerManagement.adapter = adapter
 
-                        spinnerManagement.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerManagement.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    userManagementId = userManagements[position].id
+                                }
 
                             }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                userManagementId = userManagements[position].id
-                            }
-
-                        }
                     }
                 }
-                is UiState.Error -> { e { it.throwable.message.toString() } }
+                is UiState.Error -> {
+                    e { it.throwable.message.toString() }
+                }
             }
         })
 
         vm.crudResponse.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> { myDialog.show() }
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.status){
+                    if (it.data.status) {
                         val intent = Intent()
                         intent.putExtra("message", it.data.message)
                         setResult(Activity.RESULT_OK, intent)
@@ -360,6 +356,48 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Error -> {
                     myDialog.dismiss()
                     e { it.throwable.message.toString() }
+                }
+            }
+        })
+
+        vm.positionResponse.observe(this, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    
+                }
+                is UiState.Success -> {
+                    jabatans.addAll(it.data.data)
+                    val jabatanNames = mutableListOf<String>()
+                    jabatans.forEach {
+                        jabatanNames.add(it.position_name)
+                    }
+                    // spinner jabatan
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        jabatanNames
+                    ).also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerJabatan.adapter = adapter
+
+                        spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                jabatanSelectedId = jabatans[position].id
+                            }
+
+                        }
+                    }
+                }
+                is UiState.Error -> {
                 }
             }
         })
@@ -386,7 +424,8 @@ class TambahSdmActivity : BaseActivity() {
                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .setDestinationDirectoryPath(
                     Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).absolutePath
+                        Environment.DIRECTORY_PICTURES
+                    ).absolutePath
                 )
                 .compressToFileAsFlowable(file)
                 .subscribeOn(Schedulers.io())
@@ -399,24 +438,35 @@ class TambahSdmActivity : BaseActivity() {
                         .apply(RequestOptions.circleCropTransform())
                         .into(imgProfile)
 
-                }) { e { it.message.toString() }})
+                }) { e { it.message.toString() } })
     }
 
-    fun validation() : Boolean {
+    fun validation(): Boolean {
         val username = ValidationForm.validationInput(edtUsername, "Username tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPassword, "Password tidak boleh kosong")
-        val konfirmasiPassword = ValidationForm.validationInput(edtKonfirmasiPassword, "Konfirmasi password tidak boleh kosong")
+        val konfirmasiPassword = ValidationForm.validationInput(
+            edtKonfirmasiPassword,
+            "Konfirmasi password tidak boleh kosong"
+        )
 //        val nip = ValidationForm.validationInput(edtNip, "Username tidak boleh kosong")
-        val namaLengkap = ValidationForm.validationInput(edtNamaLengkap, "Nama lengkap tidak boleh kosong")
-        val tanggalLahir = ValidationForm.validationInput(edtTanggalLahir, "Tanggal lahir tidak boleh kosong")
-        val tempatLahir = ValidationForm.validationInput(edtTempatLahir, "Tempat lahir tidak boleh kosong")
+        val namaLengkap =
+            ValidationForm.validationInput(edtNamaLengkap, "Nama lengkap tidak boleh kosong")
+        val tanggalLahir =
+            ValidationForm.validationInput(edtTanggalLahir, "Tanggal lahir tidak boleh kosong")
+        val tempatLahir =
+            ValidationForm.validationInput(edtTempatLahir, "Tempat lahir tidak boleh kosong")
         val noHp = ValidationForm.validationInput(edtNoHp, "No hp tidak boleh kosong")
         val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
-        val noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
+        val noPartner =
+            ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
 
-        val matchPass = ValidationForm.validationSingkronPassword(edtPassword, edtKonfirmasiPassword, "Password tidak sama")
+        val matchPass = ValidationForm.validationSingkronPassword(
+            edtPassword,
+            edtKonfirmasiPassword,
+            "Password tidak sama"
+        )
 
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
                 tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass

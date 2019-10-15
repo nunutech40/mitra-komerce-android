@@ -189,5 +189,26 @@ interface ApiService {
         @Field("report_date") reportDate: String
     ): Single<PresenceReportResponse>
 
+    @POST("api/position")
+    fun listPosition() : Single<ListPositionResponse>
+
+    @POST("api/position/add")
+    @FormUrlEncoded
+    fun addPosition(
+        @Field("position_name") positionName: String
+    ): Single<BaseResponse>
+
+    @POST("api/position/edit")
+    @FormUrlEncoded
+    fun editPosition(
+        @Field("id") id: Int,
+        @Field("position_name") positionName: String
+    ): Single<BaseResponse>
+
+    @GET("api/position/delete/{position_id}")
+    fun deletePosition(
+        @Path("position_id") positionId: Int
+    ): Single<BaseResponse>
+
 
 }

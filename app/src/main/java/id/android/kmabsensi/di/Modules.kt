@@ -27,6 +27,7 @@ import id.android.momakan.utils.scheduler.SchedulerProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
 
 val appModule = module {
 
@@ -50,13 +51,15 @@ val dataModule = module {
     single { PresenceRepository(get()) }
     single { PermissionRepository(get()) }
 
+    single { JabatanRepository(get()) }
+
 }
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { TambahCabangViewModel(get(), get(), get()) }
     viewModel { OfficeViewModel(get(), get()) }
-    viewModel { KelolaDataSdmViewModel(get(), get(), get(), get()) }
+    viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get()) }
@@ -65,6 +68,7 @@ val viewModelModule = module {
     viewModel { LupaPasswordViewModel(get(), get()) }
     viewModel { FilterReportViewModel(get(), get(), get()) }
     viewModel { PresenceReportViewModel(get(), get(), get(), get()) }
+    viewModel { JabatanViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

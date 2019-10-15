@@ -1,9 +1,11 @@
 package id.android.kmabsensi.presentation.sdm
 
 import androidx.lifecycle.MutableLiveData
+import id.android.kmabsensi.data.remote.response.ListPositionResponse
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.repository.JabatanRepository
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.data.repository.SdmRepository
 import id.android.kmabsensi.data.repository.UserRepository
@@ -20,12 +22,14 @@ import java.io.File
 class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
                              val userRepository: UserRepository,
                              val sdmRepository: SdmRepository,
+                             val jabatanRepository: JabatanRepository,
                              val schedulerProvider: SchedulerProvider) : BaseViewModel() {
 
     val userData = MutableLiveData<UiState<UserResponse>>()
     val officeData = MutableLiveData<UiState<OfficeResponse>>()
     val userManagementData = MutableLiveData<UiState<UserResponse>>()
     val crudResponse = MutableLiveData<UiState<SingleUserResponse>>()
+    val positionResponse = MutableLiveData<UiState<ListPositionResponse>>()
 
     fun getDataOffice(){
         compositeDisposable.add(officeRepository.getOffices()
@@ -175,6 +179,17 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
                 userData.value = UiState.Success(it)
             },{
                 userData.value = UiState.Error(it)
+            }))
+    }
+
+    fun getPositions(){
+        positionResponse.value = UiState.Loading()
+        compositeDisposable.add(jabatanRepository.getPosition()
+            .with(schedulerProvider)
+            .subscribe({
+                positionResponse.value = UiState.Success(it)
+            },{
+                positionResponse.value = UiState.Error(it)
             }))
     }
 

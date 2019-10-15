@@ -22,6 +22,7 @@ import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
+import id.android.kmabsensi.data.remote.response.Position
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -49,6 +50,7 @@ class DetailKaryawanActivity : BaseActivity() {
     val roles = mutableListOf<String>("Management", "SDM")
     var offices = mutableListOf<Office>()
     var userManagements = mutableListOf<User>()
+    var jabatans = mutableListOf<Position>()
 
     private lateinit var myDialog: MyDialog
     var deleteMode = false
@@ -88,6 +90,7 @@ class DetailKaryawanActivity : BaseActivity() {
 
         vm.getDataOffice()
         vm.getUserManagement(2)
+        vm.getPositions()
 
         btnSimpan.setOnClickListener {
             vm.updateKaryawan(
@@ -199,31 +202,31 @@ class DetailKaryawanActivity : BaseActivity() {
 
     fun initSpinners(){
 
-        // spinner jabatan / position
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.position,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerJabatan.adapter = adapter
-
-            spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    positionSelectedId = position + 1
-                }
-
-            }
-        }
+//        // spinner jabatan / position
+//        ArrayAdapter.createFromResource(
+//            this,
+//            R.array.position,
+//            android.R.layout.simple_spinner_item
+//        ).also { adapter ->
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            spinnerJabatan.adapter = adapter
+//
+//            spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//                }
+//
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    positionSelectedId = position + 1
+//                }
+//
+//            }
+//        }
 
         // spinner divisi
         ArrayAdapter.createFromResource(
@@ -401,6 +404,49 @@ class DetailKaryawanActivity : BaseActivity() {
                 is UiState.Error -> {
                     myDialog.dismiss()
                     Timber.e { it.throwable.message.toString() }
+                }
+            }
+        })
+
+        vm.positionResponse.observe(this, Observer {
+            when (it) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    jabatans.addAll(it.data.data)
+                    val jabatanNames = mutableListOf<String>()
+                    jabatans.forEach {
+                        jabatanNames.add(it.position_name)
+                    }
+                    // spinner jabatan
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        jabatanNames
+                    ).also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerJabatan.adapter = adapter
+
+                        spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                positionSelectedId = jabatans[position].id
+                            }
+
+                        }
+                        spinnerJabatan.setSelection(jabatans.indexOfFirst { it.id == karyawan.position_id })
+                    }
+                }
+                is UiState.Error -> {
                 }
             }
         })
