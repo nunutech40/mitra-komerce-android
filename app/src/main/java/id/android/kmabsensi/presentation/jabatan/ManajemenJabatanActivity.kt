@@ -13,11 +13,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.createAlertSuccess
-import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_manajemen_jabatan.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -100,6 +97,8 @@ class ManajemenJabatanActivity : BaseActivity() {
                         createAlertSuccess(this, it.data.message)
                         groupAdapter.clear()
                         vm.getPositions()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
                     }
                 }
                 is UiState.Error -> {
