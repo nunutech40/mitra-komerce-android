@@ -120,26 +120,6 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="16dp"
-                android:text="NIP"
-                android:textColor="@color/textColor"/>
-
-            <EditText
-                android:id="@+id/edtNip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:ems="10"
-                android:hint="@string/masukkan_nip"
-                android:inputType="number"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="16dp"
                 android:text="Nama Lengkap"
                 android:textColor="@color/textColor" />
 
