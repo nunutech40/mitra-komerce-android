@@ -18,26 +18,22 @@ class AbsensiReportItem(val presence: Presence) : Item() {
                 itemView.textNama.text = user.full_name
                 itemView.img_checkin.loadImageFromUrl(user.photo_profile_url.toString())
 
-                user.photo_profile_url?.let {
-                    itemView.img_checkin.setOnClickListener { view ->
-                        StfalconImageViewer.Builder<String>(
-                            itemView.context,
-                            listOf(user.photo_profile_url)
-                        ) { view, image ->
-                            Glide.with(itemView.context)
-                                .load(image).into(view)
-                        }.show()
-                }
-                }
-            } ?: run {
-                itemView.textNama.text = "-"
             }
 
-            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0,5)
+            itemView.img_checkin.loadImageFromUrl(presence.checkIn_photo_url)
+            itemView.img_checkin.setOnClickListener { view ->
+                StfalconImageViewer.Builder<String>(
+                    itemView.context,
+                    listOf(presence.checkIn_photo_url)
+                ) { view, image ->
+                    Glide.with(itemView.context)
+                        .load(image).into(view)
+                }.show()
+            }
+
+            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0, 5)
             presence.checkout_date_time?.let {
-                itemView.txtCheckOut.text = it.split(" ")[1].substring(0,5)
-            } ?: run {
-                itemView.txtCheckOut.text = "-"
+                itemView.txtCheckOut.text = it.split(" ")[1].substring(0, 5)
             }
 
             presence.user?.let {

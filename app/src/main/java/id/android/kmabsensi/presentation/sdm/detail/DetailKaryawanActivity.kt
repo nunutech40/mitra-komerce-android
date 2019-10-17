@@ -392,6 +392,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if(it.data.status){
+                        compressedImage?.delete()
                         val intent = Intent()
                         intent.putExtra("message", it.data.message)
                         setResult(Activity.RESULT_OK, intent)

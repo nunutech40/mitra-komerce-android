@@ -46,6 +46,7 @@ class KelolaKantorActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     progressBar.gone()
+                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(KantorItem(it){ office ->
                             startActivityForResult<TambahCabangActivity>(REQUEST_MANAGE_OFFICE,

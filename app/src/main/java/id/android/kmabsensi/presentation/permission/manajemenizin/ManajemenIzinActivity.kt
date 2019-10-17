@@ -69,7 +69,7 @@ class ManajemenIzinActivity : BaseActivity() {
                 is UiState.Success -> {
                     groupAdapter.clear()
                     progressBar.gone()
-                    if (it.data.data.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
+                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(PermissionItem(it){ permission ->
                             startActivityForResult<DetailIzinActivity>(REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,

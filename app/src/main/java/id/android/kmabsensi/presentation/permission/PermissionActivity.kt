@@ -47,6 +47,7 @@ class PermissionActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     progressBar.gone()
+                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(PermissionItem(it){
                             startActivity<DetailIzinActivity>(

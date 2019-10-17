@@ -27,7 +27,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.jabatan.ManajemenJabatanActivity"></activity>
+        <activity android:name=".presentation.ubahprofile.UbahProfileActivity"></activity>
+        <activity android:name=".presentation.jabatan.ManajemenJabatanActivity" />
         <activity
             android:name=".presentation.permission.detailizin.DetailIzinActivity"
             android:screenOrientation="portrait" />

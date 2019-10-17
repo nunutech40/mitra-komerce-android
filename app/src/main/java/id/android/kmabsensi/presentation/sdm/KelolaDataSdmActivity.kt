@@ -60,6 +60,7 @@ class KelolaDataSdmActivity : BaseActivity() {
                 is UiState.Loading -> { progressBar.visible() }
                 is UiState.Success -> {
                     progressBar.gone()
+                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach { sdm ->
                         groupAdapter.add(SdmItem(sdm){
                             startActivityForResult<DetailKaryawanActivity>(121, USER_KEY to it, IS_MANAGEMENT_KEY to isManagement)

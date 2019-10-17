@@ -97,9 +97,16 @@ class FormIzinActivity : BaseActivity() {
                     myDialog.show()
                 }
                 is UiState.Success -> {
+
                     myDialog.dismiss()
-                    setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
-                    finish()
+                    if (it.data.status){
+                        compressedImage?.delete()
+                        setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -202,7 +209,6 @@ class FormIzinActivity : BaseActivity() {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
 
             val image = ImagePicker.getFirstImageOrNull(data)
-
 
             imagePath = image.path
 

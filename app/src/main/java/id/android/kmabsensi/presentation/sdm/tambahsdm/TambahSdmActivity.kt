@@ -68,7 +68,7 @@ class TambahSdmActivity : BaseActivity() {
         setContentView(R.layout.activity_tambah_sdm)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tambah SDM"
+        supportActionBar?.title = "Tambah Karyawan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
@@ -325,6 +325,7 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if (it.data.status) {
+                        compressedImage?.delete()
                         val intent = Intent()
                         intent.putExtra("message", it.data.message)
                         setResult(Activity.RESULT_OK, intent)

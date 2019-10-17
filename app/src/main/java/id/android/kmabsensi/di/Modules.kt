@@ -28,6 +28,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
+import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
 
 val appModule = module {
 
@@ -69,6 +70,7 @@ val viewModelModule = module {
     viewModel { FilterReportViewModel(get(), get(), get()) }
     viewModel { PresenceReportViewModel(get(), get(), get(), get()) }
     viewModel { JabatanViewModel(get(), get()) }
+    viewModel { UbahProfileViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

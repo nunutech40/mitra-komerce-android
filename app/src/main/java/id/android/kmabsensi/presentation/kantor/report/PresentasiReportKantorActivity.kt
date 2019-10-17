@@ -99,7 +99,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     ).toDouble().toInt()
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
-                    if (it.data.data.presence.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
+                    if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.presence.forEach {
                         groupAdapter.add(AbsensiReportItem(it))
                     }
@@ -215,6 +215,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         vm.getPresenceReport(officeId = officeIdSelected, date = dateSelected)
                     }
                     1 -> {
+                        groupAdapter.clear()
                         vm.getPresenceReport(roleId = 2, date = dateSelected)
                     }
                     2 -> {
@@ -222,6 +223,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
                         txtDaftarAbsensi.text = "Daftar absensi manajemen $userManagementName :"
+                        groupAdapter.clear()
                         vm.getPresenceReport(
                             userManagementId = userManagementIdSelected,
                             date = dateSelected
