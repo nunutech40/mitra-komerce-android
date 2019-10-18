@@ -13,6 +13,7 @@ import id.android.kmabsensi.presentation.login.LoginActivity
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileActivity
 import id.android.kmabsensi.utils.USER_KEY
+import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.loadCircleImage
 import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
 import kotlinx.android.synthetic.main.fragment_my_profile.*
@@ -46,6 +47,10 @@ class MyProfileFragment : Fragment() {
 
         user = vm.getUserData()
 
+        if (user.role_id == 1){
+            btnUbahProfile.gone()
+            divider1.gone()
+        }
 
 
         btnUbahProfile.setOnClickListener {
