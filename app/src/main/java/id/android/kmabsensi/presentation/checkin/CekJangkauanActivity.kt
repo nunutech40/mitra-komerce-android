@@ -71,7 +71,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         mMap.addCircle(
             CircleOptions()
                 .center(LatLng(office.latitude, office.longitude))
-                .radius(200.0)
+                .radius(350.0)
                 .strokeColor(Color.TRANSPARENT)
                 .fillColor(ContextCompat.getColor(this, R.color.colorCircle))
         )
@@ -91,7 +91,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             }
             val distance = officeLocation.distanceTo(it)
 
-            if (distance > 200){
+            if (distance > 350){
                 imgJangkauan.setImageResource(R.drawable.ic_circle_x)
                 txtJangkauan.text = "Anda diluar jangkauan, silahkan menuju jangkauan"
                 btnNext.isEnabled = false
