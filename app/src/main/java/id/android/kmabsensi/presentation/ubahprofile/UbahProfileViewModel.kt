@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.ubahprofile
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
@@ -76,6 +77,6 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
     }
 
     override fun onError(error: Throwable) {
-
+        Crashlytics.log(error.message)
     }
 }

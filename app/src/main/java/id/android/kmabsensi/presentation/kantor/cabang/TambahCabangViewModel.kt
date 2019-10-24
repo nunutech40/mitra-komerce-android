@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.kantor.cabang
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.data.remote.response.CrudOfficeResponse
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
@@ -78,6 +79,6 @@ class TambahCabangViewModel(
 
 
     override fun onError(error: Throwable) {
-
+        Crashlytics.log(error.message)
     }
 }

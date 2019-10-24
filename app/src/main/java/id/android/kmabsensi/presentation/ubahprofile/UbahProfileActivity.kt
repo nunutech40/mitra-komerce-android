@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.ubahprofile
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -107,7 +106,7 @@ class UbahProfileActivity : BaseActivity() {
                 user.office_id.toString(),
                 user.position_id.toString(),
                 edtNoPartner.text.toString(),
-                edtTempatLahir.text.toString(),
+                edtAsalDesa.text.toString(),
                 edtNoHp.text.toString(),
                 edtAddress.text.toString(),
                 edtTanggalLahir.text.toString(),
@@ -153,7 +152,7 @@ class UbahProfileActivity : BaseActivity() {
         edtNamaLengkap.setText(data.full_name)
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
-        edtTempatLahir.setText(data.origin_village)
+        edtAsalDesa.setText(data.origin_village)
 
         data.photo_profile_url?.let {
             d { it }

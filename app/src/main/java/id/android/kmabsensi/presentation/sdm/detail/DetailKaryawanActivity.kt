@@ -35,7 +35,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -103,7 +102,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 officeSelectedId.toString(),
                 positionSelectedId.toString(),
                 edtNoPartner.text.toString(),
-                edtTempatLahir.text.toString(),
+                edtAsalDesa.text.toString(),
                 edtNoHp.text.toString(),
                 edtAddress.text.toString(),
                 edtTanggalLahir.text.toString(),
@@ -123,7 +122,7 @@ class DetailKaryawanActivity : BaseActivity() {
 //        edtNip.setText(data.npk)
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
-        edtTempatLahir.setText(data.origin_village)
+        edtAsalDesa.setText(data.origin_village)
 
 
 
@@ -190,7 +189,7 @@ class DetailKaryawanActivity : BaseActivity() {
 //        edtNip.isEnabled = enabled
         edtNoHp.isEnabled = enabled
         edtNoPartner.isEnabled = enabled
-        edtTempatLahir.isEnabled = enabled
+        edtAsalDesa.isEnabled = enabled
 
         spinnerJenisKelamin.isEnabled = enabled
         spinnerKantorCabang.isEnabled = enabled

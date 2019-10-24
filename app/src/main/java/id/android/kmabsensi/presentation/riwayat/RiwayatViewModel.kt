@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.riwayat
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.data.remote.response.PresenceHistoryResponse
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -27,6 +28,6 @@ class RiwayatViewModel(val presenceRepository: PresenceRepository,
 
 
     override fun onError(error: Throwable) {
-
+        Crashlytics.log(error.message)
     }
 }

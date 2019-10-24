@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.permission
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPermissionResponse
 import id.android.kmabsensi.data.repository.PermissionRepository
@@ -85,5 +86,6 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
 
     override fun onError(error: Throwable) {
         createPermissionResponse.value = UiState.Error(error)
+        Crashlytics.log(error.message)
     }
 }

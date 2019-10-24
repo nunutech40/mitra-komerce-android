@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -70,6 +71,6 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
     }
 
     override fun onError(error: Throwable) {
-
+        Crashlytics.log(error.message)
     }
 }

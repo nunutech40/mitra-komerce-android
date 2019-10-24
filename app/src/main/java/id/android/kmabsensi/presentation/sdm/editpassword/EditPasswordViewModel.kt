@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.sdm.editpassword
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -25,5 +26,6 @@ class EditPasswordViewModel(val authRepository: AuthRepository,
 
     override fun onError(error: Throwable) {
         response.value = UiState.Error(error)
+        Crashlytics.log(error.message)
     }
 }

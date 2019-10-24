@@ -98,7 +98,7 @@ class TambahSdmActivity : BaseActivity() {
                     officeId.toString(),
                     jabatanSelectedId.toString(),
                     edtNoPartner.text.toString(),
-                    edtTempatLahir.text.toString(),
+                    edtAsalDesa.text.toString(),
                     edtNoHp.text.toString(),
                     edtAddress.text.toString(),
                     edtTanggalLahir.text.toString(),
@@ -436,7 +436,7 @@ class TambahSdmActivity : BaseActivity() {
         val tanggalLahir =
             ValidationForm.validationInput(edtTanggalLahir, "Tanggal lahir tidak boleh kosong")
         val tempatLahir =
-            ValidationForm.validationInput(edtTempatLahir, "Tempat lahir tidak boleh kosong")
+            ValidationForm.validationInput(edtAsalDesa, "Asal Desa tidak boleh kosong")
         val noHp = ValidationForm.validationInput(edtNoHp, "No hp tidak boleh kosong")
         val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")

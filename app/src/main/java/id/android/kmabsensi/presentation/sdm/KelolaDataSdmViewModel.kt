@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.sdm
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.data.remote.response.ListPositionResponse
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
@@ -194,6 +195,6 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
     }
 
     override fun onError(error: Throwable) {
-
+        Crashlytics.log(error.message)
     }
 }

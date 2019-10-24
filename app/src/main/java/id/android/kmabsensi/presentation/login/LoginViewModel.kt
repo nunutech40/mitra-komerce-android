@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.login
 
 import androidx.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import com.github.ajalt.timberkt.Timber.d
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -62,5 +63,6 @@ class LoginViewModel(
 
     override fun onError(error: Throwable) {
         loginState.value = UiState.Error(error)
+        Crashlytics.log(error.message)
     }
 }

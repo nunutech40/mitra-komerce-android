@@ -165,7 +165,7 @@
                 android:textColor="@color/textColor"/>
 
             <EditText
-                android:id="@+id/edtTempatLahir"
+                android:id="@+id/edtAsalDesa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
