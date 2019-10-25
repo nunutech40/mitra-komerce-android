@@ -13,10 +13,7 @@ import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
 import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
-import id.android.kmabsensi.utils.ROLE_ADMIN
-import id.android.kmabsensi.utils.ROLE_MANAGEMEMENT
-import id.android.kmabsensi.utils.ROLE_SDM
-import id.android.kmabsensi.utils.createAlertSuccess
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -67,7 +64,7 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
-        role = user.role_name!!.toLowerCase()
+        role = getRoleName(user.role_id)
 
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
         if (hasCheckin) createAlertSuccess(this, "CheckIn Success!")
