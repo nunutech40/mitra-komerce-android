@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.crashlytics.android.Crashlytics
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
@@ -34,6 +35,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.koin.android.ext.android.inject
 import java.io.File
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -118,7 +120,12 @@ class TambahSdmActivity : BaseActivity() {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun disableAutofill() {
-        window.decorView.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
+        try {
+            window.decorView.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
+        } catch (e: Exception){
+            Crashlytics.log(e.message)
+        }
+
     }
 
     fun initViews() {
