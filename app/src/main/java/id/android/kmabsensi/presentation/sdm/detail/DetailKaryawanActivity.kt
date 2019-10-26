@@ -73,6 +73,8 @@ class DetailKaryawanActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_karyawan)
 
+        disableAutofill()
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Detail Karyawan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

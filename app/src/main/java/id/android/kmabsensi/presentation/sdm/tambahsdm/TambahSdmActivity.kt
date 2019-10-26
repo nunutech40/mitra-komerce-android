@@ -118,15 +118,7 @@ class TambahSdmActivity : BaseActivity() {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
-    private fun disableAutofill() {
-        try {
-            window.decorView.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
-        } catch (e: Exception){
-            Crashlytics.log(e.message)
-        }
 
-    }
 
     fun initViews() {
         

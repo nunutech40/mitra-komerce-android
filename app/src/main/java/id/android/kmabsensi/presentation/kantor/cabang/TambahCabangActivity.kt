@@ -52,6 +52,8 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_cabang)
 
+        disableAutofill()
+
         office = intent.getParcelableExtra(OFFICE_KEY)
 
         setSupportActionBar(toolbar)

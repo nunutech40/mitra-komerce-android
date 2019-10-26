@@ -51,6 +51,8 @@ class UbahProfileActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ubah_profile)
 
+        disableAutofill()
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Ubah Profile"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -24,6 +24,8 @@ class EditPasswordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_password)
 
+        disableAutofill()
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Edit Password"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
