@@ -1,9 +1,11 @@
 package id.android.kmabsensi.presentation.sdm.tambahsdm
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -66,6 +68,7 @@ class TambahSdmActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_sdm)
+        disableAutofill()
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Tambah Karyawan"
@@ -111,6 +114,11 @@ class TambahSdmActivity : BaseActivity() {
         }
 
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun disableAutofill() {
+        window.decorView.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
     }
 
     fun initViews() {

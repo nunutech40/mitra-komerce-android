@@ -11,6 +11,12 @@ import java.util.*
 const val DATE_FORMAT = "yyyy-MM-dd"
 const val DATE_FORMAT2 = "dd MMMM yyyy"
 
+fun getRoleName(roleId: Int): String = when(roleId) {
+    1 -> ROLE_ADMIN
+    2 -> ROLE_MANAGEMEMENT
+    else -> ROLE_SDM
+}
+
 fun getTodayDate(): String {
     val cal = Calendar.getInstance()
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())

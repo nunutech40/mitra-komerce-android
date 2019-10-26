@@ -162,7 +162,7 @@ class HomeManagementFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
         txtHello.text = "Hello, ${user.full_name}"
-        txtRoleName.text = user.role_name
+        txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnKelolaKaryawan.setOnClickListener {
             context?.startActivity<KelolaDataSdmActivity>(
