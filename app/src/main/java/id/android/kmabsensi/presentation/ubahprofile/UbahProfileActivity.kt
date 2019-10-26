@@ -160,8 +160,7 @@ class UbahProfileActivity : BaseActivity() {
             d { it }
             imgProfile.loadCircleImage(it)
         }
-
-//        spinnerJenisKelamin.setSelection(data.gender-1)
+        spinnerJenisKelamin.setSelection(data.gender-1)
 //        spinnerJabatan.setSelection(data.position_id-1)
 //        spinnerDivisi.setSelection(data.division_id-1)
 //        if (!isManagement) spinnerRole.setSelection(data.role_id-2)
