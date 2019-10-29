@@ -99,6 +99,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     ).toDouble().toInt()
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
+                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
                     if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.presence.forEach {
                         groupAdapter.add(AbsensiReportItem(it))
@@ -117,10 +118,12 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     myDialog.show()
                 }
                 is UiState.Success -> {
-                    txtSubReport.text = it.data.data[0].full_name
-                    txtDaftarAbsensi.text =
-                        "Daftar absensi manajemen ${it.data.data[0].full_name}: "
-                    vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
+                    if (!isManagement) {
+                        txtSubReport.text = it.data.data[0].full_name
+                        txtDaftarAbsensi.text =
+                            "Daftar absensi manajemen ${it.data.data[0].full_name}: "
+                        vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
+                    }
                     userResponse = it.data
                 }
                 is UiState.Error -> {
@@ -163,10 +166,13 @@ class PresentasiReportKantorActivity : BaseActivity() {
             2 -> {
                 txtReport.text = "Manajemen"
                 if (isManagement) {
-                    txtSubReport.text = user!!.full_name
-                    txtDaftarAbsensi.text =
-                        "Daftar absensi manajemen ${user!!.full_name}: "
-                    vm.getPresenceReport(userManagementId = user!!.id, date = dateSelected)
+                    user?.let {
+                        txtSubReport.text = it.full_name
+                        txtDaftarAbsensi.text =
+                            "Daftar absensi manajemen ${it.full_name}: "
+                        vm.getPresenceReport(userManagementId = it.id, date = dateSelected)
+                        vm.getUserManagement()
+                    }
                 } else {
                     //get data user management
                     vm.getUserManagement()
