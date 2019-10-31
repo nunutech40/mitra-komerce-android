@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
-                android:text="@string/sdm"
+                android:text="@string/leader_sdm"
                 android:textColor="@android:color/black"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"/>
@@ -92,7 +92,7 @@
                 android:layout_below="@id/txtSDM"
                 android:layout_toLeftOf="@id/img2"
                 android:layout_marginStart="8dp"
-                android:text="Report absensi SDM berdasarkan management"/>
+                android:text="Report absensi SDM berdasarkan Leader SDM/Penanggungjawab"/>
 
             <ImageView
                 android:id="@+id/img2"

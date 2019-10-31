@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
@@ -124,7 +125,12 @@ class FilterReportKantorActivity : BaseActivity() {
             2 -> {
                 layoutKantorCabang.gone()
                 userResponse?.let {
-                    setSpinnerManajemen(it.data)
+                    val userManajemenJabatanLeader =
+                        it.data.filter { it.position_name.toLowerCase().contains("leader") }
+                    d { userManajemenJabatanLeader.toString() }
+                    setSpinnerManajemen(it.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
                 } ?: kotlin.run {
                     vm.getUserManagement(2)
                 }

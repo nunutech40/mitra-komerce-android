@@ -16,6 +16,7 @@
     <string name="kantor">Kantor</string>
     <string name="report_absensi_tiap_kantor_cabang">Report absensi tiap kantor cabang</string>
     <string name="sdm">SDM</string>
+    <string name="leader_sdm">Leader SDM</string>
     <string name="management">Management</string>
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
