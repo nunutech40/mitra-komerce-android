@@ -40,7 +40,7 @@ class SplashActivityTest {
             allOf(
                 withId(R.id.edtEmail),
                 childAtPosition(
-                    childAtPosition(
+                    childA
                         withId(android.R.id.content),
                         0
                     ),
