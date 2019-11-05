@@ -28,6 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.sdm.search.CariDataSdmActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presentation.ubahprofile.UbahProfileActivity"
             android:screenOrientation="portrait" />
         <activity
