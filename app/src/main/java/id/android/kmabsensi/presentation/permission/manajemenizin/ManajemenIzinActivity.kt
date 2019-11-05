@@ -2,16 +2,12 @@ package id.android.kmabsensi.presentation.permission.manajemenizin
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItems
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
@@ -22,9 +18,7 @@ import id.android.kmabsensi.presentation.permission.detailizin.DetailIzinActivit
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_manajemen_izin.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class ManajemenIzinActivity : BaseActivity() {
@@ -101,9 +95,9 @@ class ManajemenIzinActivity : BaseActivity() {
 
         ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, roles).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+            spinnerEmployetype.adapter = adapter
 
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinnerEmployetype.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }

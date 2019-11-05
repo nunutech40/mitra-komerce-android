@@ -18,12 +18,14 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 6
-        versionName "1.0.5"
+//        versionCode 6
+//        versionName "1.0.5"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-//        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://kmabsen.projecteverything.web.id/\""
-        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
+        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://kmabsen.projecteverything.web.id/\""
+//        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
     }
     lintOptions {
         checkReleaseBuilds false
@@ -137,6 +139,10 @@ dependencies {
     // Add the dependency for the Performance Monitoring library
     implementation 'com.google.firebase:firebase-perf:19.0.1'
     androidTestImplementation 'androidx.test:rules:1.3.0-alpha02'
+
+    // update apps
+    implementation 'com.google.android.play:core:1.6.4'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
