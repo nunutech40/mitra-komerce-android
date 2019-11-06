@@ -67,7 +67,8 @@ class HomeActivity : AppCompatActivity() {
         role = getRoleName(user.role_id)
 
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
-        if (hasCheckin) createAlertSuccess(this, "CheckIn Success!")
+        val message = intent.getStringExtra("message")
+        if (hasCheckin) createAlertSuccess(this, message)
 
         when (role) {
             ROLE_ADMIN -> {

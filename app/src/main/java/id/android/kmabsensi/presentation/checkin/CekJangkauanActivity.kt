@@ -29,6 +29,9 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var data : OfficeAssigned
 
+    //untuk keperluan checkout
+    private var presenseId: Int = 0
+
     private var lastLocation: Location? = null
 
     var marker : Marker? = null
@@ -44,7 +47,8 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
-//
+        presenseId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -53,7 +57,8 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
 
         btnNext.setOnClickListener {
             startActivity<CheckinActivity>(
-                DATA_OFFICE_KEY to data)
+                DATA_OFFICE_KEY to data,
+                PRESENCE_ID_KEY to presenseId)
         }
 
     }

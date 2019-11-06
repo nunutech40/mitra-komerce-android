@@ -134,9 +134,11 @@ interface ApiService {
         @Part file: MultipartBody.Part
     ): Single<CheckinResponse>
 
+    @Multipart
     @POST("api/presence/check-out/{absen_id}")
     fun checkOut(
-        @Path("absen_id") absenId: Int
+        @Path("absen_id") absenId: Int,
+        @Part file: MultipartBody.Part
     ): Single<CheckinResponse>
 
     @GET("api/presence/history/{user_id}")

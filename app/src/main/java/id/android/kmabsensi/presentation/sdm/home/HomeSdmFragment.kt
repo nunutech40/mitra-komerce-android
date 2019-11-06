@@ -70,18 +70,9 @@ class HomeSdmFragment : Fragment() {
                                 }
                             }
                         } else {
-                            MaterialDialog(context!!).show {
-                                cornerRadius(16f)
-                                title(text = "Checkout")
-                                message(text = "Apakah anda yakin ingin checkout?")
-                                positiveButton(text = "Ya"){ materialDialog ->
-                                    materialDialog.dismiss()
-                                    vm.checkOut(it.data.presence_id)
-                                }
-                                negativeButton(text = "Tidak"){
-                                    it.dismiss()
-                                }
-                            }
+                            //checkout
+                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
+                                PRESENCE_ID_KEY to it.data.presence_id)
                         }
 
                     } else {

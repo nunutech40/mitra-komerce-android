@@ -51,16 +51,6 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
             }))
     }
 
-    fun checkOut(absenId: Int){
-        checkoutResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.checkOut(absenId)
-            .with(schedulerProvider)
-            .subscribe({
-                checkoutResponse.value = UiState.Success(it)
-            },{
-                checkoutResponse.value = UiState.Error(it)
-            }))
-    }
 
     fun getUserData() : User {
         return Gson().fromJson<User>(preferencesHelper.getString(PreferencesHelper.PROFILE_KEY), User::class.java)

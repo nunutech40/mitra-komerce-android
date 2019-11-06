@@ -32,6 +32,7 @@ class CheckinActivity : BaseActivity() {
     private val vm: CheckinViewModel by inject()
 
     private lateinit var data: OfficeAssigned
+    private var presenceId : Int = 0
 
     private val cal = Calendar.getInstance()
 
@@ -49,13 +50,16 @@ class CheckinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin)
 
+        presenceId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
+
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Check in"
+        supportActionBar?.title = if (presenceId == 0) "Check in" else "Check Out"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         myDialog = MyDialog(this)
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
+
 
         val timeFormat = SimpleDateFormat("kk:mm")
 
@@ -74,8 +78,7 @@ class CheckinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    startActivity(intentFor<HomeActivity>("hasCheckin" to true).clearTask().newTask())
-//                    toast(it.data.message)
+                    startActivity(intentFor<HomeActivity>("hasCheckin" to true, "message" to it.data.message).clearTask().newTask())
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -86,10 +89,15 @@ class CheckinActivity : BaseActivity() {
 
         btnCheckIn.setOnClickListener {
             compressedImage?.let {
-                vm.checkIn(it)
+                if (presenceId == 0) vm.checkIn(it) else vm.checkOut(presenceId, it)
             } ?: run {
                 createAlertError(this, "Gagal", "Ambil foto terlebih dahulu", 3000)
             }
+        }
+
+        if (presenceId != 0){
+            iconCheckIn.setImageResource(R.drawable.ic_check_out)
+            btnCheckIn.text = "Check out"
         }
     }
 

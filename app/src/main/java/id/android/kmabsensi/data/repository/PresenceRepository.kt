@@ -20,7 +20,7 @@ class PresenceRepository(val apiService: ApiService) {
 
     fun checkIn(file: MultipartBody.Part) = apiService.checkIn(file)
 
-    fun checkOut(absenId: Int) = apiService.checkOut(absenId)
+    fun checkOut(absenId: Int, file: MultipartBody.Part) = apiService.checkOut(absenId, file)
 
     fun presenceHistory(userId: Int) = apiService.presenceHistory(userId)
 
