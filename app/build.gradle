@@ -22,8 +22,8 @@ android {
         versionName "1.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-//        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://kmabsen.projecteverything.web.id/\""
-        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
+        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://kmabsen.projecteverything.web.id/\""
+//        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
     }
     lintOptions {
         checkReleaseBuilds false
