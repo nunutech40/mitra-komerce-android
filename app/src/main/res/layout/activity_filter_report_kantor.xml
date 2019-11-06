@@ -129,7 +129,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Aktifkan"
+        android:text="@string/lihat_data"
         android:textAllCaps="false"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"

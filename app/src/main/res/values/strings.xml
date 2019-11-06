@@ -53,6 +53,7 @@
     <string name="masukkan_no_partner">Masukkan no partner</string>
     <string name="submit">Submit</string>
     <string name="tambah_jabatan">Tambah Jabatan</string>
+    <string name="lihat_data">Lihat Data</string>
 
     <string-array name="role">
         <item>Admin</item>

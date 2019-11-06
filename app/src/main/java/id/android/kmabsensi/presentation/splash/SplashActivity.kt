@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 
+
 class SplashActivity : AppCompatActivity() {
 
     private val prefHelper: PreferencesHelper by inject()
@@ -24,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed(
             {
-                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)){
+                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
                     startActivity<HomeActivity>()
                     finish()
                 } else {
@@ -34,4 +35,5 @@ class SplashActivity : AppCompatActivity() {
             }, 1500
         )
     }
+
 }
