@@ -1,11 +1,14 @@
 package id.android.kmabsensi.presentation.sdm.detail
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.telephony.PhoneNumberUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -35,6 +38,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -462,6 +466,27 @@ class DetailKaryawanActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.action_chat -> {
+
+                val firstChar = karyawan.no_hp.first().toString()
+
+                val nomorHp = karyawan.no_hp
+
+                var validNomorHp = ""
+
+                if (firstChar == "0"){
+                    validNomorHp = "+62${nomorHp.substring(1)}"
+                } else if(firstChar == "6"){
+                    validNomorHp = "+$nomorHp"
+                } else if (firstChar == "+"){
+                    validNomorHp = nomorHp
+                } else {
+                    toast("nomor hp tidak valid")
+                    return false
+                }
+
+                openChatWhatsapp(validNomorHp)
+            }
             R.id.action_edit -> {
                 disableViews(true)
                 btnSimpan.visible()
@@ -486,6 +511,13 @@ class DetailKaryawanActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun openChatWhatsapp(number: String) {
+        val url = "https://wa.me/$number"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
