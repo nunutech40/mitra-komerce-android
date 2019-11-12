@@ -14,6 +14,7 @@ import com.azan.Azan
 import com.azan.Method
 import com.azan.astrologicalCalc.Location
 import com.azan.astrologicalCalc.SimpleDate
+import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -25,6 +26,7 @@ import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -72,6 +74,18 @@ class HomeAdminFragment : Fragment() {
             }
         })
 
+        vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {}
+                is UiState.Success -> {
+                    val data = it.data.jadwal.data
+                    val dzuhur = data.dzuhur
+                    val ashr = data.ashar
+                }
+                is UiState.Error -> {}
+            }
+        })
+
 
     }
 
@@ -114,6 +128,7 @@ class HomeAdminFragment : Fragment() {
         }
 
         getPrayerTime()
+        vm.getJadwalShalat()
 
     }
 
@@ -124,6 +139,9 @@ class HomeAdminFragment : Fragment() {
         val azan = Azan(location, Method.EGYPT_SURVEY)
         val prayerTimes = azan.getPrayerTimes(today)
         val imsaak = azan.getImsaak(today)
+        activity?.toast("asd")
+        d { "get prayer time" }
+        d { prayerTimes.assr().toString() }
         Log.i("asasasasas", "${today.day} ${today.month} ${today.year}")
 //        Log.i("asasasasas", imsaak.toString())
         Log.i("asasasasas", prayerTimes.fajr().toString())

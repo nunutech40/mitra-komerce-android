@@ -20,3 +20,6 @@ const val OFFICE_NAME_FILTER = "office_name_filter"
 const val CATEGORY_REPORT_KEY = "category_report"
 const val PERMISSION_DATA_KEY = "permission"
 const val IS_FROM_MANAJEMEN_IZI = "is_form_manajemen_izin"
+
+// tanggal format = yyyy-MM-dd
+const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"

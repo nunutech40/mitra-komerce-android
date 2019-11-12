@@ -5,6 +5,7 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -211,6 +212,9 @@ interface ApiService {
     fun deletePosition(
         @Path("position_id") positionId: Int
     ): Single<BaseResponse>
+
+    @GET
+    fun getJadwalShalat(@Url url: String) : Single<JadwalShalatResponse>
 
 
 }

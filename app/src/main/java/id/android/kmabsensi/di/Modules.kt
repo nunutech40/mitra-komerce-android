@@ -53,6 +53,7 @@ val dataModule = module {
     single { PermissionRepository(get()) }
 
     single { JabatanRepository(get()) }
+    single { JadwalShalatRepository(get()) }
 
 }
 
@@ -62,7 +63,7 @@ val viewModelModule = module {
     viewModel { OfficeViewModel(get(), get()) }
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }
