@@ -1,32 +1,34 @@
 package id.android.kmabsensi.presentation.admin
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.azan.Azan
+import com.azan.Method
+import com.azan.astrologicalCalc.Location
+import com.azan.astrologicalCalc.SimpleDate
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
-import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import kotlinx.android.synthetic.main.fragment_home_admin.btnManajemenIzin
-import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
-import kotlinx.android.synthetic.main.fragment_home_admin.txtHello
-import kotlinx.android.synthetic.main.fragment_home_admin.txtNotPresent
-import kotlinx.android.synthetic.main.fragment_home_admin.txtPresent
-import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_admin.txtTotalUser
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 /**
  * A simple [Fragment] subclass.
@@ -34,8 +36,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class HomeAdminFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
-
-    private lateinit var user : User
+    private val FORMAT = "%02d:%02d:%02d"
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +55,7 @@ class HomeAdminFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     progressBar.visible()
                 }
@@ -78,8 +80,12 @@ class HomeAdminFragment : Fragment() {
 
         vm.getDashboardInfo(user.id)
 
-        imgProfile.loadCircleImage(user.photo_profile_url ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg")
-        txtHello.text = "Hello, ${user.full_name}"
+        imgProfile.loadCircleImage(
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+        )
+        setGreeting()
+//        countDownTimer(7200000)
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnKelolaDataKantor.setOnClickListener {
@@ -106,6 +112,84 @@ class HomeAdminFragment : Fragment() {
             vm.getDashboardInfo(user.id)
 
         }
+
+        getPrayerTime()
+
+    }
+
+    private fun getPrayerTime(){
+        val today = SimpleDate(GregorianCalendar())
+
+        val location = Location(-6.1744, 106.8294, 7.0, 0)
+        val azan = Azan(location, Method.EGYPT_SURVEY)
+        val prayerTimes = azan.getPrayerTimes(today)
+        val imsaak = azan.getImsaak(today)
+        Log.i("asasasasas", "${today.day} ${today.month} ${today.year}")
+//        Log.i("asasasasas", imsaak.toString())
+        Log.i("asasasasas", prayerTimes.fajr().toString())
+        Log.i("asasasasas", prayerTimes.shuruq().toString())
+        Log.i("asasasasas", prayerTimes.thuhr().toString())
+        Log.i("asasasasas", prayerTimes.assr().toString())
+        Log.i("asasasasas", prayerTimes.maghrib().toString())
+        Log.i("asasasasas", prayerTimes.ishaa().toString())
+
+    }
+
+
+    private fun countDownTimer(ms: Long) {
+        try {
+            object : CountDownTimer(ms, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+
+                    txtHello.text = String.format(
+                        FORMAT,
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                        ),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                        )
+                    )
+                }
+
+                override fun onFinish() {
+                    txtHello.text = "Waktu Tiba!"
+                }
+
+            }.start()
+        } catch (e: Exception) {
+
+        }
+
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun setGreeting() {
+        var greeting = ""
+        val morning = Calendar.getInstance()
+        val noon = Calendar.getInstance()
+        val afterNoon = Calendar.getInstance()
+        val evening = Calendar.getInstance()
+
+        morning.set(Calendar.HOUR_OF_DAY, 11)
+        noon.set(Calendar.HOUR_OF_DAY, 15)
+        afterNoon.set(Calendar.HOUR_OF_DAY, 18)
+        evening.set(Calendar.HOUR_OF_DAY, 24)
+
+        val now = Calendar.getInstance()
+        if (now.before(morning)) {
+            greeting = "Selamat Pagi, ${user.full_name}"
+        } else if (now.before(noon)) {
+            greeting = "Selamat Siang, ${user.full_name}"
+        } else if (now.before(afterNoon)) {
+            greeting = "Selamat Sore, ${user.full_name}"
+        } else if (now.before(evening)) {
+            greeting = "Selamat Malam, ${user.full_name}"
+        }
+
+        txtHello.text = greeting
 
     }
 
