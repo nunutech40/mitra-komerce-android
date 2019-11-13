@@ -14,4 +14,12 @@
     <color name="colorCircle">#9CE78A6E</color>
 
     <color name="colorSuccess">#4CAF50</color>
+
+    <color name="textColorGrey">#A1A4AF</color>
+
+    <color name="textTime">#282828</color>
+
+    <color name="colorAsk">#929292</color>
+
+    <color name="colorTitleMenu">#C8C9D0</color>
 </resources>

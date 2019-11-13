@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textNama"
         app:layout_constraintTop_toBottomOf="@+id/txtOfficeName"
-        app:srcCompat="@drawable/ic_check_in" />
+        app:srcCompat="@drawable/ic_checkin" />
 
     <TextView
         android:id="@+id/txtCheckIn"
@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView17"
         app:layout_constraintStart_toEndOf="@+id/txtCheckIn"
         app:layout_constraintTop_toTopOf="@+id/imageView17"
-        app:srcCompat="@drawable/ic_check_out" />
+        app:srcCompat="@drawable/ic_checkout" />
 
     <TextView
         android:id="@+id/txtCheckOut"

@@ -105,21 +105,21 @@ class HomeAdminFragment : Fragment() {
         countDownTimer(7200000)
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
-        btnKelolaDataKantor.setOnClickListener {
-            activity?.startActivity<KelolaKantorActivity>()
-        }
-
-        btnKelolaDataSdm.setOnClickListener {
-            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
-        }
-
-        btnManajemenIzin.setOnClickListener {
-            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
-        }
-
-        btnManajemenJabatan.setOnClickListener {
-            activity?.startActivity<ManajemenJabatanActivity>()
-        }
+//        btnKelolaDataKantor.setOnClickListener {
+//            activity?.startActivity<KelolaKantorActivity>()
+//        }
+//
+//        btnKelolaDataSdm.setOnClickListener {
+//            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
+//        }
+//
+//        btnManajemenIzin.setOnClickListener {
+//            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
+//        }
+//
+//        btnManajemenJabatan.setOnClickListener {
+//            activity?.startActivity<ManajemenJabatanActivity>()
+//        }
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false

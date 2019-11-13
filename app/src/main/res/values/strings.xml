@@ -54,6 +54,10 @@
     <string name="submit">Submit</string>
     <string name="tambah_jabatan">Tambah Jabatan</string>
     <string name="lihat_data">Lihat Data</string>
+    <string name="waktu">waktu</string>
+    <string name="ask">Apa yang Anda lakukan hari ini</string>
+    <string name="data_hadir">Data hadir</string>
+    <string name="semua_kantor">SEMUA KANTOR</string>
 
     <string-array name="role">
         <item>Admin</item>
