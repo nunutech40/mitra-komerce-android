@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
+import com.github.ajalt.timberkt.Timber.d
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -22,6 +23,7 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
                     val schedulerProvider: SchedulerProvider) : BaseViewModel() {
 
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
+
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
     val presenceCheckResponse = LiveEvent<UiState<PresenceCheckResponse>>()
     val checkoutResponse = LiveEvent<UiState<CheckinResponse>>()
@@ -52,14 +54,18 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
     }
 
     fun getJadwalShalat(){
-        jadwalShalatData.value = UiState.Loading()
-        compositeDisposable.add(jadwalShalatRepository.getJadwalShalat()
-            .with(schedulerProvider)
-            .subscribe({
-                jadwalShalatData.value = UiState.Success(it)
-            },{
-                jadwalShalatData.value = UiState.Error(it)
-            }))
+
+        if (jadwalShalatData.value !is UiState.Success){
+            jadwalShalatData.value = UiState.Loading()
+            compositeDisposable.add(jadwalShalatRepository.getJadwalShalat()
+                .with(schedulerProvider)
+                .subscribe({
+                    jadwalShalatData.value = UiState.Success(it)
+                },{
+                    jadwalShalatData.value = UiState.Error(it)
+                }))
+        }
+
 
     }
 

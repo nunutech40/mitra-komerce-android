@@ -171,6 +171,7 @@
                         android:layout_marginEnd="16dp"
                         android:gravity="center"
                         android:text="@string/kelola_data_kantor"
+                        android:fontFamily="@font/avenirltstd_black"
                         android:textAppearance="@style/TextAppearance.Bold" />
 
                 </LinearLayout>

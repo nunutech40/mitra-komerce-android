@@ -87,6 +87,9 @@ class HomeAdminFragment : Fragment() {
         })
 
 
+        vm.getJadwalShalat()
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,7 +102,7 @@ class HomeAdminFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
         setGreeting()
-//        countDownTimer(7200000)
+        countDownTimer(7200000)
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnKelolaDataKantor.setOnClickListener {
@@ -128,7 +131,7 @@ class HomeAdminFragment : Fragment() {
         }
 
         getPrayerTime()
-        vm.getJadwalShalat()
+
 
     }
 
@@ -139,7 +142,6 @@ class HomeAdminFragment : Fragment() {
         val azan = Azan(location, Method.EGYPT_SURVEY)
         val prayerTimes = azan.getPrayerTimes(today)
         val imsaak = azan.getImsaak(today)
-        activity?.toast("asd")
         d { "get prayer time" }
         d { prayerTimes.assr().toString() }
         Log.i("asasasasas", "${today.day} ${today.month} ${today.year}")

@@ -13,18 +13,18 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ViewPump.init(
-            ViewPump.builder()
-                .addInterceptor(
-                    CalligraphyInterceptor(
-                        CalligraphyConfig.Builder()
-                            .setDefaultFontPath("fonts/ProximaNova-Regular.otf")
-                            .setFontAttrId(R.attr.fontPath)
-                            .build()
-                    )
-                )
-                .build()
-        )
+//        ViewPump.init(
+//            ViewPump.builder()
+//                .addInterceptor(
+//                    CalligraphyInterceptor(
+//                        CalligraphyConfig.Builder()
+//                            .setDefaultFontPath("fonts/ProximaNova-Regular.otf")
+//                            .setFontAttrId(R.attr.fontPath)
+//                            .build()
+//                    )
+//                )
+//                .build()
+//        )
         Timber.plant(Timber.DebugTree())
 
         startKoin {

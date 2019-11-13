@@ -28,9 +28,9 @@ abstract class BaseActivity : AppCompatActivity() {
         myDialog.dismiss()
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
-    }
+//    override fun attachBaseContext(newBase: Context) {
+//        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
