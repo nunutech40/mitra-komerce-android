@@ -4,30 +4,20 @@ package id.android.kmabsensi.presentation.admin
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.azan.Azan
-import com.azan.Method
-import com.azan.astrologicalCalc.Location
-import com.azan.astrologicalCalc.SimpleDate
-import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
-import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
-import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
-import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -38,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class HomeAdminFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
-    private val FORMAT = "%02d:%02d:%02d"
+    private val FORMAT = "(- %02d:%02d:%02d )"
     private lateinit var user: User
 
     override fun onCreateView(
@@ -87,7 +77,7 @@ class HomeAdminFragment : Fragment() {
         })
 
 
-        vm.getJadwalShalat()
+
 
 
     }
@@ -102,7 +92,8 @@ class HomeAdminFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
         setGreeting()
-        countDownTimer(7200000)
+        setCountdown()
+//        countDownTimer(7200000)
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
 //        btnKelolaDataKantor.setOnClickListener {
@@ -132,27 +123,15 @@ class HomeAdminFragment : Fragment() {
 
         getPrayerTime()
 
+        val now = Calendar.getInstance()
+        val a = now.get(Calendar.AM_PM)
+        if(a == Calendar.AM) txtAmPm.text = "AM" else txtAmPm.text = "PM"
+
 
     }
 
     private fun getPrayerTime(){
-        val today = SimpleDate(GregorianCalendar())
-
-        val location = Location(-6.1744, 106.8294, 7.0, 0)
-        val azan = Azan(location, Method.EGYPT_SURVEY)
-        val prayerTimes = azan.getPrayerTimes(today)
-        val imsaak = azan.getImsaak(today)
-        d { "get prayer time" }
-        d { prayerTimes.assr().toString() }
-        Log.i("asasasasas", "${today.day} ${today.month} ${today.year}")
-//        Log.i("asasasasas", imsaak.toString())
-        Log.i("asasasasas", prayerTimes.fajr().toString())
-        Log.i("asasasasas", prayerTimes.shuruq().toString())
-        Log.i("asasasasas", prayerTimes.thuhr().toString())
-        Log.i("asasasasas", prayerTimes.assr().toString())
-        Log.i("asasasasas", prayerTimes.maghrib().toString())
-        Log.i("asasasasas", prayerTimes.ishaa().toString())
-
+        vm.getJadwalShalat()
     }
 
 
@@ -162,7 +141,7 @@ class HomeAdminFragment : Fragment() {
 
                 override fun onTick(millisUntilFinished: Long) {
 
-                    txtHello.text = String.format(
+                    txtCountdown.text = String.format(
                         FORMAT,
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
@@ -175,7 +154,7 @@ class HomeAdminFragment : Fragment() {
                 }
 
                 override fun onFinish() {
-                    txtHello.text = "Waktu Tiba!"
+                    txtCountdown.text = "Waktu Tiba!"
                 }
 
             }.start()
@@ -211,6 +190,64 @@ class HomeAdminFragment : Fragment() {
 
         txtHello.text = greeting
 
+    }
+
+    private fun setCountdown(){
+
+        val simpleDateFormat = SimpleDateFormat("HH:mm")
+
+        val time_istirahat = "12:00"
+        val time_istirhat_selesai = "13:00"
+        val time_pulang = "17:00"
+
+        //example
+        val time_zuhur = "11:47"
+        val time_ashar = "15:34"
+
+        val istirahat = Calendar.getInstance()
+        val dzuhur = Calendar.getInstance()
+        val selesai_istirahat = Calendar.getInstance()
+        val ashar = Calendar.getInstance()
+        val pulang = Calendar.getInstance()
+
+        istirahat.set(Calendar.HOUR_OF_DAY, 12)
+        selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
+        pulang.set(Calendar.HOUR_OF_DAY, 17)
+
+        dzuhur.set(Calendar.HOUR_OF_DAY, time_zuhur.split(":")[0].toInt())
+        dzuhur.set(Calendar.MINUTE, time_zuhur.split(":")[1].toInt())
+
+        ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[1].toInt())
+        ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
+
+        val now = Calendar.getInstance()
+
+        // not proper
+        val currentTime = simpleDateFormat.parse(txtClock.text.toString())
+
+        var statusWaktu = ""
+        var endTime : Date? = null
+
+        if (now.before(dzuhur)){
+            statusWaktu = "Menuju Waktu Dzuhur"
+            endTime = simpleDateFormat.parse(time_zuhur)
+        } else if (now.before(istirahat)){
+            statusWaktu = "Menuju Waktu Istirahat"
+            endTime = simpleDateFormat.parse(time_istirahat)
+        } else if (now.before(selesai_istirahat)){
+            statusWaktu = "Menuju Waktu Selesai Istirahat"
+            endTime = simpleDateFormat.parse(time_istirhat_selesai)
+        } else if (now.before(ashar)){
+            statusWaktu = "Menuju Waktu Ashar"
+            endTime = simpleDateFormat.parse(time_ashar)
+        } else if (now.before(pulang)){
+            statusWaktu = "Menuju Waktu Pulang"
+            endTime = simpleDateFormat.parse(time_pulang)
+        }
+
+        txtStatusWaktu.text = statusWaktu
+        val difference: Long = endTime!!.time - currentTime.time
+        countDownTimer(difference)
     }
 
     companion object {

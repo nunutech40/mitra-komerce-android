@@ -22,4 +22,6 @@
     <color name="colorAsk">#929292</color>
 
     <color name="colorTitleMenu">#C8C9D0</color>
+
+    <color name="layoutBackgroundColor">#F9FAFF</color>
 </resources>
