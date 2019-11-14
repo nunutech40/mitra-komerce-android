@@ -9,13 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
+import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,9 +80,12 @@ class HomeAdminFragment : Fragment() {
             }
         })
 
+        vm.timer.observe(viewLifecycleOwner, Observer {
+            d { it }
+            txtCountdown.text = it
+        })
 
-
-
+//        setCountdown()
 
     }
 
@@ -92,13 +99,14 @@ class HomeAdminFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
         setGreeting()
-        setCountdown()
+
 //        countDownTimer(7200000)
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
-//        btnKelolaDataKantor.setOnClickListener {
+        btnKelolaKantor.setOnClickListener {
+            vm.setTimer("asd")
 //            activity?.startActivity<KelolaKantorActivity>()
-//        }
+        }
 //
 //        btnKelolaDataSdm.setOnClickListener {
 //            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
@@ -127,7 +135,6 @@ class HomeAdminFragment : Fragment() {
         val a = now.get(Calendar.AM_PM)
         if(a == Calendar.AM) txtAmPm.text = "AM" else txtAmPm.text = "PM"
 
-
     }
 
     private fun getPrayerTime(){
@@ -135,60 +142,72 @@ class HomeAdminFragment : Fragment() {
     }
 
 
-    private fun countDownTimer(ms: Long) {
-        try {
-            object : CountDownTimer(ms, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-
-                    txtCountdown.text = String.format(
-                        FORMAT,
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        ),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                        )
-                    )
-                }
-
-                override fun onFinish() {
-                    txtCountdown.text = "Waktu Tiba!"
-                }
-
-            }.start()
-        } catch (e: Exception) {
-
-        }
-
-    }
+//    private fun countDownTimer(ms: Long) {
+//        try {
+//            object : CountDownTimer(ms, 1000) {
+//
+//                override fun onTick(millisUntilFinished: Long) {
+//                    d { millisUntilFinished.toString() }
+//                    if (txtCountdown != null){
+//                        txtCountdown.text = String.format(
+//                            FORMAT,
+//                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+//                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+//                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+//                            ),
+//                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+//                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+//                            )
+//                        )
+//                    }
+//
+//
+//                }
+//
+//                override fun onFinish() {
+//                    txtCountdown.text = "Waktu Tiba!"
+//                }
+//
+//            }.start()
+//        } catch (e: Exception) {
+//
+//        }
+//
+//    }
 
     @SuppressLint("SimpleDateFormat")
     private fun setGreeting() {
-        var greeting = ""
-        val morning = Calendar.getInstance()
-        val noon = Calendar.getInstance()
-        val afterNoon = Calendar.getInstance()
-        val evening = Calendar.getInstance()
+//        var greeting = ""
+//        val morning = Calendar.getInstance()
+//        val noon = Calendar.getInstance()
+//        val afterNoon = Calendar.getInstance()
+//        val evening = Calendar.getInstance()
+//
+//        morning.set(Calendar.HOUR_OF_DAY, 11)
+//        noon.set(Calendar.HOUR_OF_DAY, 15)
+//        afterNoon.set(Calendar.HOUR_OF_DAY, 18)
+//        evening.set(Calendar.HOUR_OF_DAY, 24)
+//
+//        val now = Calendar.getInstance()
+//        if (now.before(morning)) {
+//            greeting = "Selamat Pagi, ${user.full_name}"
+//            header_waktu.setImageResource(R.drawable.pagi)
+//        } else if (now.before(noon)) {
+//            greeting = "Selamat Siang, ${user.full_name}"
+//            header_waktu.setImageResource(R.drawable.siang)
+//        } else if (now.before(afterNoon)) {
+//            greeting = "Selamat Sore, ${user.full_name}"
+//            header_waktu.setImageResource(R.drawable.sore)
+//        } else if (now.before(evening)) {
+//            greeting = "Selamat Malam, ${user.full_name}"
+//            header_waktu.setImageResource(R.drawable.malam)
+//        }
+//
+//        txtHello.text = greeting
 
-        morning.set(Calendar.HOUR_OF_DAY, 11)
-        noon.set(Calendar.HOUR_OF_DAY, 15)
-        afterNoon.set(Calendar.HOUR_OF_DAY, 18)
-        evening.set(Calendar.HOUR_OF_DAY, 24)
-
-        val now = Calendar.getInstance()
-        if (now.before(morning)) {
-            greeting = "Selamat Pagi, ${user.full_name}"
-        } else if (now.before(noon)) {
-            greeting = "Selamat Siang, ${user.full_name}"
-        } else if (now.before(afterNoon)) {
-            greeting = "Selamat Sore, ${user.full_name}"
-        } else if (now.before(evening)) {
-            greeting = "Selamat Malam, ${user.full_name}"
-        }
-
+        val (greeting, header) = (activity as HomeActivity).setGreeting()
         txtHello.text = greeting
+        header_waktu.setImageResource(header)
 
     }
 
@@ -247,12 +266,50 @@ class HomeAdminFragment : Fragment() {
 
         txtStatusWaktu.text = statusWaktu
         val difference: Long = endTime!!.time - currentTime.time
+//        (activity as HomeActivity).countDownTimer(difference)
         countDownTimer(difference)
     }
 
     companion object {
         @JvmStatic
         fun newInstance() = HomeAdminFragment()
+    }
+
+    fun countDownTimer(ms: Long) {
+        try {
+            object : CountDownTimer(ms, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+//                    d { millisUntilFinished.toString() }
+//                    if (txtCountdown != null){
+//                        txtCountdown.text =
+//                        )
+//                    }
+
+                    vm.setTimer(String.format(
+                        FORMAT,
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                        ),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                        ))
+                    )
+
+
+                }
+
+                override fun onFinish() {
+//                    txtCountdown.text = "Waktu Tiba!"
+                    vm.setTimer( "Waktu Tiba!")
+                }
+
+            }.start()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+
     }
 
 

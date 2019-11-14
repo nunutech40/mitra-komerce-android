@@ -29,11 +29,11 @@
                 >
 
                 <ImageView
-                    android:id="@+id/imageView15"
+                    android:id="@+id/header_waktu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/home_admin_header"
+                    android:src="@drawable/malam"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
                     android:layout_width="47dp"
                     android:layout_height="47dp"
                     android:layout_marginStart="24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+                    app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/avatars" />
@@ -82,7 +82,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/textColorGrey"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
 
                 <TextClock
                     android:id="@+id/txtClock"

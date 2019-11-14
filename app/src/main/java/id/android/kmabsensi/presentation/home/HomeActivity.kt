@@ -1,8 +1,12 @@
 package id.android.kmabsensi.presentation.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.d
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -15,8 +19,11 @@ import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
 
@@ -29,6 +36,8 @@ class HomeActivity : AppCompatActivity() {
     lateinit var user: User
 
     var hasCheckin = false
+
+    private val FORMAT = "(- %02d:%02d:%02d )"
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -85,7 +94,6 @@ class HomeActivity : AppCompatActivity() {
 
         setupViewPager()
 
-
     }
 
     private fun setupViewPager() {
@@ -111,5 +119,74 @@ class HomeActivity : AppCompatActivity() {
         }
 
         viewpager.adapter = adapter
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun setGreeting() : Pair<String, Int> {
+        var greeting = ""
+        var header = 0
+        val morning = Calendar.getInstance()
+        val noon = Calendar.getInstance()
+        val afterNoon = Calendar.getInstance()
+        val evening = Calendar.getInstance()
+
+        morning.set(Calendar.HOUR_OF_DAY, 11)
+        noon.set(Calendar.HOUR_OF_DAY, 15)
+        afterNoon.set(Calendar.HOUR_OF_DAY, 18)
+        evening.set(Calendar.HOUR_OF_DAY, 24)
+
+        val now = Calendar.getInstance()
+        if (now.before(morning)) {
+            greeting = "Selamat Pagi, ${user.full_name}"
+            header = R.drawable.pagi
+        } else if (now.before(noon)) {
+            greeting = "Selamat Siang, ${user.full_name}"
+            header = R.drawable.siang
+        } else if (now.before(afterNoon)) {
+            greeting = "Selamat Sore, ${user.full_name}"
+            header = R.drawable.sore
+        } else if (now.before(evening)) {
+            greeting = "Selamat Malam, ${user.full_name}"
+            header = R.drawable.malam
+        }
+
+        return Pair(greeting, header)
+    }
+
+    fun countDownTimer(ms: Long) {
+        try {
+            object : CountDownTimer(ms, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+//                    d { millisUntilFinished.toString() }
+//                    if (txtCountdown != null){
+//                        txtCountdown.text =
+//                        )
+//                    }
+
+                    vm.setTimer(String.format(
+                        FORMAT,
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                        ),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                        ))
+                    )
+
+
+                }
+
+                override fun onFinish() {
+//                    txtCountdown.text = "Waktu Tiba!"
+                    vm.setTimer( "Waktu Tiba!")
+                }
+
+            }.start()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+
     }
 }

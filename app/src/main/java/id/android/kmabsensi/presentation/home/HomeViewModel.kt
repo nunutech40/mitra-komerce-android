@@ -31,6 +31,13 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
     val presenceCheckState: LiveData<UiState<PresenceCheckResponse>> = presenceCheckResponse
     val checkoutState: LiveData<UiState<CheckinResponse>> = checkoutResponse
 
+    val timer = MutableLiveData<String>()
+
+    fun setTimer(countdown: String) {
+//        d { countdown }
+        timer.value = countdown
+    }
+
     fun getDashboardInfo(userId: Int){
         dashboardData.value = UiState.Loading()
         compositeDisposable.add(dashboardRepository.getDashboardInfo(userId)
