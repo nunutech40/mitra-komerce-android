@@ -24,4 +24,8 @@
     <color name="colorTitleMenu">#C8C9D0</color>
 
     <color name="layoutBackgroundColor">#F9FAFF</color>
+
+    <color name="colorBgLihatFoto">#668CBEFF</color>
+
+    <color name="colorOrangeMuda">#F48070</color>
 </resources>

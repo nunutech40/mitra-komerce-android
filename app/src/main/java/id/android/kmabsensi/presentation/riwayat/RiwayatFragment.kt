@@ -85,7 +85,7 @@ class RiwayatFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context)
         rvRiwayat.apply {
             layoutManager = linearLayoutManager
-            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
+//            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
             adapter = groupAdapter
         }
     }
