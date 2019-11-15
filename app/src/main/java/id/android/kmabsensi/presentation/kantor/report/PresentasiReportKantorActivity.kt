@@ -58,7 +58,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
 //        setSupportActionBar(toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        btnFilter.visible()
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
         user = intent.getParcelableExtra(USER_KEY)

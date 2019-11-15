@@ -51,9 +51,11 @@ class FilterReportKantorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_report_kantor)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Filter Report"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Filter Report"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Filter Report")
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
         userResponse = intent.getParcelableExtra("user_response")

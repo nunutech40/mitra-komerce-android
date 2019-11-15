@@ -26,9 +26,11 @@ class LupaPasswordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lupa_password)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Lupa Password"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Lupa Password"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Lupa Password")
 
         myDialog = MyDialog(this)
 

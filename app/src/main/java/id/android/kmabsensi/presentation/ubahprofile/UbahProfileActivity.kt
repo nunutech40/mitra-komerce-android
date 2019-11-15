@@ -53,9 +53,8 @@ class UbahProfileActivity : BaseActivity() {
 
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Ubah Profile"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setToolbarTitle("Ubah Profile")
+
         myDialog = MyDialog(this)
 
         user = intent.getParcelableExtra(USER_KEY)

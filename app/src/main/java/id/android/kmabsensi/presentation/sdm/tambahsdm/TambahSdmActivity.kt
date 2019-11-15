@@ -72,9 +72,11 @@ class TambahSdmActivity : BaseActivity() {
         setContentView(R.layout.activity_tambah_sdm)
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tambah Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Tambah Karyawan"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Tambah Karyawan")
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)

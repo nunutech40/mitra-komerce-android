@@ -2,13 +2,19 @@ package id.android.kmabsensi.presentation.management
 
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
+import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
@@ -35,6 +41,9 @@ import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * A simple [Fragment] subclass.
@@ -48,6 +57,9 @@ class HomeManagementFragment : Fragment() {
     private lateinit var myDialog: MyDialog
 
     var isCheckin = false
+
+    private val FORMAT = "(- %02d:%02d:%02d )"
+    private var countDownTimer: CountDownTimer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,47 +100,42 @@ class HomeManagementFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.checkdeIn){
-                        if (isCheckin){
+                    if (it.data.checkdeIn) {
+                        if (isCheckin) {
                             MaterialDialog(context!!).show {
                                 cornerRadius(16f)
                                 title(text = "Check-In")
                                 message(text = "Anda sudah check-in hari ini")
-                                positiveButton(text = "OK"){
+                                positiveButton(text = "OK") {
                                     it.dismiss()
                                 }
                             }
                         } else {
                             //checkout
-                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned,
-                                PRESENCE_ID_KEY to it.data.presence_id)
-//                            MaterialDialog(context!!).show {
-//                                cornerRadius(16f)
-//                                title(text = "Checkout")
-//                                message(text = "Apakah anda yakin ingin checkout?")
-//                                positiveButton(text = "Ya"){ materialDialog ->
-//                                    materialDialog.dismiss()
-//                                    vm.checkOut(it.data.presence_id)
-//                                }
-//                                negativeButton(text = "Tidak"){
-//                                    it.dismiss()
-//                                }
-//                            }
+                            context?.startActivity<CekJangkauanActivity>(
+                                DATA_OFFICE_KEY to it.data.office_assigned,
+                                PRESENCE_ID_KEY to it.data.presence_id
+                            )
                         }
 
                     } else {
-                        if (isCheckin){
+                        if (isCheckin) {
                             //checkin
                             context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
                         } else {
-                            MaterialDialog(context!!).show {
+                            val dialog = MaterialDialog(context!!).show {
                                 cornerRadius(16f)
-                                title(text = "Tidak bisa Check-Out")
-                                message(text = "Silahkan checkin terlebih dahulu.")
-                                positiveButton(text = "OK"){
-                                    it.dismiss()
-
-                                }
+                                customView(
+                                    R.layout.dialog_maaf,
+                                    scrollable = false,
+                                    horizontalPadding = true,
+                                    noVerticalPadding = true
+                                )
+                            }
+                            val customView = dialog.getCustomView()
+                            val close = customView.findViewById<ImageView>(R.id.close)
+                            close.setOnClickListener {
+                                dialog.dismiss()
                             }
                         }
 
@@ -142,7 +149,7 @@ class HomeManagementFragment : Fragment() {
         })
 
         vm.checkoutResponse.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
                 }
@@ -156,13 +163,28 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
+        vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    val data = it.data.jadwal.data
+                    val dzuhur = data.dzuhur
+                    val ashr = data.ashar
+                    setCountdown(dzuhur, ashr)
+                }
+                is UiState.Error -> {
+                }
+            }
+        })
+
+        vm.getJadwalShalat()
         vm.getDashboardInfo(user.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        vm.getDashboardInfo(user.id)
 
         setupGreetings()
 
@@ -204,13 +226,15 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnKelolaIzin.setOnClickListener {
-            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to true,
-                USER_ID_KEY to user.id)
+            activity?.startActivity<ManajemenIzinActivity>(
+                IS_MANAGEMENT_KEY to true,
+                USER_ID_KEY to user.id
+            )
         }
 
     }
 
-    private fun setupGreetings(){
+    private fun setupGreetings() {
         val (greeting, header) = (activity as HomeActivity).setGreeting()
         txtHello.text = greeting
         header_waktu.setImageResource(header)
@@ -219,6 +243,106 @@ class HomeManagementFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = HomeManagementFragment()
+    }
+
+    private fun setCountdown(time_zuhur: String, time_ashar: String) {
+
+        val simpleDateFormat = SimpleDateFormat("HH:mm")
+        val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
+
+        val time_istirahat = "12:00"
+        val time_istirhat_selesai = "13:00"
+        val time_pulang = "16:30"
+
+        val istirahat = Calendar.getInstance()
+        val dzuhur = Calendar.getInstance()
+        val selesai_istirahat = Calendar.getInstance()
+        val ashar = Calendar.getInstance()
+        val pulang = Calendar.getInstance()
+
+        istirahat.set(Calendar.HOUR_OF_DAY, 12)
+        selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
+        pulang.set(Calendar.HOUR_OF_DAY, 17)
+
+        dzuhur.set(Calendar.HOUR_OF_DAY, time_zuhur.split(":")[0].toInt())
+        dzuhur.set(Calendar.MINUTE, time_zuhur.split(":")[1].toInt())
+
+        ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[1].toInt())
+        ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
+
+        val now = Calendar.getInstance()
+
+
+        val currentTime = simpleDateFormat.parse(simpleDateFormat2.format(now.time))
+
+        d { simpleDateFormat2.format(now.time) }
+
+        var statusWaktu = ""
+        var endTime: Date? = null
+
+        if (now.before(dzuhur)) {
+            statusWaktu = "Menuju Waktu Dzuhur"
+            endTime = simpleDateFormat.parse(time_zuhur)
+        } else if (now.before(istirahat)) {
+            statusWaktu = "Menuju Waktu Istirahat"
+            endTime = simpleDateFormat.parse(time_istirahat)
+        } else if (now.before(selesai_istirahat)) {
+            statusWaktu = "Menuju Waktu Selesai Istirahat"
+            endTime = simpleDateFormat.parse(time_istirhat_selesai)
+        } else if (now.before(time_ashar)) {
+            statusWaktu = "Menuju Waktu Ashar"
+            endTime = simpleDateFormat.parse(time_ashar)
+        } else if (now.before(pulang)) {
+            statusWaktu = "Menuju Waktu Pulang"
+            endTime = simpleDateFormat.parse(time_pulang)
+        } else {
+            statusWaktu = "Waktu Pulang"
+        }
+
+        txtStatusWaktu.text = statusWaktu
+        if (endTime != null) {
+            val difference: Long = endTime.time - currentTime.time
+            countDownTimer(difference)
+        } else {
+            txtCountdown.text = "-"
+        }
+    }
+
+    fun countDownTimer(ms: Long) {
+        try {
+            countDownTimer = object : CountDownTimer(ms, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+                    d { millisUntilFinished.toString() }
+                    if (txtCountdown != null) {
+                        txtCountdown.text = String.format(
+                            FORMAT,
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                            ),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            )
+                        )
+                    }
+                }
+
+                override fun onFinish() {
+                    txtCountdown.text = "Waktu Tiba!"
+                }
+
+            }
+            countDownTimer?.start()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+
+    }
+
+    override fun onDestroy() {
+        countDownTimer?.cancel()
+        super.onDestroy()
     }
 
 

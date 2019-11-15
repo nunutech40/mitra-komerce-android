@@ -1,9 +1,13 @@
 package id.android.kmabsensi.presentation.home
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
@@ -74,6 +78,16 @@ class HomeActivity : AppCompatActivity() {
         user = vm.getUserData()
 
         role = getRoleName(user.role_id)
+
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            window.statusBarColor = Color.TRANSPARENT
+        }
 
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
         val message = intent.getStringExtra("message")
@@ -151,42 +165,5 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return Pair(greeting, header)
-    }
-
-    fun countDownTimer(ms: Long) {
-        try {
-            object : CountDownTimer(ms, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-//                    d { millisUntilFinished.toString() }
-//                    if (txtCountdown != null){
-//                        txtCountdown.text =
-//                        )
-//                    }
-
-                    vm.setTimer(String.format(
-                        FORMAT,
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        ),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                        ))
-                    )
-
-
-                }
-
-                override fun onFinish() {
-//                    txtCountdown.text = "Waktu Tiba!"
-                    vm.setTimer( "Waktu Tiba!")
-                }
-
-            }.start()
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
-
     }
 }

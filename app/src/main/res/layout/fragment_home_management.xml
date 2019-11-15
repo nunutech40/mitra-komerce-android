@@ -30,8 +30,8 @@
                 <ImageView
                     android:id="@+id/header_waktu"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
+                    android:layout_height="115dp"
+                    android:scaleType="fitXY"
                     android:src="@drawable/malam"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +41,7 @@
                     android:id="@+id/imgProfile"
                     android:layout_width="47dp"
                     android:layout_height="47dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginStart="24dp"
                     app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
                     app:layout_constraintStart_toStartOf="parent"

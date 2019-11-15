@@ -38,11 +38,13 @@ class HomeAdminFragment : Fragment() {
     private val FORMAT = "(- %02d:%02d:%02d )"
     private lateinit var user: User
 
+    private var countDownTimer: CountDownTimer? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_home_admin, container, false)
 
         user = vm.getUserData()
@@ -72,23 +74,19 @@ class HomeAdminFragment : Fragment() {
         })
 
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
-            when(it){
-                is UiState.Loading -> {}
+            when (it) {
+                is UiState.Loading -> {
+                }
                 is UiState.Success -> {
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
+                    setCountdown(dzuhur, ashr)
                 }
-                is UiState.Error -> {}
+                is UiState.Error -> {
+                }
             }
         })
-
-        vm.timer.observe(viewLifecycleOwner, Observer {
-            d { it }
-            txtCountdown.text = it
-        })
-
-//        setCountdown()
 
     }
 
@@ -135,31 +133,29 @@ class HomeAdminFragment : Fragment() {
 
         val now = Calendar.getInstance()
         val a = now.get(Calendar.AM_PM)
-        if(a == Calendar.AM) txtAmPm.text = "AM" else txtAmPm.text = "PM"
+        if (a == Calendar.AM) txtAmPm.text = "AM" else txtAmPm.text = "PM"
+
 
     }
 
-    private fun getPrayerTime(){
+    private fun getPrayerTime() {
         vm.getJadwalShalat()
     }
 
-    private fun setupGreetings(){
+    private fun setupGreetings() {
         val (greeting, header) = (activity as HomeActivity).setGreeting()
         txtHello.text = greeting
         header_waktu.setImageResource(header)
     }
 
-    private fun setCountdown(){
+    private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
         val simpleDateFormat = SimpleDateFormat("HH:mm")
+        val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
 
         val time_istirahat = "12:00"
         val time_istirhat_selesai = "13:00"
-        val time_pulang = "17:00"
-
-        //example
-        val time_zuhur = "11:47"
-        val time_ashar = "15:34"
+        val time_pulang = "16:30"
 
         val istirahat = Calendar.getInstance()
         val dzuhur = Calendar.getInstance()
@@ -179,33 +175,40 @@ class HomeAdminFragment : Fragment() {
 
         val now = Calendar.getInstance()
 
-        // not proper
-        val currentTime = simpleDateFormat.parse(txtClock.text.toString())
+
+        val currentTime = simpleDateFormat.parse(simpleDateFormat2.format(now.time))
+
+        d { simpleDateFormat2.format(now.time) }
 
         var statusWaktu = ""
-        var endTime : Date? = null
+        var endTime: Date? = null
 
-        if (now.before(dzuhur)){
+        if (now.before(dzuhur)) {
             statusWaktu = "Menuju Waktu Dzuhur"
             endTime = simpleDateFormat.parse(time_zuhur)
-        } else if (now.before(istirahat)){
+        } else if (now.before(istirahat)) {
             statusWaktu = "Menuju Waktu Istirahat"
             endTime = simpleDateFormat.parse(time_istirahat)
-        } else if (now.before(selesai_istirahat)){
+        } else if (now.before(selesai_istirahat)) {
             statusWaktu = "Menuju Waktu Selesai Istirahat"
             endTime = simpleDateFormat.parse(time_istirhat_selesai)
-        } else if (now.before(ashar)){
+        } else if (now.before(time_ashar)) {
             statusWaktu = "Menuju Waktu Ashar"
             endTime = simpleDateFormat.parse(time_ashar)
-        } else if (now.before(pulang)){
+        } else if (now.before(pulang)) {
             statusWaktu = "Menuju Waktu Pulang"
             endTime = simpleDateFormat.parse(time_pulang)
+        } else {
+            statusWaktu = "Waktu Pulang"
         }
 
         txtStatusWaktu.text = statusWaktu
-        val difference: Long = endTime!!.time - currentTime.time
-//        (activity as HomeActivity).countDownTimer(difference)
-        countDownTimer(difference)
+        if (endTime != null) {
+            val difference: Long = endTime.time - currentTime.time
+            countDownTimer(difference)
+        } else {
+            txtCountdown.text = "-"
+        }
     }
 
     companion object {
@@ -215,39 +218,39 @@ class HomeAdminFragment : Fragment() {
 
     fun countDownTimer(ms: Long) {
         try {
-            object : CountDownTimer(ms, 1000) {
+            countDownTimer = object : CountDownTimer(ms, 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
-//                    d { millisUntilFinished.toString() }
-//                    if (txtCountdown != null){
-//                        txtCountdown.text =
-//                        )
-//                    }
-
-                    vm.setTimer(String.format(
-                        FORMAT,
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        ),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                        ))
-                    )
-
-
+                    d { millisUntilFinished.toString() }
+                    if (txtCountdown != null) {
+                        txtCountdown.text = String.format(
+                            FORMAT,
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                            ),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            )
+                        )
+                    }
                 }
 
                 override fun onFinish() {
-//                    txtCountdown.text = "Waktu Tiba!"
-                    vm.setTimer( "Waktu Tiba!")
+                    txtCountdown.text = "Waktu Tiba!"
                 }
 
-            }.start()
+            }
+            countDownTimer?.start()
         } catch (e: Exception) {
             Timber.e(e)
         }
 
+    }
+
+    override fun onDestroy() {
+        countDownTimer?.cancel()
+        super.onDestroy()
     }
 
 

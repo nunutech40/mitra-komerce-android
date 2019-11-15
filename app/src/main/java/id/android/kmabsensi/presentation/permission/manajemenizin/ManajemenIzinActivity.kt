@@ -42,9 +42,11 @@ class ManajemenIzinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manajemen_izin)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Manajemen Izin"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Manajemen Izin"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Manajemen Izin")
 
         myDialog = MyDialog(this)
 

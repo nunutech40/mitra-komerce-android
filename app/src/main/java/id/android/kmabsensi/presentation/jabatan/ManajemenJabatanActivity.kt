@@ -29,9 +29,10 @@ class ManajemenJabatanActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manajemen_jabatan)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Daftar Jabatan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Daftar Jabatan"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setToolbarTitle("Daftar Jabatan")
         myDialog = MyDialog(this)
         initRv()
 

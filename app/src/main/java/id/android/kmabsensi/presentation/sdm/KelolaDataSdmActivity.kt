@@ -22,6 +22,7 @@ import id.android.kmabsensi.presentation.sdm.search.CariDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
@@ -45,9 +46,14 @@ class KelolaDataSdmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kelola_data_sdm)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Kelola Data Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setToolbarTitle("Kelola Data Karyawan")
+        btnSearch.visible()
+        btnSearch.setOnClickListener {
+            startActivity<CariDataSdmActivity>()
+        }
+
+//        supportActionBar?.title = "Kelola Data Karyawan"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
@@ -59,19 +65,19 @@ class KelolaDataSdmActivity : BaseActivity() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.action_search -> {
-                startActivity<CariDataSdmActivity>()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_search, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            R.id.action_search -> {
+//
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 
     private fun setListener() {

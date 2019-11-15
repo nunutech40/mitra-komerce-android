@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.utils.ui.MyDialog
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import kotlinx.android.synthetic.main.toolbar.*
 import java.lang.Exception
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -18,6 +19,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myDialog = MyDialog(this)
+
+
     }
 
     fun showDialog() {
@@ -27,10 +30,6 @@ abstract class BaseActivity : AppCompatActivity() {
     fun hideDialog() {
         myDialog.dismiss()
     }
-
-//    override fun attachBaseContext(newBase: Context) {
-//        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
-//    }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -46,6 +45,13 @@ abstract class BaseActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Crashlytics.log(e.message)
             }
+        }
+    }
+
+    fun setToolbarTitle(title: String){
+        txtTitle.text = title
+        btnBack.setOnClickListener {
+            onBackPressed()
         }
     }
 

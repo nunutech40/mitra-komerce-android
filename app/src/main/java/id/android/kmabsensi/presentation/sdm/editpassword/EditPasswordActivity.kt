@@ -9,7 +9,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_edit_password.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class EditPasswordActivity : BaseActivity() {
@@ -26,9 +25,7 @@ class EditPasswordActivity : BaseActivity() {
 
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Edit Password"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setToolbarTitle("Ubah Password")
 
         karyawan = intent.getParcelableExtra(USER_KEY)
 

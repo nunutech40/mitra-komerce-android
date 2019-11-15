@@ -29,9 +29,11 @@ class KelolaKantorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kelola_kantor)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Kelola Data Kantor"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Kelola Data Kantor"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Kelola Data Kantor")
 
         initRv()
 

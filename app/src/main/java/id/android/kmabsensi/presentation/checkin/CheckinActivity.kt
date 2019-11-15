@@ -7,8 +7,11 @@ import android.os.Environment
 import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.github.ajalt.timberkt.Timber.e
+import com.google.gson.Gson
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.utils.*
@@ -18,6 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_checkin.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.clearTask
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -30,9 +34,10 @@ import java.util.*
 class CheckinActivity : BaseActivity() {
 
     private val vm: CheckinViewModel by inject()
+    private val pref: PreferencesHelper by inject()
 
     private lateinit var data: OfficeAssigned
-    private var presenceId : Int = 0
+    private var presenceId: Int = 0
 
     private val cal = Calendar.getInstance()
 
@@ -52,24 +57,11 @@ class CheckinActivity : BaseActivity() {
 
         presenceId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = if (presenceId == 0) "Check in" else "Check Out"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         myDialog = MyDialog(this)
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
 
-
-        val timeFormat = SimpleDateFormat("kk:mm")
-
-
-        txtJam.text = timeFormat.format(cal.time)
-        txtNamaKantor.text = data.office_name
-
-        imgCheckin.setOnClickListener {
-            ImagePicker.cameraOnly().start(this)
-        }
+        setupView()
 
         vm.checkInResponse.observe(this, androidx.lifecycle.Observer {
             when (it) {
@@ -78,7 +70,12 @@ class CheckinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    startActivity(intentFor<HomeActivity>("hasCheckin" to true, "message" to it.data.message).clearTask().newTask())
+                    startActivity(
+                        intentFor<HomeActivity>(
+                            "hasCheckin" to true,
+                            "message" to it.data.message
+                        ).clearTask().newTask()
+                    )
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -95,9 +92,32 @@ class CheckinActivity : BaseActivity() {
             }
         }
 
-        if (presenceId != 0){
-            iconCheckIn.setImageResource(R.drawable.ic_check_out)
+    }
+
+    fun setupView() {
+
+        txtTitle.text = if (presenceId == 0) "Check in" else "Check Out"
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
+
+        val user =
+            Gson().fromJson<User>(pref.getString(PreferencesHelper.PROFILE_KEY), User::class.java)
+
+        val timeFormat = SimpleDateFormat("kk:mm")
+        txtJam.text = timeFormat.format(cal.time)
+        txtKantor.text = data.office_name
+
+        txtName.text = user.full_name
+        txtPartner.text = user.division_name
+
+        if (presenceId != 0) {
+            txtType.text = "Pulang"
             btnCheckIn.text = "Check out"
+        }
+
+        container.setOnClickListener {
+            ImagePicker.cameraOnly().start(this)
         }
     }
 
@@ -112,6 +132,8 @@ class CheckinActivity : BaseActivity() {
 
             actualImage?.let {
                 compress(it)
+                txtKetukLayar.gone()
+                imgTakePicture.gone()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -123,7 +145,8 @@ class CheckinActivity : BaseActivity() {
             .setCompressFormat(Bitmap.CompressFormat.WEBP)
             .setDestinationDirectoryPath(
                 Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).absolutePath
+                    Environment.DIRECTORY_PICTURES
+                ).absolutePath
             )
             .compressToFileAsFlowable(file)
             .subscribeOn(Schedulers.io())
@@ -133,8 +156,8 @@ class CheckinActivity : BaseActivity() {
 
                 Glide.with(this)
                     .load(compressedImage)
-                    .into(imgCheckin)
+                    .into(picture)
 
-            }) { e { it.message.toString() }})
+            }) { e { it.message.toString() } })
     }
 }

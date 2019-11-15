@@ -58,9 +58,10 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         office = intent.getParcelableExtra(OFFICE_KEY)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title =
-            if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
+////        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle(if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru")
 
         viewListener()
         observeData()

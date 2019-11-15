@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.checkin
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,6 +20,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
 import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 
 
@@ -41,10 +43,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cek_jangkauan)
 
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Cek Jangkauan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar()
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
         presenseId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
@@ -96,17 +95,25 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             }
             val distance = officeLocation.distanceTo(it)
 
+            layoutNext.visible()
+            val animation = AnimationUtils.loadAnimation(this, R.anim.downtoup)
+            layoutNext.animation = animation
             if (distance > 350){
-                imgJangkauan.setImageResource(R.drawable.ic_circle_x)
-                txtJangkauan.text = "Anda diluar jangkauan, silahkan menuju jangkauan"
+                layoutDiluarJangkauan.visible()
                 btnNext.isEnabled = false
             } else {
-                imgJangkauan.setImageResource(R.drawable.ic_circle_checked)
-                txtJangkauan.text = "Anda berada dalam jangkauan"
+                txtJangkauan.visible()
                 btnNext.isEnabled = true
             }
         }
 
+    }
+
+    fun setupToolbar(){
+        txtTitle.text = "Cek Jangkauan"
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onResume() {

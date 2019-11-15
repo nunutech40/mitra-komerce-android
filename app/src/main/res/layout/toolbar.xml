@@ -30,7 +30,7 @@
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Juang Sastra Jingga"
+            android:text="Title"
             android:fontFamily="@font/avenirltstd_heavy"
             android:textAlignment="center"
             android:layout_toRightOf="@id/btnBack"
@@ -49,6 +49,17 @@
             app:srcCompat="@drawable/ic_icon_filter"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="24dp"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/places_ic_search"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="24dp"
+            android:visibility="invisible"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>

@@ -36,9 +36,11 @@ class DetailIzinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_izin)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Pengajuan Izin"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Pengajuan Izin"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Pengajuan Izin")
 
         permission = intent.getParcelableExtra(PERMISSION_DATA_KEY)
         isFromManajemenIzin = intent.getBooleanExtra(IS_FROM_MANAJEMEN_IZI, false)

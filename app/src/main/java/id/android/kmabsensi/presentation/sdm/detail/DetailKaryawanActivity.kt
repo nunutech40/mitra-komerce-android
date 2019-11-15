@@ -80,8 +80,10 @@ class DetailKaryawanActivity : BaseActivity() {
         disableAutofill()
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Detail Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Detail Karyawan")
 
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)

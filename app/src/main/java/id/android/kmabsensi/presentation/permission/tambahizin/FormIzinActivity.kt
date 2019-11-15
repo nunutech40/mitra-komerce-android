@@ -59,9 +59,11 @@ class FormIzinActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Form Izin"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "Form Izin"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("Form Izin")
 
         user = intent.getParcelableExtra(USER_KEY)
 

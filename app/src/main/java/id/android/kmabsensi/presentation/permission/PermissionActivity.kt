@@ -18,7 +18,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 
-class PermissionActivity : BaseActivity() {
+class  PermissionActivity : BaseActivity() {
 
     private val vm: PermissionViewModel by inject()
 
@@ -32,9 +32,11 @@ class PermissionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "History Izin"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = "History Izin"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setToolbarTitle("History Izin")
 
         user = intent.getParcelableExtra(USER_KEY)
 
