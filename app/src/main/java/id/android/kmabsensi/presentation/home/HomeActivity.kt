@@ -98,7 +98,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-
+        viewpager.offscreenPageLimit = if (role != ROLE_MANAGEMEMENT) 3 else 4
         when (role) {
             ROLE_ADMIN -> {
                 adapter.addFragment(HomeAdminFragment.newInstance())

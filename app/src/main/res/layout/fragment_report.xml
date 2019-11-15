@@ -36,8 +36,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnReportKantor"
         android:layout_width="match_parent"

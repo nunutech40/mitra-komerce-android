@@ -12,14 +12,27 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_management.*
+import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
+import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
+import kotlinx.android.synthetic.main.fragment_home_management.btnFormIzin
+import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaIzin
+import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
+import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_management.progressBar
+import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_home_management.txtHello
+import kotlinx.android.synthetic.main.fragment_home_management.txtNotPresent
+import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
+import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -59,7 +72,7 @@ class HomeManagementFragment : Fragment() {
                     progressBar.gone()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
-                    txtNotPresent.text = "${it.data.data.total_not_present} orang belum hadir"
+                    txtNotPresent.text = "${it.data.data.total_not_present}"
                 }
                 is UiState.Error -> {
                     progressBar.gone()
@@ -149,6 +162,10 @@ class HomeManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        vm.getDashboardInfo(user.id)
+
+        setupGreetings()
+
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
@@ -161,10 +178,11 @@ class HomeManagementFragment : Fragment() {
             user.photo_profile_url
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
+
         txtHello.text = "Hello, ${user.full_name}"
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
-        btnKelolaKaryawan.setOnClickListener {
+        btnKelolaSdm.setOnClickListener {
             context?.startActivity<KelolaDataSdmActivity>(
                 IS_MANAGEMENT_KEY to true,
                 USER_ID_KEY to user.id
@@ -181,15 +199,21 @@ class HomeManagementFragment : Fragment() {
             vm.presenceCheck(user.id)
         }
 
-        btnTidakHadir.setOnClickListener {
+        btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
         }
 
-        btnManajemenIzin.setOnClickListener {
+        btnKelolaIzin.setOnClickListener {
             activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to true,
                 USER_ID_KEY to user.id)
         }
 
+    }
+
+    private fun setupGreetings(){
+        val (greeting, header) = (activity as HomeActivity).setGreeting()
+        txtHello.text = greeting
+        header_waktu.setImageResource(header)
     }
 
     companion object {

@@ -13,12 +13,15 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.permission.PermissionActivity
-import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
+import kotlinx.android.synthetic.main.fragment_home_sdm.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -51,6 +54,24 @@ class HomeSdmFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        vm.dashboardData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    progressBar.visible()
+                }
+                is UiState.Success -> {
+                    progressBar.gone()
+                    txtPresent.text = it.data.data.total_present.toString()
+                    txtTotalUser.text = " /${it.data.data.total_user}"
+                    txtNotPresent.text = "${it.data.data.total_not_present}"
+                }
+                is UiState.Error -> {
+                    progressBar.gone()
+                    e { it.throwable.message.toString() }
+                }
+            }
+        })
 
         vm.presenceCheckState.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -113,11 +134,16 @@ class HomeSdmFragment : Fragment() {
                 }
             }
         })
+
+        vm.getDashboardInfo(user.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        setupGreetings()
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
@@ -136,9 +162,16 @@ class HomeSdmFragment : Fragment() {
             vm.presenceCheck(user.id)
         }
 
-        btnTidakHadir.setOnClickListener {
+        btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
         }
+
+    }
+
+    private fun setupGreetings(){
+        val (greeting, header) = (activity as HomeActivity).setGreeting()
+        txtHello.text = greeting
+        header_waktu.setImageResource(header)
     }
 
     companion object {
