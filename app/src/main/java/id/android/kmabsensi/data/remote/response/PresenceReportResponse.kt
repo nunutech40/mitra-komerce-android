@@ -16,6 +16,7 @@ data class Presence(
     val checkIn_photo_url: String,
     val check_in_datetime: String,
     val checkout_date_time: String?,
+    val checkOut_photo_url: String?,
     val created_at: String,
     val id: Int,
     val office_id: Int,

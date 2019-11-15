@@ -67,8 +67,8 @@ class RiwayatItem(
 //            txtDate.text = getDateStringFormatted(date)
 
             presenceHistory.user?.let {
-                txtKantor.text = it.office_name
-                txtPartner.text = it.division_name
+                itemView.txtKantor.text = it.office_name
+                itemView.txtPartner.text = it.division_name
             }
 
         }

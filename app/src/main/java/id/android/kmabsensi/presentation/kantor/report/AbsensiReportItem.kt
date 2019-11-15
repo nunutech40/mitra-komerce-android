@@ -6,6 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
+import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.loadImageFromUrl
 import kotlinx.android.synthetic.main.item_row_report_absensi.*
 import kotlinx.android.synthetic.main.item_row_report_absensi.view.*
@@ -14,14 +15,10 @@ class AbsensiReportItem(val presence: Presence) : Item() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            presence.user?.let { user ->
-                itemView.textNama.text = user.full_name
-                itemView.img_checkin.loadImageFromUrl(user.photo_profile_url.toString())
 
-            }
+            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0, 5)
 
-            itemView.img_checkin.loadImageFromUrl(presence.checkIn_photo_url)
-            itemView.img_checkin.setOnClickListener { view ->
+            itemView.btnLihatFotoDatang.setOnClickListener {
                 StfalconImageViewer.Builder<String>(
                     itemView.context,
                     listOf(presence.checkIn_photo_url)
@@ -31,13 +28,39 @@ class AbsensiReportItem(val presence: Presence) : Item() {
                 }.show()
             }
 
-            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0, 5)
             presence.checkout_date_time?.let {
                 itemView.txtCheckOut.text = it.split(" ")[1].substring(0, 5)
+
+                itemView.btnLihatFotoPulang.setOnClickListener {
+                    presence.checkOut_photo_url?.let {photoUrl ->
+                        StfalconImageViewer.Builder<String>(
+                            itemView.context,
+                            listOf(photoUrl)
+                        ) { view, image ->
+                            Glide.with(itemView.context)
+                                .load(image).into(view)
+                        }.show()
+                    }
+
+                }
+            } ?: kotlin.run {
+                itemView.txtCheckOut.gone()
+                itemView.btnLihatFotoPulang.gone()
             }
 
+
+
+
+
+            //2019-10-09 23:54:5
+//            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+//            val date = dateFormat.parse(presenceHistory.check_in_datetime)
+//            txtDate.text = getDateStringFormatted(date)
+
             presence.user?.let {
-                txtOfficeName.text = it.office_name
+                itemView.txtKantor.text = it.office_name
+                itemView.txtPartner.text = it.division_name
+                itemView.txtName.text = it.username
             }
         }
     }

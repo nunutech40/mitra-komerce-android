@@ -23,6 +23,7 @@ import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.toolbar
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
@@ -55,7 +56,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -67,6 +68,10 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
         dateSelected = getTodayDate()
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
+
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
 
         btnFilter.setOnClickListener {
             startActivityForResult<FilterReportKantorActivity>(
@@ -120,8 +125,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     if (!isManagement) {
                         txtSubReport.text = it.data.data[0].full_name
-                        txtDaftarAbsensi.text =
-                            "Daftar absensi manajemen ${it.data.data[0].full_name}: "
+//                        txtDaftarAbsensi.text = "Daftar absensi manajemen ${it.data.data[0].full_name}: "
                         vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
                     }
                     userResponse = it.data
@@ -139,8 +143,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     txtSubReport.text = it.data.data[0].office_name
-                    txtDaftarAbsensi.text =
-                        "Daftar absensi kantor cabang ${it.data.data[0].office_name}: "
+//                    txtDaftarAbsensi.text = "Daftar absensi kantor cabang ${it.data.data[0].office_name}: "
                     vm.getPresenceReport(officeId = it.data.data[0].id, date = dateSelected)
                     officeResponse = it.data
                 }
@@ -153,23 +156,22 @@ class PresentasiReportKantorActivity : BaseActivity() {
         when (categoryReport) {
             0 -> {
                 txtReport.text = "Kantor Cabang"
-                supportActionBar?.title = "Presentasi Report Kantor"
+                setupToolbarTitle("Presentasi Report Kantor")
                 vm.getDataOffice()
             }
             1 -> {
                 txtReport.text = "Kantor Cabang"
                 txtSubReport.text = "Semua Kantor"
                 vm.getPresenceReport(roleId = 2, date = dateSelected)
-                txtDaftarAbsensi.text = "Daftar absensi manajemen : "
-                supportActionBar?.title = "Presentasi Report Manajemen"
+//                txtDaftarAbsensi.text = "Daftar absensi manajemen : "
+                setupToolbarTitle("Presentasi Report Manajemen")
             }
             2 -> {
                 txtReport.text = "Manajemen"
                 if (isManagement) {
                     user?.let {
                         txtSubReport.text = it.full_name
-                        txtDaftarAbsensi.text =
-                            "Daftar absensi manajemen ${it.full_name}: "
+//                        txtDaftarAbsensi.text = "Daftar absensi manajemen ${it.full_name}: "
                         vm.getPresenceReport(userManagementId = it.id, date = dateSelected)
                         vm.getUserManagement()
                     }
@@ -177,11 +179,15 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     //get data user management
                     vm.getUserManagement()
                 }
-                supportActionBar?.title = "Presentasi Report SDM"
+                setupToolbarTitle("Presentasi Report SDM")
 
             }
         }
 
+    }
+
+    private fun setupToolbarTitle(title: String){
+        txtTitle.text = title
     }
 
     private fun setDateText(date: String) {
@@ -209,14 +215,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 val date = dateFormat.parse(dateSelected)
                 txtDate.text = getDateStringFormatted(date)
 
-                btnFilter.setImageResource(R.drawable.ic_filter_on)
+//                btnFilter.setImageResource(R.drawable.ic_filter_on)
 
                 when (categoryReport) {
                     0 -> {
                         officeIdSelected = it.getIntExtra(OFFICE_ID_FILTER, 0)
                         val officaName = it.getStringExtra(OFFICE_NAME_FILTER)
                         txtSubReport.text = officaName
-                        txtDaftarAbsensi.text = "Daftar absensi kantor cabang $officaName :"
+//                        txtDaftarAbsensi.text = "Daftar absensi kantor cabang $officaName :"
                         groupAdapter.clear()
                         vm.getPresenceReport(officeId = officeIdSelected, date = dateSelected)
                     }
@@ -228,7 +234,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
-                        txtDaftarAbsensi.text = "Daftar absensi manajemen $userManagementName :"
+//                        txtDaftarAbsensi.text = "Daftar absensi manajemen $userManagementName :"
                         groupAdapter.clear()
                         vm.getPresenceReport(
                             userManagementId = userManagementIdSelected,
