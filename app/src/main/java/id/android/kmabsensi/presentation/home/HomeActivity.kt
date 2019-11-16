@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -165,5 +166,68 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return Pair(greeting, header)
+    }
+
+    fun getCountdownTime(time_zuhur: String, time_ashar: String) : Pair<String, Long> {
+
+        val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
+        val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
+
+        val time_istirahat = "12:00:00"
+        val time_istirhat_selesai = "13:00:00"
+        val time_pulang = "16:30:00"
+
+        val istirahat = Calendar.getInstance()
+        val dzuhur = Calendar.getInstance()
+        val selesai_istirahat = Calendar.getInstance()
+        val ashar = Calendar.getInstance()
+        val pulang = Calendar.getInstance()
+
+        istirahat.set(Calendar.HOUR_OF_DAY, 12)
+        selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
+        pulang.set(Calendar.HOUR_OF_DAY, 17)
+
+        dzuhur.set(Calendar.HOUR_OF_DAY, time_zuhur.split(":")[0].toInt())
+        dzuhur.set(Calendar.MINUTE, time_zuhur.split(":")[1].toInt())
+
+        ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[1].toInt())
+        ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
+
+        val now = Calendar.getInstance()
+
+
+        val currentTime = simpleDateFormat.parse(simpleDateFormat2.format(now.time))
+
+        d { simpleDateFormat2.format(now.time) }
+
+        var statusWaktu = ""
+        var endTime: Date? = null
+
+        if (now.before(dzuhur)) {
+            statusWaktu = "Menuju Waktu Dzuhur"
+            endTime = simpleDateFormat.parse("$time_zuhur:00")
+        } else if (now.before(istirahat)) {
+            statusWaktu = "Menuju Waktu Istirahat"
+            endTime = simpleDateFormat.parse(time_istirahat)
+        } else if (now.before(selesai_istirahat)) {
+            statusWaktu = "Menuju Waktu Selesai Istirahat"
+            endTime = simpleDateFormat.parse(time_istirhat_selesai)
+        } else if (now.before(time_ashar)) {
+            statusWaktu = "Menuju Waktu Ashar"
+            endTime = simpleDateFormat.parse("$time_ashar:00")
+        } else if (now.before(pulang)) {
+            statusWaktu = "Menuju Waktu Pulang"
+            endTime = simpleDateFormat.parse(time_pulang)
+        } else {
+            statusWaktu = "Waktu Pulang"
+        }
+
+        var differenceTime : Long = 0
+
+        if (endTime != null) {
+            differenceTime  = endTime.time - currentTime.time
+        }
+
+        return Pair(statusWaktu, differenceTime)
     }
 }

@@ -203,68 +203,18 @@ class HomeSdmFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val simpleDateFormat = SimpleDateFormat("HH:mm")
-        val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
-
-        val time_istirahat = "12:00"
-        val time_istirhat_selesai = "13:00"
-        val time_pulang = "16:30"
-
-        val istirahat = Calendar.getInstance()
-        val dzuhur = Calendar.getInstance()
-        val selesai_istirahat = Calendar.getInstance()
-        val ashar = Calendar.getInstance()
-        val pulang = Calendar.getInstance()
-
-        istirahat.set(Calendar.HOUR_OF_DAY, 12)
-        selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
-        pulang.set(Calendar.HOUR_OF_DAY, 17)
-
-        dzuhur.set(Calendar.HOUR_OF_DAY, time_zuhur.split(":")[0].toInt())
-        dzuhur.set(Calendar.MINUTE, time_zuhur.split(":")[1].toInt())
-
-        ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[1].toInt())
-        ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
-
-        val now = Calendar.getInstance()
-
-
-        val currentTime = simpleDateFormat.parse(simpleDateFormat2.format(now.time))
-
-        com.github.ajalt.timberkt.d { simpleDateFormat2.format(now.time) }
-
-        var statusWaktu = ""
-        var endTime: Date? = null
-
-        if (now.before(dzuhur)) {
-            statusWaktu = "Menuju Waktu Dzuhur"
-            endTime = simpleDateFormat.parse(time_zuhur)
-        } else if (now.before(istirahat)) {
-            statusWaktu = "Menuju Waktu Istirahat"
-            endTime = simpleDateFormat.parse(time_istirahat)
-        } else if (now.before(selesai_istirahat)) {
-            statusWaktu = "Menuju Waktu Selesai Istirahat"
-            endTime = simpleDateFormat.parse(time_istirhat_selesai)
-        } else if (now.before(time_ashar)) {
-            statusWaktu = "Menuju Waktu Ashar"
-            endTime = simpleDateFormat.parse(time_ashar)
-        } else if (now.before(pulang)) {
-            statusWaktu = "Menuju Waktu Pulang"
-            endTime = simpleDateFormat.parse(time_pulang)
-        } else {
-            statusWaktu = "Waktu Pulang"
-        }
+        val (statusWaktu, differenceTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
 
         txtStatusWaktu.text = statusWaktu
-        if (endTime != null) {
-            val difference: Long = endTime.time - currentTime.time
-            countDownTimer(difference)
+
+        if (differenceTime != 0.toLong()){
+            countDownTimer(differenceTime)
         } else {
             txtCountdown.text = "-"
         }
     }
 
-    fun countDownTimer(ms: Long) {
+    private fun countDownTimer(ms: Long) {
         try {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
@@ -272,7 +222,7 @@ class HomeSdmFragment : Fragment() {
                     d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
-                        val minute = (millisUntilFinished / 1000) / 60
+                        val minute = (millisUntilFinished / 1000) / 60 % 60
                         val second = (millisUntilFinished / 1000) % 60
 
                         txtCountdown.text = String.format(

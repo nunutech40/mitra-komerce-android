@@ -54,7 +54,6 @@ class HomeViewModel(private val preferencesHelper: PreferencesHelper,
     }
 
     fun getJadwalShalat(){
-
         if (jadwalShalatData.value !is UiState.Success){
             jadwalShalatData.value = UiState.Loading()
             compositeDisposable.add(jadwalShalatRepository.getJadwalShalat()
