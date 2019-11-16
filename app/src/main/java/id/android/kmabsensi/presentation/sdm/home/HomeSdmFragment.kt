@@ -271,15 +271,15 @@ class HomeSdmFragment : Fragment() {
                 override fun onTick(millisUntilFinished: Long) {
                     d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
+                        val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
+                        val minute = (millisUntilFinished / 1000) / 60
+                        val second = (millisUntilFinished / 1000) % 60
+
                         txtCountdown.text = String.format(
                             FORMAT,
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                            ),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                            )
+                            hour,
+                            minute,
+                            second
                         )
                     }
                 }

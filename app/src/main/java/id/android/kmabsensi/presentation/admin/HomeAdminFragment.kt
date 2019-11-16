@@ -1,7 +1,6 @@
 package id.android.kmabsensi.presentation.admin
 
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -26,7 +25,6 @@ import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -150,12 +148,12 @@ class HomeAdminFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val simpleDateFormat = SimpleDateFormat("HH:mm")
+        val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
         val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
 
         val time_istirahat = "12:00"
         val time_istirhat_selesai = "13:00"
-        val time_pulang = "16:30"
+        val time_pulang = "16:30:22"
 
         val istirahat = Calendar.getInstance()
         val dzuhur = Calendar.getInstance()
@@ -197,7 +195,7 @@ class HomeAdminFragment : Fragment() {
             endTime = simpleDateFormat.parse(time_ashar)
         } else if (now.before(pulang)) {
             statusWaktu = "Menuju Waktu Pulang"
-            endTime = simpleDateFormat.parse(time_pulang)
+            endTime = simpleDateFormat2.parse(time_pulang)
         } else {
             statusWaktu = "Waktu Pulang"
         }
@@ -223,15 +221,16 @@ class HomeAdminFragment : Fragment() {
                 override fun onTick(millisUntilFinished: Long) {
                     d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
+
+                        val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
+                        val minute = (millisUntilFinished / 1000) / 60
+                        val second = (millisUntilFinished / 1000) % 60
+
                         txtCountdown.text = String.format(
                             FORMAT,
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                            ),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                            )
+                            hour,
+                            minute,
+                            second
                         )
                     }
                 }
