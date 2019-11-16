@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_icon_back"
-            android:layout_marginStart="24dp"
+            android:padding="24dp"
+            android:background="?attr/selectableItemBackground"
             android:layout_centerVertical="true"/>
 
         <TextView
@@ -62,9 +63,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-<!--    <include-->
-<!--        android:id="@+id/toolbar2"-->
-<!--        layout="@layout/toolbar" />-->
 
     <ScrollView
         android:layout_width="0dp"
