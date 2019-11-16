@@ -179,12 +179,12 @@ class HomeManagementFragment : Fragment() {
         })
 
         vm.getJadwalShalat()
-        vm.getDashboardInfo(user.id)
+        getDashboardData()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         setupGreetings()
 
@@ -232,6 +232,10 @@ class HomeManagementFragment : Fragment() {
             )
         }
 
+    }
+
+    fun getDashboardData(){
+        vm.getDashboardInfo(user.id)
     }
 
     private fun setupGreetings() {

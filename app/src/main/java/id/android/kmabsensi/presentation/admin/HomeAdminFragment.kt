@@ -86,12 +86,12 @@ class HomeAdminFragment : Fragment() {
             }
         })
 
+        getPrayerTime()
+        getDashboardData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        vm.getDashboardInfo(user.id)
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
@@ -127,7 +127,6 @@ class HomeAdminFragment : Fragment() {
 
         }
 
-        getPrayerTime()
 
         val now = Calendar.getInstance()
         val a = now.get(Calendar.AM_PM)
@@ -158,6 +157,10 @@ class HomeAdminFragment : Fragment() {
             txtCountdown.text = "-"
         }
 
+    }
+
+    fun getDashboardData(){
+        vm.getDashboardInfo(user.id)
     }
 
     companion object {

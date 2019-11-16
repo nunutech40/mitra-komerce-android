@@ -34,21 +34,18 @@ class HomeActivity : AppCompatActivity() {
 
     private val vm: HomeViewModel by inject()
 
-    var prevMenuItem: MenuItem? = null
-
     var role: String = ""
 
     lateinit var user: User
 
     var hasCheckin = false
 
-    private val FORMAT = "(- %02d:%02d:%02d )"
-
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
                     viewpager.currentItem = 0
+                    getDashboardData()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_history -> {
@@ -230,4 +227,22 @@ class HomeActivity : AppCompatActivity() {
 
         return Pair(statusWaktu, differenceTime)
     }
+
+    private fun getFragmentTag(viewId: Int, id: Long): String {
+        return "android:switcher:$viewId:$id"
+    }
+
+    // for hit api dahsboard in every click beranda page
+    private fun getDashboardData(){
+        if (role == ROLE_ADMIN){
+            val beranda = supportFragmentManager.findFragmentByTag(getFragmentTag(R.id.viewpager, 0)) as HomeAdminFragment
+            beranda.getDashboardData()
+        }
+
+        if (role == ROLE_MANAGEMEMENT){
+            val beranda = supportFragmentManager.findFragmentByTag(getFragmentTag(R.id.viewpager, 0)) as HomeManagementFragment
+            beranda.getDashboardData()
+        }
+    }
+
 }
