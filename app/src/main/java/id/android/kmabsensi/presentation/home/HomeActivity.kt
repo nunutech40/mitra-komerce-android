@@ -168,7 +168,6 @@ class HomeActivity : AppCompatActivity() {
     fun getCountdownTime(time_zuhur: String, time_ashar: String) : Pair<String, Long> {
 
         val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
-        val simpleDateFormat2 = SimpleDateFormat("HH:mm:ss")
 
         val time_istirahat = "12:00:00"
         val time_istirhat_selesai = "13:00:00"
@@ -193,30 +192,35 @@ class HomeActivity : AppCompatActivity() {
         val now = Calendar.getInstance()
 
 
-        val currentTime = simpleDateFormat.parse(simpleDateFormat2.format(now.time))
-
-        d { simpleDateFormat2.format(now.time) }
+        val currentTime = simpleDateFormat.parse(simpleDateFormat.format(now.time))
 
         var statusWaktu = ""
         var endTime: Date? = null
 
-        if (now.before(dzuhur)) {
-            statusWaktu = "Menuju Waktu Dzuhur"
-            endTime = simpleDateFormat.parse("$time_zuhur:00")
-        } else if (now.before(istirahat)) {
-            statusWaktu = "Menuju Waktu Istirahat"
-            endTime = simpleDateFormat.parse(time_istirahat)
-        } else if (now.before(selesai_istirahat)) {
-            statusWaktu = "Menuju Waktu Selesai Istirahat"
-            endTime = simpleDateFormat.parse(time_istirhat_selesai)
-        } else if (now.before(time_ashar)) {
-            statusWaktu = "Menuju Waktu Ashar"
-            endTime = simpleDateFormat.parse("$time_ashar:00")
-        } else if (now.before(pulang)) {
-            statusWaktu = "Menuju Waktu Pulang"
-            endTime = simpleDateFormat.parse(time_pulang)
-        } else {
-            statusWaktu = "Waktu Pulang"
+        val isDzuhurFirst : Boolean = dzuhur.before(istirahat)
+
+        when {
+            now.before(if (isDzuhurFirst) dzuhur else istirahat) -> {
+                statusWaktu = if (isDzuhurFirst) "Menuju Waktu Dzuhur" else "Menuju Waktu Istirahat"
+                endTime = simpleDateFormat.parse(if (isDzuhurFirst) "$time_zuhur:00" else time_istirahat)
+            }
+            now.before(if (isDzuhurFirst) istirahat else dzuhur) -> {
+                statusWaktu = if (isDzuhurFirst) "Menuju Waktu Istirahat" else "Menuju Waktu Dzuhur"
+                endTime = simpleDateFormat.parse(if (isDzuhurFirst) time_istirahat else "$time_zuhur:00")
+            }
+            now.before(selesai_istirahat) -> {
+                statusWaktu = "Menuju Waktu Selesai Istirahat"
+                endTime = simpleDateFormat.parse(time_istirhat_selesai)
+            }
+            now.before(time_ashar) -> {
+                statusWaktu = "Menuju Waktu Ashar"
+                endTime = simpleDateFormat.parse("$time_ashar:00")
+            }
+            now.before(pulang) -> {
+                statusWaktu = "Menuju Waktu Pulang"
+                endTime = simpleDateFormat.parse(time_pulang)
+            }
+            else -> statusWaktu = "Waktu Pulang"
         }
 
         var differenceTime : Long = 0
