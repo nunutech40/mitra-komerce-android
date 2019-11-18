@@ -147,9 +147,10 @@ class HomeAdminFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
+        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
 
         txtStatusWaktu.text = statusWaktu
+        txtNextTime.text = nextTime
 
         if (differenceTime != 0.toLong()){
             countDownTimer(differenceTime)

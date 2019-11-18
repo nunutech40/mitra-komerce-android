@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
@@ -165,9 +166,10 @@ class HomeActivity : AppCompatActivity() {
         return Pair(greeting, header)
     }
 
-    fun getCountdownTime(time_zuhur: String, time_ashar: String) : Pair<String, Long> {
+    fun getCountdownTime(time_zuhur: String, time_ashar: String) : Triple<String, Long, String> {
 
         val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
+        var nextTime = ""
 
         val time_istirahat = "12:00:00"
         val time_istirhat_selesai = "13:00:00"
@@ -191,7 +193,6 @@ class HomeActivity : AppCompatActivity() {
 
         val now = Calendar.getInstance()
 
-
         val currentTime = simpleDateFormat.parse(simpleDateFormat.format(now.time))
 
         var statusWaktu = ""
@@ -202,22 +203,27 @@ class HomeActivity : AppCompatActivity() {
         when {
             now.before(if (isDzuhurFirst) dzuhur else istirahat) -> {
                 statusWaktu = if (isDzuhurFirst) "Menuju Waktu Dzuhur" else "Menuju Waktu Istirahat"
+                nextTime = if (isDzuhurFirst) time_zuhur else "12:00"
                 endTime = simpleDateFormat.parse(if (isDzuhurFirst) "$time_zuhur:00" else time_istirahat)
             }
             now.before(if (isDzuhurFirst) istirahat else dzuhur) -> {
                 statusWaktu = if (isDzuhurFirst) "Menuju Waktu Istirahat" else "Menuju Waktu Dzuhur"
+                nextTime = if (isDzuhurFirst) "12:00" else time_zuhur
                 endTime = simpleDateFormat.parse(if (isDzuhurFirst) time_istirahat else "$time_zuhur:00")
             }
             now.before(selesai_istirahat) -> {
-                statusWaktu = "Menuju Waktu Selesai Istirahat"
+                statusWaktu = "Menuju Waktu \nSelesai Istirahat"
+                nextTime = "13:00"
                 endTime = simpleDateFormat.parse(time_istirhat_selesai)
             }
             now.before(time_ashar) -> {
                 statusWaktu = "Menuju Waktu Ashar"
+                nextTime = time_ashar
                 endTime = simpleDateFormat.parse("$time_ashar:00")
             }
             now.before(pulang) -> {
                 statusWaktu = "Menuju Waktu Pulang"
+                nextTime = "16:30"
                 endTime = simpleDateFormat.parse(time_pulang)
             }
             else -> statusWaktu = "Waktu Pulang"
@@ -229,7 +235,7 @@ class HomeActivity : AppCompatActivity() {
             differenceTime  = endTime.time - currentTime.time
         }
 
-        return Pair(statusWaktu, differenceTime)
+        return Triple(statusWaktu, differenceTime, nextTime)
     }
 
     private fun getFragmentTag(viewId: Int, id: Long): String {

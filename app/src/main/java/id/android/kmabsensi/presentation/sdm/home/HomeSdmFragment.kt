@@ -23,7 +23,6 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import kotlinx.android.synthetic.main.fragment_home_sdm.header_waktu
 import kotlinx.android.synthetic.main.fragment_home_sdm.imgProfile
@@ -33,11 +32,7 @@ import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * A simple [Fragment] subclass.
@@ -203,11 +198,15 @@ class HomeSdmFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
+        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+            time_zuhur,
+            time_ashar
+        )
 
         txtStatusWaktu.text = statusWaktu
+        txtNextTime.text = nextTime
 
-        if (differenceTime != 0.toLong()){
+        if (differenceTime != 0.toLong()) {
             countDownTimer(differenceTime)
         } else {
             txtCountdown.text = "-"

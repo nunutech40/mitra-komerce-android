@@ -86,11 +86,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
 
-                <TextClock
-                    android:id="@+id/txtClock"
+                <TextView
+                    android:id="@+id/txtNextTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="08:30"
+                    tools:text="08:30"
                     android:textStyle="bold"
                     android:textColor="@color/textTime"
                     android:textSize="42sp"
@@ -106,8 +106,8 @@
                     android:text="AM"
                     android:textColor="@color/textTime"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtClock"
-                    app:layout_constraintStart_toEndOf="@+id/txtClock" />
+                    app:layout_constraintBottom_toBottomOf="@+id/txtNextTime"
+                    app:layout_constraintStart_toEndOf="@+id/txtNextTime" />
 
                 <TextView
                     android:id="@+id/txtCountdown"
@@ -119,7 +119,7 @@
                     android:textStyle="bold"
                     android:text="( - 04.30.00 )"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/txtClock" />
+                    app:layout_constraintTop_toTopOf="@+id/txtNextTime" />
 
                 <TextView
                     android:id="@+id/txtStatusWaktu"
