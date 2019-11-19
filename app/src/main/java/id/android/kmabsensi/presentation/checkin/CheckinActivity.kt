@@ -133,7 +133,7 @@ class CheckinActivity : BaseActivity() {
             actualImage?.let {
                 compress(it)
                 txtKetukLayar.gone()
-                imgTakePicture.gone()
+                layoutBorderCamera.gone()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

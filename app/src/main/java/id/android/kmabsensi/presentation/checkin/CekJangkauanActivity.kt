@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
 import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
