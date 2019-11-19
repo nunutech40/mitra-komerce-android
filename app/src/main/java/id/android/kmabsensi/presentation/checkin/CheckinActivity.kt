@@ -116,7 +116,7 @@ class CheckinActivity : BaseActivity() {
             btnCheckIn.text = "Check out"
         }
 
-        container.setOnClickListener {
+        layoutBorderCamera.setOnClickListener {
             ImagePicker.cameraOnly().start(this)
         }
     }

@@ -22,7 +22,7 @@
         android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:background="@drawable/bg_bottom_white"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <TextView
