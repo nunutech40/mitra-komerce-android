@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -251,9 +252,10 @@ class HomeManagementFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
+        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
 
         txtStatusWaktu.text = statusWaktu
+        txtNextTime.text = nextTime
 
         if (differenceTime != 0.toLong()){
             countDownTimer(differenceTime)
