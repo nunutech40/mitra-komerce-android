@@ -19,7 +19,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_view"
         layout="@layout/toolbar" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:textStyle="bold"
         android:text="Tanggal tidak hadir :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_view" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

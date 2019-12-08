@@ -6,6 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
+import id.android.kmabsensi.utils.capitalizeWords
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.loadImageFromUrl
 import kotlinx.android.synthetic.main.item_row_report_absensi.*
@@ -60,7 +61,7 @@ class AbsensiReportItem(val presence: Presence) : Item() {
             presence.user?.let {
                 itemView.txtKantor.text = it.office_name
                 itemView.txtPartner.text = it.division_name
-                itemView.txtName.text = it.username
+                itemView.txtName.text = it.full_name.toLowerCase().capitalizeWords()
             }
         }
     }

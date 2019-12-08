@@ -1,5 +1,6 @@
-package id.android.momakan.utils.scheduler
+package id.android.kmabsensi.utils.rx
 
+import id.android.kmabsensi.utils.rx.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

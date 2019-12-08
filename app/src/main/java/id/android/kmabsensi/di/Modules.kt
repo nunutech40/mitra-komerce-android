@@ -22,13 +22,13 @@ import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
-import id.android.momakan.utils.scheduler.AppSchedulerProvider
-import id.android.momakan.utils.scheduler.SchedulerProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
+import id.android.kmabsensi.utils.rx.AppSchedulerProvider
+import id.android.kmabsensi.utils.rx.SchedulerProvider
 
 val appModule = module {
 
@@ -36,7 +36,6 @@ val appModule = module {
     single { AuthInterceptor(get()) }
     single { provideOkHttpClient(get(), androidContext()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
-
     single { AppSchedulerProvider() as SchedulerProvider }
 
     factory { GroupAdapter<ViewHolder>() }

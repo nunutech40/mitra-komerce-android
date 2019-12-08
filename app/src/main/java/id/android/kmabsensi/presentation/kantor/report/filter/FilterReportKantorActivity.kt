@@ -142,9 +142,10 @@ class FilterReportKantorActivity : BaseActivity() {
     }
 
     fun setSpinnerOffice(data: List<Office>) {
-        offices.addAll(data)
+        val sortedList = data.sortedWith(compareBy { it.office_name }).reversed()
+        offices.addAll(sortedList)
 
-        data.forEach {
+        sortedList.forEach {
             officeNames.add(it.office_name)
         }
 
@@ -180,9 +181,11 @@ class FilterReportKantorActivity : BaseActivity() {
     }
 
     fun setSpinnerManajemen(manajemen: List<User>) {
-        userManagement.addAll(manajemen)
+        val sortedList = manajemen.sortedWith(compareBy { it.full_name })
 
-        manajemen.forEach {
+        userManagement.addAll(sortedList)
+
+        sortedList.forEach {
             userManagementNames.add(it.full_name)
         }
 

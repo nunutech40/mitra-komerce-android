@@ -6,15 +6,16 @@ import id.android.kmabsensi.data.remote.response.CheckinResponse
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
 class CheckinViewModel(val presenceRepository: PresenceRepository,
-                       val schedulerProvider: SchedulerProvider) : BaseViewModel() {
+                       val schedulerProvider: SchedulerProvider
+) : BaseViewModel() {
 
     val checkInResponse = MutableLiveData<UiState<CheckinResponse>>()
 

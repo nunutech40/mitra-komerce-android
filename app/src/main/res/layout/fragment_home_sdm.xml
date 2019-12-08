@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRefresh"
@@ -7,556 +7,558 @@
     android:layout_height="match_parent"
     android:background="@color/layoutBackgroundColor">
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/layoutHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/layoutBackgroundColor"
+        android:paddingBottom="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="24dp">
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
 
-            <ImageView
-                android:id="@+id/header_waktu"
-                android:layout_width="wrap_content"
-                android:layout_height="115dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/malam"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp">
+
+                    <ImageView
+                        android:id="@+id/header_waktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="115dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/malam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/txtHello"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="TextView"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+                        tools:ignore="MissingPrefix"
+                        tools:text="Hello, Jajat" />
+
+                    <TextView
+                        android:id="@+id/txtRoleName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@+id/txtHello"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHello" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/waktu"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textColorGrey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
+
+                    <TextView
+                        android:id="@+id/txtNextTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textTime"
+                        android:textSize="42sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/textView15"
+                        app:layout_constraintTop_toBottomOf="@+id/textView15"
+                        tools:text="08:30" />
+
+                    <TextView
+                        android:id="@+id/txtCountdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:textColor="@color/textTime"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtNextTime"
+                        tools:text="( - 00.00.00 )" />
+
+                    <TextView
+                        android:id="@+id/txtStatusWaktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="24dp"
+                        android:textColor="@color/textTime"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCountdown"
+                        tools:text="Menuju Waktu Dzuhur" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/txtHello"
+                android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="TextView"
-                android:textColor="@android:color/white"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/textTime"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toTopOf="@+id/imgProfile"
-                tools:ignore="MissingPrefix"
-                tools:text="Hello, Jajat" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+                tools:text="Rabu, 13 November 2019" />
 
-            <TextView
-                android:id="@+id/txtRoleName"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/admin"
-                android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/txtHello"
-                app:layout_constraintTop_toBottomOf="@+id/txtHello" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
+            <!--        <ImageView-->
+            <!--            android:id="@+id/imageView16"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="@dimen/_88sdp"-->
+            <!--            android:scaleType="fitXY"-->
+            <!--            android:layout_marginTop="14dp"-->
+            <!--            android:layout_marginEnd="5dp"-->
+            <!--            android:layout_marginStart="24dp"-->
+            <!--            android:src="@drawable/bg_data_hadir"-->
+            <!--            app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+
+            <!--        <ImageView-->
+            <!--            android:id="@+id/imageView17"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="@dimen/_97sdp"-->
+            <!--            android:layout_marginTop="12dp"-->
+            <!--            android:layout_marginEnd="24dp"-->
+            <!--            android:layout_marginStart="5dp"-->
+            <!--            android:scaleType="fitXY"-->
+            <!--            android:src="@drawable/bg_belum_hadir"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/guideline5"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView26"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginStart="24dp"-->
+            <!--            android:text="@string/ask"-->
+            <!--            android:textColor="@color/colorAsk"-->
+            <!--            android:textSize="16sp"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnCheckIn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/waktu"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorGrey"
-                android:textSize="12sp"
+                android:layout_marginEnd="5dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
+                app:layout_constraintTop_toBottomOf="@+id/textView24">
 
-            <TextView
-                android:id="@+id/txtNextTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textTime"
-                android:textSize="42sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView15"
-                tools:text="08:30" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/txtAmPm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="AM"
-                android:textColor="@color/textTime"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtNextTime"
-                app:layout_constraintStart_toEndOf="@+id/txtNextTime" />
 
-            <TextView
-                android:id="@+id/txtCountdown"
-                android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageView19"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/ic_checkin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/imageView19"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageView19"
+                        app:layout_constraintTop_toTopOf="@id/imageView19">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CHECK LOCK"
+                            android:textColor="@color/colorTitleMenu"
+                            android:textSize="11sp"
+                            app:layout_constraintStart_toEndOf="@+id/imageView19"
+                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Datang"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnCheckOut"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginEnd="24dp"
-                android:text="( - 04.30.00 )"
-                android:textColor="@color/textTime"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtNextTime" />
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/btnCheckIn">
 
-            <TextView
-                android:id="@+id/txtStatusWaktu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="24dp"
-                android:text="Menuju Waktu Dzuhur"
-                android:textColor="@color/textTime"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtCountdown" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/imageView21"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/ic_checkout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/imageView21"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageView21"
+                        app:layout_constraintTop_toTopOf="@id/imageView21">
 
-    </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CHECK LOCK"
+                            android:textColor="@color/colorTitleMenu"
+                            android:textSize="11sp"
+                            app:layout_constraintStart_toEndOf="@+id/imageView19"
+                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
 
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="18dp"
-        android:text="Rabu, 13 November 2019"
-        android:textColor="@color/textTime"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutHeader" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Pulang"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+                    </LinearLayout>
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView16"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="@dimen/_88sdp"-->
-    <!--            android:scaleType="fitXY"-->
-    <!--            android:layout_marginTop="14dp"-->
-    <!--            android:layout_marginEnd="5dp"-->
-    <!--            android:layout_marginStart="24dp"-->
-    <!--            android:src="@drawable/bg_data_hadir"-->
-    <!--            app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView17"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="@dimen/_97sdp"-->
-    <!--            android:layout_marginTop="12dp"-->
-    <!--            android:layout_marginEnd="24dp"-->
-    <!--            android:layout_marginStart="5dp"-->
-    <!--            android:scaleType="fitXY"-->
-    <!--            android:src="@drawable/bg_belum_hadir"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/guideline5"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+            </com.google.android.material.card.MaterialCardView>
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView26"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="24dp"-->
-    <!--            android:text="@string/ask"-->
-    <!--            android:textColor="@color/colorAsk"-->
-    <!--            android:textSize="16sp"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnCheckIn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="5dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="1dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/imageView19"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_checkin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnFormIzin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/imageView19"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView19"
-                app:layout_constraintTop_toTopOf="@id/imageView19">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CHECK LOCK"
-                    android:textColor="@color/colorTitleMenu"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView19"
-                    app:layout_constraintTop_toTopOf="@+id/imageView19" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:text="Datang"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnCheckOut"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/btnCheckIn">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/imageView21"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_checkout"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/imageView21"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView21"
-                app:layout_constraintTop_toTopOf="@id/imageView21">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CHECK LOCK"
-                    android:textColor="@color/colorTitleMenu"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView19"
-                    app:layout_constraintTop_toTopOf="@+id/imageView19" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:text="Pulang"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    <ImageView
+                        android:id="@+id/imageView30"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/ic_form_izin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/imageView30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageView30"
+                        app:layout_constraintTop_toTopOf="@id/imageView30">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PERIZINAN"
+                            android:textColor="@color/colorTitleMenu"
+                            android:textSize="11sp"
+                            app:layout_constraintStart_toEndOf="@+id/imageView19"
+                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Form Izin"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/txtPresent"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginStart="18dp"-->
+            <!--            android:layout_marginTop="14dp"-->
+            <!--            android:text="145"-->
+            <!--            android:textColor="@android:color/white"-->
+            <!--            android:textSize="32sp"-->
+            <!--            android:textStyle="bold"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/txtTotalUser"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="/200"-->
+            <!--            android:textColor="#B2FFFFFF"-->
+            <!--            android:textSize="22sp"-->
+            <!--            android:layout_marginBottom="2dp"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView30"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="4dp"-->
+            <!--            android:text="@string/data_hadir"-->
+            <!--            android:textColor="#CCFFFFFF"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView31"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="4dp"-->
+            <!--            android:text="@string/semua_kantor"-->
+            <!--            android:textColor="#CCFFFFFF"-->
+            <!--            android:textSize="12sp"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/txtNotPresent"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginStart="18dp"-->
+            <!--            android:layout_marginTop="16dp"-->
+            <!--            android:text="6"-->
+            <!--            android:textColor="@android:color/black"-->
+            <!--            android:textSize="32sp"-->
+            <!--            android:textStyle="bold"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView34"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="orang"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:layout_marginStart="6dp"-->
+            <!--            android:layout_marginBottom="10dp"-->
+            <!--            android:textColor="@color/textColorGrey"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
+            <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView37"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="8dp"-->
+            <!--            android:text="Belum hadir"-->
+            <!--            android:textSize="16sp"-->
+            <!--            android:textColor="@color/textColorGrey"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
+            <!--        <TextView&ndash;&gt;-->
+            <!--            android:id="@+id/txtPresent"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginStart="18dp"-->
+            <!--            android:layout_marginTop="14dp"-->
+            <!--            android:text="145"-->
+            <!--            android:textColor="@android:color/white"-->
+            <!--            android:textSize="32sp"-->
+            <!--            android:textStyle="bold"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/txtTotalUser"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="/200"-->
+            <!--            android:textColor="#B2FFFFFF"-->
+            <!--            android:textSize="22sp"-->
+            <!--            android:layout_marginBottom="2dp"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView30"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="4dp"-->
+            <!--            android:text="@string/data_hadir"-->
+            <!--            android:textColor="#CCFFFFFF"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView31"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="4dp"-->
+            <!--            android:text="@string/semua_kantor"-->
+            <!--            android:textColor="#CCFFFFFF"-->
+            <!--            android:textSize="12sp"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/txtNotPresent"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginStart="18dp"-->
+            <!--            android:layout_marginTop="16dp"-->
+            <!--            android:text="6"-->
+            <!--            android:textColor="@android:color/black"-->
+            <!--            android:textSize="32sp"-->
+            <!--            android:textStyle="bold"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView34"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="orang"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:layout_marginStart="6dp"-->
+            <!--            android:layout_marginBottom="10dp"-->
+            <!--            android:textColor="@color/textColorGrey"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
+            <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/textView37"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="8dp"-->
+            <!--            android:text="Belum hadir"-->
+            <!--            android:textSize="16sp"-->
+            <!--            android:textColor="@color/textColorGrey"-->
+            <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
+
+            <!--        <ProgressBar-->
+            <!--            android:id="@+id/progressBar"-->
+            <!--            style="?android:attr/progressBarStyle"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
+            <!--        <ProgressBar-->
+            <!--            android:id="@+id/progressBar"-->
+            <!--            style="?android:attr/progressBarStyle"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnFormIzin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="5dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="1dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/imageView30"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_form_izin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/imageView30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView30"
-                app:layout_constraintTop_toTopOf="@id/imageView30">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Perizinan"
-                    android:textColor="@color/colorTitleMenu"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView19"
-                    app:layout_constraintTop_toTopOf="@+id/imageView19" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:text="Form Izin"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtPresent"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="18dp"-->
-    <!--            android:layout_marginTop="14dp"-->
-    <!--            android:text="145"-->
-    <!--            android:textColor="@android:color/white"-->
-    <!--            android:textSize="32sp"-->
-    <!--            android:textStyle="bold"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtTotalUser"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="/200"-->
-    <!--            android:textColor="#B2FFFFFF"-->
-    <!--            android:textSize="22sp"-->
-    <!--            android:layout_marginBottom="2dp"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView30"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="4dp"-->
-    <!--            android:text="@string/data_hadir"-->
-    <!--            android:textColor="#CCFFFFFF"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView31"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="4dp"-->
-    <!--            android:text="@string/semua_kantor"-->
-    <!--            android:textColor="#CCFFFFFF"-->
-    <!--            android:textSize="12sp"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtNotPresent"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="18dp"-->
-    <!--            android:layout_marginTop="16dp"-->
-    <!--            android:text="6"-->
-    <!--            android:textColor="@android:color/black"-->
-    <!--            android:textSize="32sp"-->
-    <!--            android:textStyle="bold"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView34"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="orang"-->
-    <!--            android:textSize="14sp"-->
-    <!--            android:layout_marginStart="6dp"-->
-    <!--            android:layout_marginBottom="10dp"-->
-    <!--            android:textColor="@color/textColorGrey"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
-    <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView37"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="8dp"-->
-    <!--            android:text="Belum hadir"-->
-    <!--            android:textSize="16sp"-->
-    <!--            android:textColor="@color/textColorGrey"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
-    <!--        <TextView&ndash;&gt;-->
-    <!--            android:id="@+id/txtPresent"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="18dp"-->
-    <!--            android:layout_marginTop="14dp"-->
-    <!--            android:text="145"-->
-    <!--            android:textColor="@android:color/white"-->
-    <!--            android:textSize="32sp"-->
-    <!--            android:textStyle="bold"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtTotalUser"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="/200"-->
-    <!--            android:textColor="#B2FFFFFF"-->
-    <!--            android:textSize="22sp"-->
-    <!--            android:layout_marginBottom="2dp"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView30"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="4dp"-->
-    <!--            android:text="@string/data_hadir"-->
-    <!--            android:textColor="#CCFFFFFF"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView31"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="4dp"-->
-    <!--            android:text="@string/semua_kantor"-->
-    <!--            android:textColor="#CCFFFFFF"-->
-    <!--            android:textSize="12sp"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txtNotPresent"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="18dp"-->
-    <!--            android:layout_marginTop="16dp"-->
-    <!--            android:text="6"-->
-    <!--            android:textColor="@android:color/black"-->
-    <!--            android:textSize="32sp"-->
-    <!--            android:textStyle="bold"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView34"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="orang"-->
-    <!--            android:textSize="14sp"-->
-    <!--            android:layout_marginStart="6dp"-->
-    <!--            android:layout_marginBottom="10dp"-->
-    <!--            android:textColor="@color/textColorGrey"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
-    <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/textView37"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="8dp"-->
-    <!--            android:text="Belum hadir"-->
-    <!--            android:textSize="16sp"-->
-    <!--            android:textColor="@color/textColorGrey"-->
-    <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
-
-    <!--        <ProgressBar-->
-    <!--            android:id="@+id/progressBar"-->
-    <!--            style="?android:attr/progressBarStyle"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-    <!--        <ProgressBar-->
-    <!--            android:id="@+id/progressBar"-->
-    <!--            style="?android:attr/progressBarStyle"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

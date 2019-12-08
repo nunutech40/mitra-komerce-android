@@ -10,6 +10,7 @@ import java.util.*
 
 const val DATE_FORMAT = "yyyy-MM-dd"
 const val DATE_FORMAT2 = "dd MMMM yyyy"
+const val DATE_FORMAT3 = "EEEE, dd MMM yyyy"
 
 fun getRoleName(roleId: Int): String = when(roleId) {
     1 -> ROLE_ADMIN
@@ -23,6 +24,14 @@ fun getTodayDate(): String {
 
     return simpleDateFormat.format(cal.time)
 }
+
+fun getTodayDateTimeDay(): String {
+    val cal = Calendar.getInstance()
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT3, Locale.getDefault())
+
+    return simpleDateFormat.format(cal.time)
+}
+
 
 fun getDateString(date: Date): String{
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
@@ -53,3 +62,5 @@ fun createAlertSuccess(activity: Activity?, message: String){
         .show()
 
 }
+
+fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }

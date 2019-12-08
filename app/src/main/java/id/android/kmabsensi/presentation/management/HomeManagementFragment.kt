@@ -181,6 +181,8 @@ class HomeManagementFragment : Fragment() {
 
         vm.getJadwalShalat()
         getDashboardData()
+        textView24.text = getTodayDateTimeDay()
+
     }
 
 
@@ -194,7 +196,13 @@ class HomeManagementFragment : Fragment() {
             txtPresent.text = ""
             txtTotalUser.text = ""
             txtNotPresent.text = ""
-            vm.getDashboardInfo(user.id)
+
+            txtNextTime.text = ""
+            txtCountdown.text = ""
+            txtStatusWaktu.text = ""
+            vm.getJadwalShalat()
+            getDashboardData()
+            setupGreetings()
         }
 
         imgProfile.loadCircleImage(
@@ -202,7 +210,6 @@ class HomeManagementFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
 
-        txtHello.text = "Hello, ${user.full_name}"
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnKelolaSdm.setOnClickListener {
@@ -239,12 +246,6 @@ class HomeManagementFragment : Fragment() {
         vm.getDashboardInfo(user.id)
     }
 
-    private fun setupGreetings() {
-        val (greeting, header) = (activity as HomeActivity).setGreeting()
-        txtHello.text = greeting
-        header_waktu.setImageResource(header)
-    }
-
     companion object {
         @JvmStatic
         fun newInstance() = HomeManagementFragment()
@@ -262,6 +263,12 @@ class HomeManagementFragment : Fragment() {
         } else {
             txtCountdown.text = "-"
         }
+    }
+
+    private fun setupGreetings() {
+        val (greeting, header) = (activity as HomeActivity).setGreeting()
+        txtHello.text = greeting
+        header_waktu.setImageResource(header)
     }
 
     fun countDownTimer(ms: Long) {

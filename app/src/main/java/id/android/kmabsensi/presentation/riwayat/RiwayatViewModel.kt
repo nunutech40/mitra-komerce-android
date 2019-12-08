@@ -6,11 +6,12 @@ import id.android.kmabsensi.data.remote.response.PresenceHistoryResponse
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class RiwayatViewModel(val presenceRepository: PresenceRepository,
-                       val schedulerProvider: SchedulerProvider) : BaseViewModel() {
+                       val schedulerProvider: SchedulerProvider
+) : BaseViewModel() {
 
 
     val riwayatResponse = MutableLiveData<UiState<PresenceHistoryResponse>>()

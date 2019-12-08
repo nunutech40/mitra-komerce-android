@@ -49,7 +49,9 @@ class KelolaKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     progressBar.gone()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    it.data.data.forEach {
+                    val sortedList = it.data.data.sortedWith(compareBy { it.office_name }).reversed()
+
+                    sortedList.forEach {
                         groupAdapter.add(KantorItem(it){ office ->
                             startActivityForResult<TambahCabangActivity>(REQUEST_MANAGE_OFFICE,
                                 OFFICE_KEY to office)

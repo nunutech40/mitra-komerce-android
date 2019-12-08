@@ -41,7 +41,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateManager
             .appUpdateInfo
             .addOnSuccessListener { appUpdateInfo ->

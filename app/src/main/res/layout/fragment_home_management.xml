@@ -17,7 +17,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp">
 
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutHeader"
                 android:layout_width="0dp"
@@ -102,18 +101,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                     <TextView
-                        android:id="@+id/txtAmPm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="AM"
-                        android:textColor="@color/textTime"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtNextTime"
-                        app:layout_constraintStart_toEndOf="@+id/txtNextTime" />
-
-                    <TextView
                         android:id="@+id/txtCountdown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -121,7 +108,7 @@
                         android:textSize="18sp"
                         android:textColor="@color/textTime"
                         android:textStyle="bold"
-                        android:text="( - 04.30.00 )"
+                        tools:text="( - 00.00.00 )"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/txtNextTime" />
 
@@ -131,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="24dp"
-                        android:text="Menuju Waktu Dzuhur"
+                        tools:text="Menuju Waktu Dzuhur"
                         android:textColor="@color/textTime"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtCountdown" />
@@ -148,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="18dp"
-                android:text="Rabu, 13 November 2019"
+                tools:text="Rabu, 13 November 2019"
                 android:textSize="18sp"
                 android:textColor="@color/textTime"
                 android:textStyle="bold"
@@ -435,7 +422,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Perizinan"
+                            android:text="PERIZINAN"
                             android:textColor="@color/colorTitleMenu"
                             android:textSize="11sp"
                             app:layout_constraintStart_toEndOf="@+id/imageView19"

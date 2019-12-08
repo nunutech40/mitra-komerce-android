@@ -1,4 +1,4 @@
-package id.android.momakan.utils.scheduler
+package id.android.kmabsensi.utils.rx
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
