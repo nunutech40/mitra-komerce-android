@@ -100,9 +100,11 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             layoutNext.animation = animation
             if (distance > 350){
                 layoutDiluarJangkauan.visible()
+                txtJangkauan.gone()
                 btnNext.isEnabled = false
             } else {
                 txtJangkauan.visible()
+                layoutDiluarJangkauan.gone()
                 btnNext.isEnabled = true
             }
         }
