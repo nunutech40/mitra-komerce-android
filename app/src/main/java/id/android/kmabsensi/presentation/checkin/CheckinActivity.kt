@@ -1,10 +1,12 @@
 package id.android.kmabsensi.presentation.checkin
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.esafirm.imagepicker.features.ImagePicker
 import com.github.ajalt.timberkt.Timber.e
 import com.google.gson.Gson
@@ -13,6 +15,7 @@ import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.camera.CameraActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -22,10 +25,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.clearTask
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -117,47 +117,62 @@ class CheckinActivity : BaseActivity() {
         }
 
         layoutBorderCamera.setOnClickListener {
-            ImagePicker.cameraOnly().start(this)
+//            ImagePicker.cameraOnly().start(this)
+            startActivityForResult<CameraActivity>(125)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//
+//            val image = ImagePicker.getFirstImageOrNull(data)
+//
+//            imagePath = image.path
+//
+//            actualImage = File(imagePath)
+//
+//            actualImage?.let {
+//                compress(it)
+//                txtKetukLayar.gone()
+//                layoutBorderCamera.gone()
+//            }
+//        }
 
-            val image = ImagePicker.getFirstImageOrNull(data)
-
-            imagePath = image.path
-
-            actualImage = File(imagePath)
-
-            actualImage?.let {
-                compress(it)
+        if (requestCode == 125 && resultCode == Activity.RESULT_OK){
+            val file = data?.getSerializableExtra("image")
+            compressedImage = file as File
+            file?.let {
                 txtKetukLayar.gone()
                 layoutBorderCamera.gone()
+                Glide.with(this)
+                    .load(it)
+                    .signature(ObjectKey(System.currentTimeMillis().toString()))
+                    .into(picture)
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun compress(file: File) {
-        disposables.add(Compressor(this)
-            .setQuality(75)
-            .setCompressFormat(Bitmap.CompressFormat.WEBP)
-            .setDestinationDirectoryPath(
-                Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES
-                ).absolutePath
-            )
-            .compressToFileAsFlowable(file)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                compressedImage = it
-
-                Glide.with(this)
-                    .load(compressedImage)
-                    .into(picture)
-
-            }) { e { it.message.toString() } })
-    }
+//    fun compress(file: File) {
+//        disposables.add(Compressor(this)
+//            .setQuality(75)
+//            .setCompressFormat(Bitmap.CompressFormat.WEBP)
+//            .setDestinationDirectoryPath(
+//                Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_PICTURES
+//                ).absolutePath
+//            )
+//            .compressToFileAsFlowable(file)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                compressedImage = it
+//
+//                Glide.with(this)
+//                    .load(compressedImage)
+//                    .into(picture)
+//
+//            }) { e { it.message.toString() } })
+//    }
 }
