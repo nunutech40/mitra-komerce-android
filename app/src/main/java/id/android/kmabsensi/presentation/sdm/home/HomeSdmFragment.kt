@@ -153,20 +153,18 @@ class HomeSdmFragment : Fragment() {
         })
 
         vm.getJadwalShalat()
+        textView24.text = getTodayDateTimeDay()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
         setupGreetings()
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
-        txtHello.text = "Hello, ${user.full_name}"
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnCheckIn.setOnClickListener {
@@ -181,6 +179,15 @@ class HomeSdmFragment : Fragment() {
 
         btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = false
+            txtNextTime.text = ""
+            txtCountdown.text = ""
+            txtStatusWaktu.text = ""
+            vm.getJadwalShalat()
+            setupGreetings()
         }
 
     }

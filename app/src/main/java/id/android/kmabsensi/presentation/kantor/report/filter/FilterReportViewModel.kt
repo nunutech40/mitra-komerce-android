@@ -7,12 +7,13 @@ import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class FilterReportViewModel(val officeRepository: OfficeRepository,
                             val userRepository: UserRepository,
-                            val schedulerProvider: SchedulerProvider) : BaseViewModel() {
+                            val schedulerProvider: SchedulerProvider
+) : BaseViewModel() {
 
     val officeData = MutableLiveData<UiState<OfficeResponse>>()
     val userManagementData = MutableLiveData<UiState<UserResponse>>()

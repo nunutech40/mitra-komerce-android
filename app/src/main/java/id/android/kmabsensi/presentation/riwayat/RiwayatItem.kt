@@ -6,10 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.data.remote.response.PresenceHistory
 import id.android.kmabsensi.R
-import id.android.kmabsensi.utils.getDateStringFormatted
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.loadCircleImage
-import id.android.kmabsensi.utils.loadImageFromUrl
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.item_row_riwayat_absensi.*
 import kotlinx.android.synthetic.main.item_row_riwayat_absensi.view.*
 import java.text.SimpleDateFormat
@@ -23,7 +20,6 @@ class RiwayatItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.apply {
-            itemView.txtName.text = userName
             itemView.txtCheckIn.text =
                 presenceHistory.check_in_datetime.split(" ")[1].substring(0, 5)
 
@@ -64,11 +60,12 @@ class RiwayatItem(
             //2019-10-09 23:54:5
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val date = dateFormat.parse(presenceHistory.check_in_datetime)
-//            txtDate.text = getDateStringFormatted(date)
+            txtDate.text = getDateStringFormatted(date)
 
             presenceHistory.user?.let {
                 itemView.txtKantor.text = it.office_name
                 itemView.txtPartner.text = it.division_name
+                itemView.txtName.text = it.full_name.toLowerCase().capitalizeWords()
             }
 
         }

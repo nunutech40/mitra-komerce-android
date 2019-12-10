@@ -6,12 +6,11 @@ import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.repository.SdmRepository
-import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.createRequestBodyText
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,7 +18,8 @@ import java.io.File
 
 class UbahProfileViewModel(val sdmRepository: SdmRepository,
                            val prefHelper: PreferencesHelper,
-                           val schedulerProvider: SchedulerProvider): BaseViewModel() {
+                           val schedulerProvider: SchedulerProvider
+): BaseViewModel() {
 
     val crudResponse = MutableLiveData<UiState<SingleUserResponse>>()
 

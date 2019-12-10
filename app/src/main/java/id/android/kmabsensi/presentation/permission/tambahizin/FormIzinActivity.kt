@@ -26,8 +26,8 @@ import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import kotlinx.android.synthetic.main.activity_tidak_hadir.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
@@ -59,7 +59,7 @@ class FormIzinActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-//        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar)
 //        supportActionBar?.title = "Form Izin"
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -101,7 +101,7 @@ class FormIzinActivity : BaseActivity() {
                 is UiState.Success -> {
 
                     myDialog.dismiss()
-                    if (it.data.status){
+                    if (it.data.status) {
                         compressedImage?.delete()
                         setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
                         finish()
@@ -175,7 +175,12 @@ class FormIzinActivity : BaseActivity() {
 
                     dateTo = date.time
                     if (!dateFrom.before(dateTo)) {
-                        createAlertError(this@FormIzinActivity, "Peringatan", "dateTo kurang dari dateFrom", 3000)
+                        createAlertError(
+                            this@FormIzinActivity,
+                            "Peringatan",
+                            "dateTo kurang dari dateFrom",
+                            3000
+                        )
                     } else {
                         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val dateSelected: String = dateFormat.format(date.time)

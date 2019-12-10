@@ -23,7 +23,6 @@ import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -88,7 +87,10 @@ class HomeAdminFragment : Fragment() {
 
         getPrayerTime()
         getDashboardData()
+
+        textView24.text = getTodayDateTimeDay()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -123,15 +125,17 @@ class HomeAdminFragment : Fragment() {
             txtPresent.text = ""
             txtTotalUser.text = ""
             txtNotPresent.text = ""
-            vm.getDashboardInfo(user.id)
 
+            txtNextTime.text = ""
+            txtCountdown.text = ""
+            txtStatusWaktu.text = ""
+            getPrayerTime()
+            getDashboardData()
+            setupGreetings()
         }
 
 
         val now = Calendar.getInstance()
-        val a = now.get(Calendar.AM_PM)
-        if (a == Calendar.AM) txtAmPm.text = "AM" else txtAmPm.text = "PM"
-
 
     }
 
@@ -147,12 +151,15 @@ class HomeAdminFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
+        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+            time_zuhur,
+            time_ashar
+        )
 
         txtStatusWaktu.text = statusWaktu
         txtNextTime.text = nextTime
 
-        if (differenceTime != 0.toLong()){
+        if (differenceTime != 0.toLong()) {
             countDownTimer(differenceTime)
         } else {
             txtCountdown.text = "-"
@@ -160,7 +167,7 @@ class HomeAdminFragment : Fragment() {
 
     }
 
-    fun getDashboardData(){
+    fun getDashboardData() {
         vm.getDashboardInfo(user.id)
     }
 

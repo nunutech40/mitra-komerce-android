@@ -2,19 +2,16 @@ package id.android.kmabsensi.presentation.login
 
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
-import com.github.ajalt.timberkt.Timber.d
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.LoginResponse
-import id.android.kmabsensi.data.remote.response.SingleUserResponse
-import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class LoginViewModel(
     val authRepository: AuthRepository,

@@ -19,7 +19,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
-import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast

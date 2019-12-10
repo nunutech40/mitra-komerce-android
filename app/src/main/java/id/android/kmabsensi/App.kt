@@ -5,9 +5,6 @@ import com.github.ajalt.timberkt.Timber
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import id.android.kmabsensi.di.myAppModule
-import io.github.inflationx.calligraphy3.CalligraphyConfig
-import io.github.inflationx.calligraphy3.CalligraphyInterceptor
-import io.github.inflationx.viewpump.ViewPump
 
 class App : Application() {
 

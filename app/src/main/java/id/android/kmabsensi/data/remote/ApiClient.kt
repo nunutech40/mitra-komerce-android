@@ -2,7 +2,7 @@ package id.android.kmabsensi.data.remote
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import id.android.kmabsensi.BuildConfig
+import com.intuit.sdp.BuildConfig
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -37,7 +37,8 @@ inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: Str
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
     return retrofit.create(T::class.java)
 }
 
