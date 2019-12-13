@@ -120,6 +120,10 @@ class CheckinActivity : BaseActivity() {
 //            ImagePicker.cameraOnly().start(this)
             startActivityForResult<CameraActivity>(125)
         }
+
+        picture.setOnClickListener {
+            startActivityForResult<CameraActivity>(125)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

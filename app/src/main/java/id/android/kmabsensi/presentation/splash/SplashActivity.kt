@@ -1,13 +1,8 @@
 package id.android.kmabsensi.presentation.splash
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -15,8 +10,6 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.presentation.camera.CameraActivity
-import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.login.LoginActivity
 import id.android.kmabsensi.utils.createAlertError
