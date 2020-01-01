@@ -2,12 +2,9 @@ package id.android.kmabsensi.presentation.checkin
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Environment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
-import com.esafirm.imagepicker.features.ImagePicker
 import com.github.ajalt.timberkt.Timber.e
 import com.google.gson.Gson
 import id.android.kmabsensi.R
@@ -19,13 +16,13 @@ import id.android.kmabsensi.presentation.camera.CameraActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import id.zelory.compressor.Compressor
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.clearTask
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -121,9 +118,9 @@ class CheckinActivity : BaseActivity() {
             startActivityForResult<CameraActivity>(125)
         }
 
-        picture.setOnClickListener {
-            startActivityForResult<CameraActivity>(125)
-        }
+//        picture.setOnClickListener {
+//            startActivityForResult<CameraActivity>(125)
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
