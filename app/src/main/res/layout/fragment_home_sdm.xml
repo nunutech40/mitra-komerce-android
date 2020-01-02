@@ -129,6 +129,68 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutKmPoint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
+
+                <ImageView
+                    android:id="@+id/imageView15"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/kmpoint_bg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="KM Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.28"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="200"
+                    android:textColor="@color/textWhite"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textPoin"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textPoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.53" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
@@ -139,7 +201,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+                app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint"
                 tools:text="Rabu, 13 November 2019" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -322,7 +384,6 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">
@@ -377,188 +438,38 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/txtPresent"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginStart="18dp"-->
-            <!--            android:layout_marginTop="14dp"-->
-            <!--            android:text="145"-->
-            <!--            android:textColor="@android:color/white"-->
-            <!--            android:textSize="32sp"-->
-            <!--            android:textStyle="bold"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnFormIzin">
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/txtTotalUser"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="/200"-->
-            <!--            android:textColor="#B2FFFFFF"-->
-            <!--            android:textSize="22sp"-->
-            <!--            android:layout_marginBottom="2dp"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Co-Working Space"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/colorAsk"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView30"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="4dp"-->
-            <!--            android:text="@string/data_hadir"-->
-            <!--            android:textColor="#CCFFFFFF"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rvCoworkingSpace"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="@id/textCoworkingSpace"
+                    />
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView31"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="4dp"-->
-            <!--            android:text="@string/semua_kantor"-->
-            <!--            android:textColor="#CCFFFFFF"-->
-            <!--            android:textSize="12sp"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/txtNotPresent"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginStart="18dp"-->
-            <!--            android:layout_marginTop="16dp"-->
-            <!--            android:text="6"-->
-            <!--            android:textColor="@android:color/black"-->
-            <!--            android:textSize="32sp"-->
-            <!--            android:textStyle="bold"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView34"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="orang"-->
-            <!--            android:textSize="14sp"-->
-            <!--            android:layout_marginStart="6dp"-->
-            <!--            android:layout_marginBottom="10dp"-->
-            <!--            android:textColor="@color/textColorGrey"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
-            <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView37"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="8dp"-->
-            <!--            android:text="Belum hadir"-->
-            <!--            android:textSize="16sp"-->
-            <!--            android:textColor="@color/textColorGrey"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
-            <!--        <TextView&ndash;&gt;-->
-            <!--            android:id="@+id/txtPresent"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginStart="18dp"-->
-            <!--            android:layout_marginTop="14dp"-->
-            <!--            android:text="145"-->
-            <!--            android:textColor="@android:color/white"-->
-            <!--            android:textSize="32sp"-->
-            <!--            android:textStyle="bold"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/imageView16"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/txtTotalUser"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="/200"-->
-            <!--            android:textColor="#B2FFFFFF"-->
-            <!--            android:textSize="22sp"-->
-            <!--            android:layout_marginBottom="2dp"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView30"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="4dp"-->
-            <!--            android:text="@string/data_hadir"-->
-            <!--            android:textColor="#CCFFFFFF"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView31"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="4dp"-->
-            <!--            android:text="@string/semua_kantor"-->
-            <!--            android:textColor="#CCFFFFFF"-->
-            <!--            android:textSize="12sp"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/txtNotPresent"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginStart="18dp"-->
-            <!--            android:layout_marginTop="16dp"-->
-            <!--            android:text="6"-->
-            <!--            android:textColor="@android:color/black"-->
-            <!--            android:textSize="32sp"-->
-            <!--            android:textStyle="bold"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/imageView17"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView34"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="orang"-->
-            <!--            android:textSize="14sp"-->
-            <!--            android:layout_marginStart="6dp"-->
-            <!--            android:layout_marginBottom="10dp"-->
-            <!--            android:textColor="@color/textColorGrey"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
-            <!--            app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/textView37"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="8dp"-->
-            <!--            android:text="Belum hadir"-->
-            <!--            android:textSize="16sp"-->
-            <!--            android:textColor="@color/textColorGrey"-->
-            <!--            app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
-
-            <!--        <ProgressBar-->
-            <!--            android:id="@+id/progressBar"-->
-            <!--            style="?android:attr/progressBarStyle"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-            <!--        <ProgressBar-->
-            <!--            android:id="@+id/progressBar"-->
-            <!--            style="?android:attr/progressBarStyle"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@+id/imageView16"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

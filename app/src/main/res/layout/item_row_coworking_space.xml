@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_101sdp"
+            app:cardBackgroundColor="#313131">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgCoworkingSpace"
+        android:layout_width="@dimen/_81sdp"
+        android:layout_height="@dimen/_81sdp"
+        android:src="@drawable/coworking_space"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textLokasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokasi"
+        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/imgCoworkingSpace"
+        app:layout_constraintTop_toTopOf="@id/imgCoworkingSpace"
+        android:textColor="#C8C9D0"/>
+
+    <TextView
+        android:id="@+id/txtLokasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ALC"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textLokasi"
+        app:layout_constraintTop_toBottomOf="@id/textLokasi"
+        android:textColor="@color/textWhite"/>
+
+    <TextView
+        android:id="@+id/textInformasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informasi"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/textLokasi"
+        app:layout_constraintTop_toBottomOf="@id/txtLokasi"
+        android:textColor="#C8C9D0"/>
+
+    <TextView
+        android:id="@+id/txtInformasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Acara"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textInformasi"
+        app:layout_constraintTop_toBottomOf="@id/textInformasi"
+        android:textColor="@color/textWhite"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:layout_marginEnd="40dp"
+        android:textSize="12sp"
+        android:textColor="#C8C9D0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textLokasi"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acara"
+        android:textStyle="bold"
+        android:layout_marginEnd="40dp"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textLokasi"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,12 +10,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
 import com.github.ajalt.timberkt.d
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
@@ -52,6 +55,7 @@ import java.util.concurrent.TimeUnit
 class HomeManagementFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
+    private val groupAdapter = GroupAdapter<ViewHolder>()
 
     private lateinit var user: User
 
@@ -189,7 +193,10 @@ class HomeManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRv()
         setupGreetings()
+
+        groupAdapter.add(CoworkingSpaceItem())
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
@@ -306,6 +313,13 @@ class HomeManagementFragment : Fragment() {
     override fun onDestroy() {
         countDownTimer?.cancel()
         super.onDestroy()
+    }
+
+    fun initRv(){
+        rvCoworkingSpace.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = groupAdapter
+        }
     }
 
 
