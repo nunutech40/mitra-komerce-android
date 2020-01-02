@@ -1,20 +1,21 @@
 package id.android.kmabsensi.presentation.home
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.ajalt.timberkt.Timber
-import com.github.ajalt.timberkt.d
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
@@ -24,12 +25,9 @@ import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_home_admin.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
 
@@ -107,6 +105,31 @@ class HomeActivity : AppCompatActivity() {
 
         setupViewPager()
 
+
+        showDialog()
+    }
+
+    fun showDialog(){
+        val dialog = MaterialDialog(this).show {
+            cornerRadius(16f)
+            customView(
+                R.layout.dialog_keterangan_checkin,
+                scrollable = false,
+                horizontalPadding = true,
+                noVerticalPadding = true
+            )
+        }
+        val customView = dialog.getCustomView()
+        val close = customView.findViewById<ImageView>(R.id.close)
+        val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
+        val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
+        txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
+        lottie.setAnimation("427-happy-birthday.json")
+        lottie.repeatCount = ValueAnimator.INFINITE
+        lottie.playAnimation()
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun setupViewPager() {

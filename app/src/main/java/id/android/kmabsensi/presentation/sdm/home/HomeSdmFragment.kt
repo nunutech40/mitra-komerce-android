@@ -9,17 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -40,6 +44,7 @@ import timber.log.Timber
 class HomeSdmFragment : Fragment() {
 
     private val vm: HomeViewModel by inject()
+    private val groupAdapter = GroupAdapter<ViewHolder>()
 
     private lateinit var user: User
 
@@ -159,7 +164,11 @@ class HomeSdmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRv()
         setupGreetings()
+
+        groupAdapter.add(CoworkingSpaceItem())
+        groupAdapter.add(CoworkingSpaceItem())
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
@@ -255,6 +264,14 @@ class HomeSdmFragment : Fragment() {
     override fun onDestroy() {
         countDownTimer?.cancel()
         super.onDestroy()
+    }
+
+    fun initRv(){
+        rvCoworkingSpace.apply {
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(context)
+            adapter = groupAdapter
+        }
     }
 
 

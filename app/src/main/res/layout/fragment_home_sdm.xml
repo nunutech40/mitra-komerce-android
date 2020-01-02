@@ -442,8 +442,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnFormIzin">
@@ -454,18 +452,20 @@
                     android:layout_height="wrap_content"
                     android:text="Co-Working Space"
                     android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
                     android:textColor="@color/colorAsk"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rvCoworkingSpace"
                     android:layout_marginTop="16dp"
+                    android:id="@+id/rvCoworkingSpace"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
-                    app:layout_constraintStart_toStartOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="parent"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

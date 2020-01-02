@@ -57,6 +57,8 @@
     <string name="ask">Apa yang Anda lakukan hari ini</string>
     <string name="data_hadir">Data hadir</string>
     <string name="semua_kantor">SEMUA KANTOR</string>
+    
+    <string name="ket_absen_tepat_waktu">Hore, datang tepat waktu, kami kasih 1 poin KMPay</string>
 
     <string-array name="role">
         <item>Admin</item>
