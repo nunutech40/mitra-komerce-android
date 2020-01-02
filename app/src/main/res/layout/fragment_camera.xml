@@ -7,82 +7,82 @@
     android:background="@color/black"
     tools:context=".presentation.camera.CameraFragment">
 
-    <com.priyankvasa.android.cameraviewex.CameraView
-        android:id="@+id/camera"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:adjustViewBounds="true"
-        android:keepScreenOn="true"
-        app:aspectRatio="3:4"
-        app:autoFocus="continuous_picture"
-        app:awb="auto"
-        app:cameraMode="single_capture"
-        app:facing="front"
-        app:flash="auto"
-        app:jpegQuality="medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:noiseReduction="high_quality"
-        app:opticalStabilization="true"
-        app:outputFormat="jpeg"
-        app:pinchToZoom="true"
-        app:shutter="short_time"
-        app:singleCaptureSize="W1440,H1280"
-        app:touchToFocus="true"
-        app:zsl="true" />
+<!--    <com.priyankvasa.android.cameraviewex.CameraView-->
+<!--        android:id="@+id/camera"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="?attr/actionBarSize"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:keepScreenOn="true"-->
+<!--        app:aspectRatio="3:4"-->
+<!--        app:autoFocus="continuous_picture"-->
+<!--        app:awb="auto"-->
+<!--        app:cameraMode="single_capture"-->
+<!--        app:facing="front"-->
+<!--        app:flash="auto"-->
+<!--        app:jpegQuality="medium"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:noiseReduction="high_quality"-->
+<!--        app:opticalStabilization="true"-->
+<!--        app:outputFormat="jpeg"-->
+<!--        app:pinchToZoom="true"-->
+<!--        app:shutter="short_time"-->
+<!--        app:singleCaptureSize="W1440,H1280"-->
+<!--        app:touchToFocus="true"-->
+<!--        app:zsl="true" />-->
 
-    <ImageView
-        android:id="@+id/imgPreview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="58dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="3:4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imgPreview"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginBottom="58dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintDimensionRatio="3:4"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageView
-        android:id="@+id/ivCaptureButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="64dp"
-        android:src="@drawable/ic_camera_capture"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/ivCaptureButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="64dp"-->
+<!--        android:src="@drawable/ic_camera_capture"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-    <ImageView
-        android:id="@+id/btnCancel"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_close_black_24dp" />
+<!--    <ImageView-->
+<!--        android:id="@+id/btnCancel"-->
+<!--        android:layout_width="64dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:layout_margin="64dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/guideline3"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_close_black_24dp" />-->
 
-    <ImageView
-        android:id="@+id/btnDone"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:srcCompat="@drawable/ic_done" />
+<!--    <ImageView-->
+<!--        android:id="@+id/btnDone"-->
+<!--        android:layout_width="64dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:layout_margin="64dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/guideline3"-->
+<!--        app:srcCompat="@drawable/ic_done" />-->
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50851583" />
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_percent="0.50851583" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

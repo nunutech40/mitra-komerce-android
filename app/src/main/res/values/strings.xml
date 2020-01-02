@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kampung Marketer</string>
+<!--    <string name="app_name">Kampung Marketer</string>-->
     <string name="username">Username</string>
     <string name="input_username">Masukkan Username</string>
     <string name="password">Password</string>

@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.camera.CameraActivity"/>
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTitleMenu">
+
+        <FrameLayout
+            android:id="@+id/camera_preview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <!--Camera preview-->
+            <com.wildma.idcardcamera.camera.CameraPreview
+                android:id="@+id/mCameraPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/mIvCameraCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_take_picture" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_take_picture"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="bottom|center"
+                android:gravity="center"
+                android:padding="12dp"
+                app:srcCompat="@drawable/ic_camera" />
+
+        </FrameLayout>
+
+        <include layout="@layout/camera_confirmation" />
+    </FrameLayout>
+
+</LinearLayout>
