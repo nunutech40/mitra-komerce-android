@@ -29,6 +29,7 @@ import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class HomeActivity : AppCompatActivity() {
 
     private val vm: HomeViewModel by inject()
@@ -88,7 +89,10 @@ class HomeActivity : AppCompatActivity() {
 
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
         val message = intent.getStringExtra("message")
-        if (hasCheckin) createAlertSuccess(this, message)
+        if (hasCheckin) {
+//            createAlertSuccess(this, message)
+            checkinSuccess()
+        }
 
         when (role) {
             ROLE_ADMIN -> {
@@ -105,11 +109,23 @@ class HomeActivity : AppCompatActivity() {
 
         setupViewPager()
 
+        checkinSuccess()
 
+    }
+
+    fun checkinSuccess(){
         showDialog()
     }
 
     fun showDialog(){
+        val currentTime = Calendar.getInstance()
+        val now : Date = currentTime.time
+
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY,5)
+        cal.set(Calendar.MINUTE,0)
+        val jam8 : Date = cal.time
+
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(
@@ -123,8 +139,19 @@ class HomeActivity : AppCompatActivity() {
         val close = customView.findViewById<ImageView>(R.id.close)
         val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
         val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
-        txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
-        lottie.setAnimation("427-happy-birthday.json")
+
+        if (now.before(jam8)){
+            txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
+            lottie.setAnimation("427-happy-birthday.json")
+        } else {
+
+            val different: Long = now.time - jam8.time
+            val minute = (different / 1000) / 60 % 60
+
+            txtKeterangan.text = getString(R.string.ket_absen_telat, minute.toInt())
+            lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
+        }
+
         lottie.repeatCount = ValueAnimator.INFINITE
         lottie.playAnimation()
         close.setOnClickListener {
