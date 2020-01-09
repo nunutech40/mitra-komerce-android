@@ -45,4 +45,9 @@
 
     <color name="color_blue">#00539F</color>
 
+    <color name="status_acara">#F39C12</color>
+    <color name="status_tersedia">#3EB474</color>
+
+    <color name="color_stroke">#FC927C</color>
+
 </resources>

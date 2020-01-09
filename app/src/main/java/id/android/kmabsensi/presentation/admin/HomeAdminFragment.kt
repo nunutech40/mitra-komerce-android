@@ -13,6 +13,7 @@ import com.github.ajalt.timberkt.Timber.e
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
@@ -118,6 +119,10 @@ class HomeAdminFragment : Fragment() {
 
         btnKelolaJabatan.setOnClickListener {
             activity?.startActivity<ManajemenJabatanActivity>()
+        }
+
+        btnKelolaCoworking.setOnClickListener {
+            activity?.startActivity<ListCoworkingActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {

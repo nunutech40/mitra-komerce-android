@@ -237,6 +237,32 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
+            <LinearLayout
+                android:id="@+id/layoutExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView16"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.skydoves.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:expandable_animation="bounce"
+                    android:background="@color/white"
+                    app:expandable_duration="300"
+                    app:expandable_isExpanded="true"
+                    app:expandable_parentLayout="@layout/layout_parent"
+                    app:expandable_secondLayout="@layout/layout_second"
+                    />
+
+            </LinearLayout>
+
+
+
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
@@ -247,262 +273,599 @@
                 android:textColor="@color/colorAsk"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutExpand" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnCheckIn"
+            <LinearLayout
+                android:id="@+id/layoutMenu1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="5dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView26"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView26">
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckIn"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp"
+                        android:background="?attr/selectableItemBackground">
 
-                    <ImageView
-                        android:id="@+id/imageView19"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_checkin"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_checkin"/>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@id/imageView19"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageView19"
-                        app:layout_constraintBottom_toBottomOf="@id/imageView19">
+                        android:layout_marginTop="4dp"
+                        android:text="Datang"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="CHECK LOCK"
-                            android:textColor="@color/colorTitleMenu"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView19"
-                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Datang"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:layout_marginTop="1dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckOut"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_checkout"/>
 
+                    </com.google.android.material.card.MaterialCardView>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pulang"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-            </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnKelolaSdm"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnKelolaSdm"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_kelolasdm"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data SDM"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnFormIzin"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_form_izin"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Form Izin"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutMenu2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="5dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnKelolaIzin"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
-                    <ImageView
-                        android:id="@+id/imageView20"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_kelolasdm"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_kelola_izin"/>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@id/imageView20"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageView20"
-                        app:layout_constraintBottom_toBottomOf="@id/imageView20">
+                        android:layout_marginTop="4dp"
+                        android:text="Data Izin"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="KELOLA"
-                            android:textColor="@color/colorTitleMenu"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView19"
-                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Data SDM"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:layout_marginTop="1dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_kelola_izin"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnCheckOut"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView26">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/imageView21"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_checkout"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="@id/imageView21"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/imageView21"
-                        app:layout_constraintTop_toTopOf="@id/imageView21">
+                        android:layout_marginTop="4dp"
+                        android:text="Data Izin"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="CHECK LOCK"
-                            android:textColor="@color/colorTitleMenu"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView19"
-                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:text="Pulang"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_kelolasdm"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnFormIzin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/btnCheckOut">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/imageView30"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_form_izin"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="@id/imageView30"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/imageView30"
-                        app:layout_constraintTop_toTopOf="@id/imageView30">
+                        android:layout_marginTop="4dp"
+                        android:text="Data SDM"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PERIZINAN"
-                            android:textColor="@color/colorTitleMenu"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView19"
-                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:text="Form Izin"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_kelolasdm"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data Jabatan"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/btnCheckIn"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                app:cardElevation="1dp"-->
+<!--                app:cardCornerRadius="8dp"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView26">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView19"-->
+<!--                        android:layout_width="42dp"-->
+<!--                        android:layout_height="42dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:src="@drawable/ic_checkin"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/imageView19"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/imageView19"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView19">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="CHECK LOCK"-->
+<!--                            android:textColor="@color/colorTitleMenu"-->
+<!--                            android:textSize="11sp"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Datang"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="14sp"-->
+<!--                            android:layout_marginTop="1dp" />-->
+
+<!--                    </LinearLayout>-->
+
+
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/btnKelolaSdm"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                app:cardElevation="1dp"-->
+<!--                app:cardCornerRadius="8dp"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView20"-->
+<!--                        android:layout_width="42dp"-->
+<!--                        android:layout_height="42dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:src="@drawable/ic_kelolasdm"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/imageView20"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/imageView20"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView20">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="KELOLA"-->
+<!--                            android:textColor="@color/colorTitleMenu"-->
+<!--                            android:textSize="11sp"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Data SDM"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="14sp"-->
+<!--                            android:layout_marginTop="1dp" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/btnCheckOut"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:cardCornerRadius="8dp"-->
+<!--                app:cardElevation="1dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView26">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView21"-->
+<!--                        android:layout_width="42dp"-->
+<!--                        android:layout_height="42dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:src="@drawable/ic_checkout"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView21"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/imageView21"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/imageView21">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="CHECK LOCK"-->
+<!--                            android:textColor="@color/colorTitleMenu"-->
+<!--                            android:textSize="11sp"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="1dp"-->
+<!--                            android:text="Pulang"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="14sp" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/btnFormIzin"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:cardCornerRadius="8dp"-->
+<!--                app:cardElevation="1dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/btnCheckOut">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView30"-->
+<!--                        android:layout_width="42dp"-->
+<!--                        android:layout_height="42dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:src="@drawable/ic_form_izin"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView30"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/imageView30"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/imageView30">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="PERIZINAN"-->
+<!--                            android:textColor="@color/colorTitleMenu"-->
+<!--                            android:textSize="11sp"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="1dp"-->
+<!--                            android:text="Form Izin"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="14sp" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/btnKelolaIzin"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:layout_marginBottom="16dp"-->
+<!--                app:cardCornerRadius="8dp"-->
+<!--                app:cardElevation="1dp"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/btnKelolaSdm">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/img20"-->
+<!--                        android:layout_width="42dp"-->
+<!--                        android:layout_height="42dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:src="@drawable/ic_kelola_izin"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/img20"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/img20"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/img20">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="KELOLA"-->
+<!--                            android:textColor="@color/colorTitleMenu"-->
+<!--                            android:textSize="11sp"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="1dp"-->
+<!--                            android:text="Data Izin"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="14sp" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
 
             <TextView
                 android:id="@+id/txtPresent"
@@ -586,70 +949,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnKelolaIzin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnKelolaSdm">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/img20"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_kelola_izin"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="@id/img20"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/img20"
-                        app:layout_constraintTop_toTopOf="@id/img20">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="KELOLA"
-                            android:textColor="@color/colorTitleMenu"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView19"
-                            app:layout_constraintTop_toTopOf="@+id/imageView19" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:text="Data Izin"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -661,39 +960,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView16" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnKelolaIzin">
-
-            <TextView
-                android:id="@+id/textCoworkingSpace"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Co-Working Space"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/colorAsk"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu2">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rvCoworkingSpace"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
-                app:layout_constraintStart_toStartOf="@id/textCoworkingSpace"
-                />
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Co-Working Space"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/colorAsk"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rvCoworkingSpace"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="@id/textCoworkingSpace"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </androidx.core.widget.NestedScrollView>
 

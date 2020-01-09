@@ -220,7 +220,7 @@ class FormIzinActivity : BaseActivity() {
             imagePath = image.path
 
             imagePath?.let {
-                imgUpload.loadImageFromUrl(it)
+//                imgUpload.loadImageFromUrl(it)
             }
 
             compress(File(imagePath))
@@ -246,9 +246,9 @@ class FormIzinActivity : BaseActivity() {
                 .subscribe({
                     compressedImage = it
 
-                    Glide.with(this)
-                        .load(compressedImage)
-                        .into(imgUpload)
+//                    Glide.with(this)
+//                        .load(compressedImage)
+//                        .into(imgUpload)
 
                 }) { e { it.message.toString() } })
     }

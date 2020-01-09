@@ -43,7 +43,9 @@ import kotlinx.android.synthetic.main.fragment_home_management.txtNotPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
+import kotlinx.android.synthetic.main.layout_second.view.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -193,6 +195,22 @@ class HomeManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        expandable.setOnExpandListener {
+            if (it) {
+                context?.toast("expanded")
+            } else {
+                context?.toast("collapse")
+            }
+        }
+        expandable.parentLayout.setOnClickListener {
+            if (expandable.isExpanded) {
+                expandable.collapse()
+            } else {
+                expandable.expand()
+            }
+        }
+
+
         initRv()
         setupGreetings()
 
@@ -317,6 +335,7 @@ class HomeManagementFragment : Fragment() {
 
     fun initRv(){
         rvCoworkingSpace.apply {
+            isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
         }
