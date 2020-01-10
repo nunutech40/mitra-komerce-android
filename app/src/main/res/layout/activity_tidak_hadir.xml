@@ -157,7 +157,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btnUpload"
-                                android:layout_width="116dp"
+                                android:layout_width="@dimen/_110sdp"
                                 android:layout_height="wrap_content"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:text="Upload"
@@ -191,7 +191,7 @@
                             android:layout_height="match_parent">
 
                             <com.google.android.material.button.MaterialButton
-                                android:layout_width="116dp"
+                                android:layout_width="@dimen/_110sdp"
                                 android:layout_height="wrap_content"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:text="Upload"

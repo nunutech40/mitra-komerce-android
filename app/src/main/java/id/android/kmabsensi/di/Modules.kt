@@ -11,6 +11,7 @@ import id.android.kmabsensi.data.remote.provideOkHttpClient
 import id.android.kmabsensi.data.remote.service.ApiService
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
+import id.android.kmabsensi.presentation.coworking.CoworkingSpaceViewModel
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.OfficeViewModel
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
@@ -50,9 +51,9 @@ val dataModule = module {
     single { DashboardRepository(get()) }
     single { PresenceRepository(get()) }
     single { PermissionRepository(get()) }
-
     single { JabatanRepository(get()) }
     single { JadwalShalatRepository(get()) }
+    single { CoworkingSpaceRepository(get()) }
 
 }
 
@@ -71,6 +72,7 @@ val viewModelModule = module {
     viewModel { PresenceReportViewModel(get(), get(), get(), get()) }
     viewModel { JabatanViewModel(get(), get()) }
     viewModel { UbahProfileViewModel(get(), get(), get()) }
+    viewModel { CoworkingSpaceViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

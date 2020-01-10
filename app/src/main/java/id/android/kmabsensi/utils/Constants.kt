@@ -5,6 +5,7 @@ const val ROLE_MANAGEMEMENT = "management"
 const val ROLE_SDM = "sdm"
 
 const val OFFICE_KEY = "office"
+const val COWORKING_KEY = "coworking"
 const val USER_KEY = "user"
 const val USER_ID_KEY = "userId"
 const val IS_MANAGEMENT_KEY = "isManagement"
