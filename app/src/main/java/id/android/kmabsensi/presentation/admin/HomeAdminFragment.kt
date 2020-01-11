@@ -186,7 +186,6 @@ class HomeAdminFragment : Fragment() {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
-                    d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
 
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24

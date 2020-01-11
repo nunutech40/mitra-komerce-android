@@ -64,4 +64,9 @@ class CoworkingSpaceRepository(val apiService: ApiService) {
 
     }
 
+    fun getCoworkUserData(userId: Int) = apiService.getUserCoworkData(userId)
+
+    fun checkInCoworkingSpace(coworkId: Int) = apiService.checkinCoworkingSpace(coworkId)
+    fun checkOutCoworkingSpace(coworkPresenceId: Int) = apiService.checkOutCoworkingSpace(coworkPresenceId)
+
 }

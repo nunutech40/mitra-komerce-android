@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.*
+import id.android.kmabsensi.data.repository.CoworkingSpaceRepository
 import id.android.kmabsensi.data.repository.DashboardRepository
 import id.android.kmabsensi.data.repository.JadwalShalatRepository
 import id.android.kmabsensi.data.repository.PresenceRepository
@@ -20,17 +21,21 @@ class HomeViewModel(
     private val dashboardRepository: DashboardRepository,
     private val presenceRepository: PresenceRepository,
     private val jadwalShalatRepository: JadwalShalatRepository,
+    private val coworkingSpaceRepository: CoworkingSpaceRepository,
     val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
-
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
     val presenceCheckResponse = LiveEvent<UiState<PresenceCheckResponse>>()
     val checkoutResponse = LiveEvent<UiState<CheckinResponse>>()
 
     val presenceCheckState: LiveData<UiState<PresenceCheckResponse>> = presenceCheckResponse
     val checkoutState: LiveData<UiState<CheckinResponse>> = checkoutResponse
+
+    val checkInCoworkingSpace = LiveEvent<UiState<BaseResponse>>()
+
+    val coworkUserData = LiveEvent<UiState<UserCoworkDataResponse>>()
 
     fun getDashboardInfo(userId: Int) {
         dashboardData.value = UiState.Loading()
@@ -68,6 +73,38 @@ class HomeViewModel(
         )
     }
 
+    fun getCoworkUserData(userId: Int){
+        coworkUserData.value = UiState.Loading()
+        compositeDisposable.add(coworkingSpaceRepository.getCoworkUserData(userId)
+            .with(schedulerProvider)
+            .subscribe({
+                coworkUserData.value = UiState.Success(it)
+            },{
+                coworkUserData.value = UiState.Error(it)
+            }))
+    }
+
+    fun checkInCoworkingSpace(coworkId: Int){
+        checkInCoworkingSpace.value = UiState.Loading()
+        compositeDisposable.add(coworkingSpaceRepository.checkInCoworkingSpace(coworkId)
+            .with(schedulerProvider)
+            .subscribe({
+                checkInCoworkingSpace.value = UiState.Success(it)
+            },{
+                checkInCoworkingSpace.value = UiState.Error(it)
+            }))
+    }
+
+    fun checkOutCoworkingSpace(coworkPresenceId: Int){
+        checkInCoworkingSpace.value = UiState.Loading()
+        compositeDisposable.add(coworkingSpaceRepository.checkOutCoworkingSpace(coworkPresenceId)
+            .with(schedulerProvider)
+            .subscribe({
+                checkInCoworkingSpace.value = UiState.Success(it)
+            },{
+                checkInCoworkingSpace.value = UiState.Error(it)
+            }))
+    }
 
     fun getUserData(): User {
         return Gson().fromJson<User>(

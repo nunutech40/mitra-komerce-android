@@ -232,5 +232,22 @@ interface ApiService {
         @Path("id") id: Int
     ): Single<AddCoworkingSpaceResponse>
 
+    @POST("api/coworkingspace/coworkUserData/{user_id}")
+    fun getUserCoworkData(
+        @Path("user_id") userId: Int
+    ): Single<UserCoworkDataResponse>
+
+    @GET("api/coworkingspace/check-in/{cowork-id}")
+    fun checkinCoworkingSpace(
+        @Path("cowork-id") coworkId: Int
+    ) : Single<BaseResponse>
+
+    @GET("api/coworkingspace/check-out/{cowork_presence_id}")
+    fun checkOutCoworkingSpace(
+        @Path("cowork_presence_id") cowork_presence_id: Int
+    ) : Single<BaseResponse>
+
+
+
 
 }

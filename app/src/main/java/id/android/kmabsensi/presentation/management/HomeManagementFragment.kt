@@ -84,6 +84,8 @@ class HomeManagementFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initRv()
+
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> progressBar.visible()
@@ -185,8 +187,63 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
+        vm.coworkUserData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+//                    activity?.toast(it.data.data.size.toString())
+                    groupAdapter.clear()
+                    it.data.data.forEach {
+                        groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
+                            activity?.toast("$hasCheckin")
+                            if (hasCheckin){
+                                vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
+                            } else {
+                                if (coworking.available_slot > 0){
+                                    if (coworking.cowork_presence.size < 2){
+                                        vm.checkInCoworkingSpace(coworking.id)
+                                    } else if (coworking.cowork_presence.size >= 2){
+                                        createAlertError(activity!!, "Gagal", "Anda hanya bisa check in coworking space sebanyak 2 kali")
+                                    }
+                                }
+
+                            }
+                        })
+                    }
+                }
+                is UiState.Error -> {
+
+                }
+            }
+
+        })
+
+        vm.checkInCoworkingSpace.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    if (it.data.status){
+                        vm.getCoworkUserData(user.id)
+                    } else {
+                        createAlertError(activity!!, "Failed", it.data.message)
+                    }
+
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                    Timber.e(it.throwable)
+                }
+            }
+        })
+
         vm.getJadwalShalat()
         getDashboardData()
+        vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
     }
@@ -211,10 +268,7 @@ class HomeManagementFragment : Fragment() {
         }
 
 
-        initRv()
         setupGreetings()
-
-        groupAdapter.add(CoworkingSpaceItem())
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
@@ -301,7 +355,6 @@ class HomeManagementFragment : Fragment() {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
-                    d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60

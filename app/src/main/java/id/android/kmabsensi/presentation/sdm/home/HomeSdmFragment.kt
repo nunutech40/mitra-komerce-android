@@ -167,8 +167,8 @@ class HomeSdmFragment : Fragment() {
         initRv()
         setupGreetings()
 
-        groupAdapter.add(CoworkingSpaceItem())
-        groupAdapter.add(CoworkingSpaceItem())
+//        groupAdapter.add(CoworkingSpaceItem())
+//        groupAdapter.add(CoworkingSpaceItem())
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
