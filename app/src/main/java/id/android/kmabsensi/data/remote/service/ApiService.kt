@@ -248,6 +248,12 @@ interface ApiService {
         @Path("cowork_presence_id") cowork_presence_id: Int
     ) : Single<BaseResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/presence/ticket/add")
+    fun reportAbsen(
+        @Body body: Map<String, Any>
+    ): Single<BaseResponse>
+
 
 
 

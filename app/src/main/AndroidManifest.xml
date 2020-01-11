@@ -30,7 +30,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.coworking.CoworkingActivity"></activity>
+        <activity android:name=".presentation.checkin.ReportAbsensiActivity"></activity>
+        <activity android:name=".presentation.coworking.CoworkingActivity" />
         <activity android:name=".presentation.coworking.ListCoworkingActivity" />
         <activity
             android:name=".presentation.camera.CameraActivity"

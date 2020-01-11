@@ -64,7 +64,7 @@ val viewModelModule = module {
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { CheckinViewModel(get(), get()) }
+    viewModel { CheckinViewModel(get(), get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }
     viewModel { LupaPasswordViewModel(get(), get()) }

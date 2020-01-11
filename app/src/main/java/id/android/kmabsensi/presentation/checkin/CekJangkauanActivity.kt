@@ -1,8 +1,14 @@
 package id.android.kmabsensi.presentation.checkin
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.location.Location
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -58,6 +64,29 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             startActivity<CheckinActivity>(
                 DATA_OFFICE_KEY to data,
                 PRESENCE_ID_KEY to presenseId)
+        }
+
+        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
+        kendalaAbsen.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_kirim_laporan
+                )
+            ),
+            19, 32,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        kendalaAbsen.setSpan(
+            StyleSpan(Typeface.BOLD),
+            19, 32,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        btnKirimLaporan.text = kendalaAbsen
+
+        btnKirimLaporan.setOnClickListener {
+            startActivity<ReportAbsensiActivity>()
         }
 
     }

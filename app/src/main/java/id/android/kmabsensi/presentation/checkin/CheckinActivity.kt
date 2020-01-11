@@ -2,7 +2,13 @@ package id.android.kmabsensi.presentation.checkin
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.github.ajalt.timberkt.Timber.e
@@ -19,10 +25,7 @@ import id.android.kmabsensi.utils.ui.MyDialog
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.clearTask
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
-import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.*
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -121,6 +124,30 @@ class CheckinActivity : BaseActivity() {
 //        picture.setOnClickListener {
 //            startActivityForResult<CameraActivity>(125)
 //        }
+
+        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
+        kendalaAbsen.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_kirim_laporan
+                )
+            ),
+            19, 32,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        kendalaAbsen.setSpan(
+            StyleSpan(Typeface.BOLD),
+            19, 32,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        btnKirimLaporan.text = kendalaAbsen
+
+        btnKirimLaporan.setOnClickListener {
+            startActivity<ReportAbsensiActivity>()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
