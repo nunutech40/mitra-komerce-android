@@ -19,6 +19,7 @@ import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
+import java.text.SimpleDateFormat
 
 class DetailIzinActivity : BaseActivity() {
 
@@ -49,46 +50,63 @@ class DetailIzinActivity : BaseActivity() {
 
         permission?.let {
             it.user?.let { user ->
-                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
+//                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
                 d { it.user.photo_profile_url.toString() }
 
-                txtNamaKaryawan.text = ":   ${it.user.full_name}"
-                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
-                txtJabatanKaryawan.text = ":   ${it.user.position_name}"
-                txtKantor.text = ":   ${it.user.office_name}"
+                txtNamaPemohon.text = "${it.user.full_name}"
+//                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
+                txtRole.text = "${it.user.position_name}"
+//                txtKantor.text = ":   ${it.user.office_name}"
             }
 
-            val namaAtasan = it.management?.full_name ?: "-"
-            txtNamaAtasan.text = ":   $namaAtasan"
-            txtJenisIzin.text = when (it.permission_type) {
-                1 -> ":   Izin"
-                2 -> ":   Sakit"
-                else -> ":   Cuti"
+//            val namaAtasan = it.management?.full_name ?: "-"
+//            txtNamaAtasan.text = ":   $namaAtasan"
+            txtAlasanTidakHadir.text = when (it.permission_type) {
+                1 -> "Izin"
+                2 -> "Sakit"
+                else -> "Cuti"
             }
 
-            txtDeskripsi.text = ":   ${it.explanation}"
-            txtWaktu.text = ":   ${it.date_from} - ${it.date_to}"
-            txtStatus.text = when (it.status) {
-                0 -> ":   Meminta Persetujuan"
-                2 -> ":   Disetujui"
-                else -> ":   Ditolak"
+            txtKeterangan.text = "${it.explanation}"
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val dateFrom = dateFormat.parse(it.date_from)
+            val dateTo = dateFormat.parse(it.date_to)
+//            txtDate.text = getDateStringFormatted(date)
+
+            txtDateFrom.text = getDateStringFormatted(dateFrom)
+            txtDateTo.text = getDateStringFormatted(dateTo)
+
+            when(it.status){
+                0 -> {
+                    txtStatus.text = "REQUESTED"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_requested)
+                }
+                2 -> {
+                    txtStatus.text = "DISETUJUI"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_approved)
+                }
+                3 -> {
+                    txtStatus.text = "DITOLAK"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_rejected)
+                }
             }
 
-            it.created_at?.let {
-                txtTanggalPengajuan.text = ":   $it"
-            } ?: kotlin.run {
-                txtTanggalPengajuan.text = ":   -"
-            }
+//            it.created_at?.let {
+//                txtTanggalPengajuan.text = ":   $it"
+//            } ?: kotlin.run {
+//                txtTanggalPengajuan.text = ":   -"
+//            }
 
-            button.setOnClickListener { view ->
-                StfalconImageViewer.Builder<String>(
-                    this,
-                    listOf(it.attachment_img_url)
-                ) { view, image ->
-                    Glide.with(this)
-                        .load(image).into(view)
-                }.show()
-            }
+//            button.setOnClickListener { view ->
+//                StfalconImageViewer.Builder<String>(
+//                    this,
+//                    listOf(it.attachment_img_url)
+//                ) { view, image ->
+//                    Glide.with(this)
+//                        .load(image).into(view)
+//                }.show()
+//            }
 
             if (isFromManajemenIzin) {
                 if (it.status == 0) layoutAction.visible() else layoutAction.gone()
