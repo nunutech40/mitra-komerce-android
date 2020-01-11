@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
+import com.stfalcon.imageviewer.StfalconImageViewer
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -40,13 +41,17 @@ class FormIzinActivity : BaseActivity() {
 
     private lateinit var myDialog: MyDialog
 
-    var imagePath: String? = ""
+    var imagePathPersetujuanPartner: String? = ""
+    var imagePathLaporanLeader: String? = ""
+
+    var isPersetujuanPartner = false
 
     var permissionType = 0
 
     private lateinit var user: User
 
-    private var compressedImage: File? = null
+    private var compressedImagePersetujuanPartner: File? = null
+    private var compressedImageLaporanLeader: File? = null
 
     private val disposables = CompositeDisposable()
 
@@ -60,14 +65,17 @@ class FormIzinActivity : BaseActivity() {
         myDialog = MyDialog(this)
 
         setSupportActionBar(toolbar)
-//        supportActionBar?.title = "Form Izin"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setToolbarTitle("Form Izin")
 
         user = intent.getParcelableExtra(USER_KEY)
 
-        // spinner jabatan
+        if (user.division_id == 2){
+            layoutPersetujuanPartner.gone()
+            dividerPersetujuanPartner.gone()
+        }
+
+        // spinner izin
         ArrayAdapter.createFromResource(
             this,
             R.array.permission,
@@ -102,7 +110,7 @@ class FormIzinActivity : BaseActivity() {
 
                     myDialog.dismiss()
                     if (it.data.status) {
-                        compressedImage?.delete()
+                        compressedImagePersetujuanPartner?.delete()
                         setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
                         finish()
                     } else {
@@ -117,44 +125,78 @@ class FormIzinActivity : BaseActivity() {
         })
 
         btnSubmit.setOnClickListener {
-            compressedImage?.let {
-                if (validation()) {
+
+            if (user.division_id == 1){
+                if (compressedImagePersetujuanPartner == null) {
+                    createAlertError(this, "Peringatan", "Upload persetujuan partner dahulu.")
+                    return@setOnClickListener
+                }
+            }
+
+            if (validation()) {
+                compressedImageLaporanLeader?.let { leader ->
                     vm.createPermission(
                         permissionType,
                         user.id,
                         user.office_id,
                         user.role_id,
                         user.user_management_id,
-                        1,
                         edtDeskripsi.text.toString(),
                         edtDateFrom.text.toString(),
                         edtDateTo.text.toString(),
-                        it
+                        leader,
+                        compressedImagePersetujuanPartner?.let { it }
                     )
-                }
-            } ?: createAlertError(this, "Peringatan", "Upload gambar terlebih dahulu.")
-
+                } ?: createAlertError(this, "Peringatan", "Upload laporan leader dahulu.")
+            }
         }
 
-        btnUpload.setOnClickListener {
-            ImagePicker.create(this)
-                .returnMode(ReturnMode.ALL)
-                .folderMode(true)
-                .toolbarFolderTitle("Folder")
-                .toolbarImageTitle("Ketuk untuk memilih")
-                .toolbarArrowColor(Color.WHITE)
-                .single()
-                .theme(R.style.ImagePickerTheme)
-                .enableLog(true)
-                .start()
+        btnUploadPersetujuanPartner.setOnClickListener {
+            isPersetujuanPartner = true
+            startImagePicker()
+        }
+
+        btnUploadLaporanLeader.setOnClickListener {
+            isPersetujuanPartner = false
+            startImagePicker()
+        }
+
+        btnClose.setOnClickListener {
+            imgPersetujuanPartner.gone()
+            btnClose.gone()
+            btnUploadPersetujuanPartner.visible()
+        }
+
+        btnCloseLaporanLeader.setOnClickListener {
+            imgLaporanLeader.gone()
+            btnCloseLaporanLeader.gone()
+            btnUploadLaporanLeader.visible()
+        }
+
+        imgPersetujuanPartner.setOnClickListener {
+            StfalconImageViewer.Builder<String>(
+                this,
+                listOf(compressedImagePersetujuanPartner?.path)
+            ) { view, image ->
+                Glide.with(this)
+                    .load(image).into(view)
+            }.show()
+        }
+
+        imgLaporanLeader.setOnClickListener {
+            StfalconImageViewer.Builder<String>(
+                this,
+                listOf(compressedImageLaporanLeader?.path)
+            ) { view, image ->
+                Glide.with(this)
+                    .load(image).into(view)
+            }.show()
         }
 
         edtDateFrom.setOnClickListener {
             MaterialDialog(this).show {
                 datePicker { dialog, date ->
-
                     // Use date (Calendar)
-
                     dialog.dismiss()
 
                     dateFrom = date.time
@@ -194,6 +236,19 @@ class FormIzinActivity : BaseActivity() {
 
     }
 
+    private fun startImagePicker(){
+        ImagePicker.create(this)
+            .returnMode(ReturnMode.ALL)
+            .folderMode(true)
+            .toolbarFolderTitle("Folder")
+            .toolbarImageTitle("Ketuk untuk memilih")
+            .toolbarArrowColor(Color.WHITE)
+            .single()
+            .theme(R.style.ImagePickerTheme)
+            .enableLog(true)
+            .start()
+    }
+
     private fun setDateFrom(dateFrom: String) {
         edtDateFrom.setText(dateFrom)
     }
@@ -217,20 +272,20 @@ class FormIzinActivity : BaseActivity() {
 
             val image = ImagePicker.getFirstImageOrNull(data)
 
-            imagePath = image.path
-
-            imagePath?.let {
-//                imgUpload.loadImageFromUrl(it)
+            if (isPersetujuanPartner){
+                imagePathPersetujuanPartner = image.path
+            } else {
+                imagePathLaporanLeader = image.path
             }
 
-            compress(File(imagePath))
+            compress(File(image.path))
 
         }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun compress(file: File) {
+    private fun compress(file: File) {
         disposables.add(
             Compressor(this)
                 .setQuality(75)
@@ -244,11 +299,27 @@ class FormIzinActivity : BaseActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    compressedImage = it
 
-//                    Glide.with(this)
-//                        .load(compressedImage)
-//                        .into(imgUpload)
+                    if (isPersetujuanPartner){
+                        compressedImagePersetujuanPartner = it
+                        btnUploadPersetujuanPartner.gone()
+                        imgPersetujuanPartner.visible()
+                        btnClose.visible()
+
+                        Glide.with(this)
+                            .load(compressedImagePersetujuanPartner)
+                            .into(imgPersetujuanPartner)
+
+                    } else {
+                        compressedImageLaporanLeader = it
+                        btnUploadLaporanLeader.gone()
+                        imgLaporanLeader.visible()
+                        btnCloseLaporanLeader.visible()
+
+                        Glide.with(this)
+                            .load(compressedImageLaporanLeader)
+                            .into(imgLaporanLeader)
+                    }
 
                 }) { e { it.message.toString() } })
     }

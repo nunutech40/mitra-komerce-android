@@ -34,5 +34,6 @@ data class User(
     val role_name: String?,
     val updated_at: String,
     val user_management_id: Int,
-    val username: String
+    val username: String,
+    val kmpoin: Int
 ) : Parcelable

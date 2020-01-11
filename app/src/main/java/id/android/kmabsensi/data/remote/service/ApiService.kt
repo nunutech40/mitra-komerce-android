@@ -155,11 +155,12 @@ interface ApiService {
         @Part("office_id") officeId: RequestBody,
         @Part("role_id") roleId: RequestBody,
         @Part("user_management_id") userManagementId: RequestBody,
-        @Part("status") status: RequestBody,
+//        @Part("status") status: RequestBody,
         @Part("explanation") explanation: RequestBody,
         @Part("date_from") dateFrom: RequestBody,
         @Part("date_to") dateTo: RequestBody,
-        @Part file: MultipartBody.Part
+        @Part attachment_leader: MultipartBody.Part,
+        @Part attachment_partner: MultipartBody.Part?
     ) : Single<BaseResponse>
 
     @POST("api/forget_password")

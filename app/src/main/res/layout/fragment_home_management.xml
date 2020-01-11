@@ -164,11 +164,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtKmPoin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:fontFamily="@font/avenirltstd_medium"
-                    android:text="200"
+                    android:text="-"
                     android:textColor="@color/textWhite"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -251,11 +252,13 @@
                     android:id="@+id/expandable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@color/white"
                     app:expandable_showSpinner="true"
                     app:expandable_spinner="@drawable/ic_arrow_down"
                     app:expandable_duration="300"
-                    app:expandable_isExpanded="true"
+                    app:expandable_isExpanded="false"
                     app:expandable_parentLayout="@layout/layout_parent"
                     app:expandable_secondLayout="@layout/layout_second"
                     />

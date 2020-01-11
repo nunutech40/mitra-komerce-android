@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -157,7 +158,61 @@ class HomeSdmFragment : Fragment() {
             }
         })
 
+        vm.coworkUserData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    groupAdapter.clear()
+                    it.data.data.forEach {
+                        groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
+                            activity?.toast("$hasCheckin")
+                            if (hasCheckin){
+                                vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
+                            } else {
+                                if (coworking.available_slot > 0){
+                                    if (coworking.cowork_presence.size < 2){
+                                        vm.checkInCoworkingSpace(coworking.id)
+                                    } else if (coworking.cowork_presence.size >= 2){
+                                        createAlertError(activity!!, "Gagal", "Anda hanya bisa check in coworking space sebanyak 2 kali")
+                                    }
+                                }
+
+                            }
+                        })
+                    }
+                }
+                is UiState.Error -> {
+
+                }
+            }
+
+        })
+
+        vm.checkInCoworkingSpace.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    if (it.data.status){
+                        vm.getCoworkUserData(user.id)
+                    } else {
+                        createAlertError(activity!!, "Failed", it.data.message)
+                    }
+
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                    com.github.ajalt.timberkt.Timber.e(it.throwable)
+                }
+            }
+        })
+
         vm.getJadwalShalat()
+        vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
     }

@@ -31,14 +31,23 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
         officeId: Int,
         roleId: Int,
         userManagementId: Int,
-        status: Int,
         explanation: String,
         dateFrom: String,
         dateTo: String,
-        file: File
+        attachment_leader: File,
+        attachment_partner: File?
     ){
-        val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
-        val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
+        val attachmentLeader = RequestBody.create(MediaType.parse("image/*"), attachment_leader)
+        val attachmentLeaderFile = MultipartBody.Part.createFormData("attachment_leader", attachment_leader.name, attachmentLeader)
+
+        var attachmentPartnerFile: MultipartBody.Part? = null
+
+        attachment_partner?.let {
+            val attachmentPartner = RequestBody.create(MediaType.parse("image/*"), attachment_partner)
+            attachmentPartnerFile = MultipartBody.Part.createFormData("attachment_partner", attachment_partner.name, attachmentPartner)
+        }
+
+
         createPermissionResponse.value = UiState.Loading()
         compositeDisposable.add(permissionRepository.createPermission(
             permissionType.toString().createRequestBodyText(),
@@ -46,11 +55,12 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
             officeId.toString().createRequestBodyText(),
             roleId.toString().createRequestBodyText(),
             userManagementId.toString().createRequestBodyText(),
-            status.toString().createRequestBodyText(),
+//            status.toString().createRequestBodyText(),
             explanation.createRequestBodyText(),
             dateFrom.createRequestBodyText(),
             dateTo.createRequestBodyText(),
-            photo
+            attachmentLeaderFile,
+            attachmentPartnerFile
         )
             .with(schedulerProvider)
             .subscribe({

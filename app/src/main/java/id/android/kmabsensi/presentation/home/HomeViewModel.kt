@@ -7,10 +7,7 @@ import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.*
-import id.android.kmabsensi.data.repository.CoworkingSpaceRepository
-import id.android.kmabsensi.data.repository.DashboardRepository
-import id.android.kmabsensi.data.repository.JadwalShalatRepository
-import id.android.kmabsensi.data.repository.PresenceRepository
+import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
@@ -22,11 +19,13 @@ class HomeViewModel(
     private val presenceRepository: PresenceRepository,
     private val jadwalShalatRepository: JadwalShalatRepository,
     private val coworkingSpaceRepository: CoworkingSpaceRepository,
+    val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
+    val userdData = MutableLiveData<UiState<UserResponse>>()
     val presenceCheckResponse = LiveEvent<UiState<PresenceCheckResponse>>()
     val checkoutResponse = LiveEvent<UiState<CheckinResponse>>()
 
@@ -103,6 +102,17 @@ class HomeViewModel(
                 checkInCoworkingSpace.value = UiState.Success(it)
             },{
                 checkInCoworkingSpace.value = UiState.Error(it)
+            }))
+    }
+
+    fun getProfileUserData(userId: Int){
+        userdData.value = UiState.Loading()
+        compositeDisposable.add(userRepository.getProfileUser(userId)
+            .with(schedulerProvider)
+            .subscribe({
+                userdData.value = UiState.Success(it)
+            },{
+                userdData.value = UiState.Error(it)
             }))
     }
 
