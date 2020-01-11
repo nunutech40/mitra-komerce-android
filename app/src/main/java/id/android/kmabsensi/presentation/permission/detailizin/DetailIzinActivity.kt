@@ -74,8 +74,8 @@ class DetailIzinActivity : BaseActivity() {
             val dateTo = dateFormat.parse(it.date_to)
 //            txtDate.text = getDateStringFormatted(date)
 
-            txtDateFrom.text = getDateStringFormatted(dateFrom)
-            txtDateTo.text = getDateStringFormatted(dateTo)
+            txtDateFrom.text = getDateStringFormatted2(dateFrom)
+            txtDateTo.text = getDateStringFormatted2(dateTo)
 
             when(it.status){
                 0 -> {

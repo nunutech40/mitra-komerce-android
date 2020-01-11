@@ -15,6 +15,7 @@ import java.util.*
 
 const val DATE_FORMAT = "yyyy-MM-dd"
 const val DATE_FORMAT2 = "dd MMMM yyyy"
+const val DATE_FORMAT4 = "dd MMM yyyy"
 const val DATE_FORMAT3 = "EEEE, dd MMM yyyy"
 
 val APP_NAME = "KampungMarketer"
@@ -52,6 +53,11 @@ fun getDateString(date: Date): String{
 
 fun getDateStringFormatted(date: Date): String{
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT2, Locale.getDefault())
+    return simpleDateFormat.format(date)
+}
+
+fun getDateStringFormatted2(date: Date): String{
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT4, Locale.getDefault())
     return simpleDateFormat.format(date)
 }
 

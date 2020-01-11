@@ -121,8 +121,8 @@ class HomeActivity : AppCompatActivity() {
         val now : Date = currentTime.time
 
         val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY,21)
-        cal.set(Calendar.MINUTE,27)
+        cal.set(Calendar.HOUR_OF_DAY,8)
+        cal.set(Calendar.MINUTE,10)
         val jam8 : Date = cal.time
 
         val dialog = MaterialDialog(this).show {
