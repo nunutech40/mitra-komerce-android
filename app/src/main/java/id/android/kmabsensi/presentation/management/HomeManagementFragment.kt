@@ -94,6 +94,14 @@ class HomeManagementFragment : Fragment() {
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
                     txtNotPresent.text = "${it.data.data.total_not_present}"
+
+                    expandable.secondLayout.txtJumlahCssr.text = it.data.data.total_cssr.toString()
+                    expandable.secondLayout.txtJumlahCuti.text = it.data.data.total_holiday.toString()
+                    expandable.secondLayout.txtJumlahSakit.text = it.data.data.total_sick.toString()
+                    expandable.secondLayout.txtJumlahIzin.text = it.data.data.total_permission.toString()
+                    expandable.secondLayout.txtJumlahBelumHadir.text = it.data.data.total_not_yet_present.toString()
+                    expandable.secondLayout.txtJumlahGagalAbsen.text = it.data.data.total_failed_present.toString()
+
                 }
                 is UiState.Error -> {
                     progressBar.gone()
@@ -267,12 +275,13 @@ class HomeManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         expandable.setOnExpandListener {
-            if (it) {
-                context?.toast("expanded")
-            } else {
-                context?.toast("collapse")
-            }
+//            if (it) {
+//                context?.toast("expanded")
+//            } else {
+//                context?.toast("collapse")
+//            }
         }
+
         expandable.parentLayout.setOnClickListener {
             if (expandable.isExpanded) {
                 expandable.collapse()
@@ -280,6 +289,8 @@ class HomeManagementFragment : Fragment() {
                 expandable.expand()
             }
         }
+
+
 
 
         setupGreetings()

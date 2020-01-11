@@ -22,6 +22,23 @@ import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinA
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
+import kotlinx.android.synthetic.main.fragment_home_admin.btnKelolaIzin
+import kotlinx.android.synthetic.main.fragment_home_admin.btnKelolaSdm
+import kotlinx.android.synthetic.main.fragment_home_admin.header_waktu
+import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_admin.progressBar
+import kotlinx.android.synthetic.main.fragment_home_admin.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_home_admin.textView24
+import kotlinx.android.synthetic.main.fragment_home_admin.txtCountdown
+import kotlinx.android.synthetic.main.fragment_home_admin.txtHello
+import kotlinx.android.synthetic.main.fragment_home_admin.txtNextTime
+import kotlinx.android.synthetic.main.fragment_home_admin.txtNotPresent
+import kotlinx.android.synthetic.main.fragment_home_admin.txtPresent
+import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_admin.txtStatusWaktu
+import kotlinx.android.synthetic.main.fragment_home_admin.txtTotalUser
+import kotlinx.android.synthetic.main.fragment_home_management.*
+import kotlinx.android.synthetic.main.layout_second.view.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
@@ -63,6 +80,13 @@ class HomeAdminFragment : Fragment() {
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = " /${it.data.data.total_user}"
                     txtNotPresent.text = "${it.data.data.total_not_present}"
+
+//                    expandable.secondLayout.txtJumlahCssr.text = it.data.data.total_cssr.toString()
+//                    expandable.secondLayout.txtJumlahCuti.text = it.data.data.total_holiday.toString()
+//                    expandable.secondLayout.txtJumlahSakit.text = it.data.data.total_sick.toString()
+//                    expandable.secondLayout.txtJumlahIzin.text = it.data.data.total_permission.toString()
+//                    expandable.secondLayout.txtJumlahBelumHadir.text = it.data.data.total_not_yet_present.toString()
+//                    expandable.secondLayout.txtJumlahGagalAbsen.text = it.data.data.total_failed_present.toString()
                 }
                 is UiState.Error -> {
                     progressBar.gone()

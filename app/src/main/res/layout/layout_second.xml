@@ -44,6 +44,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahCssr"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -68,6 +69,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahCuti"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -92,6 +94,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahSakit"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -116,6 +119,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahIzin"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -140,6 +144,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahBelumHadir"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -165,6 +170,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/txtJumlahGagalAbsen"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
