@@ -164,11 +164,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtKmPoin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:fontFamily="@font/avenirltstd_medium"
-                    android:text="200"
+                    android:text="-"
                     android:textColor="@color/textWhite"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"

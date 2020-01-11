@@ -211,7 +211,22 @@ class HomeSdmFragment : Fragment() {
             }
         })
 
+        vm.userdData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    txtKmPoin.text = it.data.data[0].kmpoin.toString()
+                }
+                is UiState.Error -> {
+
+                }
+            }
+        })
+
         vm.getJadwalShalat()
+        vm.getProfileUserData(user.id)
         vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 

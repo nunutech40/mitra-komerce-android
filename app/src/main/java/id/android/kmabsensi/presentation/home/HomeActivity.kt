@@ -29,6 +29,7 @@ import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class HomeActivity : AppCompatActivity() {
@@ -76,8 +77,6 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
-        toast(user.id.toString())
-
         role = getRoleName(user.role_id)
 
         window.apply {
@@ -109,11 +108,8 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-
         setupViewPager()
-
 //        checkinSuccess()
-
     }
 
     fun checkinSuccess(){
@@ -125,8 +121,8 @@ class HomeActivity : AppCompatActivity() {
         val now : Date = currentTime.time
 
         val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY,5)
-        cal.set(Calendar.MINUTE,0)
+        cal.set(Calendar.HOUR_OF_DAY,21)
+        cal.set(Calendar.MINUTE,27)
         val jam8 : Date = cal.time
 
         val dialog = MaterialDialog(this).show {
@@ -143,15 +139,12 @@ class HomeActivity : AppCompatActivity() {
         val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
         val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
 
-        if (now.before(jam8)){
+        if (now.before(jam8) or (now == jam8)){
             txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
             lottie.setAnimation("427-happy-birthday.json")
         } else {
-
             val different: Long = now.time - jam8.time
-            val minute = (different / 1000) / 60 % 60
-
-            txtKeterangan.text = getString(R.string.ket_absen_telat, minute.toInt())
+            txtKeterangan.text = getString(R.string.ket_absen_telat,  TimeUnit.MILLISECONDS.toMinutes(different))
             lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
         }
 
