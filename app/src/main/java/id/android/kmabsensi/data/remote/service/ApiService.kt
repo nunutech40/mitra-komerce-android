@@ -216,18 +216,21 @@ interface ApiService {
     @GET
     fun getJadwalShalat(@Url url: String) : Single<JadwalShalatResponse>
 
+    @POST("api/coworkingspace")
+    fun getCoworkingSpace() : Single<ListCoworkingSpaceResponse>
+
     @JvmSuppressWildcards
     @POST("api/coworkingspace/add")
     fun addCoworkingSpace(@Body body: Map<String, Any>): Single<AddCoworkingSpaceResponse>
 
     @JvmSuppressWildcards
-    @POST("api/coworkingspace/add")
+    @POST("api/coworkingspace/edit")
     fun editCoworkingSpace(@Body body: Map<String, Any>): Single<AddCoworkingSpaceResponse>
 
     @GET("api/coworkingspace/delete/{id}")
     fun deleteCoworkingSpace(
         @Path("id") id: Int
-    ): Single<BaseResponse>
+    ): Single<AddCoworkingSpaceResponse>
 
 
 }

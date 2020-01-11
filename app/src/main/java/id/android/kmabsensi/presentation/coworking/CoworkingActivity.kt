@@ -20,13 +20,11 @@ import com.schibstedspain.leku.LocationPickerActivity
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.CoworkingSpace
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.utils.COWORKING_KEY
-import id.android.kmabsensi.utils.LocationManager
-import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_coworking.*
 import kotlinx.android.synthetic.main.activity_coworking.toolbar
+import kotlinx.android.synthetic.main.item_row_coworking.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
@@ -41,7 +39,7 @@ class CoworkingActivity : BaseActivity() {
     private lateinit var locationManager: LocationManager
     private var lastLocation: Location? = null
 
-    lateinit var dateFrom: Date
+//    lateinit var dateFrom: Date
     private var statusSelected = 1
     private var jumlahKursi = 1
 
@@ -73,13 +71,21 @@ class CoworkingActivity : BaseActivity() {
 
         initViews(coworking == null)
 
-        vm.addCoworkingSpaceResponse.observe(this, androidx.lifecycle.Observer {
+        vm.crudCoworkingSpaceResponse.observe(this, androidx.lifecycle.Observer {
             when(it){
                 is UiState.Loading -> {
                     myDialog.show()
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
+                    if (it.data.status){
+                        val intent = Intent()
+                        intent.putExtra("message", it.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", it.data.message)
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -90,8 +96,11 @@ class CoworkingActivity : BaseActivity() {
         })
 
         coworking?.let {
-//            edtNamaCabang.setText(it.office_name)
+            jumlahKursi = it.slot
+            edtNamaCoworking.setText(it.cowork_name)
             edtLokasi.setText(it.address)
+            txtJumlahKursi.text = it.slot.toString()
+            edtInformasi.setText(it.description)
 
             edtLokasi.isFocusableInTouchMode = true
             edtLokasi.isFocusable = true
@@ -99,6 +108,9 @@ class CoworkingActivity : BaseActivity() {
             latSelected = it.lat
             lngSelected = it.lng
 
+            spinnerStatus.setSelection(it.status - 1)
+
+            btnTambah.text = "Ubah"
 
         }
 
@@ -117,7 +129,7 @@ class CoworkingActivity : BaseActivity() {
     }
 
     private fun initViews(enabled: Boolean) {
-        edtTanggal.isEnabled = enabled
+        edtNamaCoworking.isEnabled = enabled
         edtLokasi.isEnabled = enabled
         edtInformasi.isEnabled = enabled
         spinnerStatus.isEnabled = enabled
@@ -129,7 +141,33 @@ class CoworkingActivity : BaseActivity() {
     private fun viewListener() {
 
         btnTambah.setOnClickListener {
-//            vm.addCoworkingSpace()
+            if (validation()){
+                if (crudMode == 0){
+                    vm.addCoworkingSpace(
+                        edtNamaCoworking.text.toString(),
+                        edtInformasi.text.toString(),
+                        latSelected,
+                        lngSelected,
+                        edtLokasi.text.toString(),
+                        statusSelected,
+                        txtJumlahKursi.text.toString().toInt()
+                    )
+                } else if (crudMode == 1){
+                    coworking?.let {
+                        vm.editCoworkingSpace(
+                            it.id,
+                            edtNamaCoworking.text.toString(),
+                            edtInformasi.text.toString(),
+                            latSelected,
+                            lngSelected,
+                            edtLokasi.text.toString(),
+                            statusSelected,
+                            txtJumlahKursi.text.toString().toInt()
+                        )
+                    }
+                }
+
+            }
         }
 
         edtLokasi.setOnClickListener {
@@ -172,22 +210,22 @@ class CoworkingActivity : BaseActivity() {
             txtJumlahKursi.text = "$jumlahKursi"
         }
 
-        edtTanggal.setOnClickListener {
-            MaterialDialog(this).show {
-                datePicker { dialog, date ->
-
-                    // Use date (Calendar)
-
-                    dialog.dismiss()
-
-                    dateFrom = date.time
-
-                    val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                    val dateSelected: String = dateFormat.format(date.time)
-                    setDateUi(dateSelected)
-                }
-            }
-        }
+//        edtTanggal.setOnClickListener {
+//            MaterialDialog(this).show {
+//                datePicker { dialog, date ->
+//
+//                    // Use date (Calendar)
+//
+//                    dialog.dismiss()
+//
+//                    dateFrom = date.time
+//
+//                    val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+//                    val dateSelected: String = dateFormat.format(date.time)
+//                    setDateUi(dateSelected)
+//                }
+//            }
+//        }
 
         // spinner status
         ArrayAdapter.createFromResource(
@@ -216,9 +254,9 @@ class CoworkingActivity : BaseActivity() {
         }
     }
 
-    private fun setDateUi(dateFrom: String) {
-        edtTanggal.setText(dateFrom)
-    }
+//    private fun setDateUi(dateFrom: String) {
+//        edtTanggal.setText(dateFrom)
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -263,18 +301,26 @@ class CoworkingActivity : BaseActivity() {
 
         if (item.itemId == R.id.action_edit) {
             initViews(true)
-//            btnMapPicker.visible()
+            btnMapPicker.visible()
             crudMode = 1
             invalidateOptionsMenu()
         } else if (item.itemId == R.id.action_delete) {
             alert("Apakah anda yakin ingin menghapus coworking space ini", "Hapus Co-Working") {
                 yesButton {
                     crudMode = 2
-//                    coworking?.let { vm.deleteOffice(it.id) }
+                    coworking?.let { vm.deleteCoworkingSpace(it.id) }
                 }
             }.show()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun validation(): Boolean{
+        val coworkName = ValidationForm.validationInput(edtNamaCoworking, "Nama Co-Working tidak boleh kosong")
+        val coworkLokasi = ValidationForm.validationInput(edtLokasi, "Lokasi tidak boleh kosong")
+        val coworkinformasi = ValidationForm.validationInput(edtInformasi, "Informasi tidak boleh kosong")
+
+        return coworkName && coworkLokasi && coworkinformasi
     }
 }

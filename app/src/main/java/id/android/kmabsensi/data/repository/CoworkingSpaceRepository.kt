@@ -7,6 +7,8 @@ import io.reactivex.Single
 
 class CoworkingSpaceRepository(val apiService: ApiService) {
 
+    fun getCoworkingSpace() = apiService.getCoworkingSpace()
+
     fun addCoworkingSpace(
         coworkName: String,
         description: String,
@@ -57,7 +59,7 @@ class CoworkingSpaceRepository(val apiService: ApiService) {
 
     }
 
-    fun deleteCoworkingSpace(id: Int): Single<BaseResponse>{
+    fun deleteCoworkingSpace(id: Int): Single<AddCoworkingSpaceResponse>{
         return apiService.deleteCoworkingSpace(id)
 
     }

@@ -21,7 +21,7 @@ fun provideOkHttpClient(interceptor: AuthInterceptor, context:Context): OkHttpCl
         readTimeout(60, TimeUnit.SECONDS)
         callTimeout(60, TimeUnit.SECONDS)
         addInterceptor(interceptor)
-        if (BuildConfig.DEBUG) {
+        if (id.android.kmabsensi.BuildConfig.DEBUG) {
             addInterceptor(ChuckerInterceptor(context))
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
