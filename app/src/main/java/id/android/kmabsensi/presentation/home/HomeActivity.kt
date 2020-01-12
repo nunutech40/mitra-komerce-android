@@ -92,8 +92,7 @@ class HomeActivity : AppCompatActivity() {
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
         val message = intent.getStringExtra("message")
         if (hasCheckin) {
-//            createAlertSuccess(this, message)
-            checkinSuccess()
+            showDialogCheckIn()
         }
 
         when (role) {
@@ -109,14 +108,33 @@ class HomeActivity : AppCompatActivity() {
         }
 
         setupViewPager()
-//        checkinSuccess()
     }
 
-    fun checkinSuccess(){
-        showDialog()
+    fun showDialogNotYetCheckout(){
+        val dialog = MaterialDialog(this).show {
+            cornerRadius(16f)
+            customView(
+                R.layout.dialog_keterangan_checkin,
+                scrollable = false,
+                horizontalPadding = true,
+                noVerticalPadding = true
+            )
+        }
+        val customView = dialog.getCustomView()
+        val close = customView.findViewById<ImageView>(R.id.close)
+        val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
+        val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
+
+        txtKeterangan.text = getString(R.string.ket_belum_waktu_pulang)
+        lottie.setAnimation("5399-loading-17-coffee-cup.json")
+        lottie.repeatCount = ValueAnimator.INFINITE
+        lottie.playAnimation()
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
-    fun showDialog(){
+    fun showDialogCheckIn(){
         val currentTime = Calendar.getInstance()
         val now : Date = currentTime.time
 
@@ -251,19 +269,7 @@ class HomeActivity : AppCompatActivity() {
         var statusWaktu = "-"
         var endTime: Date? = null
 
-//        val isDzuhurFirst : Boolean = dzuhur.before(istirahat)
-
         when {
-//            now.before(if (isDzuhurFirst) dzuhur else istirahat) -> {
-//                statusWaktu = if (isDzuhurFirst) "Menuju Waktu Dzuhur" else "Menuju Waktu Istirahat"
-//                nextTime = if (isDzuhurFirst) time_zuhur else "12:00"
-//                endTime = simpleDateFormat.parse(if (isDzuhurFirst) "$time_zuhur:00" else time_istirahat)
-//            }
-//            now.before(if (isDzuhurFirst) istirahat else dzuhur) -> {
-//                statusWaktu = if (isDzuhurFirst) "Menuju Waktu Istirahat" else "Menuju Waktu Dzuhur"
-//                nextTime = if (isDzuhurFirst) "12:00" else time_zuhur
-//                endTime = simpleDateFormat.parse(if (isDzuhurFirst) time_istirahat else "$time_zuhur:00")
-//            }
             now.before(datang) -> {
                 statusWaktu = "Menuju Waktu Datang"
                 nextTime = "08:00"

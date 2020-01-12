@@ -58,6 +58,7 @@
     <string name="data_hadir">Data hadir</string>
     <string name="semua_kantor">SEMUA KANTOR</string>
 
+    <string name="ket_belum_waktu_pulang">Belum jam 16.30, belum saatnya pulang nak, sabar..</string>
     <string name="ket_absen_tepat_waktu">Hore, datang tepat waktu, kami kasih 1 poin KMPay</string>
     <string name="ket_absen_telat">Sayang sekali, pagi ini Anda telat %1$d menit, besok diperbaiki ya.</string>
     <string name="data_belum_hadir">Data Belum Hadir</string>

@@ -129,10 +129,23 @@ class HomeManagementFragment : Fragment() {
                             }
                         } else {
                             //checkout
-                            context?.startActivity<CekJangkauanActivity>(
-                                DATA_OFFICE_KEY to it.data.office_assigned,
-                                PRESENCE_ID_KEY to it.data.presence_id
-                            )
+                            // cek jam pulang terlebih dahulu
+                            val currentTime = Calendar.getInstance()
+                            val now : Date = currentTime.time
+
+                            val cal = Calendar.getInstance()
+                            cal.set(Calendar.HOUR_OF_DAY,16)
+                            cal.set(Calendar.MINUTE,30)
+                            val jamPulang : Date = cal.time
+
+                            if (now.before(jamPulang)){
+                                (activity as HomeActivity).showDialogNotYetCheckout()
+                            } else {
+                                context?.startActivity<CekJangkauanActivity>(
+                                    DATA_OFFICE_KEY to it.data.office_assigned,
+                                    PRESENCE_ID_KEY to it.data.presence_id
+                                )
+                            }
                         }
 
                     } else {
@@ -275,11 +288,6 @@ class HomeManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         expandable.setOnExpandListener {
-//            if (it) {
-//                context?.toast("expanded")
-//            } else {
-//                context?.toast("collapse")
-//            }
         }
 
         expandable.parentLayout.setOnClickListener {
@@ -333,6 +341,9 @@ class HomeManagementFragment : Fragment() {
         btnCheckOut.setOnClickListener {
             isCheckin = false
             vm.presenceCheck(user.id)
+
+
+
         }
 
         btnFormIzin.setOnClickListener {

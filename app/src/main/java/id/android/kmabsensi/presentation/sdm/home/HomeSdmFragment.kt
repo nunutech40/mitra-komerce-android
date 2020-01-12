@@ -38,6 +38,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -92,10 +93,23 @@ class HomeSdmFragment : Fragment() {
                             }
                         } else {
                             //checkout
-                            context?.startActivity<CekJangkauanActivity>(
-                                DATA_OFFICE_KEY to it.data.office_assigned,
-                                PRESENCE_ID_KEY to it.data.presence_id
-                            )
+                            // cek jam pulang terlebih dahulu
+                            val currentTime = Calendar.getInstance()
+                            val now : Date = currentTime.time
+
+                            val cal = Calendar.getInstance()
+                            cal.set(Calendar.HOUR_OF_DAY,16)
+                            cal.set(Calendar.MINUTE,30)
+                            val jamPulang : Date = cal.time
+
+                            if (now.before(jamPulang)){
+                                (activity as HomeActivity).showDialogNotYetCheckout()
+                            } else {
+                                context?.startActivity<CekJangkauanActivity>(
+                                    DATA_OFFICE_KEY to it.data.office_assigned,
+                                    PRESENCE_ID_KEY to it.data.presence_id
+                                )
+                            }
                         }
 
                     } else {
@@ -236,9 +250,6 @@ class HomeSdmFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRv()
         setupGreetings()
-
-//        groupAdapter.add(CoworkingSpaceItem())
-//        groupAdapter.add(CoworkingSpaceItem())
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
