@@ -9,6 +9,7 @@ import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.marginTop
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
@@ -161,18 +162,6 @@ class FormIzinActivity : BaseActivity() {
             startImagePicker()
         }
 
-        btnClose.setOnClickListener {
-            imgPersetujuanPartner.gone()
-            btnClose.gone()
-            btnUploadPersetujuanPartner.visible()
-        }
-
-        btnCloseLaporanLeader.setOnClickListener {
-            imgLaporanLeader.gone()
-            btnCloseLaporanLeader.gone()
-            btnUploadLaporanLeader.visible()
-        }
-
         imgPersetujuanPartner.setOnClickListener {
             StfalconImageViewer.Builder<String>(
                 this,
@@ -302,9 +291,7 @@ class FormIzinActivity : BaseActivity() {
 
                     if (isPersetujuanPartner){
                         compressedImagePersetujuanPartner = it
-                        btnUploadPersetujuanPartner.gone()
-                        imgPersetujuanPartner.visible()
-                        btnClose.visible()
+                        layoutImgPersetujuanPartner.visible()
 
                         Glide.with(this)
                             .load(compressedImagePersetujuanPartner)
@@ -312,9 +299,7 @@ class FormIzinActivity : BaseActivity() {
 
                     } else {
                         compressedImageLaporanLeader = it
-                        btnUploadLaporanLeader.gone()
-                        imgLaporanLeader.visible()
-                        btnCloseLaporanLeader.visible()
+                        layoutImgLaporanLeader.visible()
 
                         Glide.with(this)
                             .load(compressedImageLaporanLeader)
