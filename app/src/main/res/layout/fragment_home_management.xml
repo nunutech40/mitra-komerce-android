@@ -205,67 +205,146 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <ImageView
-                android:id="@+id/imageView16"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_88sdp"
-                android:scaleType="fitXY"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="24dp"
-                android:src="@drawable/bg_data_hadir"
-                app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-            <ImageView
-                android:id="@+id/imageView17"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_97sdp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="5dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_belum_hadir"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-            <LinearLayout
-                android:id="@+id/layoutExpand"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
+                android:id="@+id/dataHadir"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView16"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <com.skydoves.expandablelayout.ExpandableLayout
-                    android:id="@+id/expandable"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_data_hadir2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:background="@color/white"
-                    app:expandable_showSpinner="true"
-                    app:expandable_spinner="@drawable/ic_arrow_down"
-                    app:expandable_duration="300"
-                    app:expandable_isExpanded="false"
-                    app:expandable_parentLayout="@layout/layout_parent"
-                    app:expandable_secondLayout="@layout/layout_second"
-                    />
+                    android:layout_marginStart="32dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imageView12"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.37">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/data_hadir"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/semua_kantor"
+                        android:textColor="#CDFFFFFF"
+                        android:textSize="12sp" />
 
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtPresent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTotalUser"
+                    app:layout_constraintEnd_toStartOf="@+id/txtTotalUser"/>
+
+                <TextView
+                    android:id="@+id/txtTotalUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="48dp"
+                    android:text="/0"
+                    android:textColor="#B2FFFFFF"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <iammert.com.expandablelib.ExpandableLayout
+                android:id="@+id/expandableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:parentLayout="@layout/layout_parent"
+                app:childLayout="@layout/layout_second"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dataHadir"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView16"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="@dimen/_88sdp"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:layout_marginTop="14dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:src="@drawable/bg_data_hadir"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView17"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="@dimen/_97sdp"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:src="@drawable/bg_belum_hadir"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutExpand"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/dataHadir"-->
+<!--                app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--                <com.skydoves.expandablelayout.ExpandableLayout-->
+<!--                    android:id="@+id/expandable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="24dp"-->
+<!--                    android:layout_marginEnd="24dp"-->
+<!--                    android:background="@color/white"-->
+<!--                    app:expandable_showSpinner="true"-->
+<!--                    app:expandable_spinner="@drawable/ic_arrow_down"-->
+<!--                    app:expandable_duration="300"-->
+<!--                    app:expandable_isExpanded="false"-->
+<!--                    app:expandable_parentLayout="@layout/layout_parent"-->
+<!--                    app:expandable_secondLayout="@layout/layout_second"-->
+<!--                    />-->
+
+<!--            </LinearLayout>-->
 
             <TextView
                 android:id="@+id/textView26"
@@ -277,7 +356,7 @@
                 android:textColor="@color/colorAsk"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutExpand" />
+                app:layout_constraintTop_toBottomOf="@+id/expandableLayout" />
 
             <LinearLayout
                 android:id="@+id/layoutMenu1"
@@ -871,86 +950,86 @@
 
 <!--            </com.google.android.material.card.MaterialCardView>-->
 
-            <TextView
-                android:id="@+id/txtPresent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="14dp"
-                android:text="0"
-                android:textColor="@android:color/white"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/imageView16"
-                app:layout_constraintTop_toTopOf="@+id/imageView16" />
+<!--            <TextView-->
+<!--                android:id="@+id/txtPresent"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="18dp"-->
+<!--                android:layout_marginTop="14dp"-->
+<!--                android:text="0"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="32sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/imageView16"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
 
-            <TextView
-                android:id="@+id/txtTotalUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/0"
-                android:textColor="#B2FFFFFF"
-                android:textSize="22sp"
-                android:layout_marginBottom="2dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtPresent"
-                app:layout_constraintStart_toEndOf="@+id/txtPresent" />
+<!--            <TextView-->
+<!--                android:id="@+id/txtTotalUser"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="/0"-->
+<!--                android:textColor="#B2FFFFFF"-->
+<!--                android:textSize="22sp"-->
+<!--                android:layout_marginBottom="2dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
 
-            <TextView
-                android:id="@+id/textView30"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/data_hadir"
-                android:textColor="#CCFFFFFF"
-                app:layout_constraintStart_toStartOf="@+id/txtPresent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPresent" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView30"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:text="@string/data_hadir"-->
+<!--                android:textColor="#CCFFFFFF"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
 
-            <TextView
-                android:id="@+id/textView31"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/semua_kantor"
-                android:textColor="#CCFFFFFF"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtPresent"
-                app:layout_constraintTop_toBottomOf="@+id/textView30" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView31"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:text="@string/semua_kantor"-->
+<!--                android:textColor="#CCFFFFFF"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
 
-            <TextView
-                android:id="@+id/txtNotPresent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="16dp"
-                android:text="0"
-                android:textColor="@android:color/black"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/imageView17"
-                app:layout_constraintTop_toTopOf="@+id/imageView17" />
+<!--            <TextView-->
+<!--                android:id="@+id/txtNotPresent"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="18dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="0"-->
+<!--                android:textColor="@android:color/black"-->
+<!--                android:textSize="32sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/imageView17"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
 
-            <TextView
-                android:id="@+id/textView34"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="orang"
-                android:textSize="14sp"
-                android:layout_marginStart="6dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/textColorGrey"
-                app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"
-                app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView34"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="orang"-->
+<!--                android:textSize="14sp"-->
+<!--                android:layout_marginStart="6dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:textColor="@color/textColorGrey"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
 
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Belum hadir"
-                android:textSize="16sp"
-                android:textColor="@color/textColorGrey"
-                app:layout_constraintStart_toStartOf="@+id/txtNotPresent"
-                app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView37"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:text="Belum hadir"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textColor="@color/textColorGrey"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
 
 
             <ProgressBar
@@ -958,10 +1037,11 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/dataHadir"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView16" />
+                app:layout_constraintTop_toTopOf="@+id/dataHadir" />
 
             <TextView
                 android:id="@+id/textCoworkingSpace"

@@ -165,12 +165,9 @@ dependencies {
     // lottie animation
     implementation 'com.airbnb.android:lottie:3.3.0'
 
-    //expandable layout
-    implementation "com.github.skydoves:expandablelayout:1.0.3"
-
-    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    implementation 'com.github.iammert:ExpandableLayout:1.4.1'
 
 //    // Camera
 //    implementation 'androidx.camera:camera-core:1.0.0-alpha07'

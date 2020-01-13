@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,7 +20,10 @@ import com.github.ajalt.timberkt.Timber.e
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
+import iammert.com.expandablelib.ExpandableLayout
+import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
@@ -39,7 +43,6 @@ import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
 import kotlinx.android.synthetic.main.fragment_home_management.progressBar
 import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
 import kotlinx.android.synthetic.main.fragment_home_management.txtHello
-import kotlinx.android.synthetic.main.fragment_home_management.txtNotPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
@@ -68,6 +71,10 @@ class HomeManagementFragment : Fragment() {
     private val FORMAT = "(- %02d:%02d:%02d )"
     private var countDownTimer: CountDownTimer? = null
 
+    //for expandable layout
+    val section = Section<String, Dashboard>()
+    var isSectionAdded = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,14 +100,12 @@ class HomeManagementFragment : Fragment() {
                     progressBar.gone()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
-                    txtNotPresent.text = "${it.data.data.total_not_present}"
 
-                    expandable.secondLayout.txtJumlahCssr.text = it.data.data.total_cssr.toString()
-                    expandable.secondLayout.txtJumlahCuti.text = it.data.data.total_holiday.toString()
-                    expandable.secondLayout.txtJumlahSakit.text = it.data.data.total_sick.toString()
-                    expandable.secondLayout.txtJumlahIzin.text = it.data.data.total_permission.toString()
-                    expandable.secondLayout.txtJumlahBelumHadir.text = it.data.data.total_not_yet_present.toString()
-                    expandable.secondLayout.txtJumlahGagalAbsen.text = it.data.data.total_failed_present.toString()
+                    if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
+                        expandableLayout.sections[0].parent = it.data.data.total_not_yet_present.toString()
+                        expandableLayout.sections[0].children.clear()
+                        expandableLayout.sections[0].children.add(it.data.data)
+                    }
 
                 }
                 is UiState.Error -> {
@@ -131,14 +136,14 @@ class HomeManagementFragment : Fragment() {
                             //checkout
                             // cek jam pulang terlebih dahulu
                             val currentTime = Calendar.getInstance()
-                            val now : Date = currentTime.time
+                            val now: Date = currentTime.time
 
                             val cal = Calendar.getInstance()
-                            cal.set(Calendar.HOUR_OF_DAY,16)
-                            cal.set(Calendar.MINUTE,30)
-                            val jamPulang : Date = cal.time
+                            cal.set(Calendar.HOUR_OF_DAY, 16)
+                            cal.set(Calendar.MINUTE, 30)
+                            val jamPulang: Date = cal.time
 
-                            if (now.before(jamPulang)){
+                            if (now.before(jamPulang)) {
                                 (activity as HomeActivity).showDialogNotYetCheckout()
                             } else {
                                 context?.startActivity<CekJangkauanActivity>(
@@ -209,23 +214,27 @@ class HomeManagementFragment : Fragment() {
         })
 
         vm.coworkUserData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
 
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
                     it.data.data.forEach {
-                        groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
+                        groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
                             activity?.toast("$hasCheckin")
-                            if (hasCheckin){
+                            if (hasCheckin) {
                                 vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
                             } else {
-                                if (coworking.available_slot > 0){
-                                    if (coworking.cowork_presence.size < 2){
+                                if (coworking.available_slot > 0) {
+                                    if (coworking.cowork_presence.size < 2) {
                                         vm.checkInCoworkingSpace(coworking.id)
-                                    } else if (coworking.cowork_presence.size >= 2){
-                                        createAlertError(activity!!, "Gagal", "Anda hanya bisa check in coworking space sebanyak 2 kali")
+                                    } else if (coworking.cowork_presence.size >= 2) {
+                                        createAlertError(
+                                            activity!!,
+                                            "Gagal",
+                                            "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                        )
                                     }
                                 }
 
@@ -241,13 +250,13 @@ class HomeManagementFragment : Fragment() {
         })
 
         vm.checkInCoworkingSpace.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.status){
+                    if (it.data.status) {
                         vm.getCoworkUserData(user.id)
                     } else {
                         createAlertError(activity!!, "Failed", it.data.message)
@@ -262,7 +271,7 @@ class HomeManagementFragment : Fragment() {
         })
 
         vm.userdData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
 
                 }
@@ -283,22 +292,58 @@ class HomeManagementFragment : Fragment() {
 
     }
 
+    private fun getSectionDashboard(dashboard: Dashboard): Section<String, Dashboard> {
+        section.parent = dashboard.total_not_yet_present.toString()
+        section.children.add(dashboard)
+        isSectionAdded = true
+        return section
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        expandable.setOnExpandListener {
-        }
-
-        expandable.parentLayout.setOnClickListener {
-            if (expandable.isExpanded) {
-                expandable.collapse()
-            } else {
-                expandable.expand()
+        expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
+            override fun renderChild(
+                view: View?,
+                model: Dashboard?,
+                parentPosition: Int,
+                childPosition: Int
+            ) {
+                view?.findViewById<TextView>(R.id.txtJumlahCssr)
+                    ?.setText(model?.total_cssr.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahCuti)
+                    ?.setText(model?.total_holiday.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahSakit)
+                    ?.setText(model?.total_sick.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahIzin)
+                    ?.setText(model?.total_permission.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)
+                    ?.setText(model?.total_not_yet_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)
+                    ?.setText(model?.total_failed_present.toString())
             }
+
+            override fun renderParent(
+                view: View?,
+                model: String?,
+                isExpanded: Boolean,
+                parentPosition: Int
+            ) {
+                view?.findViewById<ImageView>(R.id.arrow)
+                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model)
+            }
+        })
+        expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
         }
 
-
+        expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+        }
 
 
         setupGreetings()
@@ -307,7 +352,7 @@ class HomeManagementFragment : Fragment() {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
             txtTotalUser.text = ""
-            txtNotPresent.text = ""
+//            txtNotPresent.text = ""
 
             txtNextTime.text = ""
             txtCountdown.text = ""
@@ -343,7 +388,6 @@ class HomeManagementFragment : Fragment() {
             vm.presenceCheck(user.id)
 
 
-
         }
 
         btnFormIzin.setOnClickListener {
@@ -359,7 +403,7 @@ class HomeManagementFragment : Fragment() {
 
     }
 
-    fun getDashboardData(){
+    fun getDashboardData() {
         vm.getDashboardInfo(user.id)
     }
 
@@ -370,12 +414,15 @@ class HomeManagementFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(time_zuhur, time_ashar)
+        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+            time_zuhur,
+            time_ashar
+        )
 
         txtStatusWaktu.text = statusWaktu
         txtNextTime.text = nextTime
 
-        if (differenceTime != 0.toLong()){
+        if (differenceTime != 0.toLong()) {
             countDownTimer(differenceTime)
         } else {
             txtCountdown.text = "-"
@@ -424,7 +471,7 @@ class HomeManagementFragment : Fragment() {
         super.onDestroy()
     }
 
-    fun initRv(){
+    fun initRv() {
         rvCoworkingSpace.apply {
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(context)

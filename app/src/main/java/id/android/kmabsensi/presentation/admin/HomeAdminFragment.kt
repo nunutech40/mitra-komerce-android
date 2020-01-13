@@ -6,12 +6,16 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
-import com.github.ajalt.timberkt.d
+import iammert.com.expandablelib.ExpandableLayout
+import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
@@ -22,26 +26,8 @@ import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinA
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import kotlinx.android.synthetic.main.fragment_home_admin.btnKelolaIzin
-import kotlinx.android.synthetic.main.fragment_home_admin.btnKelolaSdm
-import kotlinx.android.synthetic.main.fragment_home_admin.header_waktu
-import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
-import kotlinx.android.synthetic.main.fragment_home_admin.progressBar
-import kotlinx.android.synthetic.main.fragment_home_admin.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_home_admin.textView24
-import kotlinx.android.synthetic.main.fragment_home_admin.txtCountdown
-import kotlinx.android.synthetic.main.fragment_home_admin.txtHello
-import kotlinx.android.synthetic.main.fragment_home_admin.txtNextTime
-import kotlinx.android.synthetic.main.fragment_home_admin.txtNotPresent
-import kotlinx.android.synthetic.main.fragment_home_admin.txtPresent
-import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_admin.txtStatusWaktu
-import kotlinx.android.synthetic.main.fragment_home_admin.txtTotalUser
-import kotlinx.android.synthetic.main.fragment_home_management.*
-import kotlinx.android.synthetic.main.layout_second.view.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
 
 
 /**
@@ -54,6 +40,10 @@ class HomeAdminFragment : Fragment() {
     private lateinit var user: User
 
     private var countDownTimer: CountDownTimer? = null
+
+    //for expandable layout
+    val section = Section<String, Dashboard>()
+    var isSectionAdded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,15 +69,13 @@ class HomeAdminFragment : Fragment() {
                     progressBar.gone()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = " /${it.data.data.total_user}"
-                    txtNotPresent.text = "${it.data.data.total_not_present}"
 
-//                    expandable.secondLayout.txtJumlahCssr.text = it.data.data.total_cssr.toString()
-//                    expandable.secondLayout.txtJumlahCuti.text = it.data.data.total_holiday.toString()
-//                    expandable.secondLayout.txtJumlahSakit.text = it.data.data.total_sick.toString()
-//                    expandable.secondLayout.txtJumlahIzin.text = it.data.data.total_permission.toString()
-//                    expandable.secondLayout.txtJumlahBelumHadir.text = it.data.data.total_not_yet_present.toString()
-//                    expandable.secondLayout.txtJumlahGagalAbsen.text = it.data.data.total_failed_present.toString()
-                }
+                    if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
+                        expandableLayout.sections[0].parent = it.data.data.total_not_yet_present.toString()
+                        expandableLayout.sections[0].children.clear()
+                        expandableLayout.sections[0].children.add(it.data.data)
+                    }
+               }
                 is UiState.Error -> {
                     progressBar.gone()
                     e { it.throwable.message.toString() }
@@ -119,6 +107,41 @@ class HomeAdminFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        expandableLayout.setRenderer(object: ExpandableLayout.Renderer<String, Dashboard> {
+            override fun renderChild(
+                view: View?,
+                model: Dashboard?,
+                parentPosition: Int,
+                childPosition: Int
+            ) {
+                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.setText(model?.total_cssr.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.setText(model?.total_holiday.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.setText(model?.total_sick.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.setText(model?.total_permission.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model?.total_not_yet_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.setText(model?.total_failed_present.toString())
+            }
+
+            override fun renderParent(
+                view: View?,
+                model: String?,
+                isExpanded: Boolean,
+                parentPosition: Int
+            ) {
+                view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model)
+            }
+        })
+        expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+        }
+
+        expandableLayout.setCollapseListener  { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+        }
+
+
 
         imgProfile.loadCircleImage(
             user.photo_profile_url
@@ -153,7 +176,7 @@ class HomeAdminFragment : Fragment() {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
             txtTotalUser.text = ""
-            txtNotPresent.text = ""
+//            txtNotPresent.text = ""
 
             txtNextTime.text = ""
             txtCountdown.text = ""
@@ -163,9 +186,14 @@ class HomeAdminFragment : Fragment() {
             setupGreetings()
         }
 
+    }
 
-        val now = Calendar.getInstance()
 
+    private fun getSectionDashboard(dashboard: Dashboard) : Section<String, Dashboard> {
+        section.parent = dashboard.total_not_yet_present.toString()
+        section.children.add(dashboard)
+        isSectionAdded = true
+        return section
     }
 
     private fun getPrayerTime() {
