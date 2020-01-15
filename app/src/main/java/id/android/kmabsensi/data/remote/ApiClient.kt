@@ -1,8 +1,7 @@
 package id.android.kmabsensi.data.remote
 
 import android.content.Context
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.intuit.sdp.BuildConfig
+import com.readystatesoftware.chuck.ChuckInterceptor
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,7 +21,7 @@ fun provideOkHttpClient(interceptor: AuthInterceptor, context:Context): OkHttpCl
         callTimeout(60, TimeUnit.SECONDS)
         addInterceptor(interceptor)
         if (id.android.kmabsensi.BuildConfig.DEBUG) {
-            addInterceptor(ChuckerInterceptor(context))
+            addInterceptor(ChuckInterceptor(context))
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             addInterceptor(logging)

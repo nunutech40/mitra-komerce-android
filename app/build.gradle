@@ -144,8 +144,9 @@ dependencies {
 
     implementation 'com.tapadoo.android:alerter:4.1.0'
 
-    debugImplementation "com.github.ChuckerTeam.Chucker:library:3.0.1"
-    releaseImplementation "com.github.ChuckerTeam.Chucker:library-no-op:3.0.1"
+    // chuck
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
     implementation "com.github.hadilq.liveevent:liveevent:1.0.1"
 
