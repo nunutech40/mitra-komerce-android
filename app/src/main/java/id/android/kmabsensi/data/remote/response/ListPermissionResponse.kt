@@ -13,6 +13,8 @@ data class ListPermissionResponse(
 @Parcelize
 data class Permission(
     val attachment_img_url: String,
+    val attachment_leader_img_url: String,
+    val attachment_partner_img_url: String,
     val date_from: String,
     val date_to: String,
     val explanation: String,

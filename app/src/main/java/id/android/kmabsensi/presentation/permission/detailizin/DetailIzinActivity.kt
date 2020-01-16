@@ -17,6 +17,8 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
+import kotlinx.android.synthetic.main.activity_detail_izin.imgLaporanLeader
+import kotlinx.android.synthetic.main.activity_detail_izin.imgPersetujuanPartner
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
@@ -53,6 +55,13 @@ class DetailIzinActivity : BaseActivity() {
 //                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
                 d { it.user.photo_profile_url.toString() }
 
+                if (user.division_id == 2){
+                    view4.gone()
+                    textView28.gone()
+                    layoutImgLaporanLeader.gone()
+                    btnLihatFotoLaporanLeader.gone()
+                }
+
                 txtNamaPemohon.text = "${it.user.full_name}"
 //                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
                 txtRole.text = "${it.user.position_name}"
@@ -72,6 +81,34 @@ class DetailIzinActivity : BaseActivity() {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
             val dateFrom = dateFormat.parse(it.date_from)
             val dateTo = dateFormat.parse(it.date_to)
+
+            imgPersetujuanPartner.loadImageFromUrl(it.attachment_partner_img_url)
+            imgLaporanLeader.loadImageFromUrl(it.attachment_leader_img_url)
+
+            btnLihatFotoPersetujuanPartner.setOnClickListener { view ->
+                StfalconImageViewer.Builder<String>(
+                    this,
+                    listOf(it.attachment_partner_img_url)
+                ) { view, image ->
+                    Glide.with(this)
+                        .load(image).into(view)
+                }.show()
+
+            }
+
+            btnLihatFotoLaporanLeader.setOnClickListener { view ->
+                StfalconImageViewer.Builder<String>(
+                    this,
+                    listOf(it.attachment_leader_img_url)
+                ) { view, image ->
+                    Glide.with(this)
+                        .load(image).into(view)
+                }.show()
+
+            }
+
+
+
 //            txtDate.text = getDateStringFormatted(date)
 
             txtDateFrom.text = getDateStringFormatted2(dateFrom)

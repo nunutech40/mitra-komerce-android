@@ -277,6 +277,7 @@ class HomeSdmFragment : Fragment() {
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
             vm.getJadwalShalat()
+            vm.getProfileUserData(user.id)
             setupGreetings()
         }
 

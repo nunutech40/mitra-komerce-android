@@ -19,16 +19,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_101sdp"
+            android:layout_height="@dimen/_110sdp"
             app:cardBackgroundColor="#313131">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -83,15 +77,19 @@
 
     <TextView
         android:id="@+id/txtInformasi"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nama Acara"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="Nama Acara"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/textWhite"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btnCheckIn"
         app:layout_constraintStart_toStartOf="@id/textInformasi"
-        app:layout_constraintTop_toBottomOf="@id/textInformasi"
-        android:textColor="@color/textWhite"/>
+        app:layout_constraintTop_toBottomOf="@id/textInformasi" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,9 +119,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Check In"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textAllCaps="false"
         app:iconGravity="end"
+        android:textSize="11sp"
         app:iconTint="@color/black"
         app:rippleColor="#313131"
         app:icon="@drawable/ic_right_arrow_black"

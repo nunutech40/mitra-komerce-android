@@ -27,64 +27,64 @@
             android:paddingEnd="16dp"
             android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/textView29"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Tanggal dan Waktu Kehadiran : "
-                android:textColor="@color/colorOrangeMuda"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView29"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="24dp"-->
+<!--                android:text="Tanggal dan Waktu Kehadiran : "-->
+<!--                android:textColor="@color/colorOrangeMuda"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Tanggal"
-                app:layout_constraintStart_toStartOf="@+id/textView29"
-                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView20"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="Tanggal"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/textView29"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView29" />-->
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtTanggal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Pilih tanggal"
-                android:focusable="false"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_calendar2"
-                android:paddingEnd="8dp"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView20"
-                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+<!--            <androidx.appcompat.widget.AppCompatEditText-->
+<!--                android:id="@+id/edtTanggal"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Pilih tanggal"-->
+<!--                android:focusable="false"-->
+<!--                android:clickable="true"-->
+<!--                android:drawableEnd="@drawable/ic_calendar2"-->
+<!--                android:paddingEnd="8dp"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/textView20"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView20" />-->
 
-            <TextView
-                android:id="@+id/textView33"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Waktu"
-                app:layout_constraintStart_toStartOf="@+id/edtTanggal"
-                app:layout_constraintTop_toBottomOf="@+id/edtTanggal" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView33"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Waktu"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/edtTanggal"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/edtTanggal" />-->
 
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Pilih jam"
-                android:focusable="false"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_time"
-                android:paddingEnd="8dp"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView33"
-                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+<!--            <androidx.appcompat.widget.AppCompatEditText-->
+<!--                android:id="@+id/edtTime"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Pilih jam"-->
+<!--                android:focusable="false"-->
+<!--                android:clickable="true"-->
+<!--                android:drawableEnd="@drawable/ic_time"-->
+<!--                android:paddingEnd="8dp"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/textView33"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView33" />-->
 
             <TextView
                 android:id="@+id/textView40"
@@ -93,8 +93,8 @@
                 android:layout_marginTop="24dp"
                 android:text="Deskripsi"
                 android:textColor="@color/colorOrangeMuda"
-                app:layout_constraintStart_toStartOf="@+id/edtTime"
-                app:layout_constraintTop_toBottomOf="@+id/edtTime" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edtDeskripsi"

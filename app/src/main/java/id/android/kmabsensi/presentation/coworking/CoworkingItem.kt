@@ -22,7 +22,7 @@ class CoworkingItem(val coworking: CoworkingSpace,
 
         if (coworking.status == 1){
             viewHolder.itemView.txtStatus.setTextColor(ContextCompat.getColor(viewHolder.itemView.context, R.color.status_tersedia))
-            viewHolder.itemView.txtStatus.text = "Tersedia / ${coworking.slot} Kursi"
+            viewHolder.itemView.txtStatus.text = "${coworking.slot} Kursi / 100"
         } else if (coworking.status == 2){
             viewHolder.itemView.txtStatus.setTextColor(ContextCompat.getColor(viewHolder.itemView.context, R.color.status_acara))
             viewHolder.itemView.txtStatus.text = "Acara"

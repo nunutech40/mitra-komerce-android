@@ -140,11 +140,11 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Belum Hadir"
+            android:text="Tidak Hadir"
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/txtJumlahBelumHadir"
+            android:id="@+id/txtJumlahTidakHadir"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

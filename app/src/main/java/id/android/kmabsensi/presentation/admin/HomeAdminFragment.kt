@@ -119,7 +119,7 @@ class HomeAdminFragment : Fragment() {
                 view?.findViewById<TextView>(R.id.txtJumlahCuti)?.setText(model?.total_holiday.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahSakit)?.setText(model?.total_sick.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahIzin)?.setText(model?.total_permission.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model?.total_not_yet_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.setText(model?.total_not_present.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.setText(model?.total_failed_present.toString())
             }
 
