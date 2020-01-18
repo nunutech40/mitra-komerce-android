@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.home
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -78,6 +79,7 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
+        toast(user.id.toString())
         role = getRoleName(user.role_id)
 
         window.apply {
@@ -311,6 +313,10 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return Triple(statusWaktu, differenceTime, nextTime)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun getFragmentTag(viewId: Int, id: Long): String {

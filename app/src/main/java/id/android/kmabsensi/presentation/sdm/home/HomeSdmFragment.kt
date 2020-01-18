@@ -1,6 +1,8 @@
 package id.android.kmabsensi.presentation.sdm.home
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -21,6 +23,7 @@ import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
@@ -187,7 +190,11 @@ class HomeSdmFragment : Fragment() {
                             } else {
                                 if (coworking.available_slot > 0){
                                     if (coworking.cowork_presence.size < 2){
-                                        vm.checkInCoworkingSpace(coworking.id)
+                                        val intent = Intent(context, CheckinCoworkingActivity::class.java).apply {
+                                            putExtra("coworking", coworking)
+                                        }
+                                        startActivityForResult( intent, 112)
+//                                        vm.checkInCoworkingSpace(coworking.id)
                                     } else if (coworking.cowork_presence.size >= 2){
                                         createAlertError(activity!!, "Gagal", "Anda hanya bisa check in coworking space sebanyak 2 kali")
                                     }
@@ -244,6 +251,13 @@ class HomeSdmFragment : Fragment() {
         vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 112 && resultCode == Activity.RESULT_OK){
+            vm.getCoworkUserData(user.id)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

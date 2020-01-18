@@ -1,6 +1,8 @@
 package id.android.kmabsensi.presentation.management
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -8,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
-import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import iammert.com.expandablelib.ExpandableLayout
@@ -26,33 +26,19 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
+import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_management.*
-import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
-import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
-import kotlinx.android.synthetic.main.fragment_home_management.btnFormIzin
-import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaIzin
-import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
-import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
-import kotlinx.android.synthetic.main.fragment_home_management.progressBar
-import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_home_management.txtHello
-import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
-import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
-import kotlinx.android.synthetic.main.layout_second.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * A simple [Fragment] subclass.
@@ -228,7 +214,11 @@ class HomeManagementFragment : Fragment() {
                             } else {
                                 if (coworking.available_slot > 0) {
                                     if (coworking.cowork_presence.size < 2) {
-                                        vm.checkInCoworkingSpace(coworking.id)
+                                        val intent = Intent(context, CheckinCoworkingActivity::class.java).apply {
+                                            putExtra("coworking", coworking)
+                                        }
+                                        startActivityForResult( intent, 112)
+//                                        vm.checkInCoworkingSpace(coworking.id)
                                     } else if (coworking.cowork_presence.size >= 2) {
                                         createAlertError(
                                             activity!!,
@@ -298,6 +288,13 @@ class HomeManagementFragment : Fragment() {
         section.children.add(dashboard)
         isSectionAdded = true
         return section
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 112 && resultCode == Activity.RESULT_OK){
+            vm.getCoworkUserData(user.id)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 

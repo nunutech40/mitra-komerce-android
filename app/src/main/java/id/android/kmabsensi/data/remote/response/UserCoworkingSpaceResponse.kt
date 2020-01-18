@@ -1,5 +1,8 @@
 package id.android.kmabsensi.data.remote.response
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class UserCoworkDataResponse(
     val code: Int,
     val `data`: List<UserCoworkingSpace>,
@@ -7,6 +10,7 @@ data class UserCoworkDataResponse(
     val status: Boolean
 )
 
+@Parcelize
 data class UserCoworkingSpace(
     val address: String,
     val available_slot: Int,
@@ -18,8 +22,9 @@ data class UserCoworkingSpace(
     val lng: String,
     val slot: String,
     val status: String
-)
+): Parcelable
 
+@Parcelize
 data class CoworkPresence(
     val id: Int,
     val user_id: Int,
@@ -27,4 +32,4 @@ data class CoworkPresence(
     val cowork_name: String,
     val check_in_datetime: String,
     val checkout_date_time: String?
-)
+): Parcelable
