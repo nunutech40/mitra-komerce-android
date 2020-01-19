@@ -19,8 +19,112 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_110sdp"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="#313131">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textLokasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cowork"
+                    android:textSize="12sp"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:layout_marginStart="@dimen/_80sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="#C8C9D0"/>
+
+                <TextView
+                    android:id="@+id/txtCoworkName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="ALC"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/textWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/txtStatus"
+                    app:layout_constraintStart_toStartOf="@+id/textLokasi"
+                    app:layout_constraintTop_toBottomOf="@id/textLokasi" />
+
+                <TextView
+                    android:id="@+id/textInformasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informasi"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/textLokasi"
+                    app:layout_constraintTop_toBottomOf="@id/txtCoworkName"
+                    android:textColor="#C8C9D0"/>
+
+                <TextView
+                    android:id="@+id/txtInformasi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Nama Acara"
+                    android:textColor="@color/textWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnCheckIn"
+                    app:layout_constraintStart_toStartOf="@id/textInformasi"
+                    app:layout_constraintTop_toBottomOf="@id/textInformasi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="12sp"
+                    android:textColor="#C8C9D0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textLokasi"/>
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acara"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textLokasi"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check In"
+                    android:visibility="visible"
+                    android:textAllCaps="false"
+                    app:iconGravity="end"
+                    android:textSize="11sp"
+                    app:iconTint="@color/black"
+                    app:rippleColor="#313131"
+                    app:icon="@drawable/ic_right_arrow_black"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="@+id/txtStatus"
+                    app:layout_constraintTop_toBottomOf="@+id/txtStatus" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -37,98 +141,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:id="@+id/textLokasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lokasi"
-        android:textSize="12sp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@+id/imgCoworkingSpace"
-        app:layout_constraintTop_toTopOf="@id/imgCoworkingSpace"
-        android:textColor="#C8C9D0"/>
 
-    <TextView
-        android:id="@+id/txtLokasi"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:text="ALC"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/textWhite"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/txtStatus"
-        app:layout_constraintStart_toStartOf="@+id/textLokasi"
-        app:layout_constraintTop_toBottomOf="@id/textLokasi" />
-
-    <TextView
-        android:id="@+id/textInformasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Informasi"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/textLokasi"
-        app:layout_constraintTop_toBottomOf="@id/txtLokasi"
-        android:textColor="#C8C9D0"/>
-
-    <TextView
-        android:id="@+id/txtInformasi"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="Nama Acara"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textColor="@color/textWhite"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnCheckIn"
-        app:layout_constraintStart_toStartOf="@id/textInformasi"
-        app:layout_constraintTop_toBottomOf="@id/textInformasi" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        android:layout_marginEnd="40dp"
-        android:textSize="12sp"
-        android:textColor="#C8C9D0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textLokasi"/>
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Acara"
-        android:textStyle="bold"
-        android:layout_marginEnd="40dp"
-        android:textSize="16sp"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textLokasi"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCheckIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check In"
-        android:visibility="visible"
-        android:textAllCaps="false"
-        app:iconGravity="end"
-        android:textSize="11sp"
-        app:iconTint="@color/black"
-        app:rippleColor="#313131"
-        app:icon="@drawable/ic_right_arrow_black"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/txtStatus"
-        app:layout_constraintTop_toBottomOf="@+id/txtStatus" />
 
 
 
