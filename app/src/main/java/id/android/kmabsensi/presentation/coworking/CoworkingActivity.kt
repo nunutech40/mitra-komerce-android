@@ -89,7 +89,6 @@ class CoworkingActivity : BaseActivity() {
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
-                    toast(it.throwable.message.toString())
                     Timber.e(it.throwable)
                 }
             }

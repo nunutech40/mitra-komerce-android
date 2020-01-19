@@ -84,6 +84,7 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Loading -> progressBar.visible()
                 is UiState.Success -> {
                     progressBar.gone()
+                    txtKmPoin.text = it.data.data.user_kmpoin.toString()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
 
@@ -208,7 +209,6 @@ class HomeManagementFragment : Fragment() {
                     groupAdapter.clear()
                     it.data.data.forEach {
                         groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
-                            activity?.toast("$hasCheckin")
                             if (hasCheckin) {
                                 vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
                             } else {
@@ -261,24 +261,10 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
-        vm.userdData.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is UiState.Loading -> {
-
-                }
-                is UiState.Success -> {
-                    txtKmPoin.text = it.data.data[0].kmpoin.toString()
-                }
-                is UiState.Error -> {
-
-                }
-            }
-        })
 
         vm.getJadwalShalat()
-        vm.getProfileUserData(user.id)
-        getDashboardData()
         vm.getCoworkUserData(user.id)
+        getDashboardData()
         textView24.text = getTodayDateTimeDay()
 
     }
@@ -356,7 +342,6 @@ class HomeManagementFragment : Fragment() {
             txtStatusWaktu.text = ""
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
-            vm.getProfileUserData(user.id)
             getDashboardData()
             setupGreetings()
         }

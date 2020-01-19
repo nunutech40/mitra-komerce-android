@@ -76,6 +76,18 @@ class HomeSdmFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        vm.dashboardData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Success -> {
+                    txtKmPoin.text = it.data.data.user_kmpoin.toString()
+                }
+                is UiState.Error -> {
+                    e { it.throwable.message.toString() }
+                }
+            }
+        })
+
         vm.presenceCheckState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
@@ -184,7 +196,6 @@ class HomeSdmFragment : Fragment() {
                     groupAdapter.clear()
                     it.data.data.forEach {
                         groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
-                            activity?.toast("$hasCheckin")
                             if (hasCheckin){
                                 vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
                             } else {
@@ -232,22 +243,8 @@ class HomeSdmFragment : Fragment() {
             }
         })
 
-        vm.userdData.observe(viewLifecycleOwner, Observer {
-            when(it){
-                is UiState.Loading -> {
-
-                }
-                is UiState.Success -> {
-                    txtKmPoin.text = it.data.data[0].kmpoin.toString()
-                }
-                is UiState.Error -> {
-
-                }
-            }
-        })
-
         vm.getJadwalShalat()
-        vm.getProfileUserData(user.id)
+        vm.getDashboardInfo(user.id)
         vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
@@ -291,7 +288,8 @@ class HomeSdmFragment : Fragment() {
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
             vm.getJadwalShalat()
-            vm.getProfileUserData(user.id)
+            vm.getCoworkUserData(user.id)
+            vm.getDashboardInfo(user.id)
             setupGreetings()
         }
 
@@ -330,7 +328,6 @@ class HomeSdmFragment : Fragment() {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
-                    d { millisUntilFinished.toString() }
                     if (txtCountdown != null) {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60

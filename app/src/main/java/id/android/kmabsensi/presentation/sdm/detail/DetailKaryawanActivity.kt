@@ -482,7 +482,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 } else if (firstChar == "+"){
                     validNomorHp = nomorHp
                 } else {
-                    toast("nomor hp tidak valid")
+                    createAlertError(this, "Gagal", "Nomor hp tidak valid.")
                     return false
                 }
 

@@ -79,7 +79,6 @@ class HomeActivity : AppCompatActivity() {
 
         user = vm.getUserData()
 
-        toast(user.id.toString())
         role = getRoleName(user.role_id)
 
         window.apply {
