@@ -232,7 +232,7 @@
 
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/txt_label_persetujuan_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -253,7 +253,7 @@
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28">
+        app:layout_constraintTop_toBottomOf="@+id/txt_label_persetujuan_leader">
 
         <LinearLayout
             android:id="@+id/btnLogout"

@@ -2,13 +2,10 @@ package id.android.kmabsensi.presentation.permission.detailizin
 
 import android.app.Activity
 import android.content.Intent
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
-import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.d
 import com.stfalcon.imageviewer.StfalconImageViewer
 import id.android.kmabsensi.R
@@ -17,9 +14,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
-import kotlinx.android.synthetic.main.activity_detail_izin.imgLaporanLeader
-import kotlinx.android.synthetic.main.activity_detail_izin.imgPersetujuanPartner
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 
@@ -55,11 +49,15 @@ class DetailIzinActivity : BaseActivity() {
 //                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
                 d { it.user.photo_profile_url.toString() }
 
-                if (user.division_id == 2){
+                if (user.division_id == 2 || user.role_id == 2){
                     view4.gone()
-                    textView28.gone()
-                    layoutImgLaporanLeader.gone()
-                    btnLihatFotoLaporanLeader.gone()
+                    txt_label_persetujuan_partner.gone()
+                    layoutImgPersetujuanPartner.gone()
+                    btnLihatFotoPersetujuanPartner.gone()
+
+                    if (user.role_id == 2){
+                        txt_label_persetujuan_leader.text =  "Lampiran Bukti Izin"
+                    }
                 }
 
                 txtNamaPemohon.text = "${it.user.full_name}"

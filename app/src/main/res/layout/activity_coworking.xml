@@ -77,7 +77,7 @@
             android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/txt_label_persetujuan_partner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -105,8 +105,8 @@
                 android:textSize="14sp"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView29"
-                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                app:layout_constraintStart_toStartOf="@+id/txt_label_persetujuan_partner"
+                app:layout_constraintTop_toBottomOf="@+id/txt_label_persetujuan_partner" />
 
             <TextView
                 android:id="@+id/textView33"

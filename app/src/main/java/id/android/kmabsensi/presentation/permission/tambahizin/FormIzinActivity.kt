@@ -9,7 +9,6 @@ import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.marginTop
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
@@ -30,7 +29,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tidak_hadir.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -71,9 +69,16 @@ class FormIzinActivity : BaseActivity() {
 
         user = intent.getParcelableExtra(USER_KEY)
 
-        if (user.division_id == 2){
+        if (user.role_id == 2) {
+            txt_label_bukti_2.text = "Lampiran Bukti Izin"
             layoutPersetujuanPartner.gone()
             dividerPersetujuanPartner.gone()
+
+        } else if (user.role_id == 3) {
+            if (user.division_id == 2) {
+                layoutPersetujuanPartner.gone()
+                dividerPersetujuanPartner.gone()
+            }
         }
 
         // spinner izin
@@ -127,7 +132,7 @@ class FormIzinActivity : BaseActivity() {
 
         btnSubmit.setOnClickListener {
 
-            if (user.division_id == 1){
+            if (user.division_id == 1 && user.role_id == 3) {
                 if (compressedImagePersetujuanPartner == null) {
                     createAlertError(this, "Peringatan", "Upload persetujuan partner dahulu.")
                     return@setOnClickListener
@@ -225,7 +230,7 @@ class FormIzinActivity : BaseActivity() {
 
     }
 
-    private fun startImagePicker(){
+    private fun startImagePicker() {
         ImagePicker.create(this)
             .returnMode(ReturnMode.ALL)
             .folderMode(true)
@@ -261,7 +266,7 @@ class FormIzinActivity : BaseActivity() {
 
             val image = ImagePicker.getFirstImageOrNull(data)
 
-            if (isPersetujuanPartner){
+            if (isPersetujuanPartner) {
                 imagePathPersetujuanPartner = image.path
             } else {
                 imagePathLaporanLeader = image.path
@@ -289,7 +294,7 @@ class FormIzinActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    if (isPersetujuanPartner){
+                    if (isPersetujuanPartner) {
                         compressedImagePersetujuanPartner = it
                         layoutImgPersetujuanPartner.visible()
 

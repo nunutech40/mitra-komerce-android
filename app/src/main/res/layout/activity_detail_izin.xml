@@ -211,14 +211,15 @@
 
     <TextView
         android:id="@+id/txtKeterangan"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Cuti"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView20"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <View
@@ -245,7 +246,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/txt_label_persetujuan_partner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Persetujuan Partner"
@@ -260,8 +261,8 @@
         android:layout_marginTop="10dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
-        app:layout_constraintTop_toBottomOf="@id/textView29"
-        app:layout_constraintStart_toStartOf="@id/textView29">
+        app:layout_constraintTop_toBottomOf="@id/txt_label_persetujuan_partner"
+        app:layout_constraintStart_toStartOf="@id/txt_label_persetujuan_partner">
 
         <ImageView
             android:id="@+id/imgPersetujuanPartner"
@@ -298,12 +299,13 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/txt_label_persetujuan_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:text="Laporan Leader"
         android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view4" />
 
     <com.google.android.material.card.MaterialCardView
@@ -313,8 +315,8 @@
         android:layout_marginTop="10dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
-        app:layout_constraintTop_toBottomOf="@id/textView28"
-        app:layout_constraintStart_toStartOf="@id/textView28">
+        app:layout_constraintTop_toBottomOf="@id/txt_label_persetujuan_leader"
+        app:layout_constraintStart_toStartOf="@id/txt_label_persetujuan_leader">
 
         <ImageView
             android:id="@+id/imgLaporanLeader"

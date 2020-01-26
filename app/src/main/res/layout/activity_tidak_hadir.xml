@@ -143,6 +143,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_label_bukti_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -209,6 +210,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_label_bukti_2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
