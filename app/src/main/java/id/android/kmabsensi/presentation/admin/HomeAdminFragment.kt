@@ -71,7 +71,7 @@ class HomeAdminFragment : Fragment() {
                     txtTotalUser.text = " /${it.data.data.total_user}"
 
                     if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
-                        expandableLayout.sections[0].parent = it.data.data.total_not_yet_present.toString()
+                        expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
                         expandableLayout.sections[0].children.clear()
                         expandableLayout.sections[0].children.add(it.data.data)
                     }
@@ -119,7 +119,7 @@ class HomeAdminFragment : Fragment() {
                 view?.findViewById<TextView>(R.id.txtJumlahCuti)?.setText(model?.total_holiday.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahSakit)?.setText(model?.total_sick.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahIzin)?.setText(model?.total_permission.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.setText(model?.total_not_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model?.total_not_yet_present.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.setText(model?.total_failed_present.toString())
             }
 
@@ -130,7 +130,7 @@ class HomeAdminFragment : Fragment() {
                 parentPosition: Int
             ) {
                 view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model)
+                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.setText(model)
             }
         })
         expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
@@ -190,7 +190,7 @@ class HomeAdminFragment : Fragment() {
 
 
     private fun getSectionDashboard(dashboard: Dashboard) : Section<String, Dashboard> {
-        section.parent = dashboard.total_not_yet_present.toString()
+        section.parent = dashboard.total_not_present.toString()
         section.children.add(dashboard)
         isSectionAdded = true
         return section

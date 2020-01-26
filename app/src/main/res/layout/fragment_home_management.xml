@@ -396,6 +396,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Datang"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -427,6 +428,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Pulang"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -458,6 +460,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Data SDM"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -489,6 +492,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Form Izin"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -534,6 +538,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Data Izin"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -564,6 +569,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Data Izin"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -594,6 +600,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Data SDM"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -624,6 +631,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Data Jabatan"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
