@@ -178,24 +178,28 @@ class CheckinActivity : BaseActivity() {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY,8)
         cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 1)
         val jam8 : Date = cal.time
 
         // for check ontime level 2
         val cal2 = Calendar.getInstance()
-        cal2.set(Calendar.HOUR_OF_DAY,7)
-        cal2.set(Calendar.MINUTE, 59)
+        cal2.set(Calendar.HOUR_OF_DAY,8)
+        cal2.set(Calendar.MINUTE, 0)
+        cal2.set(Calendar.SECOND, 0)
         val jamTepatWaktuForBetween : Date = cal2.time
 
         // for check ontime level 2
         val cal3 = Calendar.getInstance()
         cal3.set(Calendar.HOUR_OF_DAY,8)
-        cal3.set(Calendar.MINUTE, 11)
+        cal3.set(Calendar.MINUTE, 10)
+        cal3.set(Calendar.SECOND, 1)
         val jam8TelatForBetween : Date = cal3.time
 
         // for check ontime level 3
         val cal4 = Calendar.getInstance()
         cal4.set(Calendar.HOUR_OF_DAY,8)
         cal4.set(Calendar.MINUTE, 10)
+        cal4.set(Calendar.SECOND, 0)
         val jam8Telat : Date = cal4.time
 
         if (now.before(jam8)){
