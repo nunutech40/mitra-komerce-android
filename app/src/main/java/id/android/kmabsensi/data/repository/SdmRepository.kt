@@ -26,11 +26,12 @@ class SdmRepository(val apiService: ApiService) {
         birthDate: RequestBody,
         gender: RequestBody,
         userManagementId: RequestBody,
+        status: RequestBody,
         photoProfileUrl: MultipartBody.Part?
     ): Single<SingleUserResponse> {
         return apiService.addSdm(username, email, password, password_confirmation, role_id, full_name,
             npk, division_id, office_id, position_id, no_partner, originVillage, noHp, address, birthDate,
-            gender, userManagementId, photoProfileUrl)
+            gender, userManagementId, status, photoProfileUrl)
     }
 
     fun updateSdm(
@@ -49,6 +50,7 @@ class SdmRepository(val apiService: ApiService) {
         birthDate: RequestBody,
         gender: RequestBody,
         userManagementId: RequestBody,
+        status: RequestBody,
         photoProfileUrl: MultipartBody.Part?
     ): Single<SingleUserResponse>{
         return apiService.editSdm(id, username, email, role_id, full_name, division_id, office_id,
@@ -60,6 +62,7 @@ class SdmRepository(val apiService: ApiService) {
             birthDate,
             gender,
             userManagementId,
+            status,
             photoProfileUrl)
     }
 

@@ -26,6 +26,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
@@ -380,6 +381,10 @@ class HomeManagementFragment : Fragment() {
                 IS_MANAGEMENT_KEY to true,
                 USER_ID_KEY to user.id
             )
+        }
+
+        btnGagalAbsen.setOnClickListener {
+           activity?.startActivity<ReportAbsensiActivity>()
         }
 
     }

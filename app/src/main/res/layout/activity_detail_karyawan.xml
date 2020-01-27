@@ -83,14 +83,37 @@
                 android:layout_height="85dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/shape_circle" />
+
+            <RelativeLayout
+                android:id="@+id/layoutStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/textColor"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/username"
                 android:textColor="@color/textColor" />
 

@@ -113,6 +113,7 @@ class UbahProfileActivity : BaseActivity() {
                 edtTanggalLahir.text.toString(),
                 genderSelectedId.toString(),
                 user.user_management_id.toString(),
+                user.status,
                 compressedImage
             )
         }

@@ -10,6 +10,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 import okhttp3.MediaType
@@ -26,12 +27,12 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
 
     val reportAbsenResponse = MutableLiveData<UiState<BaseResponse>>()
 
-    fun checkIn(file: File){
+    fun checkIn(file: File, ontimeLevel: Int){
         val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
         val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
 
         checkInResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.checkIn(photo)
+        compositeDisposable.add(presenceRepository.checkIn(photo, ontimeLevel.toString().createRequestBodyText())
             .with(schedulerProvider)
             .subscribe({
                 checkInResponse.value = UiState.Success(it)

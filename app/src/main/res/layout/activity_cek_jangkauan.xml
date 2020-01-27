@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/bg_bottom_white"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <TextView
@@ -73,8 +73,9 @@
             android:id="@+id/btnNext"
             android:layout_width="114dp"
             android:layout_height="48dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/bg_button_gradient_selector"
             android:paddingRight="16dp"
             android:text="Next"
@@ -82,20 +83,21 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:drawableEndCompat="@drawable/ic_right_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/btnKirimLaporan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnNext"
-            android:text="Mengalami Kendala? Kirim Laporan" />
+<!--        <TextView-->
+<!--            android:id="@+id/btnKirimLaporan"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/btnNext"-->
+<!--            android:text="Mengalami Kendala? Kirim Laporan" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

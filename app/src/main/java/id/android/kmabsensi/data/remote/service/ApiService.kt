@@ -88,6 +88,7 @@ interface ApiService {
         @Part("birth_date") birth_date: RequestBody,
         @Part("gender") gender: RequestBody,
         @Part("user_management_id") user_management_id: RequestBody,
+        @Part("status") status: RequestBody,
         @Part photo_profile_url: MultipartBody.Part?
     ): Single<SingleUserResponse>
 
@@ -109,6 +110,7 @@ interface ApiService {
         @Part("birth_date") birth_date: RequestBody,
         @Part("gender") gender: RequestBody,
         @Part("user_management_id") user_management_id: RequestBody,
+        @Part("status") status: RequestBody,
         @Part photo_profile_url: MultipartBody.Part?
     ): Single<SingleUserResponse>
 
@@ -132,7 +134,8 @@ interface ApiService {
     @Multipart
     @POST("api/presence/check-in")
     fun checkIn(
-        @Part file: MultipartBody.Part
+        @Part file: MultipartBody.Part,
+        @Part("ontime_level") ontimeLevel: RequestBody
     ): Single<CheckinResponse>
 
     @Multipart

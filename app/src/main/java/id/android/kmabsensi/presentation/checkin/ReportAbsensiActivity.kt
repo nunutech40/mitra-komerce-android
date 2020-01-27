@@ -104,9 +104,17 @@ class ReportAbsensiActivity : BaseActivity() {
         })
 
         btnSubmit.setOnClickListener {
-            val user = vm.getUserData()
-            vm.reportAbsen(user.id, dateFormattedSelected, edtDeskripsi.text.toString())
+            if (edtDeskripsi.text.isEmpty()){
+                edtDeskripsi.error = "Deskripsi tidak boleh kosong."
+                return@setOnClickListener
+            } else {
+                val user = vm.getUserData()
+                vm.reportAbsen(user.id, dateFormattedSelected, edtDeskripsi.text.toString())
+            }
+
         }
+
+        edtDeskripsi.requestFocus()
 
     }
 

@@ -66,28 +66,28 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
                 PRESENCE_ID_KEY to presenseId)
         }
 
-        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
-        kendalaAbsen.setSpan(
-            ForegroundColorSpan(
-                ContextCompat.getColor(
-                    this,
-                    R.color.color_kirim_laporan
-                )
-            ),
-            19, 32,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        kendalaAbsen.setSpan(
-            StyleSpan(Typeface.BOLD),
-            19, 32,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        btnKirimLaporan.text = kendalaAbsen
-
-        btnKirimLaporan.setOnClickListener {
-            startActivity<ReportAbsensiActivity>()
-        }
+//        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
+//        kendalaAbsen.setSpan(
+//            ForegroundColorSpan(
+//                ContextCompat.getColor(
+//                    this,
+//                    R.color.color_kirim_laporan
+//                )
+//            ),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        kendalaAbsen.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        btnKirimLaporan.text = kendalaAbsen
+//
+//        btnKirimLaporan.setOnClickListener {
+//            startActivity<ReportAbsensiActivity>()
+//        }
 
     }
 

@@ -30,6 +30,7 @@ import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class CheckinActivity : BaseActivity() {
 
@@ -49,6 +50,8 @@ class CheckinActivity : BaseActivity() {
     private val disposables = CompositeDisposable()
 
     private lateinit var myDialog: MyDialog
+
+    var onTimeLevel = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +76,8 @@ class CheckinActivity : BaseActivity() {
                     startActivity(
                         intentFor<HomeActivity>(
                             "hasCheckin" to true,
-                            "message" to it.data.message
+                            "message" to it.data.message,
+                            "ontimeLevel" to onTimeLevel
                         ).clearTask().newTask()
                     )
                 }
@@ -85,8 +89,11 @@ class CheckinActivity : BaseActivity() {
         })
 
         btnCheckIn.setOnClickListener {
+
+
+
             compressedImage?.let {
-                if (presenceId == 0) vm.checkIn(it) else vm.checkOut(presenceId, it)
+                if (presenceId == 0) vm.checkIn(it, getCheckinOntimeLevel() ) else vm.checkOut(presenceId, it)
             } ?: run {
                 createAlertError(this, "Gagal", "Ambil foto terlebih dahulu", 3000)
             }
@@ -117,54 +124,35 @@ class CheckinActivity : BaseActivity() {
         }
 
         layoutBorderCamera.setOnClickListener {
-//            ImagePicker.cameraOnly().start(this)
             startActivityForResult<CameraActivity>(125)
         }
 
-//        picture.setOnClickListener {
-//            startActivityForResult<CameraActivity>(125)
+//        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
+//        kendalaAbsen.setSpan(
+//            ForegroundColorSpan(
+//                ContextCompat.getColor(
+//                    this,
+//                    R.color.color_kirim_laporan
+//                )
+//            ),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        kendalaAbsen.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        btnKirimLaporan.text = kendalaAbsen
+//
+//        btnKirimLaporan.setOnClickListener {
+//            startActivity<ReportAbsensiActivity>()
 //        }
-
-        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
-        kendalaAbsen.setSpan(
-            ForegroundColorSpan(
-                ContextCompat.getColor(
-                    this,
-                    R.color.color_kirim_laporan
-                )
-            ),
-            19, 32,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        kendalaAbsen.setSpan(
-            StyleSpan(Typeface.BOLD),
-            19, 32,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        btnKirimLaporan.text = kendalaAbsen
-
-        btnKirimLaporan.setOnClickListener {
-            startActivity<ReportAbsensiActivity>()
-        }
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-//
-//            val image = ImagePicker.getFirstImageOrNull(data)
-//
-//            imagePath = image.path
-//
-//            actualImage = File(imagePath)
-//
-//            actualImage?.let {
-//                compress(it)
-//                txtKetukLayar.gone()
-//                layoutBorderCamera.gone()
-//            }
-//        }
 
         if (requestCode == 125 && resultCode == Activity.RESULT_OK){
             val file = data?.getSerializableExtra("image")
@@ -182,25 +170,44 @@ class CheckinActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-//    fun compress(file: File) {
-//        disposables.add(Compressor(this)
-//            .setQuality(75)
-//            .setCompressFormat(Bitmap.CompressFormat.WEBP)
-//            .setDestinationDirectoryPath(
-//                Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES
-//                ).absolutePath
-//            )
-//            .compressToFileAsFlowable(file)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                compressedImage = it
-//
-//                Glide.with(this)
-//                    .load(compressedImage)
-//                    .into(picture)
-//
-//            }) { e { it.message.toString() } })
-//    }
+    fun getCheckinOntimeLevel(): Int{
+        val currentTime = Calendar.getInstance()
+        val now : Date = currentTime.time
+
+        // for check ontime level 1
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY,8)
+        cal.set(Calendar.MINUTE, 0)
+        val jam8 : Date = cal.time
+
+        // for check ontime level 2
+        val cal2 = Calendar.getInstance()
+        cal2.set(Calendar.HOUR_OF_DAY,7)
+        cal2.set(Calendar.MINUTE, 59)
+        val jamTepatWaktuForBetween : Date = cal2.time
+
+        // for check ontime level 2
+        val cal3 = Calendar.getInstance()
+        cal3.set(Calendar.HOUR_OF_DAY,8)
+        cal3.set(Calendar.MINUTE, 11)
+        val jam8TelatForBetween : Date = cal3.time
+
+        // for check ontime level 3
+        val cal4 = Calendar.getInstance()
+        cal4.set(Calendar.HOUR_OF_DAY,8)
+        cal4.set(Calendar.MINUTE, 10)
+        val jam8Telat : Date = cal4.time
+
+        if (now.before(jam8)){
+            onTimeLevel = 1
+            return 1
+        } else if (now.after(jamTepatWaktuForBetween) && now.before(jam8TelatForBetween)) {
+            onTimeLevel = 2
+            return 2
+        } else if (now.after(jam8Telat)){
+            onTimeLevel = 3
+            return 3
+        }
+        return 0
+    }
 }

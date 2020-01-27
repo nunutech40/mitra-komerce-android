@@ -15,6 +15,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.airbnb.lottie.LottieAnimationView
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.Timber.d
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -93,7 +95,8 @@ class HomeActivity : AppCompatActivity() {
 
         hasCheckin = intent.getBooleanExtra("hasCheckin", false)
         if (hasCheckin) {
-            showDialogCheckIn()
+            var ontimeLevel = intent.getIntExtra("ontimeLevel", 0)
+            showDialogCheckIn(ontimeLevel)
         }
 
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
@@ -141,14 +144,29 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    fun showDialogCheckIn(){
+    private fun showDialogCheckIn(onTimeLevel: Int){
         val currentTime = Calendar.getInstance()
         val now : Date = currentTime.time
 
         val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY,8)
-        cal.set(Calendar.MINUTE,10)
+        cal.set(Calendar.HOUR_OF_DAY,7)
+        cal.set(Calendar.MINUTE, 12)
         val jam8 : Date = cal.time
+
+        val cal2 = Calendar.getInstance()
+        cal2.set(Calendar.HOUR_OF_DAY,7)
+        cal2.set(Calendar.MINUTE, 11)
+        val jamTepatWaktu : Date = cal2.time
+
+        val cal3 = Calendar.getInstance()
+        cal3.set(Calendar.HOUR_OF_DAY,7)
+        cal3.set(Calendar.MINUTE, 16)
+        val jam8TelatForBetween : Date = cal3.time
+
+        val cal4 = Calendar.getInstance()
+        cal4.set(Calendar.HOUR_OF_DAY,7)
+        cal4.set(Calendar.MINUTE, 15)
+        val jam8Telat : Date = cal4.time
 
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
@@ -164,13 +182,20 @@ class HomeActivity : AppCompatActivity() {
         val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
         val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
 
-        if (now.before(jam8) or (now == jam8)){
-            txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
-            lottie.setAnimation("427-happy-birthday.json")
-        } else {
-            val different: Long = now.time - jam8.time
-            txtKeterangan.text = getString(R.string.ket_absen_telat,  TimeUnit.MILLISECONDS.toMinutes(different))
-            lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
+        when (onTimeLevel) {
+            1 -> {
+                txtKeterangan.text = getString(R.string.ket_absen_lebih_awal)
+                lottie.setAnimation("427-happy-birthday.json")
+            }
+            2 -> {
+                txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
+                lottie.setAnimation("14595-thumbs-up.json")
+            }
+            3 -> {
+                val different: Long = now.time - jam8Telat.time
+                txtKeterangan.text = getString(R.string.ket_absen_telat,  TimeUnit.MILLISECONDS.toMinutes(different))
+                lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
+            }
         }
 
         lottie.repeatCount = ValueAnimator.INFINITE

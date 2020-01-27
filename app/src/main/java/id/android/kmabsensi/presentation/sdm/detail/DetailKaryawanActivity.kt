@@ -73,6 +73,8 @@ class DetailKaryawanActivity : BaseActivity() {
 
     private var compressedImage : File? = null
 
+    var statusKaryawan = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_karyawan)
@@ -115,8 +117,17 @@ class DetailKaryawanActivity : BaseActivity() {
                 edtTanggalLahir.text.toString(),
                 genderSelectedId.toString(),
                 userManagementSelectedId.toString(),
+                statusKaryawan,
                 compressedImage
                 )
+        }
+
+        switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                statusKaryawan = 1
+            } else {
+                statusKaryawan = 0
+            }
         }
     }
 
@@ -130,8 +141,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
-
-
+        switchStatus.isChecked = data.status == 1
 
         data.photo_profile_url?.let {
             d { it }
@@ -490,6 +500,7 @@ class DetailKaryawanActivity : BaseActivity() {
             }
             R.id.action_edit -> {
                 disableViews(true)
+                layoutStatus.visible()
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {

@@ -23,6 +23,7 @@ import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
@@ -280,6 +281,10 @@ class HomeSdmFragment : Fragment() {
 
         btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
+        }
+
+        btnGagalAbsen.setOnClickListener {
+            activity?.startActivity<ReportAbsensiActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {
