@@ -125,7 +125,7 @@ class DetailKaryawanActivity : BaseActivity() {
         switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
                 statusKaryawan = 1
-                switchStatus.text = "Job"
+                switchStatus.text = "SDM Aktif"
             } else {
                 statusKaryawan = 0
                 switchStatus.text = "Non Job"
@@ -144,7 +144,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
         switchStatus.isChecked = data.status == 1
-        switchStatus.text = if (data.status == 1) "Job" else "Non Job"
+        switchStatus.text = if (data.status == 1) "SDM Aktif" else "Non Job"
 
         data.photo_profile_url?.let {
             d { it }
