@@ -3,10 +3,13 @@ package id.android.kmabsensi.presentation.splash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.crashlytics.android.Crashlytics
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.iid.FirebaseInstanceId
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -33,7 +36,32 @@ class SplashActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         checkUpdate()
+        initView()
     }
+
+    private fun initView() {
+        try {
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
+                Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
+//                Helpers.saveDeviceToken(it.token, this, this)
+
+            }.addOnFailureListener {
+                if (!BuildConfig.DEBUG) {
+                    Crashlytics.logException(it)
+                } else {
+                    Crashlytics.logException(it)
+                }
+            }
+        } catch (ex: Exception) {
+            if (!BuildConfig.DEBUG) {
+                Crashlytics.logException(ex)
+            } else {
+                Crashlytics.logException(ex)
+            }
+        }
+
+    }
+
 
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)

@@ -23,7 +23,6 @@ val IMG_DIRECTORY_NAME: String="ABSENSI"
 val BASE_DIR = APP_NAME + File.separator
 val DIR_ROOT:String= StringBuffer().append(FileUtils.getRootPath()).append(File.separator).append(BASE_DIR).toString()
 
-
 fun getRoleName(roleId: Int): String = when(roleId) {
     1 -> ROLE_ADMIN
     2 -> ROLE_MANAGEMEMENT

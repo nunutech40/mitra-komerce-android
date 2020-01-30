@@ -64,6 +64,9 @@
     <string name="ket_absen_telat">Sayang sekali hari ini Anda telat %1$d menit, besok diperbaiki ya.</string>
     <string name="data_tidak_hadir">Data Tidak Hadir</string>
 
+    <string name="notifications_admin_channel_name">Notification Title</string>
+    <string name="notifications_admin_channel_description">Notification Discription</string>
+
     <string-array name="role">
         <item>Admin</item>
         <item>Management</item>
@@ -96,6 +99,7 @@
         <item>Tersedia</item>
         <item>Ada Acara</item>
     </string-array>
+
 
 
 </resources>
