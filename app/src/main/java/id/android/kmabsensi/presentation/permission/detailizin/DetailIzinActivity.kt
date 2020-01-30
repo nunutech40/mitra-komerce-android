@@ -14,8 +14,11 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
+
 
 class DetailIzinActivity : BaseActivity() {
 
@@ -33,10 +36,6 @@ class DetailIzinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_izin)
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.title = "Pengajuan Izin"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         setToolbarTitle("Pengajuan Izin")
 
         permission = intent.getParcelableExtra(PERMISSION_DATA_KEY)
@@ -46,7 +45,6 @@ class DetailIzinActivity : BaseActivity() {
 
         permission?.let {
             it.user?.let { user ->
-//                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
                 d { it.user.photo_profile_url.toString() }
 
                 if (user.division_id == 2 || user.role_id == 2){
@@ -61,13 +59,9 @@ class DetailIzinActivity : BaseActivity() {
                 }
 
                 txtNamaPemohon.text = "${it.user.full_name}"
-//                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
                 txtRole.text = "${it.user.position_name}"
-//                txtKantor.text = ":   ${it.user.office_name}"
             }
 
-//            val namaAtasan = it.management?.full_name ?: "-"
-//            txtNamaAtasan.text = ":   $namaAtasan"
             txtAlasanTidakHadir.text = when (it.permission_type) {
                 1 -> "Izin"
                 2 -> "Sakit"
@@ -79,6 +73,12 @@ class DetailIzinActivity : BaseActivity() {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
             val dateFrom = dateFormat.parse(it.date_from)
             val dateTo = dateFormat.parse(it.date_to)
+
+            if (dateTo != null && dateFrom != null){
+                val diff = dateTo.time - dateFrom.time
+                txtJumlahCuti.text = "${TimeUnit.MILLISECONDS.toDays(diff)+1} Hari"
+            }
+
 
             imgPersetujuanPartner.loadImageFromUrl(it.attachment_partner_img_url)
             imgLaporanLeader.loadImageFromUrl(it.attachment_leader_img_url)

@@ -43,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var user: User
 
-    var hasCheckin = false
+    var isCheckin = false
+    var isCheckout = false
     var hasReportPresence = false
 
     private val onNavigationItemSelectedListener =
@@ -93,10 +94,16 @@ class HomeActivity : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
         }
 
-        hasCheckin = intent.getBooleanExtra("hasCheckin", false)
-        if (hasCheckin) {
+        isCheckin = intent.getBooleanExtra("isCheckin", false)
+        isCheckout = intent.getBooleanExtra("isCheckout", false)
+
+        if (isCheckin) {
             var ontimeLevel = intent.getIntExtra("ontimeLevel", 0)
             showDialogCheckIn(ontimeLevel)
+        }
+
+        if (isCheckout){
+            showDialogCheckIn(0)
         }
 
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
@@ -148,26 +155,14 @@ class HomeActivity : AppCompatActivity() {
         val currentTime = Calendar.getInstance()
         val now : Date = currentTime.time
 
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY,7)
-        cal.set(Calendar.MINUTE, 12)
-        val jam8 : Date = cal.time
-
-        val cal2 = Calendar.getInstance()
-        cal2.set(Calendar.HOUR_OF_DAY,7)
-        cal2.set(Calendar.MINUTE, 11)
-        val jamTepatWaktu : Date = cal2.time
-
-        val cal3 = Calendar.getInstance()
-        cal3.set(Calendar.HOUR_OF_DAY,7)
-        cal3.set(Calendar.MINUTE, 16)
-        val jam8TelatForBetween : Date = cal3.time
-
+        // for ontime level 3
         val cal4 = Calendar.getInstance()
-        cal4.set(Calendar.HOUR_OF_DAY,7)
-        cal4.set(Calendar.MINUTE, 15)
+        cal4.set(Calendar.HOUR_OF_DAY,8)
+        cal4.set(Calendar.MINUTE, 10)
+        cal4.set(Calendar.SECOND, 0)
         val jam8Telat : Date = cal4.time
 
+        // checkout success dialog as default
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(
@@ -181,6 +176,7 @@ class HomeActivity : AppCompatActivity() {
         val close = customView.findViewById<ImageView>(R.id.close)
         val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
         val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
+        lottie.setAnimation("433-checked-done.json")
 
         when (onTimeLevel) {
             1 -> {
@@ -193,7 +189,20 @@ class HomeActivity : AppCompatActivity() {
             }
             3 -> {
                 val different: Long = now.time - jam8Telat.time
-                txtKeterangan.text = getString(R.string.ket_absen_telat,  TimeUnit.MILLISECONDS.toMinutes(different))
+
+                var telat = ""
+
+                var minutes = TimeUnit.MILLISECONDS.toMinutes(different)
+
+                if (minutes > 60){
+                    val hour = (different / 1000) / (60 * 60) % 24
+                    val minute = (different / 1000) / 60 % 60
+                    telat = "$hour jam $minute menit"
+                } else {
+                    telat = "$minutes menit"
+                }
+
+                txtKeterangan.text = getString(R.string.ket_absen_telat, telat)
                 lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
             }
         }

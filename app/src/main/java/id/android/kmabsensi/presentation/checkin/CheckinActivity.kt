@@ -75,7 +75,8 @@ class CheckinActivity : BaseActivity() {
                     myDialog.dismiss()
                     startActivity(
                         intentFor<HomeActivity>(
-                            "hasCheckin" to true,
+                            "isCheckin" to (presenceId == 0),
+                            "isCheckout" to (presenceId != 0),
                             "message" to it.data.message,
                             "ontimeLevel" to onTimeLevel
                         ).clearTask().newTask()
@@ -89,9 +90,6 @@ class CheckinActivity : BaseActivity() {
         })
 
         btnCheckIn.setOnClickListener {
-
-
-
             compressedImage?.let {
                 if (presenceId == 0) vm.checkIn(it, getCheckinOntimeLevel() ) else vm.checkOut(presenceId, it)
             } ?: run {
