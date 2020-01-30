@@ -105,6 +105,8 @@ class HomeActivity : AppCompatActivity() {
             createAlertSuccess(this, message)
         }
 
+        showDialogCheckIn(3)
+
         when (role) {
             ROLE_ADMIN -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu)
@@ -148,24 +150,11 @@ class HomeActivity : AppCompatActivity() {
         val currentTime = Calendar.getInstance()
         val now : Date = currentTime.time
 
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY,7)
-        cal.set(Calendar.MINUTE, 12)
-        val jam8 : Date = cal.time
-
-        val cal2 = Calendar.getInstance()
-        cal2.set(Calendar.HOUR_OF_DAY,7)
-        cal2.set(Calendar.MINUTE, 11)
-        val jamTepatWaktu : Date = cal2.time
-
-        val cal3 = Calendar.getInstance()
-        cal3.set(Calendar.HOUR_OF_DAY,7)
-        cal3.set(Calendar.MINUTE, 16)
-        val jam8TelatForBetween : Date = cal3.time
-
+        // for ontime level 3
         val cal4 = Calendar.getInstance()
-        cal4.set(Calendar.HOUR_OF_DAY,7)
-        cal4.set(Calendar.MINUTE, 15)
+        cal4.set(Calendar.HOUR_OF_DAY,8)
+        cal4.set(Calendar.MINUTE, 10)
+        cal4.set(Calendar.SECOND, 0)
         val jam8Telat : Date = cal4.time
 
         val dialog = MaterialDialog(this).show {
@@ -193,7 +182,23 @@ class HomeActivity : AppCompatActivity() {
             }
             3 -> {
                 val different: Long = now.time - jam8Telat.time
-                txtKeterangan.text = getString(R.string.ket_absen_telat,  TimeUnit.MILLISECONDS.toMinutes(different))
+
+                var telat = ""
+
+                var minutes = TimeUnit.MILLISECONDS.toMinutes(different)
+
+                if (minutes > 60){
+                    val hour = (different / 1000) / (60 * 60) % 24
+                    val minute = (different / 1000) / 60 % 60
+                    telat = "$hour jam $minute menit"
+                } else {
+                    telat = "$minutes menit"
+                }
+
+
+
+
+                txtKeterangan.text = getString(R.string.ket_absen_telat, telat)
                 lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
             }
         }

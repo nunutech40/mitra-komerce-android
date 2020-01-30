@@ -61,7 +61,7 @@
     <string name="ket_belum_waktu_pulang">Belum jam 16.30, belum saatnya pulang nak, sabar..</string>
     <string name="ket_absen_lebih_awal">Hore datang lebih awal, kami kasih 1 poin KMPoin</string>
     <string name="ket_absen_tepat_waktu">Hore datang tepat waktu.</string>
-    <string name="ket_absen_telat">Sayang sekali hari ini Anda telat %1$d menit, besok diperbaiki ya.</string>
+    <string name="ket_absen_telat">Sayang sekali hari ini Anda telat %1$s, besok diperbaiki ya.</string>
     <string name="data_tidak_hadir">Data Tidak Hadir</string>
 
     <string-array name="role">
