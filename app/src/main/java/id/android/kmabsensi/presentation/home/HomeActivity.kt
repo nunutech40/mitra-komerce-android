@@ -43,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var user: User
 
-    var hasCheckin = false
+    var isCheckin = false
+    var isCheckout = false
     var hasReportPresence = false
 
     private val onNavigationItemSelectedListener =
@@ -93,10 +94,16 @@ class HomeActivity : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
         }
 
-        hasCheckin = intent.getBooleanExtra("hasCheckin", false)
-        if (hasCheckin) {
+        isCheckin = intent.getBooleanExtra("isCheckin", false)
+        isCheckout = intent.getBooleanExtra("isCheckout", false)
+
+        if (isCheckin) {
             var ontimeLevel = intent.getIntExtra("ontimeLevel", 0)
             showDialogCheckIn(ontimeLevel)
+        }
+
+        if (isCheckout){
+            showDialogCheckIn(0)
         }
 
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
@@ -104,8 +111,6 @@ class HomeActivity : AppCompatActivity() {
         if (hasReportPresence) {
             createAlertSuccess(this, message)
         }
-
-        showDialogCheckIn(3)
 
         when (role) {
             ROLE_ADMIN -> {
@@ -157,6 +162,7 @@ class HomeActivity : AppCompatActivity() {
         cal4.set(Calendar.SECOND, 0)
         val jam8Telat : Date = cal4.time
 
+        // checkout success dialog as default
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(
@@ -170,6 +176,7 @@ class HomeActivity : AppCompatActivity() {
         val close = customView.findViewById<ImageView>(R.id.close)
         val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
         val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
+        lottie.setAnimation("433-checked-done.json")
 
         when (onTimeLevel) {
             1 -> {
@@ -194,9 +201,6 @@ class HomeActivity : AppCompatActivity() {
                 } else {
                     telat = "$minutes menit"
                 }
-
-
-
 
                 txtKeterangan.text = getString(R.string.ket_absen_telat, telat)
                 lottie.setAnimation("466-stopwatch-via-sketch2ae.json")

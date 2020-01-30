@@ -31,7 +31,7 @@
         android:layout_marginBottom="32dp"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:text="Silahkan check in terlebih dahulu"
+        android:text="Berhasil checkout."
         android:textColor="@color/black"
         android:textSize="16sp"
         android:gravity="center"
