@@ -13,8 +13,15 @@ interface ApiService {
     @POST("api/login")
     fun login(
         @Field("username_email") username_email: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("fcm_token") fcmToken: String
     ): Single<LoginResponse>
+
+    @FormUrlEncoded
+    @POST("api/logout")
+    fun logout(
+        @Field("fcm_token") fcmToken: String
+    ): Single<BaseResponse>
 
     @FormUrlEncoded
     @POST("api/reset_password")

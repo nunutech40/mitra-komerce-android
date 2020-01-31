@@ -11,6 +11,7 @@ class PreferencesHelper(val context: Context){
         //KEY
         private val LEAGUE_NAME_KEY = "league_name"
         val ACCESS_TOKEN_KEY = "access_token"
+        val FCM_TOKEN = "fcm_token"
         val PROFILE_KEY = "profile"
         val IS_LOGIN = "is_login"
     }

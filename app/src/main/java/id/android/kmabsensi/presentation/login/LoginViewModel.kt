@@ -30,7 +30,7 @@ class LoginViewModel(
     ) {
         loginState.value = UiState.Loading()
         compositeDisposable.add(
-            authRepository.login(usernameEmail, password)
+            authRepository.login(usernameEmail, password, prefHelper.getString(PreferencesHelper.FCM_TOKEN))
                 .with(schedulerProvider)
                 .subscribe({
                     loginState.value = UiState.Success(it)

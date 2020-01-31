@@ -43,6 +43,8 @@ class SplashActivity : AppCompatActivity() {
         try {
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
                 Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
+                prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
+
 //                Helpers.saveDeviceToken(it.token, this, this)
 
             }.addOnFailureListener {

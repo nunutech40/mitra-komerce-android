@@ -19,6 +19,7 @@ class HomeViewModel(
     private val presenceRepository: PresenceRepository,
     private val jadwalShalatRepository: JadwalShalatRepository,
     private val coworkingSpaceRepository: CoworkingSpaceRepository,
+    val authRepository: AuthRepository,
     val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
@@ -35,6 +36,9 @@ class HomeViewModel(
     val checkInCoworkingSpace = LiveEvent<UiState<BaseResponse>>()
 
     val coworkUserData = LiveEvent<UiState<UserCoworkDataResponse>>()
+
+    val logoutState = MutableLiveData<UiState<BaseResponse>>()
+
 
     fun getDashboardInfo(userId: Int) {
         dashboardData.value = UiState.Loading()
@@ -102,6 +106,17 @@ class HomeViewModel(
                 checkInCoworkingSpace.value = UiState.Success(it)
             },{
                 checkInCoworkingSpace.value = UiState.Error(it)
+            }))
+    }
+
+    fun logout() {
+        logoutState.value = UiState.Loading()
+        compositeDisposable.add(authRepository.logout(preferencesHelper.getString(PreferencesHelper.FCM_TOKEN))
+            .with(schedulerProvider)
+            .subscribe({
+                logoutState.value = UiState.Success(it)
+            },{
+                logoutState.value = UiState.Error(it)
             }))
     }
 

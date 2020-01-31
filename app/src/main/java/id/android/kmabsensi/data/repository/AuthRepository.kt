@@ -7,13 +7,21 @@ import io.reactivex.Single
 
 class AuthRepository(private val apiService: ApiService) {
 
-    fun login(usernameEmail: String,
-              password: String): Single<LoginResponse> {
-        return apiService.login(usernameEmail, password)
+    fun login(
+        usernameEmail: String,
+        password: String, fcmToken: String
+    ): Single<LoginResponse> {
+        return apiService.login(usernameEmail, password, fcmToken)
     }
 
-    fun resetPassword(userId: String,
-                      password: String) : Single<BaseResponse> {
+    fun logout(fcmToken: String): Single<BaseResponse> {
+        return apiService.logout(fcmToken)
+    }
+
+    fun resetPassword(
+        userId: String,
+        password: String
+    ): Single<BaseResponse> {
         return apiService.resetPassword(userId, password)
     }
 

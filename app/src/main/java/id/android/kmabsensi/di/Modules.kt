@@ -13,6 +13,7 @@ import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.coworking.CoworkingSpaceViewModel
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
 import id.android.kmabsensi.presentation.kantor.OfficeViewModel
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
 import id.android.kmabsensi.presentation.kantor.report.PresenceReportViewModel
@@ -23,13 +24,13 @@ import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
-import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
+import id.android.kmabsensi.presentation.splash.SplashViewModel
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
 import id.android.kmabsensi.utils.rx.AppSchedulerProvider
 import id.android.kmabsensi.utils.rx.SchedulerProvider
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
 val appModule = module {
 
@@ -63,7 +64,7 @@ val viewModelModule = module {
     viewModel { OfficeViewModel(get(), get()) }
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }
@@ -73,6 +74,7 @@ val viewModelModule = module {
     viewModel { JabatanViewModel(get(), get()) }
     viewModel { UbahProfileViewModel(get(), get(), get()) }
     viewModel { CoworkingSpaceViewModel(get(), get()) }
+    viewModel { SplashViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)
