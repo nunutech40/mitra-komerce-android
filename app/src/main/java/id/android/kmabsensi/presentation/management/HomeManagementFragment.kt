@@ -354,10 +354,16 @@ class HomeManagementFragment : Fragment() {
         txtRoleName.text = getRoleName(user.role_id).capitalize()
 
         btnKelolaSdm.setOnClickListener {
-            context?.startActivity<KelolaDataSdmActivity>(
-                IS_MANAGEMENT_KEY to true,
-                USER_ID_KEY to user.id
-            )
+            if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
+                context?.startActivity<KelolaDataSdmActivity>(
+                    IS_MANAGEMENT_KEY to false
+                )
+            } else {
+                context?.startActivity<KelolaDataSdmActivity>(
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
+                )
+            }
         }
 
         btnCheckIn.setOnClickListener {
@@ -368,8 +374,6 @@ class HomeManagementFragment : Fragment() {
         btnCheckOut.setOnClickListener {
             isCheckin = false
             vm.presenceCheck(user.id)
-
-
         }
 
         btnFormIzin.setOnClickListener {
@@ -377,10 +381,17 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnKelolaIzin.setOnClickListener {
-            activity?.startActivity<ManajemenIzinActivity>(
-                IS_MANAGEMENT_KEY to true,
-                USER_ID_KEY to user.id
-            )
+
+            if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
+                activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
+            } else {
+                activity?.startActivity<ManajemenIzinActivity>(
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
+                )
+            }
+
+
         }
 
         btnGagalAbsen.setOnClickListener {

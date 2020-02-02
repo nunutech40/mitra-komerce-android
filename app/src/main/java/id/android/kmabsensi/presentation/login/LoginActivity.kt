@@ -5,17 +5,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.lifecycle.Observer
+import com.crashlytics.android.Crashlytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordActivity
+import id.android.kmabsensi.presentation.splash.SplashActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.createAlertError
@@ -28,6 +34,7 @@ import org.koin.android.ext.android.inject
 class LoginActivity : BaseActivity() {
 
     private val vm: LoginViewModel by inject()
+    private val prefHelper: PreferencesHelper by inject()
 
     private lateinit var myDialog: MyDialog
 
@@ -80,8 +87,36 @@ class LoginActivity : BaseActivity() {
             startActivity<LupaPasswordActivity>()
         }
 
+        initView()
+
 
     }
+
+    private fun initView() {
+        try {
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
+                Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
+                prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
+
+//                Helpers.saveDeviceToken(it.token, this, this)
+
+            }.addOnFailureListener {
+                if (!BuildConfig.DEBUG) {
+                    Crashlytics.logException(it)
+                } else {
+                    Crashlytics.logException(it)
+                }
+            }
+        } catch (ex: Exception) {
+            if (!BuildConfig.DEBUG) {
+                Crashlytics.logException(ex)
+            } else {
+                Crashlytics.logException(ex)
+            }
+        }
+
+    }
+
 
     fun validation() : Boolean {
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")

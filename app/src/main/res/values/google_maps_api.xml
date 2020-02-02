@@ -21,13 +21,13 @@
     string in this file.
         -->
     <!--    debug-->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBR-TTZKXH3_BiVJZMPN0G78PPEyKPYnAg</string>
+<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBR-TTZKXH3_BiVJZMPN0G78PPEyKPYnAg</string>-->
 
     <!-- dev release -->
 <!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBbN2wpGBldwCuFjPFpYTG82Evdewqhb-g</string>-->
 
 <!--     release-->
-<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDVW0YNCQIok65KI_NicPmSweNThAEeicU</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDVW0YNCQIok65KI_NicPmSweNThAEeicU</string>
 
 
 </resources>

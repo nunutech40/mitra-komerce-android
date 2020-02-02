@@ -153,7 +153,15 @@ class FormIzinActivity : BaseActivity() {
                         leader,
                         compressedImagePersetujuanPartner?.let { it }
                     )
-                } ?: createAlertError(this, "Peringatan", "Upload laporan leader dahulu.")
+                } ?: run {
+
+                    if (user.role_id == 2){
+                        createAlertError(this, "Peringatan", "Upload dokumen terkait dahulu.")
+                    } else {
+                        createAlertError(this, "Peringatan", "Upload laporan leader dahulu.")
+                    }
+
+                }
             }
         }
 
