@@ -35,8 +35,18 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        checkUpdate()
+//        checkUpdate()
         initView()
+        Handler().postDelayed(
+            {
+                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
+                    startActivity<HomeActivity>()
+                    finish()
+                } else {
+                    startActivity<LoginActivity>()
+                    finish()
+                }
+            }, 1500)
     }
 
     private fun initView() {
@@ -44,8 +54,6 @@ class SplashActivity : AppCompatActivity() {
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
                 Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
                 prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
-
-//                Helpers.saveDeviceToken(it.token, this, this)
 
             }.addOnFailureListener {
                 if (!BuildConfig.DEBUG) {
