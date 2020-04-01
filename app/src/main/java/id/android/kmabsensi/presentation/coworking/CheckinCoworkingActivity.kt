@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
@@ -20,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.CoworkingSpace
 import id.android.kmabsensi.data.remote.response.UserCoworkingSpace
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
@@ -48,7 +46,7 @@ class CheckinCoworkingActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin_coworking)
 
-        setToolbarTitle("Cek Jangkauan")
+        setupToolbar("Cek Jangkauan")
 
         coworking = intent.getParcelableExtra("coworking")
         myDialog = MyDialog(this)

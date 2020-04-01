@@ -2,7 +2,6 @@ package id.android.kmabsensi.presentation.kantor
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_kantor.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 
@@ -33,7 +31,7 @@ class KelolaKantorActivity : BaseActivity() {
 //        supportActionBar?.title = "Kelola Data Kantor"
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setToolbarTitle("Kelola Data Kantor")
+        setupToolbar("Kelola Data Kantor")
 
         initRv()
 

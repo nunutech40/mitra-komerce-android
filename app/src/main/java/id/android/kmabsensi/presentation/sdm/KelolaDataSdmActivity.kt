@@ -3,8 +3,6 @@ package id.android.kmabsensi.presentation.sdm
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -46,7 +44,7 @@ class KelolaDataSdmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kelola_data_sdm)
 
-        setToolbarTitle("Kelola Data Karyawan")
+        setupToolbar("Kelola Data Karyawan")
         btnSearch.visible()
         btnSearch.setOnClickListener {
             startActivity<CariDataSdmActivity>()

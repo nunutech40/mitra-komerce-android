@@ -14,7 +14,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
@@ -36,7 +35,7 @@ class DetailIzinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_izin)
 
-        setToolbarTitle("Pengajuan Izin")
+        setupToolbar("Pengajuan Izin")
 
         permission = intent.getParcelableExtra(PERMISSION_DATA_KEY)
         isFromManajemenIzin = intent.getBooleanExtra(IS_FROM_MANAJEMEN_IZI, false)

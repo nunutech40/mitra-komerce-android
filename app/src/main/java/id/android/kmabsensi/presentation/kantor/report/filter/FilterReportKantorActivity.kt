@@ -18,7 +18,6 @@ import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,7 +54,7 @@ class FilterReportKantorActivity : BaseActivity() {
 //        supportActionBar?.title = "Filter Report"
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setToolbarTitle("Filter Report")
+        setupToolbar("Filter Report")
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
         userResponse = intent.getParcelableExtra("user_response")

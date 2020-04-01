@@ -22,7 +22,7 @@ class PartnerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partner)
 
-        setToolbarTitle(getString(R.string.text_data_partner))
+        setupToolbar(getString(R.string.text_data_partner))
 
         initRv()
 

@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.datetime.datePicker
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.d
 import com.schibstedspain.leku.LATITUDE
@@ -24,13 +22,9 @@ import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_coworking.*
 import kotlinx.android.synthetic.main.activity_coworking.toolbar
-import kotlinx.android.synthetic.main.item_row_coworking.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 class CoworkingActivity : BaseActivity() {
 
@@ -62,7 +56,7 @@ class CoworkingActivity : BaseActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        setToolbarTitle(if (coworking != null) "Kelola ${coworking?.cowork_name}" else "Tambahkan List")
+        setupToolbar(if (coworking != null) "Kelola ${coworking?.cowork_name}" else "Tambahkan List")
 
         myDialog = MyDialog(this)
 

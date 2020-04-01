@@ -53,7 +53,7 @@ class UbahProfileActivity : BaseActivity() {
 
         disableAutofill()
 
-        setToolbarTitle("Ubah Profile")
+        setupToolbar("Ubah Profile")
 
         myDialog = MyDialog(this)
 

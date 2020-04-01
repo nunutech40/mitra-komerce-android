@@ -32,11 +32,7 @@ class  PermissionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.title = "History Izin"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        setToolbarTitle("History Izin")
+        setupToolbar("History Izin")
 
         user = intent.getParcelableExtra(USER_KEY)
 

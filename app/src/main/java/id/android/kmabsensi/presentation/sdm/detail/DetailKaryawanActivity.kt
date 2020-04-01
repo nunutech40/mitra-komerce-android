@@ -1,14 +1,12 @@
 package id.android.kmabsensi.presentation.sdm.detail
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.telephony.PhoneNumberUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -38,7 +36,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -84,7 +81,7 @@ class DetailKaryawanActivity : BaseActivity() {
         supportActionBar?.title = ""
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setToolbarTitle("Detail Karyawan")
+        setupToolbar("Detail Karyawan")
 
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)

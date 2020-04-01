@@ -65,7 +65,7 @@ class FormIzinActivity : BaseActivity() {
 
         setSupportActionBar(toolbar)
 
-        setToolbarTitle("Form Izin")
+        setupToolbar("Form Izin")
 
         user = intent.getParcelableExtra(USER_KEY)
 

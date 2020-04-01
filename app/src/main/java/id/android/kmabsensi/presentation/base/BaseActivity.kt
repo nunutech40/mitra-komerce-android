@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.crashlytics.android.Crashlytics
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
+import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -61,7 +62,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun setToolbarTitle(title: String, isWhiteBackground: Boolean = false) {
+    fun setupToolbar(title: String, isWhiteBackground: Boolean = false, isFilterVisible: Boolean = false, isSearchVisible: Boolean = false) {
         txtTitle.text = title
         btnBack.setOnClickListener {
             onBackPressed()
@@ -78,6 +79,9 @@ abstract class BaseActivity : AppCompatActivity() {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
+
+        if (isFilterVisible) btnFilter.visible()
+        if (isSearchVisible) btnSearch.visible()
     }
 
 }

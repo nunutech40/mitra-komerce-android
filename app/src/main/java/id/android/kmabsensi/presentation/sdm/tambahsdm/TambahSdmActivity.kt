@@ -1,11 +1,9 @@
 package id.android.kmabsensi.presentation.sdm.tambahsdm
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -16,7 +14,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.crashlytics.android.Crashlytics
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
@@ -35,7 +32,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.koin.android.ext.android.inject
 import java.io.File
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -76,7 +72,7 @@ class TambahSdmActivity : BaseActivity() {
 //        supportActionBar?.title = "Tambah Karyawan"
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setToolbarTitle("Tambah Karyawan")
+        setupToolbar("Tambah Karyawan")
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)

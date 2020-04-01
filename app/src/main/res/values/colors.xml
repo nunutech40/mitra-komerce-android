@@ -59,5 +59,8 @@
     <color name="_A1A4AF">#A1A4AF</color>
     <color name="_7A7B7C">#7A7B7C</color>
     <color name="_E15352">#E15352</color>
+    <color name="_F48070">#F48070</color>
+
+    <color name="strokeButtonOutline">#36DE4D4E</color>
 
 </resources>

@@ -1,16 +1,11 @@
 package id.android.kmabsensi.presentation.checkin
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.datetime.datePicker
-import com.afollestad.materialdialogs.datetime.timePicker
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.createAlertError
-import id.android.kmabsensi.utils.createAlertSuccess
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_report_absensi.*
 import org.jetbrains.anko.clearTask
@@ -36,7 +31,7 @@ class ReportAbsensiActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-        setToolbarTitle("Report Absensi")
+        setupToolbar("Report Absensi")
 
         val date = Calendar.getInstance()
         val dateFormatInput = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

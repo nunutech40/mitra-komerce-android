@@ -25,7 +25,7 @@ class EditPasswordActivity : BaseActivity() {
 
         disableAutofill()
 
-        setToolbarTitle("Ubah Password")
+        setupToolbar("Ubah Password")
 
         karyawan = intent.getParcelableExtra(USER_KEY)
 

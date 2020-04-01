@@ -2,9 +2,7 @@ package id.android.kmabsensi.presentation.partner
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -26,7 +24,7 @@ class CustomizePartnerActivity : BaseActivity() {
 
         val isSort = intent.getBooleanExtra(IS_SORT_KEY, false)
 
-        setToolbarTitle(if (isSort) "Sort" else "Filter", true)
+        setupToolbar(if (isSort) "Sort" else "Filter", true)
 
         labelTitleContent.text = if (isSort) "Jumlah SDM" else "Kategori"
 

@@ -1,9 +1,7 @@
 package id.android.kmabsensi.presentation.jabatan
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +14,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_manajemen_jabatan.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class ManajemenJabatanActivity : BaseActivity() {
@@ -32,7 +29,7 @@ class ManajemenJabatanActivity : BaseActivity() {
 //        setSupportActionBar(toolbar)
 //        supportActionBar?.title = "Daftar Jabatan"
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setToolbarTitle("Daftar Jabatan")
+        setupToolbar("Daftar Jabatan")
         myDialog = MyDialog(this)
         initRv()
 
