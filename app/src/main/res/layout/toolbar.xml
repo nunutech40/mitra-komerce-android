@@ -6,9 +6,11 @@
     android:layout_height="wrap_content"
     android:adjustViewBounds="true"
     android:minHeight="?attr/actionBarSize"
-    app:contentInsetStart="0dp">
+    app:contentInsetStart="0dp"
+    >
 
     <RelativeLayout
+        android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="84dp"
         android:paddingTop="16dp"
@@ -22,7 +24,8 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="24dp"
                 app:srcCompat="@drawable/ic_icon_back" />
@@ -31,11 +34,11 @@
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:fontFamily="@font/avenirltstd_heavy"
                 android:text="Title"
+                android:padding="24dp"
                 android:textAlignment="center"
                 android:textColor="@color/textWhite"
                 android:textSize="18sp"

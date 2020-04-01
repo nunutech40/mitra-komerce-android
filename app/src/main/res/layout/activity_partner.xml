@@ -36,7 +36,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btnSort"
+                android:id="@+id/buttonSort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_13dp"
@@ -44,6 +44,7 @@
                 android:paddingStart="@dimen/_16dp"
                 android:paddingEnd="@dimen/_16dp"
                 android:text="Sort"
+                android:background="?attr/selectableItemBackground"
                 android:drawablePadding="8dp"
                 style="@style/tv14sp929292_avenir_medium"
                 app:drawableStartCompat="@drawable/ic_sort_grey"
@@ -55,7 +56,7 @@
                 android:background="#80C4C4C4"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btnFilter"
+                android:id="@+id/buttonFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_13dp"
@@ -63,6 +64,7 @@
                 android:paddingStart="@dimen/_16dp"
                 android:paddingEnd="@dimen/_16dp"
                 android:text="Filter"
+                android:background="?attr/selectableItemBackground"
                 android:drawablePadding="8dp"
                 style="@style/tv14sp929292_avenir_medium"
                 app:drawableStartCompat="@drawable/ic_filter_grey"

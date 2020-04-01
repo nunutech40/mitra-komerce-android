@@ -1,18 +1,19 @@
 package id.android.kmabsensi.presentation.base
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.crashlytics.android.Crashlytics
+import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.toolbar.*
-import java.lang.Exception
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ abstract class BaseActivity : AppCompatActivity() {
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
         }
 
@@ -60,10 +61,22 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun setToolbarTitle(title: String){
+    fun setToolbarTitle(title: String, isWhiteBackground: Boolean = false) {
         txtTitle.text = title
         btnBack.setOnClickListener {
             onBackPressed()
+        }
+        if (isWhiteBackground) {
+            toolbar_container.layoutParams.height = resources.getDimensionPixelSize(R.dimen._100dp)
+            toolbar_container.setBackgroundResource(R.drawable.bg_toolbar_white)
+            txtTitle.setTextColor(Color.BLACK)
+            btnBack.setColorFilter(
+                ContextCompat.getColor(this, R.color._7A7B7C),
+                PorterDuff.Mode.SRC_IN
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
     }
 

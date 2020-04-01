@@ -63,6 +63,12 @@
         <item name="android:textColor">@color/_929292</item>
     </style>
 
+    <style name="tv14sp000000_avenir_medium">
+        <item name="android:fontFamily">@font/avenir_medium</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/_000000</item>
+    </style>
+
 
 
 
