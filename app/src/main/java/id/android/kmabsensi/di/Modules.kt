@@ -20,6 +20,7 @@ import id.android.kmabsensi.presentation.kantor.report.PresenceReportViewModel
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportViewModel
 import id.android.kmabsensi.presentation.login.LoginViewModel
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
+import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -55,7 +56,7 @@ val dataModule = module {
     single { JabatanRepository(get()) }
     single { JadwalShalatRepository(get()) }
     single { CoworkingSpaceRepository(get()) }
-
+    single { PartnerCategoryRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -75,6 +76,7 @@ val viewModelModule = module {
     viewModel { UbahProfileViewModel(get(), get(), get()) }
     viewModel { CoworkingSpaceViewModel(get(), get()) }
     viewModel { SplashViewModel(get(), get(), get()) }
+    viewModel { PartnerCategoryViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule)

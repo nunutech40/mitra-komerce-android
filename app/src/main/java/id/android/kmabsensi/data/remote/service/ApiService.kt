@@ -264,6 +264,26 @@ interface ApiService {
         @Body body: Map<String, Any>
     ): Single<BaseResponse>
 
+    @POST("api/partnerCategory")
+    fun getPartnerCategories(): Single<ListPartnerCategoryResponse>
+
+    @POST("/api/partnerCategory/add")
+    @FormUrlEncoded
+    fun addPartnerCategory(
+        @Field("partner_category_name") partnerCategory: String
+    ): Single<BaseResponse>
+
+    @POST("/api/partnerCategory/edit")
+    @FormUrlEncoded
+    fun editPartnerCategory(
+        @Field("id") id: Int,
+        @Field("partner_category_name") partnerCategory: String
+    ): Single<BaseResponse>
+
+    @GET("/api/partnerCategory/delete/{id}")
+    fun deletePartnerCategory(
+        @Path("id") id: Int
+    ): Single<BaseResponse>
 
 
 

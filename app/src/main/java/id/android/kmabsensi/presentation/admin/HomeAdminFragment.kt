@@ -23,6 +23,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
+import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
@@ -178,6 +179,12 @@ class HomeAdminFragment : Fragment() {
         btnDataPartner.setOnClickListener {
             activity?.startActivity<PartnerActivity>()
         }
+
+        btnPartnerCategory.setOnClickListener {
+            activity?.startActivity<KategoriPartnerActivity>()
+        }
+        
+        
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
