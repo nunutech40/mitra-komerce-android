@@ -21,7 +21,7 @@
 
     <color name="textColorGrey">#A1A4AF</color>
 
-    <color name="textTime">#282828</color>
+    <color name="textTime">#CC282828</color>
 
     <color name="colorAsk">#929292</color>
 
@@ -58,5 +58,6 @@
     <color name="_929292">#929292</color>
     <color name="_A1A4AF">#A1A4AF</color>
     <color name="_7A7B7C">#7A7B7C</color>
+    <color name="_E15352">#E15352</color>
 
 </resources>

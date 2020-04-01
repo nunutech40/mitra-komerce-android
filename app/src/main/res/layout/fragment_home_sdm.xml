@@ -10,13 +10,11 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/layoutBackgroundColor"
-        android:paddingBottom="8dp">
+        android:background="@color/layoutBackgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="16dp">
+            android:layout_height="match_parent">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutHeader"
@@ -106,8 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:textColor="@color/textTime"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        style="@style/tv18sp404040_avenir_heavy"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/txtNextTime"
                         tools:text="( - 00.00.00 )" />
@@ -199,8 +196,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="18dp"
                 android:textColor="@color/textTime"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                style="@style/tv18sp404040_avenir_heavy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint"
                 tools:text="Rabu, 13 November 2019" />
@@ -251,8 +247,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Datang"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -283,8 +278,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Pulang"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -315,8 +309,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Form Izin"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -348,231 +341,52 @@
                         android:layout_marginTop="4dp"
                         android:text="Gagal Absen"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnCheckIn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:layout_marginTop="24dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView24">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView19"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_checkin"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView19"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView19"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView19">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="CHECK LOCK"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Datang"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnCheckOut"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginEnd="24dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/btnCheckIn">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView21"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_checkout"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView21"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView21"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView21">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="CHECK LOCK"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Pulang"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnFormIzin"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView30"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_form_izin"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView30"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView30"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView30">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="PERIZINAN"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Form Izin"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-            <TextView
-                android:id="@+id/textCoworkingSpace"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Co-Working Space"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:textColor="@color/colorAsk"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/_16dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutMenu1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rvCoworkingSpace"
-                    android:layout_marginTop="16dp"
+                    android:text="Co-Working Space"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    style="@style/tv14sp929292_avenir_heavy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvCoworkingSpace"
+                        android:layout_marginTop="16dp"
+
+                        />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

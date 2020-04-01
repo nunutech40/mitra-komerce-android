@@ -9,13 +9,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutHeader"
@@ -105,9 +103,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
-                        android:textSize="18sp"
+                        style="@style/tv18sp404040_avenir_heavy"
                         android:textColor="@color/textTime"
-                        android:textStyle="bold"
                         tools:text="( - 00.00.00 )"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/txtNextTime" />
@@ -199,9 +196,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="18dp"
                 tools:text="Rabu, 13 November 2019"
-                android:textSize="18sp"
+                style="@style/tv18sp404040_avenir_heavy"
                 android:textColor="@color/textTime"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint" />
 
@@ -293,58 +289,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/dataHadir"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView16"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="@dimen/_88sdp"-->
-<!--                android:scaleType="fitXY"-->
-<!--                android:layout_marginTop="14dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:src="@drawable/bg_data_hadir"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelPartner"
+                style="@style/tv14sp929292_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18dp"
+                android:text="Partner"
+                app:layout_constraintStart_toStartOf="@id/expandableLayout"
+                app:layout_constraintTop_toBottomOf="@id/expandableLayout" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView17"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="@dimen/_97sdp"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:layout_marginEnd="24dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:scaleType="fitXY"-->
-<!--                android:src="@drawable/bg_belum_hadir"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView24" />-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/layoutExpand"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/dataHadir"-->
-<!--                app:layout_constraintEnd_toEndOf="parent">-->
-
-<!--                <com.skydoves.expandablelayout.ExpandableLayout-->
-<!--                    android:id="@+id/expandable"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="24dp"-->
-<!--                    android:layout_marginEnd="24dp"-->
-<!--                    android:background="@color/white"-->
-<!--                    app:expandable_showSpinner="true"-->
-<!--                    app:expandable_spinner="@drawable/ic_arrow_down"-->
-<!--                    app:expandable_duration="300"-->
-<!--                    app:expandable_isExpanded="false"-->
-<!--                    app:expandable_parentLayout="@layout/layout_parent"-->
-<!--                    app:expandable_secondLayout="@layout/layout_second"-->
-<!--                    />-->
-
-<!--            </LinearLayout>-->
+            <include
+                android:id="@+id/sectionPartner"
+                layout="@layout/dashboard_section_partner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="@dimen/_16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelPartner" />
 
             <TextView
                 android:id="@+id/textView26"
@@ -353,10 +318,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/ask"
-                android:textColor="@color/colorAsk"
-                android:textSize="16sp"
+                style="@style/tv14sp929292_avenir_heavy"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expandableLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/sectionPartner" />
 
             <LinearLayout
                 android:id="@+id/layoutMenu1"
@@ -397,8 +361,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Datang"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -429,8 +392,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Pulang"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -461,8 +423,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Data SDM"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -493,8 +454,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Form Izin"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -539,8 +499,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Data Izin"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -572,8 +531,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Gagal Absen"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -641,407 +599,6 @@
 
             </LinearLayout>
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnCheckIn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView26">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView19"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_checkin"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView19"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView19"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView19">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="CHECK LOCK"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Datang"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:layout_marginTop="1dp" />-->
-
-<!--                    </LinearLayout>-->
-
-
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnKelolaSdm"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/btnCheckIn">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView20"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_kelolasdm"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView20"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView20"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView20">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="KELOLA"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Data SDM"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:layout_marginTop="1dp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnCheckOut"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginEnd="24dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView26">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView21"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_checkout"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView21"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView21"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView21">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="CHECK LOCK"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Pulang"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnFormIzin"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginEnd="24dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/btnCheckOut">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView30"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_form_izin"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/imageView30"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/imageView30"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/imageView30">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="PERIZINAN"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Form Izin"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/btnKelolaIzin"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                app:cardCornerRadius="8dp"-->
-<!--                app:cardElevation="1dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/guideline5"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/btnKelolaSdm">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/img20"-->
-<!--                        android:layout_width="42dp"-->
-<!--                        android:layout_height="42dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:src="@drawable/ic_kelola_izin"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/img20"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/img20"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/img20">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="KELOLA"-->
-<!--                            android:textColor="@color/colorTitleMenu"-->
-<!--                            android:textSize="11sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView19"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView19" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="1dp"-->
-<!--                            android:text="Data Izin"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="14sp" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtPresent"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="18dp"-->
-<!--                android:layout_marginTop="14dp"-->
-<!--                android:text="0"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:textSize="32sp"-->
-<!--                android:textStyle="bold"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imageView16"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imageView16" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtTotalUser"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="/0"-->
-<!--                android:textColor="#B2FFFFFF"-->
-<!--                android:textSize="22sp"-->
-<!--                android:layout_marginBottom="2dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/txtPresent"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/txtPresent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView30"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                android:text="@string/data_hadir"-->
-<!--                android:textColor="#CCFFFFFF"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/txtPresent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView31"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                android:text="@string/semua_kantor"-->
-<!--                android:textColor="#CCFFFFFF"-->
-<!--                android:textSize="12sp"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/txtPresent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtNotPresent"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="18dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:text="0"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="32sp"-->
-<!--                android:textStyle="bold"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imageView17"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imageView17" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView34"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="orang"-->
-<!--                android:textSize="14sp"-->
-<!--                android:layout_marginStart="6dp"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:textColor="@color/textColorGrey"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/txtNotPresent"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/txtNotPresent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView37"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:text="Belum hadir"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textColor="@color/textColorGrey"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/txtNotPresent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/txtNotPresent" />-->
-
-
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
@@ -1053,52 +610,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/dataHadir" />
 
-            <TextView
-                android:id="@+id/textCoworkingSpace"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Co-Working Space"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:textColor="@color/colorAsk"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/_16dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutMenu2"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rvCoworkingSpace"
-                    android:layout_marginTop="16dp"
-
+                    android:text="Co-Working Space"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    style="@style/tv14sp929292_avenir_heavy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="parent">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvCoworkingSpace"
+                        android:layout_marginTop="16dp"
 
+                        />
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/layoutMenu2">-->
+                </LinearLayout>
 
-<!--                -->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 
