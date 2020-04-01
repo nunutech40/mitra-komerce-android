@@ -66,6 +66,7 @@
 
     <string name="notifications_admin_channel_name">Notification Title</string>
     <string name="notifications_admin_channel_description">Notification Discription</string>
+    <string name="text_data_partner">Data Partner</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -99,7 +100,6 @@
         <item>Tersedia</item>
         <item>Ada Acara</item>
     </string-array>
-
 
 
 </resources>

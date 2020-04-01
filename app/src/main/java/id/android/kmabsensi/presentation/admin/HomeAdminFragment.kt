@@ -22,6 +22,7 @@ import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
+import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
@@ -67,13 +68,15 @@ class HomeAdminFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressBar.gone()
-                    txtPresent.text = it.data.data.total_present.toString()
-                    txtTotalUser.text = " /${it.data.data.total_user}"
+                    if (it.data.status){
+                        txtPresent.text = it.data.data.total_present.toString()
+                        txtTotalUser.text = " /${it.data.data.total_user}"
 
-                    if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
-                        expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
-                        expandableLayout.sections[0].children.clear()
-                        expandableLayout.sections[0].children.add(it.data.data)
+                        if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
+                            expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
+                            expandableLayout.sections[0].children.clear()
+                            expandableLayout.sections[0].children.add(it.data.data)
+                        }
                     }
                }
                 is UiState.Error -> {
@@ -170,6 +173,10 @@ class HomeAdminFragment : Fragment() {
 
         btnKelolaCoworking.setOnClickListener {
             activity?.startActivity<ListCoworkingActivity>()
+        }
+
+        btnDataPartner.setOnClickListener {
+            activity?.startActivity<PartnerActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {

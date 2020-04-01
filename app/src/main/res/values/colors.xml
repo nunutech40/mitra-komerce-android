@@ -52,4 +52,10 @@
 
     <color name="color_kirim_laporan">#BD3434</color>
 
+    <color name="_000000">#000000</color>
+    <color name="_404040">#404040</color>
+    <color name="_DE4D4E">#DE4D4E</color>
+    <color name="_929292">#929292</color>
+    <color name="_A1A4AF">#A1A4AF</color>
+
 </resources>
