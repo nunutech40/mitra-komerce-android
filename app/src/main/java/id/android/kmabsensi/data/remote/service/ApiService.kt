@@ -285,6 +285,9 @@ interface ApiService {
         @Path("id") id: Int
     ): Single<BaseResponse>
 
+    @GET("api/masterdata/area")
+    fun getDataArea()
+
 
 
 }

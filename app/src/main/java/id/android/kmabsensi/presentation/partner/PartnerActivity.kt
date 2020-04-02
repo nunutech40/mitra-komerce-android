@@ -9,9 +9,11 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.manajemenpartner.FormPartnerActivity
 import id.android.kmabsensi.utils.IS_SORT_KEY
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_partner.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 class PartnerActivity : BaseActivity() {
@@ -44,6 +46,10 @@ class PartnerActivity : BaseActivity() {
             startActivityForResult<CustomizePartnerActivity>(
                 CUSTOMIZE_RC, IS_SORT_KEY to false
             )
+        }
+
+        btnAddPartner.setOnClickListener {
+            startActivity<FormPartnerActivity>()
         }
 
     }

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="id.android.kmabsensi.presentation.partner.manajemenpartner.FormPartnerActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/shape_circle" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/username"
+                android:textColor="@color/textColor"/>
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/input_username"
+                android:inputType="textPersonName"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/password"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ketikkan_password"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Konfirmasi Password"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtKonfirmasiPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ketikkan_password"
+                android:inputType="textPassword"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/biodata"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="6dp"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Nama Lengkap"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNamaLengkap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/masukkan_nama_lengkap"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Tanggal Lahir"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan tanggal lahir"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Jenis Kelamin"
+                android:textColor="@color/textColor" />
+
+            <Spinner
+                android:id="@+id/spinnerJenisKelamin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="No HP"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNoHp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:hint="@string/masukkan_no_hp"
+                android:inputType="number"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Email"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:hint="@string/masukkan_email"
+                android:inputType="textEmailAddress"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="No Partner"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNoPartner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:hint="@string/masukkan_no_partner"
+                android:inputType="number"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Alamat"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:hint="Masukkan alamat"
+                android:inputType="text"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Tanggal Bergabung"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtTanggalBergabung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan tanggal bergabung"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Status Pernikahan"
+                android:textColor="@color/textColor" />
+
+            <Spinner
+                android:id="@+id/spinnerStatusPernikahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Status Partner"
+                android:textColor="@color/textColor" />
+
+            <Spinner
+                android:id="@+id/spinnerStatusPartner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Role"
+                android:textColor="@color/textColor" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Nama Bank"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNamaBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nama bank"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Nomor Rekening"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNoRekening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nomor rekening"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Pemilik Rekening"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtPemilikRekening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nama pemilik rekening"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimpan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/simpan"
+                android:textAllCaps="false"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
