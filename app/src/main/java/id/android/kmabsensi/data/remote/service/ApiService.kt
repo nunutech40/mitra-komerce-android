@@ -1,6 +1,7 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.response.*
+import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -14,6 +15,7 @@ interface ApiService {
     fun login(
         @Field("username_email") username_email: String,
         @Field("password") password: String,
+//        @Field("applicationType") applicationType: Int = 1,
         @Field("fcm_token") fcmToken: String
     ): Single<LoginResponse>
 
@@ -286,7 +288,73 @@ interface ApiService {
     ): Single<BaseResponse>
 
     @GET("api/masterdata/area")
-    fun getDataArea()
+    fun getDataArea(): Observable<ListAreaResponse>
+
+    @Multipart
+    @POST("api/user/partner/add")
+    fun addPartner(
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("password_confirmation") passwordConfirmation: RequestBody,
+        @Part("role_id") roleId: RequestBody,
+        @Part("full_name") fullname: RequestBody,
+        @Part("no_hp") noHp: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?,
+        @Part("birth_date") birth_date: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("join_date") joinDate: RequestBody,
+        @Part("martial_status") martialStatus: RequestBody,
+        @Part("bank_name") bankName: RequestBody,
+        @Part("bank_no") bankNo: RequestBody,
+        @Part("bank_owner_name") bankOwnerName: RequestBody,
+        @Part("partner_category_id") partnerCategoryId: RequestBody,
+        @Part("partner_category_name") partnerCategoryName: RequestBody,
+        @Part("province_code") provinceCode: RequestBody,
+        @Part("province_name") provinceName: RequestBody,
+        @Part("city_code") cityCode: RequestBody,
+        @Part("city_name") cityName: RequestBody
+    ): Single<BaseResponse>
+
+    @GET("api/user/partner")
+    fun getPartners(): Single<ListPartnerResponse>
+
+    @Multipart
+    @POST("api/user/partner/edit")
+    fun editPartner(
+        @Part("id") id: RequestBody,
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("role_id") roleId: RequestBody,
+        @Part("full_name") fullname: RequestBody,
+        @Part("no_hp") noHp: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?,
+        @Part("birth_date") birth_date: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("join_date") joinDate: RequestBody,
+        @Part("martial_status") martialStatus: RequestBody,
+        @Part("bank_account_id") bankAccountId: RequestBody,
+        @Part("bank_name") bankName: RequestBody,
+        @Part("bank_no") bankNo: RequestBody,
+        @Part("bank_owner_name") bankOwnerName: RequestBody,
+        @Part("partner_category_id") partnerCategoryId: RequestBody,
+        @Part("partner_category_name") partnerCategoryName: RequestBody,
+        @Part("province_code") provinceCode: RequestBody,
+        @Part("province_name") provinceName: RequestBody,
+        @Part("city_code") cityCode: RequestBody,
+        @Part("city_name") cityName: RequestBody
+    ): Single<BaseResponse>
+
+    @GET("api/user/partner/delete/{user-id}")
+    fun deletePartner(
+        @Path("user-id") userId: Int
+    ): Single<BaseResponse>
 
 
 

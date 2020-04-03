@@ -68,10 +68,6 @@ class TambahSdmActivity : BaseActivity() {
         setContentView(R.layout.activity_tambah_sdm)
         disableAutofill()
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.title = "Tambah Karyawan"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         setupToolbar("Tambah Karyawan")
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
@@ -118,9 +114,7 @@ class TambahSdmActivity : BaseActivity() {
 
 
 
-    fun initViews() {
-        
-
+    private fun initViews() {
         // spinner divisi
         ArrayAdapter.createFromResource(
             this,

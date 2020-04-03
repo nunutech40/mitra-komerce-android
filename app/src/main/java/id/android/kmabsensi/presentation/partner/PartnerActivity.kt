@@ -4,19 +4,23 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.partner.manajemenpartner.FormPartnerActivity
-import id.android.kmabsensi.utils.IS_SORT_KEY
+import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
+import id.android.kmabsensi.presentation.partner.tambahpartner.FormPartnerActivity
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_partner.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PartnerActivity : BaseActivity() {
+
+    private val vm: PartnerViewModel by viewModel()
 
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
@@ -27,14 +31,6 @@ class PartnerActivity : BaseActivity() {
         setupToolbar(getString(R.string.text_data_partner))
 
         initRv()
-
-        val data = mutableListOf<Partner>()
-        for (i in 1..4) {
-            data.add(Partner())
-        }
-        data.forEach {
-            groupAdapter.add(PartnerItem(it))
-        }
 
         buttonSort.setOnClickListener {
             startActivityForResult<CustomizePartnerActivity>(
@@ -49,14 +45,45 @@ class PartnerActivity : BaseActivity() {
         }
 
         btnAddPartner.setOnClickListener {
-            startActivity<FormPartnerActivity>()
+            startActivityForResult<FormPartnerActivity>(CRUD_PARTNER_RC)
         }
 
+        vm.getPartners()
+        observeData()
+
+    }
+
+    private fun observeData(){
+        vm.partners.observe(this, Observer { state ->
+        when(state) {
+            is UiState.Loading -> {
+                progressBar.visible()
+            }
+            is UiState.Success -> {
+                progressBar.gone()
+                if (state.data.status){
+                    state.data.partners.forEach {
+                        groupAdapter.add(PartnerItem(it){
+                            startActivityForResult<DetailPartnerActivity>(CRUD_PARTNER_RC, PARTNER_DATA_KEY to it)
+                        })
+                    }
+                }
+
+            }
+            is UiState.Error -> {
+                progressBar.gone()
+            }
+        } })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CUSTOMIZE_RC && resultCode == Activity.RESULT_OK){
             val content = data?.getStringExtra("content")
+        } else if (requestCode == CRUD_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val message = data?.getStringExtra("message")
+            createAlertSuccess(this, message.toString())
+            groupAdapter.clear()
+            vm.getPartners()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -78,13 +105,6 @@ class PartnerActivity : BaseActivity() {
 
     companion object {
         const val CUSTOMIZE_RC = 123
+        const val CRUD_PARTNER_RC = 122
     }
 }
-
-
-data class Partner(
-    var number: String = "1231231",
-    val name: String = "Alodokter",
-    val category: String = "Kesehatan",
-    val totalSdm: Int = 300
-)

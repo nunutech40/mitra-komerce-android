@@ -70,7 +70,7 @@ class MyProfileFragment : Fragment() {
         }
 
         btnUbahPassword.setOnClickListener {
-            context?.startActivity<EditPasswordActivity>(USER_KEY to user)
+            context?.startActivity<EditPasswordActivity>(USER_ID_KEY to user.id)
         }
 
         vm.logoutState.observe(viewLifecycleOwner, Observer {

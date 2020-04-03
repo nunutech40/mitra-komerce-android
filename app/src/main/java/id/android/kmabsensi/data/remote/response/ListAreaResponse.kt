@@ -1,20 +1,17 @@
 package id.android.kmabsensi.data.remote.response
 
 import com.google.gson.annotations.SerializedName
+import id.android.kmabsensi.data.db.entity.City
+import id.android.kmabsensi.data.db.entity.Province
 
 class ListAreaResponse(
     val status: Boolean,
     val code: Int,
-    val data:
+    val data: DataAreaResponse
 )
+
 
 data class DataAreaResponse(
-    val provinces:
+    val cities: List<City>,
+    val provinces: List<Province>
 )
-
-data class Province(
-    @SerializedName("KODE_WILAYAH")
-    val kodeWilayah: String,
-    @SerializedName("")
-)
-

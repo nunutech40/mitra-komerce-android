@@ -79,7 +79,6 @@ class DetailKaryawanActivity : BaseActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupToolbar("Detail Karyawan")
 
@@ -504,7 +503,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
-                startActivity<EditPasswordActivity>(USER_KEY to karyawan)
+                startActivity<EditPasswordActivity>(USER_ID_KEY to karyawan.id)
             }
             R.id.action_delete -> {
 

@@ -15,7 +15,7 @@ class EditPasswordActivity : BaseActivity() {
 
     private val vm: EditPasswordViewModel by inject()
 
-    private var karyawan : User? = null
+    private var userId : Int? = null
 
     private lateinit var myDialog: MyDialog
 
@@ -27,13 +27,9 @@ class EditPasswordActivity : BaseActivity() {
 
         setupToolbar("Ubah Password")
 
-        karyawan = intent.getParcelableExtra(USER_KEY)
+        userId = intent.getIntExtra(USER_ID_KEY, 0)
 
         myDialog = MyDialog(this)
-
-        karyawan?.photo_profile_url?.let {
-            imgProfile.loadCircleImage(it)
-        }
 
         vm.response.observe(this, Observer {
             when(it){
@@ -54,7 +50,7 @@ class EditPasswordActivity : BaseActivity() {
 
         btnSimpan.setOnClickListener {
             if (validation()){
-                vm.resetPassword(karyawan?.id.toString(), edtConfirmPassword.text.toString())
+                vm.resetPassword(userId.toString(), edtConfirmPassword.text.toString())
             }
         }
     }

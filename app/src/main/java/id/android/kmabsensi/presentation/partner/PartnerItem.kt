@@ -3,16 +3,22 @@ package id.android.kmabsensi.presentation.partner
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Partner
 import kotlinx.android.synthetic.main.item_row_partner.view.*
 
-class PartnerItem(val partner: Partner): Item(){
+class PartnerItem(val partner: Partner,
+                  val listener: (Partner) -> Unit): Item(){
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            itemView.textPartnerNumber.text = "NO. PARTNER ${partner.number}"
-            itemView.textPartnerName.text = partner.name
-            itemView.textPartnerCategory.text = partner.category
-            itemView.textTotalSdm.text = partner.totalSdm.toString()
+            itemView.textPartnerNumber.text = "NO. PARTNER ${partner.noPartner}"
+            itemView.textPartnerName.text = partner.fullName
+            itemView.textPartnerCategory.text = partner.partnerDetail.partnerCategoryName
+            itemView.textTotalSdm.text = partner.totalSdmAssigned.toString()
+
+            itemView.setOnClickListener {
+                listener(partner)
+            }
         }
     }
 

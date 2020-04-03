@@ -30,7 +30,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.partner.manajemenpartner.FormPartnerActivity"></activity>
+        <activity android:name=".presentation.partner.detail.DetailPartnerActivity"></activity>
+        <activity android:name=".presentation.partner.tambahpartner.FormPartnerActivity" />
         <activity android:name=".presentation.partner.kategori.KategoriPartnerActivity" />
         <activity android:name=".presentation.partner.CustomizePartnerActivity" />
         <activity android:name=".presentation.partner.PartnerActivity" />
