@@ -53,7 +53,7 @@ class FormPartnerActivity : BaseActivity() {
     private var compressedImagePhotoFile: File? = null
 
     private var genderSelectedId = 0
-    private var partnerStatus = 0
+    private var partnerStatus = 1 /* default aktif */
     private var martialStatus = 0
     private var provinceSelected = Province()
     private var citySelected = City()
@@ -132,28 +132,28 @@ class FormPartnerActivity : BaseActivity() {
             }
 
         /* spinner partner status */
-        ArrayAdapter.createFromResource(this, R.array.partner_status, android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerStatusPartner.adapter = adapter
-
-                spinnerStatusPartner.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                        }
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            partnerStatus = position
-                        }
-
-                    }
-            }
+//        ArrayAdapter.createFromResource(this, R.array.partner_status, android.R.layout.simple_spinner_item)
+//            .also { adapter ->
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                spinnerStatusPartner.adapter = adapter
+//
+//                spinnerStatusPartner.onItemSelectedListener =
+//                    object : AdapterView.OnItemSelectedListener {
+//                        override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//                        }
+//
+//                        override fun onItemSelected(
+//                            parent: AdapterView<*>?,
+//                            view: View?,
+//                            position: Int,
+//                            id: Long
+//                        ) {
+//                            partnerStatus = position
+//                        }
+//
+//                    }
+//            }
 
         /* spinner martial status */
         ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)

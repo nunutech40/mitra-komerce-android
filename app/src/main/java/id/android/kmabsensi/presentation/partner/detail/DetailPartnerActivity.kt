@@ -115,6 +115,16 @@ class DetailPartnerActivity : BaseActivity() {
                 cityName = citySelected.nama
             )
         }
+
+        switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                partnerStatus = 1
+                switchStatus.text = "Aktif"
+            } else {
+                partnerStatus = 0
+                switchStatus.text = "Pause"
+            }
+        }
     }
 
     private fun setToolbar() {
@@ -156,6 +166,7 @@ class DetailPartnerActivity : BaseActivity() {
             }
             R.id.action_edit -> {
                 disableViews(true)
+                layoutStatus.visible()
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
@@ -204,34 +215,6 @@ class DetailPartnerActivity : BaseActivity() {
 
                     }
 
-            }
-
-        /* spinner partner status */
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.partner_status,
-            android.R.layout.simple_spinner_item
-        )
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerStatusPartner.adapter = adapter
-
-                spinnerStatusPartner.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                        }
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            partnerStatus = position
-                        }
-
-                    }
             }
 
         /* spinner martial status */
@@ -336,8 +319,10 @@ class DetailPartnerActivity : BaseActivity() {
         }
 
         spinnerJenisKelamin.setSelection(data.gender - 1)
-        spinnerStatusPartner.setSelection(data.status)
         spinnerStatusPernikahan.setSelection(data.martialStatus)
+
+        switchStatus.isChecked = data.status == 1
+        switchStatus.text = if (data.status == 1) "Aktif" else "Pause"
     }
 
     private fun disableViews(enabled: Boolean){
@@ -357,7 +342,6 @@ class DetailPartnerActivity : BaseActivity() {
 
         spinnerCategoryPartner.isEnabled = enabled
         spinnerJenisKelamin.isEnabled = enabled
-        spinnerStatusPartner.isEnabled = enabled
         spinnerStatusPernikahan.isEnabled = enabled
         spinnerProvince.isEnabled = enabled
         spinnerCity.isEnabled = enabled
