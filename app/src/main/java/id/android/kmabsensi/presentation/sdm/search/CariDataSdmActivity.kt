@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.sdm.search
 
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,7 +21,7 @@ import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 
 
-class CariDataSdmActivity : BaseActivity() {
+class CariDataSdmActivity : AppCompatActivity() {
 
     private val vm: KelolaDataSdmViewModel by inject()
     private val groupAdapter = GroupAdapter<ViewHolder>()
@@ -49,19 +50,6 @@ class CariDataSdmActivity : BaseActivity() {
 
                     dataFilter = it.data.data
 
-//                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
-//
-//                    groupAdapter.clear()
-//                    it.data.data.forEach { sdm ->
-//                        groupAdapter.add(SdmItem(sdm) {
-//                            startActivityForResult<DetailKaryawanActivity>(
-//                                121,
-//                                USER_KEY to it,
-//                                IS_MANAGEMENT_KEY to false
-//                            )
-//                        })
-//                    }
-
                 }
                 is UiState.Error -> {
                     progressBar.gone()
@@ -82,7 +70,9 @@ class CariDataSdmActivity : BaseActivity() {
     private fun search(key: String) {
         groupAdapter.clear()
 
-        val filter = dataFilter.filter { it.full_name.toLowerCase().contains(key.toLowerCase()) }
+        val filter = dataFilter.filter {
+            it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partner == key
+        }
         filter.forEach { sdm ->
             groupAdapter.add(SdmItem(sdm) {
                 startActivityForResult<DetailKaryawanActivity>(
