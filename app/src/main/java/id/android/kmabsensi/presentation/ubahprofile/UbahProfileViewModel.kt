@@ -40,7 +40,12 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
         gender: String,
         userManagementId: String,
         status: Int,
-        photoProfileFile: File?
+        photoProfileFile: File?,
+        joinDate: String,
+        martialStatus: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
@@ -67,7 +72,12 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
             status.toString().createRequestBodyText(),
-            photoProfile
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({

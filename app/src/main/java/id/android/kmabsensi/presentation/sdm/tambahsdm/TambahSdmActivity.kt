@@ -53,6 +53,7 @@ class TambahSdmActivity : BaseActivity() {
     var jabatanSelectedId = 0
     var userManagementId = 0
     var officeId = 0
+    var martialStatus = 0
 
     var isManagement = false
 
@@ -103,7 +104,12 @@ class TambahSdmActivity : BaseActivity() {
                     edtTanggalLahir.text.toString(),
                     genderSelectedId.toString(),
                     userManagementId.toString(),
-                    compressedImage
+                    compressedImage,
+                    joinDate = edtTanggalBergabung.text.toString(),
+                    martialStatus = martialStatus.toString(),
+                    bankName = edtNamaBank.text.toString(),
+                    bankNo = edtNoRekening.text.toString(),
+                    bankOwnerName = edtPemilikRekening.text.toString()
                 )
             }
 
@@ -194,6 +200,30 @@ class TambahSdmActivity : BaseActivity() {
             }
         }
 
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
+            }
+
         imgProfile.setOnClickListener {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
@@ -224,10 +254,27 @@ class TambahSdmActivity : BaseActivity() {
                 }
             }
         }
+
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+                    dialog.dismiss()
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     fun observeData() {
@@ -449,8 +496,14 @@ class TambahSdmActivity : BaseActivity() {
             "Password tidak sama"
         )
 
+        val joindate = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
+        val bankName = ValidationForm.validationInput(edtNamaBank, "Nama bank tidak boleh kosong")
+        val noRek = ValidationForm.validationInput(edtNoRekening, "Nomor rekening tidak boleh kosong")
+        val pemilikRek = ValidationForm.validationInput(edtPemilikRekening, "Pemilik rekening tidak boleh kosong")
+
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
                 tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass
+                && joindate && bankName && noRek && pemilikRek
     }
 
     override fun onDestroy() {

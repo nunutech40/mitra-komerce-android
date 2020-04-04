@@ -61,6 +61,7 @@ class DetailKaryawanActivity : BaseActivity() {
     var positionSelectedId = 0
     var genderSelectedId = 0
     var userManagementSelectedId = 0
+    var martialStatus = 0
 
     var imagePath : String? = null
 
@@ -114,7 +115,12 @@ class DetailKaryawanActivity : BaseActivity() {
                 genderSelectedId.toString(),
                 userManagementSelectedId.toString(),
                 statusKaryawan,
-                compressedImage
+                compressedImage,
+                edtTanggalBergabung.text.toString(),
+                martialStatus.toString(),
+                edtNamaBank.text.toString(),
+                edtNoRekening.text.toString(),
+                edtPemilikRekening.text.toString()
                 )
         }
 
@@ -135,10 +141,16 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.setText(data.address)
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
-//        edtNip.setText(data.npk)
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
+        edtTanggalBergabung.setText(data.join_date)
+        if (data.bank_accounts.isNotEmpty()){
+            edtNamaBank.setText(data.bank_accounts[0].bankName)
+            edtNoRekening.setText(data.bank_accounts[0].bankNo)
+            edtPemilikRekening.setText(data.bank_accounts[0].bankOwnerName)
+        }
+
         switchStatus.isChecked = data.status == 1
         switchStatus.text = if (data.status == 1) "SDM Aktif" else "Non Job"
 
@@ -147,6 +159,7 @@ class DetailKaryawanActivity : BaseActivity() {
             imgProfile.loadCircleImage(it)
         }
 
+        spinnerStatusPernikahan.setSelection(data.martial_status)
         spinnerJenisKelamin.setSelection(data.gender-1)
         spinnerJabatan.setSelection(data.position_id-1)
         spinnerDivisi.setSelection(data.division_id-1)
@@ -187,10 +200,29 @@ class DetailKaryawanActivity : BaseActivity() {
             }
         }
 
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+
+                    dialog.dismiss()
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
+
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    private fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     fun disableViews(enabled: Boolean){
@@ -202,10 +234,13 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.isEnabled = enabled
         edtEmail.isEnabled = enabled
         edtNamaLengkap.isEnabled = enabled
-//        edtNip.isEnabled = enabled
         edtNoHp.isEnabled = enabled
         edtNoPartner.isEnabled = enabled
         edtAsalDesa.isEnabled = enabled
+        edtTanggalBergabung.isEnabled = enabled
+        edtNamaBank.isEnabled = enabled
+        edtNoRekening.isEnabled = enabled
+        edtPemilikRekening.isEnabled = enabled
 
         spinnerJenisKelamin.isEnabled = enabled
         spinnerKantorCabang.isEnabled = enabled
@@ -213,6 +248,7 @@ class DetailKaryawanActivity : BaseActivity() {
         spinnerJabatan.isEnabled = enabled
         spinnerRole.isEnabled = enabled
         spinnerManagement.isEnabled = enabled
+        spinnerStatusPernikahan.isEnabled = enabled
     }
 
     fun initSpinners(){
@@ -290,6 +326,34 @@ class DetailKaryawanActivity : BaseActivity() {
                     }
 
                 }
+            }
+
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.martial_status,
+            android.R.layout.simple_spinner_item
+        )
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
             }
 
         //spinner role

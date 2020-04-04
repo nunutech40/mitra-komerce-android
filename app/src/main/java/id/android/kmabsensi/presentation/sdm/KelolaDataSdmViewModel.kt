@@ -73,7 +73,12 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
         gender: String,
         userManagementId: String,
         photoProfileFile: File?,
-        status: Int = 1
+        status: Int = 1,
+        joinDate: String,
+        martialStatus: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
@@ -102,7 +107,12 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
             status.toString().createRequestBodyText(),
-            photoProfile
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -129,7 +139,12 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
         gender: String,
         userManagementId: String,
         status: Int,
-        photoProfileFile: File?
+        photoProfileFile: File?,
+        joinDate: String,
+        martialStatus: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
@@ -156,7 +171,12 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
             status.toString().createRequestBodyText(),
-            photoProfile
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({

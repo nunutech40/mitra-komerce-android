@@ -27,11 +27,16 @@ class SdmRepository(val apiService: ApiService) {
         gender: RequestBody,
         userManagementId: RequestBody,
         status: RequestBody,
-        photoProfileUrl: MultipartBody.Part?
+        photoProfileUrl: MultipartBody.Part?,
+        joinDate: RequestBody,
+        martialStatus: RequestBody,
+        bankName: RequestBody,
+        bankNo: RequestBody,
+        bankOwnerName: RequestBody
     ): Single<SingleUserResponse> {
         return apiService.addSdm(username, email, password, password_confirmation, role_id, full_name,
             npk, division_id, office_id, position_id, no_partner, originVillage, noHp, address, birthDate,
-            gender, userManagementId, status, photoProfileUrl)
+            gender, userManagementId, status, photoProfileUrl, joinDate, martialStatus, bankName, bankNo, bankOwnerName)
     }
 
     fun updateSdm(
@@ -51,7 +56,12 @@ class SdmRepository(val apiService: ApiService) {
         gender: RequestBody,
         userManagementId: RequestBody,
         status: RequestBody,
-        photoProfileUrl: MultipartBody.Part?
+        photoProfileUrl: MultipartBody.Part?,
+        joinDate: RequestBody,
+        martialStatus: RequestBody,
+        bankName: RequestBody,
+        bankNo: RequestBody,
+        bankOwnerName: RequestBody
     ): Single<SingleUserResponse>{
         return apiService.editSdm(id, username, email, role_id, full_name, division_id, office_id,
             position_id,
@@ -63,7 +73,8 @@ class SdmRepository(val apiService: ApiService) {
             gender,
             userManagementId,
             status,
-            photoProfileUrl)
+            photoProfileUrl,
+            joinDate, martialStatus, bankName, bankNo, bankOwnerName)
     }
 
     fun deleteKaryawan(userId: Int) = apiService.deleteSdm(userId)

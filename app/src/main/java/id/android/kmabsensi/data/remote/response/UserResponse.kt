@@ -36,5 +36,8 @@ data class User(
     val user_management_id: Int,
     val username: String,
     val kmpoin: Int,
-    val status: Int
+    val status: Int,
+    val join_date: String,
+    val martial_status: Int,
+    val bank_accounts: List<BankAccount> = listOf()
 ) : Parcelable

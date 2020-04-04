@@ -98,7 +98,12 @@ interface ApiService {
         @Part("gender") gender: RequestBody,
         @Part("user_management_id") user_management_id: RequestBody,
         @Part("status") status: RequestBody,
-        @Part photo_profile_url: MultipartBody.Part?
+        @Part photo_profile_url: MultipartBody.Part?,
+        @Part("join_date") joinDate: RequestBody,
+        @Part("martial_status") martialStatus: RequestBody,
+        @Part("bank_name") bankName: RequestBody,
+        @Part("bank_no") bankNo: RequestBody,
+        @Part("bank_owner_name") bankOwnerName: RequestBody
     ): Single<SingleUserResponse>
 
     @Multipart
@@ -120,7 +125,12 @@ interface ApiService {
         @Part("gender") gender: RequestBody,
         @Part("user_management_id") user_management_id: RequestBody,
         @Part("status") status: RequestBody,
-        @Part photo_profile_url: MultipartBody.Part?
+        @Part photo_profile_url: MultipartBody.Part?,
+        @Part("join_date") joinDate: RequestBody,
+        @Part("martial_status") martialStatus: RequestBody,
+        @Part("bank_name") bankName: RequestBody,
+        @Part("bank_no") bankNo: RequestBody,
+        @Part("bank_owner_name") bankOwnerName: RequestBody
     ): Single<SingleUserResponse>
 
     @GET("api/user/delete/{user_id}")

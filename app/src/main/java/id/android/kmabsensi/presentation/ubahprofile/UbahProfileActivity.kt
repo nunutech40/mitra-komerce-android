@@ -41,6 +41,7 @@ class UbahProfileActivity : BaseActivity() {
     var imagePath : String? = null
 
     private var genderSelectedId = 0
+    private var martialStatus = 0
     private var compressedImage : File? = null
 
     private val disposables = CompositeDisposable()
@@ -82,6 +83,30 @@ class UbahProfileActivity : BaseActivity() {
                 }
             }
 
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
+            }
+
         imgProfile.setOnClickListener {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
@@ -114,7 +139,12 @@ class UbahProfileActivity : BaseActivity() {
                 genderSelectedId.toString(),
                 user.user_management_id.toString(),
                 user.status,
-                compressedImage
+                compressedImage,
+                edtTanggalBergabung.text.toString(),
+                martialStatus.toString(),
+                edtNamaBank.text.toString(),
+                edtNoRekening.text.toString(),
+                edtPemilikRekening.text.toString()
             )
         }
 
@@ -126,10 +156,6 @@ class UbahProfileActivity : BaseActivity() {
                     if(it.data.status){
                         compressedImage?.delete()
                         createAlertSuccess(this, it.data.message)
-//                        val intent = Intent()
-//                        intent.putExtra("message", it.data.message)
-//                        setResult(Activity.RESULT_OK, intent)
-//                        finish()
 
                     } else {
                         createAlertError(this, "Gagal", it.data.message)
@@ -155,21 +181,20 @@ class UbahProfileActivity : BaseActivity() {
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
+        edtTanggalBergabung.setText(data.join_date)
+        if(data.bank_accounts.isNotEmpty()){
+            edtNamaBank.setText(data.bank_accounts[0].bankName)
+            edtNoRekening.setText(data.bank_accounts[0].bankNo)
+            edtPemilikRekening.setText(data.bank_accounts[0].bankOwnerName)
+        }
 
         data.photo_profile_url?.let {
             d { it }
             imgProfile.loadCircleImage(it)
         }
+        spinnerStatusPernikahan.setSelection(data.martial_status)
         spinnerJenisKelamin.setSelection(data.gender-1)
-//        spinnerJabatan.setSelection(data.position_id-1)
-//        spinnerDivisi.setSelection(data.division_id-1)
-//        if (!isManagement) spinnerRole.setSelection(data.role_id-2)
-//
-//        if (karyawan.role_id == 3){
-//            layout_spinner_management.visible()
-//        } else {
-//            layout_spinner_management.gone()
-//        }
+
 
         imgProfile.setOnClickListener {
             ImagePicker.create(this)
@@ -200,10 +225,29 @@ class UbahProfileActivity : BaseActivity() {
             }
         }
 
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+
+                    dialog.dismiss()
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
+
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
