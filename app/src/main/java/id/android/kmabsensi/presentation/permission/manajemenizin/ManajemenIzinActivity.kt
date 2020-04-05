@@ -1,15 +1,15 @@
 package id.android.kmabsensi.presentation.permission.manajemenizin
 
+import android.R.attr.label
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.afollestad.materialdialogs.datetime.datePicker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Permission
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionItem
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
@@ -28,11 +28,13 @@ import id.android.kmabsensi.presentation.permission.detailizin.DetailIzinActivit
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_manajemen_izin.*
-import kotlinx.android.synthetic.main.dialog_filter_permission.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
+import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ManajemenIzinActivity : BaseActivity() {
 
@@ -51,6 +53,12 @@ class ManajemenIzinActivity : BaseActivity() {
 
     var REQUEST_PENGAJUAN_IZIN = 152
 
+    private var dateFrom: String = ""
+    private var dateTo: String = ""
+    private var status: Int = 0
+
+    private val permissions = mutableListOf<Permission>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manajemen_izin)
@@ -65,6 +73,8 @@ class ManajemenIzinActivity : BaseActivity() {
         if (isManagement) roles.removeAt(0)
 
         initRv()
+        dateFrom = getTodayDate()
+        dateTo = getTodayDate()
 
         vm.listPermissionData.observe(this, Observer {
             when (it) {
@@ -75,10 +85,14 @@ class ManajemenIzinActivity : BaseActivity() {
                     groupAdapter.clear()
                     progressBar.gone()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                    if (permissions.isNotEmpty()) permissions.clear()
+                    permissions.addAll(it.data.data)
                     it.data.data.forEach {
-                        groupAdapter.add(PermissionItem(it){ permission ->
-                            startActivityForResult<DetailIzinActivity>(REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,
-                                IS_FROM_MANAJEMEN_IZI to true)
+                        groupAdapter.add(PermissionItem(it) { permission ->
+                            startActivityForResult<DetailIzinActivity>(
+                                REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,
+                                IS_FROM_MANAJEMEN_IZI to true
+                            )
                         })
                     }
                 }
@@ -95,8 +109,15 @@ class ManajemenIzinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.status) createAlertSuccess(this, it.data.message) else createAlertError(this, "Gagal", it.data.message)
-                    vm.getListPermission(roleId = roleId, userManagementId = userManagementId)
+                    if (it.data.status) createAlertSuccess(
+                        this,
+                        it.data.message
+                    ) else createAlertError(this, "Gagal", it.data.message)
+                    vm.getListPermission(
+                        roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
+                        dateTo = dateTo,
+                        status = status
+                    )
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -108,30 +129,85 @@ class ManajemenIzinActivity : BaseActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerEmployetype.adapter = adapter
 
-            spinnerEmployetype.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
+            spinnerEmployetype.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        roleId = if (isManagement) position + 3 else position + 2
+                        vm.getListPermission(
+                            roleId = roleId,
+                            userManagementId = userManagementId,
+                            dateFrom = dateFrom,
+                            dateTo = dateTo,
+                            status = status
+                        )
+                    }
 
                 }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    roleId = if (isManagement) position+3 else position+2
-                    vm.getListPermission(roleId = roleId, userManagementId = userManagementId)
-                }
-
-            }
         }
 
         btnFilter.setOnClickListener {
             showDialogFilter()
         }
+
+        btnCopyClipboard.setOnClickListener {
+            val dateFromFormatted = getDateString(SimpleDateFormat(DATE_FORMAT).parse(dateFrom))
+            val dateToFormatted = getDateString(SimpleDateFormat(DATE_FORMAT).parse(dateFrom))
+            val header =
+                "[Confidential] \nRekap Data Izin Mitra Kampung Marketer\n=============================\n\n"
+            val filter =
+                "Filter::\nTgl Awal: ${dateFromFormatted}\nTgl Akhir: ${dateToFormatted}\n\n"
+            var dataizin = "Data Izin\n=============================\n\n"
+            val footer = "============================="
+
+            val stringBuilder = StringBuilder()
+            stringBuilder.append(header)
+                .append(filter)
+                .append(dataizin)
+
+            permissions.forEach {
+                val tipeIzin = when (it.permission_type) {
+                    1 -> "Izin"
+                    2 -> "Sakit"
+                    else -> "Cuti"
+                }
+                val status = when (it.status) {
+                    0 -> "REQUESTED"
+                    2 -> "DISETUJUI"
+                    else -> "DITOLAK"
+                }
+
+                stringBuilder.append(
+                    "Nama Pemohon : ${it.user?.full_name}" +
+                            "\nJenis Izin : $tipeIzin" +
+                            "\nTgl Mulai : ${it.date_from}" +
+                            "\nTgl Akhir : ${it.date_to}" +
+                            "\nNama Leader : ${it.management?.full_name}" +
+                            "\nNama Kantor : ${it.user?.office_name}" +
+                            "\nKeterangan : ${it.explanation}" +
+                            "\nStatus Permintaan : $status\n\n\n"
+                )
+            }
+            stringBuilder.append(footer)
+
+            val clipboard: ClipboardManager =
+                getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("data izin", stringBuilder.toString())
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(this, "Data Izin copied", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun showDialogFilter(){
+    private fun showDialogFilter() {
         val dialog = MaterialDialog(this)
             .customView(R.layout.dialog_filter_permission, noVerticalPadding = true)
         val customView = dialog.getCustomView()
@@ -146,13 +222,15 @@ class ManajemenIzinActivity : BaseActivity() {
         }
 
         edtStartDate.setOnClickListener { view ->
-            showDatePicker(){
+            showDatePicker() {
+                dateFrom = getDateString(it)
                 edtStartDate.setText(getDateStringFormatted(it))
             }
         }
 
         edtEndDate.setOnClickListener { view ->
-            showDatePicker(){
+            showDatePicker() {
+                dateTo = getDateString(it)
                 edtEndDate.setText(getDateStringFormatted(it))
             }
         }
@@ -177,14 +255,20 @@ class ManajemenIzinActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    val permissionType = position + 1
+                    status = position + 1
                 }
 
             }
         }
 
-
-
+        buttonFilter.setOnClickListener {
+            dialog.dismiss()
+            vm.getListPermission(
+                roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
+                dateTo = dateTo,
+                status = status
+            )
+        }
 
         dialog.show()
 
@@ -207,7 +291,7 @@ class ManajemenIzinActivity : BaseActivity() {
 
     }
 
-    private fun initRv(){
+    private fun initRv() {
         rvPermission.apply {
             layoutManager = LinearLayoutManager(this@ManajemenIzinActivity)
             adapter = groupAdapter
@@ -216,8 +300,12 @@ class ManajemenIzinActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (requestCode == REQUEST_PENGAJUAN_IZIN && resultCode == Activity.RESULT_OK){
-            vm.getListPermission(roleId = roleId, userManagementId = userManagementId)
+        if (requestCode == REQUEST_PENGAJUAN_IZIN && resultCode == Activity.RESULT_OK) {
+            vm.getListPermission(
+                roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
+                dateTo = dateTo,
+                status = status
+            )
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
