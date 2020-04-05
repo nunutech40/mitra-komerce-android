@@ -196,7 +196,8 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_no_partner"
-                android:inputType="number"
+                android:clickable="true"
+                android:focusable="false"
                 android:textSize="16sp"/>
 
             <TextView

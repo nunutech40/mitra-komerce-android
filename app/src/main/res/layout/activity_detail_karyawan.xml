@@ -257,7 +257,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/masukkan_no_partner"
-                android:inputType="number"
+                android:clickable="true"
+                android:focusable="false"
                 android:textSize="16sp" />
 
             <TextView

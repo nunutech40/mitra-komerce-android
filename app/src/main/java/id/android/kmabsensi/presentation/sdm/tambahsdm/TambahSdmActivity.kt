@@ -20,8 +20,10 @@ import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.Position
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -30,6 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -63,6 +66,7 @@ class TambahSdmActivity : BaseActivity() {
     private val disposables = CompositeDisposable()
 
     private var compressedImage: File? = null
+    private val PICK_PARTNER_RC = 112
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -267,6 +271,12 @@ class TambahSdmActivity : BaseActivity() {
                 }
             }
         }
+
+        edtNoPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC
+            )
+        }
     }
 
     fun setDateToView(date: String) {
@@ -433,13 +443,14 @@ class TambahSdmActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-
             val image = ImagePicker.getFirstImageOrNull(data)
-
-
             imagePath = image.path
-
             compress(File(imagePath))
+        }
+
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.noPartner)
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -510,5 +521,6 @@ class TambahSdmActivity : BaseActivity() {
         super.onDestroy()
         disposables.clear()
     }
+
 
 }

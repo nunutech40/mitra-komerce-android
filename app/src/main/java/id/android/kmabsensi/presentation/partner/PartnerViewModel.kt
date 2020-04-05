@@ -7,6 +7,7 @@ import id.android.kmabsensi.data.db.entity.City
 import id.android.kmabsensi.data.db.entity.Province
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
+import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
 import id.android.kmabsensi.data.repository.AreaRepository
 import id.android.kmabsensi.data.repository.PartnerRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -39,6 +40,10 @@ class PartnerViewModel(
 
     val partners by lazy {
         MutableLiveData<UiState<ListPartnerResponse>>()
+    }
+
+    val simplePartners by lazy {
+        MutableLiveData<UiState<SimplePartnersResponse>>()
     }
 
     fun addPartner(
@@ -115,6 +120,17 @@ class PartnerViewModel(
                 partners.value = UiState.Success(it)
             },{
                 partners.value = UiState.Error(it)
+            }))
+    }
+
+    fun getSimplePartners(){
+        simplePartners.value = UiState.Loading()
+        compositeDisposable.add(partnerRepository.getSimplePartners()
+            .with(schedulerProvider)
+            .subscribe({
+                simplePartners.value = UiState.Success(it)
+            },{
+                simplePartners.value = UiState.Error(it)
             }))
     }
 

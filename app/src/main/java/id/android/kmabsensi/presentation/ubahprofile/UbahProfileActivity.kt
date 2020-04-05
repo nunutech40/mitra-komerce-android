@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.ubahprofile
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -18,8 +19,10 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
@@ -27,6 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_ubah_profile.*
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -47,6 +51,8 @@ class UbahProfileActivity : BaseActivity() {
     private val disposables = CompositeDisposable()
 
     private lateinit var myDialog: MyDialog
+
+    private val PICK_PARTNER_RC = 112
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -240,6 +246,13 @@ class UbahProfileActivity : BaseActivity() {
             }
         }
 
+        edtNoPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC
+            )
+        }
+
+
     }
 
     fun setDateToView(date: String) {
@@ -260,6 +273,12 @@ class UbahProfileActivity : BaseActivity() {
             compress(File(imagePath))
 
         }
+
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.noPartner)
+        }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 

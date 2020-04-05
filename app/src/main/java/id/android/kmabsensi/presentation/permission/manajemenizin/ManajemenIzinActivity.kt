@@ -53,6 +53,8 @@ class ManajemenIzinActivity : BaseActivity() {
 
     var REQUEST_PENGAJUAN_IZIN = 152
 
+    private val calendarDateForm = Calendar.getInstance()
+    private val calendarDateTo = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
     private var status: Int = 0
@@ -222,14 +224,14 @@ class ManajemenIzinActivity : BaseActivity() {
         }
 
         edtStartDate.setOnClickListener { view ->
-            showDatePicker() {
+            showDatePicker(true) {
                 dateFrom = getDateString(it)
                 edtStartDate.setText(getDateStringFormatted(it))
             }
         }
 
         edtEndDate.setOnClickListener { view ->
-            showDatePicker() {
+            showDatePicker(false) {
                 dateTo = getDateString(it)
                 edtEndDate.setText(getDateStringFormatted(it))
             }
@@ -274,19 +276,25 @@ class ManajemenIzinActivity : BaseActivity() {
 
     }
 
-    private fun showDatePicker(callback: (Date) -> Unit) {
-        val calendar = Calendar.getInstance()
+    private fun showDatePicker(isDateFrom: Boolean,callback: (Date) -> Unit) {
 
         val datePickerDialog = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
-                calendar.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
-                callback(calendar.time)
+                if (isDateFrom) {
+                    calendarDateForm.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
+                    calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
+                    callback(calendarDateForm.time)
+                } else {
+                    calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
+                    callback(calendarDateTo.time)
+                }
             },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
+            (if (isDateFrom) calendarDateForm else calendarDateTo).get(Calendar.YEAR),
+            (if (isDateFrom) calendarDateForm else calendarDateTo).get(Calendar.MONTH),
+            (if (isDateFrom) calendarDateForm else calendarDateTo).get(Calendar.DAY_OF_MONTH)
         )
+        if (!isDateFrom) datePickerDialog.datePicker.minDate = calendarDateForm.timeInMillis
         datePickerDialog.show()
 
     }

@@ -196,7 +196,10 @@ interface ApiService {
     fun getListPermission(
         @Field("role_id") roleId: Int = 0,
         @Field("user_management_id") userManagementId: Int = 0,
-        @Field("user_id") userId: Int = 0
+        @Field("user_id") userId: Int = 0,
+        @Field("date_from") dateFrom: String,
+        @Field("date_to") dateTo: String,
+        @Field("status") status: Int
     ): Single<ListPermissionResponse>
 
     @POST("api/permission/approve")
@@ -331,6 +334,10 @@ interface ApiService {
 
     @GET("api/user/partner")
     fun getPartners(): Single<ListPartnerResponse>
+
+    @GET("api/masterdata/partner")
+    fun getSimplePartners(): Single<SimplePartnersResponse>
+
 
     @Multipart
     @POST("api/user/partner/edit")

@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
+import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -65,6 +66,10 @@ class PartnerRepository(val apiService: ApiService) {
 
     fun getPartners(): Single<ListPartnerResponse> {
         return apiService.getPartners()
+    }
+
+    fun getSimplePartners(): Single<SimplePartnersResponse>{
+        return apiService.getSimplePartners()
     }
 
     fun editPartner(
