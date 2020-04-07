@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInvoiceNumber"
+        style="@style/tv10sp7A7B7C_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:text="No. Invoice 192381123"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInvoiceDate"
+        style="@style/tv10sp7A7B7C_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="25 Januari 2020"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInvoiceNumber" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPartnerName"
+        style="@style/tv14sp000000_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
+        android:text="Nama Partner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInvoiceStatus" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textCategoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CATEGORY A"
+        style="@style/tv12spDE4D4E_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerName"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInvoiceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Judul Invoice"
+        style="@style/tv16sp000000_avenir_heavy"
+        android:layout_marginBottom="@dimen/_10dp"
+        app:layout_constraintStart_toStartOf="@+id/textCategoryName"
+        app:layout_constraintTop_toBottomOf="@+id/textCategoryName"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInvoiceStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COMPLETE"
+        android:paddingStart="21dp"
+        android:paddingEnd="21dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/avenir_heavy"
+        android:textSize="10sp"
+        android:textColor="#5AB04F"
+        android:background="@drawable/bg_status_invoice_complete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

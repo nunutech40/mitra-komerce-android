@@ -15,8 +15,8 @@ interface ApiService {
     fun login(
         @Field("username_email") username_email: String,
         @Field("password") password: String,
-        @Field("applicationType") applicationType: Int = 1,
-        @Field("fcm_token") fcmToken: String
+        @Field("fcm_token") fcmToken: String,
+        @Field("applicationType") applicationType: Int = 1
     ): Single<LoginResponse>
 
     @FormUrlEncoded

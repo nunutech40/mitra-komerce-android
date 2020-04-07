@@ -20,6 +20,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
@@ -190,9 +191,9 @@ class HomeAdminFragment : Fragment() {
             activity?.startActivity<GrafikPartnerActivity>()
         }
 
-
-        
-        
+        btnInvoice.setOnClickListener {
+            activity?.startActivity<InvoiceActivity>()
+        }
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
