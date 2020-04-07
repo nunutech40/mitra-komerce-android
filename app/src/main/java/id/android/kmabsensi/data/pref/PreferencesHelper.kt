@@ -6,10 +6,9 @@ import com.github.ajalt.timberkt.d
 class PreferencesHelper(val context: Context){
 
     companion object {
-        private val PREF_NAME = "football_app"
+        private val PREF_NAME = "kmabsensi"
 
         //KEY
-        private val LEAGUE_NAME_KEY = "league_name"
         val ACCESS_TOKEN_KEY = "access_token"
         val FCM_TOKEN = "fcm_token"
         val PROFILE_KEY = "profile"

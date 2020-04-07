@@ -7,6 +7,7 @@ import com.bumptech.glide.request.RequestOptions
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import id.android.kmabsensi.R
+import java.io.File
 
 fun ImageView.loadImageFromUrl(url: String){
     if (url.isEmpty()) return

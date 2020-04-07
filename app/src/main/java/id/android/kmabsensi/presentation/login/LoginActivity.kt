@@ -8,6 +8,8 @@ import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.d
 import com.google.firebase.iid.FirebaseInstanceId
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -95,13 +97,12 @@ class LoginActivity : BaseActivity() {
     private fun initView() {
         try {
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
-                Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
+                d { "fcm token : " +it.token.toString() }
                 prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
-
-//                Helpers.saveDeviceToken(it.token, this, this)
 
             }.addOnFailureListener {
                 if (!BuildConfig.DEBUG) {
+                    d { "fcm token : " +it.message.toString() }
                     Crashlytics.logException(it)
                 } else {
                     Crashlytics.logException(it)

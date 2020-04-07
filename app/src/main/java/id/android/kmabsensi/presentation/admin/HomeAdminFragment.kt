@@ -23,10 +23,12 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
+import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
+import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -183,6 +185,12 @@ class HomeAdminFragment : Fragment() {
         btnPartnerCategory.setOnClickListener {
             activity?.startActivity<KategoriPartnerActivity>()
         }
+
+        sectionPartner.setOnClickListener {
+            activity?.startActivity<GrafikPartnerActivity>()
+        }
+
+
         
         
 
