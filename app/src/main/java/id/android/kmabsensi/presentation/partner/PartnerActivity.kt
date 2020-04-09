@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.CustomizePartnerActivity.Companion.sortData
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
 import id.android.kmabsensi.presentation.partner.tambahpartner.FormPartnerActivity
 import id.android.kmabsensi.utils.*
@@ -21,6 +23,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PartnerActivity : BaseActivity() {
 
     private val vm: PartnerViewModel by viewModel()
+
+    private val partners = mutableListOf<Partner>()
 
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
@@ -62,11 +66,10 @@ class PartnerActivity : BaseActivity() {
             is UiState.Success -> {
                 progressBar.gone()
                 if (state.data.status){
-                    state.data.partners.forEach {
-                        groupAdapter.add(PartnerItem(it){
-                            startActivityForResult<DetailPartnerActivity>(CRUD_PARTNER_RC, PARTNER_DATA_KEY to it)
-                        })
-                    }
+                    if (partners.isNotEmpty()) partners.clear()
+                    if (state.data.partners.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                    partners.addAll(state.data.partners)
+                    populateData(partners)
                 }
 
             }
@@ -76,9 +79,37 @@ class PartnerActivity : BaseActivity() {
         } })
     }
 
+    private fun populateData(partners: List<Partner>){
+        partners.forEach {
+            groupAdapter.add(PartnerItem(it){
+                startActivityForResult<DetailPartnerActivity>(CRUD_PARTNER_RC, PARTNER_DATA_KEY to it)
+            })
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CUSTOMIZE_RC && resultCode == Activity.RESULT_OK){
             val content = data?.getStringExtra("content")
+            groupAdapter.clear()
+            layout_empty.gone()
+            if (content == sortData[0]) { /* urut berdasarkan jumlah terbanyak */
+                val sortPartners= partners.sortedByDescending { it.totalSdmAssigned }
+                populateData(sortPartners)
+            } else if (content == sortData[1]){ /* urut berdasarkan jumlah terkceil */
+                val sortPartners = partners.sortedBy { it.totalSdmAssigned }
+                populateData(sortPartners)
+            } else if (content != "Semua"){
+                val filteredPartner = partners.filter { it.partnerDetail.partnerCategoryName == content }
+                if (filteredPartner.isNotEmpty()){
+                    populateData(filteredPartner)
+                } else {
+                    layout_empty.visible()
+                }
+            } else {
+                populateData(partners)
+            }
+
+
         } else if (requestCode == CRUD_PARTNER_RC && resultCode == Activity.RESULT_OK){
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())

@@ -49,10 +49,6 @@ class AbsensiReportItem(val presence: Presence) : Item() {
                 itemView.btnLihatFotoPulang.gone()
             }
 
-
-
-
-
             //2019-10-09 23:54:5
 //            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            val date = dateFormat.parse(presenceHistory.check_in_datetime)

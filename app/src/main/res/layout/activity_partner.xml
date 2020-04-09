@@ -96,4 +96,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />
 
+    <include
+        android:id="@+id/layout_empty"
+        layout="@layout/layout_empty" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
