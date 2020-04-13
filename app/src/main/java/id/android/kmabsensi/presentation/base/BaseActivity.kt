@@ -7,9 +7,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
@@ -19,6 +24,8 @@ import kotlinx.android.synthetic.main.toolbar.*
 abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var myDialog: MyDialog
+
+    private var skeletonScreen: SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +40,6 @@ abstract class BaseActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
         }
-
-
     }
 
     fun showDialog() {
@@ -43,6 +48,23 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun hideDialog() {
         myDialog.dismiss()
+    }
+
+    fun showSkeleton(
+        view: View, @LayoutRes layoutRes: Int,
+        rvAdapter: RecyclerView.Adapter<ViewHolder>? = null
+    ) {
+        if (view is RecyclerView){
+            skeletonScreen = Skeleton.bind(view)
+                .adapter(rvAdapter)
+                .color(R.color.shimmer_color)
+                .load(layoutRes)
+                .show()
+        }
+    }
+
+    fun hideSkeleton(){
+        skeletonScreen?.hide()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -62,7 +84,12 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun setupToolbar(title: String, isWhiteBackground: Boolean = false, isFilterVisible: Boolean = false, isSearchVisible: Boolean = false) {
+    fun setupToolbar(
+        title: String,
+        isWhiteBackground: Boolean = false,
+        isFilterVisible: Boolean = false,
+        isSearchVisible: Boolean = false
+    ) {
         txtTitle.text = title
         btnBack.setOnClickListener {
             onBackPressed()
@@ -76,7 +103,8 @@ abstract class BaseActivity : AppCompatActivity() {
                 PorterDuff.Mode.SRC_IN
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
 

@@ -20,15 +20,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <include
         android:id="@+id/layout_empty"
@@ -47,48 +47,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />
 
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/btnAddCoworking"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:scaleType="fitXY"-->
-<!--            android:src="@drawable/bg_tambah_list_coworking2"/>-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:paddingBottom="12dp">-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:srcCompat="@drawable/ic_add"-->
-<!--                android:layout_marginEnd="16dp"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="TAMBAHKAN LIST"-->
-<!--                android:textStyle="bold"-->
-<!--                android:fontFamily="@font/avenirltstd_heavy"-->
-<!--                android:textColor="@color/white"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--    </RelativeLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

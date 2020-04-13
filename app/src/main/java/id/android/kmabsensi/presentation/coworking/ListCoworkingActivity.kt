@@ -41,10 +41,10 @@ class ListCoworkingActivity : BaseActivity() {
         vm.coworkingSpace.observe(this, Observer {
             when(it){
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvCoworkingSpace, R.layout.skeleton_list_coworking, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     btnAddCoworking.visible()
                     it.data.data.forEach { coworking ->
                         groupAdapter.add(CoworkingItem(coworking){
@@ -54,7 +54,7 @@ class ListCoworkingActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     Timber.e(it.throwable)
                 }
             }

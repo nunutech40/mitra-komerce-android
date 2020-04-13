@@ -42,10 +42,10 @@ class KelolaKantorActivity : BaseActivity() {
         vm.officeState.observe(this, Observer {
             when(it){
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvKantor, R.layout.skeleton_list_office, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     val sortedList = it.data.data.sortedWith(compareBy { it.office_name }).reversed()
 
@@ -57,7 +57,7 @@ class KelolaKantorActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

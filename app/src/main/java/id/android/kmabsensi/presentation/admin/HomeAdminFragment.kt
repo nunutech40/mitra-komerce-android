@@ -10,6 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
 import iammert.com.expandablelib.ExpandableLayout
@@ -50,6 +53,18 @@ class HomeAdminFragment : Fragment() {
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
 
+    private var skeletonNextTime: SkeletonScreen? = null
+    private var skeletonContdown: SkeletonScreen? = null
+    private var skeletonStatusWaktu: SkeletonScreen? = null
+    private var skeletonDate: SkeletonScreen? = null
+    private var skeletonDataHadir: SkeletonScreen? = null
+    private var skeletonDataBelumHadir: SkeletonScreen? = null
+    private var skeletonPartnerLabel: SkeletonScreen? = null
+    private var skeletonPartner: SkeletonScreen? = null
+    private var skeletonLabelMenu: SkeletonScreen? = null
+    private var skeletonMenu1: SkeletonScreen? = null
+    private var skeletonMenu2: SkeletonScreen? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,13 +83,13 @@ class HomeAdminFragment : Fragment() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeletonBodyContent()
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeletonBodyContent()
                     if (it.data.status){
-                        txtPresent.text = it.data.data.total_present.toString()
-                        txtTotalUser.text = " /${it.data.data.total_user}"
+                        txtPresent?.text = it.data.data.total_present.toString()
+                        txtTotalUser?.text = " /${it.data.data.total_user}"
 
                         if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
                             expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
@@ -84,7 +99,7 @@ class HomeAdminFragment : Fragment() {
                     }
                }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeletonBodyContent()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -93,14 +108,29 @@ class HomeAdminFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonNextTime = Skeleton.bind(txtNextTime)
+                        .load(R.layout.skeleton_item_big)
+                        .show()
+                    skeletonContdown = Skeleton.bind(txtCountdown)
+                        .load(R.layout.skeleton_item)
+                        .show()
+                    skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
+                        .load(R.layout.skeleton_item)
+                        .show()
                 }
                 is UiState.Success -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
                     setCountdown(dzuhur, ashr)
                 }
                 is UiState.Error -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
                 }
             }
         })
@@ -293,5 +323,33 @@ class HomeAdminFragment : Fragment() {
         super.onDestroy()
     }
 
+    fun showSkeletonBodyContent(){
+        skeletonDate = Skeleton.bind(textView24)
+            .load(R.layout.skeleton_item)
+            .show()
 
+        skeletonDataHadir = Skeleton.bind(dataHadir)
+            .load(R.layout.skeleton_home_data_hadir)
+            .show()
+
+        skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
+            .load(R.layout.skeleton_home_box_content)
+            .show()
+
+        skeletonPartnerLabel = Skeleton.bind(labelPartner)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonPartner = Skeleton.bind(sectionPartner)
+            .load(R.layout.skeleton_home_box_content)
+            .show()
+    }
+
+    fun hideSkeletonBodyContent(){
+        skeletonDate?.hide()
+        skeletonDataHadir?.hide()
+        skeletonDataBelumHadir?.hide()
+        skeletonPartnerLabel?.hide()
+        skeletonPartner?.hide()
+    }
 }

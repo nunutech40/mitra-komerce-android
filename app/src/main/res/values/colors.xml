@@ -65,4 +65,7 @@
 
     <color name="strokeButtonOutline">#36DE4D4E</color>
 
+    <color name="skeleton">#E6E6E6</color>
+    <color name="shimmer_color">#F4F4F4</color>
+
 </resources>

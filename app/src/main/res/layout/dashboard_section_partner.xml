@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="@id/labelTotalPartner"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/labelPartner"
+            android:id="@+id/labelPartnerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/tv13spa1a4af_avenir_heavy"

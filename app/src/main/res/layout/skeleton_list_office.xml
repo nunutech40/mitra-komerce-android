@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="121dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/textKantor"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"/>
+
+        <View
+            android:id="@+id/txtKelolaKantor"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@drawable/shape_skeleton"
+            android:layout_below="@id/textKantor"
+            android:layout_alignStart="@id/textKantor"
+            android:layout_toLeftOf="@id/img1"/>
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ilu_gedung_kantor"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"/>
+
+    </RelativeLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>

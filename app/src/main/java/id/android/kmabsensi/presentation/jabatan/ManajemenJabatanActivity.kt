@@ -34,10 +34,10 @@ class ManajemenJabatanActivity : BaseActivity() {
         vm.positionResponse.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                   showSkeleton(rvJabatan, R.layout.skeleton_list_jabatan, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(JabatanItem(it) { jabatan ->
@@ -78,7 +78,7 @@ class ManajemenJabatanActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

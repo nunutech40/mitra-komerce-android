@@ -61,10 +61,10 @@ class PartnerActivity : BaseActivity() {
         vm.partners.observe(this, Observer { state ->
         when(state) {
             is UiState.Loading -> {
-                progressBar.visible()
+                showSkeleton(rvPartner, R.layout.skeleton_list_partner, groupAdapter)
             }
             is UiState.Success -> {
-                progressBar.gone()
+                hideSkeleton()
                 if (state.data.status){
                     if (partners.isNotEmpty()) partners.clear()
                     if (state.data.partners.isEmpty()) layout_empty.visible() else layout_empty.gone()
@@ -74,7 +74,7 @@ class PartnerActivity : BaseActivity() {
 
             }
             is UiState.Error -> {
-                progressBar.gone()
+                hideSkeleton()
             }
         } })
     }

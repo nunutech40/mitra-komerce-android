@@ -7,6 +7,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
@@ -27,6 +29,7 @@ class CariDataSdmActivity : AppCompatActivity() {
     private val groupAdapter = GroupAdapter<ViewHolder>()
     var dataFilter: List<User> = listOf()
 
+    private var skeletonScreen: SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +46,20 @@ class CariDataSdmActivity : AppCompatActivity() {
         vm.userData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    skeletonScreen = Skeleton.bind(rvSdm)
+                        .adapter(groupAdapter)
+                        .color(R.color.shimmer_color)
+                        .load(R.layout.skeleton_list_sdm)
+                        .show();
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    skeletonScreen?.hide()
 
                     dataFilter = it.data.data
 
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    skeletonScreen?.hide()
                 }
             }
         })

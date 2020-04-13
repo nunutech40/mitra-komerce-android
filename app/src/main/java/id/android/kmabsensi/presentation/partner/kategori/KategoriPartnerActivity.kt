@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -43,10 +44,11 @@ class KategoriPartnerActivity : BaseActivity() {
         vm.partnerCategories.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    if (layout_empty.isVisible) layout_empty.invis()
+                    showSkeleton(rvPartnerCategory, R.layout.skeleton_list_jabatan, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     if (state.data.categories.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     if (state.data.status) {
                         state.data.categories.forEach {
@@ -55,7 +57,7 @@ class KategoriPartnerActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

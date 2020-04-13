@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <View
+            android:id="@+id/txtNamaPemohon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintEnd_toStartOf="@+id/txtStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <View
+            android:id="@+id/txtStatus"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_skeleton"
+            android:paddingStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtNamaPemohon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtNamaPemohon" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="#1F000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamaPemohon" />
+
+
+        <View
+            android:id="@+id/textDari"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view2" />
+
+
+        <View
+            android:id="@+id/txtDateTo"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintTop_toTopOf="@id/textDari"
+            app:layout_constraintBottom_toBottomOf="@id/textDari"
+            app:layout_constraintEnd_toEndOf="@+id/view2" />
+
+        <View
+            android:id="@+id/textView20"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="@+id/textDari"
+            app:layout_constraintTop_toBottomOf="@+id/textDari" />
+
+        <View
+            android:id="@+id/txtAlasanTidakHadir"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintTop_toTopOf="@id/textView20"
+            app:layout_constraintBottom_toBottomOf="@id/textView20"
+            app:layout_constraintEnd_toEndOf="@+id/txtDateTo" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

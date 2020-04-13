@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -180,10 +183,10 @@ class KelolaDataSdmActivity : BaseActivity() {
         vm.userData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvSdm, R.layout.skeleton_list_sdm, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
 
                     val dataFilter: List<User>
 
@@ -208,7 +211,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })
