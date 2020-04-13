@@ -472,7 +472,7 @@ class HomeManagementFragment : Fragment() {
         header_waktu.setImageResource(header)
     }
 
-    fun countDownTimer(ms: Long) {
+    private fun countDownTimer(ms: Long) {
         try {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
@@ -565,11 +565,9 @@ class HomeManagementFragment : Fragment() {
             .show()
     }
 
-    fun hideSkeletonMenu(){
+    private fun hideSkeletonMenu(){
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()
     }
-
-
 }

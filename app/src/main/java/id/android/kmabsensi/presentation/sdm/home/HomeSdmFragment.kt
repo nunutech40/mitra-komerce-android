@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
@@ -61,6 +63,15 @@ class HomeSdmFragment : Fragment() {
     private val FORMAT = "(- %02d:%02d:%02d )"
     private var countDownTimer: CountDownTimer? = null
 
+    private var skeletonNextTime: SkeletonScreen? = null
+    private var skeletonContdown: SkeletonScreen? = null
+    private var skeletonStatusWaktu: SkeletonScreen? = null
+    private var skeletonKmPoin: SkeletonScreen? = null
+    private var skeletonDate: SkeletonScreen? = null
+    private var skeletonMenu1: SkeletonScreen? = null
+    private var skeletonCoworking: SkeletonScreen? = null
+    private var skeletonLabelCoworking: SkeletonScreen? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,11 +90,17 @@ class HomeSdmFragment : Fragment() {
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    skeletonKmPoin = Skeleton.bind(layoutKmPoint)
+                        .load(R.layout.skeleton_home_box_content)
+                        .show()
+                }
                 is UiState.Success -> {
+                    skeletonKmPoin?.hide()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
                 }
                 is UiState.Error -> {
+                    skeletonKmPoin?.hide()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -176,14 +193,22 @@ class HomeSdmFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    showSkeletonTime()
+                    if (!swipeRefresh.isRefreshing){
+                        showSkeletonMenu()
+                    }
                 }
                 is UiState.Success -> {
+                    hideSkeletonTime()
+                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
                     setCountdown(dzuhur, ashr)
                 }
                 is UiState.Error -> {
+                    hideSkeletonTime()
+                    hideSkeletonMenu()
                 }
             }
         })
@@ -191,10 +216,19 @@ class HomeSdmFragment : Fragment() {
         vm.coworkUserData.observe(viewLifecycleOwner, Observer {
             when(it){
                 is UiState.Loading -> {
+                    skeletonLabelCoworking = Skeleton.bind(textCoworkingSpace)
+                        .load(R.layout.skeleton_item)
+                        .show()
 
+                    skeletonCoworking = Skeleton.bind(rvCoworkingSpace)
+                        .adapter(groupAdapter)
+                        .load(R.layout.skeleton_list_coworking_space)
+                        .show()
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
+                    skeletonLabelCoworking?.hide()
+                    skeletonCoworking?.hide()
                     it.data.data.forEach {
                         groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
                             if (hasCheckin){
@@ -217,7 +251,8 @@ class HomeSdmFragment : Fragment() {
                     }
                 }
                 is UiState.Error -> {
-
+                    skeletonLabelCoworking?.hide()
+                    skeletonCoworking?.hide()
                 }
             }
 
@@ -370,6 +405,40 @@ class HomeSdmFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
         }
+    }
+
+    private fun showSkeletonMenu(){
+        skeletonDate = Skeleton.bind(textView24)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonMenu1 = Skeleton.bind(layoutMenu1)
+            .load(R.layout.skeleton_home_menu)
+            .show()
+
+    }
+
+    fun hideSkeletonMenu(){
+        skeletonDate?.hide()
+        skeletonMenu1?.hide()
+    }
+
+    private fun showSkeletonTime(){
+        skeletonNextTime = Skeleton.bind(txtNextTime)
+            .load(R.layout.skeleton_item_big)
+            .show()
+        skeletonContdown = Skeleton.bind(txtCountdown)
+            .load(R.layout.skeleton_item)
+            .show()
+        skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
+            .load(R.layout.skeleton_item)
+            .show()
+    }
+
+    private fun hideSkeletonTime(){
+        skeletonNextTime?.hide()
+        skeletonContdown?.hide()
+        skeletonStatusWaktu?.hide()
     }
 
 
