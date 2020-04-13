@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             style="@style/tv13spa1a4af_avenir_heavy"
             android:layout_marginTop="@dimen/_12dp"
+            android:layout_marginStart="@dimen/_4dp"
             app:layout_constraintStart_toEndOf="@id/textTotalPartner"
             app:layout_constraintTop_toBottomOf="@id/labelTotalPartner"
             android:text="partner"

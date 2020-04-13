@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
-import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
 import iammert.com.expandablelib.ExpandableLayout
@@ -83,13 +82,15 @@ class HomeAdminFragment : Fragment() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    showSkeletonBodyContent()
+                    showSkeletonDashboardContent()
                 }
                 is UiState.Success -> {
-                    hideSkeletonBodyContent()
+                    hideSkeletonDashboardContent()
+                    swipeRefresh.isRefreshing = false
                     if (it.data.status){
-                        txtPresent?.text = it.data.data.total_present.toString()
-                        txtTotalUser?.text = " /${it.data.data.total_user}"
+                        txtPresent.text = it.data.data.total_present.toString()
+                        txtTotalUser.text = " /${it.data.data.total_user}"
+                        textTotalPartner.text  = it.data.data.total_partner.toString()
 
                         if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
                             expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
@@ -99,7 +100,7 @@ class HomeAdminFragment : Fragment() {
                     }
                }
                 is UiState.Error -> {
-                    hideSkeletonBodyContent()
+                    hideSkeletonDashboardContent()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -117,11 +118,15 @@ class HomeAdminFragment : Fragment() {
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
                         .load(R.layout.skeleton_item)
                         .show()
+                    if (!swipeRefresh.isRefreshing){
+                        showSkeletonMenu()
+                    }
                 }
                 is UiState.Success -> {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
+                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
@@ -226,10 +231,8 @@ class HomeAdminFragment : Fragment() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            swipeRefresh.isRefreshing = false
             txtPresent.text = ""
             txtTotalUser.text = ""
-//            txtNotPresent.text = ""
 
             txtNextTime.text = ""
             txtCountdown.text = ""
@@ -323,7 +326,7 @@ class HomeAdminFragment : Fragment() {
         super.onDestroy()
     }
 
-    fun showSkeletonBodyContent(){
+    private fun showSkeletonDashboardContent(){
         skeletonDate = Skeleton.bind(textView24)
             .load(R.layout.skeleton_item)
             .show()
@@ -345,11 +348,31 @@ class HomeAdminFragment : Fragment() {
             .show()
     }
 
-    fun hideSkeletonBodyContent(){
+    private fun hideSkeletonDashboardContent(){
         skeletonDate?.hide()
         skeletonDataHadir?.hide()
         skeletonDataBelumHadir?.hide()
         skeletonPartnerLabel?.hide()
         skeletonPartner?.hide()
+    }
+
+    private fun showSkeletonMenu(){
+        skeletonLabelMenu = Skeleton.bind(textView26)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonMenu1 = Skeleton.bind(layoutMenu1)
+            .load(R.layout.skeleton_home_menu)
+            .show()
+
+        skeletonMenu2 = Skeleton.bind(layoutMenu2)
+            .load(R.layout.skeleton_home_menu)
+            .show()
+    }
+
+    fun hideSkeletonMenu(){
+        skeletonLabelMenu?.hide()
+        skeletonMenu1?.hide()
+        skeletonMenu2?.hide()
     }
 }
