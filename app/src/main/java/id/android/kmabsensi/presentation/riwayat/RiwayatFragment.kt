@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 
@@ -17,6 +20,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.invis
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 import org.koin.android.ext.android.inject
@@ -33,17 +37,23 @@ class RiwayatFragment : Fragment() {
 
     lateinit var user: User
 
+    private var skeletonScreen: SkeletonScreen? = null
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         vm.riwayatResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
-//                    progressBar.visible()
+                    skeletonScreen = Skeleton.bind(rvRiwayat)
+                        .adapter(groupAdapter)
+                        .load(R.layout.skeleton_list_riwayat)
+                        .show()
+                    if (layout_empty.isVisible) layout_empty.invis()
                 }
                 is UiState.Success -> {
                     swipeRefresh.isRefreshing = false
-//                    progressBar.gone()
+                    skeletonScreen?.hide()
                     groupAdapter.clear()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
@@ -52,7 +62,7 @@ class RiwayatFragment : Fragment() {
                 }
                 is UiState.Error -> {
                     swipeRefresh.isRefreshing = false
-//                    progressBar.gone()
+                    skeletonScreen?.hide()
                 }
             }
         })
@@ -85,7 +95,6 @@ class RiwayatFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context)
         rvRiwayat.apply {
             layoutManager = linearLayoutManager
-//            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
             adapter = groupAdapter
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.github.ajalt.timberkt.d
 import com.github.mikephil.charting.components.Description
@@ -18,7 +19,10 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Dashboard
+import id.android.kmabsensi.data.remote.response.PartnerProvinceStatistic
 import id.android.kmabsensi.presentation.partner.grafik.MyValueFormatter
+import id.android.kmabsensi.utils.DASHBOARD_DATA_KEY
 import kotlinx.android.synthetic.main.fragment_grafik_by_city.*
 import java.util.*
 
@@ -26,6 +30,15 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
+
+    companion object {
+        fun newInstance(dashboard: Dashboard?) : GrafikByCityFragment {
+            val fragment = GrafikByCityFragment()
+            val bundle = bundleOf(DASHBOARD_DATA_KEY to dashboard)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,13 +50,17 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setSkillGraph()
+        val dashboard : Dashboard? = arguments?.getParcelable(DASHBOARD_DATA_KEY)
+        dashboard?.let {
+            setSkillGraph(it.partner_province_statistic)
+        }
+
     }
 
     /**
      * Set up the axes along with other necessary details for the horizontal bar chart.
      */
-    private fun setSkillGraph(){
+    private fun setSkillGraph(data: List<PartnerProvinceStatistic>){
 
         // chart.setHighlightEnabled(false);
         chart.setDrawBarShadow(false)
@@ -84,7 +101,7 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
         chart.animateY(2500)
 
         // setting data
-        setGraphData()
+        setGraphData(data)
 
     }
 
@@ -94,15 +111,20 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
      *
      * Set the colors for different bars and the bar width of the bars.
      */
-    private fun setGraphData() {
+    private fun setGraphData(data: List<PartnerProvinceStatistic>) {
 
         //Add a list of bar entries
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(0f, 27f))
-        entries.add(BarEntry(1f, 45f))
-        entries.add(BarEntry(2f, 65f))
-        entries.add(BarEntry(3f, 77f))
-        entries.add(BarEntry(4f, 93f))
+        var x = 0f
+        data.forEach {
+            entries.add(BarEntry(x, it.total.toFloat()))
+            x += 1
+        }
+
+//        entries.add(BarEntry(1f, 45f))
+//        entries.add(BarEntry(2f, 65f))
+//        entries.add(BarEntry(3f, 77f))
+//        entries.add(BarEntry(4f, 93f))
 
         //Note : These entries can be replaced by real-time data, say, from an API
 
@@ -110,10 +132,6 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
 
         //Set the colors for bars with first color for 1*, second for 2* and so on
         barDataSet.setColors(
-            ContextCompat.getColor(requireContext(), R.color._3277FF),
-            ContextCompat.getColor(requireContext(), R.color._3277FF),
-            ContextCompat.getColor(requireContext(), R.color._3277FF),
-            ContextCompat.getColor(requireContext(), R.color._3277FF),
             ContextCompat.getColor(requireContext(), R.color._3277FF)
         )
 

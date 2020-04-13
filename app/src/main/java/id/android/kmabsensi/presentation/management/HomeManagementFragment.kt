@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
@@ -61,6 +63,20 @@ class HomeManagementFragment : Fragment() {
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
 
+    private var skeletonNextTime: SkeletonScreen? = null
+    private var skeletonContdown: SkeletonScreen? = null
+    private var skeletonStatusWaktu: SkeletonScreen? = null
+    private var skeletonKmPoin: SkeletonScreen? = null
+    private var skeletonDate: SkeletonScreen? = null
+    private var skeletonDataHadir: SkeletonScreen? = null
+    private var skeletonDataBelumHadir: SkeletonScreen? = null
+    private var skeletonPartnerLabel: SkeletonScreen? = null
+    private var skeletonPartner: SkeletonScreen? = null
+    private var skeletonLabelMenu: SkeletonScreen? = null
+    private var skeletonMenu1: SkeletonScreen? = null
+    private var skeletonMenu2: SkeletonScreen? = null
+    private var skeletonCoworking: SkeletonScreen? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,9 +97,9 @@ class HomeManagementFragment : Fragment() {
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is UiState.Loading -> progressBar.visible()
+                is UiState.Loading -> showSkeletonDashboardContent()
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeletonDashboardContent()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
@@ -96,7 +112,7 @@ class HomeManagementFragment : Fragment() {
 
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeletonDashboardContent()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -188,14 +204,34 @@ class HomeManagementFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonNextTime = Skeleton.bind(txtNextTime)
+                        .load(R.layout.skeleton_item_big)
+                        .show()
+                    skeletonContdown = Skeleton.bind(txtCountdown)
+                        .load(R.layout.skeleton_item)
+                        .show()
+                    skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
+                        .load(R.layout.skeleton_item)
+                        .show()
+                    if (!swipeRefresh.isRefreshing){
+                        showSkeletonMenu()
+                    }
                 }
                 is UiState.Success -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
+                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
                     setCountdown(dzuhur, ashr)
                 }
                 is UiState.Error -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
+                    hideSkeletonMenu()
                 }
             }
         })
@@ -203,10 +239,14 @@ class HomeManagementFragment : Fragment() {
         vm.coworkUserData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
-
+                    skeletonCoworking = Skeleton.bind(rvCoworkingSpace)
+                        .adapter(groupAdapter)
+                        .load(R.layout.skeleton_list_coworking_space)
+                        .show()
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
+                    skeletonCoworking?.hide()
                     it.data.data.forEach {
                         groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
                             if (hasCheckin) {
@@ -234,7 +274,7 @@ class HomeManagementFragment : Fragment() {
 
                 }
                 is UiState.Error -> {
-
+                    skeletonCoworking?.hide()
                 }
             }
 
@@ -474,6 +514,61 @@ class HomeManagementFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
         }
+    }
+
+    private fun showSkeletonDashboardContent(){
+        skeletonKmPoin = Skeleton.bind(layoutKmPoint)
+            .load(R.layout.skeleton_home_box_content)
+            .show()
+
+        skeletonDate = Skeleton.bind(textView24)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonDataHadir = Skeleton.bind(dataHadir)
+            .load(R.layout.skeleton_home_data_hadir)
+            .show()
+
+        skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
+            .load(R.layout.skeleton_home_box_content)
+            .show()
+
+        skeletonPartnerLabel = Skeleton.bind(labelPartner)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonPartner = Skeleton.bind(sectionPartner)
+            .load(R.layout.skeleton_home_box_content)
+            .show()
+    }
+
+    private fun hideSkeletonDashboardContent(){
+        skeletonDate?.hide()
+        skeletonDataHadir?.hide()
+        skeletonDataBelumHadir?.hide()
+        skeletonPartnerLabel?.hide()
+        skeletonPartner?.hide()
+        skeletonKmPoin?.hide()
+    }
+
+    private fun showSkeletonMenu(){
+        skeletonLabelMenu = Skeleton.bind(textView26)
+            .load(R.layout.skeleton_item)
+            .show()
+
+        skeletonMenu1 = Skeleton.bind(layoutMenu1)
+            .load(R.layout.skeleton_home_menu)
+            .show()
+
+        skeletonMenu2 = Skeleton.bind(layoutMenu2)
+            .load(R.layout.skeleton_home_menu)
+            .show()
+    }
+
+    fun hideSkeletonMenu(){
+        skeletonLabelMenu?.hide()
+        skeletonMenu1?.hide()
+        skeletonMenu2?.hide()
     }
 
 

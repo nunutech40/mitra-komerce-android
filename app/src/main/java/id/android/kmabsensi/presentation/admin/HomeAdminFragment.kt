@@ -51,6 +51,7 @@ class HomeAdminFragment : Fragment() {
     //for expandable layout
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
+    private var dashboard: Dashboard? = null
 
     private var skeletonNextTime: SkeletonScreen? = null
     private var skeletonContdown: SkeletonScreen? = null
@@ -85,6 +86,7 @@ class HomeAdminFragment : Fragment() {
                     showSkeletonDashboardContent()
                 }
                 is UiState.Success -> {
+                    dashboard = it.data.data
                     hideSkeletonDashboardContent()
                     swipeRefresh.isRefreshing = false
                     if (it.data.status){
@@ -223,7 +225,7 @@ class HomeAdminFragment : Fragment() {
         }
 
         sectionPartner.setOnClickListener {
-            activity?.startActivity<GrafikPartnerActivity>()
+            activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
         }
 
         btnInvoice.setOnClickListener {

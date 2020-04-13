@@ -13,6 +13,7 @@ const val USER_MANAGEMENT_NAME_KEY = "username"
 const val DATA_OFFICE_KEY = "date_office"
 const val PRESENCE_ID_KEY = "presence_id"
 const val IS_CHECKIN_KEY = "is_checkin"
+const val DASHBOARD_DATA_KEY = "dashboard_data"
 
 const val DATE_FILTER_KEY = "date_fitler"
 const val OFFICE_ID_FILTER = "office_id_filter"

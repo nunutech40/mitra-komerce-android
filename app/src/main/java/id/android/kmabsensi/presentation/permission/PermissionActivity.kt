@@ -60,10 +60,10 @@ class PermissionActivity : BaseActivity() {
         vm.listPermissionData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvPermission, R.layout.skeleton_list_permission, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(PermissionItem(it) {
@@ -75,7 +75,7 @@ class PermissionActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })
