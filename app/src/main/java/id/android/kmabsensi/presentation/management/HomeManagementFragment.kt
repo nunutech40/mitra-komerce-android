@@ -32,11 +32,13 @@ import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -62,6 +64,7 @@ class HomeManagementFragment : Fragment() {
     //for expandable layout
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
+    private var dashboard: Dashboard? = null
 
     private var skeletonNextTime: SkeletonScreen? = null
     private var skeletonContdown: SkeletonScreen? = null
@@ -99,10 +102,12 @@ class HomeManagementFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> showSkeletonDashboardContent()
                 is UiState.Success -> {
+                    dashboard = it.data.data
                     hideSkeletonDashboardContent()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
+                    textTotalPartner.text  = it.data.data.total_partner.toString()
 
                     if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
                         expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
@@ -418,6 +423,10 @@ class HomeManagementFragment : Fragment() {
 
         btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
+        }
+
+        sectionPartner.setOnClickListener {
+            activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
         }
 
         btnKelolaIzin.setOnClickListener {
