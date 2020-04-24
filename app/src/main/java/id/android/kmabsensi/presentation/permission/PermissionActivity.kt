@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -60,6 +61,7 @@ class PermissionActivity : BaseActivity() {
         vm.listPermissionData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    if (layout_empty.isVisible) layout_empty.gone()
                     showSkeleton(rvPermission, R.layout.skeleton_list_permission, groupAdapter)
                 }
                 is UiState.Success -> {
@@ -87,12 +89,7 @@ class PermissionActivity : BaseActivity() {
         dateFrom = getTodayDate()
         dateTo = getTodayDate()
 
-        vm.getListPermission(
-            userId = user.id,
-            dateFrom = dateFrom,
-            dateTo = dateTo,
-            status = status
-        )
+        vm.getListPermission(userId = user.id)
 
         btnFilter.setOnClickListener {
             showDialogFilter()
@@ -112,12 +109,7 @@ class PermissionActivity : BaseActivity() {
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())
             groupAdapter.clear()
-            vm.getListPermission(
-                userId = user.id,
-                dateFrom = dateFrom,
-                dateTo = dateTo,
-                status = status
-            )
+            vm.getListPermission(userId = user.id)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -135,6 +127,9 @@ class PermissionActivity : BaseActivity() {
         btnClose.setOnClickListener {
             dialog.dismiss()
         }
+
+        edtStartDate.setText(getDateStringFormatted(calendarDateForm.time))
+        edtEndDate.setText(getDateStringFormatted(calendarDateTo.time))
 
         edtStartDate.setOnClickListener { view ->
             showDatePicker(true) {
@@ -178,7 +173,7 @@ class PermissionActivity : BaseActivity() {
 
         buttonFilter.setOnClickListener {
             dialog.dismiss()
-            vm.getListPermission(
+            vm.filterPermission(
                 userId = user.id,
                 dateFrom = dateFrom,
                 dateTo = dateTo,

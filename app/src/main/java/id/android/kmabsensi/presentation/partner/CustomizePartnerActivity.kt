@@ -69,17 +69,17 @@ class CustomizePartnerActivity : BaseActivity() {
         categoryViewModel.partnerCategories.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvContent, R.layout.skeleton_list_jabatan, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     groupAdapter.add(SortFilterItem("Semua", ::onContentClicked))
                     state.data.categories.forEach {
                         groupAdapter.add(SortFilterItem(it.partnerCategoryName, ::onContentClicked))
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

@@ -47,8 +47,6 @@ data class Partner(
     val birthDate: String = "",
     @SerializedName("gender")
     val gender: Int = 0,
-    @SerializedName("bank_accounts")
-    val bankAccounts: List<BankAccount> = listOf(),
     @SerializedName("partner_detail")
     val partnerDetail: PartnerDetail = PartnerDetail(),
     @SerializedName("total_sdm_assigned")

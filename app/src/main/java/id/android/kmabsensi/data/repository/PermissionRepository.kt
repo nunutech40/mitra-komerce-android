@@ -36,12 +36,20 @@ class PermissionRepository(val apiService: ApiService) {
     fun getListPermission(
         roleId: Int,
         userManagementId: Int,
+        userId: Int
+    ): Single<ListPermissionResponse> {
+        return apiService.getListPermission(roleId, userManagementId, userId)
+    }
+
+    fun filterPermission(
+        roleId: Int,
+        userManagementId: Int,
         userId: Int,
         dateFrom: String,
         dateTo: String,
         status: Int
     ): Single<ListPermissionResponse> {
-        return apiService.getListPermission(roleId, userManagementId, userId, dateFrom, dateTo, status)
+        return apiService.filterListPermission(roleId, userManagementId, userId, dateFrom, dateTo, status)
     }
 
     fun approvePermission(

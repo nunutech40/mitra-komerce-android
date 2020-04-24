@@ -71,12 +71,25 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
 
     fun getListPermission(roleId: Int = 0,
                           userManagementId: Int = 0,
+                          userId: Int = 0){
+        listPermissionData.value = UiState.Loading()
+        compositeDisposable.add(permissionRepository.getListPermission(roleId, userManagementId, userId)
+            .with(schedulerProvider)
+            .subscribe({
+                listPermissionData.value = UiState.Success(it)
+            },{
+                listPermissionData.value = UiState.Error(it)
+            }))
+    }
+
+    fun filterPermission(roleId: Int = 0,
+                          userManagementId: Int = 0,
                           userId: Int = 0,
                           dateFrom: String,
                           dateTo: String,
                           status: Int = 0){
         listPermissionData.value = UiState.Loading()
-        compositeDisposable.add(permissionRepository.getListPermission(roleId, userManagementId, userId, dateFrom, dateTo, status)
+        compositeDisposable.add(permissionRepository.filterPermission(roleId, userManagementId, userId, dateFrom, dateTo, status)
             .with(schedulerProvider)
             .subscribe({
                 listPermissionData.value = UiState.Success(it)

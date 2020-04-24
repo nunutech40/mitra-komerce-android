@@ -196,6 +196,14 @@ interface ApiService {
     fun getListPermission(
         @Field("role_id") roleId: Int = 0,
         @Field("user_management_id") userManagementId: Int = 0,
+        @Field("user_id") userId: Int = 0
+    ): Single<ListPermissionResponse>
+
+    @POST("api/permission/filterd")
+    @FormUrlEncoded
+    fun filterListPermission(
+        @Field("role_id") roleId: Int = 0,
+        @Field("user_management_id") userManagementId: Int = 0,
         @Field("user_id") userId: Int = 0,
         @Field("date_from") dateFrom: String,
         @Field("date_to") dateTo: String,
@@ -321,9 +329,6 @@ interface ApiService {
         @Part("gender") gender: RequestBody,
         @Part("join_date") joinDate: RequestBody,
         @Part("martial_status") martialStatus: RequestBody,
-        @Part("bank_name") bankName: RequestBody,
-        @Part("bank_no") bankNo: RequestBody,
-        @Part("bank_owner_name") bankOwnerName: RequestBody,
         @Part("partner_category_id") partnerCategoryId: RequestBody,
         @Part("partner_category_name") partnerCategoryName: RequestBody,
         @Part("province_code") provinceCode: RequestBody,
@@ -356,10 +361,6 @@ interface ApiService {
         @Part("gender") gender: RequestBody,
         @Part("join_date") joinDate: RequestBody,
         @Part("martial_status") martialStatus: RequestBody,
-        @Part("bank_account_id") bankAccountId: RequestBody,
-        @Part("bank_name") bankName: RequestBody,
-        @Part("bank_no") bankNo: RequestBody,
-        @Part("bank_owner_name") bankOwnerName: RequestBody,
         @Part("partner_category_id") partnerCategoryId: RequestBody,
         @Part("partner_category_name") partnerCategoryName: RequestBody,
         @Part("province_code") provinceCode: RequestBody,

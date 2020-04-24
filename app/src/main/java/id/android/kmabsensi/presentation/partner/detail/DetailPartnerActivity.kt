@@ -103,10 +103,6 @@ class DetailPartnerActivity : BaseActivity() {
                 gender = genderSelectedId.toString(),
                 joinDate = edtTanggalBergabung.text.toString(),
                 martialStatus = this.martialStatus.toString(),
-                bankAccountId = partner.bankAccounts[0].id.toString(),
-                bankName = edtNamaBank.text.toString(),
-                bankNo = edtNoRekening.text.toString(),
-                bankOwnerName = edtPemilikRekening.text.toString(),
                 partnerCategoryId = partnerCategorySelected.id.toString(),
                 partnerCategoryName = partnerCategorySelected.partnerCategoryName,
                 provinceCode = provinceSelected.kodeWilayah,
@@ -308,9 +304,6 @@ class DetailPartnerActivity : BaseActivity() {
         edtNamaLengkap.setText(data.fullName)
         edtNoHp.setText(data.noHp)
         edtNoPartner.setText(data.noPartner)
-        edtNamaBank.setText(data.bankAccounts[0].bankName)
-        edtNoRekening.setText(data.bankAccounts[0].bankNo)
-        edtPemilikRekening.setText(data.bankAccounts[0].bankOwnerName)
         edtTanggalBergabung.setText(data.joinDate)
 
         data.photoProfileUrl?.let {
@@ -336,10 +329,6 @@ class DetailPartnerActivity : BaseActivity() {
         edtNoHp.isEnabled = enabled
         edtNoPartner.isEnabled = enabled
         edtTanggalBergabung.isEnabled = enabled
-        edtNamaBank.isEnabled = enabled
-        edtNoRekening.isEnabled = enabled
-        edtPemilikRekening.isEnabled = enabled
-
         spinnerCategoryPartner.isEnabled = enabled
         spinnerJenisKelamin.isEnabled = enabled
         spinnerStatusPernikahan.isEnabled = enabled
@@ -529,13 +518,10 @@ class DetailPartnerActivity : BaseActivity() {
         val noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
         val tanggalBergabung = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
-        val namaBank = ValidationForm.validationInput(edtNamaBank, "Nama bank tidak boleh kosong")
-        val noRek = ValidationForm.validationInput(edtNoRekening, "Nomor rekening tidak boleh kosong")
-        val pemilikRek = ValidationForm.validationInput(edtPemilikRekening, "Pemilik rekening tidak boleh kosong")
 
         return username && namaLengkap && tanggalLahir
                 && noHp && email && noPartner && alamat && validEmail
-                && tanggalBergabung && namaBank && noRek && pemilikRek
+                && tanggalBergabung
     }
 
 }

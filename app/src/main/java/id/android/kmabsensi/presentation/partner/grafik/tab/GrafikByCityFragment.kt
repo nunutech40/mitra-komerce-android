@@ -84,7 +84,11 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
 //        xl.labelCount = 5
 
         //Now add the labels to be added on the vertical axis
-        val values = listOf("Samarinda", "Balikpapan", "Bontang", "Tarakan", "Banjarmasin")
+        val values = mutableListOf<String>()
+        data.forEach {
+            values.add(it.provinceName)
+        }
+
         xl.valueFormatter = MyValueFormatter(values)
 
         val yl = chart.axisLeft

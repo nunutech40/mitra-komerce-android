@@ -42,10 +42,10 @@ class PartnerPickerActivity : BaseActivity() {
         vm.simplePartners.observe(this, Observer { state ->
         when(state) {
             is UiState.Loading -> {
-                progressBar.visible()
+                showSkeleton(rvPartners, R.layout.skeleton_list_jabatan, groupAdapter)
             }
             is UiState.Success -> {
-                progressBar.gone()
+                hideSkeleton()
                 if (state.data.status){
                     state.data.partners.forEach {
                         groupAdapter.add(SimplePartnerItem(it){
@@ -58,7 +58,7 @@ class PartnerPickerActivity : BaseActivity() {
                 }
             }
             is UiState.Error -> {
-                progressBar.gone()
+                hideSkeleton()
             }
         } })
     }

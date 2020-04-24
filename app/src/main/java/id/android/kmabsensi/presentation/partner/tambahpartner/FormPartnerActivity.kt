@@ -93,9 +93,6 @@ class FormPartnerActivity : BaseActivity() {
                 gender = genderSelectedId.toString(),
                 joinDate = edtTanggalBergabung.text.toString(),
                 martialStatus = this.martialStatus.toString(),
-                bankName = edtNamaBank.text.toString(),
-                bankNo = edtNoRekening.text.toString(),
-                bankOwnerName = edtPemilikRekening.text.toString(),
                 partnerCategoryId = partnerCategorySelected.id.toString(),
                 partnerCategoryName = partnerCategorySelected.partnerCategoryName,
                 provinceCode = provinceSelected.kodeWilayah,
@@ -382,9 +379,6 @@ class FormPartnerActivity : BaseActivity() {
         val noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
         val tanggalBergabung = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
-        val namaBank = ValidationForm.validationInput(edtNamaBank, "Nama bank tidak boleh kosong")
-        val noRek = ValidationForm.validationInput(edtNoRekening, "Nomor rekening tidak boleh kosong")
-        val pemilikRek = ValidationForm.validationInput(edtPemilikRekening, "Pemilik rekening tidak boleh kosong")
 
         val matchPass = ValidationForm.validationSingkronPassword(
             edtPassword,
@@ -394,7 +388,7 @@ class FormPartnerActivity : BaseActivity() {
 
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir
                 && noHp && email && noPartner && alamat && validEmail && matchPass
-                && tanggalBergabung && namaBank && noRek && pemilikRek
+                && tanggalBergabung
     }
 
 }

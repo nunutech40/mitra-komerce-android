@@ -107,19 +107,31 @@
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
-    <EditText
-        android:id="@+id/edtPasword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:boxBackgroundColor="@android:color/transparent"
         android:layout_marginStart="@dimen/_22sdp"
         android:layout_marginEnd="@dimen/_24sdp"
-        android:ems="10"
-        android:hint="@string/input_password"
-        android:inputType="textPassword"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <EditText
+            android:id="@+id/edtPasword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/input_password"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+             />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
@@ -145,7 +157,7 @@
         android:textAppearance="@style/TextAppearance.Bold"
         android:textColor="@color/textColor"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/edtPasword"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasword" />
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutPassword"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

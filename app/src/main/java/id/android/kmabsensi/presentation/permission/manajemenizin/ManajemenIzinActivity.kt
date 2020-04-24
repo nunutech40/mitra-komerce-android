@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -81,6 +82,7 @@ class ManajemenIzinActivity : BaseActivity() {
         vm.listPermissionData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    if (layout_empty.isVisible) layout_empty.gone()
                     showSkeleton(rvPermission, R.layout.skeleton_list_permission, groupAdapter)
                 }
                 is UiState.Success -> {
@@ -116,9 +118,7 @@ class ManajemenIzinActivity : BaseActivity() {
                         it.data.message
                     ) else createAlertError(this, "Gagal", it.data.message)
                     vm.getListPermission(
-                        roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
-                        dateTo = dateTo,
-                        status = status
+                        roleId = roleId, userManagementId = userManagementId
                     )
                 }
                 is UiState.Error -> {
@@ -146,10 +146,7 @@ class ManajemenIzinActivity : BaseActivity() {
                         roleId = if (isManagement) position + 3 else position + 2
                         vm.getListPermission(
                             roleId = roleId,
-                            userManagementId = userManagementId,
-                            dateFrom = dateFrom,
-                            dateTo = dateTo,
-                            status = status
+                            userManagementId = userManagementId
                         )
                     }
 
@@ -223,6 +220,9 @@ class ManajemenIzinActivity : BaseActivity() {
             dialog.dismiss()
         }
 
+        edtStartDate.setText(getDateStringFormatted(calendarDateForm.time))
+        edtEndDate.setText(getDateStringFormatted(calendarDateTo.time))
+
         edtStartDate.setOnClickListener { view ->
             showDatePicker(true) {
                 dateFrom = getDateString(it)
@@ -265,8 +265,9 @@ class ManajemenIzinActivity : BaseActivity() {
 
         buttonFilter.setOnClickListener {
             dialog.dismiss()
-            vm.getListPermission(
-                roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
+            vm.filterPermission(
+                roleId = roleId, userManagementId = userManagementId,
+                dateFrom = dateFrom,
                 dateTo = dateTo,
                 status = status
             )
@@ -307,12 +308,9 @@ class ManajemenIzinActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         if (requestCode == REQUEST_PENGAJUAN_IZIN && resultCode == Activity.RESULT_OK) {
             vm.getListPermission(
-                roleId = roleId, userManagementId = userManagementId, dateFrom = dateFrom,
-                dateTo = dateTo,
-                status = status
+                roleId = roleId, userManagementId = userManagementId
             )
         }
         super.onActivityResult(requestCode, resultCode, data)
