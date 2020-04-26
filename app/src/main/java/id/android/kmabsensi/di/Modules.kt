@@ -92,7 +92,7 @@ val viewModelModule = module {
     viewModel { CoworkingSpaceViewModel(get(), get()) }
     viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { PartnerCategoryViewModel(get(), get()) }
-    viewModel { PartnerViewModel(get(), get(), get()) }
+    viewModel { PartnerViewModel(get(), get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

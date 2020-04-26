@@ -18,11 +18,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.d
+import com.github.ajalt.timberkt.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.db.entity.City
 import id.android.kmabsensi.data.db.entity.Province
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.PartnerCategory
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
@@ -64,7 +66,8 @@ class DetailPartnerActivity : BaseActivity() {
     private var provinceSelected = Province()
     private var citySelected = City()
     private var partnerCategorySelected = PartnerCategory()
-
+    var userManagements = mutableListOf<User>()
+    var userManagementId = 0
     var deleteMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +87,7 @@ class DetailPartnerActivity : BaseActivity() {
         observeCrudResponse()
         observeAreaData()
         observePartnerCategory()
+        observeUserManagement()
 
         btnSimpan.setOnClickListener {
             if (!formValidation()){
@@ -108,7 +112,8 @@ class DetailPartnerActivity : BaseActivity() {
                 provinceCode = provinceSelected.kodeWilayah,
                 provinceName = provinceSelected.nama,
                 cityCode = citySelected.kodeWilayah,
-                cityName = citySelected.nama
+                cityName = citySelected.nama,
+                userManagementId = userManagementId.toString()
             )
         }
 
@@ -130,6 +135,52 @@ class DetailPartnerActivity : BaseActivity() {
         btnBack.setOnClickListener {
             finish()
         }
+    }
+
+    private fun observeUserManagement() {
+        partnerViewModel.getUserManagement()
+        partnerViewModel.userManagements.observe(this, Observer {
+                state ->
+            when(state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    userManagements.addAll(state.data.data)
+
+                    val userManagementNames = mutableListOf<String>()
+                    userManagements.forEach { userManagementNames.add(it.full_name) }
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        userManagementNames
+                    ).also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerManagement.adapter = adapter
+
+                        spinnerManagement.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    userManagementId = userManagements[position].id
+                                }
+                            }
+                        spinnerManagement.setSelection(userManagements.indexOfFirst { it.id == partner.userManagementId })
+                    }
+                }
+                is UiState.Error -> {
+                    e(state.throwable)
+                }
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -334,6 +385,7 @@ class DetailPartnerActivity : BaseActivity() {
         spinnerStatusPernikahan.isEnabled = enabled
         spinnerProvince.isEnabled = enabled
         spinnerCity.isEnabled = enabled
+        spinnerManagement.isEnabled = enabled
 
         if (!enabled) btnSimpan.gone() else btnSimpan.visible()
     }

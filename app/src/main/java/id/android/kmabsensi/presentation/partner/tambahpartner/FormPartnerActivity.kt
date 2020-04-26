@@ -14,10 +14,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
+import com.github.ajalt.timberkt.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.db.entity.City
 import id.android.kmabsensi.data.db.entity.Province
 import id.android.kmabsensi.data.remote.response.PartnerCategory
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
@@ -58,6 +60,8 @@ class FormPartnerActivity : BaseActivity() {
     private var provinceSelected = Province()
     private var citySelected = City()
     private var partnerCategorySelected = PartnerCategory()
+    var userManagements = mutableListOf<User>()
+    var userManagementId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +77,7 @@ class FormPartnerActivity : BaseActivity() {
         observeAreaData()
         observeCrudResponse()
         observePartnerCategory()
+        observeUserManagement()
 
         btnSimpan.setOnClickListener {
             if (!formValidation()){
@@ -98,9 +103,55 @@ class FormPartnerActivity : BaseActivity() {
                 provinceCode = provinceSelected.kodeWilayah,
                 provinceName = provinceSelected.nama,
                 cityCode = citySelected.kodeWilayah,
-                cityName = citySelected.nama
+                cityName = citySelected.nama,
+                userManagementId = userManagementId.toString()
             )
         }
+    }
+
+    private fun observeUserManagement() {
+        partnerViewModel.getUserManagement()
+        partnerViewModel.userManagements.observe(this, Observer {
+            state ->
+            when(state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    userManagements.addAll(state.data.data)
+
+                    val userManagementNames = mutableListOf<String>()
+                    userManagements.forEach { userManagementNames.add(it.full_name) }
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        userManagementNames
+                    ).also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerManagement.adapter = adapter
+
+                        spinnerManagement.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    userManagementId = userManagements[position].id
+                                }
+                            }
+                    }
+                }
+                is UiState.Error -> {
+                    e(state.throwable)
+                }
+            }
+        })
     }
 
     private fun initViews(){

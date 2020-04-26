@@ -334,7 +334,8 @@ interface ApiService {
         @Part("province_code") provinceCode: RequestBody,
         @Part("province_name") provinceName: RequestBody,
         @Part("city_code") cityCode: RequestBody,
-        @Part("city_name") cityName: RequestBody
+        @Part("city_name") cityName: RequestBody,
+        @Part("user_management_id") userManagementId: RequestBody
     ): Single<BaseResponse>
 
     @GET("api/user/partner")
@@ -366,7 +367,8 @@ interface ApiService {
         @Part("province_code") provinceCode: RequestBody,
         @Part("province_name") provinceName: RequestBody,
         @Part("city_code") cityCode: RequestBody,
-        @Part("city_name") cityName: RequestBody
+        @Part("city_name") cityName: RequestBody,
+        @Part("user_management_id") userManagementId: RequestBody
     ): Single<BaseResponse>
 
     @GET("api/user/partner/delete/{user-id}")

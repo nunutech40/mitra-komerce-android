@@ -50,7 +50,9 @@ data class Partner(
     @SerializedName("partner_detail")
     val partnerDetail: PartnerDetail = PartnerDetail(),
     @SerializedName("total_sdm_assigned")
-    val totalSdmAssigned: Int = 0
+    val totalSdmAssigned: Int = 0,
+    @SerializedName("user_management_id")
+    val userManagementId: Int = 0
 ): Parcelable
 
 @Parcelize

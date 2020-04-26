@@ -31,7 +31,8 @@ class PartnerRepository(val apiService: ApiService) {
         provinceCode: RequestBody,
         provinceName: RequestBody,
         cityCode: RequestBody,
-        cityName: RequestBody
+        cityName: RequestBody,
+        userManagementId: RequestBody
     ): Single<BaseResponse> {
         return apiService.addPartner(
             noPartner,
@@ -54,7 +55,8 @@ class PartnerRepository(val apiService: ApiService) {
             provinceCode,
             provinceName,
             cityCode,
-            cityName
+            cityName,
+            userManagementId
         )
     }
 
@@ -86,7 +88,8 @@ class PartnerRepository(val apiService: ApiService) {
         provinceCode: RequestBody,
         provinceName: RequestBody,
         cityCode: RequestBody,
-        cityName: RequestBody
+        cityName: RequestBody,
+        userManagementId: RequestBody
     ): Single<BaseResponse> {
         return apiService.editPartner(
             id,
@@ -108,7 +111,8 @@ class PartnerRepository(val apiService: ApiService) {
             provinceCode,
             provinceName,
             cityCode,
-            cityName
+            cityName,
+            userManagementId
         )
     }
 

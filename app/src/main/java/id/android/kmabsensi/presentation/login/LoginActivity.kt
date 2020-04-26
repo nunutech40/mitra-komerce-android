@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
@@ -28,7 +30,9 @@ import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.createAlertError
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.activity_form_partner.*
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.edtEmail
 import org.jetbrains.anko.*
 import org.koin.android.ext.android.inject
 
@@ -39,6 +43,8 @@ class LoginActivity : BaseActivity() {
     private val prefHelper: PreferencesHelper by inject()
 
     private lateinit var myDialog: MyDialog
+
+    private var isShowPassword = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +97,20 @@ class LoginActivity : BaseActivity() {
 
         initView()
 
+        btnToggleVisiblePassword.setOnClickListener {
+            if (!isShowPassword){
+                isShowPassword = true
+                edtPasword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                btnToggleVisiblePassword.setImageResource(R.drawable.ic_visibility_password)
+                edtPasword.setSelection(edtPasword.text.toString().length)
+            } else {
+                isShowPassword = false
+                edtPasword.transformationMethod = PasswordTransformationMethod.getInstance()
+                btnToggleVisiblePassword.setImageResource(R.drawable.ic_visibility_password_off)
+                edtPasword.setSelection(edtPasword.text.toString().length)
+            }
+
+        }
 
     }
 
@@ -157,7 +177,7 @@ class LoginActivity : BaseActivity() {
     private fun openSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri = Uri.fromParts("package", packageName, null)
-        intent.setData(uri)
+        intent.data = uri
         startActivityForResult(intent, 101)
     }
 }

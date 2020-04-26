@@ -8,8 +8,10 @@ import id.android.kmabsensi.data.db.entity.Province
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
 import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.repository.AreaRepository
 import id.android.kmabsensi.data.repository.PartnerRepository
+import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.createRequestBodyText
@@ -23,6 +25,7 @@ import java.io.File
 class PartnerViewModel(
     val partnerRepository: PartnerRepository,
     val areaRepository: AreaRepository,
+    val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
 ) : BaseViewModel(){
 
@@ -46,6 +49,10 @@ class PartnerViewModel(
         MutableLiveData<UiState<SimplePartnersResponse>>()
     }
 
+    val userManagements by lazy {
+        MutableLiveData<UiState<UserResponse>>()
+    }
+
     fun addPartner(
         noPartner: String,
         username: String,
@@ -67,7 +74,8 @@ class PartnerViewModel(
         provinceCode: String,
         provinceName: String,
         cityCode: String,
-        cityName: String
+        cityName: String,
+        userManagementId: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
@@ -98,7 +106,8 @@ class PartnerViewModel(
             provinceCode.createRequestBodyText(),
             provinceName.createRequestBodyText(),
             cityCode.createRequestBodyText(),
-            cityName.createRequestBodyText()
+            cityName.createRequestBodyText(),
+            userManagementId.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -148,7 +157,8 @@ class PartnerViewModel(
         provinceCode: String,
         provinceName: String,
         cityCode: String,
-        cityName: String
+        cityName: String,
+        userManagementId: String
     ){
 
         var photoProfile : MultipartBody.Part? = null
@@ -179,7 +189,8 @@ class PartnerViewModel(
             provinceCode.createRequestBodyText(),
             provinceName.createRequestBodyText(),
             cityCode.createRequestBodyText(),
-            cityName.createRequestBodyText()
+            cityName.createRequestBodyText(),
+            userManagementId.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -210,6 +221,16 @@ class PartnerViewModel(
             .subscribe({
                 cities.value = it
             }, ::onError))
+    }
+
+    fun getUserManagement(roleId: Int = 2){
+        compositeDisposable.add(userRepository.getUserByRole(roleId)
+            .with(schedulerProvider)
+            .subscribe({
+                userManagements.value = UiState.Success(it)
+            },{
+                userManagements.value = UiState.Error(it)
+            }))
     }
 
     override fun onError(error: Throwable) {
