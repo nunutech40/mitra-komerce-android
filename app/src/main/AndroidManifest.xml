@@ -30,7 +30,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.invoice.InvoiceActivity"></activity>
+        <activity android:name=".presentation.invoice.DetailInvoiceActivity"></activity>
+        <activity android:name=".presentation.invoice.ManageInvoiceDetailActivity" />
+        <activity android:name=".presentation.invoice.AddInvoiceActivity" />
+        <activity android:name=".presentation.invoice.InvoiceActivity" />
         <activity android:name=".presentation.partner.grafik.GrafikPartnerActivity" />
         <activity android:name=".presentation.partner.partnerpicker.PartnerPickerActivity" />
         <activity android:name=".presentation.partner.detail.DetailPartnerActivity" />

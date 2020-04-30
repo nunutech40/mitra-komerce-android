@@ -15,6 +15,7 @@ import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.coworking.CoworkingSpaceViewModel
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.invoice.InvoiceViewModel
 import id.android.kmabsensi.presentation.jabatan.JabatanViewModel
 import id.android.kmabsensi.presentation.kantor.OfficeViewModel
 import id.android.kmabsensi.presentation.kantor.cabang.TambahCabangViewModel
@@ -36,6 +37,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import kotlin.math.sin
 
 val appModule = module {
 
@@ -72,6 +74,7 @@ val repositoryModule = module {
     single { PartnerCategoryRepository(get()) }
     single { AreaRepository(get(), get(), get()) }
     single { PartnerRepository(get()) }
+    single { InvoiceRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -93,6 +96,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { PartnerCategoryViewModel(get(), get()) }
     viewModel { PartnerViewModel(get(), get(), get(), get()) }
+    viewModel { InvoiceViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

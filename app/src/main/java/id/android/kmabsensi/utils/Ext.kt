@@ -51,3 +51,6 @@ fun View.gone(){
 fun String.createRequestBodyText() : RequestBody {
     return RequestBody.create(MediaType.parse("text/plain"), this)
 }
+
+fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
+

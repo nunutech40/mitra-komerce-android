@@ -84,10 +84,14 @@ class HomeAdminFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     showSkeletonDashboardContent()
+                    if (!swipeRefresh.isRefreshing){
+                        showSkeletonMenu()
+                    }
                 }
                 is UiState.Success -> {
                     dashboard = it.data.data
                     hideSkeletonDashboardContent()
+                    hideSkeletonMenu()
                     swipeRefresh.isRefreshing = false
                     if (it.data.status){
                         txtPresent.text = it.data.data.total_present.toString()
@@ -120,15 +124,12 @@ class HomeAdminFragment : Fragment() {
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
                         .load(R.layout.skeleton_item)
                         .show()
-                    if (!swipeRefresh.isRefreshing){
-                        showSkeletonMenu()
-                    }
+
                 }
                 is UiState.Success -> {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar

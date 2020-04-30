@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.invoice.item.HistoryInvoiceItem
 import kotlinx.android.synthetic.main.fragment_history_invoice.*
 
 class HistoryInvoiceFragment : Fragment() {

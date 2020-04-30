@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.invoice.item.ActiveInvoiceItem
 import kotlinx.android.synthetic.main.fragment_invoice_active.*
+import org.jetbrains.anko.startActivity
 
 
 class InvoiceActiveFragment : Fragment() {
@@ -31,7 +33,13 @@ class InvoiceActiveFragment : Fragment() {
         initRv()
 
         for (i in 1..3){
-            groupAdapter.add(ActiveInvoiceItem())
+            groupAdapter.add(ActiveInvoiceItem(){
+                activity?.startActivity<DetailInvoiceActivity>()
+            })
+        }
+
+        buttonTambahInvoice.setOnClickListener {
+            activity?.startActivity<AddInvoiceActivity>()
         }
 
     }

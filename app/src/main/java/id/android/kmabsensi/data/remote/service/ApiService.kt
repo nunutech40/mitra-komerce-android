@@ -1,5 +1,6 @@
 package id.android.kmabsensi.data.remote.service
 
+import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.response.*
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -375,6 +376,9 @@ interface ApiService {
     fun deletePartner(
         @Path("user-id") userId: Int
     ): Single<BaseResponse>
+
+    @POST("api/invoice/create")
+    fun createInvoice(@Body body: CreateInvoiceBody): Single<CreateInvoiceResponse>
 
 
 

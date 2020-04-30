@@ -34,7 +34,7 @@ class LoginViewModel(
         val fcmToken = prefHelper.getString(PreferencesHelper.FCM_TOKEN)
         loginState.value = UiState.Loading()
         compositeDisposable.add(
-            authRepository.login(usernameEmail, password, if(fcmToken == "") "asd" else fcmToken)
+            authRepository.login(usernameEmail, password, if(fcmToken == "") "fcmTokenEmpty" else fcmToken)
                 .with(schedulerProvider)
                 .subscribe({
                     loginState.value = UiState.Success(it)
