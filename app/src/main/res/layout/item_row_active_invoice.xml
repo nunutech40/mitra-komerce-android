@@ -26,32 +26,37 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textInvoiceNumber"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textPartnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama Partner"
-        style="@style/tv14sp000000_avenir_heavy"
+        android:text="CATEGORY A"
+        style="@style/tv12spDE4D4E_avenir_heavy"
         app:layout_constraintStart_toStartOf="@+id/textInvoiceNumber"
         app:layout_constraintTop_toBottomOf="@+id/textInvoiceNumber" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textCategoryName"
-        android:layout_width="wrap_content"
+        android:id="@+id/textInvoiceTitle"
+        style="@style/tv16sp000000_avenir_heavy"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="CATEGORY A"
-        style="@style/tv12spDE4D4E_avenir_heavy"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="@dimen/_10dp"
+        android:text="Judul Invoice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textInvoiceType"
         app:layout_constraintStart_toStartOf="@+id/textPartnerName"
         app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textInvoiceTitle"
+    <TextView
+        android:id="@+id/textInvoiceType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Judul Invoice"
-        style="@style/tv16sp000000_avenir_heavy"
-        android:layout_marginBottom="@dimen/_10dp"
-        app:layout_constraintStart_toStartOf="@+id/textCategoryName"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryName"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:text="Admin"
+        style="@style/tv12sp000000_avenir_medium"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInvoiceDate" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

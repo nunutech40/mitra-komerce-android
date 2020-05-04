@@ -12,10 +12,7 @@
                     <stroke android:width="0.5dp" android:color="@color/divider" />
                 </shape>
             </item>
-            <item
-                android:gravity="center|right"
-                android:drawable="@drawable/ic_arrow_drop_down_black_24dp"
-                />
+            <item android:drawable="@drawable/ic_arrow_drop_down_black_24dp" android:gravity="center|right" />
         </layer-list>
     </item>
 </selector>

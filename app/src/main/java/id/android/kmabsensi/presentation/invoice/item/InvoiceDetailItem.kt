@@ -18,6 +18,7 @@ interface OnInvoiceDetailListener {
 data class InvoiceDetail(
     val itemName: String,
     val itemPrice: Int,
+    val itemDescription: String = "",
     var selected: Boolean = false
 )
 
@@ -38,8 +39,14 @@ class InvoiceDetailItem(private val invoiceDetail: InvoiceDetail,
 
             itemView.checkBoxDelete.setOnCheckedChangeListener { buttonView, isChecked ->
                 invoiceDetail.selected = checkBoxDelete.isChecked
-                d { invoiceDetail.selected.toString()}
                 listener?.onCheckBoxClicked(invoiceDetail, position)
+            }
+
+            if (invoiceDetail.itemDescription.isEmpty()){
+                textItemDescription.gone()
+            } else {
+                textItemDescription.visible()
+                textItemDescription.text = invoiceDetail.itemDescription
             }
         }
     }

@@ -96,7 +96,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { PartnerCategoryViewModel(get(), get()) }
     viewModel { PartnerViewModel(get(), get(), get(), get()) }
-    viewModel { InvoiceViewModel(get(), get()) }
+    viewModel { InvoiceViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

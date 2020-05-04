@@ -5,34 +5,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.base.BaseFragment
 import id.android.kmabsensi.presentation.invoice.item.HistoryInvoiceItem
+import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.fragment_history_invoice.*
+import org.jetbrains.anko.startActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HistoryInvoiceFragment : Fragment() {
+class HistoryInvoiceFragment : BaseFragment() {
 
+    private val invoiceVM: InvoiceViewModel by viewModel()
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_invoice, container, false)
-    }
+    override fun getLayoutResId() = R.layout.fragment_history_invoice
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initRv()
 
-        for (i in 1..3){
-            groupAdapter.add(HistoryInvoiceItem())
-        }
+        observeData()
 
     }
 
@@ -44,5 +44,31 @@ class HistoryInvoiceFragment : Fragment() {
             adapter = groupAdapter
         }
     }
+
+    private fun observeData(){
+        invoiceVM.getMyInvoice(true)
+        invoiceVM.invoices.observe(viewLifecycleOwner, Observer { state ->
+            when(state) {
+                is UiState.Loading -> {
+                    showLoadingDialog()
+                }
+                is UiState.Success -> {
+                    hideLoadingDialog()
+                    val invoices = state.data.invoices
+                    if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                    invoices.forEach {
+                        groupAdapter.add(HistoryInvoiceItem(it){
+                            activity?.startActivity<DetailInvoiceActivity>()
+                        })
+                    }
+                }
+                is UiState.Error -> {
+                    hideLoadingDialog()
+                }
+            }
+        })
+    }
+
+
 
 }

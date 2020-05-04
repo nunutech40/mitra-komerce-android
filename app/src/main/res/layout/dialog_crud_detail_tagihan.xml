@@ -73,6 +73,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Deskripsi"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@+id/edtItemPrice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView15"
+        style="@style/tv12sp929292_avenir_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Opsional"
+        app:layout_constraintEnd_toEndOf="@+id/edtDescription"
+        app:layout_constraintTop_toBottomOf="@+id/edtItemPrice" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtDescription"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Deskripsi"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:paddingStart="8dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnOke"
         style="@style/AppButtonGradient"
@@ -84,6 +118,6 @@
         android:text="Oke"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtItemPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,8 +27,8 @@ class DetailInvoiceActivity : BaseActivity() {
         initRv()
 
         val items = listOf(
-            InvoiceDetail("Item A", 1000000, false),
-            InvoiceDetail("Item B", 500000, false)
+            InvoiceDetail("Item A", 1000000, selected = false),
+            InvoiceDetail("Item B", 500000, selected = false)
         )
 
         items.forEach {

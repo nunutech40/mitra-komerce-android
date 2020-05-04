@@ -25,8 +25,10 @@ import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_add_invoice.*
 import kotlinx.android.synthetic.main.activity_manage_invoice_detail.*
+import kotlinx.android.synthetic.main.activity_manage_invoice_detail.btnOke
 import kotlinx.android.synthetic.main.activity_manage_invoice_detail.rvInvoiceDetail
 import kotlinx.android.synthetic.main.activity_manage_invoice_detail.textTotalTagihan
+import kotlinx.android.synthetic.main.dialog_crud_detail_tagihan.*
 import kotlinx.android.synthetic.main.item_row_invoice_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -77,6 +79,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                 }
                 layoutTotalTagian.visible()
                 layoutItemDelete.gone()
+                btnPilihSemua.gone()
                 Handler().postDelayed({
                     invoiceDetailItems.forEach {
                         it.cancelDeleteSession()
@@ -154,6 +157,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
         val edtItemName = customView.findViewById<EditText>(R.id.edtItemName)
         val edtItemPrice = customView.findViewById<EditText>(R.id.edtItemPrice)
+        val edtDescription = customView.findViewById<EditText>(R.id.edtDescription)
         val btnOke = customView.findViewById<Button>(R.id.btnOke)
 
         itemName?.let { edtItemName.setText(it) }
@@ -164,14 +168,16 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                 InvoiceDetailData.addInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
-                        edtItemPrice.text.toString().toInt()
+                        edtItemPrice.text.toString().toInt(),
+                        edtDescription.text.toString()
                     )
                 )
             } else {
                 InvoiceDetailData.updateInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
-                        edtItemPrice.text.toString().toInt()
+                        edtItemPrice.text.toString().toInt(),
+                        edtDescription.text.toString()
                     ),
                     position
                 )

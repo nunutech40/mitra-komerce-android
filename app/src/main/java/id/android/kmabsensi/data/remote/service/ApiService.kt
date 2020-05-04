@@ -377,6 +377,10 @@ interface ApiService {
         @Path("user-id") userId: Int
     ): Single<BaseResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/invoice/myInvoice")
+    fun getMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
+
     @POST("api/invoice/create")
     fun createInvoice(@Body body: CreateInvoiceBody): Single<CreateInvoiceResponse>
 

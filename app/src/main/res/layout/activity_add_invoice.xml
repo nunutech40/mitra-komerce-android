@@ -58,29 +58,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
             <TextView
-                android:id="@+id/labelDeskripsi"
+                android:id="@+id/labelBulan"
                 style="@style/tv14spf48070_avenir_heavy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Deskripsi"
+                android:text="Bulan"
                 app:layout_constraintStart_toStartOf="@+id/textDate"
                 app:layout_constraintTop_toBottomOf="@+id/edtInvoiceTitle" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtInvoiceDescription"
-                style="@style/tv14sp000000_avenir_medium"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerMonth"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="Masukkan Deskripsi"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="@dimen/_8dp"
+                android:background="@drawable/spinner_with_line_bg"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/labelBulan"
+                app:layout_constraintTop_toBottomOf="@+id/labelBulan" />
+
+            <TextView
+                android:id="@+id/labelTahun"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/_8dp"
+                android:text="Tahun"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/edtInvoiceTitle" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerYear"
+                android:background="@drawable/spinner_with_line_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/labelDeskripsi" />
+                app:layout_constraintStart_toStartOf="@+id/labelTahun"
+                app:layout_constraintTop_toBottomOf="@+id/labelTahun" />
 
             <TextView
                 android:id="@+id/labelPilihPartner"
@@ -90,7 +106,7 @@
                 android:layout_marginTop="24dp"
                 android:text="Pilih Partner"
                 app:layout_constraintStart_toStartOf="@+id/textDate"
-                app:layout_constraintTop_toBottomOf="@+id/edtInvoiceDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/spinnerMonth" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtPilihPartner"
@@ -219,6 +235,13 @@
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

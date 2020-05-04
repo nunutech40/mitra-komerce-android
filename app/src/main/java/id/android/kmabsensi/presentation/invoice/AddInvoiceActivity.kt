@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_add_invoice.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class AddInvoiceActivity : BaseActivity() {
 
@@ -37,6 +41,7 @@ class AddInvoiceActivity : BaseActivity() {
     private var partnerSelected : SimplePartner? = null
     private val PICK_PARTNER_RC = 112
 
+    private val calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +84,53 @@ class AddInvoiceActivity : BaseActivity() {
         btnUbahTagihan.setOnClickListener {
             startActivity<ManageInvoiceDetailActivity>()
         }
+
+        //spinner month
+        ArrayAdapter.createFromResource(this, R.array.month_array, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerMonth.adapter = adapter
+
+                spinnerMonth.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                        }
+
+                    }
+            }
+
+        //spinner year
+        ArrayAdapter(this, R.layout.spinner_item, getYearData())
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerYear.adapter = adapter
+
+                spinnerYear.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+
+                        }
+
+                    }
+            }
     }
 
     fun initRv(){
@@ -98,5 +150,16 @@ class AddInvoiceActivity : BaseActivity() {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun getYearData(): List<String>{
+        var year = calendar.get(Calendar.YEAR) - 1
+        val years = mutableListOf<String>()
+        years.add("Pilih Tahun")
+        for (i in 1..6){
+            years.add(year.toString())
+            year += 1
+        }
+        return years
     }
 }

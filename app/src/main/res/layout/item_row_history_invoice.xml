@@ -28,34 +28,26 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textPartnerName"
-        style="@style/tv14sp000000_avenir_heavy"
+        style="@style/tv12spDE4D4E_avenir_heavy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="24dp"
-        android:text="Nama Partner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInvoiceStatus" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textCategoryName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CATEGORY A"
-        style="@style/tv12spDE4D4E_avenir_heavy"
-        app:layout_constraintStart_toStartOf="@+id/textPartnerName"
-        app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
+        android:text="Partner Name"
+        app:layout_constraintStart_toStartOf="@+id/textInvoiceStatus"
+        app:layout_constraintTop_toBottomOf="@+id/textInvoiceDate" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textInvoiceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Judul Invoice"
         style="@style/tv16sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10dp"
-        app:layout_constraintStart_toStartOf="@+id/textCategoryName"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryName"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_marginEnd="24dp"
+        android:text="Judul Invoice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textInvoiceType"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerName"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textInvoiceStatus"
@@ -74,4 +66,14 @@
         android:background="@drawable/bg_status_invoice_complete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textInvoiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin"
+        style="@style/tv12sp000000_avenir_medium"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInvoiceDate" />
 </androidx.constraintlayout.widget.ConstraintLayout>
