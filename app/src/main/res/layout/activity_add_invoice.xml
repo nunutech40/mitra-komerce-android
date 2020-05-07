@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.android.kmabsensi.presentation.invoice.AddInvoiceActivity">
+    tools:context="id.android.kmabsensi.presentation.invoice.create.AddInvoiceActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -47,8 +47,6 @@
                 style="@style/tv14sp000000_avenir_medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
                 android:hint="Masukkan Judul Invoice"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -178,7 +176,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeColor="#2998FF"
                     android:textColor="#2998FF"
-                    android:text="UBAH TAGIHAN"
+                    android:text="TAMBAH TAGIHAN"
                     android:fontFamily="@font/avenir_heavy"
                     android:textSize="11sp"
                     app:layout_constraintEnd_toEndOf="parent"

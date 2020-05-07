@@ -66,6 +66,7 @@ class DetailKaryawanActivity : BaseActivity() {
     var userManagementSelectedId = 0
     var martialStatus = 0
     var statusKaryawan = 1
+    var bankAccountId = 0
 
     var imagePath : String? = null
 
@@ -122,6 +123,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 compressedImage,
                 edtTanggalBergabung.text.toString(),
                 martialStatus.toString(),
+                bankAccountId.toString(),
                 edtNamaBank.text.toString(),
                 edtNoRekening.text.toString(),
                 edtPemilikRekening.text.toString()
@@ -150,6 +152,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
         if (data.bank_accounts.isNotEmpty()){
+            bankAccountId = data.bank_accounts[0].id
             edtNamaBank.setText(data.bank_accounts[0].bankName)
             edtNoRekening.setText(data.bank_accounts[0].bankNo)
             edtPemilikRekening.setText(data.bank_accounts[0].bankOwnerName)

@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
+import id.android.kmabsensi.data.remote.response.SdmOfPartnerResponse
 import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
@@ -120,4 +121,7 @@ class PartnerRepository(val apiService: ApiService) {
         return apiService.deletePartner(userId)
     }
 
+    fun getSdmOfPartner(noPartner: String): Single<SdmOfPartnerResponse>{
+        return apiService.getSdmOfPartner(noPartner)
+    }
 }

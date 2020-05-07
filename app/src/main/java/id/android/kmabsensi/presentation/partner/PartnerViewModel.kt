@@ -5,10 +5,7 @@ import com.crashlytics.android.Crashlytics
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.data.db.entity.City
 import id.android.kmabsensi.data.db.entity.Province
-import id.android.kmabsensi.data.remote.response.BaseResponse
-import id.android.kmabsensi.data.remote.response.ListPartnerResponse
-import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
-import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.repository.AreaRepository
 import id.android.kmabsensi.data.repository.PartnerRepository
 import id.android.kmabsensi.data.repository.UserRepository
@@ -51,6 +48,10 @@ class PartnerViewModel(
 
     val userManagements by lazy {
         MutableLiveData<UiState<UserResponse>>()
+    }
+
+    val sdmOfPartner by lazy {
+        MutableLiveData<UiState<SdmOfPartnerResponse>>()
     }
 
     fun addPartner(
@@ -230,6 +231,17 @@ class PartnerViewModel(
                 userManagements.value = UiState.Success(it)
             },{
                 userManagements.value = UiState.Error(it)
+            }))
+    }
+
+    fun getSdmOfPartner(noPartner: String){
+        sdmOfPartner.value = UiState.Loading()
+        compositeDisposable.add(partnerRepository.getSdmOfPartner(noPartner)
+            .with(schedulerProvider)
+            .subscribe({
+                sdmOfPartner.value = UiState.Success(it)
+            },{
+                sdmOfPartner.value = UiState.Error(it)
             }))
     }
 

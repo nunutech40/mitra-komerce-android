@@ -59,6 +59,7 @@ class SdmRepository(val apiService: ApiService) {
         photoProfileUrl: MultipartBody.Part?,
         joinDate: RequestBody,
         martialStatus: RequestBody,
+        bankAccoutId: RequestBody,
         bankName: RequestBody,
         bankNo: RequestBody,
         bankOwnerName: RequestBody
@@ -74,7 +75,7 @@ class SdmRepository(val apiService: ApiService) {
             userManagementId,
             status,
             photoProfileUrl,
-            joinDate, martialStatus, bankName, bankNo, bankOwnerName)
+            joinDate, martialStatus, bankAccoutId, bankName, bankNo, bankOwnerName)
     }
 
     fun deleteKaryawan(userId: Int) = apiService.deleteSdm(userId)

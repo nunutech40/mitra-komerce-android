@@ -27,5 +27,9 @@ const val IS_SORT_KEY = "is_sort"
 const val PARTNER_DATA_KEY = "partner_data_key"
 const val SIMPLE_PARTNER_DATA_KEY = "simple_partner_data_key"
 
+const val INVOICE_ID_KEY = "invoice_id"
+const val INVOICE_TYPE_KEY = "invoice_type"
+const val IS_INVOICE_ADMIN_KEY = "is_invoice_admin"
+
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"

@@ -2,6 +2,8 @@ package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.response.*
+import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
+import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -129,6 +131,7 @@ interface ApiService {
         @Part photo_profile_url: MultipartBody.Part?,
         @Part("join_date") joinDate: RequestBody,
         @Part("martial_status") martialStatus: RequestBody,
+        @Part("bank_account_id") bankAccountId: RequestBody,
         @Part("bank_name") bankName: RequestBody,
         @Part("bank_no") bankNo: RequestBody,
         @Part("bank_owner_name") bankOwnerName: RequestBody
@@ -381,9 +384,19 @@ interface ApiService {
     @POST("api/invoice/myInvoice")
     fun getMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
 
+    @GET("api/invoice/detail/admin/{invoice_id}")
+    fun getInvoiceAdminDetail(@Path("invoice_id") invoiceId: Int) : Single<InvoiceDetailResponse>
+
+    @GET("api/invoice/detail/gaji/{invoice_id}")
+    fun getInvoiceGajiDetail(@Path("invoice_id") invoiceId: Int) : Single<InvoiceDetailResponse>
+
     @POST("api/invoice/create")
     fun createInvoice(@Body body: CreateInvoiceBody): Single<CreateInvoiceResponse>
 
+    @POST("api/invoice/update")
+    fun updateInvoice(@Body body: Map<String, Int>): Single<BaseResponse>
 
+    @GET("api/user/partner/leaderOfSdmAssigned/{no_partner}")
+    fun getSdmOfPartner(@Path("no_partner") noPartner: String): Single<SdmOfPartnerResponse>
 
 }

@@ -6,7 +6,12 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.convertRp
 import kotlinx.android.synthetic.main.item_row_invoice.view.*
 
-class InvoiceDetailBasicItem(private val invoiceDetail: InvoiceDetail) : Item(){
+data class InvoiceDetailBasic(
+    val itemName: String,
+    val itemPrice: Int
+)
+
+class InvoiceDetailBasicItem(private val invoiceDetail: InvoiceDetailBasic) : Item(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
             itemView.textItemName.text = invoiceDetail.itemName

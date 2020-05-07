@@ -9,6 +9,7 @@ import com.wildma.idcardcamera.utils.FileUtils
 import id.android.kmabsensi.R
 import id.zelory.compressor.Compressor
 import java.io.File
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,13 +18,16 @@ const val DATE_FORMAT = "yyyy-MM-dd"
 const val DATE_FORMAT2 = "dd MMMM yyyy"
 const val DATE_FORMAT4 = "dd MMM yyyy"
 const val DATE_FORMAT3 = "EEEE, dd MMM yyyy"
+val LOCALE = Locale("in", "ID")
 
 val APP_NAME = "KampungMarketer"
-val IMG_DIRECTORY_NAME: String="ABSENSI"
+val IMG_DIRECTORY_NAME: String = "ABSENSI"
 val BASE_DIR = APP_NAME + File.separator
-val DIR_ROOT:String= StringBuffer().append(FileUtils.getRootPath()).append(File.separator).append(BASE_DIR).toString()
+val DIR_ROOT: String =
+    StringBuffer().append(FileUtils.getRootPath()).append(File.separator).append(BASE_DIR)
+        .toString()
 
-fun getRoleName(roleId: Int): String = when(roleId) {
+fun getRoleName(roleId: Int): String = when (roleId) {
     1 -> ROLE_ADMIN
     2 -> ROLE_MANAGEMEMENT
     else -> ROLE_SDM
@@ -38,29 +42,49 @@ fun getTodayDate(): String {
 
 fun getTodayDateTimeDay(): String {
     val cal = Calendar.getInstance()
-    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT3, Locale.getDefault())
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT3, LOCALE)
 
     return simpleDateFormat.format(cal.time)
 }
 
 
-fun getDateString(date: Date): String{
+fun getDateWithDay(date: Date): String {
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT3, LOCALE)
+
+    return simpleDateFormat.format(date.time)
+}
+
+fun getDateString(date: Date): String {
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
 
     return simpleDateFormat.format(date)
 }
 
-fun getDateStringFormatted(date: Date): String{
+fun getDateStringFormatted(date: Date): String {
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT2, Locale.getDefault())
     return simpleDateFormat.format(date)
 }
 
-fun getDateStringFormatted2(date: Date): String{
-    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT4, Locale.getDefault())
+fun getDateStringFormatted2(date: Date): String {
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT4, LOCALE)
     return simpleDateFormat.format(date)
 }
 
-fun createAlertError(activity: Activity, title: String, message: String, duration: Long = 5000){
+fun parseStringDate(
+    date: String,
+    dateFormat: String = "yyyy-MM-dd"
+): Date {
+    var dateData = Date()
+    val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
+    try {
+        dateData = simpleDateFormat.parse(date)
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    return dateData
+}
+
+fun createAlertError(activity: Activity, title: String, message: String, duration: Long = 5000) {
     Alerter.create(activity)
         .setTitle(title)
         .setText(message)
@@ -69,7 +93,7 @@ fun createAlertError(activity: Activity, title: String, message: String, duratio
         .show()
 }
 
-fun createAlertSuccess(activity: Activity?, message: String){
+fun createAlertSuccess(activity: Activity?, message: String) {
     Alerter.create(activity)
         .setTitle("Berhasil")
         .setText(message)

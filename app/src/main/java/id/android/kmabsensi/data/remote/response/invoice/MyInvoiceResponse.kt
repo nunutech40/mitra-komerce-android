@@ -1,4 +1,4 @@
-package id.android.kmabsensi.data.remote.response
+package id.android.kmabsensi.data.remote.response.invoice
 import com.google.gson.annotations.SerializedName
 
 
@@ -72,6 +72,8 @@ data class UserTo(
     val id: Int = 0,
     @SerializedName("full_name")
     val fullName: String = "",
+    @SerializedName("no_partner")
+    val noPartner: String = "",
     @SerializedName("email")
     val email: String = ""
 )

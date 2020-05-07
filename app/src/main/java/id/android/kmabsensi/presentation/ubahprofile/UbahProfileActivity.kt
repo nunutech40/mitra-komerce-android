@@ -46,6 +46,7 @@ class UbahProfileActivity : BaseActivity() {
 
     private var genderSelectedId = 0
     private var martialStatus = 0
+    private var bankAccountId = 0
     private var compressedImage : File? = null
 
     private val disposables = CompositeDisposable()
@@ -148,6 +149,7 @@ class UbahProfileActivity : BaseActivity() {
                 compressedImage,
                 edtTanggalBergabung.text.toString(),
                 martialStatus.toString(),
+                bankAccountId.toString(),
                 edtNamaBank.text.toString(),
                 edtNoRekening.text.toString(),
                 edtPemilikRekening.text.toString()
@@ -178,7 +180,7 @@ class UbahProfileActivity : BaseActivity() {
         setDataToView(user)
     }
 
-    fun setDataToView(data: User){
+    private fun setDataToView(data: User){
         edtUsername.setText(data.username)
         edtTanggalLahir.setText(data.birth_date)
         edtAddress.setText(data.address)
@@ -189,6 +191,7 @@ class UbahProfileActivity : BaseActivity() {
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
         if(data.bank_accounts.isNotEmpty()){
+            bankAccountId = data.bank_accounts[0].id
             edtNamaBank.setText(data.bank_accounts[0].bankName)
             edtNoRekening.setText(data.bank_accounts[0].bankNo)
             edtPemilikRekening.setText(data.bank_accounts[0].bankOwnerName)

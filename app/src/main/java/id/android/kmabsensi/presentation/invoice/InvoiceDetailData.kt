@@ -26,5 +26,9 @@ object InvoiceDetailData {
         invoiceItemsData.value = invoiceItems
     }
 
+    fun clear(){
+        invoiceItems.clear()
+    }
+
 
 }

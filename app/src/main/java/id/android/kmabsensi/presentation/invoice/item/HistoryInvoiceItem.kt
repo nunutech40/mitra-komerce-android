@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.Invoice
+import id.android.kmabsensi.data.remote.response.invoice.Invoice
 import kotlinx.android.synthetic.main.item_row_history_invoice.view.*
 
 class HistoryInvoiceItem(

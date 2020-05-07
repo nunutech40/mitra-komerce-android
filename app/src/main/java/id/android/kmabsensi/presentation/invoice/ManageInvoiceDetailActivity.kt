@@ -5,7 +5,6 @@ import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,35 +15,37 @@ import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.item.InvoiceDetail
 import id.android.kmabsensi.presentation.invoice.item.InvoiceDetailItem
 import id.android.kmabsensi.presentation.invoice.item.OnInvoiceDetailListener
-import id.android.kmabsensi.utils.convertRp
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
-import kotlinx.android.synthetic.main.activity_add_invoice.*
+import id.android.kmabsensi.presentation.partner.PartnerViewModel
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_manage_invoice_detail.*
-import kotlinx.android.synthetic.main.activity_manage_invoice_detail.btnOke
-import kotlinx.android.synthetic.main.activity_manage_invoice_detail.rvInvoiceDetail
-import kotlinx.android.synthetic.main.activity_manage_invoice_detail.textTotalTagihan
-import kotlinx.android.synthetic.main.dialog_crud_detail_tagihan.*
 import kotlinx.android.synthetic.main.item_row_invoice_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ManageInvoiceDetailActivity : BaseActivity() {
 
     private val invoiceVM: InvoiceViewModel by viewModel()
+
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
     private val invoiceDetailItems = mutableListOf<InvoiceDetailItem>()
     private val deleteItemSelected = mutableListOf<Int>()
+
+    private var partnerSelected: SimplePartner? = null
+    private var isAdminInvoice = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_invoice_detail)
 
         setupToolbar("Tagihan", isWhiteBackground = true)
+        isAdminInvoice = intent.getBooleanExtra(IS_INVOICE_ADMIN_KEY, false)
+        partnerSelected = intent.getParcelableExtra(SIMPLE_PARTNER_DATA_KEY)
+        initView()
         initRv()
 
         btnAdd.setOnClickListener {
@@ -64,6 +65,19 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
         observeInvoiceItems()
     }
+
+    private fun initView(){
+        if (!isAdminInvoice){
+//            partnerSelected?.let {
+//                observeDataSdm(it.noPartner)
+//            }
+            btnAdd.gone()
+        } else {
+            btnAdd.visible()
+        }
+    }
+
+
 
     private fun initDeleteViewSession(){
         btnAdd.gone()

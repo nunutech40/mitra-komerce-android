@@ -1,10 +1,7 @@
 package id.android.kmabsensi.presentation.invoice
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +9,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseFragment
+import id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity
 import id.android.kmabsensi.presentation.invoice.item.HistoryInvoiceItem
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
@@ -46,7 +44,7 @@ class HistoryInvoiceFragment : BaseFragment() {
     }
 
     private fun observeData(){
-        invoiceVM.getMyInvoice(true)
+        invoiceVM.getMyInvoice(false)
         invoiceVM.invoices.observe(viewLifecycleOwner, Observer { state ->
             when(state) {
                 is UiState.Loading -> {
