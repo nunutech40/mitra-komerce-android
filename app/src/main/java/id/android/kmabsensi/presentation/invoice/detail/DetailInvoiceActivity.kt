@@ -9,13 +9,16 @@ import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.invoice.InvoiceAdmin
+import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetail
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceViewModel
 import id.android.kmabsensi.presentation.invoice.item.InvoiceDetailBasic
 import id.android.kmabsensi.presentation.invoice.item.InvoiceDetailBasicItem
+import id.android.kmabsensi.presentation.invoice.item.InvoiceDetailGajiItem
+import id.android.kmabsensi.presentation.invoice.payment.BuktiPembayaranActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_invoice.*
+import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailInvoiceActivity : BaseActivity() {
@@ -47,6 +50,8 @@ class DetailInvoiceActivity : BaseActivity() {
             invoiceVM.getInvoiceGajiDetail(invoiceId)
         }
 
+
+
     }
 
     private fun observeInvoiceDetail() {
@@ -69,7 +74,7 @@ class DetailInvoiceActivity : BaseActivity() {
         })
     }
 
-    private fun showInvoiceDetailData(data: InvoiceAdmin) {
+    private fun showInvoiceDetailData(data: InvoiceDetail) {
         scrollView.visible()
         data.apply {
             textInvoiceNumber.text = invoiceKmId
@@ -84,8 +89,8 @@ class DetailInvoiceActivity : BaseActivity() {
                 groupAdaper.add(InvoiceDetailBasicItem(it))
             }
 
-            invoiceDetailGaji?.map { InvoiceDetailBasic(it.item, it.total.toInt()) }?.forEach {
-                groupAdaper.add(InvoiceDetailBasicItem(it))
+            invoiceDetailGaji?.forEach {
+                groupAdaper.add(InvoiceDetailGajiItem(it))
             }
 
             when (status) {
@@ -141,6 +146,10 @@ class DetailInvoiceActivity : BaseActivity() {
 
             btnCancel.setOnClickListener {
                 updateInvoiceStatus(3)
+            }
+
+            btnLihatBuktiPembayararn.setOnClickListener {
+                startActivity<BuktiPembayaranActivity>(INVOICE_DATA_KEY to this)
             }
         }
 

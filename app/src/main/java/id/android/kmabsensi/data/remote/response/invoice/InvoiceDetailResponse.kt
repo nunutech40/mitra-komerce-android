@@ -1,5 +1,8 @@
 package id.android.kmabsensi.data.remote.response.invoice
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import id.android.kmabsensi.data.remote.response.BankAccount
+import kotlinx.android.parcel.Parcelize
 
 
 data class InvoiceDetailResponse(
@@ -10,10 +13,11 @@ data class InvoiceDetailResponse(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val invoice: InvoiceAdmin = InvoiceAdmin()
+    val invoice: InvoiceDetail = InvoiceDetail()
 )
 
-data class InvoiceAdmin(
+@Parcelize
+data class InvoiceDetail(
     @SerializedName("id")
     val id: Int = 0,
     @SerializedName("user_requester")
@@ -27,7 +31,7 @@ data class InvoiceAdmin(
     @SerializedName("invoice_xendit_url")
     val invoiceXenditUrl: String? = "",
     @SerializedName("invoice_xendit_expiry_date")
-    val invoiceXenditExpiryDate: Any? = null,
+    val invoiceXenditExpiryDate: String? = null,
     @SerializedName("expiry_date")
     val expiryDate: String? = "",
     @SerializedName("invoice_km_id")
@@ -54,8 +58,9 @@ data class InvoiceAdmin(
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+): Parcelable
 
+@Parcelize
 data class InvoiceDetailAdmin(
     @SerializedName("id")
     val id: Int = 0,
@@ -69,8 +74,9 @@ data class InvoiceDetailAdmin(
     val description: String? = null,
     @SerializedName("payment_attachment_url")
     val paymentAttachmentUrl: String? = null
-)
+): Parcelable
 
+@Parcelize
 data class InvoiceDetailGaji(
     @SerializedName("id")
     val id: Int = 0,
@@ -83,7 +89,7 @@ data class InvoiceDetailGaji(
     @SerializedName("description")
     val description: String? = null,
     @SerializedName("payment_attachment_url")
-    val paymentAttachmentUrl: String? = null,
+    var paymentAttachmentUrl: String? = null,
     @SerializedName("bank_account")
-    val bankAccount: String? = null
-)
+    val bankAccount: List<BankAccount>? = null
+): Parcelable

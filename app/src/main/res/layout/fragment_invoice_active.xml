@@ -5,26 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="id.android.kmabsensi.presentation.invoice.InvoiceActiveFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvInvoiceActive"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_8dp"
-        tools:listitem="@layout/item_row_active_invoice"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonTambahInvoice"/>
+        app:layout_constraintBottom_toTopOf="@id/buttonTambahInvoice">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvInvoiceActive"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_8dp"
+            tools:listitem="@layout/item_row_active_invoice"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <include
         android:id="@+id/layout_empty"

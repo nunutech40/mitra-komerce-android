@@ -32,6 +32,7 @@ import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
@@ -427,6 +428,10 @@ class HomeManagementFragment : Fragment() {
 
         sectionPartner.setOnClickListener {
             activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
+        }
+
+        btnEvaluasiSaya.setOnClickListener {
+            activity?.startActivity<MyEvaluationActivity>()
         }
 
         btnKelolaIzin.setOnClickListener {

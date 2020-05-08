@@ -61,6 +61,10 @@ class InvoiceActiveFragment : BaseFragment() {
 
         observeData()
         invoiceVM.getMyInvoice(true)
+
+        swipeRefresh.setOnRefreshListener {
+            invoiceVM.getMyInvoice(true)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,10 +89,10 @@ class InvoiceActiveFragment : BaseFragment() {
         invoiceVM.invoices.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
-                    showLoadingDialog()
+                    swipeRefresh.isRefreshing = true
                 }
                 is UiState.Success -> {
-                    hideLoadingDialog()
+                    swipeRefresh.isRefreshing = false
                     groupAdapter.clear()
                     val invoices = state.data.invoices
                     if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
@@ -103,7 +107,7 @@ class InvoiceActiveFragment : BaseFragment() {
                     }
                 }
                 is UiState.Error -> {
-                    hideLoadingDialog()
+                    swipeRefresh.isRefreshing = false
                 }
             }
         })

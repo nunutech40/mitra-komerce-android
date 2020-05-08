@@ -23,6 +23,7 @@ import id.android.kmabsensi.presentation.kantor.report.PresenceReportViewModel
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportViewModel
 import id.android.kmabsensi.presentation.login.LoginViewModel
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordViewModel
+import id.android.kmabsensi.presentation.myevaluation.EvaluationViewModel
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
@@ -75,6 +76,7 @@ val repositoryModule = module {
     single { AreaRepository(get(), get(), get()) }
     single { PartnerRepository(get()) }
     single { InvoiceRepository(get()) }
+    single { EvaluationRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -97,6 +99,7 @@ val viewModelModule = module {
     viewModel { PartnerCategoryViewModel(get(), get()) }
     viewModel { PartnerViewModel(get(), get(), get(), get()) }
     viewModel { InvoiceViewModel(get(), get(), get()) }
+    viewModel { EvaluationViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

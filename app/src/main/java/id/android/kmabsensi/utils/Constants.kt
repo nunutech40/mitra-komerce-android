@@ -28,6 +28,7 @@ const val PARTNER_DATA_KEY = "partner_data_key"
 const val SIMPLE_PARTNER_DATA_KEY = "simple_partner_data_key"
 
 const val INVOICE_ID_KEY = "invoice_id"
+const val INVOICE_DATA_KEY = "invoice_data"
 const val INVOICE_TYPE_KEY = "invoice_type"
 const val IS_INVOICE_ADMIN_KEY = "is_invoice_admin"
 

@@ -399,4 +399,7 @@ interface ApiService {
     @GET("api/user/partner/leaderOfSdmAssigned/{no_partner}")
     fun getSdmOfPartner(@Path("no_partner") noPartner: String): Single<SdmOfPartnerResponse>
 
+    @GET("api/evaluation/myEvaluation/{user_id}")
+    fun getMyEvaluation(@Path("user_id") userId: Int): Single<MyEvaluationResponse>
+
 }

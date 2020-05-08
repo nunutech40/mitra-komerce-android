@@ -29,9 +29,12 @@ class HistoryInvoiceFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRv()
-
         observeData()
+        invoiceVM.getMyInvoice(false)
 
+        swipeRefresh.setOnRefreshListener {
+            invoiceVM.getMyInvoice(false)
+        }
     }
 
     private fun initRv(){
@@ -44,14 +47,14 @@ class HistoryInvoiceFragment : BaseFragment() {
     }
 
     private fun observeData(){
-        invoiceVM.getMyInvoice(false)
         invoiceVM.invoices.observe(viewLifecycleOwner, Observer { state ->
             when(state) {
                 is UiState.Loading -> {
-                    showLoadingDialog()
+                    swipeRefresh.isRefreshing = true
                 }
                 is UiState.Success -> {
-                    hideLoadingDialog()
+                    groupAdapter.clear()
+                    swipeRefresh.isRefreshing = false
                     val invoices = state.data.invoices
                     if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     invoices.forEach {
@@ -61,7 +64,7 @@ class HistoryInvoiceFragment : BaseFragment() {
                     }
                 }
                 is UiState.Error -> {
-                    hideLoadingDialog()
+                    swipeRefresh.isRefreshing = false
                 }
             }
         })

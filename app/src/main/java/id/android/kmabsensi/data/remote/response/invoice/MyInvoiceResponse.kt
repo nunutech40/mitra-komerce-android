@@ -1,5 +1,7 @@
 package id.android.kmabsensi.data.remote.response.invoice
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class MyInvoiceResponse(
@@ -58,6 +60,7 @@ data class Invoice(
     val updatedAt: String = ""
 )
 
+@Parcelize
 data class UserRequester(
     @SerializedName("id")
     val id: Int = 0,
@@ -65,8 +68,9 @@ data class UserRequester(
     val fullName: String = "",
     @SerializedName("email")
     val email: String = ""
-)
+): Parcelable
 
+@Parcelize
 data class UserTo(
     @SerializedName("id")
     val id: Int = 0,
@@ -76,4 +80,4 @@ data class UserTo(
     val noPartner: String = "",
     @SerializedName("email")
     val email: String = ""
-)
+): Parcelable
