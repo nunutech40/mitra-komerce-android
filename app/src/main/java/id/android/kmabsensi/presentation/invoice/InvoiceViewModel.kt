@@ -6,6 +6,7 @@ import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.CreateInvoiceResponse
+import id.android.kmabsensi.data.remote.response.InvoiceReportResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
@@ -35,6 +36,10 @@ class InvoiceViewModel(
 
     val updateInvoiceResponse by lazy {
         MutableLiveData<UiState<BaseResponse>>()
+    }
+
+    val invoiceReports by lazy {
+        MutableLiveData<UiState<InvoiceReportResponse>>()
     }
 
     fun getMyInvoice(isActive: Boolean) {
@@ -97,6 +102,17 @@ class InvoiceViewModel(
                 updateInvoiceResponse.value = UiState.Error(it)
             })
         )
+    }
+
+    fun getInvoiceReport(startPeriod: String, endPeriod: String, userRequesterId: Int){
+        invoiceReports.value = UiState.Loading()
+        compositeDisposable.add(invoiceRepository.getInvoiceReport(startPeriod, endPeriod, userRequesterId)
+            .with(schedulerProvider)
+            .subscribe({
+                invoiceReports.value = UiState.Success(it)
+            },{
+                invoiceReports.value = UiState.Error(it)
+            }))
     }
 
     fun getUser(): User {

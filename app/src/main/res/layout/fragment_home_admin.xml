@@ -402,7 +402,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layoutMenu2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -481,6 +481,37 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnInvoiceReport"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_invoice_report" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Invoice Report"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="visible">
 
@@ -506,6 +537,21 @@
                         style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutMenu3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu2">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -538,18 +584,97 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
 
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progressBar"-->
-<!--                style="?android:attr/progressBarStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/dataHadir"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/dataHadir" /> -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_invoice" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Invoice"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data Partner"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_kategori_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Kategori Partner"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy"/>
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -406,4 +406,7 @@ interface ApiService {
     @GET("api/evaluation/myEvaluation/{user_id}")
     fun getMyEvaluation(@Path("user_id") userId: Int): Single<MyEvaluationResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/invoice/report/summary")
+    fun getInvoiceReport(@Body body: Map<String, Any>): Single<InvoiceReportResponse>
 }

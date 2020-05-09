@@ -128,3 +128,14 @@ fun deleteCaptureFileFromPath(path: String) {
 }
 
 fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }
+
+fun getYearData(): List<String> {
+    var year = Calendar.getInstance().get(Calendar.YEAR) - 1
+    val years = mutableListOf<String>()
+    years.add("Pilih Tahun")
+    for (i in 1..6) {
+        years.add(year.toString())
+        year += 1
+    }
+    return years
+}

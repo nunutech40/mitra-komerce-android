@@ -23,6 +23,7 @@ import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
+import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
@@ -233,6 +234,10 @@ class HomeAdminFragment : Fragment() {
             activity?.startActivity<InvoiceActivity>()
         }
 
+        btnInvoiceReport.setOnClickListener {
+            activity?.startActivity<InvoiceReportActivity>()
+        }
+
         swipeRefresh.setOnRefreshListener {
             txtPresent.text = ""
             txtTotalUser.text = ""
@@ -377,5 +382,6 @@ class HomeAdminFragment : Fragment() {
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()
+        layoutMenu3.visible()
     }
 }

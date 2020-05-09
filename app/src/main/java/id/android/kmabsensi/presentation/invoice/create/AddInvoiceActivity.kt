@@ -252,17 +252,6 @@ class AddInvoiceActivity : BaseActivity() {
             } })
     }
 
-    private fun getYearData(): List<String> {
-        var year = calendar.get(Calendar.YEAR) - 1
-        val years = mutableListOf<String>()
-        years.add("Pilih Tahun")
-        for (i in 1..6) {
-            years.add(year.toString())
-            year += 1
-        }
-        return years
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         InvoiceDetailData.clear()
