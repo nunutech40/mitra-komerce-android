@@ -1,5 +1,7 @@
 package id.android.kmabsensi.data.remote.response
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class MyEvaluationResponse(
@@ -13,6 +15,7 @@ data class MyEvaluationResponse(
     val evaluations: List<Evaluation> = listOf()
 )
 
+@Parcelize
 data class Evaluation(
     @SerializedName("id")
     val id: Int = 0,
@@ -25,7 +28,7 @@ data class Evaluation(
     @SerializedName("title")
     val title: String = "",
     @SerializedName("description")
-    val description: Any? = null,
+    val description: String? = null,
     @SerializedName("created_at")
     val createdAt: String = "",
     @SerializedName("updated_at")
@@ -36,8 +39,9 @@ data class Evaluation(
     val userEvaluator: UserEvaluator = UserEvaluator(),
     @SerializedName("form_evaluation_answer")
     val formEvaluationAnswer: List<FormEvaluationAnswer> = listOf()
-)
+): Parcelable
 
+@Parcelize
 data class UserTarget(
     @SerializedName("id")
     val id: Int = 0,
@@ -47,8 +51,9 @@ data class UserTarget(
     val fullName: String = "",
     @SerializedName("email")
     val email: String = ""
-)
+): Parcelable
 
+@Parcelize
 data class UserEvaluator(
     @SerializedName("id")
     val id: Int = 0,
@@ -58,8 +63,9 @@ data class UserEvaluator(
     val fullName: String = "",
     @SerializedName("email")
     val email: String = ""
-)
+): Parcelable
 
+@Parcelize
 data class FormEvaluationAnswer(
     @SerializedName("id")
     val id: Int = 0,
@@ -75,4 +81,4 @@ data class FormEvaluationAnswer(
     val answerValue: String = "",
     @SerializedName("notes")
     val notes: String = ""
-)
+): Parcelable

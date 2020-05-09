@@ -35,6 +35,24 @@ class PresenceRepository(val apiService: ApiService) {
         return apiService.presenceReport(roleId, userManagementId, officeId, reportDate)
     }
 
+    fun getPresenceReportFiltered(
+        roleId: Int,
+        userManagementId: Int,
+        officeId: Int,
+        startDate: String,
+        endDate: String
+    ): Single<PresenceReportResponse> {
+        val body = mapOf(
+            "role_id" to roleId,
+            "user_management_id" to userManagementId,
+            "office_id" to officeId,
+            "no_partner" to 0,
+            "start_date" to startDate,
+            "end_date" to endDate
+        )
+        return apiService.presenceReportFiltered(body)
+    }
+
     fun reportAbsen(
         userId: Int,
         presenceDate: String,

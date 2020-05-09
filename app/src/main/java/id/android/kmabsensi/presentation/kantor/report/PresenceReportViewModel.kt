@@ -40,6 +40,26 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
             }, this::onError))
     }
 
+    fun getPresenceReportFiltered(
+        roleId: Int = 0,
+        userManagementId: Int = 0,
+        officeId: Int = 0,
+        startDate: String,
+        endDate: String){
+        presenceReportData.value = UiState.Loading()
+        compositeDisposable.add(presenceRepository.getPresenceReportFiltered(
+            roleId,
+            userManagementId,
+            officeId,
+            startDate,
+            endDate
+        )
+            .with(schedulerProvider)
+            .subscribe({
+                presenceReportData.value = UiState.Success(it)
+            }, this::onError))
+    }
+
 
     fun getDataOffice(){
         userManagementData.value = UiState.Loading()

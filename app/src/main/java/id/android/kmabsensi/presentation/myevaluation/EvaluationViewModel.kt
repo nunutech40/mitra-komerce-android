@@ -23,7 +23,7 @@ class EvaluationViewModel(
 
     fun getMyEvaluation() {
         myEvaluations.value = UiState.Loading()
-        compositeDisposable.add(evaluationRepository.getMyEvaluation(getUserData().id)
+        compositeDisposable.add(evaluationRepository.getMyEvaluation(5)
             .with(schedulerProvider)
             .subscribe({
                 myEvaluations.value = UiState.Success(it)

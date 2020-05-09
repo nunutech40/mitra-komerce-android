@@ -33,5 +33,8 @@ data class Report(
     val percentage: String,
     val total_not_present: Int,
     val total_present: Int,
-    val total_user: Int
+    val total_user: Int,
+    val total_not_checkout: Int,
+    val total_come_late: Int,
+    val total_report_presence_failure: Int
 )

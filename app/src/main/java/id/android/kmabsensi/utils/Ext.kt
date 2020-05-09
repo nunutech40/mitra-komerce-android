@@ -1,7 +1,12 @@
 package id.android.kmabsensi.utils
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import okhttp3.MediaType
@@ -54,3 +59,11 @@ fun String.createRequestBodyText() : RequestBody {
 
 fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
 
+fun TextView.spannableQuestionEvaluation(question: String, notes: String){
+    val spannable = SpannableString("$question $notes")
+    spannable.setSpan(
+        ForegroundColorSpan(ContextCompat.getColor(this.context, R.color._929292)),
+        question.length, spannable.length,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    this.text = spannable
+}

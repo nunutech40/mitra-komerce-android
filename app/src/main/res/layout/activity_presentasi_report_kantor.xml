@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="#F9FAFF"
     tools:context=".presentation.kantor.report.PresentasiReportKantorActivity">
 
     <include
@@ -164,6 +164,159 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
+            <LinearLayout
+                android:id="@+id/layoutItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="22dp"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                app:layout_constraintTop_toBottomOf="@id/textView16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_presence_report_item"
+                    android:layout_height="60dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelTotalHadir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Hadir"
+                        style="@style/tv12sp939393_avenir"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTotalHadir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="212"
+                        style="@style/tv14sp000000_avenir_heavy"
+                        android:layout_marginStart="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/labelTotalHadir"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_presence_report_item"
+                    android:layout_height="60dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelTotalTerlambat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Terlambat"
+                        style="@style/tv12sp939393_avenir"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTotalTerlamat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="212"
+                        style="@style/tv14sp000000_avenir_heavy"
+                        android:layout_marginStart="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/labelTotalTerlambat"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutItem2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_14dp"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutItem"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_presence_report_item"
+                    android:layout_height="60dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelTotalGagalAbsen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Gagal Absen"
+                        style="@style/tv12sp939393_avenir"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTotalGagalAbsen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="212"
+                        style="@style/tv14sp000000_avenir_heavy"
+                        android:layout_marginStart="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/labelTotalGagalAbsen"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_presence_report_item"
+                    android:layout_height="60dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelTotalTidakAbsenPulang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Tidak Absen Pulang"
+                        style="@style/tv12sp939393_avenir"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTotalTidakAbsenPulang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="212"
+                        style="@style/tv14sp000000_avenir_heavy"
+                        android:layout_marginStart="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/labelTotalTidakAbsenPulang"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/txtDaftarAbsensi"
                 android:layout_width="0dp"
@@ -179,7 +332,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutItem2" />
 
             <LinearLayout
                 android:id="@+id/layout_empty"

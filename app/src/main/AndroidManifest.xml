@@ -30,7 +30,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.myevaluation.MyEvaluationActivity"></activity>
+        <activity android:name=".presentation.myevaluation.EvaluationDetailActivity"></activity>
+        <activity android:name=".presentation.myevaluation.MyEvaluationActivity" />
         <activity android:name=".presentation.invoice.payment.BuktiPembayaranActivity" />
         <activity android:name=".presentation.invoice.detail.DetailInvoiceActivity" />
         <activity android:name=".presentation.invoice.ManageInvoiceDetailActivity" />

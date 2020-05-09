@@ -37,7 +37,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
     private lateinit var myDialog: MyDialog
 
-    private var dateSelected = ""
+    private var dateFrom = ""
+    private var dateTo = ""
     private var officeIdSelected = 0
 
     private val REQUEST_FILTER = 120
@@ -56,9 +57,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-//        setSupportActionBar(toolbar)
-
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         btnFilter.visible()
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
@@ -67,7 +65,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
         initRv()
 
-        dateSelected = getTodayDate()
+        dateFrom = getTodayDate()
+        dateTo = getTodayDate()
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
 
         btnBack.setOnClickListener {
@@ -79,16 +78,9 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
                 "user_response" to userResponse,
                 "office_response" to officeResponse,
-                "date" to dateSelected
+                "dateFrom" to dateFrom,
+                "dateTo" to dateTo
             )
-
-//            if (!isManagement){
-//                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
-//                    "user_response" to userResponse,
-//                    "office_response" to officeResponse)
-//            } else {
-//                startActivityForResult<FilterReportKantorActivity>(REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport)
-//            }
 
         }
 
@@ -106,6 +98,10 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
                     txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
+                    textTotalHadir.text = it.data.data.report.total_present.toString()
+                    textTotalTerlamat.text = it.data.data.report.total_come_late.toString()
+                    textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()
+                    textTotalTidakAbsenPulang.text = it.data.data.report.total_not_checkout.toString()
                     if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.presence.forEach {
                         groupAdapter.add(AbsensiReportItem(it))
@@ -126,8 +122,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     if (!isManagement) {
                         txtSubReport.text = it.data.data[0].full_name
-//                        txtDaftarAbsensi.text = "Daftar absensi manajemen ${it.data.data[0].full_name}: "
-                        vm.getPresenceReport(userManagementId = it.data.data[0].id, date = dateSelected)
+                        vm.getPresenceReportFiltered(userManagementId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                     }
                     userResponse = it.data
                 }
@@ -144,8 +139,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     txtSubReport.text = it.data.data[0].office_name
-//                    txtDaftarAbsensi.text = "Daftar absensi kantor cabang ${it.data.data[0].office_name}: "
-                    vm.getPresenceReport(officeId = it.data.data[0].id, date = dateSelected)
+                    vm.getPresenceReportFiltered(officeId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                     officeResponse = it.data
                 }
                 is UiState.Error -> {
@@ -163,8 +157,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
             1 -> {
                 txtReport.text = "Kantor Cabang"
                 txtSubReport.text = "Semua Kantor"
-                vm.getPresenceReport(roleId = 2, date = dateSelected)
-//                txtDaftarAbsensi.text = "Daftar absensi manajemen : "
+                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
                 setupToolbarTitle("Presentasi Report Manajemen")
             }
             2 -> {
@@ -172,8 +165,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 if (isManagement) {
                     user?.let {
                         txtSubReport.text = it.full_name
-//                        txtDaftarAbsensi.text = "Daftar absensi manajemen ${it.full_name}: "
-                        vm.getPresenceReport(userManagementId = it.id, date = dateSelected)
+                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
                         vm.getUserManagement()
                     }
                 } else {
@@ -210,36 +202,33 @@ class PresentasiReportKantorActivity : BaseActivity() {
         if (requestCode == REQUEST_FILTER && resultCode == Activity.RESULT_OK) {
             data?.let {
 
-                dateSelected = it.getStringExtra(DATE_FILTER_KEY).toString()
+                dateFrom = it.getStringExtra(DATE_FILTER_KEY).toString()
+                dateTo = it.getStringExtra(END_DATE_FILTER_KEY).toString()
 
                 val dateFormat = SimpleDateFormat(DATE_FORMAT)
-                val date = dateFormat.parse(dateSelected)
+                val date = dateFormat.parse(dateFrom)
                 txtDate.text = getDateStringFormatted(date)
-
-//                btnFilter.setImageResource(R.drawable.ic_filter_on)
 
                 when (categoryReport) {
                     0 -> {
                         officeIdSelected = it.getIntExtra(OFFICE_ID_FILTER, 0)
                         val officaName = it.getStringExtra(OFFICE_NAME_FILTER)
                         txtSubReport.text = officaName
-//                        txtDaftarAbsensi.text = "Daftar absensi kantor cabang $officaName :"
                         groupAdapter.clear()
-                        vm.getPresenceReport(officeId = officeIdSelected, date = dateSelected)
+                        vm.getPresenceReportFiltered(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo)
                     }
                     1 -> {
                         groupAdapter.clear()
-                        vm.getPresenceReport(roleId = 2, date = dateSelected)
+                        vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
                     }
                     2 -> {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
-//                        txtDaftarAbsensi.text = "Daftar absensi manajemen $userManagementName :"
                         groupAdapter.clear()
-                        vm.getPresenceReport(
+                        vm.getPresenceReportFiltered(
                             userManagementId = userManagementIdSelected,
-                            date = dateSelected
+                            startDate = dateFrom, endDate = dateTo
                         )
                     }
                 }

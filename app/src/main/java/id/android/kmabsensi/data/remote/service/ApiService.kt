@@ -230,6 +230,10 @@ interface ApiService {
         @Field("report_date") reportDate: String
     ): Single<PresenceReportResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/presence/report/filtered")
+    fun presenceReportFiltered(@Body body: Map<String, Any>): Single<PresenceReportResponse>
+
     @POST("api/position")
     fun listPosition() : Single<ListPositionResponse>
 
