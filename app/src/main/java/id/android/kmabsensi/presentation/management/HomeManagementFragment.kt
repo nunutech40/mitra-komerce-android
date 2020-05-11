@@ -32,6 +32,7 @@ import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
@@ -450,6 +451,10 @@ class HomeManagementFragment : Fragment() {
 
         btnGagalAbsen.setOnClickListener {
            activity?.startActivity<ReportAbsensiActivity>()
+        }
+
+        btnInvoiceReport.setOnClickListener {
+            activity?.startActivity<InvoiceReportActivity>()
         }
 
     }

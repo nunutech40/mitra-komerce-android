@@ -68,9 +68,6 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
     private fun initView(){
         if (!isAdminInvoice){
-//            partnerSelected?.let {
-//                observeDataSdm(it.noPartner)
-//            }
             btnAdd.gone()
         } else {
             btnAdd.visible()
@@ -130,16 +127,12 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                     }
 
                     override fun onCheckBoxClicked(invoiceDetail: InvoiceDetail, position: Int) {
-                        d { deleteItemSelected.toString() }
                         if (invoiceDetail.selected){
                             deleteItemSelected.add(position)
                         } else {
                             deleteItemSelected.removeAt(deleteItemSelected.indexOfFirst { it == position})
                         }
                         textDeleteSelected.text = "${deleteItemSelected.size} item terpilih"
-                        d { invoiceDetail.toString() }
-                        d { position.toString() }
-                        d { deleteItemSelected.toString() }
 
                         if (deleteItemSelected.isEmpty()) btnDeleteItem.text = "BATAL" else btnDeleteItem.text = "HAPUS ITEM"
                     }
@@ -174,15 +167,26 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         val edtDescription = customView.findViewById<EditText>(R.id.edtDescription)
         val btnOke = customView.findViewById<Button>(R.id.btnOke)
 
+        edtItemPrice.addTextChangedListener(RupiahTextWatcher(edtItemPrice))
+
         itemName?.let { edtItemName.setText(it) }
         itemPrice?.let { edtItemPrice.setText(it.toString()) }
 
+        fun validation(): Boolean {
+            val item = ValidationForm.validationInput(edtItemName, "Tidak boleh kosong")
+            val price = ValidationForm.validationInput(edtItemPrice, "Tidak boleh kosong")
+            return item && price
+        }
+
         btnOke.setOnClickListener {
+            if (!validation()){
+                return@setOnClickListener
+            }
             if (itemName == null){
                 InvoiceDetailData.addInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
-                        edtItemPrice.text.toString().toInt(),
+                        edtItemPrice.text.toString().replace(".", "").toInt(),
                         edtDescription.text.toString()
                     )
                 )
@@ -190,7 +194,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                 InvoiceDetailData.updateInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
-                        edtItemPrice.text.toString().toInt(),
+                        edtItemPrice.text.toString().replace(".", "").toInt(),
                         edtDescription.text.toString()
                     ),
                     position

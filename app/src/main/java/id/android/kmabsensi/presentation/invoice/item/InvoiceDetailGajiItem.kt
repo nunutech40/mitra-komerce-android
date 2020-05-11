@@ -5,6 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailGaji
 import id.android.kmabsensi.utils.convertRp
+import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.item_row_invoice_detail_gaji.view.*
 
 class InvoiceDetailGajiItem(val invoiceDetailGaji: InvoiceDetailGaji): Item() {
@@ -20,6 +21,12 @@ class InvoiceDetailGajiItem(val invoiceDetailGaji: InvoiceDetailGaji): Item() {
             }
 
             itemView.textGajiSdm.text = convertRp(invoiceDetailGaji.total.toDouble())
+            invoiceDetailGaji.description?.let {
+                itemView.textDescription.visible()
+                itemView.textDescription.text = invoiceDetailGaji.description
+            }
+
+
         }
     }
 

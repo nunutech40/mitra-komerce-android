@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkBoxDelete"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.borjabravo.readmoretextview.ReadMoreTextView
         android:id="@+id/textItemDescription"
         style="@style/tv12sp7A7B7C_avenir"
         android:layout_width="0dp"
@@ -33,6 +33,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
         android:text="Deskripsi"
+        app:trimMode="trimModeLine"
+        app:trimLines="2"
+        app:colorClickableText="#2196F3"
         app:layout_constraintEnd_toEndOf="@+id/textItemPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textItemName" />

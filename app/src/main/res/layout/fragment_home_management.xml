@@ -571,11 +571,12 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnInvoiceReport"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
 
@@ -583,7 +584,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_kelolasdm"/>
+                            android:src="@drawable/ic_invoice_report"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -591,7 +592,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Data Jabatan"
+                        android:text="Invoice Report"
                         android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp" />

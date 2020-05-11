@@ -125,12 +125,11 @@ class DetailInvoiceActivity : BaseActivity() {
                             R.color._DE4D4E
                         )
                     )
-
                 }
             }
 
             if(this@DetailInvoiceActivity.invoiceType == 1){
-                textDueDate.text = getDateWithDay(parseStringDate(expiryDate!!, "yyyy-MM-dd HH:mm:ss"))
+                expiryDate?.let { textDueDate.text = getDateWithDay(parseStringDate(it, "yyyy-MM-dd HH:mm:ss"))  }
             } else {
                 layoutExpired.gone()
             }

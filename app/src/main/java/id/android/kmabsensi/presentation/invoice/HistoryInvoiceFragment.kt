@@ -11,9 +11,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseFragment
 import id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity
 import id.android.kmabsensi.presentation.invoice.item.HistoryInvoiceItem
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_history_invoice.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,7 +57,9 @@ class HistoryInvoiceFragment : BaseFragment() {
                     if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     invoices.forEach {
                         groupAdapter.add(HistoryInvoiceItem(it){
-                            activity?.startActivity<DetailInvoiceActivity>()
+                            activity?.startActivity<DetailInvoiceActivity>(
+                                INVOICE_ID_KEY to it.id,
+                                INVOICE_TYPE_KEY to it.invoiceType)
                         })
                     }
                 }

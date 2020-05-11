@@ -80,7 +80,7 @@ class AddInvoiceActivity : BaseActivity() {
                 listInvoiceDetail.clear()
                 groupAdapter.clear()
                 listInvoiceDetail.addAll(invoices)
-                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice) }.forEach {
+                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice, it.itemDescription) }.forEach {
                     groupAdapter.add(InvoiceDetailBasicItem(it))
                 }
                 textTotalTagihan.text = convertRp(invoices.sumBy { it.itemPrice }.toDouble())
@@ -153,6 +153,13 @@ class AddInvoiceActivity : BaseActivity() {
             }
 
         buttonAddInvoice.setOnClickListener {
+            if (!formValidation()){
+                return@setOnClickListener
+            }
+            if (yearSelected == 0 || monthSelected == 0){
+                createAlertError(this, "Warning!", "Tentukan periode tagihan dahulu", duration = 3000)
+                return@setOnClickListener
+            }
             val month = if (monthSelected < 10) "0$monthSelected" else "$monthSelected"
             val body = CreateInvoiceBody(
                 user_requester_id = invoiceVM.getUser().id,
@@ -221,6 +228,7 @@ class AddInvoiceActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK) {
             partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
             if (!isAdminInvoice) partnerVM.getSdmOfPartner(partnerSelected!!.noPartner)
         }
@@ -255,5 +263,12 @@ class AddInvoiceActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         InvoiceDetailData.clear()
+    }
+
+    private fun formValidation(): Boolean {
+        val title = ValidationForm.validationInput(edtInvoiceTitle, "Judul Invoice tidak boleh kosong")
+        val partner = ValidationForm.validationInput(edtPilihPartner, "Partner tidak boleh kosong")
+
+        return title && partner
     }
 }

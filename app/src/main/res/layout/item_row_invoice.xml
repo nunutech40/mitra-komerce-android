@@ -2,31 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="13dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
         android:text="Item A"
         style="@style/tv14sp000000_avenir_medium"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textItemPrice"
+        style="@style/tv16sp000000_avenir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_14dp"
         android:text="Rp. 1.000.000"
-        style="@style/tv16sp000000_avenir"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintBaseline_toBaselineOf="@+id/textItemName"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.borjabravo.readmoretextview.ReadMoreTextView
+        android:id="@+id/textItemDescription"
+        style="@style/tv12sp7A7B7C_avenir"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:trimMode="trimModeLine"
+        app:trimLines="2"
+        app:colorClickableText="#2196F3"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/textItemPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textItemName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

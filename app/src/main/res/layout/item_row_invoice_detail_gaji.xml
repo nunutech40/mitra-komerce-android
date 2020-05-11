@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_12dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textLeaderName"
@@ -56,17 +57,18 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.borjabravo.readmoretextview.ReadMoreTextView
         android:id="@+id/textDescription"
         style="@style/tv12sp7A7B7C_avenir"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Deskripsi"
-        android:layout_marginBottom="@dimen/_12dp"
+        app:trimMode="trimModeLine"
+        app:trimLines="2"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/btnCopyGajiSdm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textGajiSdm"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/textGajiSdm"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnCopyBankAccNumber"
