@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -230,6 +232,21 @@ class AddInvoiceActivity : BaseActivity() {
             partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
+
+            val monthCalendar = calendar.get(Calendar.MONTH)
+            val month = if (monthCalendar == 0){
+                resources.getStringArray(R.array.month_array).toList()[12]
+            } else {
+                resources.getStringArray(R.array.month_array).toList()[monthCalendar]
+            }
+            val year = if (calendar.get(Calendar.MONTH) == 0) calendar.get(Calendar.YEAR)-1 else calendar.get(Calendar.YEAR)
+            val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
+            val title = "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $month $year"
+            edtInvoiceTitle.setText(title)
+
+            spinnerMonth.setSelection(if (monthCalendar == 0) 12 else monthCalendar)
+            spinnerYear.setSelection(getYearData().indexOfFirst { it == "$year" })
+
             if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
