@@ -19,7 +19,6 @@ import id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity
 import id.android.kmabsensi.presentation.invoice.item.ActiveInvoiceItem
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_invoice_active.*
-import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,6 +27,7 @@ class InvoiceActiveFragment : BaseFragment() {
     private val invoiceVM: InvoiceViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private val RC_ADD_INVOICE = 113
+    private val RC_DETAIL_INVOICE = 115
 
     override fun getLayoutResId() = R.layout.fragment_invoice_active
 
@@ -74,6 +74,10 @@ class InvoiceActiveFragment : BaseFragment() {
             val message = data?.getStringExtra("message")
             createAlertSuccess(requireActivity(), message.toString())
         }
+
+        if (requestCode == RC_DETAIL_INVOICE && resultCode == Activity.RESULT_OK){
+            invoiceVM.getMyInvoice(true)
+        }
     }
 
     private fun initRv() {
@@ -98,11 +102,10 @@ class InvoiceActiveFragment : BaseFragment() {
                     if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     invoices.forEach {
                         groupAdapter.add(ActiveInvoiceItem(it) {
-                            d { "invoice id : ${it.id}" }
-                            activity?.startActivity<DetailInvoiceActivity>(
-                                INVOICE_ID_KEY to it.id,
-                                INVOICE_TYPE_KEY to it.invoiceType
-                            )
+                            val intent = Intent(requireContext(), DetailInvoiceActivity::class.java)
+                            intent.putExtra(INVOICE_ID_KEY, it.id)
+                            intent.putExtra(INVOICE_TYPE_KEY, it.invoiceType)
+                            startActivityForResult(intent, RC_DETAIL_INVOICE)
                         })
                     }
                 }

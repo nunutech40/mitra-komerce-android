@@ -61,7 +61,7 @@ fun getDateString(date: Date): String {
 }
 
 fun getDateStringFormatted(date: Date): String {
-    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT2, Locale.getDefault())
+    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT2, LOCALE)
     return simpleDateFormat.format(date)
 }
 

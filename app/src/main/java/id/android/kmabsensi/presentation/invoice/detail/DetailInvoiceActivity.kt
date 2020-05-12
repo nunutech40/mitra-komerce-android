@@ -1,10 +1,13 @@
 package id.android.kmabsensi.presentation.invoice.detail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -141,11 +144,11 @@ class DetailInvoiceActivity : BaseActivity() {
             }
 
             btnComplete.setOnClickListener {
-                updateInvoiceStatus(2)
+                showDialogAction(true, "Apakah anda yakin ingin menyelesaikan transaksi ini ?")
             }
 
             btnCancel.setOnClickListener {
-                updateInvoiceStatus(3)
+                showDialogAction(true, "Apakah anda yakin ingin membatalkan transaksi ini ?")
             }
 
             btnLihatBuktiPembayararn.setOnClickListener {
@@ -179,8 +182,9 @@ class DetailInvoiceActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     if (state.data.status) {
-                        updateMessage = state.data.message
-                        invoiceVM.getInvoiceAdminDetail(invoiceId)
+                        val intent = Intent()
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
                     }
                 }
                 is UiState.Error -> {
@@ -196,6 +200,20 @@ class DetailInvoiceActivity : BaseActivity() {
             layoutManager = linearLayoutManager
             addItemDecoration(DividerItemDecoration(context, linearLayoutManager.orientation))
             adapter = groupAdaper
+        }
+    }
+
+    private fun showDialogAction(isCancel: Boolean, message: String){
+        MaterialDialog(this).show {
+            title(text ="Konfirmasi")
+            message(text = message)
+            positiveButton(text = "Ya"){
+                if (isCancel) updateInvoiceStatus(3) else updateInvoiceStatus(2)
+                it.dismiss()
+            }
+            negativeButton(text = "Batal") {
+                it.dismiss()
+            }
         }
     }
 }

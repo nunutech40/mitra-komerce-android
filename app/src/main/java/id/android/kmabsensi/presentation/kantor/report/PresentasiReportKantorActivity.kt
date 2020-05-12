@@ -184,7 +184,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
     }
 
     private fun setDateText(date: String) {
-        txtDate.text = date
+        txtDate.text = date + " - " + date
     }
 
 
@@ -206,7 +206,9 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
                 val dateFormat = SimpleDateFormat(DATE_FORMAT)
                 val date = dateFormat.parse(dateFrom)
-                txtDate.text = getDateStringFormatted(date)
+                val actualDateTo = dateFormat.parse(dateTo)
+
+                txtDate.text = getDateStringFormatted(date) + " - " + getDateStringFormatted(actualDateTo)
 
                 when (categoryReport) {
                     0 -> {
