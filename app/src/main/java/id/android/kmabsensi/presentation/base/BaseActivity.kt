@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showSkeleton(
         view: View, @LayoutRes layoutRes: Int,
-        rvAdapter: RecyclerView.Adapter<ViewHolder>? = null
+        rvAdapter: RecyclerView.Adapter<GroupieViewHolder>? = null
     ) {
         if (view is RecyclerView){
             skeletonScreen = Skeleton.bind(view)

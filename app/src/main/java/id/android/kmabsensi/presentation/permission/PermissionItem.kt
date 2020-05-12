@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.permission
 
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Permission
 import id.android.kmabsensi.utils.getDateStringFormatted
@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 class PermissionItem(val permission: Permission,
                      val listener: (Permission) -> Unit) : Item(){
 
-    override fun bind(viewHolder: ViewHolder, position: Int) {9
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {9
         viewHolder.apply {
 
             //2019-10-09

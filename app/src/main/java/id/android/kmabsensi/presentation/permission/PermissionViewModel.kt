@@ -7,6 +7,7 @@ import id.android.kmabsensi.data.remote.response.ListPermissionResponse
 import id.android.kmabsensi.data.repository.PermissionRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
@@ -37,13 +38,13 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
         attachment_leader: File,
         attachment_partner: File?
     ){
-        val attachmentLeader = RequestBody.create(MediaType.parse("image/*"), attachment_leader)
+        val attachmentLeader = attachment_leader.createRequestBody()
         val attachmentLeaderFile = MultipartBody.Part.createFormData("attachment_leader", attachment_leader.name, attachmentLeader)
 
         var attachmentPartnerFile: MultipartBody.Part? = null
 
         attachment_partner?.let {
-            val attachmentPartner = RequestBody.create(MediaType.parse("image/*"), attachment_partner)
+            val attachmentPartner = attachment_partner.createRequestBody()
             attachmentPartnerFile = MultipartBody.Part.createFormData("attachment_partner", attachment_partner.name, attachmentPartner)
         }
 

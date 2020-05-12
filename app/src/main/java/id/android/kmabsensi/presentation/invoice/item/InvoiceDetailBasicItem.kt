@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.invoice.item
 
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.convertRp
 import id.android.kmabsensi.utils.visible
@@ -14,7 +14,7 @@ data class InvoiceDetailBasic(
 )
 
 class InvoiceDetailBasicItem(private val invoiceDetail: InvoiceDetailBasic) : Item(){
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.textItemName.text = invoiceDetail.itemName
             itemView.textItemPrice.text = convertRp(invoiceDetail.itemPrice.toDouble())

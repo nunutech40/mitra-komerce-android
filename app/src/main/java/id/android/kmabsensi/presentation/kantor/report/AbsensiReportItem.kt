@@ -3,7 +3,7 @@ package id.android.kmabsensi.presentation.kantor.report
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
 import id.android.kmabsensi.utils.capitalizeWords
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_row_report_absensi.view.*
 
 class AbsensiReportItem(val presence: Presence) : Item() {
 
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
 
             itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0, 5)

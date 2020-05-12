@@ -2,7 +2,7 @@ package id.android.kmabsensi.presentation.invoice.item
 
 import androidx.core.content.ContextCompat
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.invoice.Invoice
 import kotlinx.android.synthetic.main.item_row_history_invoice.view.*
@@ -11,7 +11,7 @@ class HistoryInvoiceItem(
     val invoice: Invoice,
     val listener: () -> Unit
 ): Item(){
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.textInvoiceNumber.text = "No. ${invoice.invoiceKmId}"
             itemView.textPartnerName.text = "${invoice.userTo.id} - ${invoice.userTo.fullName}"

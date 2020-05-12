@@ -3,7 +3,7 @@ package id.android.kmabsensi.presentation.management
 import androidx.core.content.ContextCompat
 import com.github.ajalt.timberkt.Timber.d
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.UserCoworkingSpace
 import id.android.kmabsensi.utils.gone
@@ -21,7 +21,7 @@ class CoworkingSpaceItem(val coworking: UserCoworkingSpace,
      * status : - 1 : Tersedia
      *          - 2 : Acara
      */
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.txtCoworkName.text = coworking.cowork_name
             itemView.txtInformasi.text = coworking.description

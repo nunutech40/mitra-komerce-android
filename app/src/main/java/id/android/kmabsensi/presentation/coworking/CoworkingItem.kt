@@ -2,7 +2,7 @@ package id.android.kmabsensi.presentation.coworking
 
 import androidx.core.content.ContextCompat
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.CoworkingSpace
 import kotlinx.android.synthetic.main.item_row_coworking.*
@@ -15,7 +15,7 @@ class CoworkingItem(val coworking: CoworkingSpace,
      * status : - 1 : Tersedia
      *          - 2 : Acara
      */
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
         viewHolder.itemView.txtCoworking.text = coworking.cowork_name
         viewHolder.itemView.txtLokasi.text = coworking.address

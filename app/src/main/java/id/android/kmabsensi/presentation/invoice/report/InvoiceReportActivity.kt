@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -31,7 +31,7 @@ class InvoiceReportActivity : BaseActivity() {
 
     private val sdmVM: KelolaDataSdmViewModel by viewModel()
     private val invoiceVM: InvoiceViewModel by viewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private var monthFromSelected = 0
     private var yearFromSelected = 0

@@ -11,6 +11,7 @@ import id.android.kmabsensi.data.repository.PartnerRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
@@ -85,7 +86,7 @@ class PartnerViewModel(
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileUrl?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), it)
+            val imageReq = it.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", it.name, imageReq)
         }
 
@@ -169,7 +170,7 @@ class PartnerViewModel(
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileUrl?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), it)
+            val imageReq = it.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", it.name, imageReq)
         }
 

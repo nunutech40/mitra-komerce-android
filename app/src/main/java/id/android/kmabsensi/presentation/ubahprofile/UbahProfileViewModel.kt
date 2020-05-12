@@ -8,6 +8,7 @@ import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.repository.SdmRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
@@ -51,7 +52,7 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileFile?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), photoProfileFile)
+            val imageReq = photoProfileFile.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", photoProfileFile.name, imageReq)
         }
 

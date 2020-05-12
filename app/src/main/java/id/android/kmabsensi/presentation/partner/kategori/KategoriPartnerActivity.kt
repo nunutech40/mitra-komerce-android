@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.PartnerCategory
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class KategoriPartnerActivity : BaseActivity() {
 
     private val vm: PartnerCategoryViewModel by viewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

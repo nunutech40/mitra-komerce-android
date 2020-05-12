@@ -3,7 +3,7 @@ package id.android.kmabsensi.presentation.riwayat
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.data.remote.response.PresenceHistory
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.*
@@ -17,11 +17,11 @@ class RiwayatItem(
     val userPict: String?
 ) : Item() {
 
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
         viewHolder.apply {
             itemView.txtCheckIn.text =
-                presenceHistory.check_in_datetime.split(" ")[1].substring(0, 5)
+                presenceHistory.check_in_datetime.split(" ")[0]+ " " +presenceHistory.check_in_datetime.split(" ")[1].substring(0, 5)
 
             itemView.btnLihatFotoDatang.setOnClickListener {
                 StfalconImageViewer.Builder<String>(
@@ -34,7 +34,7 @@ class RiwayatItem(
             }
 
             presenceHistory.checkout_date_time?.let {
-                itemView.txtCheckOut.text = it.split(" ")[1].substring(0, 5)
+                itemView.txtCheckOut.text = it.split(" ")[0] + " " + it.split(" ")[1].substring(0, 5)
 
                 itemView.btnLihatFotoPulang.setOnClickListener {
                     presenceHistory.checkOut_photo_url?.let {photoUrl ->

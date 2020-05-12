@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -33,7 +33,7 @@ class RiwayatFragment : Fragment() {
 
     private val vm: RiwayatViewModel by inject()
     private val homeViewModel: HomeViewModel by sharedViewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     lateinit var user: User
 

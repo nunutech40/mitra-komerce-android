@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.User
@@ -31,7 +31,7 @@ import java.util.*
 
 class PresentasiReportKantorActivity : BaseActivity() {
 
-    private val groupAdapter: GroupAdapter<ViewHolder> by inject()
+    private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
 
     private val vm: PresenceReportViewModel by inject()
 
@@ -97,7 +97,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     ).toDouble().toInt()
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
-                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
+//                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
                     textTotalHadir.text = it.data.data.report.total_present.toString()
                     textTotalTerlamat.text = it.data.data.report.total_come_late.toString()
                     textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()

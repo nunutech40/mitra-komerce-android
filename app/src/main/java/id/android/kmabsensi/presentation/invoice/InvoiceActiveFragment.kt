@@ -11,7 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseFragment
 import id.android.kmabsensi.presentation.invoice.create.AddInvoiceActivity
@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class InvoiceActiveFragment : BaseFragment() {
 
     private val invoiceVM: InvoiceViewModel by viewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private val RC_ADD_INVOICE = 113
 
     override fun getLayoutResId() = R.layout.fragment_invoice_active

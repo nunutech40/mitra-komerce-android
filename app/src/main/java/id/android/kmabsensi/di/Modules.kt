@@ -3,7 +3,7 @@ package id.android.kmabsensi.di
 //import id.android.kmabsensi.data.remote.ApiClient
 import androidx.room.Room
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.db.AppDatabase
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -48,7 +48,7 @@ val appModule = module {
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
     single { AppSchedulerProvider() as SchedulerProvider }
 
-    factory { GroupAdapter<ViewHolder>() }
+    factory { GroupAdapter<GroupieViewHolder>() }
 
 }
 

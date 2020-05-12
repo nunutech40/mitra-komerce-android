@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -30,7 +30,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
     private val invoiceVM: InvoiceViewModel by viewModel()
 
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private val invoiceDetailItems = mutableListOf<InvoiceDetailItem>()
     private val deleteItemSelected = mutableListOf<Int>()

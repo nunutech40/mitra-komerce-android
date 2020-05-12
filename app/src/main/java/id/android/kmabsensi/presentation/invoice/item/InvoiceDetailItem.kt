@@ -2,7 +2,7 @@ package id.android.kmabsensi.presentation.invoice.item
 
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.kotlinandroidextensions.Item
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.convertRp
 import id.android.kmabsensi.utils.gone
@@ -25,9 +25,9 @@ data class InvoiceDetail(
 class InvoiceDetailItem(private val invoiceDetail: InvoiceDetail,
                         private val listener: OnInvoiceDetailListener? = null): Item(){
 
-    lateinit var viewHolder: ViewHolder
+    lateinit var viewHolder: GroupieViewHolder
 
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         this.viewHolder = viewHolder
         viewHolder.apply {
             itemView.textItemName.text = invoiceDetail.itemName

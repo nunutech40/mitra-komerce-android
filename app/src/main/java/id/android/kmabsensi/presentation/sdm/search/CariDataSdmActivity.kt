@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -26,7 +26,7 @@ import org.koin.android.ext.android.inject
 class CariDataSdmActivity : AppCompatActivity() {
 
     private val vm: KelolaDataSdmViewModel by inject()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     var dataFilter: List<User> = listOf()
 
     private var skeletonScreen: SkeletonScreen? = null

@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseFragment
 import id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity
@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HistoryInvoiceFragment : BaseFragment() {
 
     private val invoiceVM: InvoiceViewModel by viewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun getLayoutResId() = R.layout.fragment_history_invoice
 

@@ -12,6 +12,9 @@ import com.bumptech.glide.request.RequestOptions
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import id.android.kmabsensi.R
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 fun ImageView.loadImageFromUrl(url: String){
@@ -53,10 +56,6 @@ fun View.gone(){
     this.visibility = View.GONE
 }
 
-fun String.createRequestBodyText() : RequestBody {
-    return RequestBody.create(MediaType.parse("text/plain"), this)
-}
-
 fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
 
 fun TextView.spannableQuestionEvaluation(question: String, notes: String){
@@ -66,4 +65,12 @@ fun TextView.spannableQuestionEvaluation(question: String, notes: String){
         question.length, spannable.length,
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     this.text = spannable
+}
+
+fun String.createRequestBodyText() : RequestBody {
+    return this.toRequestBody("text/plain".toMediaTypeOrNull())
+}
+
+fun File.createRequestBody() : RequestBody {
+    return this.asRequestBody("image/*".toMediaTypeOrNull())
 }

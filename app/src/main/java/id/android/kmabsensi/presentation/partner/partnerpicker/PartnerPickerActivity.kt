@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
@@ -24,7 +24,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PartnerPickerActivity : BaseActivity() {
 
     private val vm: PartnerViewModel by viewModel()
-    private val groupAdapter: GroupAdapter<ViewHolder> by inject()
+    private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

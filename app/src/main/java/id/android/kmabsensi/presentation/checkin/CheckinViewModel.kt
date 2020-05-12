@@ -10,6 +10,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
@@ -28,7 +29,7 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
     val reportAbsenResponse = MutableLiveData<UiState<BaseResponse>>()
 
     fun checkIn(file: File, ontimeLevel: Int){
-        val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
+        val imageReq = file.createRequestBody()
         val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
 
         checkInResponse.value = UiState.Loading()
@@ -42,7 +43,7 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
     }
 
     fun checkOut(absenId: Int,file: File){
-        val imageReq = RequestBody.create(MediaType.parse("image/*"), file)
+        val imageReq = file.createRequestBody()
         val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
 
         checkInResponse.value = UiState.Loading()

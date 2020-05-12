@@ -20,7 +20,7 @@ import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -52,7 +52,7 @@ import java.util.*
 class HomeSdmFragment : Fragment() {
 
     private val vm: HomeViewModel by inject()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var user: User
 

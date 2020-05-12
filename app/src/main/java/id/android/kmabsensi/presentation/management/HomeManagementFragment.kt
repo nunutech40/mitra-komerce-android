@@ -21,7 +21,7 @@ import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
@@ -53,7 +53,7 @@ import java.util.*
 class HomeManagementFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var user: User
 

@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.body.InvoiceItem
@@ -38,7 +38,7 @@ class AddInvoiceActivity : BaseActivity() {
 
     private val invoiceVM: InvoiceViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private var listInvoiceDetail = mutableListOf<InvoiceDetail>()
     private var partnerSelected: SimplePartner? = null
