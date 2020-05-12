@@ -6,9 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
-import id.android.kmabsensi.utils.capitalizeWords
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.loadImageFromUrl
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.item_row_report_absensi.*
 import kotlinx.android.synthetic.main.item_row_report_absensi.view.*
 
@@ -17,7 +15,8 @@ class AbsensiReportItem(val presence: Presence) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
 
-            itemView.txtCheckIn.text = presence.check_in_datetime.split(" ")[1].substring(0, 5)
+            itemView.txtCheckIn.text = "${getDateWithDay(parseStringDate(presence.check_in_datetime.split(" ")[0]))} \n" +
+                    "${presence.check_in_datetime.split(" ")[1].substring(0, 5)}"
 
             itemView.btnLihatFotoDatang.setOnClickListener {
                 StfalconImageViewer.Builder<String>(
@@ -30,7 +29,8 @@ class AbsensiReportItem(val presence: Presence) : Item() {
             }
 
             presence.checkout_date_time?.let {
-                itemView.txtCheckOut.text = it.split(" ")[1].substring(0, 5)
+                itemView.txtCheckOut.text = "${getDateWithDay(parseStringDate(it.split(" ")[0]))} \n" +
+                        "${it.split(" ")[1].substring(0, 5)}"
 
                 itemView.btnLihatFotoPulang.setOnClickListener {
                     presence.checkOut_photo_url?.let {photoUrl ->

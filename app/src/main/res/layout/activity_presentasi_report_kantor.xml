@@ -40,6 +40,7 @@
                 android:layout_marginEnd="18dp"
                 android:elevation="4dp"
                 app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -115,20 +116,20 @@
                     android:id="@+id/circularProgressBar"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
-                    app:cpb_background_progressbar_color="#000"
+                    app:cpb_background_progressbar_color="#C4C4C4"
                     app:cpb_background_progressbar_width="5dp"
                     app:cpb_progress="75"
                     app:cpb_progress_direction="to_right"
                     app:cpb_progressbar_color_direction="top_to_bottom"
-                    app:cpb_progressbar_color_end="#7F84FF"
-                    app:cpb_progressbar_color_start="#CC3300"
+                    app:cpb_progressbar_color_end="#FB907B"
+                    app:cpb_progressbar_color_start="#DE4D4E"
                     app:cpb_progressbar_width="10dp" />
 
                 <TextView
                     android:id="@+id/txtPercentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="#E35323"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:textSize="32sp"

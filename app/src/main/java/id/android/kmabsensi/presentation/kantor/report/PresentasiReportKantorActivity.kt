@@ -193,7 +193,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
         rvAbsensi.apply {
             isNestedScrollingEnabled = false
             layoutManager = linearLayoutManager
-            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
             adapter = groupAdapter
         }
     }
