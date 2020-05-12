@@ -65,6 +65,7 @@ class HomeAdminFragment : Fragment() {
     private var skeletonLabelMenu: SkeletonScreen? = null
     private var skeletonMenu1: SkeletonScreen? = null
     private var skeletonMenu2: SkeletonScreen? = null
+    private var skeletonMenu3: SkeletonScreen? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -376,12 +377,16 @@ class HomeAdminFragment : Fragment() {
         skeletonMenu2 = Skeleton.bind(layoutMenu2)
             .load(R.layout.skeleton_home_menu)
             .show()
+
+        skeletonMenu3 = Skeleton.bind(layoutMenu3)
+            .load(R.layout.skeleton_home_menu)
+            .show()
     }
 
     fun hideSkeletonMenu(){
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()
-        layoutMenu3.visible()
+        skeletonMenu3?.hide()
     }
 }
