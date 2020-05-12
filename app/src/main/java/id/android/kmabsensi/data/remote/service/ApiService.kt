@@ -47,7 +47,8 @@ interface ApiService {
     fun getUser(
         @Field("role_id") roleId: Int = 0,
         @Field("user_management_id") userManagementId: Int = 0,
-        @Field("office_id") officeId: Int = 0
+        @Field("office_id") officeId: Int = 0,
+        @Field("no_partner") noPartner: Int = 0
     ): Single<UserResponse>
 
     @FormUrlEncoded

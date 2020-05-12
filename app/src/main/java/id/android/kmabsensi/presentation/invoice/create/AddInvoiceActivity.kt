@@ -230,13 +230,13 @@ class AddInvoiceActivity : BaseActivity() {
             partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
-            if (!isAdminInvoice) partnerVM.getSdmOfPartner(partnerSelected!!.noPartner)
+            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun observeDataSdm(){
-        partnerVM.sdmOfPartner.observe(this, Observer { state ->
+        partnerVM.sdmByPartner.observe(this, Observer { state ->
             when(state) {
                 is UiState.Loading -> {
                     showDialog()
@@ -244,10 +244,10 @@ class AddInvoiceActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     InvoiceDetailData.clear()
-                    state.data.sdm.forEach {
+                    state.data.data.forEach {
                         InvoiceDetailData.addInvoiceItem(
                             InvoiceDetail(
-                                it.fullName,
+                                it.full_name,
                                 0,
                                 ""
                             )

@@ -544,7 +544,8 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnEvaluasiSaya"
+                        android:id="@+id/btnInvoice"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
 
@@ -552,7 +553,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_evaluasi_saya"/>
+                            app:srcCompat="@drawable/ic_invoice"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -560,10 +561,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Evaluasi Saya"
+                        android:text="Invoice"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
@@ -594,30 +594,136 @@
                         android:layout_marginTop="4dp"
                         android:text="Invoice Report"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progressBar"-->
-<!--                style="?android:attr/progressBarStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/dataHadir"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/dataHadir" />-->
+            <LinearLayout
+                android:id="@+id/layoutMenu3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnEvaluasiSaya"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_evaluasi_saya"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Evaluasi Saya"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                    </View>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Gagal Absen"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                    </View>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Evaluasi Saya"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                    </View>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Invoice Report"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:layout_marginTop="@dimen/_16dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutMenu2"
+                app:layout_constraintTop_toBottomOf="@id/layoutMenu3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -646,7 +752,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/rvCoworkingSpace"
                         android:layout_marginTop="16dp"
-
                         />
 
                 </LinearLayout>

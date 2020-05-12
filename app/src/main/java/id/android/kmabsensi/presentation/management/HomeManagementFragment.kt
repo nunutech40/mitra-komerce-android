@@ -32,6 +32,7 @@ import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
@@ -435,6 +436,10 @@ class HomeManagementFragment : Fragment() {
             activity?.startActivity<MyEvaluationActivity>()
         }
 
+        btnInvoice.setOnClickListener {
+            activity?.startActivity<InvoiceActivity>()
+        }
+
         btnKelolaIzin.setOnClickListener {
 
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
@@ -445,8 +450,6 @@ class HomeManagementFragment : Fragment() {
                     USER_ID_KEY to user.id
                 )
             }
-
-
         }
 
         btnGagalAbsen.setOnClickListener {
