@@ -130,6 +130,7 @@ class DetailInvoiceActivity : BaseActivity() {
 
             if(this@DetailInvoiceActivity.invoiceType == 1){
                 expiryDate?.let { textDueDate.text = getDateWithDay(parseStringDate(it, "yyyy-MM-dd HH:mm:ss"))  }
+                btnLihatBuktiPembayararn.gone()
             } else {
                 layoutExpired.gone()
             }
