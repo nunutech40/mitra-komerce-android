@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -49,7 +50,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         initRv()
 
         btnAdd.setOnClickListener {
-            showCrudDialog()
+            showCrudDialog("Tambah Tagihan")
         }
 
         btnOke.setOnClickListener {
@@ -123,7 +124,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
             it.forEach {
                 val item = InvoiceDetailItem(it, object: OnInvoiceDetailListener{
                     override fun onEditClicked(invoiceDetail: InvoiceDetail, position: Int) {
-                        showCrudDialog(invoiceDetail.itemName, invoiceDetail.itemPrice, position)
+                        showCrudDialog("Ubah Tagihan", invoiceDetail.itemName, invoiceDetail.itemPrice, position)
                     }
 
                     override fun onCheckBoxClicked(invoiceDetail: InvoiceDetail, position: Int) {
@@ -157,15 +158,18 @@ class ManageInvoiceDetailActivity : BaseActivity() {
     }
 
 
-    private fun showCrudDialog(itemName: String? = null, itemPrice: Int? = null, position: Int = 0) {
+    private fun showCrudDialog(title: String, itemName: String? = null, itemPrice: Int? = null, position: Int = 0) {
         val dialog = MaterialDialog(this)
             .customView(R.layout.dialog_crud_detail_tagihan, noVerticalPadding = true)
         val customView = dialog.getCustomView()
+        val textTitle = customView.findViewById<TextView>(R.id.textTitle)
         val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
         val edtItemName = customView.findViewById<EditText>(R.id.edtItemName)
         val edtItemPrice = customView.findViewById<EditText>(R.id.edtItemPrice)
         val edtDescription = customView.findViewById<EditText>(R.id.edtDescription)
         val btnOke = customView.findViewById<Button>(R.id.btnOke)
+
+        textTitle.text = title
 
         edtItemPrice.addTextChangedListener(RupiahTextWatcher(edtItemPrice))
 

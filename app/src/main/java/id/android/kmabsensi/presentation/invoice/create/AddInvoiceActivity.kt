@@ -47,8 +47,12 @@ class AddInvoiceActivity : BaseActivity() {
     private val PICK_PARTNER_RC = 112
 
     private val calendar = Calendar.getInstance()
+    private val monthCalendar = calendar.get(Calendar.MONTH)
     private var yearSelected: Int = 0
     private var monthSelected: Int = 0
+
+    private var titleYear = 0
+    private var titleMonth = ""
 
     private var isAdminInvoice = false
 
@@ -66,16 +70,16 @@ class AddInvoiceActivity : BaseActivity() {
                 layoutDetailTagihan.gone()
                 rvInvoiceDetail.gone()
                 textTotalTagihan.text = "Rp 0"
+                InvoiceDetailData.clear()
             } else {
                 switchLabel.text = "Not Free"
                 layoutDetailTagihan.visible()
                 rvInvoiceDetail.visible()
-                textTotalTagihan.text =
-                    convertRp(listInvoiceDetail.sumBy { it.itemPrice }.toDouble())
             }
         }
 
         InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
+            d { "${invoices.size}" }
             if (invoices.isNotEmpty()) {
                 btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
 
@@ -87,7 +91,10 @@ class AddInvoiceActivity : BaseActivity() {
                 }
                 textTotalTagihan.text = convertRp(invoices.sumBy { it.itemPrice }.toDouble())
             } else {
+                listInvoiceDetail.clear()
                 btnUbahTagihan.text = if (isAdminInvoice) "TAMBAH TAGIHAN" else "MASUKKAN GAJI SDM"
+                groupAdapter.clear()
+                textTotalTagihan.text = "Rp 0"
             }
         })
 
@@ -122,7 +129,11 @@ class AddInvoiceActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            if (position > 0) monthSelected = position
+                            if (position > 0) {
+                                monthSelected = position
+                                titleMonth = parent?.getItemAtPosition(position).toString()
+                                setTitleInvoice(titleMonth, titleYear.toString())
+                            }
                         }
 
                     }
@@ -146,8 +157,11 @@ class AddInvoiceActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            if (position > 0) yearSelected =
-                                spinnerYear.selectedItem.toString().toInt()
+                            if (position > 0) {
+                                yearSelected = spinnerYear.selectedItem.toString().toInt()
+                                titleYear = yearSelected
+                                setTitleInvoice(titleMonth, titleYear.toString())
+                            }
 
                         }
 
@@ -161,6 +175,12 @@ class AddInvoiceActivity : BaseActivity() {
             if (yearSelected == 0 || monthSelected == 0){
                 createAlertError(this, "Warning!", "Tentukan periode tagihan dahulu", duration = 3000)
                 return@setOnClickListener
+            }
+            if (listInvoiceDetail.isEmpty()){
+                if (!switchStatus.isChecked){
+                    createAlertError(this, "Warning!", "Tambahkan item tagihan terlebih dahulu", duration = 3000)
+                    return@setOnClickListener
+                }
             }
             val month = if (monthSelected < 10) "0$monthSelected" else "$monthSelected"
             val body = CreateInvoiceBody(
@@ -177,6 +197,17 @@ class AddInvoiceActivity : BaseActivity() {
 
         observeData()
         observeDataSdm()
+
+        initDateInvoice()
+    }
+
+    private fun initDateInvoice(){
+        titleMonth = if (monthCalendar == 0){
+            resources.getStringArray(R.array.month_array).toList()[12]
+        } else {
+            resources.getStringArray(R.array.month_array).toList()[monthCalendar]
+        }
+        titleYear = if (monthCalendar == 0) calendar.get(Calendar.YEAR)-1 else calendar.get(Calendar.YEAR)
     }
 
     private fun observeData() {
@@ -233,19 +264,13 @@ class AddInvoiceActivity : BaseActivity() {
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
 
-            val monthCalendar = calendar.get(Calendar.MONTH)
-            val month = if (monthCalendar == 0){
-                resources.getStringArray(R.array.month_array).toList()[12]
-            } else {
-                resources.getStringArray(R.array.month_array).toList()[monthCalendar]
-            }
-            val year = if (calendar.get(Calendar.MONTH) == 0) calendar.get(Calendar.YEAR)-1 else calendar.get(Calendar.YEAR)
+
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
-            val title = "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $month $year"
+            val title = "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
             edtInvoiceTitle.setText(title)
 
-            spinnerMonth.setSelection(if (monthCalendar == 0) 12 else monthCalendar)
-            spinnerYear.setSelection(getYearData().indexOfFirst { it == "$year" })
+            spinnerMonth.setSelection(resources.getStringArray(R.array.month_array).toList().indexOfFirst { it == "$titleMonth" })
+            spinnerYear.setSelection(getYearData().indexOfFirst { it == "$titleYear" })
 
             if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
         }
@@ -275,6 +300,14 @@ class AddInvoiceActivity : BaseActivity() {
                     hideDialog()
                 }
             } })
+    }
+
+    fun setTitleInvoice(month: String, year: String){
+        partnerSelected?.let {
+            val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
+            val title = "Invoice $invoiceType Partner ${it.noPartner} ${it.fullName} $month $year"
+            edtInvoiceTitle.setText(title)
+        }
     }
 
     override fun onDestroy() {
