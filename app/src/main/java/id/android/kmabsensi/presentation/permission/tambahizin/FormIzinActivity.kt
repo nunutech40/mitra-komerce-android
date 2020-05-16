@@ -84,7 +84,7 @@ class FormIzinActivity : BaseActivity() {
         // spinner izin
         ArrayAdapter.createFromResource(
             this,
-            R.array.permission,
+            R.array.form_permission_options,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

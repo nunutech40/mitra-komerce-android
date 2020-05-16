@@ -86,6 +86,13 @@
     </string-array>
 
     <string-array name="permission">
+        <item>Semua</item>
+        <item>Izin</item>
+        <item>Sakit</item>
+        <item>Cuti</item>
+    </string-array>
+
+    <string-array name="form_permission_options">
         <item>Izin</item>
         <item>Sakit</item>
         <item>Cuti</item>

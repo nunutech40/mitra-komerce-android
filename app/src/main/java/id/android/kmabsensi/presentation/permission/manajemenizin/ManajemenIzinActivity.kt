@@ -58,7 +58,7 @@ class ManajemenIzinActivity : BaseActivity() {
     private val calendarDateTo = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
-    private var permissionType: Int = 1
+    private var permissionType: Int = 0
 
     private val permissions = mutableListOf<Permission>()
 
@@ -263,7 +263,7 @@ class ManajemenIzinActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    permissionType = position + 1
+                    permissionType = position
                 }
 
             }

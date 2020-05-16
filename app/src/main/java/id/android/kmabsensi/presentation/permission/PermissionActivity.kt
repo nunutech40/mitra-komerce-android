@@ -65,6 +65,7 @@ class PermissionActivity : BaseActivity() {
                     showSkeleton(rvPermission, R.layout.skeleton_list_permission, groupAdapter)
                 }
                 is UiState.Success -> {
+                    groupAdapter.clear()
                     hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
@@ -176,7 +177,7 @@ class PermissionActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    permissionType = position + 1
+                    permissionType = position
                 }
 
             }
