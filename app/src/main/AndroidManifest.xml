@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="id.android.kmabsensi">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -29,37 +30,78 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".presentation.invoice.report.InvoiceReportActivity"></activity>
-        <activity android:name=".presentation.myevaluation.EvaluationDetailActivity" />
-        <activity android:name=".presentation.myevaluation.MyEvaluationActivity" />
-        <activity android:name=".presentation.invoice.payment.BuktiPembayaranActivity" />
-        <activity android:name=".presentation.invoice.detail.DetailInvoiceActivity" />
-        <activity android:name=".presentation.invoice.ManageInvoiceDetailActivity" />
-        <activity android:name=".presentation.invoice.create.AddInvoiceActivity" />
-        <activity android:name=".presentation.invoice.InvoiceActivity" />
-        <activity android:name=".presentation.partner.grafik.GrafikPartnerActivity" />
-        <activity android:name=".presentation.partner.partnerpicker.PartnerPickerActivity" />
-        <activity android:name=".presentation.partner.detail.DetailPartnerActivity" />
-        <activity android:name=".presentation.partner.tambahpartner.FormPartnerActivity" />
-        <activity android:name=".presentation.partner.kategori.KategoriPartnerActivity" />
-        <activity android:name=".presentation.partner.CustomizePartnerActivity" />
-        <activity android:name=".presentation.partner.PartnerActivity" />
+        android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity">
         <!--
-         Set custom default ic_mitra_km. This is used when no ic_mitra_km is set for incoming notification messages.
+             Set custom default ic_mitra_km. This is used when no ic_mitra_km is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher" />
         <!--
- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/textColor" />
-
+        <activity
+            android:name=".presentation.invoice.report.InvoiceReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.myevaluation.EvaluationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.myevaluation.MyEvaluationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.payment.BuktiPembayaranActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.detail.DetailInvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.ManageInvoiceDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.create.AddInvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.InvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.grafik.GrafikPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.partnerpicker.PartnerPickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.detail.DetailPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.tambahpartner.FormPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.kategori.KategoriPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.CustomizePartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.PartnerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.coworking.CheckinCoworkingActivity"
             android:screenOrientation="portrait" />
@@ -108,18 +150,6 @@
         <activity
             android:name=".presentation.checkin.CekJangkauanActivity"
             android:screenOrientation="portrait" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".presentation.kantor.report.filter.FilterReportKantorActivity"
             android:screenOrientation="portrait" />

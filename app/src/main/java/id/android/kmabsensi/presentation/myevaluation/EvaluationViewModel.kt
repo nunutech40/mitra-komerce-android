@@ -23,7 +23,11 @@ class EvaluationViewModel(
 
     fun getMyEvaluation() {
         myEvaluations.value = UiState.Loading()
-        compositeDisposable.add(evaluationRepository.getMyEvaluation(5)
+        val user = Gson().fromJson<User>(
+            preferencesHelper.getString(PreferencesHelper.PROFILE_KEY),
+            User::class.java
+        )
+        compositeDisposable.add(evaluationRepository.getMyEvaluation(user.id)
             .with(schedulerProvider)
             .subscribe({
                 myEvaluations.value = UiState.Success(it)

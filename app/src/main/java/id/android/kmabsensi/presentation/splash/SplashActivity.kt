@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.splash
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -35,18 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        checkUpdate()
+        checkUpdate()
         initView()
-        Handler().postDelayed(
-            {
-                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
-                    startActivity<HomeActivity>()
-                    finish()
-                } else {
-                    startActivity<LoginActivity>()
-                    finish()
-                }
-            }, 1500)
     }
 
     private fun initView() {
@@ -72,36 +63,47 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+    private fun initProcess() {
+        Handler().postDelayed(
+            {
+                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
+                    startActivity<HomeActivity>()
+                    finish()
+                } else {
+                    startActivity<LoginActivity>()
+                    finish()
+                }
+            }, 1500
+        )
+    }
+
 
     private fun checkUpdate() {
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
-        appUpdateManager
-            .appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability()
-                    == UpdateAvailability.UPDATE_AVAILABLE
-                ) {
-                    // If an in-app update is already running, resume the update.
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.IMMEDIATE,
-                        this,
-                        MY_REQUEST_CODE
-                    )
-                } else {
-                    Handler().postDelayed(
-                        {
-                            if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
-                                startActivity<HomeActivity>()
-                                finish()
-                            } else {
-                                startActivity<LoginActivity>()
-                                finish()
-                            }
-                        }, 1500
-                    )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val appUpdateManager = AppUpdateManagerFactory.create(this)
+            appUpdateManager
+                .appUpdateInfo
+                .addOnSuccessListener { appUpdateInfo ->
+                    if (appUpdateInfo.updateAvailability()
+                        == UpdateAvailability.UPDATE_AVAILABLE
+                    ) {
+                        // If an in-app update is already running, resume the update.
+                        appUpdateManager.startUpdateFlowForResult(
+                            appUpdateInfo,
+                            AppUpdateType.IMMEDIATE,
+                            this,
+                            MY_REQUEST_CODE
+                        )
+                    } else {
+                        initProcess()
+                    }
+                }.addOnFailureListener {
+                    initProcess()
                 }
-            }
+
+        } else {
+            initProcess()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,13 +112,7 @@ class SplashActivity : AppCompatActivity() {
             if (resultCode != RESULT_OK) {
                 createAlertError(this, "Error", "Gagal melakukan update aplikasi")
             }
-            if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
-                startActivity<HomeActivity>()
-                finish()
-            } else {
-                startActivity<LoginActivity>()
-                finish()
-            }
+            initProcess()
         }
     }
 
