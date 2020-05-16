@@ -55,7 +55,7 @@ class CariDataSdmActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     skeletonScreen?.hide()
 
-                    dataFilter = it.data.data
+                    dataFilter = it.data.data.filter { it.role_id != 4 }
 
                 }
                 is UiState.Error -> {
@@ -124,6 +124,11 @@ class CariDataSdmActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 }
