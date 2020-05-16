@@ -116,4 +116,8 @@ class InvoiceActiveFragment : BaseFragment() {
         })
     }
 
+    fun filterInvoice(invoiceType: Int, userToId: Int){
+        invoiceVM.filterMyInvoice(true, invoiceType, userToId)
+    }
+
 }

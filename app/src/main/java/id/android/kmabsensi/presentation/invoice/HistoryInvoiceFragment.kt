@@ -70,6 +70,10 @@ class HistoryInvoiceFragment : BaseFragment() {
         })
     }
 
+    fun filterInvoice(invoiceType: Int, userToId: Int){
+        invoiceVM.filterMyInvoice(false, invoiceType, userToId)
+    }
+
 
 
 }

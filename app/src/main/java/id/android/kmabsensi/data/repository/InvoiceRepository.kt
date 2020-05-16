@@ -22,6 +22,21 @@ class InvoiceRepository(val apiService: ApiService) {
         return apiService.getMyInvoice(body)
     }
 
+    fun filterMyInvoice(
+        userId: Int,
+        isActive: Boolean,
+        invoiceType: Int,
+        userToId: Int
+    ): Single<MyInvoiceResponse> {
+        val body = mapOf(
+            "user_id" to userId,
+            "is_active" to isActive,
+            "invoice_type" to invoiceType,
+            "user_to_id" to userToId
+        )
+        return apiService.filterMyInvoice(body)
+    }
+
     fun getInvoiceAdminDetail(invoiceId: Int): Single<InvoiceDetailResponse> {
         return apiService.getInvoiceAdminDetail(invoiceId)
     }

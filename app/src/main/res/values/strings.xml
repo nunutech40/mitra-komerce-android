@@ -134,5 +134,9 @@
         <item>Desember</item>
     </string-array>
 
+    <string-array name="invoice_type">
+        <item>Admin</item>
+        <item>Gaji SDM</item>
+    </string-array>
 
 </resources>

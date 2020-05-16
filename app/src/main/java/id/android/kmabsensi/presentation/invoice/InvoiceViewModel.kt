@@ -55,6 +55,19 @@ class InvoiceViewModel(
         )
     }
 
+    fun filterMyInvoice(isActive: Boolean, invoiceType: Int, userToId: Int) {
+        invoices.value = UiState.Loading()
+        compositeDisposable.add(
+            invoiceRepository.filterMyInvoice(getUser().id, isActive, invoiceType, userToId)
+                .with(schedulerProvider)
+                .subscribe({
+                    invoices.value = UiState.Success(it)
+                }, {
+                    invoices.value = UiState.Error(it)
+                })
+        )
+    }
+
     fun createInvoice(body: CreateInvoiceBody) {
         createInvoiceResponse.value = UiState.Loading()
         compositeDisposable.add(

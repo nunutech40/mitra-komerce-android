@@ -389,6 +389,10 @@ interface ApiService {
     @POST("api/invoice/myInvoice")
     fun getMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/invoice/myInvoice")
+    fun filterMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
+
     @GET("api/invoice/detail/admin/{invoice_id}")
     fun getInvoiceAdminDetail(@Path("invoice_id") invoiceId: Int) : Single<InvoiceDetailResponse>
 
