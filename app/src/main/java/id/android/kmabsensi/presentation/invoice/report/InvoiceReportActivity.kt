@@ -214,8 +214,8 @@ class InvoiceReportActivity : BaseActivity() {
                         ) {
                             if (position > 0) monthFromSelected = position
                         }
-
                     }
+                spinnerBulanDari.setSelection(monthFromSelected)
             }
 
         //spinner bulan ke
@@ -240,6 +240,8 @@ class InvoiceReportActivity : BaseActivity() {
                         }
 
                     }
+
+                spinnerBulanKe.setSelection(monthToSelected)
             }
 
         //spinner tahun dari
@@ -265,6 +267,8 @@ class InvoiceReportActivity : BaseActivity() {
                         }
 
                     }
+
+                spinnerTahunDari.setSelection(getYearData().indexOfFirst { it == yearFromSelected.toString() })
             }
 
         //spinner tahun ke
@@ -290,6 +294,8 @@ class InvoiceReportActivity : BaseActivity() {
                         }
 
                     }
+
+                spinnerTahunKe.setSelection(getYearData().indexOfFirst { it == yearToSelected.toString() })
             }
     }
 }
