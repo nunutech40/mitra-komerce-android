@@ -58,7 +58,7 @@ class ManajemenIzinActivity : BaseActivity() {
     private val calendarDateTo = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
-    private var status: Int = 0
+    private var permissionType: Int = 1
 
     private val permissions = mutableListOf<Permission>()
 
@@ -144,9 +144,15 @@ class ManajemenIzinActivity : BaseActivity() {
                         id: Long
                     ) {
                         roleId = if (isManagement) position + 3 else position + 2
-                        vm.getListPermission(
-                            roleId = roleId,
-                            userManagementId = userManagementId
+//                        vm.getListPermission(
+//                            roleId = roleId,
+//                            userManagementId = userManagementId
+//                        )
+                        vm.filterPermission(
+                            roleId = roleId, userManagementId = userManagementId,
+                            dateFrom = dateFrom,
+                            dateTo = dateTo,
+                            permissionType = permissionType
                         )
                     }
 
@@ -257,7 +263,7 @@ class ManajemenIzinActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    status = position + 1
+                    permissionType = position + 1
                 }
 
             }
@@ -269,7 +275,7 @@ class ManajemenIzinActivity : BaseActivity() {
                 roleId = roleId, userManagementId = userManagementId,
                 dateFrom = dateFrom,
                 dateTo = dateTo,
-                status = status
+                permissionType = permissionType
             )
         }
 
@@ -284,7 +290,6 @@ class ManajemenIzinActivity : BaseActivity() {
             DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
                 if (isDateFrom) {
                     calendarDateForm.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
-                    calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
                     callback(calendarDateForm.time)
                 } else {
                     calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
@@ -309,8 +314,14 @@ class ManajemenIzinActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_PENGAJUAN_IZIN && resultCode == Activity.RESULT_OK) {
-            vm.getListPermission(
-                roleId = roleId, userManagementId = userManagementId
+//            vm.getListPermission(
+//                roleId = roleId, userManagementId = userManagementId
+//            )
+            vm.filterPermission(
+                roleId = roleId, userManagementId = userManagementId,
+                dateFrom = dateFrom,
+                dateTo = dateTo,
+                permissionType = permissionType
             )
         }
         super.onActivityResult(requestCode, resultCode, data)

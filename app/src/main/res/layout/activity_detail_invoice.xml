@@ -224,9 +224,11 @@
                         android:layout_height="wrap_content"
                         android:text="PARTNER"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="@dimen/_16dp"
                         style="@style/tv14sp929292_avenir_medium"
                         app:layout_constraintTop_toBottomOf="@id/labelNoPartner"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -246,41 +248,6 @@
                         app:layout_constraintBaseline_toBaselineOf="@+id/labelPartner"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:text="Company A" />
-
-                    <View
-                        android:id="@+id/divider"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:background="@drawable/divider"
-                        android:layout_marginTop="11dp"
-                        app:layout_constraintTop_toBottomOf="@id/labelPartner"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/labelDeskripsi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="DESKRIPSI"
-                        android:layout_marginTop="8dp"
-                        style="@style/tv14sp929292_avenir_medium"
-                        app:layout_constraintTop_toBottomOf="@id/divider"
-                        app:layout_constraintStart_toStartOf="parent"
-                        />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/textDeskripsi"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Lorem ipsum"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginBottom="@dimen/_16dp"
-                        style="@style/tv16sp000000_avenir_medium"
-                        app:layout_constraintTop_toBottomOf="@id/labelDeskripsi"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

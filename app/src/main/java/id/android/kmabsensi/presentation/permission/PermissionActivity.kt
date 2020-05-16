@@ -46,7 +46,7 @@ class PermissionActivity : BaseActivity() {
     private val calendarDateTo = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
-    private var status: Int = 0
+    private var permissionType: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +89,13 @@ class PermissionActivity : BaseActivity() {
         dateFrom = getTodayDate()
         dateTo = getTodayDate()
 
-        vm.getListPermission(userId = user.id)
-
+//        vm.getListPermission(userId = user.id)
+        vm.filterPermission(
+            userId = user.id,
+            dateFrom = dateFrom,
+            dateTo = dateTo,
+            permissionType = permissionType
+        )
         btnFilter.setOnClickListener {
             showDialogFilter()
         }
@@ -109,7 +114,13 @@ class PermissionActivity : BaseActivity() {
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())
             groupAdapter.clear()
-            vm.getListPermission(userId = user.id)
+//            vm.getListPermission(userId = user.id)
+            vm.filterPermission(
+                userId = user.id,
+                dateFrom = dateFrom,
+                dateTo = dateTo,
+                permissionType = permissionType
+            )
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -165,7 +176,7 @@ class PermissionActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    status = position + 1
+                    permissionType = position + 1
                 }
 
             }
@@ -177,7 +188,7 @@ class PermissionActivity : BaseActivity() {
                 userId = user.id,
                 dateFrom = dateFrom,
                 dateTo = dateTo,
-                status = status
+                permissionType = permissionType
             )
         }
 
@@ -192,7 +203,6 @@ class PermissionActivity : BaseActivity() {
             DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
                 if (isDateFrom) {
                     calendarDateForm.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
-                    calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
                     callback(calendarDateForm.time)
                 } else {
                     calendarDateTo.set(year, monthOfYear, dayOfMonth, 0, 0, 0)

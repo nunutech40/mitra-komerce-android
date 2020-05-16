@@ -151,11 +151,14 @@ class DetailKaryawanActivity : BaseActivity() {
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
-        if (data.bank_accounts.isNotEmpty()){
-            bankAccountId = data.bank_accounts[0].id
-            edtNamaBank.setText(data.bank_accounts[0].bankName)
-            edtNoRekening.setText(data.bank_accounts[0].bankNo)
-            edtPemilikRekening.setText(data.bank_accounts[0].bankOwnerName)
+
+        data.bank_accounts?.let {bank_account ->
+            if (bank_account.isNotEmpty()){
+                bankAccountId = bank_account[0].id
+                edtNamaBank.setText(bank_account[0].bankName)
+                edtNoRekening.setText(bank_account[0].bankNo)
+                edtPemilikRekening.setText(bank_account[0].bankOwnerName)
+            }
         }
 
         switchStatus.isChecked = data.status == 1

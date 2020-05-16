@@ -16,8 +16,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-class PermissionViewModel(val permissionRepository: PermissionRepository,
-                          val schedulerProvider: SchedulerProvider
+class PermissionViewModel(
+    val permissionRepository: PermissionRepository,
+    val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     val createPermissionResponse = MutableLiveData<UiState<BaseResponse>>()
@@ -37,15 +38,23 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
         dateTo: String,
         attachment_leader: File,
         attachment_partner: File?
-    ){
+    ) {
         val attachmentLeader = attachment_leader.createRequestBody()
-        val attachmentLeaderFile = MultipartBody.Part.createFormData("attachment_leader", attachment_leader.name, attachmentLeader)
+        val attachmentLeaderFile = MultipartBody.Part.createFormData(
+            "attachment_leader",
+            attachment_leader.name,
+            attachmentLeader
+        )
 
         var attachmentPartnerFile: MultipartBody.Part? = null
 
         attachment_partner?.let {
             val attachmentPartner = attachment_partner.createRequestBody()
-            attachmentPartnerFile = MultipartBody.Part.createFormData("attachment_partner", attachment_partner.name, attachmentPartner)
+            attachmentPartnerFile = MultipartBody.Part.createFormData(
+                "attachment_partner",
+                attachment_partner.name,
+                attachmentPartner
+            )
         }
 
 
@@ -66,49 +75,70 @@ class PermissionViewModel(val permissionRepository: PermissionRepository,
             .with(schedulerProvider)
             .subscribe({
                 createPermissionResponse.value = UiState.Success(it)
-            }, this::onError))
+            }, this::onError)
+        )
 
     }
 
-    fun getListPermission(roleId: Int = 0,
-                          userManagementId: Int = 0,
-                          userId: Int = 0){
+    fun getListPermission(
+        roleId: Int = 0,
+        userManagementId: Int = 0,
+        userId: Int = 0
+    ) {
         listPermissionData.value = UiState.Loading()
-        compositeDisposable.add(permissionRepository.getListPermission(roleId, userManagementId, userId)
+        compositeDisposable.add(permissionRepository.getListPermission(
+            roleId,
+            userManagementId,
+            userId
+        )
             .with(schedulerProvider)
             .subscribe({
                 listPermissionData.value = UiState.Success(it)
-            },{
+            }, {
                 listPermissionData.value = UiState.Error(it)
-            }))
+            })
+        )
     }
 
-    fun filterPermission(roleId: Int = 0,
-                          userManagementId: Int = 0,
-                          userId: Int = 0,
-                          dateFrom: String,
-                          dateTo: String,
-                          status: Int = 0){
+    fun filterPermission(
+        roleId: Int = 0,
+        userManagementId: Int = 0,
+        userId: Int = 0,
+        dateFrom: String,
+        dateTo: String,
+        permissionType: Int = 0
+    ) {
         listPermissionData.value = UiState.Loading()
-        compositeDisposable.add(permissionRepository.filterPermission(roleId, userManagementId, userId, dateFrom, dateTo, status)
+        compositeDisposable.add(permissionRepository.filterPermission(
+            roleId,
+            userManagementId,
+            userId,
+            dateFrom,
+            dateTo,
+            permissionType
+        )
             .with(schedulerProvider)
             .subscribe({
                 listPermissionData.value = UiState.Success(it)
-            },{
+            }, {
                 listPermissionData.value = UiState.Error(it)
-            }))
+            })
+        )
     }
 
-    fun approvePermission(permissionId: Int,
-                          status: Int) {
+    fun approvePermission(
+        permissionId: Int,
+        status: Int
+    ) {
         approvePermissionResponse.value = UiState.Loading()
         compositeDisposable.add(permissionRepository.approvePermission(permissionId, status)
             .with(schedulerProvider)
             .subscribe({
                 approvePermissionResponse.value = UiState.Success(it)
-            },{
+            }, {
                 approvePermissionResponse.value = UiState.Error(it)
-            }))
+            })
+        )
     }
 
     override fun onError(error: Throwable) {

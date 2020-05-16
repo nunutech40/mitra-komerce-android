@@ -212,7 +212,7 @@ interface ApiService {
         @Field("user_id") userId: Int = 0,
         @Field("date_from") dateFrom: String,
         @Field("date_to") dateTo: String,
-        @Field("status") status: Int
+        @Field("permission_type") status: Int
     ): Single<ListPermissionResponse>
 
     @POST("api/permission/approve")

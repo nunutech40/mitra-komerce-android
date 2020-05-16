@@ -85,7 +85,6 @@ class DetailInvoiceActivity : BaseActivity() {
             textInvoiceCreator.text = userRequester.fullName
             textNoPartner.text = userTo.noPartner
             textPartner.text = userTo.fullName
-            textDeskripsi.text = description
             textTotal.text = convertRp(amount.toDouble())
 
             invoiceDetailAdmin?.map { InvoiceDetailBasic(it.item, it.total.toInt()) }?.forEach {

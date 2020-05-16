@@ -8,7 +8,7 @@ data class UserResponse(
     val code: Int,
     val `data`: List<User>,
     val message: String
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class User(
@@ -39,5 +39,5 @@ data class User(
     val status: Int,
     val join_date: String,
     val martial_status: Int,
-    val bank_accounts: List<BankAccount> = listOf()
+    val bank_accounts: List<BankAccount>? = listOf()
 ) : Parcelable
