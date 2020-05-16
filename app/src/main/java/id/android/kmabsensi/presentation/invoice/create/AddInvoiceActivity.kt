@@ -86,9 +86,10 @@ class AddInvoiceActivity : BaseActivity() {
                 listInvoiceDetail.clear()
                 groupAdapter.clear()
                 listInvoiceDetail.addAll(invoices)
-                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice, it.itemDescription) }.forEach {
-                    groupAdapter.add(InvoiceDetailBasicItem(it))
-                }
+                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice, it.itemDescription) }
+                    .forEach {
+                        groupAdapter.add(InvoiceDetailBasicItem(it))
+                    }
                 textTotalTagihan.text = convertRp(invoices.sumBy { it.itemPrice }.toDouble())
             } else {
                 listInvoiceDetail.clear()
@@ -169,16 +170,26 @@ class AddInvoiceActivity : BaseActivity() {
             }
 
         buttonAddInvoice.setOnClickListener {
-            if (!formValidation()){
+            if (!formValidation()) {
                 return@setOnClickListener
             }
-            if (yearSelected == 0 || monthSelected == 0){
-                createAlertError(this, "Warning!", "Tentukan periode tagihan dahulu", duration = 3000)
+            if (yearSelected == 0 || monthSelected == 0) {
+                createAlertError(
+                    this,
+                    "Warning!",
+                    "Tentukan periode tagihan dahulu",
+                    duration = 3000
+                )
                 return@setOnClickListener
             }
-            if (listInvoiceDetail.isEmpty()){
-                if (!switchStatus.isChecked){
-                    createAlertError(this, "Warning!", "Tambahkan item tagihan terlebih dahulu", duration = 3000)
+            if (listInvoiceDetail.isEmpty()) {
+                if (!switchStatus.isChecked) {
+                    createAlertError(
+                        this,
+                        "Warning!",
+                        "Tambahkan item tagihan terlebih dahulu",
+                        duration = 3000
+                    )
                     return@setOnClickListener
                 }
             }
@@ -188,7 +199,7 @@ class AddInvoiceActivity : BaseActivity() {
                 user_to_id = partnerSelected?.id ?: 0,
                 title = edtInvoiceTitle.text.toString(),
                 description = "",
-                invoice_type = if(isAdminInvoice) 1 else 2,
+                invoice_type = if (isAdminInvoice) 1 else 2,
                 invoice_period = "$yearSelected-$month-01",
                 items = listInvoiceDetail.map { InvoiceItem.from(it) }
             )
@@ -201,13 +212,14 @@ class AddInvoiceActivity : BaseActivity() {
         initDateInvoice()
     }
 
-    private fun initDateInvoice(){
-        titleMonth = if (monthCalendar == 0){
+    private fun initDateInvoice() {
+        titleMonth = if (monthCalendar == 0) {
             resources.getStringArray(R.array.month_array).toList()[12]
         } else {
             resources.getStringArray(R.array.month_array).toList()[monthCalendar]
         }
-        titleYear = if (monthCalendar == 0) calendar.get(Calendar.YEAR)-1 else calendar.get(Calendar.YEAR)
+        titleYear =
+            if (monthCalendar == 0) calendar.get(Calendar.YEAR) - 1 else calendar.get(Calendar.YEAR)
     }
 
     private fun observeData() {
@@ -223,6 +235,8 @@ class AddInvoiceActivity : BaseActivity() {
                         intent.putExtra("message", state.data.message)
                         setResult(Activity.RESULT_OK, intent)
                         finish()
+                    } else {
+                        createAlertError(this, "Warning!", state.data.message, duration = 3000)
                     }
                 }
                 is UiState.Error -> {
@@ -266,10 +280,13 @@ class AddInvoiceActivity : BaseActivity() {
 
 
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
-            val title = "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
+            val title =
+                "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
             edtInvoiceTitle.setText(title)
 
-            spinnerMonth.setSelection(resources.getStringArray(R.array.month_array).toList().indexOfFirst { it == "$titleMonth" })
+            spinnerMonth.setSelection(
+                resources.getStringArray(R.array.month_array).toList()
+                    .indexOfFirst { it == "$titleMonth" })
             spinnerYear.setSelection(getYearData().indexOfFirst { it == "$titleYear" })
 
             if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
@@ -277,9 +294,9 @@ class AddInvoiceActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun observeDataSdm(){
+    private fun observeDataSdm() {
         partnerVM.sdmByPartner.observe(this, Observer { state ->
-            when(state) {
+            when (state) {
                 is UiState.Loading -> {
                     showDialog()
                 }
@@ -299,10 +316,11 @@ class AddInvoiceActivity : BaseActivity() {
                 is UiState.Error -> {
                     hideDialog()
                 }
-            } })
+            }
+        })
     }
 
-    fun setTitleInvoice(month: String, year: String){
+    fun setTitleInvoice(month: String, year: String) {
         partnerSelected?.let {
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
             val title = "Invoice $invoiceType Partner ${it.noPartner} ${it.fullName} $month $year"
@@ -316,7 +334,8 @@ class AddInvoiceActivity : BaseActivity() {
     }
 
     private fun formValidation(): Boolean {
-        val title = ValidationForm.validationInput(edtInvoiceTitle, "Judul Invoice tidak boleh kosong")
+        val title =
+            ValidationForm.validationInput(edtInvoiceTitle, "Judul Invoice tidak boleh kosong")
         val partner = ValidationForm.validationInput(edtPilihPartner, "Partner tidak boleh kosong")
 
         return title && partner

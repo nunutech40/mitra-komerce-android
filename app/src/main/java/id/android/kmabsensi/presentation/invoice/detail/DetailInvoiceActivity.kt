@@ -143,7 +143,7 @@ class DetailInvoiceActivity : BaseActivity() {
             }
 
             btnComplete.setOnClickListener {
-                showDialogAction(true, "Apakah anda yakin ingin menyelesaikan transaksi ini ?")
+                showDialogAction(false, "Apakah anda yakin ingin menyelesaikan transaksi ini ?")
             }
 
             btnCancel.setOnClickListener {
@@ -184,6 +184,8 @@ class DetailInvoiceActivity : BaseActivity() {
                         val intent = Intent()
                         setResult(Activity.RESULT_OK, intent)
                         finish()
+                    } else {
+                        createAlertError(this, "Warning!", state.data.message, duration = 3000)
                     }
                 }
                 is UiState.Error -> {
