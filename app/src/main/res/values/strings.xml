@@ -67,6 +67,13 @@
     <string name="notifications_admin_channel_name">Notification Title</string>
     <string name="notifications_admin_channel_description">Notification Discription</string>
     <string name="text_data_partner">Data Partner</string>
+    <string name="label_detail_invoice_admin">Detail Invoice Admin</string>
+    <string name="label_detail_invoice_gaji">Detail Invoice Gaji</string>
+    <string name="label_open">OPEN</string>
+    <string name="label_completed">COMPLETED</string>
+    <string name="label_expired">EXPIRED</string>
+    <string name="txt_complete_invoice_confirmation">Apakah anda yakin ingin menyelesaikan transaksi ini ?</string>
+    <string name="txt_cancel_invoice_confirmation">Apakah anda yakin ingin membatalkan transaksi ini ?</string>
 
     <string-array name="role">
         <item>Admin</item>
