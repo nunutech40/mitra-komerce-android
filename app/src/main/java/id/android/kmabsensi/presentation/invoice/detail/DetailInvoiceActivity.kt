@@ -41,7 +41,8 @@ class DetailInvoiceActivity : BaseActivity() {
         invoiceId = intent.getIntExtra(INVOICE_ID_KEY, 0)
         invoiceType = intent.getIntExtra(INVOICE_TYPE_KEY, 0)
 
-        setupToolbar(if (invoiceType == 1) "Invoice Detail Admin" else "Invoice Detail Gaji")
+        setupToolbar(if (invoiceType == 1) getString(R.string.label_detail_invoice_admin) else getString(
+                    R.string.label_detail_invoice_gaji))
 
         d { "invoice id : ${invoiceId}" }
 
@@ -52,9 +53,6 @@ class DetailInvoiceActivity : BaseActivity() {
         } else {
             invoiceVM.getInvoiceGajiDetail(invoiceId)
         }
-
-
-
     }
 
     private fun observeInvoiceDetail() {
@@ -85,6 +83,7 @@ class DetailInvoiceActivity : BaseActivity() {
             textInvoiceCreator.text = userRequester.fullName
             textNoPartner.text = userTo.noPartner
             textPartner.text = userTo.fullName
+            txtJudul.text = title
             textTotal.text = convertRp(amount.toDouble())
 
             invoiceDetailAdmin?.map { InvoiceDetailBasic(it.item, it.total.toInt()) }?.forEach {
@@ -97,7 +96,7 @@ class DetailInvoiceActivity : BaseActivity() {
 
             when (status) {
                 1 -> {
-                    textInvoiceStatus.text = "OPEN"
+                    textInvoiceStatus.text = getString(R.string.label_open)
                     textInvoiceStatus.setBackgroundResource(R.drawable.bg_status_invoice_open)
                     textInvoiceStatus.setTextColor(
                         ContextCompat.getColor(
@@ -109,7 +108,7 @@ class DetailInvoiceActivity : BaseActivity() {
                     layoutExpired.visible()
                 }
                 2 -> {
-                    textInvoiceStatus.text = "COMPLETED"
+                    textInvoiceStatus.text = getString(R.string.label_completed)
                     textInvoiceStatus.setBackgroundResource(R.drawable.bg_status_invoice_complete)
                     textInvoiceStatus.setTextColor(
                         ContextCompat.getColor(
@@ -119,7 +118,7 @@ class DetailInvoiceActivity : BaseActivity() {
                     )
                 }
                 3 -> {
-                    textInvoiceStatus.text = "EXPIRED"
+                    textInvoiceStatus.text = getString(R.string.label_expired)
                     textInvoiceStatus.setBackgroundResource(R.drawable.bg_status_invoice_cancel)
                     textInvoiceStatus.setTextColor(
                         ContextCompat.getColor(
@@ -143,11 +142,11 @@ class DetailInvoiceActivity : BaseActivity() {
             }
 
             btnComplete.setOnClickListener {
-                showDialogAction(false, "Apakah anda yakin ingin menyelesaikan transaksi ini ?")
+                showDialogAction(false, getString(R.string.txt_complete_invoice_confirmation))
             }
 
             btnCancel.setOnClickListener {
-                showDialogAction(true, "Apakah anda yakin ingin membatalkan transaksi ini ?")
+                showDialogAction(true, getString(R.string.txt_cancel_invoice_confirmation))
             }
 
             btnLihatBuktiPembayararn.setOnClickListener {

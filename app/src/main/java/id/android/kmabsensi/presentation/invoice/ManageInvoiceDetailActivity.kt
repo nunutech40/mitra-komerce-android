@@ -67,8 +67,8 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         observeInvoiceItems()
     }
 
-    private fun initView(){
-        if (!isAdminInvoice){
+    private fun initView() {
+        if (!isAdminInvoice) {
             btnAdd.gone()
         } else {
             btnAdd.visible()
@@ -76,8 +76,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
     }
 
 
-
-    private fun initDeleteViewSession(){
+    private fun initDeleteViewSession() {
         btnAdd.gone()
         btnDelete.gone()
         layoutTotalTagian.gone()
@@ -85,7 +84,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         btnPilihSemua.visible()
 
         btnDeleteItem.setOnClickListener {
-            if (deleteItemSelected.isNotEmpty()){
+            if (deleteItemSelected.isNotEmpty()) {
                 deleteItemSelected.forEach {
                     InvoiceDetailData.removeItem(it)
                 }
@@ -122,20 +121,27 @@ class ManageInvoiceDetailActivity : BaseActivity() {
             groupAdapter.clear()
             invoiceDetailItems.clear()
             it.forEach {
-                val item = InvoiceDetailItem(it, object: OnInvoiceDetailListener{
+                val item = InvoiceDetailItem(it, object : OnInvoiceDetailListener {
                     override fun onEditClicked(invoiceDetail: InvoiceDetail, position: Int) {
-                        showCrudDialog("Ubah Tagihan", invoiceDetail.itemName, invoiceDetail.itemPrice, position)
+                        showCrudDialog(
+                            "Ubah Tagihan",
+                            invoiceDetail.itemName,
+                            invoiceDetail.itemPrice,
+                            invoiceDetail.itemDescription,
+                            position
+                        )
                     }
 
                     override fun onCheckBoxClicked(invoiceDetail: InvoiceDetail, position: Int) {
-                        if (invoiceDetail.selected){
+                        if (invoiceDetail.selected) {
                             deleteItemSelected.add(position)
                         } else {
-                            deleteItemSelected.removeAt(deleteItemSelected.indexOfFirst { it == position})
+                            deleteItemSelected.removeAt(deleteItemSelected.indexOfFirst { it == position })
                         }
                         textDeleteSelected.text = "${deleteItemSelected.size} item terpilih"
 
-                        if (deleteItemSelected.isEmpty()) btnDeleteItem.text = "BATAL" else btnDeleteItem.text = "HAPUS ITEM"
+                        if (deleteItemSelected.isEmpty()) btnDeleteItem.text =
+                            "BATAL" else btnDeleteItem.text = "HAPUS ITEM"
                     }
                 })
                 invoiceDetailItems.add(item)
@@ -158,7 +164,13 @@ class ManageInvoiceDetailActivity : BaseActivity() {
     }
 
 
-    private fun showCrudDialog(title: String, itemName: String? = null, itemPrice: Int? = null, position: Int = 0) {
+    private fun showCrudDialog(
+        title: String,
+        itemName: String? = null,
+        itemPrice: Int? = null,
+        itemDescription: String? = null,
+        position: Int = 0
+    ) {
         val dialog = MaterialDialog(this)
             .customView(R.layout.dialog_crud_detail_tagihan, noVerticalPadding = true)
         val customView = dialog.getCustomView()
@@ -175,6 +187,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
         itemName?.let { edtItemName.setText(it) }
         itemPrice?.let { edtItemPrice.setText(it.toString()) }
+        itemDescription?.let { edtDescription.setText(it) }
 
         fun validation(): Boolean {
             val item = ValidationForm.validationInput(edtItemName, "Tidak boleh kosong")
@@ -183,10 +196,10 @@ class ManageInvoiceDetailActivity : BaseActivity() {
         }
 
         btnOke.setOnClickListener {
-            if (!validation()){
+            if (!validation()) {
                 return@setOnClickListener
             }
-            if (itemName == null){
+            if (itemName == null) {
                 InvoiceDetailData.addInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
