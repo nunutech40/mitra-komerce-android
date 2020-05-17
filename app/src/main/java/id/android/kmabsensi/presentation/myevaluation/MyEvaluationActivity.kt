@@ -45,6 +45,7 @@ class MyEvaluationActivity : BaseActivity() {
             is UiState.Success -> {
                 swipeRefresh.isRefreshing = false
                 if (state.data.evaluations.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                groupAdapter.clear()
                 state.data.evaluations.forEach {
                     groupAdapter.add(MyEvaluationItem(it){
                         startActivity<EvaluationDetailActivity>(EVALUATION_KEY to it)
