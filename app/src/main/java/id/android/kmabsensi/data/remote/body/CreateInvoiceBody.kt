@@ -15,13 +15,15 @@ data class CreateInvoiceBody(
 data class InvoiceItem(
     val item: String,
     val description: String,
-    val total: Int
+    val total: Int,
+    val user_id: Int = 0
 ){
     companion object {
         fun from(data: InvoiceDetail) = InvoiceItem(
             data.itemName,
             data.itemDescription,
-            data.itemPrice
+            data.itemPrice,
+            data.userId
         )
     }
 }

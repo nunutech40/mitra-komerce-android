@@ -19,6 +19,7 @@ data class InvoiceDetail(
     val itemName: String,
     val itemPrice: Int,
     val itemDescription: String = "",
+    val userId: Int = 0,
     var selected: Boolean = false
 )
 

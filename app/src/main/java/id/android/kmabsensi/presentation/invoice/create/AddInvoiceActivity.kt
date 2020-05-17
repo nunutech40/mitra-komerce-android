@@ -308,7 +308,8 @@ class AddInvoiceActivity : BaseActivity() {
                             InvoiceDetail(
                                 it.full_name,
                                 0,
-                                ""
+                                "",
+                                userId = it.id
                             )
                         )
                     }

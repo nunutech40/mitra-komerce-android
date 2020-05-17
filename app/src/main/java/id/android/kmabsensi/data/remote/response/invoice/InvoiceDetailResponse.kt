@@ -91,5 +91,19 @@ data class InvoiceDetailGaji(
     @SerializedName("payment_attachment_url")
     var paymentAttachmentUrl: String? = null,
     @SerializedName("bank_account")
-    val bankAccount: List<BankAccount>? = null
+    val bankAccount: List<BankAccount>? = null,
+    @SerializedName("sdm_data")
+    val sdmData: SdmData? = null
 ): Parcelable
+
+@Parcelize
+data class SdmData(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("username")
+    val username: String = "0",
+    @SerializedName("full_name")
+    val fullName: String = "",
+    @SerializedName("email")
+    val email: String = ""
+):Parcelable
