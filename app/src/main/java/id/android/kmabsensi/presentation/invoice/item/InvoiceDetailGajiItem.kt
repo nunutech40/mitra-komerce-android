@@ -13,8 +13,8 @@ class InvoiceDetailGajiItem(val invoiceDetailGaji: InvoiceDetailGaji): Item() {
         viewHolder.apply {
             itemView.textLeaderName.text = invoiceDetailGaji.sdmData?.fullName
             invoiceDetailGaji.bankAccount?.let {
-                itemView.textBankAccountName.text = "${it[0].bankName} | ${it[0].bankOwnerName}"
-                itemView.textBankAccountNumber.text = it[0].bankNo
+                itemView.textBankAccountName.text = "${it.bankName} | ${it.bankOwnerName}"
+                itemView.textBankAccountNumber.text = it.bankNo
             } ?: run {
                 itemView.textBankAccountName.text = "Informasi akun bank SDM belum tersedia"
                 itemView.textBankAccountNumber.text = "-"
