@@ -125,9 +125,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                     override fun onEditClicked(invoiceDetail: InvoiceDetail, position: Int) {
                         showCrudDialog(
                             "Ubah Tagihan",
-                            invoiceDetail.itemName,
-                            invoiceDetail.itemPrice,
-                            invoiceDetail.itemDescription,
+                            invoiceDetail,
                             position
                         )
                     }
@@ -166,9 +164,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
     private fun showCrudDialog(
         title: String,
-        itemName: String? = null,
-        itemPrice: Int? = null,
-        itemDescription: String? = null,
+        invoiceDetail: InvoiceDetail? = null,
         position: Int = 0
     ) {
         val dialog = MaterialDialog(this)
@@ -185,9 +181,12 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
         edtItemPrice.addTextChangedListener(RupiahTextWatcher(edtItemPrice))
 
-        itemName?.let { edtItemName.setText(it) }
-        itemPrice?.let { edtItemPrice.setText(it.toString()) }
-        itemDescription?.let { edtDescription.setText(it) }
+        invoiceDetail?.let {
+            edtItemName.setText(it.itemName)
+            edtItemPrice.setText(it.itemPrice.toString())
+            edtDescription.setText(it.itemDescription)
+        }
+
 
         fun validation(): Boolean {
             val item = ValidationForm.validationInput(edtItemName, "Tidak boleh kosong")
@@ -199,7 +198,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
             if (!validation()) {
                 return@setOnClickListener
             }
-            if (itemName == null) {
+            if (invoiceDetail == null) {
                 InvoiceDetailData.addInvoiceItem(
                     InvoiceDetail(
                         edtItemName.text.toString(),
@@ -209,11 +208,11 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                 )
             } else {
                 InvoiceDetailData.updateInvoiceItem(
-                    InvoiceDetail(
-                        edtItemName.text.toString(),
-                        edtItemPrice.text.toString().replace(".", "").toInt(),
-                        edtDescription.text.toString()
-                    ),
+                   invoiceDetail.copy(
+                       itemName = edtItemName.text.toString(),
+                       itemPrice = edtItemPrice.text.toString().replace(".", "").toInt(),
+                       itemDescription = edtDescription.text.toString()
+                   ),
                     position
                 )
             }

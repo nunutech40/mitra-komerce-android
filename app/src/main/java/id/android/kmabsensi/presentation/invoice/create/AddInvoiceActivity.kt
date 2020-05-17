@@ -79,8 +79,8 @@ class AddInvoiceActivity : BaseActivity() {
         }
 
         InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
-            d { "${invoices.size}" }
             if (invoices.isNotEmpty()) {
+                d { invoices.toString() }
                 btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
 
                 listInvoiceDetail.clear()
