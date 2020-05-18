@@ -1,8 +1,8 @@
 package id.android.kmabsensi.presentation.partner
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
 import com.github.ajalt.timberkt.Timber
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.db.entity.City
 import id.android.kmabsensi.data.db.entity.Province
 import id.android.kmabsensi.data.remote.response.*
@@ -264,7 +264,7 @@ class PartnerViewModel(
     override fun onError(error: Throwable) {
         crudResponse.value = UiState.Error(error)
         Timber.e((error))
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 
 }

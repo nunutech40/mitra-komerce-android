@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.lupapassword
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.repository.AuthRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -26,6 +26,6 @@ class LupaPasswordViewModel(val authRepository: AuthRepository,
 
     override fun onError(error: Throwable) {
         response.value = UiState.Error(error)
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

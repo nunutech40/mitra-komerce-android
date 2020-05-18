@@ -11,9 +11,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.crashlytics.android.Crashlytics
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -79,7 +80,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 window.decorView.importantForAutofill =
                     View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
             } catch (e: Exception) {
-                Crashlytics.log(e.message)
+                e.message?.let { FirebaseCrashlytics.getInstance().log(it) }
             }
         }
     }

@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_grafik_partner.*
 class GrafikPartnerActivity : BaseActivity() {
 
     // tab titles
-    private val tabTitles = arrayOf("Kota", "Kategori")
+    private val tabTitles = arrayOf("Provinsi", "Kategori")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

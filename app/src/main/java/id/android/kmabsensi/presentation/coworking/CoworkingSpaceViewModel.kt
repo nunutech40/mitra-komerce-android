@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.coworking
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.AddCoworkingSpaceResponse
 import id.android.kmabsensi.data.remote.response.ListCoworkingSpaceResponse
 import id.android.kmabsensi.data.repository.CoworkingSpaceRepository
@@ -78,6 +78,6 @@ class CoworkingSpaceViewModel(val coworkingSpaceRepository: CoworkingSpaceReposi
     }
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

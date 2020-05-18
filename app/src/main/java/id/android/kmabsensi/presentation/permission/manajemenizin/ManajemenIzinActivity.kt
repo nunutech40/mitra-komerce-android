@@ -86,12 +86,14 @@ class ManajemenIzinActivity : BaseActivity() {
                     showSkeleton(rvPermission, R.layout.skeleton_list_permission, groupAdapter)
                 }
                 is UiState.Success -> {
-                    groupAdapter.clear()
                     hideSkeleton()
-                    if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    if (permissions.isNotEmpty()) permissions.clear()
-                    permissions.addAll(it.data.data)
-                    it.data.data.forEach {
+                    groupAdapter.clear()
+                    permissions.clear()
+                    permissions.addAll(it.data.data.filter {
+                        it.status == 0 || it.status == 2
+                    })
+                    if (permissions.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                    permissions.forEach {
                         groupAdapter.add(PermissionItem(it) { permission ->
                             startActivityForResult<DetailIzinActivity>(
                                 REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,

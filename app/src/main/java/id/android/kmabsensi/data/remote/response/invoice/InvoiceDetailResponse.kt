@@ -71,7 +71,7 @@ data class InvoiceDetailAdmin(
     @SerializedName("total")
     val total: String = "",
     @SerializedName("description")
-    val description: String? = null,
+    val description: String = "null",
     @SerializedName("payment_attachment_url")
     val paymentAttachmentUrl: String? = null
 ): Parcelable

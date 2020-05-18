@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.checkin
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.BaseResponse
@@ -79,6 +79,6 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
     }
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

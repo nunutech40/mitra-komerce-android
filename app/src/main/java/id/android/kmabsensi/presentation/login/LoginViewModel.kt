@@ -1,8 +1,8 @@
 package id.android.kmabsensi.presentation.login
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
 import com.github.ajalt.timberkt.Timber
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.LoginResponse
@@ -53,7 +53,7 @@ class LoginViewModel(
                 .with(schedulerProvider)
                 .subscribe({},{
                     Timber.e((it))
-                    Crashlytics.log(it.message)
+                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
                 }))
     }
 
@@ -75,6 +75,6 @@ class LoginViewModel(
 
     override fun onError(error: Throwable) {
         loginState.value = UiState.Error(error)
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

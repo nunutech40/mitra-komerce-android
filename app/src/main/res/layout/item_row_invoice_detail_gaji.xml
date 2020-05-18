@@ -29,33 +29,30 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textBankAccountNumber"
+        style="@style/tv16sp000000_avenir_heavy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/tv16sp000000_avenir_heavy"
         android:text="1231231"
-        app:layout_constraintTop_toBottomOf="@id/textBankAccountName"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/textBankAccountName" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/labelGajiSdm"
+        style="@style/tv16sp000000_avenir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gaji SDM"
-        style="@style/tv16sp000000_avenir"
-        app:layout_constraintTop_toBottomOf="@id/textBankAccountNumber"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/textBankAccountNumber" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textGajiSdm"
+        style="@style/tv16sp000000_avenir_heavy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/tv16sp000000_avenir_heavy"
         android:text="Rp. 10.000.000"
-        app:layout_constraintTop_toBottomOf="@id/labelGajiSdm"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/labelGajiSdm" />
 
     <id.android.kmabsensi.utils.ui.ReadMoreTextView
         android:id="@+id/textDescription"
@@ -66,7 +63,9 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/btnCopyGajiSdm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textGajiSdm"/>
+        app:layout_constraintTop_toBottomOf="@id/textGajiSdm"
+        app:trimLines="2"
+        app:trimMode="trimModeLine" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnCopyBankAccNumber"

@@ -138,9 +138,6 @@ class FilterReportKantorActivity : BaseActivity() {
             2 -> {
                 layoutKantorCabang.gone()
                 userResponse?.let {
-                    val userManajemenJabatanLeader =
-                        it.data.filter { it.position_name.toLowerCase().contains("leader") }
-                    d { userManajemenJabatanLeader.toString() }
                     setSpinnerManajemen(it.data.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })

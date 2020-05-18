@@ -1,6 +1,6 @@
 package id.android.kmabsensi.presentation.splash
 
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.repository.SdmRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -22,6 +22,6 @@ class SplashViewModel(val sdmRepository: SdmRepository,
 
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

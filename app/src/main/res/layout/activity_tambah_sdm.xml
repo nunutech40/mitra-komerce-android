@@ -423,7 +423,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="6dp"
                     android:layout_marginTop="16dp"
-                    android:text="Management"
+                    android:text="Leader"
                     android:textColor="@color/textColor" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
