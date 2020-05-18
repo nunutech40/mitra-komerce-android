@@ -33,12 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:visibility="gone"
-        app:colorClickableText="#2196F3"
         app:layout_constraintEnd_toEndOf="@+id/textItemPrice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textItemName"
-        app:trimLines="2"
-        app:trimMode="trimModeLine" />
+        app:layout_constraintTop_toBottomOf="@+id/textItemName"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -214,7 +214,10 @@ public class ReadMoreTextView extends TextView {
     }
 
     public void collapse(){
-        readMore = true;
-        setText();
+        if (!readMore){
+            readMore = true;
+            setText();
+        }
+
     }
 }
