@@ -146,8 +146,9 @@ class DetailPartnerActivity : BaseActivity() {
 
                 }
                 is UiState.Success -> {
-                    userManagements.addAll(state.data.data)
-
+                    userManagements.addAll(state.data.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }
                     ArrayAdapter<String>(

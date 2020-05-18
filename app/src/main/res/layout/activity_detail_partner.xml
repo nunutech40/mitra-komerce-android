@@ -152,6 +152,7 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="16dp"
                 android:text="Tanggal Lahir"
+                android:visibility="gone"
                 android:textColor="@color/textColor" />
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -163,6 +164,8 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
                 android:focusable="false"
+                android:text="1990-01-01"
+                android:visibility="gone"
                 android:clickable="true"
                 android:textSize="16sp"/>
 

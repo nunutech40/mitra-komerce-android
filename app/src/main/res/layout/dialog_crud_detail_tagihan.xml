@@ -51,11 +51,11 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView13"
+        style="@style/tv14spf48070_avenir_heavy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:text="Harga"
-        style="@style/tv14spf48070_avenir_heavy"
+        android:text="Nominal"
         app:layout_constraintStart_toStartOf="@+id/textTitle"
         app:layout_constraintTop_toBottomOf="@+id/edtItemName" />
 

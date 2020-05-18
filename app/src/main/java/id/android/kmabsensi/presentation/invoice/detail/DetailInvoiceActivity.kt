@@ -86,12 +86,12 @@ class DetailInvoiceActivity : BaseActivity() {
             txtJudul.text = title
             textTotal.text = convertRp(amount.toDouble())
 
-            invoiceDetailAdmin?.map { InvoiceDetailBasic(it.item, it.total.toInt()) }?.forEach {
+            invoiceDetailAdmin?.map { InvoiceDetailBasic(it.item, it.total.toInt(), it.description) }?.forEach {
                 groupAdaper.add(InvoiceDetailBasicItem(it))
             }
 
             invoiceDetailGaji?.forEach {
-                groupAdaper.add(InvoiceDetailGajiItem(it))
+                groupAdaper.add(InvoiceDetailGajiItem(this@DetailInvoiceActivity, it))
             }
 
             when (status) {

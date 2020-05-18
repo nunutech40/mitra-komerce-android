@@ -336,7 +336,9 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Loading -> {
                 }
                 is UiState.Success -> {
-                    userManagements.addAll(it.data.data)
+                    userManagements.addAll(it.data.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
 
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }

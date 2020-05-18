@@ -108,8 +108,9 @@ class InvoiceReportActivity : BaseActivity() {
 
             }
             is UiState.Success -> {
-                leaders.addAll(state.data.data)
-
+                leaders.addAll(state.data.data.filter {
+                    it.position_name.toLowerCase().contains("leader")
+                })
                 val userManagementNames = mutableListOf<String>()
                 userManagementNames.add("Semua")
                 leaders.forEach { userManagementNames.add(it.full_name) }
