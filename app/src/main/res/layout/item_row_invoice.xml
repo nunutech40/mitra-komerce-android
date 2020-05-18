@@ -25,15 +25,12 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textItemName"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.borjabravo.readmoretextview.ReadMoreTextView
+    <id.android.kmabsensi.utils.ui.ReadMoreTextView
         android:id="@+id/textItemDescription"
         style="@style/tv12sp7A7B7C_avenir"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:trimMode="trimModeLine"
-        app:trimLines="2"
-        app:colorClickableText="#2196F3"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/textItemPrice"
         app:layout_constraintStart_toStartOf="parent"

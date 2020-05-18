@@ -1,14 +1,16 @@
 package id.android.kmabsensi.presentation.invoice.item
 
-import com.github.ajalt.timberkt.d
-import com.xwray.groupie.kotlinandroidextensions.Item
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.convertRp
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.item_row_invoice_detail.*
 import kotlinx.android.synthetic.main.item_row_invoice_detail.view.*
+
 
 interface OnInvoiceDetailListener {
     fun onEditClicked(invoiceDetail: InvoiceDetail, position: Int)
@@ -44,10 +46,14 @@ class InvoiceDetailItem(private val invoiceDetail: InvoiceDetail,
             }
 
             if (invoiceDetail.itemDescription.isEmpty()){
-                textItemDescription.gone()
+                itemView.textItemDescription.gone()
             } else {
-                textItemDescription.visible()
-                textItemDescription.text = invoiceDetail.itemDescription
+                itemView.textItemDescription.visible()
+                itemView.textItemDescription.setTrimMode(0)
+                itemView.textItemDescription.setTrimLines(2)
+                itemView.textItemDescription.setColorClickableText(ContextCompat.getColor(itemView.context, R.color._2196F3))
+                itemView.textItemDescription.text = invoiceDetail.itemDescription
+                itemView.textItemDescription.collapse()
             }
         }
     }

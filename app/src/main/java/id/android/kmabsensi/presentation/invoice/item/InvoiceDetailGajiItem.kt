@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.invoice.item
 
+import androidx.core.content.ContextCompat
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -23,6 +24,9 @@ class InvoiceDetailGajiItem(val invoiceDetailGaji: InvoiceDetailGaji): Item() {
             itemView.textGajiSdm.text = convertRp(invoiceDetailGaji.total.toDouble())
             invoiceDetailGaji.description?.let {
                 itemView.textDescription.visible()
+                itemView.textDescription.setTrimMode(0)
+                itemView.textDescription.setTrimLines(2)
+                itemView.textDescription.setColorClickableText(ContextCompat.getColor(itemView.context, R.color._2196F3))
                 itemView.textDescription.text = invoiceDetailGaji.description
             }
 

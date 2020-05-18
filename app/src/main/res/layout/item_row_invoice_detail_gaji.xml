@@ -57,14 +57,12 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <com.borjabravo.readmoretextview.ReadMoreTextView
+    <id.android.kmabsensi.utils.ui.ReadMoreTextView
         android:id="@+id/textDescription"
         style="@style/tv12sp7A7B7C_avenir"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Deskripsi"
-        app:trimMode="trimModeLine"
-        app:trimLines="2"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/btnCopyGajiSdm"
         app:layout_constraintStart_toStartOf="parent"

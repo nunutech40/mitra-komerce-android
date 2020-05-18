@@ -145,6 +145,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
                 invoiceDetailItems.add(item)
                 groupAdapter.add(item)
             }
+
             textTotalTagihan.text = convertRp(it.sumBy { it.itemPrice }.toDouble())
 
             if (it.isNotEmpty()) btnDelete.visible() else btnDelete.gone()
