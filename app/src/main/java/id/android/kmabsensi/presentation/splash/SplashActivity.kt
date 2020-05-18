@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.crashlytics.android.Crashlytics
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
@@ -48,16 +48,16 @@ class SplashActivity : AppCompatActivity() {
 
             }.addOnFailureListener {
                 if (!BuildConfig.DEBUG) {
-                    Crashlytics.logException(it)
+                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
                 } else {
-                    Crashlytics.logException(it)
+                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
                 }
             }
         } catch (ex: Exception) {
             if (!BuildConfig.DEBUG) {
-                Crashlytics.logException(ex)
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
             } else {
-                Crashlytics.logException(ex)
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
             }
         }
 

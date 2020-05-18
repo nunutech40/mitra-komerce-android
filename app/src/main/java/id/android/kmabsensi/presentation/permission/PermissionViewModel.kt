@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.permission
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPermissionResponse
 import id.android.kmabsensi.data.repository.PermissionRepository
@@ -143,6 +143,6 @@ class PermissionViewModel(
 
     override fun onError(error: Throwable) {
         createPermissionResponse.value = UiState.Error(error)
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

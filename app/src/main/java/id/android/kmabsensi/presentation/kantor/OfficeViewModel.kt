@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.kantor
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -28,6 +28,6 @@ class OfficeViewModel(val officeRepository: OfficeRepository,
 
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

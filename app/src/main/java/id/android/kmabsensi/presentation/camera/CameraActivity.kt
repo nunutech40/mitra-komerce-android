@@ -14,7 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.wildma.idcardcamera.camera.CameraPreview
 import com.wildma.idcardcamera.camera.CameraUtils
 import com.wildma.idcardcamera.camera.IDCardCamera
@@ -151,7 +151,7 @@ class CameraActivity : AppCompatActivity() {
                 Toast.makeText(this, "Camera tidak tersedia", Toast.LENGTH_LONG).show()
             }
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }
@@ -165,7 +165,7 @@ class CameraActivity : AppCompatActivity() {
             mCameraPreview.addCallback()
             mCameraPreview.startPreview()
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }
@@ -203,7 +203,7 @@ class CameraActivity : AppCompatActivity() {
 
 
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }
@@ -226,7 +226,7 @@ class CameraActivity : AppCompatActivity() {
                 }.start()
             }
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }
@@ -239,7 +239,7 @@ class CameraActivity : AppCompatActivity() {
                 captured_image.setImageBitmap(mCropBitmap)
             }
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }
@@ -249,7 +249,7 @@ class CameraActivity : AppCompatActivity() {
             show_image_layout.visibility = View.VISIBLE
             camera_preview_layout.visibility = View.GONE
         } catch (ex: Exception) {
-            Crashlytics.logException(ex)
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
 
     }

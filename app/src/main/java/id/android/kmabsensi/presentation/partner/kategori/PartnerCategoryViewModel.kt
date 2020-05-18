@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.partner.kategori
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerCategoryResponse
 import id.android.kmabsensi.data.repository.PartnerCategoryRepository
@@ -59,7 +59,7 @@ class PartnerCategoryViewModel(val partnerCategoryRepository: PartnerCategoryRep
     }
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         partnerCategories.value = UiState.Error(error)
         crudResponse.value = UiState.Error(error)
     }

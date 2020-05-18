@@ -9,9 +9,9 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.lifecycle.Observer
-import com.crashlytics.android.Crashlytics
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -123,16 +123,16 @@ class LoginActivity : BaseActivity() {
             }.addOnFailureListener {
                 if (!BuildConfig.DEBUG) {
                     d { "fcm token : " +it.message.toString() }
-                    Crashlytics.logException(it)
+                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
                 } else {
-                    Crashlytics.logException(it)
+                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
                 }
             }
         } catch (ex: Exception) {
             if (!BuildConfig.DEBUG) {
-                Crashlytics.logException(ex)
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
             } else {
-                Crashlytics.logException(ex)
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
             }
         }
 
