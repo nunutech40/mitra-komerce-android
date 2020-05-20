@@ -11,9 +11,8 @@ import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
 
-public class ReadMoreTextView extends TextView {
+public class ReadMoreTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     private static final int TRIM_MODE_LINES = 0;
     private static final int TRIM_MODE_LENGTH = 1;
