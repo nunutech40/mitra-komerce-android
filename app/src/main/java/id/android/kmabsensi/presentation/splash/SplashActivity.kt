@@ -46,19 +46,13 @@ class SplashActivity : AppCompatActivity() {
                 Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
                 prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
 
-            }.addOnFailureListener {
-                if (!BuildConfig.DEBUG) {
-                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-                } else {
-                    it.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-                }
+            }.addOnFailureListener {ex ->
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
+
             }
         } catch (ex: Exception) {
-            if (!BuildConfig.DEBUG) {
-                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-            } else {
-                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-            }
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
+
         }
 
     }
