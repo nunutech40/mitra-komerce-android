@@ -104,17 +104,21 @@ class HomeManagementFragment : Fragment() {
 
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is UiState.Loading -> showSkeletonDashboardContent()
+                is UiState.Loading -> {
+                    hideSkeletonDashboardContent()
+                    showSkeletonDashboardContent()
+                }
                 is UiState.Success -> {
                     dashboard = it.data.data
                     hideSkeletonDashboardContent()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
                     txtPresent.text = it.data.data.total_present.toString()
                     txtTotalUser.text = "/ ${it.data.data.total_user}"
-                    textTotalPartner.text  = it.data.data.total_partner.toString()
+                    textTotalPartner.text = it.data.data.total_partner.toString()
 
                     if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
-                        expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
+                        expandableLayout.sections[0].parent =
+                            it.data.data.total_not_present.toString()
                         expandableLayout.sections[0].children.clear()
                         expandableLayout.sections[0].children.add(it.data.data)
                     }
@@ -213,6 +217,11 @@ class HomeManagementFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
+                    hideSkeletonMenu()
+
                     skeletonNextTime = Skeleton.bind(txtNextTime)
                         .load(R.layout.skeleton_item_big)
                         .show()
@@ -222,7 +231,7 @@ class HomeManagementFragment : Fragment() {
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
                         .load(R.layout.skeleton_item)
                         .show()
-                    if (!swipeRefresh.isRefreshing){
+                    if (!swipeRefresh.isRefreshing) {
                         showSkeletonMenu()
                     }
                 }
@@ -263,10 +272,13 @@ class HomeManagementFragment : Fragment() {
                             } else {
                                 if (coworking.available_slot > 0) {
                                     if (coworking.cowork_presence.size < 2) {
-                                        val intent = Intent(context, CheckinCoworkingActivity::class.java).apply {
+                                        val intent = Intent(
+                                            context,
+                                            CheckinCoworkingActivity::class.java
+                                        ).apply {
                                             putExtra("coworking", coworking)
                                         }
-                                        startActivityForResult( intent, 112)
+                                        startActivityForResult(intent, 112)
 //                                        vm.checkInCoworkingSpace(coworking.id)
                                     } else if (coworking.cowork_presence.size >= 2) {
                                         createAlertError(
@@ -326,7 +338,7 @@ class HomeManagementFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 112 && resultCode == Activity.RESULT_OK){
+        if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -454,7 +466,7 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnGagalAbsen.setOnClickListener {
-           activity?.startActivity<ReportAbsensiActivity>()
+            activity?.startActivity<ReportAbsensiActivity>()
         }
 
         btnInvoiceReport.setOnClickListener {
@@ -539,7 +551,7 @@ class HomeManagementFragment : Fragment() {
         }
     }
 
-    private fun showSkeletonDashboardContent(){
+    private fun showSkeletonDashboardContent() {
         skeletonKmPoin = Skeleton.bind(layoutKmPoint)
             .load(R.layout.skeleton_home_box_content)
             .show()
@@ -565,7 +577,7 @@ class HomeManagementFragment : Fragment() {
             .show()
     }
 
-    private fun hideSkeletonDashboardContent(){
+    private fun hideSkeletonDashboardContent() {
         skeletonDate?.hide()
         skeletonDataHadir?.hide()
         skeletonDataBelumHadir?.hide()
@@ -574,7 +586,7 @@ class HomeManagementFragment : Fragment() {
         skeletonKmPoin?.hide()
     }
 
-    private fun showSkeletonMenu(){
+    private fun showSkeletonMenu() {
         skeletonLabelMenu = Skeleton.bind(textView26)
             .load(R.layout.skeleton_item)
             .show()
@@ -592,7 +604,7 @@ class HomeManagementFragment : Fragment() {
             .show()
     }
 
-    private fun hideSkeletonMenu(){
+    private fun hideSkeletonMenu() {
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()

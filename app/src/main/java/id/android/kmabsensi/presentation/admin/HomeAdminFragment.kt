@@ -85,6 +85,9 @@ class HomeAdminFragment : Fragment() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    hideSkeletonDashboardContent()
+                    hideSkeletonMenu()
+
                     showSkeletonDashboardContent()
                     if (!swipeRefresh.isRefreshing){
                         showSkeletonMenu()
@@ -109,6 +112,8 @@ class HomeAdminFragment : Fragment() {
                }
                 is UiState.Error -> {
                     hideSkeletonDashboardContent()
+                    hideSkeletonMenu()
+                    swipeRefresh.isRefreshing = false
                     e { it.throwable.message.toString() }
                 }
             }
@@ -117,6 +122,10 @@ class HomeAdminFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonNextTime?.hide()
+                    skeletonStatusWaktu?.hide()
+                    skeletonContdown?.hide()
+
                     skeletonNextTime = Skeleton.bind(txtNextTime)
                         .load(R.layout.skeleton_item_big)
                         .show()

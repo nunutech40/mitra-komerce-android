@@ -41,94 +41,139 @@ class HomeViewModel(
 
 
     fun getDashboardInfo(userId: Int) {
-        dashboardData.value = UiState.Loading()
-        compositeDisposable.add(dashboardRepository.getDashboardInfo(userId)
-            .with(schedulerProvider)
-            .subscribe({
-                dashboardData.value = UiState.Success(it)
-            }, {
-                dashboardData.value = UiState.Error(it)
-            })
-        )
+        try {
+            dashboardData.value = UiState.Loading()
+            compositeDisposable.add(
+                dashboardRepository.getDashboardInfo(userId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        dashboardData.value = UiState.Success(it)
+                    }, {
+                        dashboardData.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            dashboardData.value = UiState.Error(e)
+        }
     }
 
     fun presenceCheck(userId: Int) {
-        presenceCheckResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.presenceCheck(userId)
-            .with(schedulerProvider)
-            .subscribe({
-                presenceCheckResponse.value = UiState.Success(it)
-            }, {
-                presenceCheckResponse.value = UiState.Error(it)
-            })
-        )
+        try {
+            presenceCheckResponse.value = UiState.Loading()
+            compositeDisposable.add(
+                presenceRepository.presenceCheck(userId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        presenceCheckResponse.value = UiState.Success(it)
+                    }, {
+                        presenceCheckResponse.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            presenceCheckResponse.value = UiState.Error(e)
+        }
     }
 
     fun getJadwalShalat() {
-        jadwalShalatData.value = UiState.Loading()
-        compositeDisposable.add(jadwalShalatRepository.getJadwalShalat()
-            .with(schedulerProvider)
-            .subscribe({
-                jadwalShalatData.value = UiState.Success(it)
-            }, {
-                jadwalShalatData.value = UiState.Error(it)
-            })
-        )
+        try {
+            jadwalShalatData.value = UiState.Loading()
+            compositeDisposable.add(
+                jadwalShalatRepository.getJadwalShalat()
+                    .with(schedulerProvider)
+                    .subscribe({
+                        jadwalShalatData.value = UiState.Success(it)
+                    }, {
+                        jadwalShalatData.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            jadwalShalatData.value = UiState.Error(e)
+        }
     }
 
-    fun getCoworkUserData(userId: Int){
-        coworkUserData.value = UiState.Loading()
-        compositeDisposable.add(coworkingSpaceRepository.getCoworkUserData(userId)
-            .with(schedulerProvider)
-            .subscribe({
-                coworkUserData.value = UiState.Success(it)
-            },{
-                coworkUserData.value = UiState.Error(it)
-            }))
+    fun getCoworkUserData(userId: Int) {
+        try {
+            coworkUserData.value = UiState.Loading()
+            compositeDisposable.add(
+                coworkingSpaceRepository.getCoworkUserData(userId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        coworkUserData.value = UiState.Success(it)
+                    }, {
+                        coworkUserData.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            coworkUserData.value = UiState.Error(e)
+        }
     }
 
-    fun checkInCoworkingSpace(coworkId: Int){
-        checkInCoworkingSpace.value = UiState.Loading()
-        compositeDisposable.add(coworkingSpaceRepository.checkInCoworkingSpace(coworkId)
-            .with(schedulerProvider)
-            .subscribe({
-                checkInCoworkingSpace.value = UiState.Success(it)
-            },{
-                checkInCoworkingSpace.value = UiState.Error(it)
-            }))
+    fun checkInCoworkingSpace(coworkId: Int) {
+        try {
+            checkInCoworkingSpace.value = UiState.Loading()
+            compositeDisposable.add(
+                coworkingSpaceRepository.checkInCoworkingSpace(coworkId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        checkInCoworkingSpace.value = UiState.Success(it)
+                    }, {
+                        checkInCoworkingSpace.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            checkInCoworkingSpace.value = UiState.Error(e)
+        }
     }
 
-    fun checkOutCoworkingSpace(coworkPresenceId: Int){
-        checkInCoworkingSpace.value = UiState.Loading()
-        compositeDisposable.add(coworkingSpaceRepository.checkOutCoworkingSpace(coworkPresenceId)
-            .with(schedulerProvider)
-            .subscribe({
-                checkInCoworkingSpace.value = UiState.Success(it)
-            },{
-                checkInCoworkingSpace.value = UiState.Error(it)
-            }))
+    fun checkOutCoworkingSpace(coworkPresenceId: Int) {
+        try {
+            checkInCoworkingSpace.value = UiState.Loading()
+            compositeDisposable.add(
+                coworkingSpaceRepository.checkOutCoworkingSpace(coworkPresenceId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        checkInCoworkingSpace.value = UiState.Success(it)
+                    }, {
+                        checkInCoworkingSpace.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            checkInCoworkingSpace.value = UiState.Error(e)
+        }
     }
 
     fun logout() {
-        logoutState.value = UiState.Loading()
-        compositeDisposable.add(authRepository.logout(preferencesHelper.getString(PreferencesHelper.FCM_TOKEN))
-            .with(schedulerProvider)
-            .subscribe({
-                logoutState.value = UiState.Success(it)
-            },{
-                logoutState.value = UiState.Error(it)
-            }))
+        try {
+            logoutState.value = UiState.Loading()
+            compositeDisposable.add(
+                authRepository.logout(preferencesHelper.getString(PreferencesHelper.FCM_TOKEN))
+                    .with(schedulerProvider)
+                    .subscribe({
+                        logoutState.value = UiState.Success(it)
+                    }, {
+                        logoutState.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            logoutState.value = UiState.Error(e)
+        }
     }
 
-    fun getProfileUserData(userId: Int){
-        userdData.value = UiState.Loading()
-        compositeDisposable.add(userRepository.getProfileUser(userId)
-            .with(schedulerProvider)
-            .subscribe({
-                userdData.value = UiState.Success(it)
-            },{
-                userdData.value = UiState.Error(it)
-            }))
+    fun getProfileUserData(userId: Int) {
+        try {
+            userdData.value = UiState.Loading()
+            compositeDisposable.add(
+                userRepository.getProfileUser(userId)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        userdData.value = UiState.Success(it)
+                    }, {
+                        userdData.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            userdData.value = UiState.Error(e)
+        }
     }
 
     fun getUserData(): User {

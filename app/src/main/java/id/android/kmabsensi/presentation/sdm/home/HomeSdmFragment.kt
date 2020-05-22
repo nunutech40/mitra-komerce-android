@@ -91,6 +91,7 @@ class HomeSdmFragment : Fragment() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonKmPoin?.hide()
                     skeletonKmPoin = Skeleton.bind(layoutKmPoint)
                         .load(R.layout.skeleton_home_box_content)
                         .show()
@@ -193,6 +194,8 @@ class HomeSdmFragment : Fragment() {
         vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
+                    hideSkeletonTime()
+                    hideSkeletonMenu()
                     showSkeletonTime()
                     if (!swipeRefresh.isRefreshing){
                         showSkeletonMenu()
