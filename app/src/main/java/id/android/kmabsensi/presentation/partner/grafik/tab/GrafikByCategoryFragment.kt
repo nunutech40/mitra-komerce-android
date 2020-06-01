@@ -72,7 +72,7 @@ class GrafikByCategoryFragment : Fragment(), OnChartValueSelectedListener {
         chart.description = description
         chart.legend.isEnabled = false
         chart.setPinchZoom(false)
-        chart.setDrawValueAboveBar(false)
+        chart.setDrawValueAboveBar(true)
 
         val xl = chart.xAxis
         xl.position = XAxis.XAxisPosition.BOTTOM
@@ -145,6 +145,7 @@ class GrafikByCategoryFragment : Fragment(), OnChartValueSelectedListener {
         //Set the bar width
         //Note : To increase the spacing between the bars set the value of barWidth to < 1f
         data.barWidth = 0.5f
+        data.setValueTextSize(14f)
 
         //Finally set the data and refresh the graph
         chart.data = data

@@ -177,8 +177,9 @@ class HomeViewModel(
     }
 
     fun getUserData(): User {
-        return Gson().fromJson<User>(
-            preferencesHelper.getString(PreferencesHelper.PROFILE_KEY),
+        val userDara = preferencesHelper.getString(PreferencesHelper.PROFILE_KEY)
+        return Gson().fromJson(
+            userDara,
             User::class.java
         )
     }

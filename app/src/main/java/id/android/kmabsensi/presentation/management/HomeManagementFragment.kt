@@ -35,7 +35,9 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
+import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
+import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
@@ -220,7 +222,7 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
 
                     skeletonNextTime = Skeleton.bind(txtNextTime)
                         .load(R.layout.skeleton_item_big)
@@ -232,14 +234,14 @@ class HomeManagementFragment : Fragment() {
                         .load(R.layout.skeleton_item)
                         .show()
                     if (!swipeRefresh.isRefreshing) {
-                        showSkeletonMenu()
+//                        showSkeletonMenu()
                     }
                 }
                 is UiState.Success -> {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
@@ -249,7 +251,7 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
                 }
             }
         })
@@ -327,6 +329,10 @@ class HomeManagementFragment : Fragment() {
         vm.getCoworkUserData(user.id)
         getDashboardData()
         textView24.text = getTodayDateTimeDay()
+        if (user.position_name.equals("Staff Growth", true)) {
+            view_menu_data_partner.visibility = View.VISIBLE
+            view_menu_partner_category.visibility = View.VISIBLE
+        }
 
     }
 
@@ -471,6 +477,14 @@ class HomeManagementFragment : Fragment() {
 
         btnInvoiceReport.setOnClickListener {
             activity?.startActivity<InvoiceReportActivity>()
+        }
+
+        btnDataPartner.setOnClickListener {
+            activity?.startActivity<PartnerActivity>()
+        }
+
+        btnPartnerCategory.setOnClickListener {
+            activity?.startActivity<KategoriPartnerActivity>()
         }
 
     }

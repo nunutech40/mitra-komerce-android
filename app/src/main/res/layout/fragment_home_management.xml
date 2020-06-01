@@ -645,50 +645,66 @@
 
 
                 <LinearLayout
+                    android:id="@+id/view_menu_data_partner"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="invisible">
 
-                    <View
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnDataPartner"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
 
-                    </View>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Gagal Absen"
+                        android:text="Data Partner"
                         android:gravity="center"
                         style="@style/tv13sp000000_avenir_heavy" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/view_menu_partner_category"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="invisible">
 
-                    <View
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnPartnerCategory"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
 
-                    </View>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_kategori_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Evaluasi Saya"
+                        android:text="Kategori Partner"
                         android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
+                        style="@style/tv13sp000000_avenir_heavy"/>
 
                 </LinearLayout>
 

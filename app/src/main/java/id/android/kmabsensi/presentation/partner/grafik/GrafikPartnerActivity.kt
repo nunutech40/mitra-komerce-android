@@ -1,7 +1,5 @@
 package id.android.kmabsensi.presentation.partner.grafik
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,7 +10,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByCategoryFragment
-import id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByCityFragment
+import id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByProvinceFragment
 import id.android.kmabsensi.utils.DASHBOARD_DATA_KEY
 import kotlinx.android.synthetic.main.activity_grafik_partner.*
 
@@ -30,7 +28,7 @@ class GrafikPartnerActivity : BaseActivity() {
         val dashboard: Dashboard? = intent.getParcelableExtra(DASHBOARD_DATA_KEY)
 
         val fragments = mutableListOf<Fragment>()
-        fragments.add(GrafikByCityFragment.newInstance(dashboard))
+        fragments.add(GrafikByProvinceFragment.newInstance(dashboard))
         fragments.add(GrafikByCategoryFragment.newInstance(dashboard))
 
         val viewPagerAdapter = ViewPagerFragmentAdapter(supportFragmentManager, lifecycle)

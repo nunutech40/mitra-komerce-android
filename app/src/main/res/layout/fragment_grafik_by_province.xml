@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
-    tools:context="id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByCityFragment">
+    tools:context="id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByProvinceFragment">
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/chart"

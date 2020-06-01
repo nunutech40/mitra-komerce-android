@@ -195,15 +195,15 @@ class HomeSdmFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     hideSkeletonTime()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
                     showSkeletonTime()
-                    if (!swipeRefresh.isRefreshing){
-                        showSkeletonMenu()
-                    }
+//                    if (!swipeRefresh.isRefreshing){
+//                        showSkeletonMenu()
+//                    }
                 }
                 is UiState.Success -> {
                     hideSkeletonTime()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
@@ -211,7 +211,7 @@ class HomeSdmFragment : Fragment() {
                 }
                 is UiState.Error -> {
                     hideSkeletonTime()
-                    hideSkeletonMenu()
+//                    hideSkeletonMenu()
                 }
             }
         })
