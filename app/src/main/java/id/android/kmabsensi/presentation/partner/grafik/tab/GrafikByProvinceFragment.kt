@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.github.ajalt.timberkt.d
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.BarData
@@ -16,24 +15,23 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.PartnerProvinceStatistic
 import id.android.kmabsensi.presentation.partner.grafik.MyValueFormatter
 import id.android.kmabsensi.utils.DASHBOARD_DATA_KEY
-import kotlinx.android.synthetic.main.fragment_grafik_by_city.*
+import kotlinx.android.synthetic.main.fragment_grafik_by_province.*
 import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
+class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
 
     companion object {
-        fun newInstance(dashboard: Dashboard?) : GrafikByCityFragment {
-            val fragment = GrafikByCityFragment()
+        fun newInstance(dashboard: Dashboard?) : GrafikByProvinceFragment {
+            val fragment = GrafikByProvinceFragment()
             val bundle = bundleOf(DASHBOARD_DATA_KEY to dashboard)
             fragment.arguments = bundle
             return fragment
@@ -45,7 +43,7 @@ class GrafikByCityFragment : Fragment(), OnChartValueSelectedListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grafik_by_city, container, false)
+        return inflater.inflate(R.layout.fragment_grafik_by_province, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
