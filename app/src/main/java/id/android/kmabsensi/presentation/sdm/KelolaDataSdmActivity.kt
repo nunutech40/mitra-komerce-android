@@ -61,6 +61,10 @@ class KelolaDataSdmActivity : BaseActivity() {
         initData()
         setListener()
 
+        if (isManagement){
+            btnTambahSdm.gone()
+        }
+
     }
 
 
