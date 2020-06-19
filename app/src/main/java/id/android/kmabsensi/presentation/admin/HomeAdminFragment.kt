@@ -226,6 +226,10 @@ class HomeAdminFragment : Fragment() {
             showGroupMenu(1)
         }
 
+        btnEvaluasi.setOnClickListener {
+            showGroupMenu(2)
+        }
+
 
 
         sectionPartner.setOnClickListener {
@@ -251,13 +255,15 @@ class HomeAdminFragment : Fragment() {
     /*
      * 0 - SDM
      * 1 - Partner
+     * 2 - Evaluasi
      */
-    fun showGroupMenu(menu: Int){
+    private fun showGroupMenu(menu: Int){
         swipeRefresh.gone()
         containerHome.visible()
         val fragment = when(menu){
             0 -> SdmMenuFragment()
-            else -> PartnerMenuFragment()
+            1 -> PartnerMenuFragment()
+            else -> EvaluasiMenuFragment()
         }
         childFragmentManager.beginTransaction().apply {
             replace(R.id.containerHome, fragment).commit()

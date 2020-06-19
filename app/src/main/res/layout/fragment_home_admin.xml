@@ -415,7 +415,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutMenu1">
@@ -428,6 +428,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/btnEvaluasi"
                             android:layout_width="62dp"
                             android:layout_height="62dp"
                             android:background="?attr/selectableItemBackground">
@@ -436,7 +437,7 @@
                                 android:layout_width="42dp"
                                 android:layout_height="42dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_coworking_space" />
+                                android:src="@drawable/ic_evaluasi" />
 
                         </com.google.android.material.card.MaterialCardView>
 
@@ -446,7 +447,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:gravity="center"
-                            android:text="Co-Working" />
+                            android:text="Evaluasi" />
 
                     </LinearLayout>
 
@@ -456,7 +457,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="invisible">
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/btnInvoice"
@@ -486,7 +487,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/btnInvoiceReport"
@@ -518,7 +520,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="invisible">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="62dp"

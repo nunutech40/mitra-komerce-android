@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
@@ -47,6 +48,14 @@ class SdmMenuFragment : Fragment() {
 
         btnKelolaJabatan.setOnClickListener {
             activity?.startActivity<ManajemenJabatanActivity>()
+        }
+
+        btnSdmNonJob.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
+
+        btnModeKerja.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
         }
     }
 }

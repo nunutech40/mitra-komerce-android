@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView22" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layoutMenu2"
+        android:id="@+id/layoutMenu1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -132,7 +132,145 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_kelolasdm" />
+                    android:src="@drawable/ic_data_jabatan" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/tv13sp000000_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Data Jabatan" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnSdmNonJob"
+                android:layout_width="62dp"
+                android:layout_height="62dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_sdm_non_job" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/tv13sp000000_avenir_heavy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="SDM Non Job" />
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutMenu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMenu1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnModeKerja"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:background="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_mode_kerja" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/tv13sp000000_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Mode Kerja" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:background="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_kelola_izin" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/tv13sp000000_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Data Izin" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:background="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_data_jabatan" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -155,7 +293,6 @@
             android:visibility="invisible">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnDataPartner"
                 android:layout_width="62dp"
                 android:layout_height="62dp">
 
@@ -163,7 +300,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_partner" />
+                    app:srcCompat="@drawable/ic_sdm_non_job" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -173,7 +310,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Data Partner" />
+                android:text="SDM Non Job" />
 
         </LinearLayout>
 

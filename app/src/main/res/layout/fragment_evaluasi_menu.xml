@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.android.kmabsensi.presentation.admin.PartnerMenuFragment">
+    tools:context="id.android.kmabsensi.presentation.admin.EvaluasiMenuFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView22"
@@ -31,7 +31,7 @@
         android:id="@+id/labelPartner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Partner"
+        android:text="Evaluasi"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/avenirltstd_heavy"
         android:textColor="@android:color/white"
@@ -62,7 +62,7 @@
             android:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnInvoice"
+                android:id="@+id/btnEvaluasiLeader"
                 android:layout_width="62dp"
                 android:layout_height="62dp">
 
@@ -70,7 +70,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_invoice" />
+                    app:srcCompat="@drawable/ic_evaluasi_leader" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Data Invoice" />
+                android:text="Evaluasi Leader" />
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnInvoiceReport"
+                android:id="@+id/btnEvaluasiKolaborasi"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:background="?attr/selectableItemBackground">
@@ -101,7 +101,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_invoice_report" />
+                    android:src="@drawable/ic_evaluasi_kolaborasi" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Invoice Report" />
+                android:text="Evaluasi Kolaborasi" />
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnDataPartner"
@@ -152,7 +152,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnPartnerCategory"
@@ -174,144 +174,6 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:text="Kategori Partner" />
-
-        </LinearLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layoutMenu2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutMenu1">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnDevice"
-                android:layout_width="62dp"
-                android:layout_height="62dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_device" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                style="@style/tv13sp000000_avenir_heavy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="Device" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnEvaluasi"
-                android:layout_width="62dp"
-                android:layout_height="62dp"
-                android:background="?attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_evaluasi" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                style="@style/tv13sp000000_avenir_heavy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="Evaluasi" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnAdministratif"
-                android:layout_width="62dp"
-                android:layout_height="62dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_administratif" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                style="@style/tv13sp000000_avenir_heavy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="Administratif" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnPartnerOff"
-                android:layout_width="62dp"
-                android:layout_height="62dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_partner_off" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                style="@style/tv13sp000000_avenir_heavy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="Partner Off" />
 
         </LinearLayout>
 

@@ -73,7 +73,7 @@ class TambahSdmActivity : BaseActivity() {
         setContentView(R.layout.activity_tambah_sdm)
         disableAutofill()
 
-        setupToolbar("Tambah Karyawan")
+        setupToolbar("Tambah SDM")
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)

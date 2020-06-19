@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnDataPartner
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnInvoice
@@ -55,6 +55,21 @@ class PartnerMenuFragment : Fragment() {
             activity?.startActivity<PartnerActivity>()
         }
 
+        btnDevice.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
+
+        btnEvaluasi.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
+
+        btnAdministratif.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
+
+        btnPartnerOff.setOnClickListener {
+            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
