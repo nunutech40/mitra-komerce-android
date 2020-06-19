@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.partner.partnerpicker.SearchPartnerPickerActivity"></activity>
+        <activity android:name=".presentation.myevaluation.LeaderEvaluationActivity"></activity>
+        <activity android:name=".presentation.partner.partnerpicker.SearchPartnerPickerActivity" />
         <activity android:name=".presentation.partner.search.SearchPartnerActivity" />
         <!--
              Set custom default ic_mitra_km. This is used when no ic_mitra_km is set for incoming notification messages.

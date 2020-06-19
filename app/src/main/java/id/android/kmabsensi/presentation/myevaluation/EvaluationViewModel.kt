@@ -21,6 +21,22 @@ class EvaluationViewModel(
         MutableLiveData<UiState<MyEvaluationResponse>>()
     }
 
+    val leaderEvaluation by lazy {
+        MutableLiveData<UiState<MyEvaluationResponse>>()
+    }
+
+    fun getLeaderEvaluation(userId: Int){
+        leaderEvaluation.value = UiState.Loading()
+        compositeDisposable.add(evaluationRepository.getMyEvaluation(userId)
+            .with(schedulerProvider)
+            .subscribe({
+                leaderEvaluation.value = UiState.Success(it)
+            }, {
+                leaderEvaluation.value = UiState.Error(it)
+            })
+        )
+    }
+
     fun getMyEvaluation() {
         myEvaluations.value = UiState.Loading()
         val user = Gson().fromJson<User>(

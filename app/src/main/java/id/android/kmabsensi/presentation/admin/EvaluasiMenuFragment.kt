@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.myevaluation.LeaderEvaluationActivity
 import kotlinx.android.synthetic.main.fragment_evaluasi_menu.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.btnBack
+import org.jetbrains.anko.startActivity
 
 class EvaluasiMenuFragment : Fragment() {
 
@@ -28,7 +30,7 @@ class EvaluasiMenuFragment : Fragment() {
         }
 
         btnEvaluasiLeader.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<LeaderEvaluationActivity>()
         }
 
         btnEvaluasiKolaborasi.setOnClickListener {
