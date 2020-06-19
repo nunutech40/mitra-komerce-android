@@ -5,6 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.utils.capitalizeWords
 import id.android.kmabsensi.utils.loadCircleImage
 import id.android.kmabsensi.utils.loadCircleImageSdm
 import kotlinx.android.synthetic.main.item_row_sdm.view.*
@@ -14,7 +15,7 @@ class SdmItem(val sdm: User,
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
-            itemView.txtNamaSdm.text = sdm.full_name
+            itemView.txtNamaSdm.text = sdm.full_name.capitalizeWords()
             itemView.txtPekerjaan.text = sdm.position_name
             itemView.imageView13.loadCircleImageSdm(sdm.photo_profile_url.toString())
 

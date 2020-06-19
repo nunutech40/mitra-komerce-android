@@ -418,7 +418,7 @@ class HomeManagementFragment : Fragment() {
                 ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
 
-        txtRoleName.text = getRoleName(user.role_id).capitalize()
+        txtRoleName.text = user.position_name
 
         btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {

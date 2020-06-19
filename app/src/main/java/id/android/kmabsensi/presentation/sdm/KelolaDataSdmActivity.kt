@@ -47,7 +47,7 @@ class KelolaDataSdmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kelola_data_sdm)
 
-        setupToolbar("Kelola Data Karyawan")
+        setupToolbar("Kelola Data SDM")
         btnSearch.visible()
         btnSearch.setOnClickListener {
             startActivity<CariDataSdmActivity>()
