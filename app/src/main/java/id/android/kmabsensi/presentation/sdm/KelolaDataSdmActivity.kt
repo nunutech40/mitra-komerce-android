@@ -53,9 +53,6 @@ class KelolaDataSdmActivity : BaseActivity() {
             startActivity<CariDataSdmActivity>()
         }
 
-//        supportActionBar?.title = "Kelola Data Karyawan"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
         if (isManagement) roles.removeAt(0)
@@ -65,20 +62,6 @@ class KelolaDataSdmActivity : BaseActivity() {
         setListener()
 
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_search, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.action_search -> {
-//
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
 
     private fun setListener() {
@@ -190,10 +173,12 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                     val dataFilter: List<User>
 
+                    val data = it.data.data.reversed()
+
                     if (isFilter) {
-                         dataFilter = it.data.data.filter { it.user_management_id == selectedUserManajemenLeaderId }
+                         dataFilter = data.filter { it.user_management_id == selectedUserManajemenLeaderId }
                     } else {
-                        dataFilter = it.data.data
+                        dataFilter = data
                     }
 
                     if (dataFilter.isEmpty()) layout_empty.visible() else layout_empty.gone()
