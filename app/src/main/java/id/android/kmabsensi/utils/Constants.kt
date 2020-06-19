@@ -34,5 +34,7 @@ const val INVOICE_TYPE_KEY = "invoice_type"
 const val IS_INVOICE_ADMIN_KEY = "is_invoice_admin"
 const val EVALUATION_KEY = "evaluation"
 
+const val PARTNER_RESPONSE_KEY = "partner_response"
+
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"

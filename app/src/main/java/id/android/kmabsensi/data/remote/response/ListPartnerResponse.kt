@@ -3,7 +3,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-
+@Parcelize
 data class ListPartnerResponse(
     @SerializedName("code")
     val code: Int = 0,
@@ -13,7 +13,7 @@ data class ListPartnerResponse(
     val message: String = "",
     @SerializedName("data")
     val partners: List<Partner> = listOf()
-)
+): Parcelable
 
 @Parcelize
 data class Partner(

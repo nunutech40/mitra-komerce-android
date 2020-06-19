@@ -13,10 +13,13 @@ import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.CustomizePartnerActivity.Companion.sortData
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
+import id.android.kmabsensi.presentation.partner.search.SearchPartnerActivity
 import id.android.kmabsensi.presentation.partner.tambahpartner.FormPartnerActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_partner.*
+import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,7 +35,7 @@ class PartnerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partner)
 
-        setupToolbar(getString(R.string.text_data_partner))
+        setupToolbar(getString(R.string.text_data_partner), isSearchVisible = true)
 
         initRv()
 
@@ -70,6 +73,11 @@ class PartnerActivity : BaseActivity() {
                     if (state.data.partners.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     partners.addAll(state.data.partners)
                     populateData(partners)
+                    btnSearch.setOnClickListener {
+                        startActivityForResult<SearchPartnerActivity>(CRUD_PARTNER_RC,
+                            PARTNER_RESPONSE_KEY to state.data
+                        )
+                    }
                 }
 
             }
