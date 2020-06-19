@@ -353,7 +353,7 @@ class DetailPartnerActivity : BaseActivity() {
         edtTanggalLahir.setText(data.birthDate)
         edtAddress.setText(data.address)
         edtEmail.setText(data.email)
-        edtNamaLengkap.setText(data.fullName)
+        edtNamaLengkap.setText(data.fullName.capitalizeWords())
         edtNoHp.setText(data.noHp)
         edtNoPartner.setText(data.noPartner)
         edtTanggalBergabung.setText(data.joinDate)
