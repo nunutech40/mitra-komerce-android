@@ -417,12 +417,14 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Divisi"
+                android:visibility="gone"
                 android:textColor="@color/textColor" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerDivisi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/layout_spinner_management"
