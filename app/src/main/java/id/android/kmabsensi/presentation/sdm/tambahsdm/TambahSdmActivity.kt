@@ -101,7 +101,7 @@ class TambahSdmActivity : BaseActivity() {
                     divisiSelectedId.toString(),
                     officeId.toString(),
                     jabatanSelectedId.toString(),
-                    edtNoPartner.text.toString(),
+                    if (edtNoPartner.text.toString().isNotEmpty()) edtNoPartner.text.toString() else "0",
                     edtAsalDesa.text.toString(),
                     edtNoHp.text.toString(),
                     edtAddress.text.toString(),
@@ -118,7 +118,6 @@ class TambahSdmActivity : BaseActivity() {
             }
 
         }
-
 
     }
 
@@ -194,9 +193,13 @@ class TambahSdmActivity : BaseActivity() {
                 ) {
                     roleSelectedId = if (isManagement) position + 3 else position + 2
                     if (position == 0) {
+                        labelNoPartner.gone()
+                        edtNoPartner.gone()
                         if (!isManagement) userManagementId = 0
                         layout_spinner_management.gone()
                     } else {
+                        labelNoPartner.visible()
+                        edtNoPartner.visible()
                         layout_spinner_management.visible()
                     }
                 }
@@ -453,6 +456,7 @@ class TambahSdmActivity : BaseActivity() {
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
             val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
             edtNoPartner.setText(partners?.noPartner)
+            edtNoPartner.error = null
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -482,7 +486,10 @@ class TambahSdmActivity : BaseActivity() {
                 }) { e { it.message.toString() } })
     }
 
-    fun validation(): Boolean {
+    private fun validation(): Boolean {
+
+        var noPartner = false
+
         val username = ValidationForm.validationInput(edtUsername, "Username tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPassword, "Password tidak boleh kosong")
         val konfirmasiPassword = ValidationForm.validationInput(
@@ -499,8 +506,9 @@ class TambahSdmActivity : BaseActivity() {
         val noHp = ValidationForm.validationInput(edtNoHp, "No hp tidak boleh kosong")
         val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
-        val noPartner =
-            ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
+        if (roleSelectedId == 3){
+            noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
+        }
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
 
         val matchPass = ValidationForm.validationSingkronPassword(
@@ -515,8 +523,8 @@ class TambahSdmActivity : BaseActivity() {
         val pemilikRek = ValidationForm.validationInput(edtPemilikRekening, "Pemilik rekening tidak boleh kosong")
 
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
-                tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass
-                && joindate && bankName && noRek && pemilikRek
+                tempatLahir && noHp && email && alamat && validEmail && matchPass
+                && joindate && bankName && noRek && pemilikRek && if (roleSelectedId == 3) noPartner else true
     }
 
     override fun onDestroy() {

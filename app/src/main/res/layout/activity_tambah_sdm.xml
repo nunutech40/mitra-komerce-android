@@ -226,27 +226,6 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="16dp"
-                android:text="No Partner"
-                android:textColor="@color/textColor" />
-
-            <EditText
-                android:id="@+id/edtNoPartner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:hint="@string/masukkan_no_partner"
-                android:clickable="false"
-                android:focusable="false"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="16dp"
                 android:text="Alamat"
                 android:textColor="@color/textColor" />
 
@@ -368,6 +347,28 @@
                 android:id="@+id/spinnerRole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/labelNoPartner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="No Partner"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/edtNoPartner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:hint="@string/masukkan_no_partner"
+                android:clickable="false"
+                android:focusable="false"
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
