@@ -197,12 +197,10 @@ class HomeAdminFragment : Fragment() {
             view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
-
-
-        imgProfile.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-        )
+//        imgProfile.loadCircleImage(
+//            user.photo_profile_url
+//                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+//        )
 
         setupGreetings()
 
