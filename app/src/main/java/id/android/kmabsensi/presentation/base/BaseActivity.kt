@@ -1,12 +1,16 @@
 package id.android.kmabsensi.presentation.base
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,6 +23,7 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
+import kotlinx.android.synthetic.main.activity_detail_izin.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -27,6 +32,16 @@ abstract class BaseActivity : AppCompatActivity() {
     private lateinit var myDialog: MyDialog
 
     private var skeletonScreen: SkeletonScreen? = null
+
+    val searchView: View by lazy {
+        LayoutInflater.from(this).inflate(R.layout.edittext_search, null)
+    }
+
+    val toolbarContent: FrameLayout by lazy {
+        findViewById<FrameLayout>(R.id.toolbar_content)
+    }
+
+    var isSearchMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +126,19 @@ abstract class BaseActivity : AppCompatActivity() {
 
         if (isFilterVisible) btnFilter.visible()
         if (isSearchVisible) btnSearch.visible()
+
+        btnSearch.setOnClickListener {
+            isSearchMode = true
+            /* add search view from edittext_search.xml */
+            toolbarContent.visibility = View.VISIBLE
+            toolbarContent.addView(searchView)
+
+            /* Show keyboard */
+            searchView.requestFocus()
+            val imm: InputMethodManager? =
+                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
 }
