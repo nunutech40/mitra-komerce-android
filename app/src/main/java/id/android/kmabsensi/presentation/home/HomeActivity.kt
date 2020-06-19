@@ -15,8 +15,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.airbnb.lottie.LottieAnimationView
-import com.github.ajalt.timberkt.Timber
-import com.github.ajalt.timberkt.Timber.d
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -28,7 +26,6 @@ import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_home.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,6 +43,8 @@ class HomeActivity : AppCompatActivity() {
     var isCheckin = false
     var isCheckout = false
     var hasReportPresence = false
+
+    var isOpenGroupMenu = false
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -90,7 +89,7 @@ class HomeActivity : AppCompatActivity() {
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
         }
 
@@ -102,7 +101,7 @@ class HomeActivity : AppCompatActivity() {
             showDialogCheckIn(ontimeLevel)
         }
 
-        if (isCheckout){
+        if (isCheckout) {
             showDialogCheckIn(0)
         }
 
@@ -127,7 +126,7 @@ class HomeActivity : AppCompatActivity() {
         setupViewPager()
     }
 
-    fun showDialogNotYetCheckout(){
+    fun showDialogNotYetCheckout() {
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(
@@ -151,16 +150,16 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDialogCheckIn(onTimeLevel: Int){
+    private fun showDialogCheckIn(onTimeLevel: Int) {
         val currentTime = Calendar.getInstance()
-        val now : Date = currentTime.time
+        val now: Date = currentTime.time
 
         // for ontime level 3
         val cal4 = Calendar.getInstance()
-        cal4.set(Calendar.HOUR_OF_DAY,8)
+        cal4.set(Calendar.HOUR_OF_DAY, 8)
         cal4.set(Calendar.MINUTE, 10)
         cal4.set(Calendar.SECOND, 0)
-        val jam8Telat : Date = cal4.time
+        val jam8Telat: Date = cal4.time
 
         // checkout success dialog as default
         val dialog = MaterialDialog(this).show {
@@ -194,7 +193,7 @@ class HomeActivity : AppCompatActivity() {
 
                 var minutes = TimeUnit.MILLISECONDS.toMinutes(different)
 
-                if (minutes > 60){
+                if (minutes > 60) {
                     val hour = (different / 1000) / (60 * 60) % 24
                     val minute = (different / 1000) / 60 % 60
                     telat = "$hour jam $minute menit"
@@ -240,9 +239,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-
     @SuppressLint("SimpleDateFormat")
-    fun setGreeting() : Pair<String, Int> {
+    fun setGreeting(): Pair<String, Int> {
         var greeting = ""
         var header = 0
         val morning = Calendar.getInstance()
@@ -257,7 +255,7 @@ class HomeActivity : AppCompatActivity() {
 
         var name = ""
 
-        if (!user.full_name.isNullOrEmpty()){
+        if (!user.full_name.isNullOrEmpty()) {
             name = user.full_name.split(" ")[0].toLowerCase().capitalizeWords()
         }
 
@@ -279,7 +277,7 @@ class HomeActivity : AppCompatActivity() {
         return Pair(greeting, header)
     }
 
-    fun getCountdownTime(time_zuhur: String, time_ashar: String) : Triple<String, Long, String> {
+    fun getCountdownTime(time_zuhur: String, time_ashar: String): Triple<String, Long, String> {
 
         val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
         var nextTime = ""
@@ -339,10 +337,10 @@ class HomeActivity : AppCompatActivity() {
             else -> statusWaktu = "Waktu Pulang"
         }
 
-        var differenceTime : Long = 0
+        var differenceTime: Long = 0
 
         if (endTime != null) {
-            differenceTime  = endTime.time - currentTime.time
+            differenceTime = endTime.time - currentTime.time
         }
 
         return Triple(statusWaktu, differenceTime, nextTime)
@@ -357,16 +355,48 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // for hit api dahsboard in every click beranda page
-    private fun getDashboardData(){
-        if (role == ROLE_ADMIN){
-            val beranda = supportFragmentManager.findFragmentByTag(getFragmentTag(R.id.viewpager, 0)) as HomeAdminFragment
+    private fun getDashboardData() {
+        if (role == ROLE_ADMIN) {
+            val beranda = supportFragmentManager.findFragmentByTag(
+                getFragmentTag(
+                    R.id.viewpager,
+                    0
+                )
+            ) as HomeAdminFragment
             beranda.getDashboardData()
         }
 
-        if (role == ROLE_MANAGEMEMENT){
-            val beranda = supportFragmentManager.findFragmentByTag(getFragmentTag(R.id.viewpager, 0)) as HomeManagementFragment
+        if (role == ROLE_MANAGEMEMENT) {
+            val beranda = supportFragmentManager.findFragmentByTag(
+                getFragmentTag(
+                    R.id.viewpager,
+                    0
+                )
+            ) as HomeManagementFragment
             beranda.getDashboardData()
         }
+    }
+
+    override fun onBackPressed() {
+        if (viewpager.currentItem == 0) {
+            if (isOpenGroupMenu) {
+                if (role == ROLE_ADMIN) {
+                    val beranda = supportFragmentManager.findFragmentByTag(
+                        getFragmentTag(
+                            R.id.viewpager,
+                            0
+                        )
+                    ) as HomeAdminFragment
+                    beranda.hideGroupMenu()
+                }
+            } else {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
+
+
     }
 
 }

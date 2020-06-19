@@ -213,40 +213,28 @@ class HomeAdminFragment : Fragment() {
         }
 
         btnKelolaSdm.setOnClickListener {
-            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
+//            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
+            showGroupMenu(0)
         }
 
-        btnKelolaIzin.setOnClickListener {
-            activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
-        }
 
-        btnKelolaJabatan.setOnClickListener {
-            activity?.startActivity<ManajemenJabatanActivity>()
-        }
 
         btnKelolaCoworking.setOnClickListener {
             activity?.startActivity<ListCoworkingActivity>()
         }
 
         btnDataPartner.setOnClickListener {
-            activity?.startActivity<PartnerActivity>()
+//            activity?.startActivity<PartnerActivity>()
+            showGroupMenu(1)
         }
 
-        btnPartnerCategory.setOnClickListener {
-            activity?.startActivity<KategoriPartnerActivity>()
-        }
+
 
         sectionPartner.setOnClickListener {
             activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
         }
 
-        btnInvoice.setOnClickListener {
-            activity?.startActivity<InvoiceActivity>()
-        }
 
-        btnInvoiceReport.setOnClickListener {
-            activity?.startActivity<InvoiceReportActivity>()
-        }
 
         swipeRefresh.setOnRefreshListener {
             txtPresent.text = ""
@@ -260,6 +248,30 @@ class HomeAdminFragment : Fragment() {
             setupGreetings()
         }
 
+    }
+
+    /*
+     * 0 - SDM
+     * 1 - Partner
+     */
+    fun showGroupMenu(menu: Int){
+        swipeRefresh.gone()
+        containerHome.visible()
+        val fragment = when(menu){
+            0 -> SdmMenuFragment()
+            else -> PartnerMenuFragment()
+        }
+        childFragmentManager.beginTransaction().apply {
+            replace(R.id.containerHome, fragment).commit()
+        }
+        (activity as HomeActivity).isOpenGroupMenu = true
+    }
+
+    fun hideGroupMenu(){
+        containerHome.gone()
+        swipeRefresh.visible()
+        childFragmentManager.popBackStack()
+        (activity as HomeActivity).isOpenGroupMenu = false
     }
 
 
