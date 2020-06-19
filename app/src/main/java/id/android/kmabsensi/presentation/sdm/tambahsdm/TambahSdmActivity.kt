@@ -1,11 +1,9 @@
 package id.android.kmabsensi.presentation.sdm.tambahsdm
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -16,15 +14,16 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.crashlytics.android.Crashlytics
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.Position
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -33,9 +32,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,6 +56,7 @@ class TambahSdmActivity : BaseActivity() {
     var jabatanSelectedId = 0
     var userManagementId = 0
     var officeId = 0
+    var martialStatus = 0
 
     var isManagement = false
 
@@ -66,15 +66,14 @@ class TambahSdmActivity : BaseActivity() {
     private val disposables = CompositeDisposable()
 
     private var compressedImage: File? = null
+    private val PICK_PARTNER_RC = 112
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_sdm)
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tambah Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Tambah Karyawan")
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
@@ -109,7 +108,12 @@ class TambahSdmActivity : BaseActivity() {
                     edtTanggalLahir.text.toString(),
                     genderSelectedId.toString(),
                     userManagementId.toString(),
-                    compressedImage
+                    compressedImage,
+                    joinDate = edtTanggalBergabung.text.toString(),
+                    martialStatus = martialStatus.toString(),
+                    bankName = edtNamaBank.text.toString(),
+                    bankNo = edtNoRekening.text.toString(),
+                    bankOwnerName = edtPemilikRekening.text.toString()
                 )
             }
 
@@ -120,9 +124,7 @@ class TambahSdmActivity : BaseActivity() {
 
 
 
-    fun initViews() {
-        
-
+    private fun initViews() {
         // spinner divisi
         ArrayAdapter.createFromResource(
             this,
@@ -202,6 +204,30 @@ class TambahSdmActivity : BaseActivity() {
             }
         }
 
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
+            }
+
         imgProfile.setOnClickListener {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
@@ -232,10 +258,33 @@ class TambahSdmActivity : BaseActivity() {
                 }
             }
         }
+
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+                    dialog.dismiss()
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
+
+        edtNoPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC
+            )
+        }
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     fun observeData() {
@@ -287,7 +336,9 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Loading -> {
                 }
                 is UiState.Success -> {
-                    userManagements.addAll(it.data.data)
+                    userManagements.addAll(it.data.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
 
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }
@@ -394,13 +445,14 @@ class TambahSdmActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-
             val image = ImagePicker.getFirstImageOrNull(data)
-
-
             imagePath = image.path
-
             compress(File(imagePath))
+        }
+
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.noPartner)
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -457,13 +509,20 @@ class TambahSdmActivity : BaseActivity() {
             "Password tidak sama"
         )
 
+        val joindate = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
+        val bankName = ValidationForm.validationInput(edtNamaBank, "Nama bank tidak boleh kosong")
+        val noRek = ValidationForm.validationInput(edtNoRekening, "Nomor rekening tidak boleh kosong")
+        val pemilikRek = ValidationForm.validationInput(edtPemilikRekening, "Pemilik rekening tidak boleh kosong")
+
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
                 tempatLahir && noHp && email && noPartner && alamat && validEmail && matchPass
+                && joindate && bankName && noRek && pemilikRek
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposables.clear()
     }
+
 
 }

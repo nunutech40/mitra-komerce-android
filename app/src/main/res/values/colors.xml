@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    <color name="colorPrimary">#CC3300</color>-->
+<!--    <color name="colorPrimaryDark">#FF5722</color>-->
+<!--    <color name="colorAccent">#CC3300</color>-->
+
     <color name="colorPrimary">#CC3300</color>
-    <color name="colorPrimaryDark">#FF5722</color>
+    <color name="colorPrimaryDark">#DE4D4E</color>
     <color name="colorAccent">#CC3300</color>
 
     <color name="textColor">#5A5B5C</color>
@@ -14,4 +18,62 @@
     <color name="colorCircle">#9CE78A6E</color>
 
     <color name="colorSuccess">#4CAF50</color>
+
+    <color name="textColorGrey">#A1A4AF</color>
+
+    <color name="textTime">#CC282828</color>
+
+    <color name="colorAsk">#929292</color>
+
+    <color name="colorTitleMenu">#C8C9D0</color>
+
+    <color name="layoutBackgroundColor">#F9FAFF</color>
+
+    <color name="colorBgLihatFoto">#668CBEFF</color>
+
+    <color name="colorOrangeMuda">#F48070</color>
+
+    <color name="colorOrange">#E6605B</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="lighter_gray">#DDDDDD</color>
+
+
+    <color name="icActive">#FFFFFFFF</color>
+    <color name="icFocused">#DDFFFFFF</color>
+    <color name="icPressed">#AAFFFFFF</color>
+
+    <color name="color_blue">#00539F</color>
+
+    <color name="status_acara">#F39C12</color>
+    <color name="status_tersedia">#3EB474</color>
+
+    <color name="color_stroke">#FC927C</color>
+
+    <color name="color_kirim_laporan">#BD3434</color>
+
+    <color name="_000000">#000000</color>
+    <color name="_404040">#404040</color>
+    <color name="_DE4D4E">#DE4D4E</color>
+    <color name="_929292">#929292</color>
+    <color name="_A1A4AF">#A1A4AF</color>
+    <color name="_7A7B7C">#7A7B7C</color>
+    <color name="_E15352">#E15352</color>
+    <color name="_F48070">#F48070</color>
+    <color name="_ED6E65">#ED6E65</color>
+    <color name="_E04C25">#E04C25</color>
+    <color name="_939393">#939393</color>
+
+    <color name="_5AB04F">#5AB04F</color>
+    <color name="_64C3F9">#64C3F9</color>
+
+    <color name="_3277FF">#3277FF</color>
+    <color name="_46B77A">#46B77A</color>
+    <color name="_2196F3">#2196F3</color>
+
+    <color name="strokeButtonOutline">#36DE4D4E</color>
+
+    <color name="skeleton">#E6E6E6</color>
+    <color name="shimmer_color">#F4F4F4</color>
+
 </resources>

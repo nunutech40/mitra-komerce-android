@@ -1,7 +1,7 @@
 package id.android.kmabsensi.presentation.sdm
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.ListPositionResponse
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
@@ -12,9 +12,10 @@ import id.android.kmabsensi.data.repository.SdmRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,7 +25,8 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
                              val userRepository: UserRepository,
                              val sdmRepository: SdmRepository,
                              val jabatanRepository: JabatanRepository,
-                             val schedulerProvider: SchedulerProvider) : BaseViewModel() {
+                             val schedulerProvider: SchedulerProvider
+) : BaseViewModel() {
 
     val userData = MutableLiveData<UiState<UserResponse>>()
     val officeData = MutableLiveData<UiState<OfficeResponse>>()
@@ -71,12 +73,18 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
         birthDate: String,
         gender: String,
         userManagementId: String,
-        photoProfileFile: File?
+        photoProfileFile: File?,
+        status: Int = 1,
+        joinDate: String,
+        martialStatus: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileFile?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), photoProfileFile)
+            val imageReq = photoProfileFile.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", photoProfileFile.name, imageReq)
         }
 
@@ -99,7 +107,13 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
             birthDate.createRequestBodyText(),
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
-            photoProfile
+            status.toString().createRequestBodyText(),
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -125,12 +139,19 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
         birthDate: String,
         gender: String,
         userManagementId: String,
-        photoProfileFile: File?
+        status: Int,
+        photoProfileFile: File?,
+        joinDate: String,
+        martialStatus: String,
+        bankAccoutId: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileFile?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), photoProfileFile)
+            val imageReq = photoProfileFile.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", photoProfileFile.name, imageReq)
         }
 
@@ -151,7 +172,14 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
             birthDate.createRequestBodyText(),
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
-            photoProfile
+            status.toString().createRequestBodyText(),
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankAccoutId.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -195,6 +223,6 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
     }
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

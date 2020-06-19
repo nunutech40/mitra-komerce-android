@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9FAFF"
+    tools:context="id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="28dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/background_white_bottom_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textDate"
+                style="@style/tv12sp929292_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24dp"
+                android:layout_marginTop="96dp"
+                android:text="Senin, 06 Januari 2020"
+                android:textAllCaps="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView29"
+                style="@style/tv12sp929292_avenir_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No. Invoice"
+                app:layout_constraintStart_toStartOf="@+id/textDate"
+                app:layout_constraintTop_toBottomOf="@+id/textDate" />
+
+            <TextView
+                android:id="@+id/textInvoiceNumber"
+                style="@style/tv16sp000000_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="070370237"
+                app:layout_constraintStart_toStartOf="@+id/textView29"
+                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView31"
+                style="@style/tv12sp929292_avenir_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:text="STATUS"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textDate" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textInvoiceStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_status_invoice_open"
+                android:fontFamily="@font/avenir_heavy"
+                android:paddingStart="27dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="27dp"
+                android:paddingBottom="6dp"
+                android:text="OPEN"
+                android:textColor="#64C3F9"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView31"
+                app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutExpired"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_14dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                android:background="@drawable/bg_status_invoice_cancel"
+                android:paddingStart="@dimen/_16dp"
+                android:paddingTop="@dimen/_6dp"
+                android:paddingEnd="@dimen/_16dp"
+                android:paddingBottom="@dimen/_6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appCompatImageView">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/labelExpired"
+                    style="@style/tv12spDE4D4E_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXPIRED"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textDueDate"
+                    style="@style/tv12spDE4D4E_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SENIN, 13 JANUARI 2020"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutDibuatOleh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_14dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="@dimen/_4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutExpired">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_12dp"
+                    android:paddingBottom="@dimen/_12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv16spED6E65_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:text="Dibuat Oleh : "
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textInvoiceCreator"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_16dp"
+                        android:text="Juang Sastra Jingga"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutBiayaPemasangan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_14dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="@dimen/_4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutDibuatOleh">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_16dp"
+                    android:paddingEnd="@dimen/_16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtJudul"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16dp"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Judul" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelNoPartner"
+                        style="@style/tv14sp929292_avenir_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="NO. PARTNER"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtJudul" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelPartner"
+                        style="@style/tv14sp929292_avenir_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="@dimen/_16dp"
+                        android:text="PARTNER"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/labelNoPartner" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textNoPartner"
+                        style="@style/tv16sp000000_avenir_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/labelNoPartner"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textPartner"
+                        style="@style/tv16sp000000_avenir_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Company A"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/labelPartner"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutTagihan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_14dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="@dimen/_4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutBiayaPemasangan">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_16dp"
+                    android:paddingEnd="@dimen/_16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextView"
+                        style="@style/tv16spED6E65_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16dp"
+                        android:text="Tagihan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/toggleExpand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/appCompatTextView"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_down" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvInvoice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/appCompatTextView" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelTotal"
+                        style="@style/tv16sp000000_avenir_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Total"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rvInvoice" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTotal"
+                        style="@style/tv18sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_16dp"
+                        android:text="Rp 24.500.000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/labelTotal"
+                        app:layout_constraintTop_toTopOf="@id/labelTotal" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutTagihan">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_gradient_selector"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/_14dp"
+                    android:paddingBottom="@dimen/_14dp"
+                    android:text="BATALKAN"
+                    android:textColor="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnComplete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_gradient_hijau_selector"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/_14dp"
+                    android:paddingBottom="@dimen/_14dp"
+                    android:text="LUNASKAN"
+                    android:textColor="@color/white" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <RelativeLayout
+                android:id="@+id/btnLihatBuktiPembayararn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_24dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                android:background="@drawable/bg_with_orange_border"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutButton">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingTop="@dimen/_12dp"
+                    android:paddingBottom="@dimen/_12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/labelBayarInvoice"
+                        style="@style/tv16spED6E65_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:text="Lihat Bukti Pembayaran"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_right_orange" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

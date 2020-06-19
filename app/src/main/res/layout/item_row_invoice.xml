@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="13dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemName"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="Item A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemPrice"
+        style="@style/tv16sp000000_avenir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_14dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textItemName"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Rp. 1.000.000" />
+
+    <id.android.kmabsensi.utils.ui.ReadMoreTextView
+        android:id="@+id/textItemDescription"
+        style="@style/tv12sp7A7B7C_avenir"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/textItemPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textItemName"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

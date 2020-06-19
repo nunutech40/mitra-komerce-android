@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="5dp"
+    android:elevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
+
+        <View
+            android:id="@+id/txtName"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/txtKantor"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="@+id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/txtName" />
+
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#1F000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtKantor" />
+
+        <View
+            android:id="@+id/txtDate"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="@+id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+
+        <View
+            android:id="@+id/txtPartner"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/txtCheckIn"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            android:layout_marginTop="@dimen/_6dp"
+            app:layout_constraintStart_toStartOf="@+id/txtDate"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+        <View
+            android:id="@+id/txtCheckOut"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCheckIn"
+            app:layout_constraintEnd_toEndOf="@+id/txtPartner"
+            app:layout_constraintTop_toTopOf="@+id/txtCheckIn" />
+
+        <View
+            android:id="@+id/btnLihatFotoDatang"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_6dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="@+id/txtCheckIn"
+            app:layout_constraintTop_toBottomOf="@+id/txtCheckIn" />
+
+        <View
+            android:id="@+id/btnLihatFotoPulang"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_16dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLihatFotoDatang"
+            app:layout_constraintEnd_toEndOf="@+id/txtCheckOut"
+            app:layout_constraintTop_toTopOf="@+id/btnLihatFotoDatang" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</com.google.android.material.card.MaterialCardView>

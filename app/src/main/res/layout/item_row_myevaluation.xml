@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/_12dp">
+
+    <TextView
+        android:id="@+id/textTitle"
+        style="@style/tv16sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:text="Evaluasi 23 Maret 2020"
+        app:layout_constraintEnd_toStartOf="@+id/textTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15:30"
+        style="@style/tv12sp929292_avenir_medium"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelDari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DARI : "
+        style="@style/tv10sp47B989_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+    <TextView
+        android:id="@+id/labelLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LEADER : "
+        style="@style/tv10sp47B989_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/labelDari"
+        app:layout_constraintTop_toBottomOf="@+id/labelDari" />
+
+    <TextView
+        android:id="@+id/textEvaluatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Namanya"
+        android:textAllCaps="true"
+        style="@style/tv10sp000000_avenir_heavy"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/labelDari"
+        app:layout_constraintStart_toEndOf="@+id/labelDari" />
+
+    <TextView
+        android:id="@+id/textLeaderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Namanya"
+        android:textAllCaps="true"
+        android:layout_marginStart="4dp"
+        style="@style/tv10sp000000_avenir_heavy"
+        app:layout_constraintBaseline_toBaselineOf="@+id/labelLeader"
+        app:layout_constraintStart_toEndOf="@+id/labelLeader" />
+</androidx.constraintlayout.widget.ConstraintLayout>

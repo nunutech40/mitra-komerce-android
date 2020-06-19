@@ -2,13 +2,10 @@ package id.android.kmabsensi.presentation.permission.detailizin
 
 import android.app.Activity
 import android.content.Intent
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
-import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.d
 import com.stfalcon.imageviewer.StfalconImageViewer
 import id.android.kmabsensi.R
@@ -17,8 +14,10 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_izin.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
+import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
+
 
 class DetailIzinActivity : BaseActivity() {
 
@@ -36,9 +35,7 @@ class DetailIzinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_izin)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Pengajuan Izin"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Pengajuan Izin")
 
         permission = intent.getParcelableExtra(PERMISSION_DATA_KEY)
         isFromManajemenIzin = intent.getBooleanExtra(IS_FROM_MANAJEMEN_IZI, false)
@@ -47,46 +44,103 @@ class DetailIzinActivity : BaseActivity() {
 
         permission?.let {
             it.user?.let { user ->
-                imgKaryawan.loadCircleImage(it.user.photo_profile_url.toString())
                 d { it.user.photo_profile_url.toString() }
 
-                txtNamaKaryawan.text = ":   ${it.user.full_name}"
-                txtDivisiKaryawan.text = ":   ${it.user.division_name}"
-                txtJabatanKaryawan.text = ":   ${it.user.position_name}"
-                txtKantor.text = ":   ${it.user.office_name}"
+                if (user.division_id == 2 || user.role_id == 2){
+                    view4.gone()
+                    txt_label_persetujuan_partner.gone()
+                    layoutImgPersetujuanPartner.gone()
+                    btnLihatFotoPersetujuanPartner.gone()
+
+                    if (user.role_id == 2){
+                        txt_label_persetujuan_leader.text =  "Lampiran Bukti Izin"
+                    }
+                }
+
+                txtNamaPemohon.text = "${it.user.full_name}"
+                txtRole.text = "${it.user.position_name}"
             }
 
-            val namaAtasan = it.management?.full_name ?: "-"
-            txtNamaAtasan.text = ":   $namaAtasan"
-            txtJenisIzin.text = when (it.permission_type) {
-                1 -> ":   Izin"
-                2 -> ":   Sakit"
-                else -> ":   Cuti"
+            txtAlasanTidakHadir.text = when (it.permission_type) {
+                1 -> "Izin"
+                2 -> "Sakit"
+                else -> "Cuti"
             }
 
-            txtDeskripsi.text = ":   ${it.explanation}"
-            txtWaktu.text = ":   ${it.date_from} - ${it.date_to}"
-            txtStatus.text = when (it.status) {
-                0 -> ":   Meminta Persetujuan"
-                2 -> ":   Disetujui"
-                else -> ":   Ditolak"
+            txtKeterangan.text = "${it.explanation}"
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val dateFrom = dateFormat.parse(it.date_from)
+            val dateTo = dateFormat.parse(it.date_to)
+
+            if (dateTo != null && dateFrom != null){
+                val diff = dateTo.time - dateFrom.time
+                txtJumlahCuti.text = "${TimeUnit.MILLISECONDS.toDays(diff)+1} Hari"
             }
 
-            it.created_at?.let {
-                txtTanggalPengajuan.text = ":   $it"
-            } ?: kotlin.run {
-                txtTanggalPengajuan.text = ":   -"
-            }
 
-            button.setOnClickListener { view ->
+            imgPersetujuanPartner.loadImageFromUrl(it.attachment_partner_img_url)
+            imgLaporanLeader.loadImageFromUrl(it.attachment_leader_img_url)
+
+            btnLihatFotoPersetujuanPartner.setOnClickListener { view ->
                 StfalconImageViewer.Builder<String>(
                     this,
-                    listOf(it.attachment_img_url)
+                    listOf(it.attachment_partner_img_url)
                 ) { view, image ->
                     Glide.with(this)
                         .load(image).into(view)
                 }.show()
+
             }
+
+            btnLihatFotoLaporanLeader.setOnClickListener { view ->
+                StfalconImageViewer.Builder<String>(
+                    this,
+                    listOf(it.attachment_leader_img_url)
+                ) { view, image ->
+                    Glide.with(this)
+                        .load(image).into(view)
+                }.show()
+
+            }
+
+
+
+//            txtDate.text = getDateStringFormatted(date)
+
+            txtDateFrom.text = getDateStringFormatted2(dateFrom)
+            txtDateTo.text = getDateStringFormatted2(dateTo)
+
+            when(it.status){
+                0 -> {
+                    txtStatus.text = "REQUESTED"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_requested)
+                }
+                2 -> {
+                    txtStatus.text = "DISETUJUI"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_approved)
+                }
+                3 -> {
+                    txtStatus.text = "DITOLAK"
+                    txtStatus.setBackgroundResource(R.drawable.bg_status_rejected)
+                }
+            }
+
+//            it.created_at?.let {
+//                txtTanggalPengajuan.text = ":   $it"
+//            } ?: kotlin.run {
+//                txtTanggalPengajuan.text = ":   -"
+//            }
+
+//            button.setOnClickListener { view ->
+//                StfalconImageViewer.Builder<String>(
+//                    this,
+//                    listOf(it.attachment_img_url)
+//                ) { view, image ->
+//                    Glide.with(this)
+//                        .load(image).into(view)
+//                }.show()
+//            }
 
             if (isFromManajemenIzin) {
                 if (it.status == 0) layoutAction.visible() else layoutAction.gone()

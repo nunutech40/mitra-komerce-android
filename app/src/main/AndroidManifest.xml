@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="id.android.kmabsensi">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.location.network"
@@ -22,11 +24,95 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:allowClearUserData="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity">
+        <!--
+             Set custom default ic_mitra_km. This is used when no ic_mitra_km is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/textColor" />
+        <activity
+            android:name=".presentation.invoice.report.InvoiceReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.myevaluation.EvaluationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.myevaluation.MyEvaluationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.payment.BuktiPembayaranActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.detail.DetailInvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.ManageInvoiceDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.create.AddInvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.InvoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.grafik.GrafikPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.partnerpicker.PartnerPickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.detail.DetailPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.tambahpartner.FormPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.kategori.KategoriPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.CustomizePartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.PartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.coworking.CheckinCoworkingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.checkin.ReportAbsensiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.coworking.CoworkingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.coworking.ListCoworkingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.camera.CameraActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.sdm.search.CariDataSdmActivity"
             android:screenOrientation="portrait" />
@@ -60,18 +146,6 @@
         <activity
             android:name=".presentation.checkin.CekJangkauanActivity"
             android:screenOrientation="portrait" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".presentation.kantor.report.filter.FilterReportKantorActivity"
             android:screenOrientation="portrait" />
@@ -126,6 +200,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.kantor.cabang.TambahCabangActivity" />
         </activity>
+
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/_12dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPartnerNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_14dp"
+        tools:text="NO. PARTNER 941231231"
+        style="@style/tv10sp000000_avenir_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPartnerName"
+        style="@style/tv16sp000000_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Alodokter"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerNumber" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPartnerCategory"
+        style="@style/tv14spde4d4e_avenir_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Kesehatan"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerName"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView25"
+        style="@style/tv10sp929292_avenir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JUMLAH SDM"
+        app:layout_constraintBottom_toBottomOf="@+id/textPartnerName"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelOrang"
+        style="@style/tv12spa1a4af_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Orang"
+        app:layout_constraintEnd_toEndOf="@+id/textView25"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textTotalSdm"
+        style="@style/tv18sp404040_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        tools:text="414"
+        app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

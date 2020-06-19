@@ -6,363 +6,388 @@
     android:layout_height="match_parent"
     tools:context=".presentation.permission.detailizin.DetailIzinActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutAction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/layoutAction">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingBottom="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-
-                >
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Data Karyawan Pemohon"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imgKaryawan"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/textView12"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12"
-                    app:srcCompat="@drawable/shape_circle" />
+                android:background="@drawable/bottom_shadow"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textNama"
+                    android:id="@+id/txtNamaPemohon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="108dp"
                     android:text="Nama"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toEndOf="@+id/imgKaryawan"
-                    app:layout_constraintTop_toTopOf="@+id/imgKaryawan" />
-
-                <TextView
-                    android:id="@+id/textDivisi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Divisi"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textNama"
-                    app:layout_constraintTop_toBottomOf="@+id/txtNamaKaryawan" />
-
-                <TextView
-                    android:id="@+id/textJabatan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Jabatan"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textDivisi"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDivisiKaryawan" />
-
-                <TextView
-                    android:id="@+id/textKantor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Kantor"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textJabatan"
-                    app:layout_constraintTop_toBottomOf="@+id/txtJabatanKaryawan" />
-
-                <TextView
-                    android:id="@+id/textNamaAtasan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Nama Atasan"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textKantor"
-                    app:layout_constraintTop_toBottomOf="@+id/txtKantor" />
-
-                <TextView
-                    android:id="@+id/txtNamaKaryawan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text=":   -"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textNama"
-                    app:layout_constraintStart_toEndOf="@+id/textNamaAtasan" />
-
-                <TextView
-                    android:id="@+id/txtDivisiKaryawan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":   -"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textDivisi"
-                    app:layout_constraintStart_toStartOf="@+id/txtNamaKaryawan" />
-
-                <TextView
-                    android:id="@+id/txtJabatanKaryawan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":   -"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textJabatan"
-                    app:layout_constraintStart_toStartOf="@+id/txtDivisiKaryawan" />
-
-                <TextView
-                    android:id="@+id/txtKantor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":   -"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textKantor"
-                    app:layout_constraintStart_toStartOf="@+id/txtJabatanKaryawan" />
-
-                <TextView
-                    android:id="@+id/txtNamaAtasan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":   -"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textNamaAtasan"
-                    app:layout_constraintStart_toStartOf="@+id/txtKantor" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider"
-                android:layout_marginTop="12dp"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="16dp"
-                android:background="@android:color/white">
-
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Keterangan Izin"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textJenisIzin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Jenis Izin"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textView21"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-                <TextView
-                    android:id="@+id/textDeskripsi"
+                    android:id="@+id/txtRole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Deskripsi"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textJenisIzin"
-                    app:layout_constraintTop_toBottomOf="@+id/txtJenisIzin" />
+                    android:layout_marginBottom="24dp"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtNamaPemohon"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNamaPemohon" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Lampiran"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textDeskripsi"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDeskripsi" />
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Waktu"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textView25"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-                <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
                     android:text="Status"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintStart_toStartOf="@+id/textView31"
-                    app:layout_constraintTop_toBottomOf="@+id/textView31" />
-
-                <TextView
-                    android:id="@+id/txtJenisIzin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="TextView"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textJenisIzin"
-                    app:layout_constraintStart_toEndOf="@+id/textView13" />
-
-                <TextView
-                    android:id="@+id/txtDeskripsi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="TextView"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textDeskripsi"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/txtJenisIzin"
-                    tools:text="TextView" />
-
-                <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView25"
-                    app:layout_constraintStart_toStartOf="@+id/txtDeskripsi"
-                    app:layout_constraintTop_toTopOf="@+id/textView25" />
-
-                <TextView
-                    android:id="@+id/txtWaktu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView31"
-                    app:layout_constraintStart_toStartOf="@+id/textView35" />
+                    android:textColor="@color/colorOrangeMuda"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtNamaPemohon"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textColor="@color/textColor"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView32"
-                    app:layout_constraintStart_toStartOf="@+id/txtWaktu" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="12dp"
-                    android:text="Lihat"
-                    android:textColor="@android:color/black"
-                    android:textSize="11sp"
-                    app:backgroundTint="@color/divider"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView35"
-                    app:layout_constraintStart_toEndOf="@+id/textView35"
-                    app:layout_constraintTop_toTopOf="@+id/textView35" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Tanggal Pengajuan"
-                    app:layout_constraintStart_toStartOf="@+id/textView32"
-                    app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-                <TextView
-                    android:id="@+id/txtTanggalPengajuan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView13"
-                    app:layout_constraintStart_toStartOf="@+id/txtStatus" />
-
+                    android:background="@drawable/bg_status_rejected"
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="4dp"
+                    android:text="REQUESTED"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtRole"
+                    app:layout_constraintEnd_toEndOf="@+id/textView6" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Alasan Ketidakhadiran"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/txtAlasanTidakHadir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Cuti"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView20"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:text="Jumlah Hari"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
+
+            <TextView
+                android:id="@+id/txtJumlahCuti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="0 Hari"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtJumlahCuti" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Tanggal Ketidakhadiran"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/textDari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="Dari :"
+                android:textColor="@color/colorOrangeMuda"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView24" />
+
+            <TextView
+                android:id="@+id/txtDateFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="TextView"
+                android:textColor="@color/black"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textDari"
+                app:layout_constraintStart_toEndOf="@+id/textDari" />
+
+            <TextView
+                android:id="@+id/txtDateTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/black"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtDateFrom"
+                app:layout_constraintEnd_toEndOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="Hingga :"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtDateTo"
+                app:layout_constraintEnd_toStartOf="@+id/txtDateTo" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDateFrom" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Keterangan"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <TextView
+                android:id="@+id/txtKeterangan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Cuti"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/view2"
+                app:layout_constraintStart_toStartOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtKeterangan" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Bukti Percakapan"
+                android:textColor="@color/colorOrangeMuda"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+            <TextView
+                android:id="@+id/txt_label_persetujuan_partner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Persetujuan Partner"
+                app:layout_constraintStart_toStartOf="@id/view3"
+                app:layout_constraintTop_toBottomOf="@id/textView27" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutImgPersetujuanPartner"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:layout_constraintStart_toStartOf="@id/txt_label_persetujuan_partner"
+                app:layout_constraintTop_toBottomOf="@id/txt_label_persetujuan_partner">
+
+                <ImageView
+                    android:id="@+id/imgPersetujuanPartner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/colorAccent" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLihatFotoPersetujuanPartner"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="Lihat Foto"
+                app:layout_constraintBottom_toBottomOf="@+id/layoutImgPersetujuanPartner"
+                app:layout_constraintEnd_toEndOf="@+id/view3"
+                app:layout_constraintTop_toTopOf="@+id/layoutImgPersetujuanPartner"
+                app:strokeColor="@color/color_stroke"
+                app:strokeWidth="2dp" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutImgPersetujuanPartner" />
+
+            <TextView
+                android:id="@+id/txt_label_persetujuan_leader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Laporan Leader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view4" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutImgLaporanLeader"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:layout_constraintStart_toStartOf="@id/txt_label_persetujuan_leader"
+                app:layout_constraintTop_toBottomOf="@id/txt_label_persetujuan_leader">
+
+                <ImageView
+                    android:id="@+id/imgLaporanLeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/colorAccent" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLihatFotoLaporanLeader"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="Lihat Foto"
+                app:layout_constraintBottom_toBottomOf="@+id/layoutImgLaporanLeader"
+                app:layout_constraintEnd_toEndOf="@+id/view3"
+                app:layout_constraintTop_toTopOf="@+id/layoutImgLaporanLeader"
+                app:strokeColor="@color/color_stroke"
+                app:strokeWidth="2dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 
     <LinearLayout
         android:id="@+id/layoutAction"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSetuju"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            app:backgroundTint="#4CAF50"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_gradient_hijau_selector"
             android:text="Setuju"
-            app:layout_constraintBottom_toBottomOf="@+id/textView35"
-            app:layout_constraintStart_toEndOf="@+id/textView35"
-            app:layout_constraintTop_toTopOf="@+id/textView35" />
+            android:textColor="@color/white" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnTolak"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            app:backgroundTint="#C00431"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_gradient_selector"
             android:text="Tolak"
-            app:layout_constraintBottom_toBottomOf="@+id/textView35"
-            app:layout_constraintStart_toEndOf="@+id/textView35"
-            app:layout_constraintTop_toTopOf="@+id/textView35" />
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

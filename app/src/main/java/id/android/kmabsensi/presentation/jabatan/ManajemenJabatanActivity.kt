@@ -1,47 +1,43 @@
 package id.android.kmabsensi.presentation.jabatan
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_manajemen_jabatan.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class ManajemenJabatanActivity : BaseActivity() {
 
     private val vm: JabatanViewModel by inject()
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var myDialog: MyDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manajemen_jabatan)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Daftar Jabatan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setupToolbar("Daftar Jabatan")
         myDialog = MyDialog(this)
         initRv()
 
         vm.positionResponse.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                   showSkeleton(rvJabatan, R.layout.skeleton_list_jabatan, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         groupAdapter.add(JabatanItem(it) { jabatan ->
@@ -82,7 +78,7 @@ class ManajemenJabatanActivity : BaseActivity() {
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

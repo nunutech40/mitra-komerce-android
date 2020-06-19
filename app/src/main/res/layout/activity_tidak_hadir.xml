@@ -6,177 +6,292 @@
     android:layout_height="match_parent"
     tools:context=".presentation.permission.tambahizin.FormIzinActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/toolbar_view"
+        layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        android:text="Tanggal tidak hadir :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView4">
-
-        <EditText
-            android:id="@+id/edtDateFrom"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_round_edt"
-            android:clickable="true"
-            android:drawableEnd="@drawable/ic_calendar"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="Pilih tanggal"
-            android:inputType="textPersonName"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/textView18" />
-
-        <EditText
-            android:id="@+id/edtDateTo"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_round_edt"
-            android:clickable="true"
-            android:drawableEnd="@drawable/ic_calendar"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="Pilih tanggal"
-            android:inputType="textPersonName"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/textView18" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        android:text="Alasan Ketidakhadiran :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-    <Spinner
-        android:id="@+id/spinnerPermission"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Deskripsi :"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPermission" />
-
-    <EditText
-        android:id="@+id/edtDeskripsi"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:gravity="top|left"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="Masukkan deskripsi"
-        android:textSize="14sp"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnUpload"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        app:backgroundTint="#C6BBB7"
-        android:text="Upload"
-        android:textAllCaps="false"
-        app:cornerRadius="8dp"
-        app:icon="@drawable/ic_upload"
-        app:iconTint="@color/black"
-        app:iconGravity="textStart"
-        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/submit"
-        android:textAllCaps="false"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgUpload"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtDeskripsi"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Tanggal Tidak Hadir :"
+                        android:textColor="@color/colorOrangeMuda" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Mulai hari" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edtDateFrom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_calendar2"
+                        android:focusable="false"
+                        android:hint="Pilih tanggal"
+                        android:paddingEnd="8dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Sampai dengan" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edtDateTo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_calendar2"
+                        android:focusable="false"
+                        android:hint="Pilih tanggal"
+                        android:paddingEnd="8dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Alasan Ketidakhadiran :"
+                        android:textColor="@color/colorOrangeMuda" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPermission"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Keterangan Tidak Masuk :"
+                        android:textColor="@color/colorOrangeMuda" />
 
 
+                    <EditText
+                        android:id="@+id/edtDeskripsi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="Masukkan keterangan anda"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Silahkan Unggah Bukti :"
+                        android:textColor="@color/colorOrangeMuda" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutPersetujuanPartner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_label_bukti_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Persetujuan Partner : "
+                                android:textColor="#666666"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/layoutImgPersetujuanPartner"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="2dp">
+
+                                <ImageView
+                                    android:id="@+id/imgPersetujuanPartner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@color/colorAccent" />
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnUploadPersetujuanPartner"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:text="Pilih Foto"
+                            android:layout_gravity="bottom"
+                            app:icon="@drawable/ic_upload2"
+                            app:iconGravity="end"
+                            app:strokeColor="@color/color_stroke"
+                            app:strokeWidth="2dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/dividerPersetujuanPartner"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_label_bukti_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Laporan Leader : "
+                                android:textColor="#666666"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/layoutImgLaporanLeader"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="2dp">
+
+                                <ImageView
+                                    android:id="@+id/imgLaporanLeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@color/colorAccent" />
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnUploadLaporanLeader"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:layout_gravity="bottom"
+                            android:layout_weight="1"
+                            android:text="Pilih Foto"
+                            app:icon="@drawable/ic_upload2"
+                            app:iconGravity="end"
+                            app:strokeColor="@color/color_stroke"
+                            app:strokeWidth="2dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="*Silahkan unggah bukti percakapan dengan pihak terkait."
+                        android:textColor="@color/divider"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_button_gradient_selector"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

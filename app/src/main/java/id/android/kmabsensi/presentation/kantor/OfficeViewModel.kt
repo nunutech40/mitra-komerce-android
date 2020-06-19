@@ -1,16 +1,17 @@
 package id.android.kmabsensi.presentation.kantor
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class OfficeViewModel(val officeRepository: OfficeRepository,
-                      val schedulerProvider: SchedulerProvider) : BaseViewModel()  {
+                      val schedulerProvider: SchedulerProvider
+) : BaseViewModel()  {
 
     val officeState = MutableLiveData<UiState<OfficeResponse>>()
 
@@ -27,6 +28,6 @@ class OfficeViewModel(val officeRepository: OfficeRepository,
 
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

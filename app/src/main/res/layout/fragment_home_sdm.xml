@@ -1,230 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light">
+    android:background="@color/layoutBackgroundColor">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="276dp"
-        android:background="@drawable/bg_header_home_sdm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@color/layoutBackgroundColor">
 
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txtHello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="TextView"
-            android:textColor="@color/test"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imgProfile"
-            app:layout_constraintTop_toTopOf="@+id/imgProfile"
-            tools:ignore="MissingPrefix"
-            tools:text="Hello, Jajat" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txtRoleName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/admin"
-            app:layout_constraintStart_toStartOf="@+id/txtHello"
-            app:layout_constraintTop_toBottomOf="@+id/txtHello" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp">
 
-        <ImageView
-            android:id="@+id/imageView23"
-            android:layout_width="147dp"
-            android:layout_height="126dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:src="@drawable/ilus9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtRoleName"
-            app:layout_constraintTop_toBottomOf="@+id/txtRoleName" />
+                    <ImageView
+                        android:id="@+id/header_waktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="115dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/malam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView24"
-            android:layout_width="65dp"
-            android:layout_height="34dp"
-            android:src="@drawable/ic_km_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView23"
-            app:layout_constraintEnd_toStartOf="@+id/imageView23"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+                    <ImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/txtHello"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="TextView"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+                        tools:ignore="MissingPrefix"
+                        tools:text="Hello, Jajat" />
+
+                    <TextView
+                        android:id="@+id/txtRoleName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@+id/txtHello"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHello" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/waktu"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textColorGrey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
+
+                    <TextView
+                        android:id="@+id/txtNextTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textTime"
+                        android:textSize="42sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/textView15"
+                        app:layout_constraintTop_toBottomOf="@+id/textView15"
+                        tools:text="08:30" />
+
+                    <TextView
+                        android:id="@+id/txtCountdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:textColor="@color/textTime"
+                        style="@style/tv18sp404040_avenir_heavy"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtNextTime"
+                        tools:text="( - 00.00.00 )" />
+
+                    <TextView
+                        android:id="@+id/txtStatusWaktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="24dp"
+                        android:textColor="@color/textTime"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCountdown"
+                        tools:text="Menuju Waktu Dzuhur" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnCheckIn"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutKmPoint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/ic_round_gradient"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_check_in_white" />
+                    android:id="@+id/imageView15"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/kmpoint_bg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="Check in"
-                    android:textAppearance="@style/TextAppearance.Bold" />
-
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnCheckOut"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/ic_round_gradient"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_checkout_white" />
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="KM Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.28"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtKmPoin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="Check out"
-                    android:textAppearance="@style/TextAppearance.Bold" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout1">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnTidakHadir"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/ic_round_gradient"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_tidakhadir" />
+                    android:layout_marginEnd="2dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="-"
+                    android:textColor="@color/textWhite"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textPoin"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/textPoin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="Tidak Hadir"
-                    android:textAppearance="@style/TextAppearance.Bold" />
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.53" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/textTime"
+                style="@style/tv18sp404040_avenir_heavy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint"
+                tools:text="Rabu, 13 November 2019" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <LinearLayout
+                android:id="@+id/layoutMenu1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckIn"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_checkin"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Datang"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckOut"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_checkout"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pulang"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnFormIzin"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_form_izin"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Form Izin"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnGagalAbsen"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_gagal_absen"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Gagal Absen"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/_16dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutMenu1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Co-Working Space"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    style="@style/tv14sp929292_avenir_heavy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp"
-            android:visibility="invisible">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="parent">
 
-        </com.google.android.material.card.MaterialCardView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvCoworkingSpace"
+                        android:layout_marginTop="16dp"
 
-    </LinearLayout>
+                        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

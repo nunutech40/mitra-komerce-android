@@ -10,13 +10,13 @@
 
     <item
         android:id="@+id/action_edit"
-        android:icon="@drawable/ic_edit"
+        android:icon="@drawable/ic_edit_2"
         android:title="Ubah Biodata"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_edit_password"
-        android:icon="@drawable/ic_edit"
+        android:icon="@drawable/ic_edit_2"
         android:title="Reset Password"
         app:showAsAction="never"/>
 

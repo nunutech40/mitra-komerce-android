@@ -1,12 +1,16 @@
 package id.android.kmabsensi.presentation.splash
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.iid.FirebaseInstanceId
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -33,38 +37,67 @@ class SplashActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         checkUpdate()
+        initView()
     }
 
-    private fun checkUpdate() {
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateManager
-            .appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability()
-                    == UpdateAvailability.UPDATE_AVAILABLE
-                ) {
-                    // If an in-app update is already running, resume the update.
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.IMMEDIATE,
-                        this,
-                        MY_REQUEST_CODE
-                    )
-                } else {
-                    Handler().postDelayed(
-                        {
-                            if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
-                                startActivity<HomeActivity>()
-                                finish()
-                            } else {
-                                startActivity<LoginActivity>()
-                                finish()
-                            }
-                        }, 1500
-                    )
-                }
+    private fun initView() {
+        try {
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) {
+                Log.i(SplashActivity::class.simpleName, "device token is " + it.token)
+                prefHelper.saveString(PreferencesHelper.FCM_TOKEN, it.token)
+
+            }.addOnFailureListener {ex ->
+                ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
+
             }
+        } catch (ex: Exception) {
+            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
+
+        }
+
+    }
+
+    private fun initProcess() {
+        Handler().postDelayed(
+            {
+                if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
+                    startActivity<HomeActivity>()
+                    finish()
+                } else {
+                    startActivity<LoginActivity>()
+                    finish()
+                }
+            }, 1500
+        )
+    }
+
+
+    private fun checkUpdate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val appUpdateManager = AppUpdateManagerFactory.create(this)
+            appUpdateManager
+                .appUpdateInfo
+                .addOnSuccessListener { appUpdateInfo ->
+                    if (appUpdateInfo.updateAvailability()
+                        == UpdateAvailability.UPDATE_AVAILABLE
+                    ) {
+                        // If an in-app update is already running, resume the update.
+                        appUpdateManager.startUpdateFlowForResult(
+                            appUpdateInfo,
+                            AppUpdateType.IMMEDIATE,
+                            this,
+                            MY_REQUEST_CODE
+                        )
+                    } else {
+                        initProcess()
+                    }
+                }.addOnFailureListener {
+                    initProcess()
+                }
+
+        } else {
+            initProcess()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,13 +106,7 @@ class SplashActivity : AppCompatActivity() {
             if (resultCode != RESULT_OK) {
                 createAlertError(this, "Error", "Gagal melakukan update aplikasi")
             }
-            if (prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)) {
-                startActivity<HomeActivity>()
-                finish()
-            } else {
-                startActivity<LoginActivity>()
-                finish()
-            }
+            initProcess()
         }
     }
 

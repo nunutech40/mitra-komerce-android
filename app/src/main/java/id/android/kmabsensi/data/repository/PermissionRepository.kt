@@ -15,22 +15,22 @@ class PermissionRepository(val apiService: ApiService) {
         officeId: RequestBody,
         roleId: RequestBody,
         userManagementId: RequestBody,
-        status: RequestBody,
         explanation: RequestBody,
         dateFrom: RequestBody,
         dateTo: RequestBody,
-        file: MultipartBody.Part
+        attachment_leader: MultipartBody.Part,
+        attachment_partner: MultipartBody.Part?
     ): Single<BaseResponse> = apiService.createPermission(
         permissionType,
         userId,
         officeId,
         roleId,
         userManagementId,
-        status,
         explanation,
         dateFrom,
         dateTo,
-        file
+        attachment_leader,
+        attachment_partner
     )
 
     fun getListPermission(
@@ -39,6 +39,17 @@ class PermissionRepository(val apiService: ApiService) {
         userId: Int
     ): Single<ListPermissionResponse> {
         return apiService.getListPermission(roleId, userManagementId, userId)
+    }
+
+    fun filterPermission(
+        roleId: Int,
+        userManagementId: Int,
+        userId: Int,
+        dateFrom: String,
+        dateTo: String,
+        permissionType: Int
+    ): Single<ListPermissionResponse> {
+        return apiService.filterListPermission(roleId, userManagementId, userId, dateFrom, dateTo, permissionType)
     }
 
     fun approvePermission(

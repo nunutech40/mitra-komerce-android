@@ -1,8 +1,15 @@
 package id.android.kmabsensi.presentation.checkin
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.location.Location
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -18,8 +25,9 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
-import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
@@ -41,10 +49,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cek_jangkauan)
 
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Cek Jangkauan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar()
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
         presenseId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
@@ -60,6 +65,29 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
                 DATA_OFFICE_KEY to data,
                 PRESENCE_ID_KEY to presenseId)
         }
+
+//        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
+//        kendalaAbsen.setSpan(
+//            ForegroundColorSpan(
+//                ContextCompat.getColor(
+//                    this,
+//                    R.color.color_kirim_laporan
+//                )
+//            ),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        kendalaAbsen.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            19, 32,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        btnKirimLaporan.text = kendalaAbsen
+//
+//        btnKirimLaporan.setOnClickListener {
+//            startActivity<ReportAbsensiActivity>()
+//        }
 
     }
 
@@ -96,17 +124,27 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
             }
             val distance = officeLocation.distanceTo(it)
 
+            layoutNext.visible()
+            val animation = AnimationUtils.loadAnimation(this, R.anim.downtoup)
+            layoutNext.animation = animation
             if (distance > 350){
-                imgJangkauan.setImageResource(R.drawable.ic_circle_x)
-                txtJangkauan.text = "Anda diluar jangkauan, silahkan menuju jangkauan"
+                layoutDiluarJangkauan.visible()
+                txtJangkauan.gone()
                 btnNext.isEnabled = false
             } else {
-                imgJangkauan.setImageResource(R.drawable.ic_circle_checked)
-                txtJangkauan.text = "Anda berada dalam jangkauan"
+                txtJangkauan.visible()
+                layoutDiluarJangkauan.gone()
                 btnNext.isEnabled = true
             }
         }
 
+    }
+
+    fun setupToolbar(){
+        txtTitle.text = "Cek Jangkauan"
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onResume() {

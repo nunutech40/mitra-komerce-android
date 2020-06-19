@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    style="@style/tv14sp000000_avenir_medium"
+    android:paddingBottom="@dimen/_10dp"
+    android:paddingTop="@dimen/_10dp"
+    />

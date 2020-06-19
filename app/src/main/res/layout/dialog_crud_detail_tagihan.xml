@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_24dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ubah Tagihan"
+        android:layout_marginTop="20dp"
+        style="@style/tv18sp000000_avenir_heavy"
+        android:layout_marginStart="@dimen/_16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/_16dp"
+        android:layout_height="@dimen/_16dp"
+        app:srcCompat="@drawable/ic_close_circle"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Nama Item"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtItemName"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Item"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:paddingStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView13"
+        style="@style/tv14spf48070_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Nominal"
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@+id/edtItemName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtItemPrice"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Harga"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:paddingStart="8dp"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Deskripsi"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@+id/edtItemPrice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView15"
+        style="@style/tv12sp929292_avenir_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Opsional"
+        app:layout_constraintEnd_toEndOf="@+id/edtDescription"
+        app:layout_constraintTop_toBottomOf="@+id/edtItemPrice" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtDescription"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Deskripsi"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:paddingStart="8dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnOke"
+        style="@style/AppButtonGradient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:text="Oke"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

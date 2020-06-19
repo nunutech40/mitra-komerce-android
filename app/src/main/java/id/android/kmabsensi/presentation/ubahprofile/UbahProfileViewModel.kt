@@ -1,17 +1,17 @@
 package id.android.kmabsensi.presentation.ubahprofile
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.repository.SdmRepository
-import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,7 +19,8 @@ import java.io.File
 
 class UbahProfileViewModel(val sdmRepository: SdmRepository,
                            val prefHelper: PreferencesHelper,
-                           val schedulerProvider: SchedulerProvider): BaseViewModel() {
+                           val schedulerProvider: SchedulerProvider
+): BaseViewModel() {
 
     val crudResponse = MutableLiveData<UiState<SingleUserResponse>>()
 
@@ -39,12 +40,19 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
         birthDate: String,
         gender: String,
         userManagementId: String,
-        photoProfileFile: File?
+        status: Int,
+        photoProfileFile: File?,
+        joinDate: String,
+        martialStatus: String,
+        bankAccoundId: String,
+        bankName: String,
+        bankNo: String,
+        bankOwnerName: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
         photoProfileFile?.let{
-            val imageReq = RequestBody.create(MediaType.parse("image/*"), photoProfileFile)
+            val imageReq = photoProfileFile.createRequestBody()
             photoProfile = MultipartBody.Part.createFormData("photo_profile_url", photoProfileFile.name, imageReq)
         }
 
@@ -65,7 +73,14 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
             birthDate.createRequestBodyText(),
             gender.createRequestBodyText(),
             userManagementId.createRequestBodyText(),
-            photoProfile
+            status.toString().createRequestBodyText(),
+            photoProfile,
+            joinDate.createRequestBodyText(),
+            martialStatus.createRequestBodyText(),
+            bankAccoundId.createRequestBodyText(),
+            bankName.createRequestBodyText(),
+            bankNo.createRequestBodyText(),
+            bankOwnerName.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -77,6 +92,6 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
     }
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }

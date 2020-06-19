@@ -1,14 +1,12 @@
 package id.android.kmabsensi.presentation.sdm.detail
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.telephony.PhoneNumberUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,8 +24,10 @@ import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.Position
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
 import id.android.kmabsensi.utils.*
@@ -38,7 +38,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -64,6 +64,9 @@ class DetailKaryawanActivity : BaseActivity() {
     var positionSelectedId = 0
     var genderSelectedId = 0
     var userManagementSelectedId = 0
+    var martialStatus = 0
+    var statusKaryawan = 1
+    var bankAccountId = 0
 
     var imagePath : String? = null
 
@@ -73,15 +76,17 @@ class DetailKaryawanActivity : BaseActivity() {
 
     private var compressedImage : File? = null
 
+    private val PICK_PARTNER_RC = 112
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_karyawan)
-
         disableAutofill()
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Detail Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
+
+        setupToolbar("Detail Karyawan")
 
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)
@@ -114,8 +119,25 @@ class DetailKaryawanActivity : BaseActivity() {
                 edtTanggalLahir.text.toString(),
                 genderSelectedId.toString(),
                 userManagementSelectedId.toString(),
-                compressedImage
+                statusKaryawan,
+                compressedImage,
+                edtTanggalBergabung.text.toString(),
+                martialStatus.toString(),
+                bankAccountId.toString(),
+                edtNamaBank.text.toString(),
+                edtNoRekening.text.toString(),
+                edtPemilikRekening.text.toString()
                 )
+        }
+
+        switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                statusKaryawan = 1
+                switchStatus.text = "SDM Aktif"
+            } else {
+                statusKaryawan = 0
+                switchStatus.text = "Non Job"
+            }
         }
     }
 
@@ -125,18 +147,29 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.setText(data.address)
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
-//        edtNip.setText(data.npk)
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
+        edtTanggalBergabung.setText(data.join_date)
 
+        data.bank_accounts?.let {bank_account ->
+            if (bank_account.isNotEmpty()){
+                bankAccountId = bank_account[0].id
+                edtNamaBank.setText(bank_account[0].bankName)
+                edtNoRekening.setText(bank_account[0].bankNo)
+                edtPemilikRekening.setText(bank_account[0].bankOwnerName)
+            }
+        }
 
+        switchStatus.isChecked = data.status == 1
+        switchStatus.text = if (data.status == 1) "SDM Aktif" else "Non Job"
 
         data.photo_profile_url?.let {
             d { it }
             imgProfile.loadCircleImage(it)
         }
 
+        spinnerStatusPernikahan.setSelection(data.martial_status)
         spinnerJenisKelamin.setSelection(data.gender-1)
         spinnerJabatan.setSelection(data.position_id-1)
         spinnerDivisi.setSelection(data.division_id-1)
@@ -177,10 +210,35 @@ class DetailKaryawanActivity : BaseActivity() {
             }
         }
 
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+
+                    dialog.dismiss()
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
+
+        edtNoPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC
+            )
+        }
+
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    private fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     fun disableViews(enabled: Boolean){
@@ -192,10 +250,13 @@ class DetailKaryawanActivity : BaseActivity() {
         edtAddress.isEnabled = enabled
         edtEmail.isEnabled = enabled
         edtNamaLengkap.isEnabled = enabled
-//        edtNip.isEnabled = enabled
         edtNoHp.isEnabled = enabled
         edtNoPartner.isEnabled = enabled
         edtAsalDesa.isEnabled = enabled
+        edtTanggalBergabung.isEnabled = enabled
+        edtNamaBank.isEnabled = enabled
+        edtNoRekening.isEnabled = enabled
+        edtPemilikRekening.isEnabled = enabled
 
         spinnerJenisKelamin.isEnabled = enabled
         spinnerKantorCabang.isEnabled = enabled
@@ -203,6 +264,7 @@ class DetailKaryawanActivity : BaseActivity() {
         spinnerJabatan.isEnabled = enabled
         spinnerRole.isEnabled = enabled
         spinnerManagement.isEnabled = enabled
+        spinnerStatusPernikahan.isEnabled = enabled
     }
 
     fun initSpinners(){
@@ -282,6 +344,34 @@ class DetailKaryawanActivity : BaseActivity() {
                 }
             }
 
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.martial_status,
+            android.R.layout.simple_spinner_item
+        )
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
+            }
+
         //spinner role
         if (isManagement) roles.removeAt(0)
         ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, roles).also { adapter ->
@@ -356,7 +446,9 @@ class DetailKaryawanActivity : BaseActivity() {
             when(it){
                 is UiState.Loading -> {}
                 is UiState.Success -> {
-                    userManagements.addAll(it.data.data)
+                    userManagements.addAll(it.data.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
 
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }
@@ -481,7 +573,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 } else if (firstChar == "+"){
                     validNomorHp = nomorHp
                 } else {
-                    toast("nomor hp tidak valid")
+                    createAlertError(this, "Gagal", "Nomor hp tidak valid.")
                     return false
                 }
 
@@ -489,10 +581,11 @@ class DetailKaryawanActivity : BaseActivity() {
             }
             R.id.action_edit -> {
                 disableViews(true)
+                layoutStatus.visible()
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
-                startActivity<EditPasswordActivity>(USER_KEY to karyawan)
+                startActivity<EditPasswordActivity>(USER_ID_KEY to karyawan.id)
             }
             R.id.action_delete -> {
 
@@ -522,14 +615,16 @@ class DetailKaryawanActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-
             val image = ImagePicker.getFirstImageOrNull(data)
-
             imagePath = image.path
-
             compress(File(imagePath))
-
         }
+
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.noPartner)
+        }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 

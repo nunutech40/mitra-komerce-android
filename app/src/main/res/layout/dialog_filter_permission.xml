@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_24dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelFilterBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by"
+        android:layout_marginTop="20dp"
+        style="@style/tv18sp000000_avenir_heavy"
+        android:layout_marginStart="@dimen/_16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/_16dp"
+        android:layout_height="@dimen/_16dp"
+        app:srcCompat="@drawable/ic_close_circle"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Tanggal"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/labelFilterBy"
+        app:layout_constraintTop_toBottomOf="@+id/labelFilterBy" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Tanggal Awal"
+        style="@style/tv12sp929292_avenir"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtStartDate"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:drawableEnd="@drawable/ic_calendar2"
+        android:focusable="false"
+        android:hint="Pilih tanggal awal"
+        android:layout_marginStart="@dimen/_12dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="@dimen/_8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Tanggal Akhir"
+        style="@style/tv12sp929292_avenir"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/edtStartDate" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtEndDate"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:drawableEnd="@drawable/ic_calendar2"
+        android:focusable="false"
+        android:hint="Pilih tanggal akhir"
+        android:paddingStart="8dp"
+        android:layout_marginStart="@dimen/_12dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:paddingEnd="@dimen/_8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView21"
+        style="@style/tv14spf48070_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Jenis Izin"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/edtEndDate" />
+
+    <Spinner
+        android:id="@+id/spinnerPermission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="@id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/textView21"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonFilter"
+        style="@style/AppButtonGradient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:text="Filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPermission" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

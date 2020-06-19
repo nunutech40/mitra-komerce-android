@@ -6,17 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".presentation.sdm.detail.DetailKaryawanActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:elevation="0dp"
+        android:layout_height="84dp"
+        android:paddingTop="16dp"
+        android:background="@drawable/bg_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackground"
+                android:padding="24dp"
+                app:srcCompat="@drawable/ic_icon_back" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/avenirltstd_heavy"
+                android:text="Title"
+                android:textAlignment="center"
+                android:textColor="@color/textWhite"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:elevation="0dp"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="0dp"
@@ -24,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/header">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -38,18 +81,41 @@
                 android:id="@+id/imgProfile"
                 android:layout_width="85dp"
                 android:layout_height="85dp"
-                android:layout_marginTop="16dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/shape_circle" />
+
+            <RelativeLayout
+                android:id="@+id/layoutStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginStart="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/textColor"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/username"
-                android:textColor="@color/textColor"/>
+                android:textColor="@color/textColor" />
 
             <EditText
                 android:id="@+id/edtUsername"
@@ -59,24 +125,24 @@
                 android:hint="@string/input_username"
                 android:inputType="textPersonName"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="3dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:text="NIP"-->
-<!--                android:textColor="@color/textColor"/>-->
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="3dp"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:text="NIP"-->
+            <!--                android:textColor="@color/textColor"/>-->
 
-<!--            <EditText-->
-<!--                android:id="@+id/edtNip"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:ems="10"-->
-<!--                android:hint="@string/masukkan_nip"-->
-<!--                android:inputType="number"-->
-<!--                android:textSize="16sp" />-->
+            <!--            <EditText-->
+            <!--                android:id="@+id/edtNip"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:ems="10"-->
+            <!--                android:hint="@string/masukkan_nip"-->
+            <!--                android:inputType="number"-->
+            <!--                android:textSize="16sp" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,9 +157,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="@string/masukkan_nama_lengkap"
-                android:textSize="16sp"/>
+                android:inputType="textPersonName"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,11 +173,11 @@
                 android:id="@+id/edtTanggalLahir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Masukkan tanggal lahir"
-                android:focusable="false"
                 android:clickable="true"
-                android:textSize="16sp"/>
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Masukkan tanggal lahir"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,7 +185,7 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
                 android:text="Asal Desa"
-                android:textColor="@color/textColor"/>
+                android:textColor="@color/textColor" />
 
             <EditText
                 android:id="@+id/edtAsalDesa"
@@ -175,7 +241,7 @@
                 android:ems="10"
                 android:hint="@string/masukkan_email"
                 android:inputType="textEmailAddress"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -191,8 +257,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/masukkan_no_partner"
-                android:inputType="number"
-                android:textSize="16sp"/>
+                android:clickable="true"
+                android:focusable="false"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -209,6 +276,100 @@
                 android:ems="10"
                 android:hint="Masukkan alamat"
                 android:inputType="text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Tanggal Bergabung"
+                android:textColor="@color/textColor" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtTanggalBergabung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan tanggal bergabung"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Status Pernikahan"
+                android:textColor="@color/textColor" />
+
+            <Spinner
+                android:id="@+id/spinnerStatusPernikahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Nama Bank"
+                android:textColor="@color/textColor" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtNamaBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nama bank"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:inputType="text"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Nomor Rekening"
+                android:textColor="@color/textColor" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtNoRekening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nomor rekening"
+                android:inputType="number"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="16dp"
+                android:text="Pemilik Rekening"
+                android:textColor="@color/textColor" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPemilikRekening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Masukkan nama pemilik rekening"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:inputType="textPersonName"
                 android:textSize="16sp"/>
 
             <TextView
@@ -222,7 +383,7 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerRole"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -235,7 +396,7 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerKantorCabang"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -248,7 +409,7 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerJabatan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -261,7 +422,7 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerDivisi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/layout_spinner_management"
@@ -274,13 +435,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:layout_marginTop="16dp"
-                    android:text="Management"
+                    android:text="Leader"
                     android:textColor="@color/textColor" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinnerManagement"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -293,8 +454,8 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/simpan"
                 android:textAllCaps="false"
-                app:cornerRadius="8dp"
                 android:visibility="gone"
+                app:cornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -302,9 +463,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

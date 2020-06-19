@@ -1,12 +1,11 @@
 <resources>
-    <string name="app_name">Absensi Kampung Marketer</string>
+    <!--    <string name="app_name">Kampung Marketer</string>-->
     <string name="username">Username</string>
     <string name="input_username">Masukkan Username</string>
     <string name="password">Password</string>
     <string name="input_password">Masukkan Password</string>
     <string name="login">Log In</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kelola_data_kantor">Kelola Data Kantor</string>
     <string name="kelola_data_sdm">Kelola Data Karyawan</string>
@@ -54,6 +53,27 @@
     <string name="submit">Submit</string>
     <string name="tambah_jabatan">Tambah Jabatan</string>
     <string name="lihat_data">Lihat Data</string>
+    <string name="waktu">waktu</string>
+    <string name="ask">Apa yang Anda lakukan hari ini</string>
+    <string name="data_hadir">Data hadir</string>
+    <string name="semua_kantor">SEMUA KANTOR</string>
+
+    <string name="ket_belum_waktu_pulang">Belum jam 16.30, belum saatnya pulang nak, sabar..</string>
+    <string name="ket_absen_lebih_awal">Hore datang lebih awal, kami kasih 1 poin KMPoin</string>
+    <string name="ket_absen_tepat_waktu">Hore datang tepat waktu.</string>
+    <string name="ket_absen_telat">Sayang sekali hari ini Anda telat %1$s, besok diperbaiki ya.</string>
+    <string name="data_tidak_hadir">Data Tidak Hadir</string>
+
+    <string name="notifications_admin_channel_name">Notification Title</string>
+    <string name="notifications_admin_channel_description">Notification Discription</string>
+    <string name="text_data_partner">Data Partner</string>
+    <string name="label_detail_invoice_admin">Detail Invoice Admin</string>
+    <string name="label_detail_invoice_gaji">Detail Invoice Gaji</string>
+    <string name="label_open">OPEN</string>
+    <string name="label_completed">COMPLETED</string>
+    <string name="label_expired">EXPIRED</string>
+    <string name="txt_complete_invoice_confirmation">Apakah anda yakin ingin menyelesaikan transaksi ini ?</string>
+    <string name="txt_cancel_invoice_confirmation">Apakah anda yakin ingin membatalkan transaksi ini ?</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -73,6 +93,13 @@
     </string-array>
 
     <string-array name="permission">
+        <item>Semua</item>
+        <item>Izin</item>
+        <item>Sakit</item>
+        <item>Cuti</item>
+    </string-array>
+
+    <string-array name="form_permission_options">
         <item>Izin</item>
         <item>Sakit</item>
         <item>Cuti</item>
@@ -83,5 +110,40 @@
         <item>Perempuan</item>
     </string-array>
 
+    <string-array name="status">
+        <item>Tersedia</item>
+        <item>Ada Acara</item>
+    </string-array>
+
+    <string-array name="partner_status">
+        <item>Pause</item>
+        <item>Aktif</item>
+    </string-array>
+
+    <string-array name="martial_status">
+        <item>Belum Menikah</item>
+        <item>Sudah Menikah</item>
+    </string-array>
+
+    <string-array name="month_array">
+        <item>Pilih Bulan</item>
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Maret</item>
+        <item>April</item>
+        <item>Mei</item>
+        <item>Juni</item>
+        <item>July</item>
+        <item>Agustus</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Desember</item>
+    </string-array>
+
+    <string-array name="invoice_type">
+        <item>Admin</item>
+        <item>Gaji SDM</item>
+    </string-array>
 
 </resources>

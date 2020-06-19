@@ -4,396 +4,775 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/layoutBackgroundColor">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/background_light">
+            android:layout_height="wrap_content">
 
-
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/txtHello"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutHeader"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="TextView"
-                android:textColor="@color/test"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toTopOf="@+id/imgProfile"
-                tools:ignore="MissingPrefix"
-                tools:text="Hello, Jajat" />
-
-            <TextView
-                android:id="@+id/txtRoleName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/admin"
-                app:layout_constraintStart_toStartOf="@+id/txtHello"
-                app:layout_constraintTop_toBottomOf="@+id/txtHello" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutReport"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_round_gradient"
+                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtRoleName">
+                app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/header_waktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="115dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/malam"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/txtHello"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="TextView"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+                        tools:ignore="MissingPrefix"
+                        tools:text="Hello, Jajat" />
+
+                    <TextView
+                        android:id="@+id/txtRoleName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@+id/txtHello"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHello" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/waktu"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textColor="@color/textColorGrey"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
+
+                    <TextView
+                        android:id="@+id/txtNextTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="08:30"
+                        android:textStyle="bold"
+                        android:textColor="@color/textTime"
+                        android:textSize="42sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView15"
+                        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+                    <TextView
+                        android:id="@+id/txtCountdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        style="@style/tv18sp404040_avenir_heavy"
+                        android:textColor="@color/textTime"
+                        tools:text="( - 00.00.00 )"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtNextTime" />
+
+                    <TextView
+                        android:id="@+id/txtStatusWaktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="24dp"
+                        tools:text="Menuju Waktu Dzuhur"
+                        android:textColor="@color/textTime"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCountdown" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutKmPoint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
 
                 <ImageView
-                    android:id="@+id/imageView12"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/imageView15"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:src="@drawable/union"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/kmpoint_bg"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="KM Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.28"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtKmPoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="-"
+                    android:textColor="@color/textWhite"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textPoin"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textPoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="@font/avenirltstd_medium"
+                    android:text="Poin"
+                    android:textColor="@color/textWhite"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.53" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                tools:text="Rabu, 13 November 2019"
+                style="@style/tv18sp404040_avenir_heavy"
+                android:textColor="@color/textTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/dataHadir"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_data_hadir2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/kehadiran_semua_kantor_hari_ini"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imageView12"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.37">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/data_hadir"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/semua_kantor"
+                        android:textColor="#CDFFFFFF"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtPresent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="0"
                     android:textColor="@android:color/white"
-                    android:textSize="50sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView5"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5"
-                    tools:text="145" />
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTotalUser"
+                    app:layout_constraintEnd_toStartOf="@+id/txtTotalUser"/>
 
                 <TextView
                     android:id="@+id/txtTotalUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtPresent"
-                    app:layout_constraintStart_toEndOf="@+id/txtPresent"
-                    tools:text="/ 200" />
-
-                <TextView
-                    android:id="@+id/txtNotPresent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtTotalUser"
+                    android:layout_marginEnd="48dp"
+                    android:text="/0"
+                    android:textColor="#B2FFFFFF"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/txtTotalUser"
-                    tools:text="6 orang belum hadir" />
+                    app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <LinearLayout
-                android:id="@+id/layout1"
+            <iammert.com.expandablelib.ExpandableLayout
+                android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:parentLayout="@layout/layout_parent"
+                app:childLayout="@layout/layout_second"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dataHadir"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelPartner"
+                style="@style/tv14sp929292_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18dp"
+                android:text="Partner"
+                app:layout_constraintStart_toStartOf="@id/expandableLayout"
+                app:layout_constraintTop_toBottomOf="@id/expandableLayout" />
+
+            <include
+                android:id="@+id/sectionPartner"
+                layout="@layout/dashboard_section_partner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="@dimen/_16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutReport">
+                app:layout_constraintTop_toBottomOf="@id/labelPartner" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnCheckIn"
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ask"
+                style="@style/tv14sp929292_avenir_heavy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sectionPartner" />
+
+            <LinearLayout
+                android:id="@+id/layoutMenu1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView26"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckIn"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_check_in_white" />
+                            android:src="@drawable/ic_checkin"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="Check in"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Datang"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
 
+                </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnCheckOut"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnCheckOut"
                         android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_checkout_white" />
+                            android:src="@drawable/ic_checkout"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pulang"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnKelolaSdm"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="Check out"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                            android:src="@drawable/ic_kelolasdm"/>
 
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data SDM"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnFormIzin"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_form_izin"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Form Izin"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout2"
-                android:layout_width="match_parent"
+                android:id="@+id/layoutMenu2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout1">
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnKelolaKaryawan"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnKelolaIzin"
                         android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_kelola_sdm" />
+                            android:src="@drawable/ic_kelola_izin"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center"
-                            android:text="@string/kelola_data_sdm"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data Izin"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnTidakHadir"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnGagalAbsen"
                         android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_tidakhadir" />
+                            android:src="@drawable/ic_gagal_absen"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Gagal Absen"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnInvoice"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="Form Izin"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                            app:srcCompat="@drawable/ic_invoice"/>
 
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Invoice"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnInvoiceReport"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_invoice_report"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Invoice Report"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layoutMenu3"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMenu2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout2">
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnManajemenIzin"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnEvaluasiSaya"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_tidakhadir" />
+                            android:src="@drawable/ic_evaluasi_saya"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="Manajemen Izin"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Evaluasi Saya"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
+
+                <LinearLayout
+                    android:id="@+id/view_menu_data_partner"
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnDataPartner"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Data Partner"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/view_menu_partner_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnPartnerCategory"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_kategori_partner" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Kategori Partner"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:visibility="invisible"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical">
+                    <View
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
 
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/ic_round_gradient"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_tidakhadir" />
+                    </View>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="Form Izin"
-                            android:textAppearance="@style/TextAppearance.Bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Invoice Report"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
 
-                    </LinearLayout>
-
-
-                </com.google.android.material.card.MaterialCardView>
-
+                </LinearLayout>
 
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/_16dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutMenu3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/textCoworkingSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Co-Working Space"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    style="@style/tv14sp929292_avenir_heavy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvCoworkingSpace"
+                        android:layout_marginTop="16dp"
+                        />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

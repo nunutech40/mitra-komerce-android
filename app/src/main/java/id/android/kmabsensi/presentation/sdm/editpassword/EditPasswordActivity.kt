@@ -9,14 +9,13 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_edit_password.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class EditPasswordActivity : BaseActivity() {
 
     private val vm: EditPasswordViewModel by inject()
 
-    private var karyawan : User? = null
+    private var userId : Int? = null
 
     private lateinit var myDialog: MyDialog
 
@@ -26,17 +25,11 @@ class EditPasswordActivity : BaseActivity() {
 
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Edit Password"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Ubah Password")
 
-        karyawan = intent.getParcelableExtra(USER_KEY)
+        userId = intent.getIntExtra(USER_ID_KEY, 0)
 
         myDialog = MyDialog(this)
-
-        karyawan?.photo_profile_url?.let {
-            imgProfile.loadCircleImage(it)
-        }
 
         vm.response.observe(this, Observer {
             when(it){
@@ -57,7 +50,7 @@ class EditPasswordActivity : BaseActivity() {
 
         btnSimpan.setOnClickListener {
             if (validation()){
-                vm.resetPassword(karyawan?.id.toString(), edtConfirmPassword.text.toString())
+                vm.resetPassword(userId.toString(), edtConfirmPassword.text.toString())
             }
         }
     }

@@ -1,8 +1,7 @@
 package id.android.kmabsensi.data.remote
 
 import android.content.Context
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import id.android.kmabsensi.BuildConfig
+import com.readystatesoftware.chuck.ChuckInterceptor
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -21,8 +20,8 @@ fun provideOkHttpClient(interceptor: AuthInterceptor, context:Context): OkHttpCl
         readTimeout(60, TimeUnit.SECONDS)
         callTimeout(60, TimeUnit.SECONDS)
         addInterceptor(interceptor)
-        if (BuildConfig.DEBUG) {
-            addInterceptor(ChuckerInterceptor(context))
+        if (id.android.kmabsensi.BuildConfig.DEBUG) {
+            addInterceptor(ChuckInterceptor(context))
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             addInterceptor(logging)
@@ -37,7 +36,8 @@ inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: Str
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
     return retrofit.create(T::class.java)
 }
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_12dp">
+
+    <View
+        android:id="@+id/textPartnerNumber"
+        android:layout_width="@dimen/_100dp"
+        android:layout_height="@dimen/_16dp"
+        android:layout_marginTop="@dimen/_14dp"
+        android:background="@drawable/shape_skeleton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/textPartnerName"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_16dp"
+        android:layout_marginTop="@dimen/_6dp"
+        android:background="@drawable/shape_skeleton"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerNumber" />
+
+    <View
+        android:id="@+id/textPartnerCategory"
+        android:layout_width="@dimen/_100dp"
+        android:layout_height="@dimen/_16dp"
+        android:layout_marginTop="@dimen/_6dp"
+        android:background="@drawable/shape_skeleton"
+        app:layout_constraintStart_toStartOf="@+id/textPartnerName"
+        app:layout_constraintTop_toBottomOf="@+id/textPartnerName" />
+
+    <View
+        android:id="@+id/textView25"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_16dp"
+        android:background="@drawable/shape_skeleton"
+        app:layout_constraintBottom_toBottomOf="@+id/textPartnerName"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/labelOrang"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_16dp"
+        android:background="@drawable/shape_skeleton"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView25"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    <View
+        android:id="@+id/textTotalSdm"
+        style="@style/tv18sp404040_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        tools:text="414"
+        app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

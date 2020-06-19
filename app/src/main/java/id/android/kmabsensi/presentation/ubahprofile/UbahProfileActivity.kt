@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.ubahprofile
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -18,8 +19,10 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
@@ -27,6 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_ubah_profile.*
+import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -41,11 +45,15 @@ class UbahProfileActivity : BaseActivity() {
     var imagePath : String? = null
 
     private var genderSelectedId = 0
+    private var martialStatus = 0
+    private var bankAccountId = 0
     private var compressedImage : File? = null
 
     private val disposables = CompositeDisposable()
 
     private lateinit var myDialog: MyDialog
+
+    private val PICK_PARTNER_RC = 112
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +61,8 @@ class UbahProfileActivity : BaseActivity() {
 
         disableAutofill()
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Ubah Profile"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Ubah Profile")
+
         myDialog = MyDialog(this)
 
         user = intent.getParcelableExtra(USER_KEY)
@@ -81,6 +88,30 @@ class UbahProfileActivity : BaseActivity() {
                     }
 
                 }
+            }
+
+        /* spinner martial status */
+        ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStatusPernikahan.adapter = adapter
+
+                spinnerStatusPernikahan.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            martialStatus = position
+                        }
+
+                    }
             }
 
         imgProfile.setOnClickListener {
@@ -114,7 +145,14 @@ class UbahProfileActivity : BaseActivity() {
                 edtTanggalLahir.text.toString(),
                 genderSelectedId.toString(),
                 user.user_management_id.toString(),
-                compressedImage
+                user.status,
+                compressedImage,
+                edtTanggalBergabung.text.toString(),
+                martialStatus.toString(),
+                bankAccountId.toString(),
+                edtNamaBank.text.toString(),
+                edtNoRekening.text.toString(),
+                edtPemilikRekening.text.toString()
             )
         }
 
@@ -126,10 +164,6 @@ class UbahProfileActivity : BaseActivity() {
                     if(it.data.status){
                         compressedImage?.delete()
                         createAlertSuccess(this, it.data.message)
-//                        val intent = Intent()
-//                        intent.putExtra("message", it.data.message)
-//                        setResult(Activity.RESULT_OK, intent)
-//                        finish()
 
                     } else {
                         createAlertError(this, "Gagal", it.data.message)
@@ -146,7 +180,7 @@ class UbahProfileActivity : BaseActivity() {
         setDataToView(user)
     }
 
-    fun setDataToView(data: User){
+    private fun setDataToView(data: User){
         edtUsername.setText(data.username)
         edtTanggalLahir.setText(data.birth_date)
         edtAddress.setText(data.address)
@@ -155,21 +189,24 @@ class UbahProfileActivity : BaseActivity() {
         edtNoHp.setText(data.no_hp)
         edtNoPartner.setText(data.no_partner)
         edtAsalDesa.setText(data.origin_village)
+        edtTanggalBergabung.setText(data.join_date)
+
+        data.bank_accounts?.let {bank_account ->
+            if (bank_account.isNotEmpty()){
+                bankAccountId = bank_account[0].id
+                edtNamaBank.setText(bank_account[0].bankName)
+                edtNoRekening.setText(bank_account[0].bankNo)
+                edtPemilikRekening.setText(bank_account[0].bankOwnerName)
+            }
+        }
 
         data.photo_profile_url?.let {
             d { it }
             imgProfile.loadCircleImage(it)
         }
+        spinnerStatusPernikahan.setSelection(data.martial_status)
         spinnerJenisKelamin.setSelection(data.gender-1)
-//        spinnerJabatan.setSelection(data.position_id-1)
-//        spinnerDivisi.setSelection(data.division_id-1)
-//        if (!isManagement) spinnerRole.setSelection(data.role_id-2)
-//
-//        if (karyawan.role_id == 3){
-//            layout_spinner_management.visible()
-//        } else {
-//            layout_spinner_management.gone()
-//        }
+
 
         imgProfile.setOnClickListener {
             ImagePicker.create(this)
@@ -200,10 +237,36 @@ class UbahProfileActivity : BaseActivity() {
             }
         }
 
+        edtTanggalBergabung.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker { dialog, date ->
+
+                    // Use date (Calendar)
+
+                    dialog.dismiss()
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val dateSelected: String = dateFormat.format(date.time)
+                    setJoinDate(dateSelected)
+                }
+            }
+        }
+
+        edtNoPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC
+            )
+        }
+
+
     }
 
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
+    }
+
+    fun setJoinDate(date: String) {
+        edtTanggalBergabung.setText(date)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -216,6 +279,12 @@ class UbahProfileActivity : BaseActivity() {
             compress(File(imagePath))
 
         }
+
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.noPartner)
+        }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 

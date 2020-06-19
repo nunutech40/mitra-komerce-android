@@ -9,13 +9,14 @@ import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class PresenceReportViewModel(val presenceRepository: PresenceRepository,
                               val userRepository: UserRepository,
                               val officeRepository: OfficeRepository,
-                              val schedulerProvider: SchedulerProvider): BaseViewModel() {
+                              val schedulerProvider: SchedulerProvider
+): BaseViewModel() {
 
     val officeData = MutableLiveData<UiState<OfficeResponse>>()
     val presenceReportData = MutableLiveData<UiState<PresenceReportResponse>>()
@@ -32,6 +33,26 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
             userManagementId,
             officeId,
             date
+        )
+            .with(schedulerProvider)
+            .subscribe({
+                presenceReportData.value = UiState.Success(it)
+            }, this::onError))
+    }
+
+    fun getPresenceReportFiltered(
+        roleId: Int = 0,
+        userManagementId: Int = 0,
+        officeId: Int = 0,
+        startDate: String,
+        endDate: String){
+        presenceReportData.value = UiState.Loading()
+        compositeDisposable.add(presenceRepository.getPresenceReportFiltered(
+            roleId,
+            userManagementId,
+            officeId,
+            startDate,
+            endDate
         )
             .with(schedulerProvider)
             .subscribe({

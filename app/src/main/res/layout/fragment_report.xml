@@ -7,23 +7,34 @@
     android:orientation="vertical"
     tools:context=".presentation.report.ReportFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/report"
-        android:textColor="@color/test"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_default"
+        android:paddingTop="16dp"
+        android:background="@drawable/bg_toolbar">
+
+        <TextView
+            android:id="@+id/txtProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenirltstd_heavy"
+            android:text="Report"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnReportKantor"
         android:layout_width="match_parent"
         android:layout_height="121dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp">
 
@@ -35,27 +46,28 @@
                 android:id="@+id/textKantor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/kantor"
                 android:textColor="@android:color/black"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"/>
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textKantor"
-                android:layout_toLeftOf="@id/img1"
                 android:layout_marginStart="8dp"
-                android:text="@string/report_absensi_tiap_kantor_cabang"/>
+                android:layout_marginBottom="8dp"
+                android:layout_toLeftOf="@id/img1"
+                android:text="@string/report_absensi_tiap_kantor_cabang" />
 
             <ImageView
                 android:id="@+id/img1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ilu_gedung_kantor"
                 android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_ilu_gedung_kantor" />
 
         </RelativeLayout>
 
@@ -67,8 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="121dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp">
 
@@ -80,27 +92,28 @@
                 android:id="@+id/txtSDM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/leader_sdm"
                 android:textColor="@android:color/black"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"/>
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtSDM"
-                android:layout_toLeftOf="@id/img2"
                 android:layout_marginStart="8dp"
-                android:text="Report absensi SDM berdasarkan Leader SDM/Penanggungjawab"/>
+                android:layout_marginBottom="8dp"
+                android:layout_toLeftOf="@id/img2"
+                android:text="Report absensi SDM berdasarkan Leader SDM/Penanggungjawab" />
 
             <ImageView
                 android:id="@+id/img2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ilu_sdm"
                 android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_ilu_sdm" />
 
         </RelativeLayout>
 
@@ -112,8 +125,8 @@
         android:layout_width="match_parent"
         android:layout_height="121dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp">
 
@@ -125,27 +138,28 @@
                 android:id="@+id/txtManagement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/management"
                 android:textColor="@android:color/black"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"/>
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtManagement"
                 android:layout_alignStart="@id/txtManagement"
+                android:layout_marginBottom="8dp"
                 android:layout_toLeftOf="@id/img3"
-                android:text="Report absensi management"/>
+                android:text="Report absensi management" />
 
             <ImageView
                 android:id="@+id/img3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ilu_management"
                 android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_ilu_management" />
 
         </RelativeLayout>
 

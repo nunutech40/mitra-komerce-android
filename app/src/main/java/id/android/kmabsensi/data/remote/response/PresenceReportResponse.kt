@@ -16,6 +16,7 @@ data class Presence(
     val checkIn_photo_url: String,
     val check_in_datetime: String,
     val checkout_date_time: String?,
+    val checkOut_photo_url: String?,
     val created_at: String,
     val id: Int,
     val office_id: Int,
@@ -32,5 +33,8 @@ data class Report(
     val percentage: String,
     val total_not_present: Int,
     val total_present: Int,
-    val total_user: Int
+    val total_user: Int,
+    val total_not_checkout: Int,
+    val total_come_late: Int,
+    val total_report_presence_failure: Int
 )

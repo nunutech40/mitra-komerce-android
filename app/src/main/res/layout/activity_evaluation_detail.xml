@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.android.kmabsensi.presentation.myevaluation.EvaluationDetailActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background_white_bottom_rounded"
+        android:scaleType="fitXY"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/textLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/_32dp"
+        android:text="Manajemen 50"
+        android:textAllCaps="true"
+        style="@style/tv12spE04C25_avenir_heavy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_32dp"
+        android:text="15:30"
+        style="@style/tv12sp929292_avenir_medium"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textLeader"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelDari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DARI : "
+        style="@style/tv10sp47B989_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textLeader"
+        app:layout_constraintTop_toBottomOf="@+id/textLeader" />
+
+    <TextView
+        android:id="@+id/labelLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LEADER : "
+        style="@style/tv10sp47B989_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/labelDari"
+        app:layout_constraintTop_toBottomOf="@+id/labelDari" />
+
+    <TextView
+        android:id="@+id/textEvaluatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Namanya"
+        android:textAllCaps="true"
+        style="@style/tv10sp000000_avenir_heavy"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/labelDari"
+        app:layout_constraintStart_toEndOf="@+id/labelDari" />
+
+    <TextView
+        android:id="@+id/textLeaderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Namanya"
+        android:textAllCaps="true"
+        android:layout_marginStart="4dp"
+        style="@style/tv10sp000000_avenir_heavy"
+        app:layout_constraintBaseline_toBaselineOf="@+id/labelLeader"
+        app:layout_constraintStart_toEndOf="@+id/labelLeader" />
+
+    <TextView
+        android:id="@+id/textQuestion1"
+        style="@style/tv12sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="34dp"
+        android:text="Question 1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <TextView
+        android:id="@+id/textAnswer1"
+        style="@style/tv14sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="Answer 1"
+        app:layout_constraintEnd_toEndOf="@+id/textQuestion1"
+        app:layout_constraintStart_toStartOf="@+id/textQuestion1"
+        app:layout_constraintTop_toBottomOf="@+id/textQuestion1" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#E8E8E8"
+        android:layout_marginTop="@dimen/_8dp"
+        app:layout_constraintTop_toBottomOf="@id/textAnswer1"
+        app:layout_constraintStart_toStartOf="@id/textAnswer1"
+        app:layout_constraintEnd_toEndOf="@id/textAnswer1"
+        />
+
+    <TextView
+        android:id="@+id/textQuestion2"
+        style="@style/tv12sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:text="Question 2"
+        app:layout_constraintEnd_toEndOf="@id/textQuestion1"
+        app:layout_constraintStart_toStartOf="@+id/textQuestion1"
+        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+    <TextView
+        android:id="@+id/textAnswer2"
+        style="@style/tv14sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="Answer 2"
+        app:layout_constraintEnd_toEndOf="@+id/textQuestion1"
+        app:layout_constraintStart_toStartOf="@+id/textQuestion1"
+        app:layout_constraintTop_toBottomOf="@+id/textQuestion2" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#E8E8E8"
+        android:layout_marginTop="@dimen/_8dp"
+        app:layout_constraintTop_toBottomOf="@id/textAnswer2"
+        app:layout_constraintStart_toStartOf="@id/textAnswer1"
+        app:layout_constraintEnd_toEndOf="@id/textAnswer1"
+        />
+
+    <TextView
+        android:id="@+id/textQuestion3"
+        style="@style/tv12sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginEnd="34dp"
+        android:text="Question 3"
+        app:layout_constraintEnd_toEndOf="@id/textQuestion1"
+        app:layout_constraintStart_toStartOf="@+id/textQuestion1"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <TextView
+        android:id="@+id/textAnswer3"
+        style="@style/tv14sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="Answer 3"
+        app:layout_constraintEnd_toEndOf="@+id/textQuestion1"
+        app:layout_constraintStart_toStartOf="@+id/textQuestion1"
+        app:layout_constraintTop_toBottomOf="@+id/textQuestion3" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_marginBottom="40dp"
+        android:background="#E8E8E8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/textAnswer1"
+        app:layout_constraintStart_toStartOf="@id/textAnswer1"
+        app:layout_constraintTop_toBottomOf="@id/textAnswer3"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

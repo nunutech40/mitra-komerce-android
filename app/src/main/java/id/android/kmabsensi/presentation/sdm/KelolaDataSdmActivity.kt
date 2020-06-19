@@ -3,17 +3,18 @@ package id.android.kmabsensi.presentation.sdm
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -22,6 +23,7 @@ import id.android.kmabsensi.presentation.sdm.search.CariDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
@@ -30,7 +32,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
     private val vm: KelolaDataSdmViewModel by inject()
 
-    private val groupAdapter = GroupAdapter<ViewHolder>()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     val roles = mutableListOf<String>("Management", "SDM")
     var userManagements = mutableListOf<User>()
@@ -45,9 +47,14 @@ class KelolaDataSdmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kelola_data_sdm)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Kelola Data Karyawan"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Kelola Data Karyawan")
+        btnSearch.visible()
+        btnSearch.setOnClickListener {
+            startActivity<CariDataSdmActivity>()
+        }
+
+//        supportActionBar?.title = "Kelola Data Karyawan"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
@@ -59,19 +66,19 @@ class KelolaDataSdmActivity : BaseActivity() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.action_search -> {
-                startActivity<CariDataSdmActivity>()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_search, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            R.id.action_search -> {
+//
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 
     private fun setListener() {
@@ -176,10 +183,10 @@ class KelolaDataSdmActivity : BaseActivity() {
         vm.userData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    showSkeleton(rvSdm, R.layout.skeleton_list_sdm, groupAdapter)
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    hideSkeleton()
 
                     val dataFilter: List<User>
 
@@ -204,7 +211,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    hideSkeleton()
                 }
             }
         })

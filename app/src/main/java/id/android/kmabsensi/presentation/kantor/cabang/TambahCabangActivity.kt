@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,7 +23,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_tambah_cabang.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import org.koin.android.ext.android.inject
 
@@ -58,9 +56,10 @@ class TambahCabangActivity : BaseActivity(), AdapterView.OnItemSelectedListener 
         office = intent.getParcelableExtra(OFFICE_KEY)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title =
-            if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
+////        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setupToolbar(if (office != null) "Kelola ${office?.office_name}" else "Tambah Cabang Baru")
 
         viewListener()
         observeData()

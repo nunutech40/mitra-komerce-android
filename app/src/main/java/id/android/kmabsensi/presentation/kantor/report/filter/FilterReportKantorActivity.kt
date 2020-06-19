@@ -18,7 +18,6 @@ import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,9 +26,12 @@ class FilterReportKantorActivity : BaseActivity() {
 
     private val vm: FilterReportViewModel by inject()
 
-    private var dateSelectedString = ""
-    private var dateSelected = ""
-    private var dateCalendarSelected = Calendar.getInstance()
+    private var dateFromSelectedString = ""
+    private var dateToSelectedString = ""
+    private var dateFrom = ""
+    private var dateTo = ""
+    private var dateFromCalendarSelected = Calendar.getInstance()
+    private var dateToCalendarSelected = Calendar.getInstance()
 
     val offices = mutableListOf<Office>()
     val officeNames = mutableListOf<String>()
@@ -51,36 +53,48 @@ class FilterReportKantorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_report_kantor)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Filter Report"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupToolbar("Filter Report")
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
         userResponse = intent.getParcelableExtra("user_response")
         officeResponse = intent.getParcelableExtra("office_response")
-        dateSelected = intent.getStringExtra("date")
+        dateFrom = intent.getStringExtra("dateFrom")
+        dateTo = intent.getStringExtra("dateTo")
 
 
         val dateFormat = SimpleDateFormat(DATE_FORMAT)
-        val date: Date = dateFormat.parse(dateSelected)
-        dateCalendarSelected.time = date
+        val dateFromParsed: Date = dateFormat.parse(dateFrom)
+        val dateToParsed: Date = dateFormat.parse(dateTo)
+        dateFromCalendarSelected.time = dateFromParsed
+        dateToCalendarSelected.time = dateToParsed
 
-        edtDate.setText(dateSelected)
+        edtStartDate.setText(dateFrom)
+        edtEndDate.setText(dateTo)
 
-        edtDate.setOnClickListener {
+        edtStartDate.setOnClickListener {
             MaterialDialog(this).show {
-                datePicker(currentDate = dateCalendarSelected) { dialog, date ->
+                datePicker(currentDate = dateFromCalendarSelected) { dialog, date ->
                     dialog.dismiss()
-//                    dateSelected = date
-                    dateSelectedString = getDateString(date.time)
-                    setDateToView(dateSelectedString)
+                    dateFromSelectedString = getDateString(date.time)
+                    setDateToView(dateFromSelectedString)
+                }
+            }
+        }
+
+        edtEndDate.setOnClickListener {
+            MaterialDialog(this).show {
+                datePicker(currentDate = dateToCalendarSelected) { dialog, date ->
+                    dialog.dismiss()
+                    dateToSelectedString = getDateString(date.time)
+                    setEndDateToView(dateToSelectedString)
                 }
             }
         }
 
         btnAktifkan.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(DATE_FILTER_KEY, edtDate.text.toString())
+            intent.putExtra(DATE_FILTER_KEY, edtStartDate.text.toString())
+            intent.putExtra(END_DATE_FILTER_KEY, edtEndDate.text.toString())
             when (categoryReport) {
                 0 -> {
                     intent.putExtra(OFFICE_ID_FILTER, officeIdSelected)
@@ -93,7 +107,6 @@ class FilterReportKantorActivity : BaseActivity() {
             }
 
             setResult(Activity.RESULT_OK, intent)
-//            toast("Filter diaktifkan")
             finish()
         }
 
@@ -125,9 +138,6 @@ class FilterReportKantorActivity : BaseActivity() {
             2 -> {
                 layoutKantorCabang.gone()
                 userResponse?.let {
-                    val userManajemenJabatanLeader =
-                        it.data.filter { it.position_name.toLowerCase().contains("leader") }
-                    d { userManajemenJabatanLeader.toString() }
                     setSpinnerManajemen(it.data.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
@@ -139,10 +149,11 @@ class FilterReportKantorActivity : BaseActivity() {
         }
     }
 
-    fun setSpinnerOffice(data: List<Office>) {
-        offices.addAll(data)
+    private fun setSpinnerOffice(data: List<Office>) {
+        val sortedList = data.sortedWith(compareBy { it.office_name }).reversed()
+        offices.addAll(sortedList)
 
-        data.forEach {
+        sortedList.forEach {
             officeNames.add(it.office_name)
         }
 
@@ -178,9 +189,11 @@ class FilterReportKantorActivity : BaseActivity() {
     }
 
     fun setSpinnerManajemen(manajemen: List<User>) {
-        userManagement.addAll(manajemen)
+        val sortedList = manajemen.sortedWith(compareBy { it.full_name })
 
-        manajemen.forEach {
+        userManagement.addAll(sortedList)
+
+        sortedList.forEach {
             userManagementNames.add(it.full_name)
         }
 
@@ -215,6 +228,10 @@ class FilterReportKantorActivity : BaseActivity() {
     }
 
     private fun setDateToView(dateSelected: String) {
-        edtDate.setText(dateSelected)
+        edtStartDate.setText(dateSelected)
+    }
+
+    private fun setEndDateToView(dateSelected: String) {
+        edtEndDate.setText(dateSelected)
     }
 }

@@ -1,16 +1,15 @@
 package id.android.kmabsensi.presentation.kantor.cabang
 
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.CrudOfficeResponse
-import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
-import id.android.momakan.utils.scheduler.SchedulerProvider
-import id.android.momakan.utils.scheduler.with
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class TambahCabangViewModel(
     val userRepository: UserRepository,
@@ -79,6 +78,6 @@ class TambahCabangViewModel(
 
 
     override fun onError(error: Throwable) {
-        Crashlytics.log(error.message)
+        error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }
