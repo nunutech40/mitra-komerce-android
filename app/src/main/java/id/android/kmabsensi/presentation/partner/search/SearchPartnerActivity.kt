@@ -20,12 +20,11 @@ import id.android.kmabsensi.presentation.partner.OnParterItemClicked
 import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.PartnerItem
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
-import id.android.kmabsensi.utils.PARTNER_DATA_KEY
-import id.android.kmabsensi.utils.PARTNER_RESPONSE_KEY
+import id.android.kmabsensi.presentation.partner.sdm.SdmPartnerActivity
+import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_search_partner.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 class SearchPartnerActivity : AppCompatActivity() {
@@ -105,8 +104,10 @@ class SearchPartnerActivity : AppCompatActivity() {
                     startActivityForResult<DetailPartnerActivity>(PartnerActivity.CRUD_PARTNER_RC, PARTNER_DATA_KEY to partner)
                 }
 
-                override fun onBtnTotalSdmClicked(noPartner: String) {
-
+                override fun onBtnTotalSdmClicked(noPartner: String, partnerName: String) {
+                    startActivity<SdmPartnerActivity>(
+                        NO_PARTNER_KEY to noPartner,
+                        NAME_PARTNER_KEY to partnerName)
                 }
 
             }))
