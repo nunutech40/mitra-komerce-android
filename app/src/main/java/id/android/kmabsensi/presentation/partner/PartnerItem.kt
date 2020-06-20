@@ -5,10 +5,18 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.utils.capitalizeWords
+import kotlinx.android.synthetic.main.item_row_partner.*
 import kotlinx.android.synthetic.main.item_row_partner.view.*
+import kotlinx.android.synthetic.main.item_row_partner.view.btnTotalSdm
+
+interface OnParterItemClicked{
+    fun onPartnerClicked(partner: Partner)
+    fun onBtnTotalSdmClicked(noPartner: String, partnerName: String)
+}
+
 
 class PartnerItem(val partner: Partner,
-                  val listener: (Partner) -> Unit): Item(){
+                  val listener: OnParterItemClicked): Item(){
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
@@ -18,7 +26,11 @@ class PartnerItem(val partner: Partner,
             itemView.textTotalSdm.text = partner.totalSdmAssigned.toString()
 
             itemView.setOnClickListener {
-                listener(partner)
+                listener.onPartnerClicked(partner)
+            }
+
+            btnTotalSdm.setOnClickListener {
+                listener.onBtnTotalSdmClicked(partner.noPartner, partner.fullName)
             }
         }
     }

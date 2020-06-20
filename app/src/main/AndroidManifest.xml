@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.myevaluation.LeaderEvaluationActivity"></activity>
+        <activity android:name=".presentation.partner.sdm.SdmPartnerActivity"></activity>
+        <activity android:name=".presentation.myevaluation.LeaderEvaluationActivity" />
         <activity android:name=".presentation.partner.partnerpicker.SearchPartnerPickerActivity" />
         <activity android:name=".presentation.partner.search.SearchPartnerActivity" />
         <!--

@@ -15,6 +15,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
+import id.android.kmabsensi.data.remote.response.Partner
+import id.android.kmabsensi.presentation.partner.OnParterItemClicked
 import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.PartnerItem
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
@@ -98,12 +100,16 @@ class SearchPartnerActivity : AppCompatActivity() {
         }
 
         filter.forEach { partner ->
-            groupAdapter.add(PartnerItem(partner) {
-                startActivityForResult<DetailPartnerActivity>(
-                    PartnerActivity.CRUD_PARTNER_RC,
-                    PARTNER_DATA_KEY to it
-                )
-            })
+            groupAdapter.add(PartnerItem(partner, object: OnParterItemClicked {
+                override fun onPartnerClicked(partner: Partner) {
+                    startActivityForResult<DetailPartnerActivity>(PartnerActivity.CRUD_PARTNER_RC, PARTNER_DATA_KEY to partner)
+                }
+
+                override fun onBtnTotalSdmClicked(noPartner: String) {
+
+                }
+
+            }))
         }
 
     }

@@ -26,6 +26,8 @@ const val IS_FROM_MANAJEMEN_IZI = "is_form_manajemen_izin"
 
 const val IS_SORT_KEY = "is_sort"
 const val PARTNER_DATA_KEY = "partner_data_key"
+const val NO_PARTNER_KEY = "no_partner_key"
+const val NAME_PARTNER_KEY = "name_partner_key"
 const val SIMPLE_PARTNER_DATA_KEY = "simple_partner_data_key"
 
 const val INVOICE_ID_KEY = "invoice_id"
@@ -33,6 +35,8 @@ const val INVOICE_DATA_KEY = "invoice_data"
 const val INVOICE_TYPE_KEY = "invoice_type"
 const val IS_INVOICE_ADMIN_KEY = "is_invoice_admin"
 const val EVALUATION_KEY = "evaluation"
+
+const val SDM_KEY = "sdm_key"
 
 const val PARTNER_RESPONSE_KEY = "partner_response"
 

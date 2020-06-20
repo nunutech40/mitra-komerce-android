@@ -51,10 +51,6 @@ class PartnerViewModel(
         MutableLiveData<UiState<UserResponse>>()
     }
 
-    val sdmOfPartner by lazy {
-        MutableLiveData<UiState<SdmOfPartnerResponse>>()
-    }
-
     val sdmByPartner by lazy {
         MutableLiveData<UiState<UserResponse>>()
     }
@@ -239,16 +235,6 @@ class PartnerViewModel(
             }))
     }
 
-    fun getSdmOfPartner(noPartner: String){
-        sdmOfPartner.value = UiState.Loading()
-        compositeDisposable.add(partnerRepository.getSdmOfPartner(noPartner)
-            .with(schedulerProvider)
-            .subscribe({
-                sdmOfPartner.value = UiState.Success(it)
-            },{
-                sdmOfPartner.value = UiState.Error(it)
-            }))
-    }
 
     fun getSdmByPartner(noPartner: Int){
         sdmByPartner.value = UiState.Loading()

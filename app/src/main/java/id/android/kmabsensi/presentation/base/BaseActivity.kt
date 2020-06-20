@@ -125,20 +125,23 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         if (isFilterVisible) btnFilter.visible()
-        if (isSearchVisible) btnSearch.visible()
 
-        btnSearch.setOnClickListener {
-            isSearchMode = true
-            /* add search view from edittext_search.xml */
-            toolbarContent.visibility = View.VISIBLE
-            toolbarContent.addView(searchView)
+        if (isSearchVisible){
+            btnSearch.visible()
+            btnSearch.setOnClickListener {
+                isSearchMode = true
+                /* add search view from edittext_search.xml */
+                toolbarContent.visibility = View.VISIBLE
+                toolbarContent.addView(searchView)
 
-            /* Show keyboard */
-            searchView.requestFocus()
-            val imm: InputMethodManager? =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+                /* Show keyboard */
+                searchView.requestFocus()
+                val imm: InputMethodManager? =
+                    this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
+
     }
 
 }

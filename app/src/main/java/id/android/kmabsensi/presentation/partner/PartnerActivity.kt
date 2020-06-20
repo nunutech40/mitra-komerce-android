@@ -13,6 +13,7 @@ import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.CustomizePartnerActivity.Companion.sortData
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
+import id.android.kmabsensi.presentation.partner.sdm.SdmPartnerActivity
 import id.android.kmabsensi.presentation.partner.search.SearchPartnerActivity
 import id.android.kmabsensi.presentation.partner.tambahpartner.FormPartnerActivity
 import id.android.kmabsensi.utils.*
@@ -89,9 +90,17 @@ class PartnerActivity : BaseActivity() {
 
     private fun populateData(partners: List<Partner>){
         partners.forEach {
-            groupAdapter.add(PartnerItem(it){
-                startActivityForResult<DetailPartnerActivity>(CRUD_PARTNER_RC, PARTNER_DATA_KEY to it)
-            })
+            groupAdapter.add(PartnerItem(it, object: OnParterItemClicked{
+                override fun onPartnerClicked(partner: Partner) {
+                    startActivityForResult<DetailPartnerActivity>(CRUD_PARTNER_RC, PARTNER_DATA_KEY to it)
+                }
+
+                override fun onBtnTotalSdmClicked(noPartner: String, partnerName: String) {
+                    startActivity<SdmPartnerActivity>(NO_PARTNER_KEY to noPartner,
+                        NAME_PARTNER_KEY to partnerName)
+                }
+
+            }))
         }
     }
 
