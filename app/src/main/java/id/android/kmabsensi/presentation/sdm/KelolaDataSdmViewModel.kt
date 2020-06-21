@@ -46,6 +46,7 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
     }
 
     fun getUserManagement(roleId: Int){
+        userManagementData.value = UiState.Loading()
         compositeDisposable.add(userRepository.getUserByRole(roleId)
             .with(schedulerProvider)
             .subscribe({

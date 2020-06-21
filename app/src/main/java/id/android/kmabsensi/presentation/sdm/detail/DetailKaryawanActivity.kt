@@ -102,6 +102,8 @@ class DetailKaryawanActivity : BaseActivity() {
         vm.getUserManagement(2)
         vm.getPositions()
 
+        divisionSelectedId = karyawan.division_id
+
         btnSimpan.setOnClickListener {
             vm.updateKaryawan(
                 karyawan.id.toString(),

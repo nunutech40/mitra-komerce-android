@@ -42,6 +42,8 @@ class CustomizePartnerActivity : BaseActivity() {
     private val leaders = mutableListOf<User>()
     private val categories = mutableListOf<PartnerCategory>()
 
+    var isLeader = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customize_partner)
@@ -100,8 +102,10 @@ class CustomizePartnerActivity : BaseActivity() {
                         ) {
                             if (position == 0){
                                 populateDataCategory(categories)
+                                isLeader = false
                             } else {
                                 populateDataLeader(leaders)
+                                isLeader = true
                             }
                         }
 
@@ -170,7 +174,12 @@ class CustomizePartnerActivity : BaseActivity() {
 
     private fun onContentClicked(content: String) {
         val intent = Intent()
-        intent.putExtra("content", content)
+        if (isLeader){
+            val leaderSelected = leaders.find { it.full_name == content }
+            intent.putExtra("content", leaderSelected?.id.toString())
+        } else {
+            intent.putExtra("content", content)
+        }
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

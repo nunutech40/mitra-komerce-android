@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.partner
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.Double.parseDouble
 
 class PartnerActivity : BaseActivity() {
 
@@ -106,15 +108,27 @@ class PartnerActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CUSTOMIZE_RC && resultCode == Activity.RESULT_OK){
+            var isNumeric = true
             val content = data?.getStringExtra("content")
             groupAdapter.clear()
             layout_empty.gone()
+            try {
+                content?.let {
+                    val num = parseDouble(content)
+                }
+            } catch (e: NumberFormatException) {
+                isNumeric = false
+            }
+
             if (content == sortData[0]) { /* urut berdasarkan jumlah terbanyak */
                 val sortPartners= partners.sortedByDescending { it.totalSdmAssigned }
                 populateData(sortPartners)
             } else if (content == sortData[1]){ /* urut berdasarkan jumlah terkceil */
                 val sortPartners = partners.sortedBy { it.totalSdmAssigned }
                 populateData(sortPartners)
+            } else if (isNumeric){
+                val filteredPartnerByLeader = partners.filter { it.userManagementId == content!!.toInt() }
+                populateData(filteredPartnerByLeader)
             } else if (content != "Semua"){
                 val filteredPartner = partners.filter { it.partnerDetail.partnerCategoryName == content }
                 if (filteredPartner.isNotEmpty()){
@@ -122,7 +136,7 @@ class PartnerActivity : BaseActivity() {
                 } else {
                     layout_empty.visible()
                 }
-            } else {
+            }  else {
                 populateData(partners)
             }
 
