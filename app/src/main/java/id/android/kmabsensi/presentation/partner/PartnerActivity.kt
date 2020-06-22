@@ -162,15 +162,23 @@ class PartnerActivity : BaseActivity() {
             }
 
             if (content == sortData[0]) { /* urut berdasarkan jumlah terbanyak */
+                buttonFilter.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_filter_grey, 0, 0, 0)
+                buttonSort.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_active, 0, 0, 0)
                 val sortPartners= partners.sortedByDescending { it.totalSdmAssigned }
                 populateData(sortPartners)
             } else if (content == sortData[1]){ /* urut berdasarkan jumlah terkceil */
+                buttonFilter.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_filter_grey, 0, 0, 0)
+                buttonSort.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_active, 0, 0, 0)
                 val sortPartners = partners.sortedBy { it.totalSdmAssigned }
                 populateData(sortPartners)
             } else if (isNumeric){
+                buttonFilter.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_filter_active, 0, 0, 0)
+                buttonSort.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_grey, 0, 0, 0)
                 val filteredPartnerByLeader = partners.filter { it.leadersAssigned.find { it.id == content!!.toInt() } != null }
                 populateData(filteredPartnerByLeader)
             } else if (content != "Semua"){
+                buttonFilter.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_filter_active, 0, 0, 0)
+                buttonSort.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_grey, 0, 0, 0)
                 val filteredPartner = partners.filter { it.partnerDetail.partnerCategoryName == content }
                 if (filteredPartner.isNotEmpty()){
                     populateData(filteredPartner)
