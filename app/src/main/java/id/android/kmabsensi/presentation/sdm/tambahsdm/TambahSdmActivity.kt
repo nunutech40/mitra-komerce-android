@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
+import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
@@ -44,7 +45,7 @@ class TambahSdmActivity : BaseActivity() {
 
     var imagePath: String? = ""
 
-    var role = mutableListOf("Management", "SDM")
+    var role = mutableListOf("Pilih Role", "Management", "SDM")
 
     var offices = mutableListOf<Office>()
     var userManagements = mutableListOf<User>()
@@ -89,6 +90,38 @@ class TambahSdmActivity : BaseActivity() {
 
         btnSimpan.setOnClickListener {
 
+            if (roleSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih role dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (genderSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih jenis kelamin dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (jabatanSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih jabatan dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (officeId == 0) {
+                createAlertError(this, "Warning", "Pilih kantor cabang dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (martialStatus == -1) {
+                createAlertError(this, "Warning", "Pilih status pernikahan dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (roleSelectedId == 3){
+                if (userManagementId == 0) {
+                    createAlertError(this, "Warning", "Pilih leader dahulu", 3000)
+                    return@setOnClickListener
+                }
+            }
+
             if (validation()) {
                 vm.tambahSdm(
                     edtUsername.text.toString(),
@@ -101,7 +134,9 @@ class TambahSdmActivity : BaseActivity() {
                     divisiSelectedId.toString(),
                     officeId.toString(),
                     jabatanSelectedId.toString(),
-                    if (edtNoPartner.text.toString().isNotEmpty()) edtNoPartner.text.toString() else "0",
+                    if (edtNoPartner.text.toString()
+                            .isNotEmpty()
+                    ) edtNoPartner.text.toString() else "0",
                     edtAsalDesa.text.toString(),
                     edtNoHp.text.toString(),
                     edtAddress.text.toString(),
@@ -116,9 +151,7 @@ class TambahSdmActivity : BaseActivity() {
                     bankOwnerName = edtPemilikRekening.text.toString()
                 )
             }
-
         }
-
     }
 
 
@@ -144,7 +177,7 @@ class TambahSdmActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    divisiSelectedId = position + 1
+                    divisiSelectedId = position
                 }
 
             }
@@ -168,14 +201,14 @@ class TambahSdmActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            genderSelectedId = position + 1
+                            genderSelectedId = position
                         }
 
                     }
             }
 
         //spinner role
-        if (isManagement) role.removeAt(0)
+        if (isManagement) role.removeAt(1)
         ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, role).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerRole.adapter = adapter
@@ -191,17 +224,22 @@ class TambahSdmActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    roleSelectedId = if (isManagement) position + 3 else position + 2
-                    if (position == 0) {
-                        labelNoPartner.gone()
-                        edtNoPartner.gone()
-                        if (!isManagement) userManagementId = 0
-                        layout_spinner_management.gone()
+                    if (position > 0){
+                        roleSelectedId = if (isManagement) position + 2 else position + 1
+                        if (position == 1) {
+                            labelNoPartner.gone()
+                            edtNoPartner.gone()
+                            if (!isManagement) userManagementId = 0
+                            layout_spinner_management.gone()
+                        } else if (position == 2){
+                            labelNoPartner.visible()
+                            edtNoPartner.visible()
+                            layout_spinner_management.visible()
+                        }
                     } else {
-                        labelNoPartner.visible()
-                        edtNoPartner.visible()
-                        layout_spinner_management.visible()
+                        roleSelectedId = 0
                     }
+
                 }
 
             }
@@ -225,7 +263,7 @@ class TambahSdmActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            martialStatus = position
+                            martialStatus = position - 1
                         }
 
                     }
@@ -299,6 +337,7 @@ class TambahSdmActivity : BaseActivity() {
                     offices.addAll(it.data.data)
 
                     val officeNames = mutableListOf<String>()
+                    officeNames.add("Pilih Kantor Cabang")
                     offices.forEach { officeNames.add(it.office_name) }
                     ArrayAdapter<String>(
                         this,
@@ -321,7 +360,12 @@ class TambahSdmActivity : BaseActivity() {
                                     position: Int,
                                     id: Long
                                 ) {
-                                    officeId = offices[position].id
+                                    if (position > 0){
+                                        officeId = offices[position - 1].id
+                                    } else {
+                                        officeId = 0
+                                    }
+
                                 }
 
                             }
@@ -344,6 +388,7 @@ class TambahSdmActivity : BaseActivity() {
                     })
 
                     val userManagementNames = mutableListOf<String>()
+                    userManagementNames.add("Pilih Leader")
                     userManagements.forEach { userManagementNames.add(it.full_name) }
                     ArrayAdapter<String>(
                         this,
@@ -366,7 +411,12 @@ class TambahSdmActivity : BaseActivity() {
                                     position: Int,
                                     id: Long
                                 ) {
-                                    userManagementId = userManagements[position].id
+                                    if (position > 0){
+                                        userManagementId = userManagements[position - 1].id
+                                    } else {
+                                        userManagementId = 0
+                                    }
+
                                 }
 
                             }
@@ -411,6 +461,7 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Success -> {
                     jabatans.addAll(it.data.data)
                     val jabatanNames = mutableListOf<String>()
+                    jabatanNames.add("Pilih Jabatan")
                     jabatans.forEach {
                         jabatanNames.add(it.position_name)
                     }
@@ -434,7 +485,12 @@ class TambahSdmActivity : BaseActivity() {
                                 position: Int,
                                 id: Long
                             ) {
-                                jabatanSelectedId = jabatans[position].id
+                                if (position > 0){
+                                    jabatanSelectedId = jabatans[position - 1].id
+                                } else {
+                                    jabatanSelectedId = 0
+                                }
+
                             }
 
                         }
@@ -531,6 +587,7 @@ class TambahSdmActivity : BaseActivity() {
         super.onDestroy()
         disposables.clear()
     }
+
 
 
 }

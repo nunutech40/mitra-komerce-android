@@ -356,6 +356,7 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="16dp"
                 android:text="No Partner"
+                android:visibility="gone"
                 android:textColor="@color/textColor" />
 
             <EditText
@@ -363,6 +364,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:visibility="gone"
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
                 android:hint="@string/masukkan_no_partner"

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
+import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.db.entity.City
@@ -80,6 +81,32 @@ class FormPartnerActivity : BaseActivity() {
         observeUserManagement()
 
         btnSimpan.setOnClickListener {
+
+            if (genderSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih jenis kelamin dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (userManagementId == 0) {
+                createAlertError(this, "Warning", "Pilih leader dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (provinceSelected.kodeWilayah.isEmpty()) {
+                createAlertError(this, "Warning", "Pilih provinsi dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (citySelected.kodeWilayah.isEmpty()) {
+                createAlertError(this, "Warning", "Pilih kota dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (partnerCategorySelected.id == 0) {
+                createAlertError(this, "Warning", "Pilih kategori partner dahulu", 3000)
+                return@setOnClickListener
+            }
+
             if (!formValidation()){
                 return@setOnClickListener
             }
@@ -122,6 +149,7 @@ class FormPartnerActivity : BaseActivity() {
                         it.position_name.toLowerCase().contains("leader")
                     })
                     val userManagementNames = mutableListOf<String>()
+                    userManagementNames.add("Pilih Leader")
                     userManagements.forEach { userManagementNames.add(it.full_name) }
                     ArrayAdapter<String>(
                         this,
@@ -143,7 +171,10 @@ class FormPartnerActivity : BaseActivity() {
                                     position: Int,
                                     id: Long
                                 ) {
-                                    userManagementId = userManagements[position].id
+                                    if (position > 0){
+                                        userManagementId = userManagements[position - 1].id
+                                    }
+
                                 }
                             }
                     }
@@ -174,7 +205,7 @@ class FormPartnerActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            genderSelectedId = position + 1
+                            genderSelectedId = position
                         }
 
                     }
@@ -222,7 +253,7 @@ class FormPartnerActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            martialStatus = position
+                            martialStatus = position - 1
                         }
 
                     }
@@ -305,6 +336,7 @@ class FormPartnerActivity : BaseActivity() {
         partnerViewModel.provinces.observe(this, Observer {
 
             val provinces = mutableListOf<String>()
+            provinces.add("Pilih Provinsi")
             it.forEach {
                 provinces.add(it.nama)
             }
@@ -325,8 +357,10 @@ class FormPartnerActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-                        provinceSelected = it[position]
-                        partnerViewModel.getCities(it[position].kodeWilayah)
+                        if (position > 0){
+                            provinceSelected = it[position - 1]
+                            partnerViewModel.getCities(it[position - 1].kodeWilayah)
+                        }
                     }
 
                 }
@@ -336,6 +370,7 @@ class FormPartnerActivity : BaseActivity() {
 
         partnerViewModel.cities.observe(this, Observer {
             val cities = mutableListOf<String>()
+            cities.add("Pilih Kota")
             it.forEach {
                 cities.add(it.nama)
             }
@@ -355,7 +390,10 @@ class FormPartnerActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-                        citySelected = it[position]
+                        if (position > 0){
+                            citySelected = it[position - 1]
+                        }
+
                     }
 
                 }
@@ -371,6 +409,7 @@ class FormPartnerActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     val categories = mutableListOf<String>()
+                    categories.add("Pilih Kategori")
                     state.data.categories.forEach {
                         categories.add(it.partnerCategoryName)
                     }
@@ -390,7 +429,10 @@ class FormPartnerActivity : BaseActivity() {
                                 position: Int,
                                 id: Long
                             ) {
-                                partnerCategorySelected = state.data.categories[position]
+                                if (position > 0){
+                                    partnerCategorySelected = state.data.categories[position - 1]
+                                }
+
                             }
 
                         }

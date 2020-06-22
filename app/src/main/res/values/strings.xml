@@ -87,6 +87,7 @@
     </string-array>
 
     <string-array name="division">
+        <item>Pilih Divisi</item>
         <item>SDM Partner</item>
         <item>SDM Non Partner</item>
         <item>SDM Management</item>
@@ -106,6 +107,7 @@
     </string-array>
 
     <string-array name="gender">
+        <item>Pilih Jenis Kelamin</item>
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
@@ -121,6 +123,7 @@
     </string-array>
 
     <string-array name="martial_status">
+        <item>Pilih Status Pernikahan</item>
         <item>Belum Menikah</item>
         <item>Sudah Menikah</item>
     </string-array>
