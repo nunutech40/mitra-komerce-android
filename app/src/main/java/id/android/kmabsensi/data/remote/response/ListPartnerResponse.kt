@@ -52,7 +52,9 @@ data class Partner(
     @SerializedName("total_sdm_assigned")
     val totalSdmAssigned: Int = 0,
     @SerializedName("user_management_id")
-    val userManagementId: Int = 0
+    val userManagementId: Int = 0,
+    @SerializedName("leaders_assigned")
+    val leadersAssigned: List<LeaderAssigned> = listOf()
 ): Parcelable
 
 @Parcelize
@@ -91,4 +93,18 @@ data class PartnerDetail(
     val cityName: String = "",
     @SerializedName("status")
     val status: Int = 0
+): Parcelable
+
+@Parcelize
+data class LeaderAssigned(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("role_id")
+    val roleId: Int = 0,
+    @SerializedName("full_name")
+    val fullName: String = "",
+    @SerializedName("email")
+    val email: String = "",
+    @SerializedName("no_partner")
+    val noPartner: String = ""
 ): Parcelable

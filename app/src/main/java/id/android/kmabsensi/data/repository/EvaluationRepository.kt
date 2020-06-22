@@ -10,4 +10,19 @@ class EvaluationRepository(val apiService: ApiService) {
         return apiService.getMyEvaluation(userId)
     }
 
+    fun getLeaderEvaluation(
+        startPeriode: String,
+        endPeriode: String,
+        userId: Int = 0
+    ): Single<MyEvaluationResponse> {
+
+        val body = mapOf(
+            "start_period" to startPeriode,
+            "end_period" to endPeriode,
+            "user_id" to userId
+        )
+
+        return apiService.getLeaderEvaluation(body)
+    }
+
 }

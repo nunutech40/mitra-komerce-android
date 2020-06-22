@@ -36,7 +36,7 @@ data class Evaluation(
     @SerializedName("user_target")
     val userTarget: UserTarget = UserTarget(),
     @SerializedName("user_evaluator")
-    val userEvaluator: UserEvaluator = UserEvaluator(),
+    val userEvaluator: UserEvaluator? = UserEvaluator(),
     @SerializedName("form_evaluation_answer")
     val formEvaluationAnswer: List<FormEvaluationAnswer> = listOf()
 ): Parcelable

@@ -25,15 +25,20 @@ class EvaluationViewModel(
         MutableLiveData<UiState<MyEvaluationResponse>>()
     }
 
-    fun getLeaderEvaluation(userId: Int){
+    fun getLeaderEvaluation(
+        startPeriode: String,
+        endPeriod: String,
+        userId: Int = 0
+    ) {
         leaderEvaluation.value = UiState.Loading()
-        compositeDisposable.add(evaluationRepository.getMyEvaluation(userId)
-            .with(schedulerProvider)
-            .subscribe({
-                leaderEvaluation.value = UiState.Success(it)
-            }, {
-                leaderEvaluation.value = UiState.Error(it)
-            })
+        compositeDisposable.add(
+            evaluationRepository.getLeaderEvaluation(startPeriode, endPeriod, userId)
+                .with(schedulerProvider)
+                .subscribe({
+                    leaderEvaluation.value = UiState.Success(it)
+                }, {
+                    leaderEvaluation.value = UiState.Error(it)
+                })
         )
     }
 
@@ -43,13 +48,14 @@ class EvaluationViewModel(
             preferencesHelper.getString(PreferencesHelper.PROFILE_KEY),
             User::class.java
         )
-        compositeDisposable.add(evaluationRepository.getMyEvaluation(user.id)
-            .with(schedulerProvider)
-            .subscribe({
-                myEvaluations.value = UiState.Success(it)
-            }, {
-                myEvaluations.value = UiState.Error(it)
-            })
+        compositeDisposable.add(
+            evaluationRepository.getMyEvaluation(user.id)
+                .with(schedulerProvider)
+                .subscribe({
+                    myEvaluations.value = UiState.Success(it)
+                }, {
+                    myEvaluations.value = UiState.Error(it)
+                })
         )
     }
 

@@ -24,7 +24,7 @@ class EvaluationDetailActivity : BaseActivity() {
             textTime.text = submission.evaluationPeriod
             textLeader.text = submission.userTarget.fullName
             textLeaderName.text = submission.userTarget.fullName
-            textEvaluatorName.text = submission.userEvaluator.fullName
+            textEvaluatorName.text = submission.userEvaluator?.fullName
 
             textQuestion1.spannableQuestionEvaluation(submission.formEvaluationAnswer[0].questionName, submission.formEvaluationAnswer[0].notes)
             textQuestion2.spannableQuestionEvaluation(submission.formEvaluationAnswer[1].questionName, submission.formEvaluationAnswer[1].notes)

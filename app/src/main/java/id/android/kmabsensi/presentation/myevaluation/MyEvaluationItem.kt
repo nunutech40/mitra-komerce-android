@@ -14,7 +14,7 @@ class MyEvaluationItem(
         viewHolder.apply {
             itemView.textTitle.text = evaluation.title
             itemView.textLeaderName.text = evaluation.userTarget.fullName
-            itemView.textEvaluatorName.text = evaluation.userEvaluator.fullName
+            itemView.textEvaluatorName.text = evaluation.userEvaluator?.fullName
             itemView.textTime.text = evaluation.evaluationPeriod
 
             itemView.setOnClickListener {

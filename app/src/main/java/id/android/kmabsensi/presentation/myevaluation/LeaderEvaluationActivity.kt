@@ -21,7 +21,10 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.*
+import kotlinx.android.synthetic.main.activity_invoice_report.*
 import kotlinx.android.synthetic.main.activity_leader_evaluation.*
+import kotlinx.android.synthetic.main.activity_leader_evaluation.textLeaderName
+import kotlinx.android.synthetic.main.activity_leader_evaluation.textPeriod
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
@@ -57,6 +60,8 @@ class LeaderEvaluationActivity : BaseActivity() {
         setContentView(R.layout.activity_leader_evaluation)
         setupToolbar("Evaluasi Leader", isFilterVisible = true)
 
+        initRv()
+
         monthFromSelected = startCalendar.get(Calendar.MONTH)+1
         monthToSelected = startCalendar.get(Calendar.MONTH)+1
         yearFromSelected = startCalendar.get(Calendar.YEAR)
@@ -66,23 +71,22 @@ class LeaderEvaluationActivity : BaseActivity() {
         endPeriod = "$yearToSelected-$monthToSelected-01"
 
         vm.getUserManagement(2)
+        evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod)
 
         vm.userManagementData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-                    showDialog()
+//                    showDialog()
                 }
                 is UiState.Success -> {
-                    hideDialog()
+//                    hideDialog()
                     leaders.addAll(it.data.data.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
-                    textLeaderName.text = leaders.first().full_name
-                    leaderSelectedId = leaders.first().id
-                    evaluationViewModel.getLeaderEvaluation(leaderSelectedId)
+
                 }
                 is UiState.Error -> {
-                    hideDialog()
+//                    hideDialog()
                     Timber.e { it.throwable.message.toString() }
                 }
             }
@@ -96,6 +100,13 @@ class LeaderEvaluationActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     progressBar.gone()
+
+                    monthFromSelectedLabel = "${resources.getStringArray(R.array.month_array).toList()[monthFromSelected]} $yearFromSelected"
+                    monthToSelectedLabel = "${resources.getStringArray(R.array.month_array).toList()[monthToSelected]} $yearToSelected"
+
+                    textLeaderName.text = if (leaderSelectedId == 0) "Semua" else leaders.first { it.id == leaderSelectedId }.full_name
+                    textPeriod.text = "$monthFromSelectedLabel - $monthToSelectedLabel"
+
                     if (state.data.evaluations.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     state.data.evaluations.forEach {
                         groupAdapter.add(MyEvaluationItem(it) {
@@ -149,7 +160,7 @@ class LeaderEvaluationActivity : BaseActivity() {
                 startPeriod = "$yearFromSelected-$startMonth-01"
                 endPeriod = "$yearToSelected-$endMonth-01"
 
-
+                evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod, leaderSelectedId)
             }
         }
 
@@ -162,6 +173,7 @@ class LeaderEvaluationActivity : BaseActivity() {
     ) {
         //spinnerLeader
         val userManagementNames = mutableListOf<String>()
+        userManagementNames.add("Semua")
         leaders.forEach { userManagementNames.add(it.full_name) }
         ArrayAdapter<String>(
             this,
@@ -184,7 +196,11 @@ class LeaderEvaluationActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-                        leaderSelectedId = leaders[position].id
+                        leaderSelectedId = if (position == 0){
+                            0
+                        } else {
+                            leaders[position-1].id
+                        }
                     }
 
                 }

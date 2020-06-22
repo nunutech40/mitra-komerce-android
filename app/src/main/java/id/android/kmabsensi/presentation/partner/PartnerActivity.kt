@@ -127,7 +127,7 @@ class PartnerActivity : BaseActivity() {
                 val sortPartners = partners.sortedBy { it.totalSdmAssigned }
                 populateData(sortPartners)
             } else if (isNumeric){
-                val filteredPartnerByLeader = partners.filter { it.userManagementId == content!!.toInt() }
+                val filteredPartnerByLeader = partners.filter { it.leadersAssigned.find { it.id == content!!.toInt() } != null }
                 populateData(filteredPartnerByLeader)
             } else if (content != "Semua"){
                 val filteredPartner = partners.filter { it.partnerDetail.partnerCategoryName == content }

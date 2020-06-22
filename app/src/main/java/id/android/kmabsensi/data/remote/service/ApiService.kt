@@ -412,6 +412,10 @@ interface ApiService {
     fun getMyEvaluation(@Path("user_id") userId: Int): Single<MyEvaluationResponse>
 
     @JvmSuppressWildcards
+    @POST("api/evaluation/leaderResult")
+    fun getLeaderEvaluation(@Body body: Map<String, Any>): Single<MyEvaluationResponse>
+
+    @JvmSuppressWildcards
     @POST("api/invoice/report/summary")
     fun getInvoiceReport(@Body body: Map<String, Any>): Single<InvoiceReportResponse>
 }
