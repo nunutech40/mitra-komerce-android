@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
+import com.github.ajalt.timberkt.d
 import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
@@ -89,7 +91,7 @@ class HomeAdminFragment : Fragment() {
                     hideSkeletonMenu()
 
                     showSkeletonDashboardContent()
-                    if (!swipeRefresh.isRefreshing){
+                    if (!swipeRefresh.isRefreshing) {
                         showSkeletonMenu()
                     }
                 }
@@ -98,18 +100,21 @@ class HomeAdminFragment : Fragment() {
                     hideSkeletonDashboardContent()
                     hideSkeletonMenu()
                     swipeRefresh.isRefreshing = false
-                    if (it.data.status){
+                    if (it.data.status) {
                         txtPresent.text = it.data.data.total_present.toString()
                         txtTotalUser.text = " /${it.data.data.total_user}"
-                        textTotalPartner.text  = it.data.data.total_partner.toString()
+                        textTotalPartner.text = it.data.data.total_partner.toString()
 
-                        if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
+                        if (!isSectionAdded){
+                            expandableLayout.addSection(getSectionDashboard(it.data.data))
+                        } else {
                             expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
                             expandableLayout.sections[0].children.clear()
                             expandableLayout.sections[0].children.add(it.data.data)
+                            expandableLayout.notifyParentChanged(0)
                         }
                     }
-               }
+                }
                 is UiState.Error -> {
                     hideSkeletonDashboardContent()
                     hideSkeletonMenu()
@@ -164,19 +169,19 @@ class HomeAdminFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        expandableLayout.setRenderer(object: ExpandableLayout.Renderer<String, Dashboard> {
+        expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
             override fun renderChild(
                 view: View?,
                 model: Dashboard?,
                 parentPosition: Int,
                 childPosition: Int
             ) {
-                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.setText(model?.total_cssr.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.setText(model?.total_holiday.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.setText(model?.total_sick.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.setText(model?.total_permission.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.setText(model?.total_not_yet_present.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.setText(model?.total_failed_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.text = model?.total_cssr.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.text = model?.total_holiday.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.text = model?.total_sick.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.text = model?.total_permission.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.text = model?.total_not_yet_present.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.text = model?.total_failed_present.toString()
             }
 
             override fun renderParent(
@@ -185,16 +190,20 @@ class HomeAdminFragment : Fragment() {
                 isExpanded: Boolean,
                 parentPosition: Int
             ) {
-                view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.setText(model)
+                d { "render parent" }
+                view?.findViewById<ImageView>(R.id.arrow)
+                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
             }
         })
         expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
-            view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
         }
 
-        expandableLayout.setCollapseListener  { parentIndex: Int, parent: String, view: View? ->
-            view?.findViewById<ImageView>(R.id.arrow)?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+        expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
 //        imgProfile.loadCircleImage(
@@ -257,10 +266,10 @@ class HomeAdminFragment : Fragment() {
      * 1 - Partner
      * 2 - Evaluasi
      */
-    private fun showGroupMenu(menu: Int){
+    private fun showGroupMenu(menu: Int) {
         swipeRefresh.gone()
         containerHome.visible()
-        val fragment = when(menu){
+        val fragment = when (menu) {
             0 -> SdmMenuFragment()
             1 -> PartnerMenuFragment()
             else -> EvaluasiMenuFragment()
@@ -271,7 +280,7 @@ class HomeAdminFragment : Fragment() {
         (activity as HomeActivity).isOpenGroupMenu = true
     }
 
-    fun hideGroupMenu(){
+    fun hideGroupMenu() {
         containerHome.gone()
         swipeRefresh.visible()
         childFragmentManager.popBackStack()
@@ -279,7 +288,7 @@ class HomeAdminFragment : Fragment() {
     }
 
 
-    private fun getSectionDashboard(dashboard: Dashboard) : Section<String, Dashboard> {
+    private fun getSectionDashboard(dashboard: Dashboard): Section<String, Dashboard> {
         section.parent = dashboard.total_not_present.toString()
         section.children.add(dashboard)
         isSectionAdded = true
@@ -360,7 +369,7 @@ class HomeAdminFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun showSkeletonDashboardContent(){
+    private fun showSkeletonDashboardContent() {
         skeletonDate = Skeleton.bind(textView24)
             .load(R.layout.skeleton_item)
             .show()
@@ -382,7 +391,7 @@ class HomeAdminFragment : Fragment() {
             .show()
     }
 
-    private fun hideSkeletonDashboardContent(){
+    private fun hideSkeletonDashboardContent() {
         skeletonDate?.hide()
         skeletonDataHadir?.hide()
         skeletonDataBelumHadir?.hide()
@@ -390,7 +399,7 @@ class HomeAdminFragment : Fragment() {
         skeletonPartner?.hide()
     }
 
-    private fun showSkeletonMenu(){
+    private fun showSkeletonMenu() {
         skeletonLabelMenu = Skeleton.bind(textView26)
             .load(R.layout.skeleton_item)
             .show()
@@ -408,7 +417,7 @@ class HomeAdminFragment : Fragment() {
             .show()
     }
 
-    fun hideSkeletonMenu(){
+    fun hideSkeletonMenu() {
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()
