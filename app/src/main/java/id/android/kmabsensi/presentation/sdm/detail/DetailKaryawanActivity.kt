@@ -86,7 +86,7 @@ class DetailKaryawanActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        setupToolbar("Detail Karyawan")
+        setupToolbar("Detail SDM")
 
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)
