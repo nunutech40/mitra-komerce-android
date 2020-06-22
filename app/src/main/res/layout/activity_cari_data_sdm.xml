@@ -13,18 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/background_light"
-        android:elevation="0dp"
+        android:elevation="8dp"
+        app:contentInsetStartWithNavigation="0dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        android:paddingEnd="@dimen/_16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
-            app:showAsAction="ifRoom|collapseActionView"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_search_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp"
+            android:background="@drawable/bg_search"
+            app:boxBackgroundMode="none"
+            app:endIconDrawable="@drawable/ic_clear"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Cari SDM"
+                android:fontFamily="@font/avenir_medium"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:paddingTop="@dimen/_8dp"
+                android:paddingBottom="@dimen/_8dp"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.appcompat.widget.Toolbar>
 

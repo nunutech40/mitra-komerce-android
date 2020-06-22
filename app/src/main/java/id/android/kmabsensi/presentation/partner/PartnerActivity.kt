@@ -1,10 +1,15 @@
 package id.android.kmabsensi.presentation.partner
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -19,7 +24,12 @@ import id.android.kmabsensi.presentation.partner.search.SearchPartnerActivity
 import id.android.kmabsensi.presentation.partner.tambahpartner.FormPartnerActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
+import kotlinx.android.synthetic.main.activity_cari_data_sdm.*
 import kotlinx.android.synthetic.main.activity_partner.*
+import kotlinx.android.synthetic.main.activity_partner.layout_empty
+import kotlinx.android.synthetic.main.activity_partner.rvPartner
+import kotlinx.android.synthetic.main.activity_search_partner.*
+import kotlinx.android.synthetic.main.edittext_search.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -33,6 +43,8 @@ class PartnerActivity : BaseActivity() {
     private val partners = mutableListOf<Partner>()
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
+
+    private var mHandler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +73,34 @@ class PartnerActivity : BaseActivity() {
         vm.getPartners()
         observeData()
 
+        searchView.et_search.addTextChangedListener {
+            /* Ketika query kosong, maka tampil view not found */
+            if (searchView.et_search.text.isNullOrEmpty()) {
+                populateData(partners)
+                return@addTextChangedListener
+            }
+
+            layout_empty.visibility = View.GONE
+            rvPartner.visibility = View.VISIBLE
+            handleOnTextChange(searchView.et_search.text.toString())
+        }
+
+    }
+
+    private fun handleOnTextChange(keyword: String) {
+        mHandler.removeCallbacksAndMessages(null)
+        if (keyword.isNotEmpty()) {
+            mHandler.postDelayed({
+                search(keyword)
+            }, 500)
+        }
+    }
+
+    private fun search(keyword: String) {
+        val partners = partners.filter {
+            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.noPartner == keyword
+        }
+        populateData(partners)
     }
 
     private fun observeData(){
@@ -76,11 +116,11 @@ class PartnerActivity : BaseActivity() {
                     if (state.data.partners.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     partners.addAll(state.data.partners)
                     populateData(partners)
-                    btnSearch.setOnClickListener {
-                        startActivityForResult<SearchPartnerActivity>(CRUD_PARTNER_RC,
-                            PARTNER_RESPONSE_KEY to state.data
-                        )
-                    }
+//                    btnSearch.setOnClickListener {
+//                        startActivityForResult<SearchPartnerActivity>(CRUD_PARTNER_RC,
+//                            PARTNER_RESPONSE_KEY to state.data
+//                        )
+//                    }
                 }
 
             }
@@ -91,6 +131,7 @@ class PartnerActivity : BaseActivity() {
     }
 
     private fun populateData(partners: List<Partner>){
+        groupAdapter.clear()
         partners.forEach {
             groupAdapter.add(PartnerItem(it, object: OnParterItemClicked{
                 override fun onPartnerClicked(partner: Partner) {
@@ -168,5 +209,24 @@ class PartnerActivity : BaseActivity() {
     companion object {
         const val CUSTOMIZE_RC = 123
         const val CRUD_PARTNER_RC = 122
+    }
+
+    override fun onBackPressed() {
+        if (isSearchMode){
+            isSearchMode = false
+            populateData(partners)
+            toolbarContent.visibility = View.GONE
+            toolbarContent.removeView(searchView)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onStop() {
+        /* hide keyboard when leave */
+        val imm: InputMethodManager? =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm?.hideSoftInputFromWindow(searchView.windowToken, 0)
+        super.onStop()
     }
 }

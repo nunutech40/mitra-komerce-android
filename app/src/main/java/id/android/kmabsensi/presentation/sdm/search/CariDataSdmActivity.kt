@@ -1,9 +1,15 @@
 package id.android.kmabsensi.presentation.sdm.search
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +37,8 @@ class CariDataSdmActivity : AppCompatActivity() {
 
     private var skeletonScreen: SkeletonScreen? = null
 
+    private var mHandler = Handler()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cari_data_sdm)
@@ -54,9 +62,11 @@ class CariDataSdmActivity : AppCompatActivity() {
                 }
                 is UiState.Success -> {
                     skeletonScreen?.hide()
-
                     dataFilter = it.data.data.filter { it.role_id != 4 }
-
+                    if (searchView.text.toString().isNotEmpty()){
+                        rvSdm.visible()
+                        search(searchView.text.toString())
+                    }
                 }
                 is UiState.Error -> {
                     skeletonScreen?.hide()
@@ -80,6 +90,7 @@ class CariDataSdmActivity : AppCompatActivity() {
         val filter = dataFilter.filter {
             it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partner == key
         }
+        if (filter.isEmpty()) layout_empty.visible() else layout_empty.gone()
         filter.forEach { sdm ->
             groupAdapter.add(SdmItem(sdm) {
                 startActivityForResult<DetailKaryawanActivity>(
@@ -92,38 +103,36 @@ class CariDataSdmActivity : AppCompatActivity() {
     }
 
     private fun iniSearcView() {
-        search.setIconifiedByDefault(true)
-        search.isFocusable = true
-        search.isIconified = false
-        search.clearFocus();
-        search.requestFocusFromTouch()
+        /* Show keyboard */
+        searchView.requestFocus()
+        val imm: InputMethodManager? =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
 
-        search.findViewById<ImageView>(R.id.search_close_btn).gone()
+        searchView.addTextChangedListener {
+            /* Ketika query kosong, maka tampil view not found */
+            if (searchView.text.isNullOrEmpty()) {
+                layout_empty.visibility = View.VISIBLE
+                rvSdm.visibility = View.GONE
+                return@addTextChangedListener
+            }
 
-        search.findViewById<ImageView>(R.id.search_close_btn).setOnClickListener {
-            search.findViewById<ImageView>(R.id.search_close_btn).gone()
-            finish()
+            layout_empty.gone()
+            rvSdm.visible()
+            handleOnTextChange(searchView.text.toString())
+        }
+    }
+
+    private fun handleOnTextChange(keyword: String) {
+        if (dataFilter.isNotEmpty()){
+            mHandler.removeCallbacksAndMessages(null)
+            if (keyword.isNotEmpty()) {
+                mHandler.postDelayed({
+                    search(keyword)
+                }, 500)
+            }
         }
 
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String): Boolean {
-                search.findViewById<ImageView>(R.id.search_close_btn).gone()
-                if (newText.isNotEmpty()) {
-                    layout_empty.gone()
-                    rvSdm.visible()
-                    search(newText)
-                } else {
-                    layout_empty.visible()
-                    rvSdm.gone()
-                }
-
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
