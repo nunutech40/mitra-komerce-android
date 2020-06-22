@@ -235,11 +235,6 @@ class HomeAdminFragment : Fragment() {
             showGroupMenu(1)
         }
 
-        btnEvaluasi.setOnClickListener {
-            showGroupMenu(2)
-        }
-
-
 
         sectionPartner.setOnClickListener {
             activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
@@ -271,8 +266,7 @@ class HomeAdminFragment : Fragment() {
         containerHome.visible()
         val fragment = when (menu) {
             0 -> SdmMenuFragment()
-            1 -> PartnerMenuFragment()
-            else -> EvaluasiMenuFragment()
+            else -> PartnerMenuFragment()
         }
         childFragmentManager.beginTransaction().apply {
             replace(R.id.containerHome, fragment).commit()
