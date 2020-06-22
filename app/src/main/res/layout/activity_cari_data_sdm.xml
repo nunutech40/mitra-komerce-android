@@ -45,8 +45,8 @@
                 android:fontFamily="@font/avenir_medium"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:paddingTop="@dimen/_8dp"
-                android:paddingBottom="@dimen/_8dp"
+                android:paddingTop="@dimen/_4dp"
+                android:paddingBottom="@dimen/_4dp"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
