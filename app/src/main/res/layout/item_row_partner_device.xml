@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_18dp"
+    android:layout_marginEnd="@dimen/_18dp"
+    android:layout_marginTop="@dimen/_14dp"
+    app:cardCornerRadius="@dimen/_8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_19sdp"
+        android:paddingTop="26dp"
+        android:paddingEnd="@dimen/_19sdp"
+        android:paddingBottom="26dp"
+        android:background="?attr/selectableItemBackground">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPartner"
+            style="@style/tv18sp000000_avenir_heavy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="07 - Petrus" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelJumlahDevice"
+            style="@style/tv12spF48070_avenir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jumlah_device"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPartner" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtJumlahDevice"
+            style="@style/tv12sp000000_avenir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/labelJumlahDevice"
+            app:layout_constraintTop_toBottomOf="@id/txtPartner"
+            android:text="0" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_edit_orange" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnEdit"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete_orange" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

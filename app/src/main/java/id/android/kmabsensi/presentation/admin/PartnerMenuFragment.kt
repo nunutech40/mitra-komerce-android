@@ -7,21 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import id.android.kmabsensi.R
-import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
+import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnDataPartner
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnEvaluasi
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnInvoice
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnInvoiceReport
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnPartnerCategory
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.btnBack
 import org.jetbrains.anko.startActivity
 
@@ -61,7 +57,7 @@ class PartnerMenuFragment : Fragment() {
         }
 
         btnDevice.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<PartnerDeviceActivity>()
         }
 
         btnEvaluasi.setOnClickListener {

@@ -74,6 +74,20 @@
     <string name="label_expired">EXPIRED</string>
     <string name="txt_complete_invoice_confirmation">Apakah anda yakin ingin menyelesaikan transaksi ini ?</string>
     <string name="txt_cancel_invoice_confirmation">Apakah anda yakin ingin membatalkan transaksi ini ?</string>
+    <string name="label_data_device">Data Device</string>
+    <string name="jumlah_device">Jumlah Device:</string>
+    <string name="tambah_device_partner">Tambah Device Partner</string>
+    <string name="jenis">Jenis</string>
+    <string name="pilih_jenis_device">Pilih Jenis Device</string>
+    <string name="merek">Merek</string>
+    <string name="tulis_merek">Tulis Merek…</string>
+    <string name="spesifikasi">Spesifikasi</string>
+    <string name="tulis_spesifikasi">Tulis Spesifikasi…</string>
+    <string name="partner">Partner</string>
+    <string name="pilih_partner">Pilih Partner</string>
+    <string name="pilih_sdm">Pilih SDM</string>
+    <string name="tanggal_diterima">Tanggal Diterima</string>
+    <string name="pilih_tanggal_diterima">Pilih Tanggal Diterima</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -147,6 +161,13 @@
     <string-array name="invoice_type">
         <item>Admin</item>
         <item>Gaji SDM</item>
+    </string-array>
+
+    <string-array name="device_type">
+        <item>HP</item>
+        <item>Laptop</item>
+        <item>Modem</item>
+        <item>Lainnya</item>
     </string-array>
 
 </resources>
