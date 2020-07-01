@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/_10dp"
+    app:cardElevation="@dimen/_4dp"
+    android:layout_marginTop="@dimen/_4dp"
+    android:layout_marginStart="@dimen/_10dp"
+    android:layout_marginEnd="@dimen/_10dp"
+    android:layout_marginBottom="@dimen/_4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingStart="@dimen/_18dp"
+        android:paddingEnd="@dimen/_18dp">
+
+        <View
+            android:id="@+id/txtNameWithJob"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_8dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/txtGenderWithAge"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintTop_toBottomOf="@id/txtNameWithJob"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_16dp"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnLihatDevices"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/btnLihatDevices"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

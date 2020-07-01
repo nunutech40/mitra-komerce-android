@@ -88,6 +88,7 @@
     <string name="pilih_sdm">Pilih SDM</string>
     <string name="tanggal_diterima">Tanggal Diterima</string>
     <string name="pilih_tanggal_diterima">Pilih Tanggal Diterima</string>
+    <string name="lihat_devices">Lihat Devices</string>
 
     <string-array name="role">
         <item>Admin</item>

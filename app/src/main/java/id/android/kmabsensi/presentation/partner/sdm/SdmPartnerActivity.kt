@@ -4,19 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
-import id.android.kmabsensi.presentation.sdm.SdmItem
 import id.android.kmabsensi.presentation.sdm.detail.DetailKaryawanActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.jetbrains.anko.startActivityForResult
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SdmPartnerActivity : BaseActivity() {
 
@@ -40,13 +38,13 @@ class SdmPartnerActivity : BaseActivity() {
         vm.sdmByPartner.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
-                    showSkeleton(rvSdm, R.layout.skeleton_list_sdm, groupAdapter)
+                    showSkeleton(rvSdm, R.layout.item_row_sdm_partner_skeleton, groupAdapter)
                 }
                 is UiState.Success -> {
                     hideSkeleton()
                     if (state.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     state.data.data.forEach { sdm ->
-                        groupAdapter.add(SdmItem(sdm) {
+                        groupAdapter.add(SdmPartnerItem(sdm) {
                             startActivityForResult<DetailKaryawanActivity>(
                                 112,
                                 USER_KEY to it,
@@ -67,7 +65,7 @@ class SdmPartnerActivity : BaseActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         rvSdm.apply {
             layoutManager = linearLayoutManager
-            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
+//            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
             adapter = groupAdapter
         }
     }

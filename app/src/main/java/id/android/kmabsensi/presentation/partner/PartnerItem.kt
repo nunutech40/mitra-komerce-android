@@ -23,7 +23,7 @@ class PartnerItem(val partner: Partner,
             itemView.textPartnerNumber.text = "NO. PARTNER ${partner.noPartner}"
             itemView.textPartnerName.text = partner.fullName.capitalizeWords()
             itemView.textPartnerCategory.text = partner.partnerDetail.partnerCategoryName
-            itemView.textTotalSdm.text = partner.totalSdmAssigned.toString()
+            itemView.textTotalSdm.text = "${partner.totalSdmAssigned} SDM, 0 Devices"
 
             itemView.setOnClickListener {
                 listener.onPartnerClicked(partner)

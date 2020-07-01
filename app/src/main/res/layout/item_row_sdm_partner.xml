@@ -1,54 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_14dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/_10dp"
+    app:cardElevation="@dimen/_4dp"
+    android:layout_marginTop="@dimen/_12dp"
     android:layout_marginStart="@dimen/_18dp"
-    android:layout_marginEnd="@dimen/_18dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginEnd="@dimen/_18dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingStart="20dp"
-        android:paddingTop="@dimen/_16dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="@dimen/_16dp">
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingStart="@dimen/_18dp"
+        android:paddingEnd="@dimen/_18dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textPartnerNumber"
-            style="@style/tv10sp000000_avenir_medium"
+            android:id="@+id/txtNameWithJob"
+            style="@style/tv12sp000000_avenir"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_8dp"
+            tools:text="Sri Rejeki - Customer Service"
             app:layout_constraintEnd_toStartOf="@+id/view5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="NO. PARTNER 941231231" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textPartnerName"
-            style="@style/tv16sp000000_avenir_heavy"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16dp"
-            app:layout_constraintEnd_toStartOf="@+id/view5"
-            app:layout_constraintStart_toStartOf="@+id/textPartnerNumber"
-            app:layout_constraintTop_toBottomOf="@+id/textPartnerNumber"
-            tools:text="Alodokter" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textPartnerCategory"
-            style="@style/tv14spde4d4e_avenir_medium"
+            android:id="@+id/txtGenderWithAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/textPartnerName"
-            app:layout_constraintTop_toBottomOf="@+id/textPartnerName"
-            tools:text="Kesehatan" />
+            style="@style/tv11sp818181_avenir"
+            tools:text="Perempuan, 23 Tahun"
+            app:layout_constraintTop_toBottomOf="@id/txtNameWithJob"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <View
             android:id="@+id/view5"
@@ -57,36 +46,38 @@
             android:layout_marginEnd="@dimen/_16dp"
             android:background="@color/divider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnTotalSdm"
+            app:layout_constraintEnd_toStartOf="@+id/btnLihatDevices"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/btnTotalSdm"
+            android:id="@+id/btnLihatDevices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_gradient_selector"
             android:orientation="horizontal"
-            android:paddingStart="8dp"
+            android:paddingStart="@dimen/_16dp"
             android:paddingTop="7dp"
-            android:paddingEnd="8dp"
+            android:paddingEnd="@dimen/_16dp"
             android:paddingBottom="7dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textTotalSdm"
                 style="@style/tv10spffffff_avenir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:text="10 SDM, 11 Devices"
+                android:text="@string/lihat_devices"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/labelOrang"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </com.google.android.material.card.MaterialCardView>

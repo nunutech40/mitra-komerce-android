@@ -5,9 +5,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
 import com.tapadoo.alerter.Alerter
+import com.wildma.idcardcamera.global.Constant.BASE_DIR
 import com.wildma.idcardcamera.utils.FileUtils
 import id.android.kmabsensi.R
 import id.zelory.compressor.Compressor
+import org.joda.time.LocalDate
+import org.joda.time.Years
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -31,6 +34,14 @@ fun getRoleName(roleId: Int): String = when (roleId) {
     1 -> ROLE_ADMIN
     2 -> ROLE_MANAGEMEMENT
     else -> ROLE_SDM
+}
+
+fun calcAgePerson(dateString: String): Int{
+    val birthDate: LocalDate =  LocalDate.parse(dateString)
+    val today = LocalDate()
+    val age = Years.yearsBetween(birthDate, today)
+    return age.years
+
 }
 
 fun getTodayDate(): String {

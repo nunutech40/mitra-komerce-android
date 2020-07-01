@@ -202,14 +202,6 @@ class PartnerActivity : BaseActivity() {
     fun initRv() {
         rvPartner.apply {
             layoutManager = LinearLayoutManager(this@PartnerActivity)
-            addItemDecoration(
-                DividerItemDecorator(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.divider
-                    ), true
-                )
-            )
             adapter = groupAdapter
         }
     }
