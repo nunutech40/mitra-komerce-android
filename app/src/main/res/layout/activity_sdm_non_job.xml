@@ -8,6 +8,85 @@
 
     <include layout="@layout/toolbar"/>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/_18dp"
+        android:layout_marginEnd="@dimen/_18dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="@dimen/_10dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jumlah_sdm_non_job"
+                style="@style/tv14sp000000_avenir_heavy"
+                android:layout_marginStart="@dimen/_18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtJumlahSdmNonJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:layout_marginBottom="3dp"
+                style="@style/tv18spDE4D4E_avenir_heavy"
+                android:layout_marginStart="@dimen/_18dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/labelOrang"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelOrang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="orang"
+                android:layout_marginEnd="@dimen/_18dp"
+                style="@style/tv11sp000000_avenir_heavy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelListSdmNonJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List SDM Non Job"
+        style="@style/tv14sp929292_avenir_heavy"
+        app:layout_constraintTop_toBottomOf="@id/card"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginStart="@dimen/_18dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSdmNonJob"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:paddingBottom="@dimen/_16dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_row_sdm_non_job"
+        app:layout_constraintTop_toBottomOf="@id/labelListSdmNonJob"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

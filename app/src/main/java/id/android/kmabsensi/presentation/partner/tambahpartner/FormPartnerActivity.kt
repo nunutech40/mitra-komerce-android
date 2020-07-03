@@ -131,7 +131,8 @@ class FormPartnerActivity : BaseActivity() {
                 provinceName = provinceSelected.nama,
                 cityCode = citySelected.kodeWilayah,
                 cityName = citySelected.nama,
-                userManagementId = userManagementId.toString()
+                userManagementId = userManagementId.toString(),
+                bonus = edtPerhitunganBonus.text.toString()
             )
         }
     }
@@ -472,6 +473,7 @@ class FormPartnerActivity : BaseActivity() {
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
         val noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
+        val bonus = ValidationForm.validationInput(edtPerhitunganBonus, "Perhitungan bonus tidak boleh kosong")
         val tanggalBergabung = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
 
         val matchPass = ValidationForm.validationSingkronPassword(
@@ -482,7 +484,7 @@ class FormPartnerActivity : BaseActivity() {
 
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir
                 && noHp && email && noPartner && alamat && validEmail && matchPass
-                && tanggalBergabung
+                && tanggalBergabung && bonus
     }
 
 }

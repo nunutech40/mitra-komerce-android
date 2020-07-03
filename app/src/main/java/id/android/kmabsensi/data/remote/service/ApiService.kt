@@ -51,6 +51,9 @@ interface ApiService {
         @Field("no_partner") noPartner: Int = 0
     ): Single<UserResponse>
 
+    @POST("api/user/sdmNonJob")
+    fun getSdmNonJob(): Single<UserResponse>
+
     @FormUrlEncoded
     @POST("api/office/add")
     fun addOffice(
@@ -344,7 +347,8 @@ interface ApiService {
         @Part("province_name") provinceName: RequestBody,
         @Part("city_code") cityCode: RequestBody,
         @Part("city_name") cityName: RequestBody,
-        @Part("user_management_id") userManagementId: RequestBody
+        @Part("user_management_id") userManagementId: RequestBody,
+        @Part("bonus") bonus: RequestBody
     ): Single<BaseResponse>
 
     @GET("api/user/partner")
@@ -377,7 +381,8 @@ interface ApiService {
         @Part("province_name") provinceName: RequestBody,
         @Part("city_code") cityCode: RequestBody,
         @Part("city_name") cityName: RequestBody,
-        @Part("user_management_id") userManagementId: RequestBody
+        @Part("user_management_id") userManagementId: RequestBody,
+        @Part("bonus") bonus: RequestBody
     ): Single<BaseResponse>
 
     @GET("api/user/partner/delete/{user-id}")

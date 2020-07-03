@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserResponse(
     val code: Int,
+    val status: Boolean,
     val `data`: List<User>,
     val message: String
 ) : Parcelable
@@ -39,5 +40,7 @@ data class User(
     val status: Int,
     val join_date: String,
     val martial_status: Int,
-    val bank_accounts: List<BankAccount>? = listOf()
+    val last_date_of_pause: String,
+    val bank_accounts: List<BankAccount>? = listOf(),
+    val management: ManagementResponse = ManagementResponse()
 ) : Parcelable

@@ -18,6 +18,7 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.utils.SIMPLE_PARTNER_DATA_KEY
 import id.android.kmabsensi.utils.UiState
@@ -31,12 +32,10 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PartnerPickerActivity : BaseActivity() {
+class PartnerPickerActivity : BaseSearchActivity() {
 
     private val vm: PartnerViewModel by viewModel()
     private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
-
-    private var mHandler = Handler()
 
     private var partners = mutableListOf<SimplePartner>()
 
@@ -44,34 +43,10 @@ class PartnerPickerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partner_picker)
 
-        setupToolbar("Pilih Partner", isSearchVisible = true)
+        setupSearchToolbar("Pilih Partner")
 
         initRv()
         observePartners()
-
-        searchView.et_search.addTextChangedListener {
-            /* Ketika query kosong, maka tampil view not found */
-            if (searchView.et_search.text.isNullOrEmpty()) {
-                populateData(partners)
-                return@addTextChangedListener
-            }
-
-            layout_empty.visibility = View.GONE
-            rvPartners.visibility = View.VISIBLE
-            handleOnTextChange(searchView.et_search.text.toString())
-        }
-
-    }
-
-    override fun onBackPressed() {
-        if (isSearchMode){
-            isSearchMode = false
-            populateData(partners)
-            toolbarContent.visibility = View.GONE
-            toolbarContent.removeView(searchView)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun observePartners(){
@@ -120,20 +95,15 @@ class PartnerPickerActivity : BaseActivity() {
         }
     }
 
-    private fun handleOnTextChange(keyword: String) {
-        mHandler.removeCallbacksAndMessages(null)
-        if (keyword.isNotEmpty()) {
-            mHandler.postDelayed({
-                search(keyword)
-            }, 500)
-        }
-    }
-
-    private fun search(keyword: String) {
-
+    override fun search(keyword: String) {
         val partners = partners.filter {
             it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.noPartner == keyword
         }
+        populateData(partners)
+    }
+
+
+    override fun restoreData() {
         populateData(partners)
     }
 }

@@ -32,7 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.sdm.nonjob.SdmNonJobActivity"></activity>
+        <activity android:name=".presentation.partner.administratif.AddAdministratifActivity"></activity>
+        <activity android:name=".presentation.partner.administratif.AdministratifActivity" />
+        <activity android:name=".presentation.sdm.nonjob.SdmNonJobActivity" />
         <activity android:name=".presentation.partner.device.DetailPartnerDeviceActivity" />
         <activity android:name=".presentation.partner.device.AddPartnerDeviceActivity" />
         <activity android:name=".presentation.partner.device.PartnerDeviceActivity" />

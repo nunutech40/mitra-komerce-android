@@ -113,7 +113,8 @@ class DetailPartnerActivity : BaseActivity() {
                 provinceName = provinceSelected.nama,
                 cityCode = citySelected.kodeWilayah,
                 cityName = citySelected.nama,
-                userManagementId = userManagementId.toString()
+                userManagementId = userManagementId.toString(),
+                bonus = edtPerhitunganBonus.text.toString()
             )
         }
 
@@ -357,6 +358,7 @@ class DetailPartnerActivity : BaseActivity() {
         edtNoHp.setText(data.noHp)
         edtNoPartner.setText(data.noPartner)
         edtTanggalBergabung.setText(data.joinDate)
+        edtPerhitunganBonus.setText(if (data.partnerDetail.bonus.isBlank()) "-" else data.partnerDetail.bonus)
 
         data.photoProfileUrl?.let {
             d { it }
@@ -387,6 +389,7 @@ class DetailPartnerActivity : BaseActivity() {
         spinnerProvince.isEnabled = enabled
         spinnerCity.isEnabled = enabled
         spinnerManagement.isEnabled = enabled
+        edtPerhitunganBonus.isEnabled = enabled
 
         if (!enabled) btnSimpan.gone() else btnSimpan.visible()
     }
@@ -570,11 +573,12 @@ class DetailPartnerActivity : BaseActivity() {
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
         val noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
+        val bonus = ValidationForm.validationInput(edtPerhitunganBonus, "Perhitungan bonus tidak boleh kosong")
         val tanggalBergabung = ValidationForm.validationInput(edtTanggalBergabung, "Tanggal bergabung tidak boleh kosong")
 
         return username && namaLengkap && tanggalLahir
                 && noHp && email && noPartner && alamat && validEmail
-                && tanggalBergabung
+                && tanggalBergabung && bonus
     }
 
 }

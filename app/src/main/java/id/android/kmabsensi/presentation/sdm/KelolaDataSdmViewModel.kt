@@ -33,6 +33,7 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
     val userManagementData = MutableLiveData<UiState<UserResponse>>()
     val crudResponse = MutableLiveData<UiState<SingleUserResponse>>()
     val positionResponse = MutableLiveData<UiState<ListPositionResponse>>()
+    val sdmNonJob = MutableLiveData<UiState<UserResponse>>()
 
     fun getDataOffice(){
         compositeDisposable.add(officeRepository.getOffices()
@@ -221,6 +222,18 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
             },{
                 positionResponse.value = UiState.Error(it)
             }))
+    }
+
+    fun getSdmNonJob(){
+        sdmNonJob.value = UiState.Loading()
+        compositeDisposable.add(sdmRepository.getSdmNonJob()
+            .with(schedulerProvider)
+            .subscribe({
+                sdmNonJob.value = UiState.Success(it)
+            },{
+                sdmNonJob.value = UiState.Error(it)
+            }))
+
     }
 
     override fun onError(error: Throwable) {

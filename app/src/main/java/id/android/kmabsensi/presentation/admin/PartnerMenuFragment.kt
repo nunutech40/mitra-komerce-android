@@ -10,6 +10,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
+import id.android.kmabsensi.presentation.partner.administratif.AdministratifActivity
 import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import kotlinx.android.synthetic.main.fragment_partner_menu.*
@@ -65,7 +66,7 @@ class PartnerMenuFragment : Fragment() {
         }
 
         btnAdministratif.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<AdministratifActivity>()
         }
 
         btnPartnerOff.setOnClickListener {

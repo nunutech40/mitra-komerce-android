@@ -80,4 +80,6 @@ class SdmRepository(val apiService: ApiService) {
 
     fun deleteKaryawan(userId: Int) = apiService.deleteSdm(userId)
 
+    fun getSdmNonJob() = apiService.getSdmNonJob()
+
 }

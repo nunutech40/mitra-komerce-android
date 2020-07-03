@@ -77,7 +77,8 @@ class PartnerViewModel(
         provinceName: String,
         cityCode: String,
         cityName: String,
-        userManagementId: String
+        userManagementId: String,
+        bonus: String
     ){
         var photoProfile : MultipartBody.Part? = null
 
@@ -109,7 +110,8 @@ class PartnerViewModel(
             provinceName.createRequestBodyText(),
             cityCode.createRequestBodyText(),
             cityName.createRequestBodyText(),
-            userManagementId.createRequestBodyText()
+            userManagementId.createRequestBodyText(),
+            bonus.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({
@@ -160,7 +162,8 @@ class PartnerViewModel(
         provinceName: String,
         cityCode: String,
         cityName: String,
-        userManagementId: String
+        userManagementId: String,
+        bonus: String
     ){
 
         var photoProfile : MultipartBody.Part? = null
@@ -192,7 +195,8 @@ class PartnerViewModel(
             provinceName.createRequestBodyText(),
             cityCode.createRequestBodyText(),
             cityName.createRequestBodyText(),
-            userManagementId.createRequestBodyText()
+            userManagementId.createRequestBodyText(),
+            bonus.createRequestBodyText()
         )
             .with(schedulerProvider)
             .subscribe({

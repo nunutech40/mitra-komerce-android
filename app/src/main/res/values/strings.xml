@@ -89,6 +89,9 @@
     <string name="tanggal_diterima">Tanggal Diterima</string>
     <string name="pilih_tanggal_diterima">Pilih Tanggal Diterima</string>
     <string name="lihat_devices">Lihat Devices</string>
+    <string name="label_perhitungan_bonus">Perhitungan Bonus</string>
+    <string name="hint_masukkan_perhitungan_bonus">Masukkan perhitungan bonus</string>
+    <string name="jumlah_sdm_non_job">Jumlah SDM Non Job</string>
 
     <string-array name="role">
         <item>Admin</item>

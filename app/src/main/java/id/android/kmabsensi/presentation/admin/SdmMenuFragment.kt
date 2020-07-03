@@ -10,6 +10,8 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.nonjob.SdmNonJobActivity
+import id.android.kmabsensi.presentation.sdm.nonjob.SdmNonJobItem
 import id.android.kmabsensi.utils.IS_MANAGEMENT_KEY
 import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_sdm_menu.*
@@ -51,7 +53,7 @@ class SdmMenuFragment : Fragment() {
         }
 
         btnSdmNonJob.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<SdmNonJobActivity>()
         }
 
         btnModeKerja.setOnClickListener {

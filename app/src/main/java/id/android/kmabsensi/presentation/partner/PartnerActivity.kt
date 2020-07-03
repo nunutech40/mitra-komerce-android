@@ -17,6 +17,7 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.partner.CustomizePartnerActivity.Companion.sortData
 import id.android.kmabsensi.presentation.partner.detail.DetailPartnerActivity
 import id.android.kmabsensi.presentation.partner.sdm.SdmPartnerActivity
@@ -36,7 +37,7 @@ import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Double.parseDouble
 
-class PartnerActivity : BaseActivity() {
+class PartnerActivity : BaseSearchActivity() {
 
     private val vm: PartnerViewModel by viewModel()
 
@@ -44,13 +45,11 @@ class PartnerActivity : BaseActivity() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
-    private var mHandler = Handler()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partner)
 
-        setupToolbar(getString(R.string.text_data_partner), isSearchVisible = true)
+        setupSearchToolbar(getString(R.string.text_data_partner))
 
         initRv()
 
@@ -73,33 +72,17 @@ class PartnerActivity : BaseActivity() {
         vm.getPartners()
         observeData()
 
-        searchView.et_search.addTextChangedListener {
-            /* Ketika query kosong, maka tampil view not found */
-            if (searchView.et_search.text.isNullOrEmpty()) {
-                populateData(partners)
-                return@addTextChangedListener
-            }
-
-            layout_empty.visibility = View.GONE
-            rvPartner.visibility = View.VISIBLE
-            handleOnTextChange(searchView.et_search.text.toString())
-        }
-
     }
 
-    private fun handleOnTextChange(keyword: String) {
-        mHandler.removeCallbacksAndMessages(null)
-        if (keyword.isNotEmpty()) {
-            mHandler.postDelayed({
-                search(keyword)
-            }, 500)
-        }
-    }
-
-    private fun search(keyword: String) {
+    override fun search(keyword: String) {
         val partners = partners.filter {
             it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.noPartner == keyword
         }
+        populateData(partners)
+    }
+
+
+    override fun restoreData() {
         populateData(partners)
     }
 
@@ -209,17 +192,6 @@ class PartnerActivity : BaseActivity() {
     companion object {
         const val CUSTOMIZE_RC = 123
         const val CRUD_PARTNER_RC = 122
-    }
-
-    override fun onBackPressed() {
-        if (isSearchMode){
-            isSearchMode = false
-            populateData(partners)
-            toolbarContent.visibility = View.GONE
-            toolbarContent.removeView(searchView)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun onStop() {
