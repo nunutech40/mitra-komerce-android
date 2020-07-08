@@ -67,6 +67,10 @@ class PartnerRepository(val apiService: ApiService) {
         return apiService.getPartners()
     }
 
+    fun getPartnersOff(): Single<ListPartnerResponse> {
+        return apiService.getPartnerOff()
+    }
+
     fun getSimplePartners(): Single<SimplePartnersResponse>{
         return apiService.getSimplePartners()
     }

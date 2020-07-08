@@ -11,6 +11,8 @@ import id.android.kmabsensi.R
 import id.zelory.compressor.Compressor
 import org.joda.time.LocalDate
 import org.joda.time.Years
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -79,6 +81,11 @@ fun getDateStringFormatted(date: Date): String {
 fun getDateStringFormatted2(date: Date): String {
     val simpleDateFormat = SimpleDateFormat(DATE_FORMAT4, LOCALE)
     return simpleDateFormat.format(date)
+}
+
+fun localDateFormatter(localDate: LocalDate, pattern: String = "dd MMMM yyyy"): String{
+    val fmt: DateTimeFormatter = DateTimeFormat.forPattern(pattern)
+    return localDate.toString(fmt)
 }
 
 fun parseStringDate(

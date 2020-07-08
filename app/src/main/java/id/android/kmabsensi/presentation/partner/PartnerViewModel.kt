@@ -43,6 +43,10 @@ class PartnerViewModel(
         MutableLiveData<UiState<ListPartnerResponse>>()
     }
 
+    val partnersOff by lazy {
+        MutableLiveData<UiState<ListPartnerResponse>>()
+    }
+
     val simplePartners by lazy {
         MutableLiveData<UiState<SimplePartnersResponse>>()
     }
@@ -127,6 +131,17 @@ class PartnerViewModel(
                 partners.value = UiState.Success(it)
             },{
                 partners.value = UiState.Error(it)
+            }))
+    }
+
+    fun getPartnersOff(){
+        partnersOff.value = UiState.Loading()
+        compositeDisposable.add(partnerRepository.getPartners()
+            .with(schedulerProvider)
+            .subscribe({
+                partnersOff.value = UiState.Success(it)
+            },{
+                partnersOff.value = UiState.Error(it)
             }))
     }
 

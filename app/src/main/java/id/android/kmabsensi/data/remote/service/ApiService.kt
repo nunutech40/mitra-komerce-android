@@ -354,6 +354,9 @@ interface ApiService {
     @GET("api/user/partner")
     fun getPartners(): Single<ListPartnerResponse>
 
+    @GET("api/user/partner/partnerOff")
+    fun getPartnerOff(): Single<ListPartnerResponse>
+
     @GET("api/masterdata/partner")
     fun getSimplePartners(): Single<SimplePartnersResponse>
 

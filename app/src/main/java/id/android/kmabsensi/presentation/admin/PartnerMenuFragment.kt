@@ -13,6 +13,7 @@ import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.administratif.AdministratifActivity
 import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
+import id.android.kmabsensi.presentation.partner.partneroff.PartnerOffActivity
 import kotlinx.android.synthetic.main.fragment_partner_menu.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnDataPartner
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnEvaluasi
@@ -70,7 +71,7 @@ class PartnerMenuFragment : Fragment() {
         }
 
         btnPartnerOff.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<PartnerOffActivity>()
         }
     }
 

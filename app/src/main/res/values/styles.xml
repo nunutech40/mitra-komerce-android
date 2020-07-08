@@ -33,6 +33,12 @@
         <item name="android:textColor">@color/_000000</item>
     </style>
 
+    <style name="tv10sp000000_avenir">
+        <item name="android:fontFamily">@font/avenir_regular</item>
+        <item name="android:textSize">@dimen/_10sp</item>
+        <item name="android:textColor">@color/_000000</item>
+    </style>
+
     <style name="tv10spe15352_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_10sp</item>
@@ -83,6 +89,12 @@
 
     <style name="tv10sp929292_avenir">
         <item name="android:fontFamily">@font/avenir_regular</item>
+        <item name="android:textSize">@dimen/_10sp</item>
+        <item name="android:textColor">@color/_929292</item>
+    </style>
+
+    <style name="tv10sp929292_avenir_heavy">
+        <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_10sp</item>
         <item name="android:textColor">@color/_929292</item>
     </style>
@@ -232,6 +244,18 @@
     </style>
 
     <style name="tv8sp7a7b7c_avenir_heavy">
+        <item name="android:fontFamily">@font/avenir_heavy</item>
+        <item name="android:textSize">@dimen/_8sp</item>
+        <item name="android:textColor">@color/_7A7B7C</item>
+    </style>
+
+    <style name="tv8sp929292_avenir">
+        <item name="android:fontFamily">@font/avenir_regular</item>
+        <item name="android:textSize">@dimen/_8sp</item>
+        <item name="android:textColor">@color/_7A7B7C</item>
+    </style>
+
+    <style name="tv8sp929292_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_8sp</item>
         <item name="android:textColor">@color/_7A7B7C</item>

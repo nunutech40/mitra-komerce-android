@@ -47,12 +47,16 @@ data class Partner(
     val birthDate: String = "",
     @SerializedName("gender")
     val gender: Int = 0,
+    @SerializedName("last_date_of_pause")
+    val lastDataOfPause: String = "",
     @SerializedName("partner_detail")
     val partnerDetail: PartnerDetail = PartnerDetail(),
     @SerializedName("total_sdm_assigned")
     val totalSdmAssigned: Int = 0,
     @SerializedName("user_management_id")
     val userManagementId: Int = 0,
+    @SerializedName("last_invoice_status")
+    val lastInvoiceStatus: Int = 0,
     @SerializedName("leaders_assigned")
     val leadersAssigned: List<LeaderAssigned> = listOf()
 ): Parcelable

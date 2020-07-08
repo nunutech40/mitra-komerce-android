@@ -92,6 +92,9 @@
     <string name="label_perhitungan_bonus">Perhitungan Bonus</string>
     <string name="hint_masukkan_perhitungan_bonus">Masukkan perhitungan bonus</string>
     <string name="jumlah_sdm_non_job">Jumlah SDM Non Job</string>
+    <string name="partner_off_title">Partner Off</string>
+    <string name="status_invoice_label">STATUS INVOICE :</string>
+    <string name="tanggal_partner_off">TANGGAL PARTNER OFF</string>
 
     <string-array name="role">
         <item>Admin</item>
