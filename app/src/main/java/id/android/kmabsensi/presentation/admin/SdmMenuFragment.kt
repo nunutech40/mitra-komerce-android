@@ -10,6 +10,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.nonjob.SdmNonJobActivity
 import id.android.kmabsensi.presentation.sdm.nonjob.SdmNonJobItem
 import id.android.kmabsensi.utils.IS_MANAGEMENT_KEY
@@ -57,7 +58,7 @@ class SdmMenuFragment : Fragment() {
         }
 
         btnModeKerja.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+            activity?.startActivity<ModeKerjaActivity>()
         }
     }
 }

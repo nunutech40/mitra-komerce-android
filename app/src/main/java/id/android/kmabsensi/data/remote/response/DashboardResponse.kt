@@ -25,7 +25,8 @@ data class Dashboard(
     val user_kmpoin: Int,
     val total_partner: Int,
     val partner_province_statistic: List<PartnerProvinceStatistic> = mutableListOf(),
-    val partner_category_statistic: List<PartnerCategoryStatistic> = mutableListOf()
+    val partner_category_statistic: List<PartnerCategoryStatistic> = mutableListOf(),
+    val work_config: WorkConfig = WorkConfig()
 ): Parcelable
 
 @Parcelize

@@ -1,6 +1,7 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
+import id.android.kmabsensi.data.remote.body.WorkConfigParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
@@ -426,4 +427,7 @@ interface ApiService {
     @JvmSuppressWildcards
     @POST("api/invoice/report/summary")
     fun getInvoiceReport(@Body body: Map<String, Any>): Single<InvoiceReportResponse>
+
+    @POST("api/workconfig/update")
+    fun updateWorkConfig(@Body workConfigParams: WorkConfigParams): Single<WorkConfigResponse>
 }

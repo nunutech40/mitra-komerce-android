@@ -95,10 +95,20 @@
     <string name="partner_off_title">Partner Off</string>
     <string name="status_invoice_label">STATUS INVOICE :</string>
     <string name="tanggal_partner_off">TANGGAL PARTNER OFF</string>
+    <string name="mode_kerja">Mode Kerja</string>
+    <string name="periode">Periode</string>
+    <string name="dari">Dari</string>
+    <string name="sampai">Sampai</string>
 
     <string-array name="role">
         <item>Admin</item>
         <item>Management</item>
+        <item>SDM</item>
+    </string-array>
+
+    <string-array name="work_scope">
+        <item>ALL</item>
+        <item>MANAGEMENT</item>
         <item>SDM</item>
     </string-array>
 

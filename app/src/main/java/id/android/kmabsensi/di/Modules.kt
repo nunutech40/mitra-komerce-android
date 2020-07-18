@@ -32,6 +32,7 @@ import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
 import id.android.kmabsensi.presentation.splash.SplashViewModel
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
+import id.android.kmabsensi.presentation.viewmodels.WorkConfigViewModel
 import id.android.kmabsensi.utils.rx.AppSchedulerProvider
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import org.koin.android.ext.koin.androidApplication
@@ -77,6 +78,7 @@ val repositoryModule = module {
     single { PartnerRepository(get()) }
     single { InvoiceRepository(get()) }
     single { EvaluationRepository(get()) }
+    single { WorkConfigRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -100,6 +102,7 @@ val viewModelModule = module {
     viewModel { PartnerViewModel(get(), get(), get(), get()) }
     viewModel { InvoiceViewModel(get(), get(), get()) }
     viewModel { EvaluationViewModel(get(), get(), get()) }
+    viewModel { WorkConfigViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

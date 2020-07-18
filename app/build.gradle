@@ -191,6 +191,7 @@ dependencies {
     implementation 'io.supercharge:shimmerlayout:2.1.0'
 
     implementation 'joda-time:joda-time:2.10.6'
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
 
 }
