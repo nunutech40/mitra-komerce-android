@@ -428,6 +428,6 @@ interface ApiService {
     @POST("api/invoice/report/summary")
     fun getInvoiceReport(@Body body: Map<String, Any>): Single<InvoiceReportResponse>
 
-    @POST("api/workconfig/update")
+    @POST("api/kmconfig/update")
     fun updateWorkConfig(@Body workConfigParams: WorkConfigParams): Single<WorkConfigResponse>
 }

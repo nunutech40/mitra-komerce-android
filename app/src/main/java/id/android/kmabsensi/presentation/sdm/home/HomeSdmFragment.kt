@@ -31,6 +31,7 @@ import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
+import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_home_sdm.txtCountdown
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
+import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -99,6 +101,10 @@ class HomeSdmFragment : Fragment() {
                 is UiState.Success -> {
                     skeletonKmPoin?.hide()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
+                    val workConfigs = it.data.data.work_config
+                    val isWFH = workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                    val isSdmWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("sdm", true) ?: false
+                    if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
                 }
                 is UiState.Error -> {
                     skeletonKmPoin?.hide()

@@ -16,71 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Periode"
-        android:layout_marginStart="@dimen/_24dp"
-        style="@style/tv14spf48070_avenir_heavy"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnClose" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/labelDari"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Dari"
-        style="@style/tv12sp929292_avenir"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edtStartDate"
-        style="@style/tv14sp000000_avenir_medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_calendar2"
-        android:focusable="false"
-        android:hint="Pilih tanggal awal"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="@dimen/_24dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="@dimen/_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDari" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Sampai"
-        style="@style/tv12sp929292_avenir"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/edtStartDate" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edtEndDate"
-        style="@style/tv14sp000000_avenir_medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_calendar2"
-        android:focusable="false"
-        android:hint="Pilih tanggal akhir"
-        android:paddingStart="8dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="@dimen/_24dp"
-        android:paddingEnd="@dimen/_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +24,7 @@
         android:layout_marginStart="@dimen/_24dp"
         style="@style/tv14spf48070_avenir_heavy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtEndDate" />
+        app:layout_constraintTop_toBottomOf="@id/btnClose" />
 
     <Spinner
         android:id="@+id/spinnerRole"

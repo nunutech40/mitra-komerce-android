@@ -13,6 +13,8 @@ class PreferencesHelper(val context: Context){
         val FCM_TOKEN = "fcm_token"
         val PROFILE_KEY = "profile"
         val IS_LOGIN = "is_login"
+        val WORK_MODE_IS_WFH = "work_mode"
+        val WORK_MODE_SCOPE = "work_mode_scope"
     }
 
     private var sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

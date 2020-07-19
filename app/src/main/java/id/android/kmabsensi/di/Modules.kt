@@ -2,6 +2,7 @@ package id.android.kmabsensi.di
 
 //import id.android.kmabsensi.data.remote.ApiClient
 import androidx.room.Room
+import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.BuildConfig
@@ -50,6 +51,8 @@ val appModule = module {
     single { AppSchedulerProvider() as SchedulerProvider }
 
     factory { GroupAdapter<GroupieViewHolder>() }
+
+    factory { Gson() }
 
 }
 

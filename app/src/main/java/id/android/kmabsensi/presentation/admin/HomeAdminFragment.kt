@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ethanhua.skeleton.Skeleton
@@ -19,24 +18,21 @@ import com.github.ajalt.timberkt.d
 import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.invoice.InvoiceActivity
-import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
-import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
-import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
-import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
-import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
-import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
+import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -46,6 +42,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class HomeAdminFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
+    private val prefHelper: PreferencesHelper by inject()
+
     private val FORMAT = "(- %02d:%02d:%02d )"
     private lateinit var user: User
 
@@ -114,6 +112,15 @@ class HomeAdminFragment : Fragment() {
                             expandableLayout.notifyParentChanged(0)
                         }
                     }
+
+                    val isWFH = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
+
+                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
+                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
+
+                    setWorkModeUI(isWFH)
+
                 }
                 is UiState.Error -> {
                     hideSkeletonDashboardContent()
@@ -206,10 +213,6 @@ class HomeAdminFragment : Fragment() {
                 ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
-//        imgProfile.loadCircleImage(
-//            user.photo_profile_url
-//                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-//        )
 
         setupGreetings()
 
@@ -245,15 +248,27 @@ class HomeAdminFragment : Fragment() {
         swipeRefresh.setOnRefreshListener {
             txtPresent.text = ""
             txtTotalUser.text = ""
-
             txtNextTime.text = ""
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
+            layoutWfhMode.gone()
             getPrayerTime()
             getDashboardData()
             setupGreetings()
         }
 
+    }
+
+    private fun setWorkModeUI(isWFH: Boolean){
+        if (isWFH){
+            dataHadir.gone()
+            expandableLayout.gone()
+            layoutWfhMode.visible()
+        } else {
+            dataHadir.visible()
+            expandableLayout.visible()
+            layoutWfhMode.gone()
+        }
     }
 
     /*

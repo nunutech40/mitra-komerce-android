@@ -59,7 +59,7 @@ class PartnerMenuFragment : Fragment() {
         }
 
         btnDevice.setOnClickListener {
-            activity?.startActivity<PartnerDeviceActivity>()
+//            activity?.startActivity<PartnerDeviceActivity>()
         }
 
         btnEvaluasi.setOnClickListener {

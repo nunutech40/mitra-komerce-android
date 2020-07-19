@@ -12,23 +12,13 @@ data class WorkConfigResponse(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val `data`: WorkConfig = WorkConfig()
+    val `data`: List<WorkConfig> = listOf()
 )
 
 @Parcelize
 data class WorkConfig(
-    @SerializedName("id")
-    val id: Int = 0,
-    @SerializedName("work_mode")
-    val workMode: String = "",
-    @SerializedName("work_scope")
-    val workScope: String = "",
-    @SerializedName("wfh_start_date")
-    val wfhStartDate: String = "",
-    @SerializedName("wfh_end_date")
-    val wfhEndDate: String = "",
-    @SerializedName("created_at")
-    val createdAt: String? = null,
-    @SerializedName("updated_at")
-    val updatedAt: String = ""
+    @SerializedName("key")
+    val key: String = "",
+    @SerializedName("value")
+    val value: String = ""
 ):Parcelable

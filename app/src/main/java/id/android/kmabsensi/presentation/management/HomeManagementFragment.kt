@@ -41,10 +41,36 @@ import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivit
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
+import kotlinx.android.synthetic.main.fragment_home_management.btnDataPartner
+import kotlinx.android.synthetic.main.fragment_home_management.btnInvoice
+import kotlinx.android.synthetic.main.fragment_home_management.btnInvoiceReport
+import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
+import kotlinx.android.synthetic.main.fragment_home_management.btnPartnerCategory
+import kotlinx.android.synthetic.main.fragment_home_management.dataHadir
+import kotlinx.android.synthetic.main.fragment_home_management.expandableLayout
+import kotlinx.android.synthetic.main.fragment_home_management.header_waktu
+import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_management.labelPartner
+import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu1
+import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu2
+import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu3
+import kotlinx.android.synthetic.main.fragment_home_management.sectionPartner
+import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_home_management.textView24
+import kotlinx.android.synthetic.main.fragment_home_management.textView26
+import kotlinx.android.synthetic.main.fragment_home_management.txtCountdown
+import kotlinx.android.synthetic.main.fragment_home_management.txtHello
+import kotlinx.android.synthetic.main.fragment_home_management.txtNextTime
+import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
+import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_management.txtStatusWaktu
+import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
+import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
@@ -124,6 +150,11 @@ class HomeManagementFragment : Fragment() {
                         expandableLayout.sections[0].children.clear()
                         expandableLayout.sections[0].children.add(it.data.data)
                     }
+
+                    val workConfigs = it.data.data.work_config
+                    val isWFH = workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                    val isManagementWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("management", true) ?: false
+                    setWorkModeUI(isManagementWFH)
 
                 }
                 is UiState.Error -> {
@@ -222,7 +253,6 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-//                    hideSkeletonMenu()
 
                     skeletonNextTime = Skeleton.bind(txtNextTime)
                         .load(R.layout.skeleton_item_big)
@@ -234,14 +264,12 @@ class HomeManagementFragment : Fragment() {
                         .load(R.layout.skeleton_item)
                         .show()
                     if (!swipeRefresh.isRefreshing) {
-//                        showSkeletonMenu()
                     }
                 }
                 is UiState.Success -> {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-//                    hideSkeletonMenu()
                     val data = it.data.jadwal.data
                     val dzuhur = data.dzuhur
                     val ashr = data.ashar
@@ -251,7 +279,6 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-//                    hideSkeletonMenu()
                 }
             }
         })
@@ -281,7 +308,6 @@ class HomeManagementFragment : Fragment() {
                                             putExtra("coworking", coworking)
                                         }
                                         startActivityForResult(intent, 112)
-//                                        vm.checkInCoworkingSpace(coworking.id)
                                     } else if (coworking.cowork_presence.size >= 2) {
                                         createAlertError(
                                             activity!!,
@@ -334,6 +360,18 @@ class HomeManagementFragment : Fragment() {
             view_menu_partner_category.visibility = View.VISIBLE
         }
 
+    }
+
+    private fun setWorkModeUI(isWFH: Boolean){
+        if (isWFH){
+            dataHadir.gone()
+            expandableLayout.gone()
+            layoutWfhMode.visible()
+        } else {
+            dataHadir.visible()
+            expandableLayout.visible()
+            layoutWfhMode.gone()
+        }
     }
 
     private fun getSectionDashboard(dashboard: Dashboard): Section<String, Dashboard> {
@@ -407,6 +445,7 @@ class HomeManagementFragment : Fragment() {
             txtNextTime.text = ""
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
+            layoutWfhMode.gone()
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
             getDashboardData()

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
+import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
@@ -59,6 +60,10 @@ class SdmMenuFragment : Fragment() {
 
         btnModeKerja.setOnClickListener {
             activity?.startActivity<ModeKerjaActivity>()
+        }
+
+        btnDataDevice.setOnClickListener {
+            activity?.startActivity<PartnerDeviceActivity>()
         }
     }
 }

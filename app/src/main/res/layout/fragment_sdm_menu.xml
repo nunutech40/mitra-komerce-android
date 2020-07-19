@@ -228,9 +228,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnDataDevice"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:background="?attr/selectableItemBackground">
@@ -239,7 +240,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_kelola_izin" />
+                    android:src="@drawable/ic_device" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -249,7 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Data Izin" />
+                android:text="Data Device" />
 
         </LinearLayout>
 
