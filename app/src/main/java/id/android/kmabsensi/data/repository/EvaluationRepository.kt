@@ -1,5 +1,6 @@
 package id.android.kmabsensi.data.repository
 
+import id.android.kmabsensi.data.remote.body.FilterEvaluationCollaborationParams
 import id.android.kmabsensi.data.remote.response.MyEvaluationResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
@@ -24,5 +25,10 @@ class EvaluationRepository(val apiService: ApiService) {
 
         return apiService.getLeaderEvaluation(body)
     }
+
+    fun getEvaluationCollaboration() = apiService.getEvaluationCollaboration()
+
+    fun filterEvaluationCollaboration(params: FilterEvaluationCollaborationParams) =
+        apiService.filterEvaluationCollaboration(params)
 
 }

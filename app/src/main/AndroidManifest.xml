@@ -32,7 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.sdm.modekerja.ModeKerjaActivity"></activity>
+        <activity android:name=".presentation.partner.evaluation.EvaluationCollaborationDetailActivity"></activity>
+        <activity android:name=".presentation.partner.evaluation.EvaluasiKolaborasiActivity" />
+        <activity android:name=".presentation.sdm.modekerja.ModeKerjaActivity" />
         <activity android:name=".presentation.partner.partneroff.PartnerOffActivity" />
         <activity android:name=".presentation.partner.administratif.AddAdministratifActivity" />
         <activity android:name=".presentation.partner.administratif.AdministratifActivity" />
@@ -42,7 +44,7 @@
         <activity android:name=".presentation.partner.device.PartnerDeviceActivity" />
         <activity android:name=".presentation.admin.EvaluasiMenuActivity" />
         <activity android:name=".presentation.partner.sdm.SdmPartnerActivity" />
-        <activity android:name=".presentation.myevaluation.LeaderEvaluationActivity" />
+        <activity android:name=".presentation.partner.evaluation.LeaderEvaluationActivity" />
         <activity android:name=".presentation.partner.partnerpicker.SearchPartnerPickerActivity" />
         <activity android:name=".presentation.partner.search.SearchPartnerActivity" />
         <!--

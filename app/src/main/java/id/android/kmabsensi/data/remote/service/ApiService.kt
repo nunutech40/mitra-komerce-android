@@ -1,6 +1,7 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
+import id.android.kmabsensi.data.remote.body.FilterEvaluationCollaborationParams
 import id.android.kmabsensi.data.remote.body.WorkConfigParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
@@ -430,4 +431,10 @@ interface ApiService {
 
     @POST("api/kmconfig/update")
     fun updateWorkConfig(@Body workConfigParams: WorkConfigParams): Single<WorkConfigResponse>
+
+    @GET("api/evaluationcollaboration")
+    fun getEvaluationCollaboration(): Single<EvaluationCollaborationResponse>
+
+    @POST("api/evaluationcollaboration/filtered")
+    fun filterEvaluationCollaboration(@Body params: FilterEvaluationCollaborationParams): Single<EvaluationCollaborationResponse>
 }

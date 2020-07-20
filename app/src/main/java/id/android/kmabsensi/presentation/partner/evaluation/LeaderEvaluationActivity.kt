@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.myevaluation
+package id.android.kmabsensi.presentation.partner.evaluation
 
 import android.os.Bundle
 import android.view.View
@@ -19,9 +19,11 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.myevaluation.EvaluationDetailActivity
+import id.android.kmabsensi.presentation.myevaluation.EvaluationViewModel
+import id.android.kmabsensi.presentation.myevaluation.MyEvaluationItem
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.*
-import kotlinx.android.synthetic.main.activity_invoice_report.*
 import kotlinx.android.synthetic.main.activity_leader_evaluation.*
 import kotlinx.android.synthetic.main.activity_leader_evaluation.textLeaderName
 import kotlinx.android.synthetic.main.activity_leader_evaluation.textPeriod
@@ -68,7 +70,7 @@ class LeaderEvaluationActivity : BaseActivity() {
         yearToSelected = endCalendar.get(Calendar.YEAR)
 
         startPeriod = "$yearFromSelected-$monthFromSelected-01"
-        endPeriod = "$yearToSelected-$monthToSelected-01"
+        endPeriod = "$yearToSelected-$monthToSelected-30"
 
         vm.getUserManagement(2)
         evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod)
@@ -76,17 +78,14 @@ class LeaderEvaluationActivity : BaseActivity() {
         vm.userManagementData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
-//                    showDialog()
                 }
                 is UiState.Success -> {
-//                    hideDialog()
                     leaders.addAll(it.data.data.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
 
                 }
                 is UiState.Error -> {
-//                    hideDialog()
                     Timber.e { it.throwable.message.toString() }
                 }
             }
@@ -109,9 +108,14 @@ class LeaderEvaluationActivity : BaseActivity() {
 
                     if (state.data.evaluations.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     state.data.evaluations.forEach {
-                        groupAdapter.add(MyEvaluationItem(it) {
-                            startActivity<EvaluationDetailActivity>(EVALUATION_KEY to it)
-                        })
+                        groupAdapter.add(
+                            MyEvaluationItem(
+                                it
+                            ) {
+                                startActivity<EvaluationDetailActivity>(
+                                    EVALUATION_KEY to it
+                                )
+                            })
                     }
                 }
                 is UiState.Error -> {
@@ -158,7 +162,7 @@ class LeaderEvaluationActivity : BaseActivity() {
                 val startMonth = if (monthFromSelected < 10) "0$monthFromSelected" else "$monthFromSelected"
                 val endMonth = if (monthToSelected < 10) "0$monthToSelected" else "$monthToSelected"
                 startPeriod = "$yearFromSelected-$startMonth-01"
-                endPeriod = "$yearToSelected-$endMonth-01"
+                endPeriod = "$yearToSelected-$endMonth-30"
 
                 evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod, leaderSelectedId)
             }

@@ -100,6 +100,12 @@
     <string name="dari">Dari</string>
     <string name="sampai">Sampai</string>
 
+    <string name="judul">Judul</string>
+    <string name="nomor_partner">Nomor Partner</string>
+    <string name="evaluasi_berhenti_kolaborasi">Evaluasi Berhenti Kolaborasi</string>
+    <string name="alasan_utama_berhenti_berkolaborasi">Alasan Utama Berhenti Berkolaborasi</string>
+    <string name="saran_perbaikan">Saran Perbaikan</string>
+
     <string-array name="role">
         <item>Admin</item>
         <item>Management</item>

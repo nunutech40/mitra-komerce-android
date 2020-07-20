@@ -3,6 +3,8 @@ package id.android.kmabsensi.presentation.myevaluation
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.body.FilterEvaluationCollaborationParams
+import id.android.kmabsensi.data.remote.response.EvaluationCollaborationResponse
 import id.android.kmabsensi.data.remote.response.MyEvaluationResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.repository.EvaluationRepository
@@ -23,6 +25,10 @@ class EvaluationViewModel(
 
     val leaderEvaluation by lazy {
         MutableLiveData<UiState<MyEvaluationResponse>>()
+    }
+
+    val evaluationCollaborations by lazy {
+        MutableLiveData<UiState<EvaluationCollaborationResponse>>()
     }
 
     fun getLeaderEvaluation(
@@ -59,12 +65,29 @@ class EvaluationViewModel(
         )
     }
 
-    fun getUserData(): User {
-        return Gson().fromJson<User>(
-            preferencesHelper.getString(PreferencesHelper.PROFILE_KEY),
-            User::class.java
-        )
+    fun getEvaluationCollaboration(){
+        evaluationCollaborations.value = UiState.Loading()
+        compositeDisposable.add(evaluationRepository.getEvaluationCollaboration()
+            .with(schedulerProvider)
+            .subscribe({
+                evaluationCollaborations.value = UiState.Success(it)
+            },{
+                evaluationCollaborations.value = UiState.Error(it)
+            }))
     }
+
+    fun filterEvaluationCollaboration(params: FilterEvaluationCollaborationParams){
+        evaluationCollaborations.value = UiState.Loading()
+        compositeDisposable.add(evaluationRepository.filterEvaluationCollaboration(params)
+            .with(schedulerProvider)
+            .subscribe({
+                evaluationCollaborations.value = UiState.Success(it)
+            },{
+                evaluationCollaborations.value = UiState.Error(it)
+            }))
+    }
+
+
 
     override fun onError(error: Throwable) {
 
