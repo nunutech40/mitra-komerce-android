@@ -70,7 +70,7 @@ class LeaderEvaluationActivity : BaseActivity() {
         yearToSelected = endCalendar.get(Calendar.YEAR)
 
         startPeriod = "$yearFromSelected-$monthFromSelected-01"
-        endPeriod = "$yearToSelected-$monthToSelected-30"
+        endPeriod = "$yearToSelected-$monthToSelected-31"
 
         vm.getUserManagement(2)
         evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod)
@@ -162,7 +162,7 @@ class LeaderEvaluationActivity : BaseActivity() {
                 val startMonth = if (monthFromSelected < 10) "0$monthFromSelected" else "$monthFromSelected"
                 val endMonth = if (monthToSelected < 10) "0$monthToSelected" else "$monthToSelected"
                 startPeriod = "$yearFromSelected-$startMonth-01"
-                endPeriod = "$yearToSelected-$endMonth-30"
+                endPeriod = "$yearToSelected-$endMonth-31"
 
                 evaluationViewModel.getLeaderEvaluation(startPeriod, endPeriod, leaderSelectedId)
             }
