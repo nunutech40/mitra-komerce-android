@@ -26,6 +26,7 @@ import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
+import id.android.kmabsensi.presentation.role.RoleActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
@@ -236,6 +237,10 @@ class HomeAdminFragment : Fragment() {
         btnDataPartner.setOnClickListener {
 //            activity?.startActivity<PartnerActivity>()
             showGroupMenu(1)
+        }
+
+        btnRole.setOnClickListener {
+            activity?.startActivity<RoleActivity>()
         }
 
 

@@ -29,6 +29,7 @@ import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
+import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
 import id.android.kmabsensi.presentation.splash.SplashViewModel
@@ -82,6 +83,7 @@ val repositoryModule = module {
     single { InvoiceRepository(get()) }
     single { EvaluationRepository(get()) }
     single { WorkConfigRepository(get()) }
+    single { RoleRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -106,6 +108,7 @@ val viewModelModule = module {
     viewModel { InvoiceViewModel(get(), get(), get()) }
     viewModel { EvaluationViewModel(get(), get(), get()) }
     viewModel { WorkConfigViewModel(get(), get()) }
+    viewModel { RoleViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

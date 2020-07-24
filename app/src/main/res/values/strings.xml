@@ -105,6 +105,7 @@
     <string name="evaluasi_berhenti_kolaborasi">Evaluasi Berhenti Kolaborasi</string>
     <string name="alasan_utama_berhenti_berkolaborasi">Alasan Utama Berhenti Berkolaborasi</string>
     <string name="saran_perbaikan">Saran Perbaikan</string>
+    <string name="role">Role</string>
 
     <string-array name="role">
         <item>Admin</item>

@@ -1,5 +1,6 @@
 package id.android.kmabsensi.data.remote.service
 
+import id.android.kmabsensi.data.remote.body.AssignReleasePositionParams
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.body.FilterEvaluationCollaborationParams
 import id.android.kmabsensi.data.remote.body.WorkConfigParams
@@ -437,4 +438,13 @@ interface ApiService {
 
     @POST("api/evaluationcollaboration/filtered")
     fun filterEvaluationCollaboration(@Body params: FilterEvaluationCollaborationParams): Single<EvaluationCollaborationResponse>
+
+    @GET("api/menu")
+    fun getMenuRole() : Single<MenuRoleResponse>
+
+    @POST("api/menu/assignPosition")
+    fun assignPosition(@Body assignReleasePositionParams: AssignReleasePositionParams): Single<BaseResponse>
+
+    @POST("api/menu/releasePosition")
+    fun releasePosition(@Body assignReleasePositionParams: AssignReleasePositionParams): Single<BaseResponse>
 }

@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.partner.evaluation.EvaluationCollaborationDetailActivity"></activity>
+        <activity android:name=".presentation.role.RoleActivity"></activity>
+        <activity android:name=".presentation.partner.evaluation.EvaluationCollaborationDetailActivity" />
         <activity android:name=".presentation.partner.evaluation.EvaluasiKolaborasiActivity" />
         <activity android:name=".presentation.sdm.modekerja.ModeKerjaActivity" />
         <activity android:name=".presentation.partner.partneroff.PartnerOffActivity" />

@@ -66,7 +66,7 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
         yearToSelected = endCalendar.get(Calendar.YEAR)
 
         startPeriod = "$yearFromSelected-$monthFromSelected-01"
-        endPeriod = "$yearToSelected-$monthToSelected-30"
+        endPeriod = "$yearToSelected-$monthToSelected-31"
 
         rvEvaluationCollaboration.apply {
             val linearLayoutManager = LinearLayoutManager(context)
@@ -155,7 +155,7 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
                 val startMonth = if (monthFromSelected < 10) "0$monthFromSelected" else "$monthFromSelected"
                 val endMonth = if (monthToSelected < 10) "0$monthToSelected" else "$monthToSelected"
                 startPeriod = "$yearFromSelected-$startMonth-01"
-                endPeriod = "$yearToSelected-$endMonth-30"
+                endPeriod = "$yearToSelected-$endMonth-31"
 
                 evaluationVM.filterEvaluationCollaboration(
                     FilterEvaluationCollaborationParams(
