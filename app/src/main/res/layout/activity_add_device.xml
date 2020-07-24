@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.android.kmabsensi.presentation.sdm.device.AddDeviceActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/labelJenis"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/jenis"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtJenis"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_dropdown_grey"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/pilih_jenis_device"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelJenis" />
+
+            <TextView
+                android:id="@+id/labelMerek"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/merek"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtJenis" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtMerek"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/tulis_merek"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelMerek" />
+
+            <TextView
+                android:id="@+id/labelSpesifikasi"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/spesifikasi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtMerek" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtSpesifikasi"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/tulis_spesifikasi"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelSpesifikasi" />
+
+            <TextView
+                android:id="@+id/labelDokumentasi"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/dokumentasi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtSpesifikasi" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutDokumentasi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/labelDokumentasi"
+                app:layout_constraintStart_toStartOf="@id/labelDokumentasi"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageDokumentasi1"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/image_placeholder"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnCancelDokumentasi1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_cancel_x"
+                        android:layout_toEndOf="@id/imageDokumentasi1"
+                        android:visibility="gone"
+                        android:layout_marginStart="-8dp"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageDokumentasi2"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/image_placeholder"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnCancelDokumentasi2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_cancel_x"
+                        android:layout_toEndOf="@id/imageDokumentasi2"
+                        android:visibility="gone"
+                        android:layout_marginStart="-8dp"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageDokumentasi3"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/image_placeholder"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnCancelDokumentasi3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_cancel_x"
+                        android:visibility="gone"
+                        android:layout_toEndOf="@id/imageDokumentasi3"
+                        android:layout_marginStart="-8dp"
+                        />
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/labelPartner"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/partner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutDokumentasi" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihPartner"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_dropdown_grey"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/pilih_partner"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelPartner" />
+
+            <TextView
+                android:id="@+id/labelSDM"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/sdm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtPilihPartner" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihSDM"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_dropdown_grey"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/pilih_sdm"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelSDM" />
+
+            <TextView
+                android:id="@+id/labelTanggalDiterima"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/tanggal_diterima"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtPilihSDM" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtTanggalDiterima"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_calendar2"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/pilih_tanggal_diterima"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelTanggalDiterima" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonAddDevice"
+                style="@style/AppButtonGradient"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_18dp"
+                android:layout_marginEnd="@dimen/_18dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginTop="@dimen/_16dp"
+                android:text="@string/simpan"
+                app:layout_constraintTop_toBottomOf="@+id/edtTanggalDiterima"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

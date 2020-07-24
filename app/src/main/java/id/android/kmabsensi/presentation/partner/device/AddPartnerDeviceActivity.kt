@@ -20,61 +20,9 @@ class AddPartnerDeviceActivity : BaseActivity() {
         setContentView(R.layout.activity_add_partner_device)
         setupToolbar(getString(R.string.tambah_device_partner))
 
-        edtJenis.setOnClickListener {
-            showDialogJenisDevice()
-        }
 
-        edtPilihPartner.setOnClickListener {
-            startActivity<PartnerPickerActivity>()
-        }
-
-        edtTanggalDiterima.setOnClickListener {
-            showDatePicker()
-        }
-
-        buttonAddDevice.setOnClickListener {
-            showDialogSuccess()
-        }
 
     }
 
-    private fun showDialogJenisDevice() {
-        MaterialDialog(this).show {
-            title(text = "Pilih Jenis Device")
-            listItems(R.array.device_type) { dialog, index, text ->
-                edtJenis.setText(text)
-            }
-        }
-    }
 
-    private fun showDatePicker() {
-        MaterialDialog(this).show {
-            datePicker { dialog, date ->
-                // Use date (Calendar)
-                setDateText(getDateStringFormatted(date.time))
-            }
-        }
-
-    }
-
-    private fun setDateText(dateString: String) {
-        edtTanggalDiterima.setText(dateString)
-    }
-
-    private fun showDialogSuccess(){
-        val dialog = MaterialDialog(this).show {
-            cornerRadius(16f)
-            customView(
-                R.layout.dialog_success,
-                scrollable = false,
-                horizontalPadding = true,
-                noVerticalPadding = true
-            )
-        }
-        val customView = dialog.getCustomView()
-        val close = customView.findViewById<ImageView>(R.id.close)
-        close.setOnClickListener {
-            dialog.dismiss()
-        }
-    }
 }

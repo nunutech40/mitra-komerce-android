@@ -447,4 +447,21 @@ interface ApiService {
 
     @POST("api/menu/releasePosition")
     fun releasePosition(@Body assignReleasePositionParams: AssignReleasePositionParams): Single<BaseResponse>
+
+    @GET("api/device")
+    fun getListDevice(): Single<ListDeviceResponse>
+
+    @Multipart
+    @POST("api/device/store")
+    fun addDevice(
+        @Part("device_type") deviceTpe: RequestBody,
+        @Part("brancd") brancd: RequestBody,
+        @Part("spesification") spesification: RequestBody,
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("user_sdm_id") userSdmId: RequestBody,
+        @Part("device_pick_date") devicePickDate: RequestBody,
+        @Part attachment_1: MultipartBody.Part?,
+        @Part attachment_2: MultipartBody.Part?,
+        @Part attachment_3: MultipartBody.Part?
+    ): Single<BaseResponse>
 }
