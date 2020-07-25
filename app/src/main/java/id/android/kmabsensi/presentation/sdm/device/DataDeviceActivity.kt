@@ -108,10 +108,16 @@ class DataDeviceActivity : BaseActivity() {
                     for (device in state.data.devices) {
                         groupAdapter.add(DeviceItem(device, object : OnDeviceListener {
                             override fun onDeleteClicked(id: Int) {
-                                showDialogConfirm(id)
+                                showDialogConfirmDelete(this@DataDeviceActivity, "Hapus Device"){
+                                    deviceVM.deleteDevice(id)
+                                }
                             }
 
                             override fun onEditClicked(device: Device) {
+                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device)
+                            }
+
+                            override fun onDetailClicked(device: Device) {
                                 startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device)
                             }
                         }))
@@ -153,19 +159,7 @@ class DataDeviceActivity : BaseActivity() {
         }
     }
 
-    fun showDialogConfirm(id: Int){
-        MaterialDialog(this).show {
-            title(text = "Hapus Device")
-            message(text = "Apakah anda yakin ingin menghapus data ini?")
-            positiveButton(text = "Ya") {
-                it.dismiss()
-                deviceVM.deleteDevice(id)
-            }
-            negativeButton(text = "Batal"){
-                it.dismiss()
-            }
-        }
-    }
+
 
     private fun showDialogFilter() {
         val dialog = MaterialDialog(this)

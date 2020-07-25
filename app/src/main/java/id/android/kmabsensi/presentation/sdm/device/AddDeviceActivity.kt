@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.system.Os
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -14,6 +15,7 @@ import com.afollestad.materialdialogs.datetime.datePicker
 import com.afollestad.materialdialogs.list.listItems
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
+import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Device
@@ -22,6 +24,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
+import id.android.kmabsensi.presentation.viewmodels.AttachmentViewModel
 import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_device.*
@@ -38,6 +41,7 @@ class AddDeviceActivity : BaseActivity() {
 
     private val deviceVM: DeviceViewModel by viewModel()
     private val sdmVM: PartnerViewModel by viewModel()
+    private val attachmentVM: AttachmentViewModel by viewModel()
 
     private var files1: File? = null
     private var files2: File? = null
@@ -84,9 +88,20 @@ class AddDeviceActivity : BaseActivity() {
         }
 
         btnCancelDokumentasi1.setOnClickListener {
-            files1 = null
-            btnCancelDokumentasi1.gone()
-            imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+            device?.let {
+                showDialogConfirmDelete(this, "Hapus Gambar") {
+                    attachmentVM.deleteAttachment(it.attachments[0].id)
+                    btnCancelDokumentasi1.gone()
+                    imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+                }
+            } ?: kotlin.run {
+                files1 = null
+                btnCancelDokumentasi1.gone()
+                imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+            }
+
+
+
         }
 
         imageDokumentasi2.setOnClickListener {
@@ -95,9 +110,18 @@ class AddDeviceActivity : BaseActivity() {
         }
 
         btnCancelDokumentasi2.setOnClickListener {
-            files3 = null
-            btnCancelDokumentasi2.gone()
-            imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
+            device?.let {
+                showDialogConfirmDelete(this, "Hapus Gambar") {
+                    attachmentVM.deleteAttachment(it.attachments[1].id)
+                    btnCancelDokumentasi2.gone()
+                    imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
+                }
+            } ?: kotlin.run {
+                files2 = null
+                btnCancelDokumentasi2.gone()
+                imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
+            }
+
         }
 
         imageDokumentasi3.setOnClickListener {
@@ -106,9 +130,18 @@ class AddDeviceActivity : BaseActivity() {
         }
 
         btnCancelDokumentasi3.setOnClickListener {
-            files3 = null
-            btnCancelDokumentasi3.gone()
-            imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+            device?.let {
+                showDialogConfirmDelete(this, "Hapus Gambar") {
+                    attachmentVM.deleteAttachment(it.attachments[2].id)
+                    btnCancelDokumentasi3.gone()
+                    imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+                }
+            } ?: kotlin.run {
+                files3 = null
+                btnCancelDokumentasi3.gone()
+                imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+            }
+
         }
 
         buttonAddDevice.setOnClickListener {
@@ -145,6 +178,7 @@ class AddDeviceActivity : BaseActivity() {
 
         observeSdm()
         observeResult()
+        observeDeleteAttachment()
     }
 
     private fun initView(){
@@ -214,10 +248,7 @@ class AddDeviceActivity : BaseActivity() {
                     files3?.delete()
                     if (state.data.status){
                         showDialogSuccess()
-//                        val intent = Intent()
-//                        intent.putExtra(MESSAGE_CRUD, state.data.message)
-//                        setResult(Activity.RESULT_OK, intent)
-//                        finish()
+
                     } else {
                         createAlertError(this, "Failed", state.data.message)
                     }
@@ -229,6 +260,21 @@ class AddDeviceActivity : BaseActivity() {
             }
         })
     }
+
+    fun observeDeleteAttachment(){
+        attachmentVM.deleteResult.observe(this, Observer { state ->
+        when(state) {
+            is UiState.Loading -> {
+            }
+            is UiState.Success -> {
+                d { state.data.message }
+            }
+            is UiState.Error -> {
+                Timber.e(state.throwable)
+            }
+        } })
+    }
+
 
     private fun openImagePicker() {
         ImagePicker.create(this)

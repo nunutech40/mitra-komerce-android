@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import com.afollestad.materialdialogs.MaterialDialog
 import com.tapadoo.alerter.Alerter
 import com.wildma.idcardcamera.global.Constant.BASE_DIR
 import com.wildma.idcardcamera.utils.FileUtils
@@ -156,4 +157,18 @@ fun getYearData(): List<String> {
         year += 1
     }
     return years
+}
+
+fun showDialogConfirmDelete(context: Context, title : String = "Hapus Data", message: String = "Apakah anda yakin ingin menghapus data ini?", positiveButtonCallback: () -> Unit){
+    MaterialDialog(context).show {
+        title(text = title)
+        message(text = message)
+        positiveButton(text = "Ya") {
+            it.dismiss()
+            positiveButtonCallback.invoke()
+        }
+        negativeButton(text = "Batal"){
+            it.dismiss()
+        }
+    }
 }

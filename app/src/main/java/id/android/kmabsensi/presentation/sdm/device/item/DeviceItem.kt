@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.item_row_device.*
 interface OnDeviceListener {
     fun onDeleteClicked(id: Int)
     fun onEditClicked(device: Device)
+    fun onDetailClicked(device: Device)
 }
 
 class DeviceItem(
@@ -26,6 +27,10 @@ class DeviceItem(
 
             btnEdit.setOnClickListener {
                 listener.onEditClicked(device)
+            }
+
+            itemView.setOnClickListener {
+                listener.onDetailClicked(device)
             }
         }
     }

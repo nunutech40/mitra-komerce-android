@@ -488,4 +488,6 @@ interface ApiService {
         @Body filterDeviceParams: FilterDeviceParams
     ): Single<ListDeviceResponse>
 
+    @GET("api/attachment/file/delete/{id}")
+    fun deleteAttachment(@Path("id") id: Int): Single<BaseResponse>
 }
