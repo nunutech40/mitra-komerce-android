@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.datetime.datePicker
@@ -69,10 +70,6 @@ class AddDeviceActivity : BaseActivity() {
 
         edtTanggalDiterima.setOnClickListener {
             showDatePicker()
-        }
-
-        buttonAddDevice.setOnClickListener {
-            showDialogSuccess()
         }
 
         imageDokumentasi1.setOnClickListener {
@@ -147,10 +144,11 @@ class AddDeviceActivity : BaseActivity() {
                     files2?.delete()
                     files3?.delete()
                     if (state.data.status){
-                        val intent = Intent()
-                        intent.putExtra(MESSAGE_CRUD, state.data.message)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
+                        showDialogSuccess()
+//                        val intent = Intent()
+//                        intent.putExtra(MESSAGE_CRUD, state.data.message)
+//                        setResult(Activity.RESULT_OK, intent)
+//                        finish()
                     } else {
                         createAlertError(this, "Failed", state.data.message)
                     }
@@ -267,6 +265,10 @@ class AddDeviceActivity : BaseActivity() {
         val close = customView.findViewById<ImageView>(R.id.close)
         close.setOnClickListener {
             dialog.dismiss()
+        }
+
+        dialog.onDismiss {
+            finish()
         }
     }
 

@@ -70,9 +70,9 @@ class DataDeviceActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CRUD_RC && resultCode == Activity.RESULT_OK){
-            val message = data?.getStringExtra(MESSAGE_CRUD)
-            createAlertSuccess(this, message.toString())
-            deviceVM.getListDevice()
+//            val message = data?.getStringExtra(MESSAGE_CRUD)
+//            createAlertSuccess(this, message.toString())
+//            deviceVM.getListDevice()
         }
     }
 }
