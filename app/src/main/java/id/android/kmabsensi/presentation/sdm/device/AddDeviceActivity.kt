@@ -93,6 +93,10 @@ class AddDeviceActivity : BaseActivity() {
         observeSdm()
 
         buttonAddDevice.setOnClickListener {
+            if (!validationForm()){
+                return@setOnClickListener
+            }
+
             deviceVM.addDevice(
                 edtJenis.text.toString(),
                 edtMerek.text.toString(),
@@ -118,6 +122,10 @@ class AddDeviceActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     sdm = state.data.data
+                    if (sdm.isNotEmpty()) {
+                        edtPilihSDM.setText(sdm[0].full_name)
+                        sdmSelected = sdm[0]
+                    }
                 }
                 is UiState.Error -> {
 
@@ -138,6 +146,15 @@ class AddDeviceActivity : BaseActivity() {
                     files1?.delete()
                     files2?.delete()
                     files3?.delete()
+                    if (state.data.status){
+                        val intent = Intent()
+                        intent.putExtra(MESSAGE_CRUD, state.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Failed", state.data.message)
+                    }
+
                 }
                 is UiState.Error -> {
                     hideDialog()
@@ -225,10 +242,6 @@ class AddDeviceActivity : BaseActivity() {
         }
     }
 
-    fun setJenis(text: String){
-        edtJenis.setText(text)
-    }
-
     private fun showDatePicker() {
         MaterialDialog(this).show {
             datePicker { dialog, date ->
@@ -238,10 +251,6 @@ class AddDeviceActivity : BaseActivity() {
             }
         }
 
-    }
-
-    private fun setDateText(dateString: String) {
-        edtTanggalDiterima.setText(dateString)
     }
 
     private fun showDialogSuccess() {
@@ -276,7 +285,29 @@ class AddDeviceActivity : BaseActivity() {
         }
     }
 
-    fun setSdm(){
+    private fun setDateText(dateString: String) {
+        edtTanggalDiterima.setText(dateString)
+        edtTanggalDiterima.error = null
+    }
+
+    private fun setJenis(text: String){
+        edtJenis.setText(text)
+        edtJenis.error = null
+    }
+
+    private fun setSdm(){
         edtPilihSDM.setText(sdmSelected!!.full_name)
+        edtPilihSDM.error = null
+    }
+
+    private fun validationForm(): Boolean  {
+        val jenis = ValidationForm.validationInput(edtJenis, "Pilih jenis terlebih dahulu")
+        val merek = ValidationForm.validationInput(edtMerek, "Input merek terlebih dahulu")
+        val spesifikasi = ValidationForm.validationInput(edtJenis, "Input spesifikasi terlebih dahulu")
+        val noPartner = ValidationForm.validationInput(edtPilihPartner, "Pilih partner terlebih dahulu")
+        val sdm = ValidationForm.validationInput(edtPilihSDM, "Pilih sdm terlebih dahulu")
+        val date = ValidationForm.validationInput(edtTanggalDiterima, "Pilih tangga diterima terlebih dahulu")
+
+        return jenis && merek && spesifikasi && noPartner && sdm && date
     }
 }
