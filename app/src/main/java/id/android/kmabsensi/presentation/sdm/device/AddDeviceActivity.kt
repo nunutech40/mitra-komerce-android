@@ -183,7 +183,9 @@ class AddDeviceActivity : BaseActivity() {
 
     private fun initView(){
         device?.let {
-            setupToolbar("Ubah Device")
+            val isEdit = intent.getBooleanExtra("isEdit", false)
+            setupToolbar(if (isEdit) "Ubah Device" else "Detail Device")
+            if (!isEdit) buttonAddDevice.gone()
             edtJenis.setText(it.deviceType)
             edtMerek.setText(it.brancd)
             edtSpesifikasi.setText(it.spesification)
@@ -198,15 +200,15 @@ class AddDeviceActivity : BaseActivity() {
                 when(index){
                     0 -> {
                         imageDokumentasi1.loadImageFromUrl(attachment.attachmentUrl)
-                        btnCancelDokumentasi1.visible()
+                        if (isEdit) btnCancelDokumentasi1.visible()
                     }
                     1 -> {
                         imageDokumentasi2.loadImageFromUrl(attachment.attachmentUrl)
-                        btnCancelDokumentasi2.visible()
+                        if (isEdit) btnCancelDokumentasi2.visible()
                     }
                     2 -> {
                         imageDokumentasi3.loadImageFromUrl(attachment.attachmentUrl)
-                        btnCancelDokumentasi3.visible()
+                        if (isEdit) btnCancelDokumentasi3.visible()
                     }
                 }
             }

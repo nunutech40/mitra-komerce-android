@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
+import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.sdm.detail.DetailKaryawanActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,13 +47,20 @@ class SdmPartnerActivity : BaseActivity() {
                     hideSkeleton()
                     if (state.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     state.data.data.forEach { sdm ->
-                        groupAdapter.add(SdmPartnerItem(sdm) {
-                            startActivityForResult<DetailKaryawanActivity>(
-                                112,
-                                USER_KEY to it,
-                                IS_MANAGEMENT_KEY to false
-                            )
-                        })
+                        groupAdapter.add(SdmPartnerItem(sdm, object: OnSdmPartnerListener {
+                            override fun onClicked(sdm: User) {
+                                startActivityForResult<DetailKaryawanActivity>(
+                                    112,
+                                    USER_KEY to sdm,
+                                    IS_MANAGEMENT_KEY to false
+                                )
+                            }
+
+                            override fun onLihatDeviceClicked(sdm: User) {
+                                startActivity<PartnerDeviceActivity>(USER_KEY to sdm)
+                            }
+
+                        }))
                     }
                 }
                 is UiState.Error -> {

@@ -53,6 +53,8 @@ data class Partner(
     val partnerDetail: PartnerDetail = PartnerDetail(),
     @SerializedName("total_sdm_assigned")
     val totalSdmAssigned: Int = 0,
+    @SerializedName("total_device")
+    val totalDevice: Int = 0,
     @SerializedName("user_management_id")
     val userManagementId: Int = 0,
     @SerializedName("last_invoice_status")

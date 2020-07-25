@@ -22,7 +22,6 @@ import id.android.kmabsensi.data.remote.response.Device
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
-import id.android.kmabsensi.presentation.partner.device.AddPartnerDeviceActivity
 import id.android.kmabsensi.presentation.sdm.device.item.DeviceItem
 import id.android.kmabsensi.presentation.sdm.device.item.OnDeviceListener
 import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
@@ -30,10 +29,7 @@ import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_data_device.*
 import kotlinx.android.synthetic.main.activity_data_device.btnAddDevice
 import kotlinx.android.synthetic.main.activity_data_device.rvDevice
-import kotlinx.android.synthetic.main.activity_invoice.*
-import kotlinx.android.synthetic.main.activity_partner_device.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -114,11 +110,11 @@ class DataDeviceActivity : BaseActivity() {
                             }
 
                             override fun onEditClicked(device: Device) {
-                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device)
+                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to true)
                             }
 
                             override fun onDetailClicked(device: Device) {
-                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device)
+                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to false)
                             }
                         }))
                     }

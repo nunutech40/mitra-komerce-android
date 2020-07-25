@@ -21,52 +21,17 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtPartner"
-            style="@style/tv18sp000000_avenir_heavy"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtDeviceName"
+            style="@style/tv16sp000000_avenir_heavy"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="07 - Petrus" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/labelJumlahDevice"
-            style="@style/tv12spF48070_avenir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/jumlah_device"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtPartner" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtJumlahDevice"
-            style="@style/tv12sp000000_avenir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            app:layout_constraintStart_toEndOf="@+id/labelJumlahDevice"
-            app:layout_constraintTop_toBottomOf="@id/txtPartner"
-            android:text="0" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="07 - Petrus"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit_orange" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnEdit"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_orange" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

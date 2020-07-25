@@ -6,11 +6,17 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.utils.calcAgePerson
 import id.android.kmabsensi.utils.capitalizeWords
+import kotlinx.android.synthetic.main.item_row_sdm_partner.*
 import kotlinx.android.synthetic.main.item_row_sdm_partner.view.*
+
+interface OnSdmPartnerListener {
+    fun onClicked(sdm: User)
+    fun onLihatDeviceClicked(sdm: User)
+}
 
 class SdmPartnerItem(
     val sdm: User,
-    val listener: (User) -> Unit
+    val listener: OnSdmPartnerListener
 ) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
@@ -21,11 +27,12 @@ class SdmPartnerItem(
             itemView.txtNameWithJob.text = "${sdm.full_name.capitalizeWords()} - ${sdm.position_name}"
             itemView.txtGenderWithAge.text = "$gender, ${sdm.birth_date}, $age tahun"
 
-//            itemView.imageView13.loadCircleImageSdm(sdm.photo_profile_url.toString())
-
-
             itemView.setOnClickListener {
-                listener(sdm)
+                listener.onClicked(sdm)
+            }
+
+            btnLihatDevices.setOnClickListener {
+                listener.onLihatDeviceClicked(sdm)
             }
         }
     }
