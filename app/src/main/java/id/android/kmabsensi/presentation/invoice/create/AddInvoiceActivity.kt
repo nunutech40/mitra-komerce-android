@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -29,10 +28,8 @@ import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActi
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_add_invoice.*
-import kotlinx.android.synthetic.main.item_row_active_invoice.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 

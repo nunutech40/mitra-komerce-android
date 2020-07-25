@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.viewmodels
 
 import androidx.lifecycle.MutableLiveData
+import id.android.kmabsensi.data.remote.body.FilterDeviceParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListDeviceResponse
 import id.android.kmabsensi.data.repository.DeviceRepository
@@ -29,6 +30,18 @@ class DeviceViewModel(
     fun getListDevice() {
         devices.value = UiState.Loading()
         compositeDisposable.add(deviceRepository.getListDevice()
+            .with(schedulerProvider)
+            .subscribe({
+                devices.value = UiState.Success(it)
+            }, {
+                devices.value = UiState.Error(it)
+            })
+        )
+    }
+
+    fun filterDevice(filterDeviceParams: FilterDeviceParams) {
+        devices.value = UiState.Loading()
+        compositeDisposable.add(deviceRepository.filterDevice(filterDeviceParams)
             .with(schedulerProvider)
             .subscribe({
                 devices.value = UiState.Success(it)
@@ -85,7 +98,68 @@ class DeviceViewModel(
                     crudResult.value = UiState.Error(it)
                 })
         )
+    }
 
+    fun editDevice(
+        id: String,
+        deviceType: String,
+        brancd: String,
+        spesification: String,
+        noPartner: String,
+        userSdmId: String,
+        devicePickDate: String,
+        attachment1: File?,
+        attachment2: File?,
+        attachment3: File?
+    ) {
+        var attachment1File: MultipartBody.Part? = null
+        var attachment2File: MultipartBody.Part? = null
+        var attachment3File: MultipartBody.Part? = null
+
+        attachment1?.let {
+            val imageReq = it.createRequestBody()
+            attachment1File = MultipartBody.Part.createFormData("attachment_1", it.name, imageReq)
+        }
+        attachment2?.let {
+            val imageReq = it.createRequestBody()
+            attachment2File = MultipartBody.Part.createFormData("attachment_2", it.name, imageReq)
+        }
+        attachment3?.let {
+            val imageReq = it.createRequestBody()
+            attachment3File = MultipartBody.Part.createFormData("attachment_3", it.name, imageReq)
+        }
+
+        crudResult.value = UiState.Loading()
+        compositeDisposable.add(
+            deviceRepository.editDevice(
+                id = id.createRequestBodyText(),
+                deviceType = deviceType.createRequestBodyText(),
+                brancd = brancd.createRequestBodyText(),
+                spesification = spesification.createRequestBodyText(),
+                noPartner = noPartner.createRequestBodyText(),
+                userSdmId = userSdmId.createRequestBodyText(),
+                device_pick_date = devicePickDate.createRequestBodyText(),
+                attachment_1 = attachment1File,
+                attachment_2 = attachment2File,
+                attachment_3 = attachment3File
+            ).with(schedulerProvider)
+                .subscribe({
+                    crudResult.value = UiState.Success(it)
+                }, {
+                    crudResult.value = UiState.Error(it)
+                })
+        )
+    }
+
+    fun deleteDevice(id: Int){
+        crudResult.value = UiState.Loading()
+        compositeDisposable.add(deviceRepository.deleteDevice(id)
+            .with(schedulerProvider)
+            .subscribe({
+                crudResult.value = UiState.Success(it)
+            },{
+                crudResult.value = UiState.Error(it)
+            }))
     }
 
     override fun onError(error: Throwable) {

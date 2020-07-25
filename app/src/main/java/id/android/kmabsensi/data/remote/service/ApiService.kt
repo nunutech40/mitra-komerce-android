@@ -1,9 +1,6 @@
 package id.android.kmabsensi.data.remote.service
 
-import id.android.kmabsensi.data.remote.body.AssignReleasePositionParams
-import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
-import id.android.kmabsensi.data.remote.body.FilterEvaluationCollaborationParams
-import id.android.kmabsensi.data.remote.body.WorkConfigParams
+import id.android.kmabsensi.data.remote.body.*
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
@@ -464,4 +461,31 @@ interface ApiService {
         @Part attachment_2: MultipartBody.Part?,
         @Part attachment_3: MultipartBody.Part?
     ): Single<BaseResponse>
+
+    @Multipart
+    @POST("api/device/edit")
+    fun editDevice(
+        @Part("id") id: RequestBody,
+        @Part("device_type") deviceTpe: RequestBody,
+        @Part("brancd") brancd: RequestBody,
+        @Part("spesification") spesification: RequestBody,
+        @Part("no_partner") noPartner: RequestBody,
+        @Part("user_sdm_id") userSdmId: RequestBody,
+        @Part("device_pick_date") devicePickDate: RequestBody,
+        @Part attachment_1: MultipartBody.Part?,
+        @Part attachment_2: MultipartBody.Part?,
+        @Part attachment_3: MultipartBody.Part?
+    ): Single<BaseResponse>
+
+
+    @GET("api/device/delete/{id}")
+    fun deleteDevice(
+        @Path("id") id: Int
+    ): Single<BaseResponse>
+
+    @POST("api/device/filtered")
+    fun filterDevice(
+        @Body filterDeviceParams: FilterDeviceParams
+    ): Single<ListDeviceResponse>
+
 }

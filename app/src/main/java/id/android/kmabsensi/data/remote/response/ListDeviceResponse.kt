@@ -1,5 +1,7 @@
 package id.android.kmabsensi.data.remote.response
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class ListDeviceResponse(
@@ -13,6 +15,7 @@ data class ListDeviceResponse(
     val devices: List<Device> = listOf()
 )
 
+@Parcelize
 data class Device(
     @SerializedName("id")
     val id: Int = 0,
@@ -22,6 +25,8 @@ data class Device(
     val brancd: String = "",
     @SerializedName("spesification")
     val spesification: String = "",
+    @SerializedName("device_pick_date")
+    val devicePickDate: String = "",
     @SerializedName("no_partner")
     val noPartner: String = "",
     @SerializedName("partner")
@@ -34,7 +39,8 @@ data class Device(
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-){
+): Parcelable{
+    @Parcelize
     data class Partner(
         @SerializedName("id")
         val id: Int = 0,
@@ -46,8 +52,9 @@ data class Device(
         val fullName: String = "",
         @SerializedName("email")
         val email: String = ""
-    )
+    ): Parcelable
 
+    @Parcelize
     data class Sdm(
         @SerializedName("id")
         val id: Int = 0,
@@ -57,8 +64,9 @@ data class Device(
         val fullName: String = "",
         @SerializedName("email")
         val email: String = ""
-    )
+    ): Parcelable
 
+    @Parcelize
     data class Attachment(
         @SerializedName("id")
         val id: Int = 0,
@@ -76,7 +84,7 @@ data class Device(
         val createdAt: String = "",
         @SerializedName("updated_at")
         val updatedAt: String = ""
-    )
+    ): Parcelable
 }
 
 

@@ -16,6 +16,7 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Device
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -46,13 +47,18 @@ class AddDeviceActivity : BaseActivity() {
     private val PICK_PARTNER_RC = 100
     private var partnerSelected: SimplePartner? = null
     private var sdm: List<User> = listOf()
-    private var sdmSelected: User? = null
+    private var sdmIdSelected: Int = 0
     private var dateSelected: Date? = null
+
+    private var device : Device? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
         setupToolbar("Tambah Device")
+
+        device = intent.getParcelableExtra(DEVICE_DATA)
+        initView()
 
         edtJenis.setOnClickListener {
             showDialogJenisDevice()
@@ -77,9 +83,21 @@ class AddDeviceActivity : BaseActivity() {
             openImagePicker()
         }
 
+        btnCancelDokumentasi1.setOnClickListener {
+            files1 = null
+            btnCancelDokumentasi1.gone()
+            imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+        }
+
         imageDokumentasi2.setOnClickListener {
             DOK_IMAGE_SELECTED = DOK_IMAGE.DOK_IMAGE_2
             openImagePicker()
+        }
+
+        btnCancelDokumentasi2.setOnClickListener {
+            files3 = null
+            btnCancelDokumentasi2.gone()
+            imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
         }
 
         imageDokumentasi3.setOnClickListener {
@@ -87,27 +105,78 @@ class AddDeviceActivity : BaseActivity() {
             openImagePicker()
         }
 
-        observeSdm()
+        btnCancelDokumentasi3.setOnClickListener {
+            files3 = null
+            btnCancelDokumentasi3.gone()
+            imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+        }
 
         buttonAddDevice.setOnClickListener {
             if (!validationForm()){
                 return@setOnClickListener
             }
-
-            deviceVM.addDevice(
-                edtJenis.text.toString(),
-                edtMerek.text.toString(),
-                edtSpesifikasi.text.toString(),
-                partnerSelected?.noPartner.toString(),
-                sdmSelected?.id.toString(),
-                getDateString(dateSelected ?: Calendar.getInstance().time),
-                files1,
-                files2,
-                files3
-            )
+            if (device == null){
+                deviceVM.addDevice(
+                    edtJenis.text.toString(),
+                    edtMerek.text.toString(),
+                    edtSpesifikasi.text.toString(),
+                    partnerSelected?.noPartner.toString(),
+                    sdmIdSelected.toString(),
+                    getDateString(dateSelected ?: Calendar.getInstance().time),
+                    files1,
+                    files2,
+                    files3
+                )
+            } else {
+                deviceVM.editDevice(
+                    device!!.id.toString(),
+                    edtJenis.text.toString(),
+                    edtMerek.text.toString(),
+                    edtSpesifikasi.text.toString(),
+                    partnerSelected?.noPartner.toString(),
+                    sdmIdSelected.toString(),
+                    getDateString(dateSelected ?: Calendar.getInstance().time),
+                    files1,
+                    files2,
+                    files3
+                )
+            }
         }
 
+        observeSdm()
         observeResult()
+    }
+
+    private fun initView(){
+        device?.let {
+            setupToolbar("Ubah Device")
+            edtJenis.setText(it.deviceType)
+            edtMerek.setText(it.brancd)
+            edtSpesifikasi.setText(it.spesification)
+            partnerSelected = SimplePartner(it.partner.id, it.noPartner, it.partner.fullName)
+            sdmVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
+            sdmIdSelected = it.sdm.id
+            edtPilihPartner.setText(it.partner.fullName)
+            edtPilihSDM.setText(it.sdm.fullName)
+            dateSelected = parseStringDate(it.devicePickDate)
+            edtTanggalDiterima.setText(getDateStringFormatted2(dateSelected!!))
+            it.attachments.forEachIndexed { index, attachment ->
+                when(index){
+                    0 -> {
+                        imageDokumentasi1.loadImageFromUrl(attachment.attachmentUrl)
+                        btnCancelDokumentasi1.visible()
+                    }
+                    1 -> {
+                        imageDokumentasi2.loadImageFromUrl(attachment.attachmentUrl)
+                        btnCancelDokumentasi2.visible()
+                    }
+                    2 -> {
+                        imageDokumentasi3.loadImageFromUrl(attachment.attachmentUrl)
+                        btnCancelDokumentasi3.visible()
+                    }
+                }
+            }
+        }
     }
 
     private fun observeSdm(){
@@ -121,7 +190,7 @@ class AddDeviceActivity : BaseActivity() {
                     sdm = state.data.data
                     if (sdm.isNotEmpty()) {
                         edtPilihSDM.setText(sdm[0].full_name)
-                        sdmSelected = sdm[0]
+                        sdmIdSelected = sdm[0].id
                     }
                 }
                 is UiState.Error -> {
@@ -189,31 +258,16 @@ class AddDeviceActivity : BaseActivity() {
                     loadImage(imageDokumentasi1)
                     files1 = File(imageSelectedPath)
                     btnCancelDokumentasi1.visible()
-                    btnCancelDokumentasi1.setOnClickListener {
-                        files1 = null
-                        btnCancelDokumentasi1.gone()
-                        imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
-                    }
                 }
                 DOK_IMAGE.DOK_IMAGE_2 -> {
                     loadImage(imageDokumentasi2)
                     files2 = File(imageSelectedPath)
                     btnCancelDokumentasi2.visible()
-                    btnCancelDokumentasi2.setOnClickListener {
-                        files3 = null
-                        btnCancelDokumentasi2.gone()
-                        imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
-                    }
                 }
                 DOK_IMAGE.DOK_IMAGE_3 -> {
                     loadImage(imageDokumentasi3)
                     files3 = File(imageSelectedPath)
                     btnCancelDokumentasi3.visible()
-                    btnCancelDokumentasi3.setOnClickListener {
-                        files3 = null
-                        btnCancelDokumentasi3.gone()
-                        imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
-                    }
                 }
             }
 
@@ -268,6 +322,8 @@ class AddDeviceActivity : BaseActivity() {
         }
 
         dialog.onDismiss {
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
@@ -281,8 +337,8 @@ class AddDeviceActivity : BaseActivity() {
         MaterialDialog(this).show {
             title(text = "Pilih SDM")
             listItems(items = sdmName) { dialog, index, text ->
-                sdmSelected = sdm[index]
-                setSdm()
+                sdmIdSelected = sdm[index].id
+                setSdm(sdm[index].full_name)
             }
         }
     }
@@ -297,8 +353,8 @@ class AddDeviceActivity : BaseActivity() {
         edtJenis.error = null
     }
 
-    private fun setSdm(){
-        edtPilihSDM.setText(sdmSelected!!.full_name)
+    private fun setSdm(name: String){
+        edtPilihSDM.setText(name)
         edtPilihSDM.error = null
     }
 

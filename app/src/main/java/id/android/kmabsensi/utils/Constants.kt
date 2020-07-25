@@ -40,6 +40,8 @@ const val SDM_KEY = "sdm_key"
 
 const val PARTNER_RESPONSE_KEY = "partner_response"
 
+const val DEVICE_DATA = "device_data"
+
 const val MESSAGE_CRUD = "message_crud"
 
 // tanggal format = yyyy-MM-dd
