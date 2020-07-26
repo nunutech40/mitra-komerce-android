@@ -74,3 +74,7 @@ fun String.createRequestBodyText() : RequestBody {
 fun File.createRequestBody() : RequestBody {
     return this.asRequestBody("image/*".toMediaTypeOrNull())
 }
+
+fun File.createRequestBodyFile() : RequestBody {
+    return this.asRequestBody("*/*".toMediaTypeOrNull())
+}

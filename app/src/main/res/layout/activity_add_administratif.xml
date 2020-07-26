@@ -4,8 +4,156 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.android.kmabsensi.presentation.partner.administratif.AddAdministratifActivity">
+    tools:context="id.android.kmabsensi.presentation.partner.administratif.KelolaAdministratifActivity">
 
     <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/labelTitle"
+        style="@style/tv14spf48070_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/_24dp"
+        android:text="Judul"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtJudul"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Tulis Judul"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelTitle" />
+
+    <TextView
+        android:id="@+id/labelDokumen"
+        style="@style/tv14spf48070_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/_24dp"
+        android:text="Dokumen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtJudul" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtDokumen"
+        style="@style/tv14sp000000_avenir_medium"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="Upload Dokumen"
+        android:gravity="top"
+        android:enabled="false"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelDokumen" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDocFile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/edtDokumen"
+        app:layout_constraintBottom_toBottomOf="@id/edtDokumen"
+        app:layout_constraintEnd_toEndOf="@id/edtDokumen">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iconDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_doc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtFileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="SOP"
+            android:layout_marginStart="@dimen/_12dp"
+            android:layout_marginEnd="12dp"
+            style="@style/tv16sp000000_avenir_medium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconDoc"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_delete_orange"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPilihFile"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_regular"
+        android:letterSpacing="0"
+        android:text="Pilih file"
+        android:textAllCaps="false"
+        android:textColor="@color/_ED6E65"
+        app:backgroundTint="@color/white"
+        app:icon="@drawable/ic_upload2"
+        app:iconGravity="end"
+        app:iconPadding="8dp"
+        android:layout_marginBottom="@dimen/_12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edtDokumen"
+        app:layout_constraintEnd_toEndOf="@+id/edtDokumen"
+        app:strokeColor="@color/_ED6E65"
+        app:strokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/labelJenisLeader"
+        style="@style/tv14spf48070_avenir_heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/_24dp"
+        android:text="Jenis Leader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtDokumen" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerLeaderPosition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
+        android:background="@drawable/spinner_with_line_bg"
+        app:layout_constraintTop_toBottomOf="@+id/labelJenisLeader"
+        app:layout_constraintStart_toStartOf="@id/labelJenisLeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSimpan"
+        style="@style/AppButtonGradient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_18dp"
+        android:layout_marginEnd="@dimen/_18dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:text="@string/simpan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

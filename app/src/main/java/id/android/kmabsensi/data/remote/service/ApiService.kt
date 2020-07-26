@@ -490,4 +490,31 @@ interface ApiService {
 
     @GET("api/attachment/file/delete/{id}")
     fun deleteAttachment(@Path("id") id: Int): Single<BaseResponse>
+
+    @GET("api/administrationdata")
+    fun getListAdministration(): Single<ListAdministrationResponse>
+
+    @Multipart
+    @POST("api/administrationdata/store")
+    fun addAdministrationData(
+        @Part("title") title: RequestBody,
+        @Part("description") desc: RequestBody,
+        @Part("position_id") positionId: RequestBody,
+        @Part attachment: MultipartBody.Part?
+    ): Single<BaseResponse>
+
+    @Multipart
+    @POST("api/administrationdata/edit")
+    fun editAdministrationData(
+        @Part("id") id: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("description") desc: RequestBody,
+        @Part("position_id") positionId: RequestBody,
+        @Part attachment: MultipartBody.Part?
+    ): Single<BaseResponse>
+
+    @GET("api/administrationdata/delete/{id}")
+    fun deleteAdministrationData(
+        @Path("id") id: Int
+    ): Single<BaseResponse>
 }

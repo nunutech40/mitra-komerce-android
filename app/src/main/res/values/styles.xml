@@ -10,6 +10,17 @@
        <item name="android:fontFamily">@font/avenirltstd_medium</item>
     </style>
 
+    <style name="DocPicker" parent="LibAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="PickerTabLayout">
+        <item name="tabBackground">@color/colorPrimaryDark</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
     <style name="TextAppearance.Bold" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="fontPath">fonts/Proxima-Nova-Bold.otf</item>

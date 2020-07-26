@@ -34,6 +34,7 @@ import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
 import id.android.kmabsensi.presentation.splash.SplashViewModel
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
+import id.android.kmabsensi.presentation.viewmodels.AdministrationViewModel
 import id.android.kmabsensi.presentation.viewmodels.AttachmentViewModel
 import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
 import id.android.kmabsensi.presentation.viewmodels.WorkConfigViewModel
@@ -88,6 +89,7 @@ val repositoryModule = module {
     single { RoleRepository(get()) }
     single { DeviceRepository(get()) }
     single { AttachmentRepository(get()) }
+    single { AdministrationRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -115,6 +117,7 @@ val viewModelModule = module {
     viewModel { RoleViewModel(get(), get()) }
     viewModel { DeviceViewModel(get(), get()) }
     viewModel { AttachmentViewModel(get(), get()) }
+    viewModel { AdministrationViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

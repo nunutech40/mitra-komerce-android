@@ -41,8 +41,10 @@ const val SDM_KEY = "sdm_key"
 const val PARTNER_RESPONSE_KEY = "partner_response"
 
 const val DEVICE_DATA = "device_data"
+const val ADMINISTRATION_DATA = "administration_data"
 
 const val MESSAGE_CRUD = "message_crud"
+
 
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"

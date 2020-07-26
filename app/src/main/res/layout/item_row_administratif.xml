@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/selectableItemBackground"
     android:layout_marginTop="@dimen/_14dp"
     android:layout_marginStart="@dimen/_18dp"
     android:layout_marginEnd="@dimen/_18dp"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitleWithLeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/tv14sp000000_avenir_heavy"
