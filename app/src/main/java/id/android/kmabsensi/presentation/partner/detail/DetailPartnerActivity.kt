@@ -124,7 +124,7 @@ class DetailPartnerActivity : BaseActivity() {
                 switchStatus.text = "Aktif"
             } else {
                 partnerStatus = 0
-                switchStatus.text = "Pause"
+                switchStatus.text = "Off"
             }
         }
     }

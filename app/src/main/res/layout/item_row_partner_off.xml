@@ -5,16 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/_12dp"
     android:paddingBottom="@dimen/_12dp"
+    android:background="?attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtPartnerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/tv16sp000000_avenir_heavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="06 - Petrus"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginEnd="@dimen/_16dp"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayoutCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/labelStatusInvoice"
@@ -38,26 +41,27 @@
         app:layout_constraintBottom_toBottomOf="@+id/labelStatusInvoice"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/tv10sp929292_avenir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/tv10sp929292_avenir"
-            android:text="@string/tanggal_partner_off"/>
+            android:text="@string/tanggal_partner_off" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDateOff"
+            style="@style/tv10sp929292_avenir_heavy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/tv10sp929292_avenir_heavy"
-            android:textAllCaps="true"
-            android:text="2 Juli 2020"/>
+            android:text="2 Juli 2020"
+            android:textAllCaps="true" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

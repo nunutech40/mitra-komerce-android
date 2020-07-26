@@ -134,7 +134,7 @@ class PartnerViewModel(
 
     fun getPartnersOff(){
         partnersOff.value = UiState.Loading()
-        compositeDisposable.add(partnerRepository.getPartners()
+        compositeDisposable.add(partnerRepository.getPartnersOff()
             .with(schedulerProvider)
             .subscribe({
                 partnersOff.value = UiState.Success(it)

@@ -82,10 +82,11 @@ class KelolaAdministratifActivity : BaseActivity() {
 
         btnSimpan.setOnClickListener {
             if (!validationForm()) return@setOnClickListener
-            if (docFile == null) {
-                createAlertError(this, "Peringatan", "Pilih dokumen terlebih dahulu", 3000)
-            }
             if (!isEditMode) {
+                if (docFile == null) {
+                    createAlertError(this, "Peringatan", "Pilih dokumen terlebih dahulu", 3000)
+                    return@setOnClickListener
+                }
                 administrationVM.addAdministration(
                     edtJudul.text.toString(),
                     "",
