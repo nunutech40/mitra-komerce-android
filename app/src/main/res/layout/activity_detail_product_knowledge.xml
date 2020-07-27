@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.android.kmabsensi.presentation.sdm.productknowledge.DetailProductKnowledgeActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nama_produk"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="31dp"
+                android:includeFontPadding="false"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtNamaProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="23dp"
+                android:hint="Tulis nama produk..."
+                android:enabled="false"
+                style="@style/tv14sp000000_avenir_medium"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deskripsi Singkat"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="21dp"
+                android:includeFontPadding="false"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtDeskripsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="23dp"
+                android:hint="Tulis deskripsi..."
+                android:enabled="false"
+                style="@style/tv14sp000000_avenir_medium"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView2"
+                    style="@style/tv14spf48070_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="21dp"
+                    android:includeFontPadding="false"
+                    android:text="Link Pendukung"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLink"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="23dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatTextView2"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:background="@drawable/divider"
+                    app:layout_constraintTop_toBottomOf="@+id/rvLink"
+                    app:layout_constraintStart_toStartOf="@id/rvLink"
+                    app:layout_constraintEnd_toEndOf="@id/rvLink"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView3"
+                    style="@style/tv14spf48070_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="21dp"
+                    android:includeFontPadding="false"
+                    android:text="File Pendukung"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="23dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatTextView3"
+                    app:layout_constraintTop_toBottomOf="@id/appCompatTextView3" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/rvFile"
+                    app:layout_constraintStart_toStartOf="@id/rvFile"
+                    app:layout_constraintEnd_toEndOf="@id/rvFile"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanya Jawab (FAQ)"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="21dp"
+                android:includeFontPadding="false"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtFaq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="23dp"
+                android:hint="Tulis tanya jawab..."
+                android:enabled="false"
+                style="@style/tv14sp000000_avenir_medium"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

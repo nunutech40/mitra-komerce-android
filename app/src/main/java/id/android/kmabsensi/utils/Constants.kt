@@ -42,6 +42,7 @@ const val PARTNER_RESPONSE_KEY = "partner_response"
 
 const val DEVICE_DATA = "device_data"
 const val ADMINISTRATION_DATA = "administration_data"
+const val PRODUCT_KNOWLEDGE_KEY = "product_knowledge"
 
 const val MESSAGE_CRUD = "message_crud"
 

@@ -32,6 +32,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
+import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
@@ -330,6 +331,10 @@ class HomeSdmFragment : Fragment() {
 
         btnGagalAbsen.setOnClickListener {
             activity?.startActivity<ReportAbsensiActivity>()
+        }
+
+        btnProductKnowledge.setOnClickListener {
+            activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partner.toInt())
         }
 
         swipeRefresh.setOnRefreshListener {

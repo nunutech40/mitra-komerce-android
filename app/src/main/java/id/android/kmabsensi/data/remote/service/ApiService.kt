@@ -517,4 +517,10 @@ interface ApiService {
     fun deleteAdministrationData(
         @Path("id") id: Int
     ): Single<BaseResponse>
+
+    @POST("api/productknowledge/filtered")
+    fun getListProductKnowledge(@Body body: Map<String, Int>): Single<ListProductKnowledgeResponse>
+
+    @GET("api/productknowledge")
+    fun getListProductKnowledge(): Single<ListProductKnowledgeResponse>
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtProductKnowledge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="asd"
+        style="@style/tv14sp000000_avenir_heavy"
+        android:paddingTop="@dimen/_16dp"
+        android:paddingBottom="@dimen/_16dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
