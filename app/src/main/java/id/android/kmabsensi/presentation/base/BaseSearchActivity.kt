@@ -62,10 +62,9 @@ abstract class BaseSearchActivity : BaseActivity() {
             toolbarContent.addView(searchView)
 
             /* Show keyboard */
-            searchView.requestFocus()
-            val imm: InputMethodManager? =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+            searchView.et_search.requestFocus()
+            val imm: InputMethodManager? = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm?.showSoftInput(searchView.et_search, InputMethodManager.SHOW_IMPLICIT)
         }
 
     }

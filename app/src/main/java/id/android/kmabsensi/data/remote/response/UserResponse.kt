@@ -42,5 +42,5 @@ data class User(
     val martial_status: Int,
     val last_date_of_pause: String,
     val bank_accounts: List<BankAccount>? = listOf(),
-    val management: ManagementResponse = ManagementResponse()
+    val management: ManagementResponse? = ManagementResponse()
 ) : Parcelable
