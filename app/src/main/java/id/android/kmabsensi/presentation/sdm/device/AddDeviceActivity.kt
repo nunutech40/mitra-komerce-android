@@ -185,7 +185,18 @@ class AddDeviceActivity : BaseActivity() {
         device?.let {
             val isEdit = intent.getBooleanExtra("isEdit", false)
             setupToolbar(if (isEdit) "Ubah Device" else "Detail Device")
-            if (!isEdit) buttonAddDevice.gone()
+            if (!isEdit) {
+                buttonAddDevice.gone()
+                edtJenis.isEnabled = false
+                edtMerek.isEnabled = false
+                edtSpesifikasi.isEnabled = false
+                edtPilihPartner.isEnabled = false
+                edtPilihSDM.isEnabled = false
+                edtTanggalDiterima.isEnabled = false
+                imageDokumentasi1.isEnabled = false
+                imageDokumentasi2.isEnabled = false
+                imageDokumentasi3.isEnabled = false
+            }
             edtJenis.setText(it.deviceType)
             edtMerek.setText(it.brancd)
             edtSpesifikasi.setText(it.spesification)

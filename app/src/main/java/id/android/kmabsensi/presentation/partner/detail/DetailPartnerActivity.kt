@@ -369,7 +369,7 @@ class DetailPartnerActivity : BaseActivity() {
         spinnerStatusPernikahan.setSelection(data.martialStatus)
 
         switchStatus.isChecked = data.status == 1
-        switchStatus.text = if (data.status == 1) "Aktif" else "Pause"
+        switchStatus.text = if (data.status == 1) "Aktif" else "Off"
     }
 
     private fun disableViews(enabled: Boolean){

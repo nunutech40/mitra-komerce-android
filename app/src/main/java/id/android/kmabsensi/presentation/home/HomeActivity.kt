@@ -356,15 +356,15 @@ class HomeActivity : AppCompatActivity() {
 
     // for hit api dahsboard in every click beranda page
     private fun getDashboardData() {
-        if (role == ROLE_ADMIN) {
-            val beranda = supportFragmentManager.findFragmentByTag(
-                getFragmentTag(
-                    R.id.viewpager,
-                    0
-                )
-            ) as HomeAdminFragment
-            beranda.getDashboardData()
-        }
+//        if (role == ROLE_ADMIN) {
+//            val beranda = supportFragmentManager.findFragmentByTag(
+//                getFragmentTag(
+//                    R.id.viewpager,
+//                    0
+//                )
+//            ) as HomeAdminFragment
+//            beranda.getDashboardData()
+//        }
 
         if (role == ROLE_MANAGEMEMENT) {
             val beranda = supportFragmentManager.findFragmentByTag(

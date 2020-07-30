@@ -168,7 +168,7 @@ class HomeAdminFragment : Fragment() {
         })
 
         getPrayerTime()
-        getDashboardData()
+//        getDashboardData()
 
         textView24.text = getTodayDateTimeDay()
     }
@@ -337,8 +337,13 @@ class HomeAdminFragment : Fragment() {
 
     }
 
-    fun getDashboardData() {
+    private fun getDashboardData() {
         vm.getDashboardInfo(user.id)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getDashboardData()
     }
 
     companion object {
@@ -346,7 +351,7 @@ class HomeAdminFragment : Fragment() {
         fun newInstance() = HomeAdminFragment()
     }
 
-    fun countDownTimer(ms: Long) {
+    private fun countDownTimer(ms: Long) {
         try {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
@@ -431,7 +436,7 @@ class HomeAdminFragment : Fragment() {
             .show()
     }
 
-    fun hideSkeletonMenu() {
+    private fun hideSkeletonMenu() {
         skeletonLabelMenu?.hide()
         skeletonMenu1?.hide()
         skeletonMenu2?.hide()
