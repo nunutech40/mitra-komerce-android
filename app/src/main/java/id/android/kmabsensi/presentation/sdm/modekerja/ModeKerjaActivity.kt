@@ -67,11 +67,22 @@ class ModeKerjaActivity : BaseActivity() {
         switchButton.isChecked = isWFH
         if (isWFH) {
             layoutDetailWorkConfig.visible()
-            txtWorkScope.text = userScopeSelected
+            txtWorkScope.text = userScopeSelected.replace("|", ",")
         }
 
         btnSwitchButton.setOnClickListener {
-            showDialogModeKerja(isWFH)
+            if (isWFH){
+                userScopeSelected = ""
+                val userScope = userScopeSelected
+                val configs = mutableListOf<WorkConfig>()
+                configs.add(WorkConfig(WORK_MODE, WFO))
+                configs.add(WorkConfig(WFH_USER_SCOPE, userScope))
+                workingConfigParams = WorkConfigParams(configs)
+                workConfigVM.updateWorkConfig(workingConfigParams)
+            } else {
+                showDialogModeKerja(isWFH)
+            }
+
         }
     }
 

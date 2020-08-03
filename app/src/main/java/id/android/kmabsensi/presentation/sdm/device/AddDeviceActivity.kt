@@ -238,6 +238,9 @@ class AddDeviceActivity : BaseActivity() {
                     if (sdm.isNotEmpty()) {
                         edtPilihSDM.setText(sdm[0].full_name)
                         sdmIdSelected = sdm[0].id
+                    } else {
+                        edtPilihSDM.setText("")
+                        sdmIdSelected = 0
                     }
                 }
                 is UiState.Error -> {

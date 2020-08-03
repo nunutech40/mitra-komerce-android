@@ -124,10 +124,7 @@ class RoleActivity : BaseActivity() {
             dialog.dismiss()
         }
 
-        val idAssigned = menu.joinToString(transform = { position -> position.id.toString() })
-        Timber.d(idAssigned.toString())
         val jabatan = positions.map { if (menu.find { menu -> menu.id == it.id } != null) it.copy(isChecked = true) else it }
-        Timber.d(jabatan.toString())
         groupAdapterPosition.clear()
         jabatan.forEach {
             groupAdapterPosition.add(PositionAssignItem(it){ jabatan, isChecked ->

@@ -118,9 +118,12 @@ class KelolaAdministratifActivity : BaseActivity() {
             btnPilihFile.gone()
             edtDokumen.hint = ""
             layoutDocFile.visible()
-            if (it.attachments.isNotEmpty())  {
+            if (it.attachments.isNotEmpty()) {
                 val name = it.attachments[0].attachmentPath.split("/")
                 txtFileName.text = name.last()
+                txtFileName.setOnClickListener { view ->
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.attachments[0].attachmentUrl)))
+                }
             }
             positionIdSelected = it.leader.id
 
