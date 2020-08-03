@@ -19,7 +19,7 @@ android {
         targetSdkVersion 29
         multiDexEnabled true
         versionCode 23
-        versionName "1.6.0.2"
+        versionName "1.7.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
