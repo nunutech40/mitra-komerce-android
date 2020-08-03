@@ -439,6 +439,11 @@ interface ApiService {
     @GET("api/menu")
     fun getMenuRole() : Single<MenuRoleResponse>
 
+    @GET("api/menu/getMenuByPosition/{position_id}")
+    fun getMenuRoleByPosition(
+        @Path("position_id") positionId: Int
+    ) : Single<MenuRoleByPositionResponse>
+
     @POST("api/menu/assignPosition")
     fun assignPosition(@Body assignReleasePositionParams: AssignReleasePositionParams): Single<BaseResponse>
 

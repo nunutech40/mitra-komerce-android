@@ -389,6 +389,15 @@ class HomeActivity : AppCompatActivity() {
                     ) as HomeAdminFragment
                     beranda.hideGroupMenu()
                 }
+                if (role == ROLE_MANAGEMEMENT) {
+                    val beranda = supportFragmentManager.findFragmentByTag(
+                        getFragmentTag(
+                            R.id.viewpager,
+                            0
+                        )
+                    ) as HomeManagementFragment
+                    beranda.hideGroupMenu()
+                }
             } else {
                 super.onBackPressed()
             }

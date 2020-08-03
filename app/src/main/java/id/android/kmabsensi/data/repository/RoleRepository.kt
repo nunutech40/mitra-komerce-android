@@ -11,4 +11,8 @@ class RoleRepository(val apiService: ApiService) {
 
     fun releasePosition(params: AssignReleasePositionParams) = apiService.releasePosition(params)
 
+    fun getMenuRoleByPosition(
+        positionId: Int
+    ) = apiService.getMenuRoleByPosition(positionId)
+
 }

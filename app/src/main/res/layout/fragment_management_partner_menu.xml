@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.android.kmabsensi.presentation.admin.PartnerMenuFragment">
+    tools:context="id.android.kmabsensi.presentation.management.ManagementPartnerMenuFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView22"
@@ -332,6 +332,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

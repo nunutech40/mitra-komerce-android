@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.role
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.body.AssignReleasePositionParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.MenuRoleByPositionResponse
 import id.android.kmabsensi.data.remote.response.MenuRoleResponse
 import id.android.kmabsensi.data.repository.RoleRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -23,6 +24,10 @@ class RoleViewModel(
         MutableLiveData<UiState<BaseResponse>>()
     }
 
+    val accessMenu by lazy {
+        MutableLiveData<UiState<MenuRoleByPositionResponse>>()
+    }
+
     fun getMenuRole(){
         menuRoles.value = UiState.Loading()
         compositeDisposable.add(roleRepository.getMenuRole()
@@ -31,6 +36,17 @@ class RoleViewModel(
                 menuRoles.value = UiState.Success(it)
             },{
                 menuRoles.value = UiState.Error(it)
+            }))
+    }
+
+    fun getAccessMenuByPosition(positionId: Int){
+        accessMenu.value = UiState.Loading()
+        compositeDisposable.add(roleRepository.getMenuRoleByPosition(positionId)
+            .with(schedulerProvider)
+            .subscribe({
+                accessMenu.value = UiState.Success(it)
+            },{
+                accessMenu.value = UiState.Error(it)
             }))
     }
 

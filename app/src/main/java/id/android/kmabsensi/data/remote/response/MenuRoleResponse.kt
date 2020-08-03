@@ -27,3 +27,32 @@ data class Role(
     val positions: List<Position> = listOf()
 ): Parcelable
 
+data class MenuRoleByPositionResponse(
+    @SerializedName("status")
+    val status: Boolean = false,
+    @SerializedName("code")
+    val code: Int = 0,
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("data")
+    val `data`: List<RolePosition> = listOf()
+)
+
+data class RolePosition(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("position_name")
+    val positionName: String = "",
+    @SerializedName("menus")
+    val menus: List<Menu> = listOf()
+)
+
+data class Menu(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("name")
+    val name: String = "",
+    @SerializedName("desc")
+    val desc: String = ""
+)
+

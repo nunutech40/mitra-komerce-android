@@ -27,6 +27,8 @@ import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.presentation.admin.PartnerMenuFragment
+import id.android.kmabsensi.presentation.admin.SdmMenuFragment
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
@@ -40,17 +42,19 @@ import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
+import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
+import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.fragment_home_management.btnDataPartner
 import kotlinx.android.synthetic.main.fragment_home_management.btnInvoice
 import kotlinx.android.synthetic.main.fragment_home_management.btnInvoiceReport
 import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
-import kotlinx.android.synthetic.main.fragment_home_management.btnPartnerCategory
+import kotlinx.android.synthetic.main.fragment_home_management.containerHome
 import kotlinx.android.synthetic.main.fragment_home_management.dataHadir
 import kotlinx.android.synthetic.main.fragment_home_management.expandableLayout
 import kotlinx.android.synthetic.main.fragment_home_management.header_waktu
@@ -73,6 +77,7 @@ import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 /**
@@ -81,6 +86,7 @@ import java.util.*
 class HomeManagementFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
+    private val roleVM: RoleViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var user: User
@@ -350,14 +356,36 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
+        roleVM.accessMenu.observe(viewLifecycleOwner, Observer { state ->
+        when(state) {
+            is UiState.Loading -> {
+
+            }
+            is UiState.Success -> {
+                val data = state.data.data
+                data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
+                    view_menu_data_partner.visible()
+                }
+
+                data[0].menus.find { menu -> menu.name.toLowerCase() == "sdm" }?.let {
+                    view_menu_sdm.visible()
+                }
+
+            }
+            is UiState.Error -> {
+
+            }
+        } })
+
 
         vm.getJadwalShalat()
         vm.getCoworkUserData(user.id)
         getDashboardData()
+        roleVM.getAccessMenuByPosition(user.position_id)
         textView24.text = getTodayDateTimeDay()
         if (user.position_name.equals("Staff Growth", true)) {
             view_menu_data_partner.visibility = View.VISIBLE
-            view_menu_partner_category.visibility = View.VISIBLE
+//            view_menu_partner_category.visibility = View.VISIBLE
         }
 
     }
@@ -450,6 +478,7 @@ class HomeManagementFragment : Fragment() {
             vm.getCoworkUserData(user.id)
             getDashboardData()
             setupGreetings()
+            roleVM.getAccessMenuByPosition(user.position_id)
         }
 
         imgProfile.loadCircleImage(
@@ -499,7 +528,6 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnKelolaIzin.setOnClickListener {
-
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
             } else {
@@ -519,13 +547,41 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnDataPartner.setOnClickListener {
-            activity?.startActivity<PartnerActivity>()
+            showGroupMenu(1)
         }
 
-        btnPartnerCategory.setOnClickListener {
-            activity?.startActivity<KategoriPartnerActivity>()
+        btnSdm.setOnClickListener {
+            showGroupMenu(0)
         }
 
+//        btnPartnerCategory.setOnClickListener {
+//            activity?.startActivity<KategoriPartnerActivity>()
+//        }
+
+    }
+
+    /*
+     * 0 - SDM
+     * 1 - Partner
+     */
+    private fun showGroupMenu(menu: Int) {
+        swipeRefresh.gone()
+        containerHome.visible()
+        val fragment = when (menu) {
+            0 -> ManagementSdmMenuFragment()
+            else -> ManagementPartnerMenuFragment()
+        }
+        childFragmentManager.beginTransaction().apply {
+            replace(R.id.containerHome, fragment).commit()
+        }
+        (activity as HomeActivity).isOpenGroupMenu = true
+    }
+
+    fun hideGroupMenu() {
+        containerHome.gone()
+        swipeRefresh.visible()
+        childFragmentManager.popBackStack()
+        (activity as HomeActivity).isOpenGroupMenu = false
     }
 
     fun getDashboardData() {
