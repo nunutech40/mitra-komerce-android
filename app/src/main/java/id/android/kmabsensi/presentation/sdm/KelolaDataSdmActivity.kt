@@ -50,7 +50,10 @@ class KelolaDataSdmActivity : BaseActivity() {
         setupToolbar("Kelola Data SDM")
         btnSearch.visible()
         btnSearch.setOnClickListener {
-            startActivity<CariDataSdmActivity>()
+            startActivityForResult<CariDataSdmActivity>(
+                121,
+                IS_MANAGEMENT_KEY to isManagement
+            )
         }
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)

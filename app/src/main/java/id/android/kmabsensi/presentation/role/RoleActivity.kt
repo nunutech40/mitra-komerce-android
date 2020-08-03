@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.role
 
+import android.graphics.Point
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageView
@@ -124,7 +125,9 @@ class RoleActivity : BaseActivity() {
         }
 
         val idAssigned = menu.joinToString(transform = { position -> position.id.toString() })
-        val jabatan = positions.map { if (idAssigned.contains(it.id.toString())) it.copy(isChecked = true) else it }
+        Timber.d(idAssigned.toString())
+        val jabatan = positions.map { if (menu.find { menu -> menu.id == it.id } != null) it.copy(isChecked = true) else it }
+        Timber.d(jabatan.toString())
         groupAdapterPosition.clear()
         jabatan.forEach {
             groupAdapterPosition.add(PositionAssignItem(it){ jabatan, isChecked ->
@@ -144,4 +147,5 @@ class RoleActivity : BaseActivity() {
         }
 
     }
+
 }

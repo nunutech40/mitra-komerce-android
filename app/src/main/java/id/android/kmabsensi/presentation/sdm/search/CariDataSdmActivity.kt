@@ -1,6 +1,8 @@
 package id.android.kmabsensi.presentation.sdm.search
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -39,6 +41,8 @@ class CariDataSdmActivity : AppCompatActivity() {
 
     private var mHandler = Handler()
 
+    var isManagement = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cari_data_sdm)
@@ -46,6 +50,8 @@ class CariDataSdmActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Cari Data SDM"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
 
         initRv()
 
@@ -96,7 +102,7 @@ class CariDataSdmActivity : AppCompatActivity() {
                 startActivityForResult<DetailKaryawanActivity>(
                     121,
                     USER_KEY to it,
-                    IS_MANAGEMENT_KEY to false
+                    IS_MANAGEMENT_KEY to isManagement
                 )
             })
         }
@@ -135,9 +141,21 @@ class CariDataSdmActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 121 && resultCode == Activity.RESULT_OK) {
+            val message = data?.getStringExtra("message")
+            val intent = Intent()
+            intent.putExtra("message", message)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
+
 
 }
