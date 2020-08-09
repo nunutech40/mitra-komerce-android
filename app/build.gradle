@@ -40,14 +40,17 @@ android {
         development {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra KM"
+            resConfigs "en", "xxhdpi"
         }
 
     }
     buildTypes {
-//        debug {
+        debug {
+            ext.alwaysUpdateBuildId = false
+            ext.enableCrashlytics = false
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
