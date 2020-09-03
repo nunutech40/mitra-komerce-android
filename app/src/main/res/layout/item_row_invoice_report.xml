@@ -26,13 +26,42 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textTotalInvoice"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/tv14sp000000_avenir_heavy"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:text="Rp. 500.000.000 | 10 Invoice"
         app:layout_constraintStart_toStartOf="@id/labelKeterangan"
         app:layout_constraintTop_toBottomOf="@id/labelKeterangan"
+        app:layout_constraintEnd_toStartOf="@+id/btnDetailReport"
         />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnDetailReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button_gradient_selector"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTotalSdm"
+            style="@style/tv10spffffff_avenir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="Detail Report"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

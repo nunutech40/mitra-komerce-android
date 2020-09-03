@@ -13,21 +13,29 @@ import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseFragment
+import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.invoice.create.AddInvoiceActivity
 import id.android.kmabsensi.presentation.invoice.detail.DetailInvoiceActivity
 import id.android.kmabsensi.presentation.invoice.item.ActiveInvoiceItem
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_invoice_active.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class InvoiceActiveFragment : BaseFragment() {
 
+    private val vm: HomeViewModel by inject()
     private val invoiceVM: InvoiceViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private val RC_ADD_INVOICE = 113
     private val RC_DETAIL_INVOICE = 115
+
+    var role: String = ""
+
+    lateinit var user: User
 
     override fun getLayoutResId() = R.layout.fragment_invoice_active
 
@@ -61,6 +69,14 @@ class InvoiceActiveFragment : BaseFragment() {
 
         observeData()
         invoiceVM.getMyInvoice(true)
+
+        user = vm.getUserData()
+
+        role = getRoleName(user.role_id)
+
+        if (role == ROLE_ADMIN){
+            buttonTambahInvoice.gone()
+        }
 
         swipeRefresh.setOnRefreshListener {
             invoiceVM.getMyInvoice(true)
@@ -116,8 +132,8 @@ class InvoiceActiveFragment : BaseFragment() {
         })
     }
 
-    fun filterInvoice(invoiceType: Int, userToId: Int){
-        invoiceVM.filterMyInvoice(true, invoiceType, userToId)
+    fun filterInvoice(invoiceType: Int, userToId: Int, leaderIdSelected: Int){
+        invoiceVM.filterMyInvoice(true, invoiceType, userToId, leaderIdSelected)
     }
 
 }

@@ -3,6 +3,7 @@ package id.android.kmabsensi.data.repository
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.CreateInvoiceResponse
+import id.android.kmabsensi.data.remote.response.InvoiceReportDetailResponse
 import id.android.kmabsensi.data.remote.response.InvoiceReportResponse
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
@@ -26,13 +27,15 @@ class InvoiceRepository(val apiService: ApiService) {
         userId: Int,
         isActive: Boolean,
         invoiceType: Int,
-        userToId: Int
+        userToId: Int,
+        leaderIdSelected: Int
     ): Single<MyInvoiceResponse> {
         val body = mapOf(
             "user_id" to userId,
             "is_active" to isActive,
             "invoice_type" to invoiceType,
-            "user_to_id" to userToId
+            "user_to_id" to userToId,
+            "user_requester_id" to leaderIdSelected
         )
         return apiService.filterMyInvoice(body)
     }
@@ -60,15 +63,35 @@ class InvoiceRepository(val apiService: ApiService) {
     fun getInvoiceReport(
         startPeriod: String,
         endPeriod: String,
-        userRequestedId: Int
+        userRequestedId: Int,
+        invoiceType: Int
     ): Single<InvoiceReportResponse> {
         val body = mapOf(
             "start_period" to startPeriod,
             "end_period" to endPeriod,
-            "user_requester_id" to userRequestedId
+            "user_requester_id" to userRequestedId,
+            "invoice_type" to invoiceType
         )
 
         return apiService.getInvoiceReport(body)
+    }
+
+    fun getInvoiceDetailReport(
+        startPeriod: String,
+        endPeriod: String,
+        userRequestedId: Int,
+        invoiceType: Int,
+        status: Int
+    ): Single<InvoiceReportDetailResponse> {
+        val body = mapOf(
+            "start_period" to startPeriod,
+            "end_period" to endPeriod,
+            "user_requester_id" to userRequestedId,
+            "invoice_type" to invoiceType,
+            "status" to status
+        )
+
+        return apiService.getInvoiceReportDetail(body)
     }
 
 }

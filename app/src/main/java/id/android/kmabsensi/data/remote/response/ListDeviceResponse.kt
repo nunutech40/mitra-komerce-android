@@ -12,7 +12,7 @@ data class ListDeviceResponse(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val devices: List<Device> = listOf()
+    val devices: MutableList<Device> = mutableListOf()
 )
 
 @Parcelize

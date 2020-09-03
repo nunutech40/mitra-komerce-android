@@ -19,6 +19,7 @@ class HomeViewModel(
     private val presenceRepository: PresenceRepository,
     private val jadwalShalatRepository: JadwalShalatRepository,
     private val coworkingSpaceRepository: CoworkingSpaceRepository,
+    private val kmPoinRepository: KmPoinRepository,
     val authRepository: AuthRepository,
     val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
@@ -38,6 +39,8 @@ class HomeViewModel(
     val coworkUserData = LiveEvent<UiState<UserCoworkDataResponse>>()
 
     val logoutState = MutableLiveData<UiState<BaseResponse>>()
+
+    val redeemPoin = LiveEvent<UiState<BaseResponse>>()
 
 
     fun getDashboardInfo(userId: Int) {
@@ -182,6 +185,23 @@ class HomeViewModel(
             userDara,
             User::class.java
         )
+    }
+
+    fun redeemPoin(userId: Int, totalRequestRedeemPoin: Int) {
+        try {
+            redeemPoin.value = UiState.Loading()
+            compositeDisposable.add(
+                kmPoinRepository.redeemPoin(userId, totalRequestRedeemPoin)
+                    .with(schedulerProvider)
+                    .subscribe({
+                        redeemPoin.value = UiState.Success(it)
+                    }, {
+                        redeemPoin.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            redeemPoin.value = UiState.Error(e)
+        }
     }
 
     fun clearPref() {

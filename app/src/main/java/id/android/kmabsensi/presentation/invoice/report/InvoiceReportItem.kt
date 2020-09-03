@@ -4,6 +4,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.convertRp
+import kotlinx.android.synthetic.main.item_row_invoice_report.*
 import kotlinx.android.synthetic.main.item_row_invoice_report.view.*
 
 class InvoiceReportItem(val reportNote: String,
@@ -13,6 +14,10 @@ class InvoiceReportItem(val reportNote: String,
         viewHolder.apply {
             itemView.labelKeterangan.text = reportNote
             itemView.textTotalInvoice.text = "${convertRp(totalInvoice.toDouble())} | $sumOfInvoice Invoice"
+
+            btnDetailReport.setOnClickListener {
+
+            }
         }
     }
 

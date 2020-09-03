@@ -1,9 +1,11 @@
 package id.android.kmabsensi.presentation.sdm.device
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -19,21 +21,21 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.FilterDeviceParams
 import id.android.kmabsensi.data.remote.response.Device
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.SimplePartner
-import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.sdm.device.item.DeviceItem
 import id.android.kmabsensi.presentation.sdm.device.item.OnDeviceListener
 import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_data_device.*
-import kotlinx.android.synthetic.main.activity_data_device.btnAddDevice
-import kotlinx.android.synthetic.main.activity_data_device.rvDevice
+import kotlinx.android.synthetic.main.edittext_search.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DataDeviceActivity : BaseActivity() {
+class DataDeviceActivity : BaseSearchActivity() {
     private val deviceVM: DeviceViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
@@ -42,12 +44,12 @@ class DataDeviceActivity : BaseActivity() {
 
     private var noPartnerFilterSelected = 0
     private val partners = mutableListOf<SimplePartner>()
+    private var devices = mutableListOf<Device>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_device)
-        setupToolbar("Data Device", isFilterVisible = true)
-
+        initToolbar()
         rvDevice.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
@@ -69,6 +71,42 @@ class DataDeviceActivity : BaseActivity() {
         btnFilter.setOnClickListener {
             showDialogFilter()
         }
+    }
+
+
+    private fun initToolbar() {
+        setupToolbar("Data Device", isFilterVisible = true, isSearchVisible = true)
+
+        btnSearch.setOnClickListener {
+            isSearchMode = true
+            /* add search view from edittext_search.xml */
+            toolbarContent.visibility = View.VISIBLE
+            toolbarContent.addView(searchView)
+
+            /* Show keyboard */
+            searchView.et_search.requestFocus()
+            val imm: InputMethodManager? = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm?.showSoftInput(searchView.et_search, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+
+    override fun search(keyword: String) {
+        val devices = devices.filter {
+            it.deviceType.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.spesification.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.brancd.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.partner.noPartner.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.partner.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.sdm.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
+            it.sdm.username.toLowerCase().contains(keyword.toLowerCase())
+        }
+        populateData(devices)
+
+    }
+
+    override fun restoreData() {
+        populateData(devices)
     }
 
     private fun observePartners() {
@@ -99,25 +137,9 @@ class DataDeviceActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     swipeRefresh.isRefreshing = false
-                    groupAdapter.clear()
                     if (state.data.devices.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    for (device in state.data.devices) {
-                        groupAdapter.add(DeviceItem(device, object : OnDeviceListener {
-                            override fun onDeleteClicked(id: Int) {
-                                showDialogConfirmDelete(this@DataDeviceActivity, "Hapus Device"){
-                                    deviceVM.deleteDevice(id)
-                                }
-                            }
-
-                            override fun onEditClicked(device: Device) {
-                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to true)
-                            }
-
-                            override fun onDetailClicked(device: Device) {
-                                startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to false)
-                            }
-                        }))
-                    }
+                    devices = state.data.devices
+                    populateData(devices)
                 }
                 is UiState.Error -> {
                     swipeRefresh.isRefreshing = false
@@ -126,7 +148,30 @@ class DataDeviceActivity : BaseActivity() {
         })
     }
 
-    private fun observeCrudResult(){
+    private fun populateData(devices: List<Device>){
+        groupAdapter.clear()
+        for (device in devices) {
+            groupAdapter.add(DeviceItem(device, object : OnDeviceListener {
+                override fun onDeleteClicked(id: Int) {
+                    showDialogConfirmDelete(this@DataDeviceActivity, "Hapus Device"){
+                        deviceVM.deleteDevice(id)
+                    }
+                }
+
+                override fun onEditClicked(device: Device) {
+                    startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to true)
+                }
+
+                override fun onDetailClicked(device: Device) {
+                    startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to false)
+                }
+            }))
+        }
+
+    }
+
+
+        private fun observeCrudResult(){
         deviceVM.crudResult.observe(this, Observer { state ->
             when(state) {
                 is UiState.Loading -> {

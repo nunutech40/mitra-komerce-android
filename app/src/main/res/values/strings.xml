@@ -108,6 +108,8 @@
     <string name="role">Role</string>
     <string name="dokumentasi">Dokumentasi</string>
     <string name="nama_produk">Nama Produk</string>
+    <string name="poin">Poin</string>
+    <string name="qrdata">qrdata</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -185,6 +187,7 @@
     </string-array>
 
     <string-array name="invoice_type">
+        <item>Semua</item>
         <item>Admin</item>
         <item>Gaji SDM</item>
     </string-array>

@@ -46,6 +46,12 @@ const val PRODUCT_KNOWLEDGE_KEY = "product_knowledge"
 
 const val MESSAGE_CRUD = "message_crud"
 
+const val START_PERIOD = "start_period"
+const val END_PERIOD = "end_period"
+const val INVOICE_TYPE = "invoice_type"
+const val INVOICE_STATUS = "invoice_status"
+const val LEADER_ID = "leader_id"
+
 
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"
