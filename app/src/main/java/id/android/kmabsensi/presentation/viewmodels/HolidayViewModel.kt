@@ -19,7 +19,7 @@ class HolidayViewModel(
         MutableLiveData<UiState<HolidayResponse>>()
     }
 
-    val addHolidayResponse by lazy {
+    val crudResponse by lazy {
         MutableLiveData<UiState<BaseResponse>>()
     }
 
@@ -35,13 +35,24 @@ class HolidayViewModel(
     }
 
     fun addHoliday(params: AddHolidayParams){
-        addHolidayResponse.value = UiState.Loading()
+        crudResponse.value = UiState.Loading()
         compositeDisposable.add(holidayRepository.addHoliday(params)
             .with(schedulerProvider)
             .subscribe({
-                addHolidayResponse.value = UiState.Success(it)
+                crudResponse.value = UiState.Success(it)
             },{
-                addHolidayResponse.value = UiState.Error(it)
+                crudResponse.value = UiState.Error(it)
+            }))
+    }
+
+    fun deleteHoliday(holidayId: Int){
+        crudResponse.value = UiState.Loading()
+        compositeDisposable.add(holidayRepository.deleteHoliday(holidayId)
+            .with(schedulerProvider)
+            .subscribe({
+                crudResponse.value = UiState.Success(it)
+            },{
+                crudResponse.value = UiState.Error(it)
             }))
     }
 

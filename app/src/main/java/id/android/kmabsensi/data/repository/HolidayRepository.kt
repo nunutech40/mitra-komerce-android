@@ -9,4 +9,5 @@ class HolidayRepository(val apiService: ApiService) {
 
     fun addHoliday(params: AddHolidayParams) = apiService.addHoliday(params)
 
+    fun deleteHoliday(holidayId: Int) = apiService.deleteHoliday(holidayId)
 }

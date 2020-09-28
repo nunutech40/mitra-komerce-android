@@ -8,7 +8,14 @@ import id.android.kmabsensi.utils.localDateFormatter
 import kotlinx.android.synthetic.main.item_row_hari_libur.view.*
 import org.joda.time.LocalDate
 
-class HolidayItem(val holiday: Holiday): Item() {
+interface OnHolidayListener {
+    fun onDeleteClicked(holiday: Holiday)
+}
+
+class HolidayItem(
+    val holiday: Holiday,
+    val listener: OnHolidayListener
+) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.txtHolidayName.text = holiday.eventName
@@ -18,8 +25,16 @@ class HolidayItem(val holiday: Holiday): Item() {
             itemView.txtHolidayDate.text = if (holiday.startDate == holiday.endDate)
                 localDateFormatter(dateStart)
             else
-                "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${localDateFormatter(dateEnd, "dd MMM yyyy")}"
+                "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
+                    localDateFormatter(
+                        dateEnd,
+                        "dd MMM yyyy"
+                    )
+                }"
 
+            itemView.btnDelete.setOnClickListener {
+                listener.onDeleteClicked(holiday)
+            }
         }
     }
 

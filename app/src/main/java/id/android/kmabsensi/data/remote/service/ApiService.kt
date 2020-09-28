@@ -542,4 +542,9 @@ interface ApiService {
 
     @POST("api/holiday/add")
     fun addHoliday(@Body body: AddHolidayParams): Single<BaseResponse>
+
+    @GET("api/holiday/delete/{holiday_id}")
+    fun deleteHoliday(
+        @Path("holiday_id") holidayId: Int
+    ): Single<BaseResponse>
 }

@@ -14,6 +14,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddHolidayParams
+import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.viewmodels.HolidayViewModel
 import id.android.kmabsensi.utils.*
@@ -65,7 +66,14 @@ class HolidayActivity : BaseActivity() {
                     groupAdapter.clear()
                     if (state.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     state.data.data.forEach {
-                        groupAdapter.add(HolidayItem(it))
+                        groupAdapter.add(HolidayItem(it, object : OnHolidayListener {
+                            override fun onDeleteClicked(holiday: Holiday) {
+                                showDialogConfirmDelete(this@HolidayActivity, "Hapus Hari Libur"){
+                                    holidayVM.deleteHoliday(holiday.id)
+                                }
+                            }
+
+                        }))
                     }
                 }
                 is UiState.Error -> {
@@ -74,7 +82,7 @@ class HolidayActivity : BaseActivity() {
             }
         })
 
-        holidayVM.addHolidayResponse.observe(this, Observer {
+        holidayVM.crudResponse.observe(this, Observer {
             state ->
             when(state) {
                 is UiState.Loading -> {
