@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -14,12 +15,14 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddHolidayParams
+import id.android.kmabsensi.data.remote.body.EditHolidayParams
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.viewmodels.HolidayViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_holiday.*
+import org.joda.time.LocalDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -40,9 +43,6 @@ class HolidayActivity : BaseActivity() {
         initRv()
         observeData()
 
-        dateStart = getDateString(calendarDateStart.time)
-        dateEnd = getDateString(calendarDateEnd.time)
-
         holidayVM.getHoliday()
 
         swipeRefresh.setOnRefreshListener {
@@ -50,7 +50,7 @@ class HolidayActivity : BaseActivity() {
         }
 
         fabAdd.setOnClickListener {
-            showAddHolidayDialog()
+            showAddHolidayDialog(null)
         }
     }
 
@@ -71,6 +71,10 @@ class HolidayActivity : BaseActivity() {
                                 showDialogConfirmDelete(this@HolidayActivity, "Hapus Hari Libur"){
                                     holidayVM.deleteHoliday(holiday.id)
                                 }
+                            }
+
+                            override fun onEditClicked(holiday: Holiday) {
+                                showAddHolidayDialog(holiday)
                             }
 
                         }))
@@ -110,18 +114,41 @@ class HolidayActivity : BaseActivity() {
         }
     }
 
-    private fun showAddHolidayDialog(){
+    /*
+     * if holiday null thats is for add holiday, if not null for edit holiday
+     */
+    private fun showAddHolidayDialog(holiday: Holiday?){
+
         val dialog = MaterialDialog(this)
             .customView(R.layout.dialog_add_holiday, noVerticalPadding = true)
         val customView = dialog.getCustomView()
+        val textTitle = customView.findViewById<AppCompatTextView>(R.id.textTitle)
         val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
         val btnSimpan = customView.findViewById<Button>(R.id.btnSimpan)
         val edtJudul = customView.findViewById<AppCompatEditText>(R.id.edtJudul)
         val edtStartDate = customView.findViewById<AppCompatEditText>(R.id.edtStartDate)
         val edtEndDate = customView.findViewById<AppCompatEditText>(R.id.edtEndDate)
 
-        edtStartDate.setText(getDateStringFormatted(calendarDateStart.time))
-        edtEndDate.setText(getDateStringFormatted(calendarDateEnd.time))
+        holiday?.let {
+            dateStart = holiday.startDate
+            dateEnd = holiday.endDate
+            edtJudul.setText(it.eventName)
+            val startDate: LocalDate = LocalDate.parse(holiday.startDate)
+            val endDate: LocalDate = LocalDate.parse(holiday.endDate)
+            edtStartDate.setText(localDateFormatter(startDate))
+            edtEndDate.setText(localDateFormatter(endDate))
+            btnSimpan.text = getString(R.string.ubah_label)
+            textTitle.text = getString(R.string.ubah_hari_libur)
+        } ?: kotlin.run {
+            calendarDateStart.time = Calendar.getInstance().time
+            calendarDateEnd.time = Calendar.getInstance().time
+            dateStart = getDateString(calendarDateStart.time)
+            dateEnd = getDateString(calendarDateEnd.time)
+            edtStartDate.setText(getDateStringFormatted(calendarDateStart.time))
+            edtEndDate.setText(getDateStringFormatted(calendarDateEnd.time))
+            btnSimpan.text = getString(R.string.tambah)
+            textTitle.text = getString(R.string.tambah_hari_libur)
+        }
 
         btnClose.setOnClickListener {
             dialog.dismiss()
@@ -144,15 +171,25 @@ class HolidayActivity : BaseActivity() {
         btnSimpan.setOnClickListener {
             val judul = edtJudul.text.toString()
             if (judul.isEmpty()) {
-                edtJudul.error = "Judul tidak boleh dikosong."
+                edtJudul.error = getString(R.string.judul_empty_message)
                 return@setOnClickListener
             }
-            holidayVM.addHoliday(AddHolidayParams(
-                judul,
-                dateStart,
-                dateEnd,
-                ""
-            ))
+            if (holiday == null){
+                holidayVM.addHoliday(AddHolidayParams(
+                    judul,
+                    dateStart,
+                    dateEnd,
+                    ""
+                ))
+            } else {
+                holidayVM.editHoliday(EditHolidayParams(
+                    holiday.id,
+                    judul,
+                    dateStart,
+                    dateEnd,
+                    ""
+                ))
+            }
             dialog.dismiss()
         }
 

@@ -115,6 +115,9 @@
     <string name="tambah">Tambah</string>
     <string name="pilih_tanggal">Pilih tanggal</string>
     <string name="masukkan_judul">Masukkan Judul</string>
+    <string name="ubah_label">Ubah</string>
+    <string name="ubah_hari_libur">Ubah Hari Libur</string>
+    <string name="judul_empty_message">Judul tidak boleh dikosong.</string>
 
     <string-array name="role">
         <item>Admin</item>

@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.body.AddHolidayParams
+import id.android.kmabsensi.data.remote.body.EditHolidayParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.HolidayResponse
 import id.android.kmabsensi.data.repository.HolidayRepository
@@ -37,6 +38,17 @@ class HolidayViewModel(
     fun addHoliday(params: AddHolidayParams){
         crudResponse.value = UiState.Loading()
         compositeDisposable.add(holidayRepository.addHoliday(params)
+            .with(schedulerProvider)
+            .subscribe({
+                crudResponse.value = UiState.Success(it)
+            },{
+                crudResponse.value = UiState.Error(it)
+            }))
+    }
+
+    fun editHoliday(params: EditHolidayParams){
+        crudResponse.value = UiState.Loading()
+        compositeDisposable.add(holidayRepository.editHoliday(params)
             .with(schedulerProvider)
             .subscribe({
                 crudResponse.value = UiState.Success(it)

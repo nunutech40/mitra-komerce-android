@@ -10,6 +10,7 @@ import org.joda.time.LocalDate
 
 interface OnHolidayListener {
     fun onDeleteClicked(holiday: Holiday)
+    fun onEditClicked(holiday: Holiday)
 }
 
 class HolidayItem(
@@ -34,6 +35,10 @@ class HolidayItem(
 
             itemView.btnDelete.setOnClickListener {
                 listener.onDeleteClicked(holiday)
+            }
+
+            itemView.btnEdit.setOnClickListener {
+                listener.onEditClicked(holiday)
             }
         }
     }
