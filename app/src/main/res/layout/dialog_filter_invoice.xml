@@ -66,6 +66,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView22"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:text="Leader"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/labelFilterBy"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPartner" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerLeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintTop_toBottomOf="@id/labelLeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonFilter"
         style="@style/AppButtonGradient"
@@ -77,6 +98,6 @@
         android:text="Filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPartner" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerLeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

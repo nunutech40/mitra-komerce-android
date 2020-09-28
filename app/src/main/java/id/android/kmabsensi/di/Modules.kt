@@ -88,6 +88,7 @@ val repositoryModule = module {
     single { AttachmentRepository(get()) }
     single { AdministrationRepository(get()) }
     single { ProductKnowledgeRepository(get()) }
+    single { KmPoinRepository(get()) }
     single { HolidayRepository(get()) }
 }
 
@@ -97,7 +98,7 @@ val viewModelModule = module {
     viewModel { OfficeViewModel(get(), get()) }
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
     viewModel { EditPasswordViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(),  get(), get(), get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }
     viewModel { PermissionViewModel(get(), get()) }

@@ -87,16 +87,224 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvInvoiceReport"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rvInvoiceReport"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            tools:listitem="@layout/item_row_invoice_report"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/layoutHeader"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_invoice_created"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="24dp"
-        tools:listitem="@layout/item_row_invoice_report"
         app:layout_constraintTop_toBottomOf="@id/layoutHeader"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_item_row_invoice_report"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelInvoiceCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:text="Total Invoice Dibuat"
+            style="@style/tv12sp939393_avenir"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTotalInvoiceCreated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/tv14sp000000_avenir_heavy"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            tools:text="Rp. 500.000.000 | 10 Invoice"
+            app:layout_constraintStart_toStartOf="@id/labelInvoiceCreated"
+            app:layout_constraintTop_toBottomOf="@id/labelInvoiceCreated"
+            app:layout_constraintEnd_toStartOf="@+id/btnDetailReportInvoiceCreated"
+            />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/btnDetailReportInvoiceCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_gradient_selector"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv10spffffff_avenir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="Detail Report"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_invoice_paid"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/view_invoice_created"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_item_row_invoice_report"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelInvoicePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:text="Total Invoice Lunas"
+            style="@style/tv12sp939393_avenir"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTotalInvoicePaid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/tv14sp000000_avenir_heavy"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            tools:text="Rp. 500.000.000 | 10 Invoice"
+            app:layout_constraintStart_toStartOf="@id/labelInvoicePaid"
+            app:layout_constraintTop_toBottomOf="@id/labelInvoicePaid"
+            app:layout_constraintEnd_toStartOf="@+id/btnDetailReportInvoicePaid"
+            />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/btnDetailReportInvoicePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_gradient_selector"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv10spffffff_avenir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="Detail Report"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_invoice_not_paid"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/view_invoice_paid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_item_row_invoice_report"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelInvoiceNotPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:text="Total Invoice Belum Dibayar"
+            style="@style/tv12sp939393_avenir"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTotalInvoiceNotPaid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/tv14sp000000_avenir_heavy"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            tools:text="Rp. 500.000.000 | 10 Invoice"
+            app:layout_constraintStart_toStartOf="@id/labelInvoiceNotPaid"
+            app:layout_constraintTop_toBottomOf="@id/labelInvoiceNotPaid"
+            app:layout_constraintEnd_toStartOf="@+id/btnDetailReportInvoiceNotPaid"
+            />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/btnDetailReportInvoiceNotPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_gradient_selector"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv10spffffff_avenir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="Detail Report"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/labelOrang"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

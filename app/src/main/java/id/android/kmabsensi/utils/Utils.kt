@@ -4,7 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import android.widget.ImageView
+import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onDismiss
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.tapadoo.alerter.Alerter
 import com.wildma.idcardcamera.global.Constant.BASE_DIR
 import com.wildma.idcardcamera.utils.FileUtils
@@ -120,6 +125,33 @@ fun createAlertSuccess(activity: Activity?, message: String) {
         .setBackgroundColorRes(R.color.colorSuccess)
         .show()
 
+}
+
+
+fun showDialogSuccess(activity: Activity, title: String = "Berhasil", message: String) {
+    val dialog = MaterialDialog(activity).show {
+        cornerRadius(16f)
+        customView(
+            R.layout.dialog_success,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val close = customView.findViewById<ImageView>(R.id.close)
+    val tvTitle = customView.findViewById<TextView>(R.id.title)
+    val tvDescription = customView.findViewById<TextView>(R.id.txtKeterangan)
+
+    tvTitle.text = title
+    tvDescription.text = message
+    close.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    dialog.onDismiss {
+
+    }
 }
 
 fun compressCustomerCaptureImage(context: Context, imagePath: String): String? {

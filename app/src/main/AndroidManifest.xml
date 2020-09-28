@@ -32,27 +32,63 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.sdm.holiday.HolidayActivity"></activity>
-        <activity android:name=".presentation.sdm.productknowledge.DetailProductKnowledgeActivity" />
-        <activity android:name=".presentation.sdm.productknowledge.ProductKnowledgeActivity" />
-        <activity android:name=".presentation.sdm.device.AddDeviceActivity" />
-        <activity android:name=".presentation.sdm.device.DataDeviceActivity" />
-        <activity android:name=".presentation.role.RoleActivity" />
-        <activity android:name=".presentation.partner.evaluation.EvaluationCollaborationDetailActivity" />
-        <activity android:name=".presentation.partner.evaluation.EvaluasiKolaborasiActivity" />
-        <activity android:name=".presentation.sdm.modekerja.ModeKerjaActivity" />
-        <activity android:name=".presentation.partner.partneroff.PartnerOffActivity" />
-        <activity android:name=".presentation.partner.administratif.KelolaAdministratifActivity" />
-        <activity android:name=".presentation.partner.administratif.AdministratifActivity" />
-        <activity android:name=".presentation.sdm.nonjob.SdmNonJobActivity" />
-        <activity android:name=".presentation.partner.device.DetailPartnerDeviceActivity" />
-        <activity android:name=".presentation.partner.device.AddPartnerDeviceActivity" />
-        <activity android:name=".presentation.partner.device.PartnerDeviceActivity" />
-        <activity android:name=".presentation.admin.EvaluasiMenuActivity" />
-        <activity android:name=".presentation.partner.sdm.SdmPartnerActivity" />
-        <activity android:name=".presentation.partner.evaluation.LeaderEvaluationActivity" />
-        <activity android:name=".presentation.partner.partnerpicker.SearchPartnerPickerActivity" />
-        <activity android:name=".presentation.partner.search.SearchPartnerActivity" />
+        <activity
+            android:name=".presentation.scanqr.ScanQrActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.invoice.report.detail.InvoiceReportDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.productknowledge.DetailProductKnowledgeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.productknowledge.ProductKnowledgeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.device.AddDeviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.device.DataDeviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.role.RoleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.evaluation.EvaluationCollaborationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.evaluation.EvaluasiKolaborasiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.modekerja.ModeKerjaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.partneroff.PartnerOffActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.administratif.KelolaAdministratifActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.administratif.AdministratifActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.nonjob.SdmNonJobActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.device.PartnerDeviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.admin.EvaluasiMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.sdm.SdmPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.evaluation.LeaderEvaluationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.partner.search.SearchPartnerActivity"
+            android:screenOrientation="portrait" />
         <!--
              Set custom default ic_mitra_km. This is used when no ic_mitra_km is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.

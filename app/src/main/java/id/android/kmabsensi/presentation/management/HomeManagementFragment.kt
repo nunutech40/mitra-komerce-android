@@ -43,6 +43,7 @@ import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivit
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
+import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
@@ -92,6 +93,7 @@ class HomeManagementFragment : Fragment() {
     private lateinit var user: User
 
     private lateinit var myDialog: MyDialog
+    private val REQ_SCAN_QR = 123
 
     var isCheckin = false
 
@@ -377,6 +379,28 @@ class HomeManagementFragment : Fragment() {
             }
         } })
 
+        vm.redeemPoin.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    if (it.data.status) {
+                        showDialogSuccess(activity!!, message = it.data.message)
+                        vm.getDashboardInfo(user.id)
+                    } else {
+                        createAlertError(activity!!, "Failed", it.data.message)
+                    }
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                }
+            }
+        })
+
+
 
         vm.getJadwalShalat()
         vm.getCoworkUserData(user.id)
@@ -412,6 +436,12 @@ class HomeManagementFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
+        }
+        if (requestCode == REQ_SCAN_QR && resultCode == Activity.RESULT_OK) {
+            val redeemPoin = data?.getIntExtra(getString(R.string.qrdata), 0)
+            redeemPoin?.let {
+                vm.redeemPoin(user.id, it)
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -557,6 +587,11 @@ class HomeManagementFragment : Fragment() {
 //        btnPartnerCategory.setOnClickListener {
 //            activity?.startActivity<KategoriPartnerActivity>()
 //        }
+
+        btnScanQr.setOnClickListener {
+            val intent = Intent(context, ScanQrActivity::class.java)
+            startActivityForResult(intent, REQ_SCAN_QR)
+        }
 
     }
 

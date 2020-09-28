@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -17,13 +16,14 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceViewModel
+import id.android.kmabsensi.presentation.invoice.report.detail.InvoiceReportDetailActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.getYearData
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_invoice_report.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.koin.android.ext.android.inject
+import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -37,6 +37,7 @@ class InvoiceReportActivity : BaseActivity() {
     private var yearFromSelected = 0
     private var monthToSelected = 0
     private var yearToSelected = 0
+    private var invoiceType = 1
     private val startCalendar = Calendar.getInstance()
     private val endCalendar = Calendar.getInstance()
     private var startPeriod = ""
@@ -54,15 +55,10 @@ class InvoiceReportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invoice_report)
         setupToolbar("Invoice Report", isFilterVisible = true)
-        initRv()
-
-        btnFilter.setOnClickListener {
-            showFilterDialog()
-            if (leaders.isEmpty()) sdmVM.getUserManagement(2)
-        }
-
-        monthFromSelected = startCalendar.get(Calendar.MONTH)+1
-        monthToSelected = startCalendar.get(Calendar.MONTH)+1
+//        initRv()
+        initListener()
+        monthFromSelected = startCalendar.get(Calendar.MONTH) + 1
+        monthToSelected = startCalendar.get(Calendar.MONTH) + 1
         yearFromSelected = startCalendar.get(Calendar.YEAR)
         yearToSelected = endCalendar.get(Calendar.YEAR)
 
@@ -70,96 +66,148 @@ class InvoiceReportActivity : BaseActivity() {
         endPeriod = "$yearToSelected-$monthToSelected-01"
 
         observeData()
-        invoiceVM.getInvoiceReport(startPeriod, endPeriod, leaderIdSelected)
+        invoiceVM.getInvoiceReport(startPeriod, endPeriod, leaderIdSelected, invoiceType)
     }
 
-    private fun observeData(){
-        invoiceVM.invoiceReports.observe(this, Observer { state ->
-        when(state) {
-            is UiState.Loading -> {
-                showDialog()
-            }
-            is UiState.Success -> {
-                hideDialog()
-                monthFromSelectedLabel = "${resources.getStringArray(R.array.month_array).toList()[monthFromSelected]} $yearFromSelected"
-                monthToSelectedLabel = "${resources.getStringArray(R.array.month_array).toList()[monthToSelected]} $yearToSelected"
+    private fun initListener() {
+        btnFilter.setOnClickListener {
+            showFilterDialog()
+            if (leaders.isEmpty()) sdmVM.getUserManagement(2)
+        }
 
-                textLeaderName.text = if (leaderIdSelected == 0) "Semua" else leaders.first { it.id == leaderIdSelected }.full_name
-                textPeriod.text = "$monthFromSelectedLabel - $monthToSelectedLabel"
+        btnDetailReportInvoiceCreated.setOnClickListener {
+            startActivity<InvoiceReportDetailActivity>(
+                START_PERIOD to startPeriod,
+                END_PERIOD to endPeriod,
+                INVOICE_TYPE to invoiceType,
+                INVOICE_STATUS to 0,
+                LEADER_ID to leaderIdSelected
+            )
+        }
 
-                val data = state.data.invoiceReport
-                groupAdapter.clear()
-                for(x in 1..3) {
-                    when(x){
-                        1 -> groupAdapter.add(InvoiceReportItem("Total Invoice Dibuat", data.totalInvoice, data.sumOfInvoice))
-                        2 -> groupAdapter.add(InvoiceReportItem("Total Invoice Lunas", data.totalPaidInvoice, data.sumOfPaidInvoice))
-                        3 -> groupAdapter.add(InvoiceReportItem("Total Invoice Belum Dibayar", data.totalUnpaidInvoice, data.sumOfUnpaidInvoice))
-                    }
-                }
-            }
-            is UiState.Error -> {
-                hideDialog()
-            }
-        } })
+        btnDetailReportInvoicePaid.setOnClickListener {
+            startActivity<InvoiceReportDetailActivity>(
+                START_PERIOD to startPeriod,
+                END_PERIOD to endPeriod,
+                INVOICE_TYPE to invoiceType,
+                INVOICE_STATUS to 2,
+                LEADER_ID to leaderIdSelected
+            )
+        }
 
-        sdmVM.userManagementData.observe(this, Observer { state ->
-        when(state) {
-            is UiState.Loading -> {
-
-            }
-            is UiState.Success -> {
-                leaders.addAll(state.data.data.filter {
-                    it.position_name.toLowerCase().contains("leader")
-                })
-                val userManagementNames = mutableListOf<String>()
-                userManagementNames.add("Semua")
-                leaders.forEach { userManagementNames.add(it.full_name) }
-                ArrayAdapter<String>(
-                    this,
-                    android.R.layout.simple_spinner_item,
-                    userManagementNames
-                ).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    // Apply the adapter to the spinner
-                    spinnerLeader?.adapter = adapter
-
-                    spinnerLeader?.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                leaderIdSelected = if (position == 0){
-                                    0
-                                } else {
-                                    leaders[position-1].id
-                                }
-                            }
-
-                        }
-                }
-            }
-            is UiState.Error -> {
-
-            }
-        } })
-    }
-
-    fun initRv() {
-        rvInvoiceReport.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = groupAdapter
+        btnDetailReportInvoiceNotPaid.setOnClickListener {
+            startActivity<InvoiceReportDetailActivity>(
+                START_PERIOD to startPeriod,
+                END_PERIOD to endPeriod,
+                INVOICE_TYPE to invoiceType,
+                INVOICE_STATUS to 1,
+                LEADER_ID to leaderIdSelected
+            )
         }
     }
 
+    private fun observeData() {
+        invoiceVM.invoiceReports.observe(this, Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showDialog()
+                }
+                is UiState.Success -> {
+                    hideDialog()
+                    monthFromSelectedLabel = "${
+                        resources.getStringArray(R.array.month_array).toList()[monthFromSelected]
+                    } $yearFromSelected"
+                    monthToSelectedLabel = "${
+                        resources.getStringArray(R.array.month_array).toList()[monthToSelected]
+                    } $yearToSelected"
+
+                    textLeaderName.text =
+                        if (leaderIdSelected == 0) "Semua" else leaders.first { it.id == leaderIdSelected }.full_name
+                    textPeriod.text = "$monthFromSelectedLabel - $monthToSelectedLabel"
+
+                    val data = state.data.invoiceReport
+
+                    textTotalInvoiceCreated.text =
+                        "${convertRp(data.totalInvoice.toDouble())} | ${data.sumOfInvoice} Invoice"
+                    textTotalInvoicePaid.text =
+                        "${convertRp(data.totalPaidInvoice.toDouble())} | ${data.sumOfPaidInvoice} Invoice"
+                    textTotalInvoiceNotPaid.text =
+                        "${convertRp(data.totalUnpaidInvoice.toDouble())} | ${data.sumOfUnpaidInvoice} Invoice"
+
+//                groupAdapter.clear()
+//                for(x in 1..3) {
+//                    when(x){
+//                        1 -> groupAdapter.add(InvoiceReportItem("Total Invoice Dibuat", data.totalInvoice, data.sumOfInvoice))
+//                        2 -> groupAdapter.add(InvoiceReportItem("Total Invoice Lunas", data.totalPaidInvoice, data.sumOfPaidInvoice))
+//                        3 -> groupAdapter.add(InvoiceReportItem("Total Invoice Belum Dibayar", data.totalUnpaidInvoice, data.sumOfUnpaidInvoice))
+//                    }
+//                }
+                }
+                is UiState.Error -> {
+                    hideDialog()
+                }
+            }
+        })
+
+        sdmVM.userManagementData.observe(this, Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    leaders.addAll(state.data.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
+                    val userManagementNames = mutableListOf<String>()
+                    userManagementNames.add("Semua")
+                    leaders.forEach { userManagementNames.add(it.full_name) }
+                    ArrayAdapter<String>(
+                        this,
+                        R.layout.spinner_item,
+                        userManagementNames
+                    ).also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        // Apply the adapter to the spinner
+                        spinnerLeader?.adapter = adapter
+
+                        spinnerLeader?.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    leaderIdSelected = if (position == 0) {
+                                        0
+                                    } else {
+                                        leaders[position - 1].id
+                                    }
+                                }
+
+                            }
+                    }
+                }
+                is UiState.Error -> {
+
+                }
+            }
+        })
+    }
+
+//    fun initRv() {
+//        rvInvoiceReport.apply {
+//            layoutManager = LinearLayoutManager(context)
+//            adapter = groupAdapter
+//        }
+//    }
+
     private fun showFilterDialog() {
-        if (!::dialogFilter.isInitialized){
+        if (!::dialogFilter.isInitialized) {
             dialogFilter = MaterialDialog(this)
                 .customView(R.layout.dialog_invoice_report_filter_layout, noVerticalPadding = true)
             val customView = dialogFilter.getCustomView()
@@ -169,9 +217,17 @@ class InvoiceReportActivity : BaseActivity() {
             val spinnerBulanKe = customView.findViewById<Spinner>(R.id.spinnerBulanKe)
             val spinnerTahunKe = customView.findViewById<Spinner>(R.id.spinnerTahunKe)
             spinnerLeader = customView.findViewById(R.id.spinnerLeader)
+            val spinnerInvoiceType = customView.findViewById<Spinner>(R.id.spinnerInvoiceType)
+
             val buttonFilter = customView.findViewById<Button>(R.id.buttonFilter)
 
-            initSpinnerFilter(spinnerBulanDari, spinnerTahunDari, spinnerBulanKe, spinnerTahunKe)
+            initSpinnerFilter(
+                spinnerBulanDari,
+                spinnerTahunDari,
+                spinnerBulanKe,
+                spinnerTahunKe,
+                spinnerInvoiceType
+            )
 
             btnClose.setOnClickListener {
                 dialogFilter?.dismiss()
@@ -184,7 +240,7 @@ class InvoiceReportActivity : BaseActivity() {
                 startPeriod = "$yearFromSelected-$startMonth-01"
                 endPeriod = "$yearToSelected-$endMonth-01"
 
-                invoiceVM.getInvoiceReport(startPeriod, endPeriod, leaderIdSelected)
+                invoiceVM.getInvoiceReport(startPeriod, endPeriod, leaderIdSelected, invoiceType)
             }
         }
 
@@ -193,7 +249,7 @@ class InvoiceReportActivity : BaseActivity() {
 
     private fun initSpinnerFilter(
         spinnerBulanDari: Spinner, spinnerTahunDari: Spinner, spinnerBulanKe: Spinner,
-        spinnerTahunKe: Spinner
+        spinnerTahunKe: Spinner, spinnerInvoiceType: Spinner
     ) {
         //spinner bulan dari
         ArrayAdapter.createFromResource(this, R.array.month_array, R.layout.spinner_item)
@@ -290,7 +346,8 @@ class InvoiceReportActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            if (position > 0) yearToSelected = spinnerTahunKe.selectedItem.toString().toInt()
+                            if (position > 0) yearToSelected =
+                                spinnerTahunKe.selectedItem.toString().toInt()
 
                         }
 
@@ -298,5 +355,32 @@ class InvoiceReportActivity : BaseActivity() {
 
                 spinnerTahunKe.setSelection(getYearData().indexOfFirst { it == yearToSelected.toString() })
             }
+
+        // spinner invoice type
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.invoice_type,
+            R.layout.spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerInvoiceType.adapter = adapter
+
+            spinnerInvoiceType.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        invoiceType = position
+                    }
+
+                }
+        }
     }
 }

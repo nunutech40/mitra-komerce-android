@@ -4,11 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
-import id.android.kmabsensi.data.remote.response.BaseResponse
-import id.android.kmabsensi.data.remote.response.CreateInvoiceResponse
-import id.android.kmabsensi.data.remote.response.InvoiceReportResponse
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
-import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.repository.InvoiceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -42,6 +39,10 @@ class InvoiceViewModel(
         MutableLiveData<UiState<InvoiceReportResponse>>()
     }
 
+    val invoiceReportDetail by lazy {
+        MutableLiveData<UiState<InvoiceReportDetailResponse>>()
+    }
+
     fun getMyInvoice(isActive: Boolean) {
         invoices.value = UiState.Loading()
         compositeDisposable.add(
@@ -55,10 +56,10 @@ class InvoiceViewModel(
         )
     }
 
-    fun filterMyInvoice(isActive: Boolean, invoiceType: Int, userToId: Int) {
+    fun filterMyInvoice(isActive: Boolean, invoiceType: Int, userToId: Int, leaderIdSelected: Int) {
         invoices.value = UiState.Loading()
         compositeDisposable.add(
-            invoiceRepository.filterMyInvoice(getUser().id, isActive, invoiceType, userToId)
+            invoiceRepository.filterMyInvoice(getUser().id, isActive, invoiceType, userToId, leaderIdSelected)
                 .with(schedulerProvider)
                 .subscribe({
                     invoices.value = UiState.Success(it)
@@ -117,9 +118,9 @@ class InvoiceViewModel(
         )
     }
 
-    fun getInvoiceReport(startPeriod: String, endPeriod: String, userRequesterId: Int){
+    fun getInvoiceReport(startPeriod: String, endPeriod: String, userRequesterId: Int, invoiceType: Int){
         invoiceReports.value = UiState.Loading()
-        compositeDisposable.add(invoiceRepository.getInvoiceReport(startPeriod, endPeriod, userRequesterId)
+        compositeDisposable.add(invoiceRepository.getInvoiceReport(startPeriod, endPeriod, userRequesterId, invoiceType)
             .with(schedulerProvider)
             .subscribe({
                 invoiceReports.value = UiState.Success(it)
@@ -127,6 +128,18 @@ class InvoiceViewModel(
                 invoiceReports.value = UiState.Error(it)
             }))
     }
+
+    fun getInvoiceReportDetail(startPeriod: String, endPeriod: String, userRequesterId: Int, invoiceType: Int, status: Int){
+        invoiceReportDetail.value = UiState.Loading()
+        compositeDisposable.add(invoiceRepository.getInvoiceDetailReport(startPeriod, endPeriod, userRequesterId, invoiceType, status)
+            .with(schedulerProvider)
+            .subscribe({
+                invoiceReportDetail.value = UiState.Success(it)
+            },{
+                invoiceReportDetail.value = UiState.Error(it)
+            }))
+    }
+
 
     fun getUser(): User {
         return Gson().fromJson(

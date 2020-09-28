@@ -149,48 +149,66 @@
                         android:adjustViewBounds="true"
                         android:src="@drawable/kmpoint_bg"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/labelKmpoin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenirltstd_medium"
                         android:text="KM Poin"
                         android:textColor="@color/textWhite"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:textSize="@dimen/_14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.28"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread_inside" />
 
                     <TextView
                         android:id="@+id/txtKmPoin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:fontFamily="@font/avenirltstd_medium"
-                        android:text="-"
+                        android:fontFamily="@font/avenirltstd_heavy"
+                        android:gravity="bottom"
+                        tools:text="200"
                         android:textColor="@color/textWhite"
                         android:textSize="24sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textPoin"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="@+id/labelKmpoin"
+                        app:layout_constraintTop_toBottomOf="@+id/labelKmpoin"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/textPoin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
+                        android:layout_marginStart="@dimen/_6dp"
+                        android:layout_marginBottom="@dimen/_4dp"
                         android:fontFamily="@font/avenirltstd_medium"
-                        android:text="Poin"
+                        android:text="@string/poin"
                         android:textColor="@color/textWhite"
                         android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtKmPoin"
+                        app:layout_constraintStart_toEndOf="@+id/txtKmPoin"
+                        app:layout_constraintVertical_bias="0.53" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnScanQr"
+                        android:layout_width="@dimen/_32dp"
+                        android:layout_height="@dimen/_32dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.53" />
+                        android:layout_marginEnd="@dimen/_24dp"
+                        android:background="@drawable/ic_qrcode" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

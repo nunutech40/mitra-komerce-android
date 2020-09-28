@@ -81,9 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:text="10 SDM, 11 Devices"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@+id/labelOrang"
-                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                android:textColor="@color/white" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

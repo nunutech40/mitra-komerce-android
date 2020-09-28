@@ -427,6 +427,10 @@ interface ApiService {
     @POST("api/invoice/report/summary")
     fun getInvoiceReport(@Body body: Map<String, Any>): Single<InvoiceReportResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/invoice/report/summaryDetail")
+    fun getInvoiceReportDetail(@Body body: Map<String, Any>): Single<InvoiceReportDetailResponse>
+
     @POST("api/kmconfig/update")
     fun updateWorkConfig(@Body workConfigParams: WorkConfigParams): Single<WorkConfigResponse>
 
@@ -528,6 +532,12 @@ interface ApiService {
 
     @GET("api/productknowledge")
     fun getListProductKnowledge(): Single<ListProductKnowledgeResponse>
+
+    @JvmSuppressWildcards
+    @POST("api/kmpoin/redeempoin")
+    fun redeemPoin(@Body body: Map<String, Int>): Single<BaseResponse>
+
+
 
     @GET("api/holiday")
     fun getHoliday(): Single<HolidayResponse>
