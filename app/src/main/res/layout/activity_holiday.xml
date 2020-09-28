@@ -19,6 +19,9 @@
 
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/rvHoliday"
+           android:clipToPadding="false"
+           android:paddingTop="@dimen/_8dp"
+           android:paddingBottom="@dimen/_16dp"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
           />
@@ -30,7 +33,7 @@
         layout="@layout/layout_empty" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnTambahSdm"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

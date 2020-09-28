@@ -537,8 +537,9 @@ interface ApiService {
     @POST("api/kmpoin/redeempoin")
     fun redeemPoin(@Body body: Map<String, Int>): Single<BaseResponse>
 
-
-
-    @GET("api/holiday")
+    @POST("api/holiday")
     fun getHoliday(): Single<HolidayResponse>
+
+    @POST("api/holiday/add")
+    fun addHoliday(@Body body: AddHolidayParams): Single<BaseResponse>
 }
