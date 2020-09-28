@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.body.ListAlphaParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.CheckinResponse
+import id.android.kmabsensi.data.remote.response.ListAlphaResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -19,41 +21,49 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-class CheckinViewModel(val presenceRepository: PresenceRepository,
-                       val preferencesHelper: PreferencesHelper,
-                       val schedulerProvider: SchedulerProvider
+class CheckinViewModel(
+    val presenceRepository: PresenceRepository,
+    val preferencesHelper: PreferencesHelper,
+    val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     val checkInResponse = MutableLiveData<UiState<CheckinResponse>>()
 
     val reportAbsenResponse = MutableLiveData<UiState<BaseResponse>>()
 
-    fun checkIn(file: File, ontimeLevel: Int){
+    fun checkIn(file: File, ontimeLevel: Int) {
         val imageReq = file.createRequestBody()
         val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
 
         checkInResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.checkIn(photo, ontimeLevel.toString().createRequestBodyText())
-            .with(schedulerProvider)
-            .subscribe({
-                checkInResponse.value = UiState.Success(it)
-            },{
-                checkInResponse.value = UiState.Error(it)
-            }))
+        compositeDisposable.add(
+            presenceRepository.checkIn(
+                photo,
+                ontimeLevel.toString().createRequestBodyText()
+            )
+                .with(schedulerProvider)
+                .subscribe({
+                    checkInResponse.value = UiState.Success(it)
+                }, {
+                    checkInResponse.value = UiState.Error(it)
+                })
+        )
     }
 
-    fun checkOut(absenId: Int,file: File){
+    fun checkOut(absenId: Int, file: File) {
         val imageReq = file.createRequestBody()
         val photo = MultipartBody.Part.createFormData("file", file.name, imageReq)
 
         checkInResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.checkOut(absenId, photo)
-            .with(schedulerProvider)
-            .subscribe({
-                checkInResponse.value = UiState.Success(it)
-            },{
-                checkInResponse.value = UiState.Error(it)
-            }))
+        compositeDisposable.add(
+            presenceRepository.checkOut(absenId, photo)
+                .with(schedulerProvider)
+                .subscribe({
+                    checkInResponse.value = UiState.Success(it)
+                }, {
+                    checkInResponse.value = UiState.Error(it)
+                })
+        )
     }
 
     fun reportAbsen(
@@ -61,14 +71,16 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
         presenceDate: String,
         description: String
     ) {
-       reportAbsenResponse.value = UiState.Loading()
-        compositeDisposable.add(presenceRepository.reportAbsen(userId, presenceDate, description)
-            .with(schedulerProvider)
-            .subscribe({
-                reportAbsenResponse.value = UiState.Success(it)
-            },{
-                reportAbsenResponse.value = UiState.Error(it)
-            }))
+        reportAbsenResponse.value = UiState.Loading()
+        compositeDisposable.add(
+            presenceRepository.reportAbsen(userId, presenceDate, description)
+                .with(schedulerProvider)
+                .subscribe({
+                    reportAbsenResponse.value = UiState.Success(it)
+                }, {
+                    reportAbsenResponse.value = UiState.Error(it)
+                })
+        )
     }
 
     fun getUserData(): User {
@@ -77,6 +89,8 @@ class CheckinViewModel(val presenceRepository: PresenceRepository,
             User::class.java
         )
     }
+
+
 
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }

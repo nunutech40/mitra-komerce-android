@@ -1,5 +1,6 @@
 package id.android.kmabsensi.data.repository
 
+import id.android.kmabsensi.data.remote.body.ListAlphaParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.PresenceReportResponse
@@ -17,7 +18,6 @@ class PresenceRepository(val apiService: ApiService) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val now = dateFormat.format(cal.time)
         return apiService.presenceCheck(userId, now)
-
     }
 
     fun checkIn(file: MultipartBody.Part, ontimeLevel: RequestBody) = apiService.checkIn(file, ontimeLevel)
@@ -65,5 +65,7 @@ class PresenceRepository(val apiService: ApiService) {
         )
         return apiService.reportAbsen(body)
     }
+
+    fun getListAlpha(params: ListAlphaParams) = apiService.getListAlpha(params)
 
 }

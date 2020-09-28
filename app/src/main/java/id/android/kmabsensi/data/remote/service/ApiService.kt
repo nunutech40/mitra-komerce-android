@@ -550,4 +550,7 @@ interface ApiService {
 
     @POST("api/holiday/edit")
     fun editHoliday(@Body body: EditHolidayParams): Single<BaseResponse>
+
+    @POST("api/presence/alphaAttendance")
+    fun getListAlpha(@Body body: ListAlphaParams): Single<ListAlphaResponse>
 }

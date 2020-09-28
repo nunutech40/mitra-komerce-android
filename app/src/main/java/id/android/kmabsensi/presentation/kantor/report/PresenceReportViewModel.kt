@@ -1,6 +1,8 @@
 package id.android.kmabsensi.presentation.kantor.report
 
 import androidx.lifecycle.MutableLiveData
+import id.android.kmabsensi.data.remote.body.ListAlphaParams
+import id.android.kmabsensi.data.remote.response.ListAlphaResponse
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.PresenceReportResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
@@ -21,6 +23,7 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
     val officeData = MutableLiveData<UiState<OfficeResponse>>()
     val presenceReportData = MutableLiveData<UiState<PresenceReportResponse>>()
     val userManagementData = MutableLiveData<UiState<UserResponse>>()
+    val alphaAttendances = MutableLiveData<UiState<ListAlphaResponse>>()
 
     fun getPresenceReport(
         roleId: Int = 0,
@@ -81,6 +84,17 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
                 userManagementData.value = UiState.Success(it)
             },{
                 userManagementData.value = UiState.Error(it)
+            }))
+    }
+
+    fun getListAlpha(params: ListAlphaParams) {
+        alphaAttendances.value = UiState.Loading()
+        compositeDisposable.add(presenceRepository.getListAlpha(params)
+            .with(schedulerProvider)
+            .subscribe({
+                alphaAttendances.value = UiState.Success(it)
+            },{
+                alphaAttendances.value = UiState.Error(it)
             }))
     }
 

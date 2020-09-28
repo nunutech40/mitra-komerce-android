@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.android.kmabsensi.presentation.sdm.dataalfa.DataAlfaActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_18dp"
+        android:layout_marginTop="75dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="@dimen/_4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_13dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelPeriode"
+                style="@style/tv12spF48070_avenir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="@dimen/_18dp"
+                android:text="@string/periode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerPeriode"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/spinner_background"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelPeriode" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelKantor"
+                style="@style/tv12spF48070_avenir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/kantor"
+                app:layout_constraintBaseline_toBaselineOf="@id/labelPeriode"
+                app:layout_constraintStart_toStartOf="@+id/guideline6" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerKantor"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/spinner_background"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@id/labelKantor"
+                app:layout_constraintTop_toBottomOf="@id/labelPeriode" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTampilkanData"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1.5"
+                android:text="Tampilkan \nData"
+                android:textSize="9sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenir_heavy"
+                android:paddingHorizontal="@dimen/_8dp"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_gradient_selector"
+                app:layout_constraintBottom_toBottomOf="@+id/spinnerKantor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline7"
+                app:layout_constraintTop_toTopOf="@+id/spinnerKantor" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.35" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.70" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <include layout="@layout/layout_empty"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtInitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Silahkan pilih periode dan kantor \nuntuk menampilkan data."
+        android:gravity="center"
+        style="@style/tv12sp000000_avenir_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutListData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeader">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_data"
+            android:layout_marginTop="@dimen/_24dp"
+            android:layout_marginStart="22dp"
+            style="@style/tv12sp929292_avenir"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDataAlfa"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="22dp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

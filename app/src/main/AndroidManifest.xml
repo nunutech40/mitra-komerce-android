@@ -32,6 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
+        <activity android:name=".presentation.sdm.dataalfa.DataAlfaActivity"></activity>
         <activity
             android:name=".presentation.sdm.holiday.HolidayActivity"
             android:screenOrientation="portrait" />

@@ -11,6 +11,7 @@ import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.dataalfa.DataAlfaActivity
 import id.android.kmabsensi.presentation.sdm.device.DataDeviceActivity
 import id.android.kmabsensi.presentation.sdm.holiday.HolidayActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
@@ -70,6 +71,10 @@ class SdmMenuFragment : Fragment() {
 
         btnHariLibur.setOnClickListener {
             activity?.startActivity<HolidayActivity>()
+        }
+
+        btnDataAlfa.setOnClickListener {
+            activity?.startActivity<DataAlfaActivity>()
         }
     }
 }
