@@ -108,6 +108,7 @@
     <string name="role">Role</string>
     <string name="dokumentasi">Dokumentasi</string>
     <string name="nama_produk">Nama Produk</string>
+    <string name="hari_libur_label">Hari Libur</string>
 
     <string-array name="role">
         <item>Admin</item>

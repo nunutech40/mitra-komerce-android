@@ -528,4 +528,7 @@ interface ApiService {
 
     @GET("api/productknowledge")
     fun getListProductKnowledge(): Single<ListProductKnowledgeResponse>
+
+    @GET("api/holiday")
+    fun getHoliday(): Single<HolidayResponse>
 }
