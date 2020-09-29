@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,22 +36,7 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
-import kotlinx.android.synthetic.main.fragment_home_sdm.header_waktu
-import kotlinx.android.synthetic.main.fragment_home_sdm.imgProfile
-import kotlinx.android.synthetic.main.fragment_home_sdm.labelWaktu
-import kotlinx.android.synthetic.main.fragment_home_sdm.layoutHoliday
-import kotlinx.android.synthetic.main.fragment_home_sdm.layoutMenu1
-import kotlinx.android.synthetic.main.fragment_home_sdm.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_home_sdm.textView24
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtCountdown
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayDate
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayName
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtNextTime
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.joda.time.LocalDate
@@ -125,10 +109,8 @@ class HomeSdmFragment : Fragment() {
 
                     holidays.clear()
                     holidays.addAll(it.data.data.holidays)
-                    if (vm.jadwalShalatData.value is UiState.Success){
-                        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-                            setHolidayView()
-                        }
+                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                        setHolidayView()
                     }
                 }
                 is UiState.Error -> {
@@ -362,6 +344,9 @@ class HomeSdmFragment : Fragment() {
     }
 
     private fun setHolidayView(){
+        skeletonNextTime?.hide()
+        skeletonStatusWaktu?.hide()
+        skeletonContdown?.hide()
         if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
             txtNextTime.text = "Hari Minggu"
         } else {
@@ -471,7 +456,7 @@ class HomeSdmFragment : Fragment() {
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            setHolidayView()
+//            setHolidayView()
         } else {
             labelWaktu.text = "WAKTU"
 

@@ -46,6 +46,7 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
+import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
 import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
@@ -177,10 +178,8 @@ class HomeManagementFragment : Fragment() {
                     holidays.clear()
                     holidays.addAll(it.data.data.holidays)
 
-                    if (vm.jadwalShalatData.value is UiState.Success){
-                        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-                            setHolidayView()
-                        }
+                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                        setHolidayView()
                     }
                 }
                 is UiState.Error -> {
@@ -648,6 +647,9 @@ class HomeManagementFragment : Fragment() {
     }
 
     private fun setHolidayView(){
+        skeletonNextTime?.hide()
+        skeletonStatusWaktu?.hide()
+        skeletonContdown?.hide()
         if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
             txtNextTime.text = "Hari Minggu"
         } else {
@@ -672,12 +674,14 @@ class HomeManagementFragment : Fragment() {
         labelWaktu.text = "Hari Libur"
         txtCountdown.invis()
         txtStatusWaktu.invis()
+        dataHadir.gone()
+        expandableLayout.gone()
     }
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            setHolidayView()
+//            setHolidayView()
         } else {
             labelWaktu.text = "WAKTU"
             val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
