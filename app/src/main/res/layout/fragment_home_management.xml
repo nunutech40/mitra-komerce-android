@@ -109,7 +109,7 @@
                                 android:id="@+id/txtHolidayName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Hari Pemuda"
+                                tools:text="Hari Pemuda"
                                 android:textColor="@color/textTime"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
@@ -119,7 +119,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="#A1A4AF"
-                                android:text="28 Oktober 2020"
+                                tools:text="28 Oktober 2020"
                                 android:includeFontPadding="false"
                                 android:fontFamily="@font/avenir_medium"
                                 android:textSize="18sp"/>

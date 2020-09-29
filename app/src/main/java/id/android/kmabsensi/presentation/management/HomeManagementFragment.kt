@@ -176,6 +176,12 @@ class HomeManagementFragment : Fragment() {
 
                     holidays.clear()
                     holidays.addAll(it.data.data.holidays)
+
+                    if (vm.jadwalShalatData.value is UiState.Success){
+                        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                            setHolidayView()
+                        }
+                    }
                 }
                 is UiState.Error -> {
                     hideSkeletonDashboardContent()
