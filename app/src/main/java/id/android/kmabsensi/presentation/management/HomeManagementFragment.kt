@@ -26,9 +26,8 @@ import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
+import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.presentation.admin.PartnerMenuFragment
-import id.android.kmabsensi.presentation.admin.SdmMenuFragment
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
@@ -37,9 +36,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
-import id.android.kmabsensi.presentation.partner.PartnerActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
-import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
@@ -49,41 +46,51 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
+import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
+import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
 import kotlinx.android.synthetic.main.fragment_home_management.btnDataPartner
+import kotlinx.android.synthetic.main.fragment_home_management.btnFormIzin
+import kotlinx.android.synthetic.main.fragment_home_management.btnGagalAbsen
 import kotlinx.android.synthetic.main.fragment_home_management.btnInvoice
 import kotlinx.android.synthetic.main.fragment_home_management.btnInvoiceReport
 import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
+import kotlinx.android.synthetic.main.fragment_home_management.btnScanQr
 import kotlinx.android.synthetic.main.fragment_home_management.containerHome
 import kotlinx.android.synthetic.main.fragment_home_management.dataHadir
 import kotlinx.android.synthetic.main.fragment_home_management.expandableLayout
 import kotlinx.android.synthetic.main.fragment_home_management.header_waktu
 import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
 import kotlinx.android.synthetic.main.fragment_home_management.labelPartner
+import kotlinx.android.synthetic.main.fragment_home_management.labelWaktu
+import kotlinx.android.synthetic.main.fragment_home_management.layoutHoliday
+import kotlinx.android.synthetic.main.fragment_home_management.layoutKmPoint
 import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu1
 import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu2
 import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu3
+import kotlinx.android.synthetic.main.fragment_home_management.rvCoworkingSpace
 import kotlinx.android.synthetic.main.fragment_home_management.sectionPartner
 import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
 import kotlinx.android.synthetic.main.fragment_home_management.textView24
 import kotlinx.android.synthetic.main.fragment_home_management.textView26
 import kotlinx.android.synthetic.main.fragment_home_management.txtCountdown
 import kotlinx.android.synthetic.main.fragment_home_management.txtHello
+import kotlinx.android.synthetic.main.fragment_home_management.txtHolidayDate
+import kotlinx.android.synthetic.main.fragment_home_management.txtHolidayName
+import kotlinx.android.synthetic.main.fragment_home_management.txtKmPoin
 import kotlinx.android.synthetic.main.fragment_home_management.txtNextTime
 import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_management.txtStatusWaktu
 import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
+import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
+import org.joda.time.LocalDate
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class HomeManagementFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
@@ -119,6 +126,9 @@ class HomeManagementFragment : Fragment() {
     private var skeletonMenu2: SkeletonScreen? = null
     private var skeletonMenu3: SkeletonScreen? = null
     private var skeletonCoworking: SkeletonScreen? = null
+
+    private val cal = Calendar.getInstance()
+    private val holidays = mutableListOf<Holiday>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -164,6 +174,8 @@ class HomeManagementFragment : Fragment() {
                     val isManagementWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("management", true) ?: false
                     setWorkModeUI(isManagementWFH)
 
+                    holidays.clear()
+                    holidays.addAll(it.data.data.holidays)
                 }
                 is UiState.Error -> {
                     hideSkeletonDashboardContent()
@@ -503,6 +515,7 @@ class HomeManagementFragment : Fragment() {
             txtNextTime.text = ""
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
+            layoutHoliday.gone()
             layoutWfhMode.gone()
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
@@ -628,20 +641,56 @@ class HomeManagementFragment : Fragment() {
         fun newInstance() = HomeManagementFragment()
     }
 
+    private fun setHolidayView(){
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            txtNextTime.text = "Hari Minggu"
+        } else {
+            if (holidays.isNotEmpty()){
+                txtNextTime.invis()
+                layoutHoliday.visible()
+                txtHolidayName.text = holidays[0].eventName
+                val dateStart: LocalDate = LocalDate.parse(holidays[0].startDate)
+                val dateEnd: LocalDate = LocalDate.parse(holidays[0].endDate)
+
+                txtHolidayDate.text = if (holidays[0].startDate == holidays[0].endDate)
+                    localDateFormatter(dateStart)
+                else
+                    "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
+                        localDateFormatter(
+                            dateEnd,
+                            "dd MMM yyyy"
+                        )
+                    }"
+            }
+        }
+        labelWaktu.text = "Hari Libur"
+        txtCountdown.invis()
+        txtStatusWaktu.invis()
+    }
+
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
-            time_zuhur,
-            time_ashar
-        )
-
-        txtStatusWaktu.text = statusWaktu
-        txtNextTime.text = nextTime
-
-        if (differenceTime != 0.toLong()) {
-            countDownTimer(differenceTime)
+        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            setHolidayView()
         } else {
-            txtCountdown.text = "-"
+            labelWaktu.text = "WAKTU"
+            val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+                time_zuhur,
+                time_ashar
+            )
+
+            txtStatusWaktu.visible()
+            txtNextTime.visible()
+            txtCountdown.visible()
+
+            txtStatusWaktu.text = statusWaktu
+            txtNextTime.text = nextTime
+
+            if (differenceTime != 0.toLong()) {
+                countDownTimer(differenceTime)
+            } else {
+                txtCountdown.text = "-"
+            }
         }
     }
 

@@ -22,6 +22,7 @@ import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
@@ -36,9 +37,25 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
+import kotlinx.android.synthetic.main.fragment_home_sdm.header_waktu
+import kotlinx.android.synthetic.main.fragment_home_sdm.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_sdm.labelWaktu
+import kotlinx.android.synthetic.main.fragment_home_sdm.layoutHoliday
+import kotlinx.android.synthetic.main.fragment_home_sdm.layoutMenu1
+import kotlinx.android.synthetic.main.fragment_home_sdm.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_home_sdm.textView24
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtCountdown
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayDate
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayName
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtNextTime
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
+import org.joda.time.LocalDate
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
@@ -71,6 +88,9 @@ class HomeSdmFragment : Fragment() {
     private var skeletonCoworking: SkeletonScreen? = null
     private var skeletonLabelCoworking: SkeletonScreen? = null
 
+    private val cal = Calendar.getInstance()
+    private val holidays = mutableListOf<Holiday>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,6 +122,9 @@ class HomeSdmFragment : Fragment() {
                     val isWFH = workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
                     val isSdmWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("sdm", true) ?: false
                     if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
+
+                    holidays.clear()
+                    holidays.addAll(it.data.data.holidays)
                 }
                 is UiState.Error -> {
                     skeletonKmPoin?.hide()
@@ -333,6 +356,33 @@ class HomeSdmFragment : Fragment() {
 
     }
 
+    private fun setHolidayView(){
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            txtNextTime.text = "Hari Minggu"
+        } else {
+            if (holidays.isNotEmpty()){
+                txtNextTime.invis()
+                layoutHoliday.visible()
+                txtHolidayName.text = holidays[0].eventName
+                val dateStart: LocalDate = LocalDate.parse(holidays[0].startDate)
+                val dateEnd: LocalDate = LocalDate.parse(holidays[0].endDate)
+
+                txtHolidayDate.text = if (holidays[0].startDate == holidays[0].endDate)
+                    localDateFormatter(dateStart)
+                else
+                    "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
+                        localDateFormatter(
+                            dateEnd,
+                            "dd MMM yyyy"
+                        )
+                    }"
+            }
+        }
+        labelWaktu.text = "Hari Libur"
+        txtCountdown.invis()
+        txtStatusWaktu.invis()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
@@ -386,6 +436,7 @@ class HomeSdmFragment : Fragment() {
             txtNextTime.text = ""
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
+            layoutHoliday.invis()
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
             vm.getDashboardInfo(user.id)
@@ -414,18 +465,28 @@ class HomeSdmFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
-            time_zuhur,
-            time_ashar
-        )
-
-        txtStatusWaktu.text = statusWaktu
-        txtNextTime.text = nextTime
-
-        if (differenceTime != 0.toLong()) {
-            countDownTimer(differenceTime)
+        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            setHolidayView()
         } else {
-            txtCountdown.text = "-"
+            labelWaktu.text = "WAKTU"
+
+            val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+                time_zuhur,
+                time_ashar
+            )
+
+            txtStatusWaktu.visible()
+            txtNextTime.visible()
+            txtCountdown.visible()
+
+            txtStatusWaktu.text = statusWaktu
+            txtNextTime.text = nextTime
+
+            if (differenceTime != 0.toLong()) {
+                countDownTimer(differenceTime)
+            } else {
+                txtCountdown.text = "-"
+            }
         }
     }
 

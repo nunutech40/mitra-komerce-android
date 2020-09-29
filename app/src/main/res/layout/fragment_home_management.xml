@@ -80,7 +80,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/txtHello" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/labelWaktu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
@@ -92,6 +92,40 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
 
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutHoliday"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_24dp"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/labelWaktu"
+                            app:layout_constraintTop_toBottomOf="@+id/labelWaktu"
+                            app:layout_constraintVertical_bias="0.0">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtHolidayName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Hari Pemuda"
+                                android:textColor="@color/textTime"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtHolidayDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#A1A4AF"
+                                android:text="28 Oktober 2020"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/avenir_medium"
+                                android:textSize="18sp"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
                         <TextView
                             android:id="@+id/txtNextTime"
                             android:layout_width="wrap_content"
@@ -100,8 +134,8 @@
                             android:textColor="@color/textTime"
                             android:textSize="42sp"
                             android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@+id/textView15"
-                            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                            app:layout_constraintStart_toStartOf="@+id/labelWaktu"
+                            app:layout_constraintTop_toBottomOf="@+id/labelWaktu" />
 
                         <TextView
                             android:id="@+id/txtCountdown"
