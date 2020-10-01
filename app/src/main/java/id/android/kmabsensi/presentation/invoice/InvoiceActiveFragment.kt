@@ -74,7 +74,7 @@ class InvoiceActiveFragment : BaseFragment() {
 
         role = getRoleName(user.role_id)
 
-        if (role == ROLE_ADMIN){
+        if (role == ROLE_ADMIN || !user.position_name.toLowerCase().contains("leader")){
             buttonTambahInvoice.gone()
         }
 

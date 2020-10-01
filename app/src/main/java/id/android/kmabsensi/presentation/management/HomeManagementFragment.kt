@@ -29,6 +29,7 @@ import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
+import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
 import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
@@ -220,10 +221,20 @@ class HomeManagementFragment : Fragment() {
                             if (now.before(jamPulang)) {
                                 (activity as HomeActivity).showDialogNotYetCheckout()
                             } else {
-                                context?.startActivity<CekJangkauanActivity>(
-                                    DATA_OFFICE_KEY to it.data.office_assigned,
-                                    PRESENCE_ID_KEY to it.data.presence_id
-                                )
+                                // office name contain rumah, can direct selfie
+                                if (it.data.office_assigned.office_name.toLowerCase()
+                                        .contains("rumah")
+                                ) {
+                                    context?.startActivity<CheckinActivity>(
+                                        DATA_OFFICE_KEY to it.data.office_assigned,
+                                        PRESENCE_ID_KEY to it.data.presence_id
+                                    )
+                                } else {
+                                    context?.startActivity<CekJangkauanActivity>(
+                                        DATA_OFFICE_KEY to it.data.office_assigned,
+                                        PRESENCE_ID_KEY to it.data.presence_id
+                                    )
+                                }
                             }
                         }
 
