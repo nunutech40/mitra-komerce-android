@@ -43,7 +43,8 @@ class CoworkingSpaceItem(val coworking: UserCoworkingSpace,
                     }
                 }
                 itemView.btnCheckIn.visible()
-                if (coworking.available_slot == 0) itemView.btnCheckIn.isEnabled = false
+                //if (coworking.available_slot == 0) itemView.btnCheckIn.isEnabled = false
+                if (coworking.available_slot == 0 && !hasCheckin) itemView.btnCheckIn.isEnabled = false
 
             } else if (coworking.status == "2"){
                 itemView.txtStatus.text = "Acara"
