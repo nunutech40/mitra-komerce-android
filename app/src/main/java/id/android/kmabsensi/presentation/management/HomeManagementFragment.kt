@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -241,7 +242,17 @@ class HomeManagementFragment : Fragment() {
                     } else {
                         if (isCheckin) {
                             //checkin
-                            context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
+
+                            if (it.data.office_assigned.office_name.toLowerCase()
+                                    .contains("rumah")
+                            ) {
+                                context?.startActivity<CheckinActivity>(
+                                    DATA_OFFICE_KEY to it.data.office_assigned,
+                                    PRESENCE_ID_KEY to 0
+                                )
+                            } else {
+                                context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
+                            }
                         } else {
                             val dialog = MaterialDialog(context!!).show {
                                 cornerRadius(16f)

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -103,13 +104,18 @@ class HomeSdmFragment : Fragment() {
                     skeletonKmPoin?.hide()
                     txtKmPoin.text = it.data.data.user_kmpoin.toString()
                     val workConfigs = it.data.data.work_config
-                    val isWFH = workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-                    val isSdmWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("sdm", true) ?: false
+                    val isWFH =
+                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                    val isSdmWFH =
+                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                            "sdm",
+                            true
+                        ) ?: false
                     if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
 
                     holidays.clear()
                     holidays.addAll(it.data.data.holidays)
-                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                         setHolidayView()
                     }
                 }
@@ -249,7 +255,7 @@ class HomeSdmFragment : Fragment() {
         })
 
         vm.coworkUserData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     skeletonLabelCoworking = Skeleton.bind(textCoworkingSpace)
                         .load(R.layout.skeleton_item)
@@ -265,19 +271,26 @@ class HomeSdmFragment : Fragment() {
                     skeletonLabelCoworking?.hide()
                     skeletonCoworking?.hide()
                     it.data.data.forEach {
-                        groupAdapter.add(CoworkingSpaceItem(it){ coworking, hasCheckin ->
-                            if (hasCheckin){
+                        groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
+                            if (hasCheckin) {
                                 vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
                             } else {
-                                if (coworking.available_slot > 0){
-                                    if (coworking.cowork_presence.size < 2){
-                                        val intent = Intent(context, CheckinCoworkingActivity::class.java).apply {
+                                if (coworking.available_slot > 0) {
+                                    if (coworking.cowork_presence.size < 2) {
+                                        val intent = Intent(
+                                            context,
+                                            CheckinCoworkingActivity::class.java
+                                        ).apply {
                                             putExtra("coworking", coworking)
                                         }
-                                        startActivityForResult( intent, 112)
+                                        startActivityForResult(intent, 112)
 //                                        vm.checkInCoworkingSpace(coworking.id)
-                                    } else if (coworking.cowork_presence.size >= 2){
-                                        createAlertError(activity!!, "Gagal", "Anda hanya bisa check in coworking space sebanyak 2 kali")
+                                    } else if (coworking.cowork_presence.size >= 2) {
+                                        createAlertError(
+                                            activity!!,
+                                            "Gagal",
+                                            "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                        )
                                     }
                                 }
 
@@ -343,14 +356,14 @@ class HomeSdmFragment : Fragment() {
 
     }
 
-    private fun setHolidayView(){
+    private fun setHolidayView() {
         skeletonNextTime?.hide()
         skeletonStatusWaktu?.hide()
         skeletonContdown?.hide()
-        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             txtNextTime.text = "Hari Minggu"
         } else {
-            if (holidays.isNotEmpty()){
+            if (holidays.isNotEmpty()) {
                 txtNextTime.invis()
                 layoutHoliday.visible()
                 txtHolidayName.text = holidays[0].eventName
@@ -455,7 +468,7 @@ class HomeSdmFragment : Fragment() {
 
     private fun setCountdown(time_zuhur: String, time_ashar: String) {
 
-        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 //            setHolidayView()
         } else {
             labelWaktu.text = "WAKTU"
@@ -516,7 +529,7 @@ class HomeSdmFragment : Fragment() {
         super.onDestroy()
     }
 
-    fun initRv(){
+    fun initRv() {
         rvCoworkingSpace.apply {
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(context)
@@ -524,7 +537,7 @@ class HomeSdmFragment : Fragment() {
         }
     }
 
-    private fun showSkeletonMenu(){
+    private fun showSkeletonMenu() {
         skeletonDate = Skeleton.bind(textView24)
             .load(R.layout.skeleton_item)
             .show()
@@ -535,12 +548,12 @@ class HomeSdmFragment : Fragment() {
 
     }
 
-    fun hideSkeletonMenu(){
+    fun hideSkeletonMenu() {
         skeletonDate?.hide()
         skeletonMenu1?.hide()
     }
 
-    private fun showSkeletonTime(){
+    private fun showSkeletonTime() {
         skeletonNextTime = Skeleton.bind(txtNextTime)
             .load(R.layout.skeleton_item_big)
             .show()
@@ -552,7 +565,7 @@ class HomeSdmFragment : Fragment() {
             .show()
     }
 
-    private fun hideSkeletonTime(){
+    private fun hideSkeletonTime() {
         skeletonNextTime?.hide()
         skeletonContdown?.hide()
         skeletonStatusWaktu?.hide()

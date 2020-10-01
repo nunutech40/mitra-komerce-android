@@ -16,7 +16,6 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceViewModel
 import id.android.kmabsensi.presentation.invoice.report.detail.InvoiceReportDetailActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel

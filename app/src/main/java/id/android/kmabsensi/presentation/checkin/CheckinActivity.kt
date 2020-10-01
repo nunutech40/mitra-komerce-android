@@ -114,7 +114,7 @@ class CheckinActivity : BaseActivity() {
         txtKantor.text = data.office_name
 
         txtName.text = user.full_name
-        txtPartner.text = user.division_name
+        txtPositionName.text = user.position_name
 
         if (presenceId != 0) {
             txtType.text = "Pulang"
