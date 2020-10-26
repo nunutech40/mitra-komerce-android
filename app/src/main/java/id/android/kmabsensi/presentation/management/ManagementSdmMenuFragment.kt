@@ -12,6 +12,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.jabatan.ManajemenJabatanActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
+import id.android.kmabsensi.presentation.sdm.dataalfa.DataAlfaActivity
 import id.android.kmabsensi.presentation.sdm.device.DataDeviceActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.nonjob.SdmNonJobActivity
@@ -84,6 +85,10 @@ class ManagementSdmMenuFragment : Fragment() {
 
         btnDataDevice.setOnClickListener {
             activity?.startActivity<DataDeviceActivity>()
+        }
+
+        btnDataAlfa.setOnClickListener {
+            activity?.startActivity<DataAlfaActivity>()
         }
     }
 

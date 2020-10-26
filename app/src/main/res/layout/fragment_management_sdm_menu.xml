@@ -260,6 +260,39 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnDataAlfa"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:background="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_data_alfa" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/tv13sp000000_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Data Alfa" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
             android:visibility="invisible">
 
             <com.google.android.material.card.MaterialCardView
@@ -282,36 +315,6 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:text="Data Jabatan" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="invisible">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="62dp"
-                android:layout_height="62dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_sdm_non_job" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                style="@style/tv13sp000000_avenir_heavy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="SDM Non Job" />
 
         </LinearLayout>
 
