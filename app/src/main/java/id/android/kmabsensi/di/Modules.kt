@@ -120,6 +120,7 @@ val viewModelModule = module {
     viewModel { AdministrationViewModel(get(), get()) }
     viewModel { ProductKnowledgeViewModel(get(), get()) }
     viewModel { HolidayViewModel(get(), get()) }
+    viewModel { SdmViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

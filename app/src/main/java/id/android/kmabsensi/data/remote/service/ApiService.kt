@@ -553,4 +553,11 @@ interface ApiService {
 
     @POST("api/presence/alphaAttendance")
     fun getListAlpha(@Body body: ListAlphaParams): Single<ListAlphaResponse>
+
+    @GET("api/performance/cs")
+    fun getCsPerformance(): Single<ListCsPerformanceResponse>
+
+    @POST("api/performance/cs/add")
+    fun addSdmReport(@Body body: AddSdmReportParams): Single<BaseResponse>
+
 }

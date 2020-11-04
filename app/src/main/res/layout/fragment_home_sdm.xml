@@ -454,11 +454,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnEvaluasi"
                         android:background="?attr/selectableItemBackground"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
@@ -467,7 +467,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_checkout"/>
+                            app:srcCompat="@drawable/ic_sdm_evaluasi"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -475,7 +475,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Pulang"
+                        android:text="Evaluasi"
                         android:gravity="center"
                         style="@style/tv13sp000000_avenir_heavy" />
 
@@ -485,11 +485,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnLaporan"
                         android:background="?attr/selectableItemBackground"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
@@ -498,7 +498,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_form_izin"/>
+                            app:srcCompat="@drawable/ic_sdm_laporan"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -506,7 +506,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Form Izin"
+                        android:text="Laporan"
                         android:gravity="center"
                         style="@style/tv13sp000000_avenir_heavy" />
 
