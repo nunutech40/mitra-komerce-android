@@ -119,6 +119,18 @@
     <string name="ubah_hari_libur">Ubah Hari Libur</string>
     <string name="judul_empty_message">Judul tidak boleh dikosong.</string>
     <string name="list_data">List Data</string>
+    <string name="laporan_title">Laporan</string>
+    <string name="leads">Leads</string>
+    <string name="masukkan_jumlah_leads">Masukkan jumlah leads..</string>
+    <string name="masukkan_jumlah_transaksi">Masukkan jumlah transaksi..</string>
+    <string name="lbl_transaksi">Transaksi</string>
+    <string name="masukkan_jumlah_order">Masukkan jumlah order..</string>
+    <string name="order">Order</string>
+    <string name="rating_konversi">Rating Konversi</string>
+    <string name="rating_order">Rating Order</string>
+    <string name="masukkan_catatan">Masukkan catatan..</string>
+    <string name="kirim_laporan">Kirim Laporan</string>
+    <string name="tambah_laporan_title">Tambah Laporan</string>
 
     <string-array name="role">
         <item>Admin</item>

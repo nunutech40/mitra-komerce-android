@@ -33,6 +33,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
+import id.android.kmabsensi.presentation.sdm.laporan.SdmLaporanActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
 import id.android.kmabsensi.utils.*
@@ -432,6 +433,10 @@ class HomeSdmFragment : Fragment() {
 
         btnProductKnowledge.setOnClickListener {
             activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partner.toInt())
+        }
+
+        btnLaporan.setOnClickListener {
+            activity?.startActivity<SdmLaporanActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {
