@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -385,6 +386,8 @@ class HomeSdmFragment : Fragment() {
         labelWaktu.text = "Hari Libur"
         txtCountdown.invis()
         txtStatusWaktu.invis()
+
+        if (user.position_name.toLowerCase() != "customer service") btnLaporan.gone()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
