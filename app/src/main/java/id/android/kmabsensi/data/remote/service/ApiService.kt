@@ -555,9 +555,20 @@ interface ApiService {
     fun getListAlpha(@Body body: ListAlphaParams): Single<ListAlphaResponse>
 
     @GET("api/performance/cs")
-    fun getCsPerformance(): Single<ListCsPerformanceResponse>
+    fun getSdmReport(): Single<ListCsPerformanceResponse>
 
     @POST("api/performance/cs/add")
     fun addSdmReport(@Body body: AddSdmReportParams): Single<BaseResponse>
+
+    @POST("api/performance/cs/edit")
+    fun editSdmReport(@Body body: EditSdmReportParams): Single<BaseResponse>
+
+    @GET("api/performance/cs/delete/{id}")
+    fun deleteSdmReport(
+        @Path("id") id: Int
+    ): Single<BaseResponse>
+
+    @POST("api/performance/cs/filtered")
+    fun filterSdmReport(@Body body: FilterSdmReportParams): Single<ListCsPerformanceResponse>
 
 }

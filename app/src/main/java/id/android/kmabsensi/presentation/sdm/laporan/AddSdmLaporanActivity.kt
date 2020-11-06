@@ -7,13 +7,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
+import id.android.kmabsensi.data.remote.body.EditSdmReportParams
+import id.android.kmabsensi.data.remote.response.CsPerformance
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.createAlertError
-import id.android.kmabsensi.utils.getDateString
-import id.android.kmabsensi.utils.getDateStringFormatted
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -26,12 +25,18 @@ class AddSdmLaporanActivity : BaseActivity() {
     private var dateSelected: Date? = null
     private lateinit var user: User
 
+    private var report : CsPerformance? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_sdm_laporan)
-        setupToolbar(getString(R.string.tambah_laporan_title))
+
+        report = intent.getParcelableExtra("report")
+        setupToolbar(if (report != null) "Edit Laporan" else getString(R.string.tambah_laporan_title))
+
         user = sdmVM.getUserData()
         initViews()
+
 
         sdmVM.crudResponse.observe(this, androidx.lifecycle.Observer {state ->
         when(state) {
@@ -61,22 +66,51 @@ class AddSdmLaporanActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            sdmVM.addSdmReport(
-                AddSdmReportParams(
-                    user.id,
-                    getDateString(dateSelected!!),
-                    edtLeads.text.toString().toInt(),
-                    edtTransaksi.text.toString().toInt(),
-                    edtOrder.text.toString().toInt(),
-                    conversion_rate = edtRatingKonversi.text.toString().replace("%","").toDouble() / 100,
-                    order_rate = edtRatingOrder.text.toString().replace("%","").toDouble() / 100,
-                    notes = edtCatatan.text.toString()
+            if (report != null){
+                sdmVM.editSdmReport(
+                    EditSdmReportParams(
+                        report!!.id,
+                        user.id,
+                        getDateString(dateSelected!!),
+                        edtLeads.text.toString().toInt(),
+                        edtTransaksi.text.toString().toInt(),
+                        edtOrder.text.toString().toInt(),
+                        conversion_rate = edtRatingKonversi.text.toString().replace("%","").toDouble() / 100,
+                        order_rate = edtRatingOrder.text.toString().replace("%","").toDouble() / 100,
+                        notes = edtCatatan.text.toString()
+                    )
                 )
-            )
+            } else {
+                sdmVM.addSdmReport(
+                    AddSdmReportParams(
+                        user.id,
+                        getDateString(dateSelected!!),
+                        edtLeads.text.toString().toInt(),
+                        edtTransaksi.text.toString().toInt(),
+                        edtOrder.text.toString().toInt(),
+                        conversion_rate = edtRatingKonversi.text.toString().replace("%","").toDouble() / 100,
+                        order_rate = edtRatingOrder.text.toString().replace("%","").toDouble() / 100,
+                        notes = edtCatatan.text.toString()
+                    )
+                )
+            }
+
         }
     }
 
     private fun initViews(){
+        report?.let {
+            dateSelected = parseStringDate(it.date)
+            edtTanggal.setText(getDateString(dateSelected!!))
+            edtLeads.setText(it.totalLeads.toString())
+            edtTransaksi.setText(it.totalTransaction.toString())
+            edtOrder.setText(it.totalOrder.toString())
+            edtRatingKonversi.setText("${(it.conversionRate*100).toInt()}%")
+            edtRatingOrder.setText("${(it.orderRate*100).toInt()}%")
+            edtCatatan.setText(it.notes)
+
+            btnSave.text = "Edit Laporan"
+        }
         dateSelected = cal.time
         edtTanggal.setText(getDateStringFormatted(dateSelected!!))
         edtTanggal.setOnClickListener {

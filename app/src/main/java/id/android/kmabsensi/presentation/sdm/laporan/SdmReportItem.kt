@@ -8,12 +8,29 @@ import id.android.kmabsensi.utils.localDateFormatter
 import kotlinx.android.synthetic.main.item_row_sdm_report.view.*
 import org.joda.time.LocalDate
 
-class SdmReportItem(val report: CsPerformance): Item() {
+interface OnSdmReportListener {
+    fun onDeleteClicked(report: CsPerformance)
+    fun onEditClicked(report: CsPerformance)
+}
+
+class SdmReportItem(
+    val report: CsPerformance,
+    val listener: OnSdmReportListener
+) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val localDate: LocalDate = LocalDate.parse(report.date)
         viewHolder.apply {
             itemView.txtReportDate.text = "Laporan - ${localDateFormatter(localDate)}"
-            itemView.txtJumlahAndRating.text = "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${report.conversionRate}%"
+            itemView.txtJumlahAndRating.text =
+                "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${report.conversionRate}%"
+
+            itemView.btnDelete.setOnClickListener {
+                listener.onDeleteClicked(report)
+            }
+
+            itemView.btnEdit.setOnClickListener {
+                listener.onEditClicked(report)
+            }
         }
     }
 

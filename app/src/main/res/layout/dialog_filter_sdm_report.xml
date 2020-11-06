@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/_24dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelFilterBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by"
+        android:layout_marginTop="20dp"
+        style="@style/tv18sp000000_avenir_heavy"
+        android:layout_marginStart="@dimen/_16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/_16dp"
+        android:layout_height="@dimen/_16dp"
+        app:srcCompat="@drawable/ic_close_circle"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Periode"
+        style="@style/tv14spf48070_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/labelFilterBy"
+        app:layout_constraintTop_toBottomOf="@+id/labelFilterBy" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelDari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dari"
+        style="@style/tv12sp929292_avenir"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelBulanDari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Bulan"
+        style="@style/tv14sp929292_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/labelDari" />
+
+    <Spinner
+        android:id="@+id/spinnerBulanDari"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="@id/labelDari"
+        app:layout_constraintTop_toBottomOf="@+id/labelBulanDari"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelTahunDari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="8dp"
+        android:text="Tahun"
+        style="@style/tv14sp929292_avenir_heavy"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/labelDari" />
+
+    <Spinner
+        android:id="@+id/spinnerTahunDari"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="@id/labelTahunDari"
+        app:layout_constraintTop_toBottomOf="@+id/labelTahunDari"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelKe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Ke"
+        style="@style/tv12sp929292_avenir"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTahunDari" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelBulanKe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Bulan"
+        style="@style/tv14sp929292_avenir_heavy"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/labelKe" />
+
+    <Spinner
+        android:id="@+id/spinnerBulanKe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="@id/labelDari"
+        app:layout_constraintTop_toBottomOf="@+id/labelBulanKe"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/labelTahunKe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="8dp"
+        android:text="Tahun"
+        style="@style/tv14sp929292_avenir_heavy"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/labelKe" />
+
+    <Spinner
+        android:id="@+id/spinnerTahunKe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintStart_toStartOf="@id/labelTahunKe"
+        app:layout_constraintTop_toBottomOf="@+id/labelTahunKe"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonFilter"
+        style="@style/AppButtonGradient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:text="Filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTahunKe" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
+import id.android.kmabsensi.data.remote.body.EditSdmReportParams
+import id.android.kmabsensi.data.remote.body.FilterSdmReportParams
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
@@ -83,8 +85,14 @@ class SdmRepository(val apiService: ApiService) {
 
     fun getSdmNonJob() = apiService.getSdmNonJob()
 
-    fun getCsPerformances() = apiService.getCsPerformance()
+    fun getSdmReports() = apiService.getSdmReport()
+
+    fun filterSdmReports(params: FilterSdmReportParams) = apiService.filterSdmReport(params)
 
     fun addSdmReport(params: AddSdmReportParams) = apiService.addSdmReport(params)
+
+    fun editSdmReport(params: EditSdmReportParams) = apiService.editSdmReport(params)
+
+    fun deleteSdmReport(id: Int) = apiService.deleteSdmReport(id)
 
 }

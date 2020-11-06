@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
+import id.android.kmabsensi.data.remote.body.EditSdmReportParams
+import id.android.kmabsensi.data.remote.body.FilterSdmReportParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListCsPerformanceResponse
 import id.android.kmabsensi.data.remote.response.User
@@ -27,9 +29,20 @@ class SdmViewModel(
         MutableLiveData<UiState<BaseResponse>>()
     }
 
-    fun getCsPerformances(){
+    fun getSdmReports(){
         csPerformances.value = UiState.Loading()
-        compositeDisposable.add(sdmRepository.getCsPerformances()
+        compositeDisposable.add(sdmRepository.getSdmReports()
+            .with(schedulerProvider)
+            .subscribe({
+                csPerformances.value = UiState.Success(it)
+            },{
+                csPerformances.value = UiState.Error(it)
+            }))
+    }
+
+    fun filterSdmReports(params: FilterSdmReportParams){
+        csPerformances.value = UiState.Loading()
+        compositeDisposable.add(sdmRepository.filterSdmReports(params)
             .with(schedulerProvider)
             .subscribe({
                 csPerformances.value = UiState.Success(it)
@@ -41,6 +54,28 @@ class SdmViewModel(
     fun addSdmReport(params: AddSdmReportParams){
         crudResponse.value = UiState.Loading()
         compositeDisposable.add(sdmRepository.addSdmReport(params)
+            .with(schedulerProvider)
+            .subscribe({
+                crudResponse.value = UiState.Success(it)
+            },{
+                crudResponse.value = UiState.Error(it)
+            }))
+    }
+
+    fun editSdmReport(params: EditSdmReportParams){
+        crudResponse.value = UiState.Loading()
+        compositeDisposable.add(sdmRepository.editSdmReport(params)
+            .with(schedulerProvider)
+            .subscribe({
+                crudResponse.value = UiState.Success(it)
+            },{
+                crudResponse.value = UiState.Error(it)
+            }))
+    }
+
+    fun deleteSdmReport(id: Int){
+        crudResponse.value = UiState.Loading()
+        compositeDisposable.add(sdmRepository.deleteSdmReport(id)
             .with(schedulerProvider)
             .subscribe({
                 crudResponse.value = UiState.Success(it)
