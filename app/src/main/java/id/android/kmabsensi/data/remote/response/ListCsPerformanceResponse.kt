@@ -1,5 +1,7 @@
 package id.android.kmabsensi.data.remote.response
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class ListCsPerformanceResponse(
@@ -13,6 +15,7 @@ data class ListCsPerformanceResponse(
     val `data`: List<CsPerformance> = listOf()
 )
 
+@Parcelize
 data class CsPerformance(
     @SerializedName("id")
     val id: Int = 0,
@@ -29,15 +32,16 @@ data class CsPerformance(
     @SerializedName("order_rate")
     val orderRate: Double = 0.0,
     @SerializedName("notes")
-    val notes: Any? = null,
+    val notes: String? = null,
     @SerializedName("cs")
     val cs: Cs? = null,
     @SerializedName("created_at")
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+): Parcelable
 
+@Parcelize
 data class Cs(
     @SerializedName("id")
     val id: Int = 0,
@@ -49,4 +53,4 @@ data class Cs(
     val roleId: Int = 0,
     @SerializedName("position_name")
     val positionName: String = ""
-)
+): Parcelable
