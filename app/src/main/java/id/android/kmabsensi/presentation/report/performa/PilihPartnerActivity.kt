@@ -27,18 +27,21 @@ class PilihPartnerActivity : BaseSearchActivity() {
 
     private var partners = mutableListOf<SimplePartner>()
 
+    private var userId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pilih_partner)
         setupSearchToolbar("Pilih Partner")
 
+        userId = intent.getIntExtra(USER_ID_KEY, 0)
         initRv()
         observePartners()
     }
 
     private fun observePartners(){
-        vm.getSimplePartners()
-        vm.simplePartners.observe(this, Observer { state ->
+        vm.getPartnerByManagement(userId)
+        vm.partnerByManagement.observe(this, Observer { state ->
             when(state) {
                 is UiState.Loading -> {
                     showSkeleton(rvPartners, R.layout.skeleton_list_jabatan, groupAdapter)

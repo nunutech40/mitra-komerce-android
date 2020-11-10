@@ -75,6 +75,8 @@ class PartnerRepository(val apiService: ApiService) {
         return apiService.getSimplePartners()
     }
 
+    fun getPartnersByManagement(userManagementId: Int) = apiService.getPartnerByManagement(userManagementId)
+
     fun editPartner(
         id: RequestBody,
         noPartner: RequestBody,

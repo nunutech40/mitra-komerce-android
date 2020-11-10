@@ -9,6 +9,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.report.performa.PilihPartnerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
+import id.android.kmabsensi.utils.USER_ID_KEY
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.fragment_report_manajemen.*
 import org.jetbrains.anko.startActivity
@@ -40,7 +41,7 @@ class ReportManajemenFragment : Fragment() {
         }
 
         btnPerforma.setOnClickListener {
-            activity?.startActivity<PilihPartnerActivity>()
+            activity?.startActivity<PilihPartnerActivity>(USER_ID_KEY to user.id)
         }
 
 

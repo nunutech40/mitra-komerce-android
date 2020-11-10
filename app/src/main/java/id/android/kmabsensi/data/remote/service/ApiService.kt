@@ -360,6 +360,8 @@ interface ApiService {
     @GET("api/masterdata/partner")
     fun getSimplePartners(): Single<SimplePartnersResponse>
 
+    @GET("api/user/partner/partnerOfSdmAssigned/{user_management_id}")
+    fun getPartnerByManagement(@Path("user_management_id") userManagementId: Int) : Single<SimplePartnersResponse>
 
     @Multipart
     @POST("api/user/partner/edit")
