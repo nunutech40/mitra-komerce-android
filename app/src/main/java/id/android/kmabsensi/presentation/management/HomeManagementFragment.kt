@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
+import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -141,6 +142,7 @@ class HomeManagementFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home_management, container, false)
 
         user = vm.getUserData()
+        d { user.toString() }
         myDialog = MyDialog(context!!)
 
         return view

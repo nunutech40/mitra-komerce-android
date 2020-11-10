@@ -356,6 +356,8 @@ class HomeSdmFragment : Fragment() {
         vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
+        if (user.position_name.toLowerCase() != "customer service") btnLaporanLayout.invis()
+
     }
 
     private fun setHolidayView() {
@@ -387,7 +389,6 @@ class HomeSdmFragment : Fragment() {
         txtCountdown.invis()
         txtStatusWaktu.invis()
 
-        if (user.position_name.toLowerCase() != "customer service") btnLaporan.gone()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
