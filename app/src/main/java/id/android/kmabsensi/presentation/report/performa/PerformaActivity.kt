@@ -53,7 +53,6 @@ class PerformaActivity : BaseActivity() {
 
     private var filters =
         listOf("Today", "Yesterday", "Last 7 Days", "This Month", "Last Month", "Custom")
-
     //for custom filter
     private val calendarDateForm = Calendar.getInstance()
     private val calendarDateTo = Calendar.getInstance()
