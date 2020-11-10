@@ -22,6 +22,7 @@ import id.android.kmabsensi.presentation.admin.HomeAdminFragment
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
+import id.android.kmabsensi.presentation.report.ReportManajemenFragment
 import id.android.kmabsensi.presentation.riwayat.RiwayatFragment
 import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.*
@@ -225,7 +226,7 @@ class HomeActivity : AppCompatActivity() {
             ROLE_MANAGEMEMENT -> {
                 adapter.addFragment(HomeManagementFragment.newInstance())
                 adapter.addFragment(RiwayatFragment.newInstance())
-                adapter.addFragment(ReportFragment.newInstance())
+                adapter.addFragment(ReportManajemenFragment())
                 adapter.addFragment(MyProfileFragment.newInstance())
             }
             ROLE_SDM -> {

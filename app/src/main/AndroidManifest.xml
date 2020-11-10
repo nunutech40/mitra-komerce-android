@@ -32,13 +32,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.sdm.laporan.AddSdmLaporanActivity"
+        <activity android:name=".presentation.report.performa.PerformaActivity"></activity>
+        <activity android:name=".presentation.report.performa.PilihPartnerActivity" />
+        <activity android:name=".presentation.report.ReportAbsensiActivity" />
+        <activity
+            android:name=".presentation.sdm.laporan.AddSdmLaporanActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".presentation.sdm.laporan.SdmLaporanActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".presentation.sdm.dataalfa.DataAlfaActivity"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".presentation.sdm.laporan.SdmLaporanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.sdm.dataalfa.DataAlfaActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.sdm.holiday.HolidayActivity"
             android:screenOrientation="portrait" />

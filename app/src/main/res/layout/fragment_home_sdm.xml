@@ -451,37 +451,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnEvaluasi"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_sdm_evaluasi"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Evaluasi"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/btnLaporanLayout"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -507,6 +477,38 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Laporan"
+                        android:gravity="center"
+                        style="@style/tv13sp000000_avenir_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnEvaluasi"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_sdm_evaluasi"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Evaluasi"
                         android:gravity="center"
                         style="@style/tv13sp000000_avenir_heavy" />
 
