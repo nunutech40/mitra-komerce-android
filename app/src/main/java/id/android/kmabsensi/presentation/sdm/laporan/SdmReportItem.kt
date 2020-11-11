@@ -22,7 +22,7 @@ class SdmReportItem(
         viewHolder.apply {
             itemView.txtReportDate.text = "Laporan - ${localDateFormatter(localDate)}"
             itemView.txtJumlahAndRating.text =
-                "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${report.conversionRate}%"
+                "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${(report.conversionRate*100).toInt()}%"
 
             itemView.btnDelete.setOnClickListener {
                 listener.onDeleteClicked(report)

@@ -20,8 +20,8 @@ class PerformaItem(val performa: CsPerformance): Item() {
             itemView.txtLeads.text = "${performa.totalLeads}"
             itemView.txtTransaksi.text = "${performa.totalTransaction}"
             itemView.txtOrder.text = "${performa.totalOrder}"
-            itemView.txtRatingKonversi.text = "${performa.conversionRate}"
-            itemView.txtRatingOrder.text = "${performa.orderRate}"
+            itemView.txtRatingKonversi.text = "${(performa.conversionRate * 100).toInt()}%"
+            itemView.txtRatingOrder.text = "${(performa.orderRate * 100).toInt()}%"
 
             itemView.txtNb.setOnClickListener {
                 MaterialDialog(itemView.context).show {
