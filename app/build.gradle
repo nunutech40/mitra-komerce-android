@@ -87,9 +87,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.13'
@@ -123,7 +123,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation project(':idcardcamera')
 
     // logger
@@ -160,20 +160,20 @@ dependencies {
     implementation 'com.github.hadilq.liveevent:liveevent:1.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'com.google.firebase:firebase-core:17.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.3.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
 
     // Add the dependency for the Performance Monitoring library
-    implementation 'com.google.firebase:firebase-perf:19.0.9'
+    implementation 'com.google.firebase:firebase-perf:19.0.10'
     androidTestImplementation 'androidx.test:rules:1.3.0'
 
     // update apps
-    implementation 'com.google.android.play:core:1.8.2'
+    implementation 'com.google.android.play:core:1.8.3'
 
     // lottie animation
-    implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'com.airbnb.android:lottie:3.4.1'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
@@ -196,8 +196,8 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.6'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
     implementation 'com.droidninja:filepicker:2.2.4'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
 
