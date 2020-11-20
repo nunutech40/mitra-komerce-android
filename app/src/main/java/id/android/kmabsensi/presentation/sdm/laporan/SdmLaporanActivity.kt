@@ -64,7 +64,7 @@ class SdmLaporanActivity : BaseActivity() {
             FilterSdmReportParams(
                 sdmVM.getUserData().id,
                 0,
-                0,
+                "0",
                 startPeriod,
                 endPeriod
             )
@@ -82,7 +82,7 @@ class SdmLaporanActivity : BaseActivity() {
                 FilterSdmReportParams(
                     sdmVM.getUserData().id,
                     0,
-                    0,
+                    "0",
                     startPeriod,
                     endPeriod
                 )
@@ -142,7 +142,7 @@ class SdmLaporanActivity : BaseActivity() {
                             FilterSdmReportParams(
                                 sdmVM.getUserData().id,
                                 0,
-                                0,
+                                "0",
                                 startPeriod,
                                 endPeriod
                             )
@@ -175,7 +175,7 @@ class SdmLaporanActivity : BaseActivity() {
                     FilterSdmReportParams(
                         sdmVM.getUserData().id,
                         0,
-                        0,
+                        "0",
                         startPeriod,
                         endPeriod
                     )
@@ -216,7 +216,7 @@ class SdmLaporanActivity : BaseActivity() {
                     FilterSdmReportParams(
                         sdmVM.getUserData().id,
                         0,
-                        0,
+                        "0",
                         startPeriod,
                         endPeriod
                     )

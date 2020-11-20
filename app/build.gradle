@@ -18,8 +18,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 25
-        versionName "1.9.1"
+        versionCode 31
+        versionName "1.9.5.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
@@ -69,16 +69,16 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-//    android.applicationVariants.all { variant ->
-//        variant.outputs.all { output ->
-//            def outputFile = output.outputFile
-//            if (outputFile != null && outputFile.name.endsWith(".apk")) {
-//                def fileName = outputFile.name.replace("app",
-//                        "KM_Mitra_${defaultConfig.versionName}-${releaseTime()}")
-//                outputFileName = fileName
-//            }
-//        }
-//    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith(".apk")) {
+                def fileName = outputFile.name.replace("app",
+                        "KM_Mitra_${defaultConfig.versionName}-${releaseTime()}")
+                outputFileName = fileName
+            }
+        }
+    }
 
 }
 
