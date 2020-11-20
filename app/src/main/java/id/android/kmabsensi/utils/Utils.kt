@@ -15,11 +15,14 @@ import com.wildma.idcardcamera.global.Constant.BASE_DIR
 import com.wildma.idcardcamera.utils.FileUtils
 import id.android.kmabsensi.R
 import id.zelory.compressor.Compressor
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import org.joda.time.LocalDate
 import org.joda.time.Years
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.io.File
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +40,13 @@ val BASE_DIR = APP_NAME + File.separator
 val DIR_ROOT: String =
     StringBuffer().append(FileUtils.getRootPath()).append(File.separator).append(BASE_DIR)
         .toString()
+
+
+fun roundOffDecimal(number: Double): Double {
+    val df = DecimalFormat("#.##")
+    df.roundingMode = RoundingMode.CEILING
+    return df.format(number).toDouble()
+}
 
 fun getRoleName(roleId: Int): String = when (roleId) {
     1 -> ROLE_ADMIN
@@ -204,3 +214,6 @@ fun showDialogConfirmDelete(context: Context, title : String = "Hapus Data", mes
         }
     }
 }
+
+
+

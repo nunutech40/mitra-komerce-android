@@ -29,16 +29,16 @@ class SdmViewModel(
         MutableLiveData<UiState<BaseResponse>>()
     }
 
-    fun getSdmReports(){
-        csPerformances.value = UiState.Loading()
-        compositeDisposable.add(sdmRepository.getSdmReports()
-            .with(schedulerProvider)
-            .subscribe({
-                csPerformances.value = UiState.Success(it)
-            },{
-                csPerformances.value = UiState.Error(it)
-            }))
-    }
+//    fun getSdmReports(){
+//        csPerformances.value = UiState.Loading()
+//        compositeDisposable.add(sdmRepository.getSdmReports()
+//            .with(schedulerProvider)
+//            .subscribe({
+//                csPerformances.value = UiState.Success(it)
+//            },{
+//                csPerformances.value = UiState.Error(it)
+//            }))
+//    }
 
     fun filterSdmReports(params: FilterSdmReportParams){
         csPerformances.value = UiState.Loading()

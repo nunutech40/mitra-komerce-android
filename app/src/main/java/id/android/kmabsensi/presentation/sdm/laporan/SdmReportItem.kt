@@ -5,6 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.CsPerformance
 import id.android.kmabsensi.utils.localDateFormatter
+import id.android.kmabsensi.utils.roundOffDecimal
 import kotlinx.android.synthetic.main.item_row_sdm_report.view.*
 import org.joda.time.LocalDate
 
@@ -22,7 +23,7 @@ class SdmReportItem(
         viewHolder.apply {
             itemView.txtReportDate.text = "Laporan - ${localDateFormatter(localDate)}"
             itemView.txtJumlahAndRating.text =
-                "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${(report.conversionRate*100).toInt()}%"
+                "Jumlah Order: ${report.totalOrder}   Rating Konversi: ${roundOffDecimal(report.conversionRate) * 100}%"
 
             itemView.btnDelete.setOnClickListener {
                 listener.onDeleteClicked(report)

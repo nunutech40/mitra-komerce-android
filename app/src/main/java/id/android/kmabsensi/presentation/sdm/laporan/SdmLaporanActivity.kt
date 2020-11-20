@@ -50,10 +50,25 @@ class SdmLaporanActivity : BaseActivity() {
         setContentView(R.layout.activity_sdm_laporan)
         setupToolbar(getString(R.string.laporan_title), isFilterVisible = true)
 
+        monthFromSelected = startCalendar.get(Calendar.MONTH) + 1
+        monthToSelected = startCalendar.get(Calendar.MONTH) + 1
+        yearFromSelected = startCalendar.get(Calendar.YEAR)
+        yearToSelected = endCalendar.get(Calendar.YEAR)
+
+        startPeriod = "$yearFromSelected-$monthFromSelected-01"
+        endPeriod = "$yearToSelected-$monthToSelected-31"
+
         initRv()
         observeResult()
-        sdmVM.getSdmReports()
-
+        sdmVM.filterSdmReports(
+            FilterSdmReportParams(
+                sdmVM.getUserData().id,
+                0,
+                0,
+                startPeriod,
+                endPeriod
+            )
+        )
         fabAdd.setOnClickListener {
             startActivityForResult<AddSdmLaporanActivity>(RC_CRUD)
         }
@@ -63,12 +78,20 @@ class SdmLaporanActivity : BaseActivity() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            sdmVM.getSdmReports()
+            sdmVM.filterSdmReports(
+                FilterSdmReportParams(
+                    sdmVM.getUserData().id,
+                    0,
+                    0,
+                    startPeriod,
+                    endPeriod
+                )
+            )
         }
 
     }
 
-    private fun observeResult(){
+    private fun observeResult() {
         sdmVM.csPerformances.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -107,15 +130,23 @@ class SdmLaporanActivity : BaseActivity() {
         })
 
         sdmVM.crudResponse.observe(this, Observer { state ->
-            when(state) {
+            when (state) {
                 is UiState.Loading -> {
                     showDialog()
                 }
                 is UiState.Success -> {
                     hideDialog()
-                    if (state.data.status){
+                    if (state.data.status) {
                         createAlertSuccess(this, state.data.message)
-                        sdmVM.getSdmReports()
+                        sdmVM.filterSdmReports(
+                            FilterSdmReportParams(
+                                sdmVM.getUserData().id,
+                                0,
+                                0,
+                                startPeriod,
+                                endPeriod
+                            )
+                        )
                     } else {
                         createAlertError(this, "Gagal", state.data.message)
                     }
@@ -127,7 +158,7 @@ class SdmLaporanActivity : BaseActivity() {
         })
     }
 
-    private fun initRv(){
+    private fun initRv() {
         rvLaporan.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
@@ -135,20 +166,28 @@ class SdmLaporanActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_CRUD){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == RC_CRUD) {
+            if (resultCode == Activity.RESULT_OK) {
                 val message = data?.getStringExtra("message")
                 createAlertSuccess(this, message.toString())
                 groupAdapter.clear()
-                sdmVM.getSdmReports()
+                sdmVM.filterSdmReports(
+                    FilterSdmReportParams(
+                        sdmVM.getUserData().id,
+                        0,
+                        0,
+                        startPeriod,
+                        endPeriod
+                    )
+                )
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun showFilter(){
-        if (!::dialogFilter.isInitialized){
+    fun showFilter() {
+        if (!::dialogFilter.isInitialized) {
             dialogFilter = MaterialDialog(this)
                 .customView(R.layout.dialog_filter_sdm_report, noVerticalPadding = true)
             val customView = dialogFilter.getCustomView()
@@ -167,7 +206,8 @@ class SdmLaporanActivity : BaseActivity() {
 
             buttonFilter.setOnClickListener {
                 dialogFilter?.dismiss()
-                val startMonth = if (monthFromSelected < 10) "0$monthFromSelected" else "$monthFromSelected"
+                val startMonth =
+                    if (monthFromSelected < 10) "0$monthFromSelected" else "$monthFromSelected"
                 val endMonth = if (monthToSelected < 10) "0$monthToSelected" else "$monthToSelected"
                 startPeriod = "$yearFromSelected-$startMonth-01"
                 endPeriod = "$yearToSelected-$endMonth-31"
@@ -187,7 +227,8 @@ class SdmLaporanActivity : BaseActivity() {
         dialogFilter.show()
     }
 
-    private fun initSpinnerFilter(spinnerBulanDari: Spinner, spinnerTahunDari: Spinner, spinnerBulanKe: Spinner,
+    private fun initSpinnerFilter(
+        spinnerBulanDari: Spinner, spinnerTahunDari: Spinner, spinnerBulanKe: Spinner,
         spinnerTahunKe: Spinner
     ) {
 
@@ -259,7 +300,8 @@ class SdmLaporanActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            if (position > 0) yearFromSelected = spinnerTahunDari.selectedItem.toString().toInt()
+                            if (position > 0) yearFromSelected =
+                                spinnerTahunDari.selectedItem.toString().toInt()
 
                         }
 
@@ -286,7 +328,8 @@ class SdmLaporanActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            if (position > 0) yearToSelected = spinnerTahunKe.selectedItem.toString().toInt()
+                            if (position > 0) yearToSelected =
+                                spinnerTahunKe.selectedItem.toString().toInt()
 
                         }
 

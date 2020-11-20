@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
 import id.android.kmabsensi.data.remote.body.EditSdmReportParams
@@ -15,6 +16,8 @@ import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 class AddSdmLaporanActivity : BaseActivity() {
@@ -25,7 +28,13 @@ class AddSdmLaporanActivity : BaseActivity() {
     private var dateSelected: Date? = null
     private lateinit var user: User
 
-    private var report : CsPerformance? = null
+    private var totalLeads: Double = 0.0
+    private var totalTransaction: Double = 0.0
+    private var totalOrder: Double = 0.0
+    private var ratingConversion: Double = 0.0
+    private var ratingOrder: Double = 0.0
+
+    private var report: CsPerformance? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,37 +45,37 @@ class AddSdmLaporanActivity : BaseActivity() {
 
         user = sdmVM.getUserData()
         initViews()
+        initListener()
 
-
-        sdmVM.crudResponse.observe(this, androidx.lifecycle.Observer {state ->
-        when(state) {
-            is UiState.Loading -> {
-                showDialog()
-            }
-            is UiState.Success -> {
-                hideDialog()
-                if (state.data.status){
-                    val intent = Intent()
-                    intent.putExtra("message", state.data.message)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
-                } else {
-                    createAlertError(this, "Gagal", state.data.message)
+        sdmVM.crudResponse.observe(this, androidx.lifecycle.Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showDialog()
+                }
+                is UiState.Success -> {
+                    hideDialog()
+                    if (state.data.status) {
+                        val intent = Intent()
+                        intent.putExtra("message", state.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", state.data.message)
+                    }
+                }
+                is UiState.Error -> {
+                    hideDialog()
+                    createAlertError(this, "Gagal", state.throwable.localizedMessage)
                 }
             }
-            is UiState.Error -> {
-                hideDialog()
-                createAlertError(this, "Gagal", state.throwable.localizedMessage)
-            }
-        }
         })
 
         btnSave.setOnClickListener {
-            if (!formValidation()){
+            if (!formValidation()) {
                 return@setOnClickListener
             }
 
-            if (report != null){
+            if (report != null) {
                 sdmVM.editSdmReport(
                     EditSdmReportParams(
                         report!!.id,
@@ -75,8 +84,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = edtRatingKonversi.text.toString().replace("%","").toDouble() / 100,
-                        order_rate = edtRatingOrder.text.toString().replace("%","").toDouble() / 100,
+                        conversion_rate = roundOffDecimal(ratingConversion),
+                        order_rate = roundOffDecimal(ratingOrder),
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -88,8 +97,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = edtRatingKonversi.text.toString().replace("%","").toDouble() / 100,
-                        order_rate = edtRatingOrder.text.toString().replace("%","").toDouble() / 100,
+                        conversion_rate = roundOffDecimal(ratingConversion),
+                        order_rate = roundOffDecimal(ratingOrder),
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -98,18 +107,89 @@ class AddSdmLaporanActivity : BaseActivity() {
         }
     }
 
-    private fun initViews(){
+    private fun initListener() {
+        edtLeads.textChanged {
+            if (it.isNotEmpty()) {
+                totalLeads = it.toString().toDouble()
+                calculateRatingConversion()
+            } else {
+                clearRaatingConversion()
+            }
+        }
+
+        edtTransaksi.textChanged {
+            if (it.isNotEmpty()) {
+                totalTransaction = it.toString().toDouble()
+                if (totalLeads > 0) calculateRatingConversion() else clearRaatingConversion()
+                if (totalTransaction > 0) calculateRatingOrder() else clearRatingOrder()
+            } else {
+                clearAllRatingField()
+            }
+        }
+
+        edtOrder.textChanged {
+            if (it.isNotEmpty() && totalTransaction > 0) {
+                totalOrder = it.toString().toDouble()
+                calculateRatingOrder()
+            } else {
+                clearRatingOrder()
+            }
+        }
+    }
+
+    private fun calculateRatingOrder() {
+        ratingOrder = (totalOrder / totalTransaction)
+        val formattedRatingOrder = roundOffDecimal(ratingOrder) * 100
+        edtRatingOrder.setText("${(formattedRatingOrder)}%")
+    }
+
+    private fun calculateRatingConversion() {
+        ratingConversion = (totalTransaction / totalLeads)
+        val formattedRatingKonversi = roundOffDecimal(ratingConversion ) * 100
+        edtRatingKonversi.setText("${(formattedRatingKonversi)}%")
+    }
+
+    private fun clearRaatingConversion() {
+        totalLeads = 0.0
+        totalTransaction = 0.0
+        edtRatingKonversi.setText("0.0%")
+    }
+
+    private fun clearRatingOrder() {
+        totalOrder = 0.0
+        totalTransaction = 0.0
+        edtRatingOrder.setText("0.0%")
+    }
+
+    private fun clearAllRatingField() {
+        totalLeads = 0.0
+        totalOrder = 0.0
+        totalTransaction = 0.0
+        edtRatingOrder.setText("0.0%")
+        edtRatingKonversi.setText("0.0%")
+    }
+
+    private fun initViews() {
         report?.let {
+
             dateSelected = parseStringDate(it.date)
+            totalLeads = it.totalLeads
+            totalTransaction = it.totalTransaction
+            totalOrder = it.totalOrder
+            ratingConversion =
+                roundOffDecimal(it.conversionRate) * 100
+            ratingOrder = roundOffDecimal(it.orderRate) * 100
+
+
             edtTanggal.setText(getDateString(dateSelected!!))
-            edtLeads.setText(it.totalLeads.toString())
-            edtTransaksi.setText(it.totalTransaction.toString())
-            edtOrder.setText(it.totalOrder.toString())
-            edtRatingKonversi.setText("${(it.conversionRate*100).toInt()}%")
-            edtRatingOrder.setText("${(it.orderRate*100).toInt()}%")
+            edtLeads.setText(totalLeads.toString())
+            edtTransaksi.setText(totalTransaction.toString())
+            edtOrder.setText(totalOrder.toString())
+            edtRatingKonversi.setText("${(ratingConversion)}%")
+            edtRatingOrder.setText("${(ratingOrder)}%")
             edtCatatan.setText(it.notes)
 
-            btnSave.text = "Edit Laporan"
+            btnSave.text = getString(R.string.edit_laporan)
         }
         dateSelected = cal.time
         edtTanggal.setText(getDateStringFormatted(dateSelected!!))
@@ -135,35 +215,35 @@ class AddSdmLaporanActivity : BaseActivity() {
 
     private fun formValidation(): Boolean {
         var result = true
-        if (edtLeads.text.toString().isEmpty()){
+        if (edtLeads.text.toString().isEmpty()) {
             edtLeads.error = "Kolom tidak boleh kosong."
             result = false
         } else {
             edtLeads.error = null
         }
 
-        if (edtTransaksi.text.toString().isEmpty()){
+        if (edtTransaksi.text.toString().isEmpty()) {
             edtTransaksi.error = "Kolom tidak boleh kosong."
             result = false
         } else {
             edtTransaksi.error = null
         }
 
-        if (edtOrder.text.toString().isEmpty()){
+        if (edtOrder.text.toString().isEmpty()) {
             edtOrder.error = "Kolom tidak boleh kosong."
             result = false
         } else {
             edtOrder.error = null
         }
 
-        if (edtRatingKonversi.text.toString().isEmpty()){
+        if (edtRatingKonversi.text.toString().isEmpty()) {
             edtRatingKonversi.error = "Kolom tidak boleh kosong."
             result = false
         } else {
             edtRatingKonversi.error = null
         }
 
-        if (edtRatingOrder.text.toString().isEmpty()){
+        if (edtRatingOrder.text.toString().isEmpty()) {
             edtRatingOrder.error = "Kolom tidak boleh kosong."
             result = false
         } else {
