@@ -114,7 +114,7 @@ class PerformaActivity : BaseActivity() {
             FilterSdmReportParams(
                 user_id = 0,
                 user_management_id = user.id,
-                no_partner = noPartner.toInt(),
+                no_partner = noPartner,
                 start_date = startDate,
                 end_date = endDate
             )
