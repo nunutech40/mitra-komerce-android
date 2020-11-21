@@ -131,7 +131,7 @@
     <string name="masukkan_catatan">Masukkan catatan..</string>
     <string name="kirim_laporan">Kirim Laporan</string>
     <string name="tambah_laporan_title">Tambah Laporan</string>
-    <string name="edit_laporan">Edit Laporan}</string>
+    <string name="edit_laporan">Edit Laporan</string>
 
     <string-array name="role">
         <item>Admin</item>
