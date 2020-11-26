@@ -130,7 +130,7 @@
                             android:id="@+id/txtNextTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="08:30"
+                            tools:text="08:30"
                             android:textColor="@color/textTime"
                             android:textSize="42sp"
                             android:textStyle="bold"

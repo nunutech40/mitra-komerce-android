@@ -182,10 +182,12 @@ class HomeAdminFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    val data = it.data.jadwal.data
-                    val dzuhur = data.dzuhur
-                    val ashr = data.ashar
-                    setCountdown(dzuhur, ashr)
+                    if(it.data.status.toLowerCase().equals("ok", true)){
+                        val data = it.data.jadwal.data
+                        val dzuhur = data.dzuhur
+                        val ashr = data.ashar
+                        setCountdown(dzuhur, ashr)
+                    }
                 }
                 is UiState.Error -> {
                     skeletonNextTime?.hide()
@@ -212,7 +214,7 @@ class HomeAdminFragment : Fragment() {
                 parentPosition: Int,
                 childPosition: Int
             ) {
-                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.text = model?.total_cssr.toString()
+//                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.text = model?.total_cssr.toString()
                 view?.findViewById<TextView>(R.id.txtJumlahCuti)?.text = model?.total_holiday.toString()
                 view?.findViewById<TextView>(R.id.txtJumlahSakit)?.text = model?.total_sick.toString()
                 view?.findViewById<TextView>(R.id.txtJumlahIzin)?.text = model?.total_permission.toString()

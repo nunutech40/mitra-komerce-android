@@ -3,6 +3,7 @@ package id.android.kmabsensi.utils
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 fun ImageView.loadImageFromUrl(url: String){
     if (url.isEmpty()) return
@@ -78,3 +83,20 @@ fun File.createRequestBody() : RequestBody {
 fun File.createRequestBodyFile() : RequestBody {
     return this.asRequestBody("*/*".toMediaTypeOrNull())
 }
+
+fun Double.rounTwoDigitDecimal(): Double {
+    val filterNumber = this.toString().replace(",", ".").toDouble()
+    val symbols = DecimalFormatSymbols(Locale.US)
+    val df = DecimalFormat("##.##", symbols);
+    val res = df.format(filterNumber).toDouble()
+    return res
+}
+
+fun Double.rounDecimalToPercentage(): Double {
+    val filterNumber = this.toString().replace(",", ".").toDouble() * 100
+    val symbols = DecimalFormatSymbols(Locale.US)
+    val df = DecimalFormat("##.##", symbols);
+    val res = df.format(filterNumber).toDouble()
+    return res
+}
+

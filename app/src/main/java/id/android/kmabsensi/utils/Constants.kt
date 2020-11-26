@@ -52,6 +52,10 @@ const val INVOICE_TYPE = "invoice_type"
 const val INVOICE_STATUS = "invoice_status"
 const val LEADER_ID = "leader_id"
 
+enum class SORT_TYPE {
+    LEADS,  TRANSACTION, ORDER, RATE_CONVERSION, RATE_ORDER
+}
+
 
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"

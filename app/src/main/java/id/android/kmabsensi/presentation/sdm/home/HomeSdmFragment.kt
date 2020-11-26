@@ -244,10 +244,12 @@ class HomeSdmFragment : Fragment() {
                 is UiState.Success -> {
                     hideSkeletonTime()
 //                    hideSkeletonMenu()
-                    val data = it.data.jadwal.data
-                    val dzuhur = data.dzuhur
-                    val ashr = data.ashar
-                    setCountdown(dzuhur, ashr)
+                    if(it.data.status.toLowerCase().equals("ok", true)){
+                        val data = it.data.jadwal.data
+                        val dzuhur = data.dzuhur
+                        val ashr = data.ashar
+                        setCountdown(dzuhur, ashr)
+                    }
                 }
                 is UiState.Error -> {
                     hideSkeletonTime()

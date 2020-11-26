@@ -68,15 +68,33 @@
                     android:layout_gravity="center"
                     style="@style/tv7sp000000_avenir"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <LinearLayout
+                    android:id="@+id/btnLeads"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingVertical="@dimen/_8dp"
-                    android:text="Leads"
                     android:gravity="center"
-                    android:layout_gravity="center"
-                    style="@style/tv7sp000000_avenir"/>
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingVertical="@dimen/_8dp"
+                        android:text="Leads"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        style="@style/tv7sp000000_avenir"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/icSortLeads"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_baseline_arrow_downward_24"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btnTransaski"

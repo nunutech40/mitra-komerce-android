@@ -25,6 +25,10 @@ class SdmViewModel(
         MutableLiveData<UiState<ListCsPerformanceResponse>>()
     }
 
+    val csReportSummary by lazy {
+        MutableLiveData<UiState<ListCsPerformanceResponse>>()
+    }
+
     val crudResponse by lazy {
         MutableLiveData<UiState<BaseResponse>>()
     }
@@ -48,6 +52,17 @@ class SdmViewModel(
                 csPerformances.value = UiState.Success(it)
             },{
                 csPerformances.value = UiState.Error(it)
+            }))
+    }
+
+    fun filterCsReportSummary(params: FilterSdmReportParams){
+        csReportSummary.value = UiState.Loading()
+        compositeDisposable.add(sdmRepository.filterCsReportSummary(params)
+            .with(schedulerProvider)
+            .subscribe({
+                csReportSummary.value = UiState.Success(it)
+            },{
+                csReportSummary.value = UiState.Error(it)
             }))
     }
 

@@ -19,7 +19,10 @@ class DeviceItem(
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             textDeviceName.text = "${device.deviceType} ${device.brancd}"
-            textSdmName.text = "Pemegang ${device.sdm.fullName}"
+
+            device?.sdm?.fullName?.let {
+                textSdmName.text = "Pemegang ${it}"
+            }
 
             btnDelete.setOnClickListener {
                 listener.onDeleteClicked(device.id)

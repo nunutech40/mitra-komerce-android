@@ -23,18 +23,27 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
-        android:allowClearUserData="true"
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
+        android:usesCleartextTraffic="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hasFragileUserData="true"
+        tools:replace="android:allowBackup"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".presentation.report.performa.PerformaActivity"></activity>
-        <activity android:name=".presentation.report.performa.PilihPartnerActivity" />
-        <activity android:name=".presentation.report.ReportAbsensiActivity" />
+        <activity
+            android:name=".presentation.report.performa.PerformaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.report.performa.PilihPartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.report.ReportAbsensiActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.sdm.laporan.AddSdmLaporanActivity"
             android:screenOrientation="portrait"

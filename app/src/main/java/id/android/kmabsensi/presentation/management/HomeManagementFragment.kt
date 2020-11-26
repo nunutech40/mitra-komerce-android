@@ -319,10 +319,12 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    val data = it.data.jadwal.data
-                    val dzuhur = data.dzuhur
-                    val ashr = data.ashar
-                    setCountdown(dzuhur, ashr)
+                    if(it.data.status.toLowerCase().equals("ok", true)){
+                        val data = it.data.jadwal.data
+                        val dzuhur = data.dzuhur
+                        val ashr = data.ashar
+                        setCountdown(dzuhur, ashr)
+                    }
                 }
                 is UiState.Error -> {
                     skeletonNextTime?.hide()
@@ -498,8 +500,8 @@ class HomeManagementFragment : Fragment() {
                 parentPosition: Int,
                 childPosition: Int
             ) {
-                view?.findViewById<TextView>(R.id.txtJumlahCssr)
-                    ?.setText(model?.total_cssr.toString())
+//                view?.findViewById<TextView>(R.id.txtJumlahCssr)
+//                    ?.setText(model?.total_cssr.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahCuti)
                     ?.setText(model?.total_holiday.toString())
                 view?.findViewById<TextView>(R.id.txtJumlahSakit)

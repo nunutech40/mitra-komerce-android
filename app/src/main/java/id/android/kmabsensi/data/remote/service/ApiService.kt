@@ -573,4 +573,8 @@ interface ApiService {
     @POST("api/performance/cs/filtered")
     fun filterSdmReport(@Body body: FilterSdmReportParams): Single<ListCsPerformanceResponse>
 
+    @POST("api/performance/cs/reportSummaryFiltered")
+    fun filterCsReportSummary(@Body body: FilterSdmReportParams): Single<ListCsPerformanceResponse>
+
+
 }

@@ -9,7 +9,7 @@
 
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="25dp"
+       android:layout_height="wrap_content"
        android:gravity="center"
        android:orientation="horizontal"
        android:layout_marginTop="14dp">
@@ -31,9 +31,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:orientation="horizontal"
         >
         <TextView
@@ -56,7 +57,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -81,7 +82,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -106,7 +107,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -131,7 +132,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -156,7 +157,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="14dp"

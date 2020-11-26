@@ -22,11 +22,11 @@ data class CsPerformance(
     @SerializedName("date")
     val date: String = "",
     @SerializedName("total_leads")
-    val totalLeads: Double = 0.0,
+    val totalLeads: Int = 0,
     @SerializedName("total_transaction")
-    val totalTransaction: Double = 0.0,
+    val totalTransaction: Int = 0,
     @SerializedName("total_order")
-    val totalOrder: Double = 0.0,
+    val totalOrder: Int = 0,
     @SerializedName("conversion_rate")
     val conversionRate: Double = 0.0,
     @SerializedName("order_rate")

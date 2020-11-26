@@ -31,9 +31,7 @@ import org.joda.time.DateTime
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-enum class SORT_TYPE {
-    TRANSACTION, ORDER, RATE_CONVERSION, RATE_ORDER
-}
+
 
 class PerformaActivity : BaseActivity() {
 
@@ -50,6 +48,7 @@ class PerformaActivity : BaseActivity() {
     private var isRateOrderToLowest = true
     private var isOrderToLowest = true
     private var isTransactionToLowest = true
+    private var isLeadsToLowest = true
 
     private var filters =
         listOf("Today", "Yesterday", "Last 7 Days", "This Month", "Last Month", "Custom")
@@ -66,6 +65,9 @@ class PerformaActivity : BaseActivity() {
 
         noPartner = intent.getStringExtra(NO_PARTNER_KEY)
         user = sdmVm.getUserData()
+
+        dateFrom = getDateString(Calendar.getInstance().time)
+        dateTo = getDateString(Calendar.getInstance().time)
 
         initRv()
         observeData()
@@ -103,6 +105,14 @@ class PerformaActivity : BaseActivity() {
             sortPerforma(SORT_TYPE.ORDER)
         }
 
+        btnLeads.setOnClickListener {
+            icSortLeads.setImageResource(
+                if (isLeadsToLowest) R.drawable.ic_baseline_arrow_upward_24 else R.drawable.ic_baseline_arrow_downward_24
+            )
+            isLeadsToLowest = !isLeadsToLowest
+            sortPerforma(SORT_TYPE.LEADS)
+        }
+
         txtCustomDate.setOnClickListener {
             showDialogFilter()
         }
@@ -110,7 +120,7 @@ class PerformaActivity : BaseActivity() {
     }
 
     fun getPerformances(startDate: String, endDate: String) {
-        sdmVm.filterSdmReports(
+        sdmVm.filterCsReportSummary(
             FilterSdmReportParams(
                 user_id = 0,
                 user_management_id = user.id,
@@ -203,7 +213,7 @@ class PerformaActivity : BaseActivity() {
     }
 
     private fun observeData() {
-        sdmVm.csPerformances.observe(this, Observer { state ->
+        sdmVm.csReportSummary.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
                     showDialog()
@@ -244,6 +254,10 @@ class PerformaActivity : BaseActivity() {
             SORT_TYPE.TRANSACTION -> {
                 performaSorted =
                     if (isTransactionToLowest) performa.sortedBy { it.totalTransaction } else performa.sortedByDescending { it.totalTransaction }
+            }
+            SORT_TYPE.LEADS -> {
+                performaSorted =
+                    if (isLeadsToLowest) performa.sortedBy { it.totalLeads } else performa.sortedByDescending { it.totalLeads }
             }
         }
 

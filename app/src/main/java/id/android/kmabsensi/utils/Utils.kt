@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -15,7 +16,6 @@ import com.wildma.idcardcamera.global.Constant.BASE_DIR
 import com.wildma.idcardcamera.utils.FileUtils
 import id.android.kmabsensi.R
 import id.zelory.compressor.Compressor
-import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import org.joda.time.LocalDate
 import org.joda.time.Years
 import org.joda.time.format.DateTimeFormat
@@ -23,6 +23,7 @@ import org.joda.time.format.DateTimeFormatter
 import java.io.File
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,21 +42,14 @@ val DIR_ROOT: String =
     StringBuffer().append(FileUtils.getRootPath()).append(File.separator).append(BASE_DIR)
         .toString()
 
-
-fun roundOffDecimal(number: Double): Double {
-    val df = DecimalFormat("#.##")
-    df.roundingMode = RoundingMode.CEILING
-    return df.format(number).toDouble()
-}
-
 fun getRoleName(roleId: Int): String = when (roleId) {
     1 -> ROLE_ADMIN
     2 -> ROLE_MANAGEMEMENT
     else -> ROLE_SDM
 }
 
-fun calcAgePerson(dateString: String): Int{
-    val birthDate: LocalDate =  LocalDate.parse(dateString)
+fun calcAgePerson(dateString: String): Int {
+    val birthDate: LocalDate = LocalDate.parse(dateString)
     val today = LocalDate()
     val age = Years.yearsBetween(birthDate, today)
     return age.years
@@ -99,7 +93,7 @@ fun getDateStringFormatted2(date: Date): String {
     return simpleDateFormat.format(date)
 }
 
-fun localDateFormatter(localDate: LocalDate, pattern: String = "dd MMMM yyyy"): String{
+fun localDateFormatter(localDate: LocalDate, pattern: String = "dd MMMM yyyy"): String {
     val fmt: DateTimeFormatter = DateTimeFormat.forPattern(pattern)
     return localDate.toString(fmt)
 }
@@ -201,7 +195,12 @@ fun getYearData(): List<String> {
     return years
 }
 
-fun showDialogConfirmDelete(context: Context, title : String = "Hapus Data", message: String = "Apakah anda yakin ingin menghapus data ini?", positiveButtonCallback: () -> Unit){
+fun showDialogConfirmDelete(
+    context: Context,
+    title: String = "Hapus Data",
+    message: String = "Apakah anda yakin ingin menghapus data ini?",
+    positiveButtonCallback: () -> Unit
+) {
     MaterialDialog(context).show {
         title(text = title)
         message(text = message)
@@ -209,7 +208,7 @@ fun showDialogConfirmDelete(context: Context, title : String = "Hapus Data", mes
             it.dismiss()
             positiveButtonCallback.invoke()
         }
-        negativeButton(text = "Batal"){
+        negativeButton(text = "Batal") {
             it.dismiss()
         }
     }

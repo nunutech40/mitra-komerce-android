@@ -2,15 +2,12 @@ package id.android.kmabsensi.presentation.sdm.laporan
 
 import android.app.Activity
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
-import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
@@ -22,8 +19,6 @@ import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.math.RoundingMode
-import java.text.DecimalFormat
 import java.util.*
 
 class AddSdmLaporanActivity : BaseActivity() {
@@ -83,6 +78,12 @@ class AddSdmLaporanActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            Log.d("mitraKm", "res =====================")
+            Log.d("mitraKm", "res ${ratingConversion}")
+            Log.d("mitraKm", "res ${ratingOrder}")
+            Log.d("mitraKm", "res ${percentageRatingConversion}")
+            Log.d("mitraKm", "res ${percentageRatingOrder}")
+
             if (report != null) {
                 sdmVM.editSdmReport(
                     EditSdmReportParams(
@@ -92,8 +93,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = roundOffDecimal(ratingConversion),
-                        order_rate = roundOffDecimal(ratingOrder),
+                        conversion_rate = ratingConversion,
+                        order_rate = ratingOrder,
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -105,8 +106,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = roundOffDecimal(ratingConversion),
-                        order_rate = roundOffDecimal(ratingOrder),
+                        conversion_rate = ratingConversion,
+                        order_rate = ratingOrder,
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -122,11 +123,10 @@ class AddSdmLaporanActivity : BaseActivity() {
                 it?.let {
                     if (it.isNotEmpty()) {
                         totalLeads = it.toString().toInt()
-                        if (totalLeads > 0) calculateRatingConversion()
+                    } else {
+                        totalLeads = 0;
                     }
-                    else {
-//                        clearRaatingConversion()
-                    }
+                    calculateRatingConversion()
                 }
 
             } catch (e: Exception) {
@@ -137,26 +137,19 @@ class AddSdmLaporanActivity : BaseActivity() {
         edtTransaksi.doAfterTextChanged {
             try {
                 it?.let {
+
                     if (it.isNotEmpty()) {
                         totalTransaction = it.toString().toInt()
-                        if (totalLeads > 0) calculateRatingConversion()
-                        if (totalTransaction > 0) {
-                            calculateRatingOrder()
-                            edtOrder.isEnabled = true
-                        } else {
-                            edtOrder.isEnabled = false
-                            edtOrder.setText("")
-                        }
+                    } else {
+                        totalTransaction = 0
                     }
-                    else {
-                        edtTransaksi.error = "Tidak boleh kosong"
+                    edtOrder.isEnabled = totalTransaction > 0
+                    calculateRatingConversion()
+                    calculateRatingOrder()
 
-//                        clearAllRatingField()
-                    }
                 }
 
             } catch (e: Exception) {
-                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
         }
@@ -165,18 +158,12 @@ class AddSdmLaporanActivity : BaseActivity() {
             try {
                 it?.let {
                     if (it.isNotEmpty()) {
-                        if  (totalTransaction > 0){
-                            totalOrder = it.toString().toInt()
-                            if (totalTransaction > 0) calculateRatingOrder()
-                        } else {
-                            Toast.makeText(this, "Transaksi harus lebih dari 0", Toast.LENGTH_LONG).show()
-                        }
+                        totalOrder = it.toString().toInt()
                     } else {
-                        edtOrder.error = "Tidak boleh kosong"
+                        totalOrder = 0
                     }
-//                    else {
-//                        clearRatingOrder()
-//                    }
+                    edtRatingOrder.setText("${(percentageRatingOrder)}%")
+                    calculateRatingOrder()
                 }
 
             } catch (e: Exception) {
@@ -188,8 +175,14 @@ class AddSdmLaporanActivity : BaseActivity() {
     private fun calculateRatingOrder() {
         try {
             Log.d("mitraKm", "calculate rating order")
-            ratingOrder = (totalOrder.toDouble() / totalTransaction.toDouble())
-            percentageRatingOrder = roundOffDecimal(ratingOrder) * 100
+            if (totalTransaction <= 0) {
+                ratingOrder = 0.0
+                percentageRatingOrder = ratingOrder
+                edtRatingOrder.setText("${(percentageRatingOrder)}%")
+                return
+            }
+            ratingOrder = (totalOrder.toDouble() / totalTransaction.toDouble()).rounTwoDigitDecimal()
+            percentageRatingOrder = ratingOrder.rounDecimalToPercentage()
             edtRatingOrder.setText("${(percentageRatingOrder)}%")
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().recordException(e)
@@ -199,9 +192,14 @@ class AddSdmLaporanActivity : BaseActivity() {
     private fun calculateRatingConversion() {
         try {
             Log.d("mitraKm", "calculate rating conversion")
-
-            ratingConversion = (totalTransaction.toDouble() / totalLeads.toDouble())
-            percentageRatingConversion = roundOffDecimal(ratingConversion) * 100
+            if (totalLeads <= 0) {
+                ratingConversion = 0.0
+                percentageRatingConversion = ratingConversion
+                edtRatingKonversi.setText("${(percentageRatingConversion)}%")
+                return
+            }
+            ratingConversion = (totalTransaction.toDouble() / totalLeads.toDouble()).rounTwoDigitDecimal()
+            percentageRatingConversion = ratingConversion.rounDecimalToPercentage()
             if (percentageRatingConversion < 30) {
                 view_nb.visible()
             } else {
@@ -242,6 +240,11 @@ class AddSdmLaporanActivity : BaseActivity() {
     }
 
     private fun initViews() {
+        dateSelected = cal.time
+        edtTanggal.setText(getDateStringFormatted(dateSelected!!))
+        edtTanggal.setOnClickListener {
+            showDatePicker()
+        }
         report?.let {
 
             dateSelected = parseStringDate(it.date)
@@ -249,27 +252,31 @@ class AddSdmLaporanActivity : BaseActivity() {
             totalTransaction = it.totalTransaction
             totalOrder = it.totalOrder
             ratingConversion = it.conversionRate
-            percentageRatingOrder =
-                roundOffDecimal(it.conversionRate) * 100
+            percentageRatingConversion =
+                it.conversionRate.rounDecimalToPercentage()
             ratingOrder = it.orderRate
-            percentageRatingOrder = roundOffDecimal(it.orderRate) * 100
+            percentageRatingOrder = it.orderRate.rounDecimalToPercentage()
 
 
-            edtTanggal.setText(getDateString(dateSelected!!))
+            edtTanggal.setText(getDateStringFormatted(dateSelected!!))
             edtLeads.setText(totalLeads.toString())
             edtTransaksi.setText(totalTransaction.toString())
             edtOrder.setText(totalOrder.toString())
-            edtRatingKonversi.setText("${(ratingConversion)}%")
-            edtRatingOrder.setText("${(ratingOrder)}%")
+            edtRatingKonversi.setText("${(percentageRatingConversion)}%")
+            edtRatingOrder.setText("${(percentageRatingOrder)}%")
+
+            if (percentageRatingConversion < 30) {
+                view_nb.visible()
+            } else {
+                view_nb.gone()
+            }
             edtCatatan.setText(it.notes)
+
+            edtOrder.isEnabled = totalTransaction > 0
 
             btnSave.text = getString(R.string.edit_laporan)
         }
-        dateSelected = cal.time
-        edtTanggal.setText(getDateStringFormatted(dateSelected!!))
-        edtTanggal.setOnClickListener {
-            showDatePicker()
-        }
+
     }
 
     private fun showDatePicker() {
@@ -324,7 +331,7 @@ class AddSdmLaporanActivity : BaseActivity() {
             edtRatingOrder.error = null
         }
 
-        if (view_nb.visibility == View.VISIBLE){
+        if (view_nb.visibility == View.VISIBLE) {
             if (edtCatatan.text.toString().isEmpty()) {
                 edtCatatan.error = "Kolom tidak boleh kosong."
                 result = false

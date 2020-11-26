@@ -8,6 +8,6 @@ data class AddSdmReportParams(
     val total_order: Int,
     val conversion_rate: Double,
     val order_rate: Double,
-    val notes: String
+    var notes: String = ""
 
 )

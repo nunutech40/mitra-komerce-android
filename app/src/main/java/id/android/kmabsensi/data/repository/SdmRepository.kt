@@ -89,6 +89,8 @@ class SdmRepository(val apiService: ApiService) {
 
     fun filterSdmReports(params: FilterSdmReportParams) = apiService.filterSdmReport(params)
 
+    fun filterCsReportSummary(params: FilterSdmReportParams) = apiService.filterCsReportSummary(params)
+
     fun addSdmReport(params: AddSdmReportParams) = apiService.addSdmReport(params)
 
     fun editSdmReport(params: EditSdmReportParams) = apiService.editSdmReport(params)

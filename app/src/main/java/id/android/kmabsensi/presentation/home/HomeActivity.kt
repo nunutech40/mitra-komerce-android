@@ -278,7 +278,7 @@ class HomeActivity : AppCompatActivity() {
         return Pair(greeting, header)
     }
 
-    fun getCountdownTime(time_zuhur: String, time_ashar: String): Triple<String, Long, String> {
+    fun getCountdownTime(time_zuhur: String?, time_ashar: String?): Triple<String, Long, String> {
 
         val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
         var nextTime = ""
@@ -299,9 +299,12 @@ class HomeActivity : AppCompatActivity() {
         selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
         pulang.set(Calendar.HOUR_OF_DAY, 17)
 
-        ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[0].toInt())
-        ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
-
+        time_ashar?.let {
+            if (it.isNotEmpty()){
+                ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[0].toInt())
+                ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
+            }
+        }
         val now = Calendar.getInstance()
 
         val currentTime = simpleDateFormat.parse(simpleDateFormat.format(now.time))
@@ -327,7 +330,7 @@ class HomeActivity : AppCompatActivity() {
             }
             now.before(ashar) -> {
                 statusWaktu = "Menuju Waktu Ashar"
-                nextTime = time_ashar
+                nextTime = time_ashar ?: "-"
                 endTime = simpleDateFormat.parse("$time_ashar:00")
             }
             now.before(pulang) -> {
