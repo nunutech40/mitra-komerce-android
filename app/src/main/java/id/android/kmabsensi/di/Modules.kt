@@ -90,6 +90,7 @@ val repositoryModule = module {
     single { ProductKnowledgeRepository(get()) }
     single { KmPoinRepository(get()) }
     single { HolidayRepository(get()) }
+    single { UserConfigurationRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -121,6 +122,7 @@ val viewModelModule = module {
     viewModel { ProductKnowledgeViewModel(get(), get()) }
     viewModel { HolidayViewModel(get(), get()) }
     viewModel { SdmViewModel(get(), get(), get()) }
+    viewModel { UserConfigurationViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

@@ -33,7 +33,7 @@ interface ApiService {
     fun resetPassword(
         @Field("id") userId: String,
         @Field("password") password: String
-    ) : Single<BaseResponse>
+    ): Single<BaseResponse>
 
     @FormUrlEncoded
     @POST("api/user/get-profile")
@@ -148,15 +148,15 @@ interface ApiService {
 
     @GET("api/dashboard")
     fun getDashboardInfo(
-        @Query("user_id") userId : Int
-    ) : Single<DashboardResponse>
+        @Query("user_id") userId: Int
+    ): Single<DashboardResponse>
 
     @FormUrlEncoded
     @POST("api/presence/check")
     fun presenceCheck(
         @Field("user_id") userId: Int,
         @Field("date") date: String
-    ) : Single<PresenceCheckResponse>
+    ): Single<PresenceCheckResponse>
 
     @Multipart
     @POST("api/presence/check-in")
@@ -191,7 +191,7 @@ interface ApiService {
         @Part("date_to") dateTo: RequestBody,
         @Part attachment_leader: MultipartBody.Part,
         @Part attachment_partner: MultipartBody.Part?
-    ) : Single<BaseResponse>
+    ): Single<BaseResponse>
 
     @POST("api/forget_password")
     @FormUrlEncoded
@@ -239,7 +239,7 @@ interface ApiService {
     fun presenceReportFiltered(@Body body: Map<String, Any>): Single<PresenceReportResponse>
 
     @POST("api/position")
-    fun listPosition() : Single<ListPositionResponse>
+    fun listPosition(): Single<ListPositionResponse>
 
     @POST("api/position/add")
     @FormUrlEncoded
@@ -260,10 +260,10 @@ interface ApiService {
     ): Single<BaseResponse>
 
     @GET
-    fun getJadwalShalat(@Url url: String) : Single<JadwalShalatResponse>
+    fun getJadwalShalat(@Url url: String): Single<JadwalShalatResponse>
 
     @POST("api/coworkingspace")
-    fun getCoworkingSpace() : Single<ListCoworkingSpaceResponse>
+    fun getCoworkingSpace(): Single<ListCoworkingSpaceResponse>
 
     @JvmSuppressWildcards
     @POST("api/coworkingspace/add")
@@ -286,12 +286,12 @@ interface ApiService {
     @GET("api/coworkingspace/check-in/{cowork-id}")
     fun checkinCoworkingSpace(
         @Path("cowork-id") coworkId: Int
-    ) : Single<BaseResponse>
+    ): Single<BaseResponse>
 
     @GET("api/coworkingspace/check-out/{cowork_presence_id}")
     fun checkOutCoworkingSpace(
         @Path("cowork_presence_id") cowork_presence_id: Int
-    ) : Single<BaseResponse>
+    ): Single<BaseResponse>
 
     @JvmSuppressWildcards
     @POST("api/presence/ticket/add")
@@ -361,7 +361,7 @@ interface ApiService {
     fun getSimplePartners(): Single<SimplePartnersResponse>
 
     @GET("api/user/partner/partnerOfSdmAssigned/{user_management_id}")
-    fun getPartnerByManagement(@Path("user_management_id") userManagementId: Int) : Single<SimplePartnersResponse>
+    fun getPartnerByManagement(@Path("user_management_id") userManagementId: Int): Single<SimplePartnersResponse>
 
     @Multipart
     @POST("api/user/partner/edit")
@@ -397,17 +397,17 @@ interface ApiService {
 
     @JvmSuppressWildcards
     @POST("api/invoice/myInvoice")
-    fun getMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
+    fun getMyInvoice(@Body body: Map<String, Any>): Single<MyInvoiceResponse>
 
     @JvmSuppressWildcards
     @POST("api/invoice/myInvoice")
-    fun filterMyInvoice(@Body body: Map<String, Any>) : Single<MyInvoiceResponse>
+    fun filterMyInvoice(@Body body: Map<String, Any>): Single<MyInvoiceResponse>
 
     @GET("api/invoice/detail/admin/{invoice_id}")
-    fun getInvoiceAdminDetail(@Path("invoice_id") invoiceId: Int) : Single<InvoiceDetailResponse>
+    fun getInvoiceAdminDetail(@Path("invoice_id") invoiceId: Int): Single<InvoiceDetailResponse>
 
     @GET("api/invoice/detail/gaji/{invoice_id}")
-    fun getInvoiceGajiDetail(@Path("invoice_id") invoiceId: Int) : Single<InvoiceDetailResponse>
+    fun getInvoiceGajiDetail(@Path("invoice_id") invoiceId: Int): Single<InvoiceDetailResponse>
 
     @POST("api/invoice/create")
     fun createInvoice(@Body body: CreateInvoiceBody): Single<CreateInvoiceResponse>
@@ -433,6 +433,9 @@ interface ApiService {
     @POST("api/invoice/report/summaryDetail")
     fun getInvoiceReportDetail(@Body body: Map<String, Any>): Single<InvoiceReportDetailResponse>
 
+    @GET("api/kmconfig")
+    fun getWorkConfig(): Single<WorkConfigResponse>
+
     @POST("api/kmconfig/update")
     fun updateWorkConfig(@Body workConfigParams: WorkConfigParams): Single<WorkConfigResponse>
 
@@ -443,12 +446,12 @@ interface ApiService {
     fun filterEvaluationCollaboration(@Body params: FilterEvaluationCollaborationParams): Single<EvaluationCollaborationResponse>
 
     @GET("api/menu")
-    fun getMenuRole() : Single<MenuRoleResponse>
+    fun getMenuRole(): Single<MenuRoleResponse>
 
     @GET("api/menu/getMenuByPosition/{position_id}")
     fun getMenuRoleByPosition(
         @Path("position_id") positionId: Int
-    ) : Single<MenuRoleByPositionResponse>
+    ): Single<MenuRoleByPositionResponse>
 
     @POST("api/menu/assignPosition")
     fun assignPosition(@Body assignReleasePositionParams: AssignReleasePositionParams): Single<BaseResponse>
@@ -576,5 +579,15 @@ interface ApiService {
     @POST("api/performance/cs/reportSummaryFiltered")
     fun filterCsReportSummary(@Body body: FilterSdmReportParams): Single<ListCsPerformanceResponse>
 
+    @FormUrlEncoded
+    @POST("api/userconfiguration/sdmShiftConfiguration")
+    fun getSdmShiftConfiguration(
+        @Field("user_management_id") userManagementId: Int = 0
+    ): Single<UserConfigurationResponse>
+
+    @POST("api/userconfiguration/updateSdmShift")
+    fun updateSdmShift(
+        @Body body: UpdateSdmShiftConfigParam
+    ): Single<SingleSdmShiftConfigResponse>
 
 }

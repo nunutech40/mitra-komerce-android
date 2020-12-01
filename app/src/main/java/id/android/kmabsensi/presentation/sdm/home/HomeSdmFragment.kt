@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +17,12 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
-import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Holiday
+import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
@@ -37,6 +36,7 @@ import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.laporan.SdmLaporanActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
+import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
@@ -61,7 +61,7 @@ class HomeSdmFragment : Fragment() {
 
     private val REQ_SCAN_QR = 123
 
-    var isCheckin = false
+    var isCheckinButtonClicked = false
 
     private val FORMAT = "(- %02d:%02d:%02d )"
     private var countDownTimer: CountDownTimer? = null
@@ -135,79 +135,7 @@ class HomeSdmFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.checkdeIn) {
-                        if (isCheckin) {
-                            MaterialDialog(context!!).show {
-                                cornerRadius(16f)
-
-                                title(text = "Check-In")
-                                message(text = "Anda sudah check-in hari ini")
-                                positiveButton(text = "OK") {
-                                    it.dismiss()
-                                }
-                            }
-                        } else {
-                            //checkout
-                            // cek jam pulang terlebih dahulu
-                            val currentTime = Calendar.getInstance()
-                            val now: Date = currentTime.time
-
-                            val cal = Calendar.getInstance()
-                            cal.set(Calendar.HOUR_OF_DAY, 16)
-                            cal.set(Calendar.MINUTE, 30)
-                            val jamPulang: Date = cal.time
-
-                            if (now.before(jamPulang)) {
-                                (activity as HomeActivity).showDialogNotYetCheckout()
-                            } else {
-                                // office name contain rumah, can direct selfie
-                                if (it.data.office_assigned.office_name.toLowerCase()
-                                        .contains("rumah")
-                                ) {
-                                    context?.startActivity<CheckinActivity>(
-                                        DATA_OFFICE_KEY to it.data.office_assigned,
-                                        PRESENCE_ID_KEY to it.data.presence_id
-                                    )
-                                } else {
-                                    context?.startActivity<CekJangkauanActivity>(
-                                        DATA_OFFICE_KEY to it.data.office_assigned,
-                                        PRESENCE_ID_KEY to it.data.presence_id
-                                    )
-                                }
-                            }
-                        }
-
-                    } else {
-                        if (isCheckin) {
-                            //checkin
-                            if (it.data.office_assigned.office_name.toLowerCase()
-                                    .contains("rumah")
-                            ) {
-                                context?.startActivity<CheckinActivity>(
-                                    DATA_OFFICE_KEY to it.data.office_assigned,
-                                    PRESENCE_ID_KEY to 0
-                                )
-                            } else {
-                                context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
-                            }
-                        } else {
-                            val dialog = MaterialDialog(context!!).show {
-                                cornerRadius(16f)
-                                customView(
-                                    R.layout.dialog_maaf,
-                                    scrollable = false,
-                                    horizontalPadding = true,
-                                    noVerticalPadding = true
-                                )
-                            }
-                            val customView = dialog.getCustomView()
-                            val close = customView.findViewById<ImageView>(R.id.close)
-                            close.setOnClickListener {
-                                dialog.dismiss()
-                            }
-                        }
-
-                    }
+                    onPresenceCheck(it.data)
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -244,10 +172,10 @@ class HomeSdmFragment : Fragment() {
                 is UiState.Success -> {
                     hideSkeletonTime()
 //                    hideSkeletonMenu()
-                    if(it.data.status.toLowerCase().equals("ok", true)){
+                    if (it.data.status.toLowerCase().equals(getString(R.string.ok), true)) {
                         val data = it.data.jadwal.data
-                        val dzuhur = data.dzuhur
-                        val ashr = data.ashar
+                        val dzuhur = data?.dzuhur
+                        val ashr = data?.ashar
                         setCountdown(dzuhur, ashr)
                     }
                 }
@@ -420,12 +348,12 @@ class HomeSdmFragment : Fragment() {
         txtRoleName.text = user.position_name
 
         btnCheckIn.setOnClickListener {
-            isCheckin = true
+            isCheckinButtonClicked = true
             vm.presenceCheck(user.id)
         }
 
         btnCheckOut.setOnClickListener {
-            isCheckin = false
+            isCheckinButtonClicked = false
             vm.presenceCheck(user.id)
         }
 
@@ -465,6 +393,94 @@ class HomeSdmFragment : Fragment() {
 
     }
 
+    private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
+
+        var isEligibleToCheckInOutside = false
+        var isEligibleToCheckoutOutside = false
+        val isWFH = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+        val isShiftMode = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.SHIFT_MODE }?.value == ModeKerjaActivity.MODE_ON
+        val sdmConfig = presenceCheck.sdm_config
+
+        if (isShiftMode){
+            isEligibleToCheckInOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_SIANG
+            isEligibleToCheckoutOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_PAGI
+        }
+
+
+        if (presenceCheck.checkdeIn) {
+            if (isCheckinButtonClicked) {
+                MaterialDialog(context!!).show {
+                    cornerRadius(16f)
+                    title(text = "Check-In")
+                    message(text = "Anda sudah check-in hari ini")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else {
+                //checkout button clicked and already check in
+                // cek jam pulang terlebih dahulu
+                val currentTime = Calendar.getInstance()
+                val now: Date = currentTime.time
+
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.HOUR_OF_DAY, 16)
+                cal.set(Calendar.MINUTE, 30)
+                val jamPulang: Date = cal.time
+
+                if (now.before(jamPulang)) {
+                    (activity as HomeActivity).showDialogNotYetCheckout()
+                } else {
+                    // office name contain rumah, can direct selfie
+                    if (presenceCheck.office_assigned.office_name.toLowerCase()
+                            .contains("rumah") || isWFH || isEligibleToCheckoutOutside
+                    ) {
+                        context?.startActivity<CheckinActivity>(
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                        )
+                    } else {
+                        context?.startActivity<CekJangkauanActivity>(
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                        )
+                    }
+                }
+            }
+
+        } else {
+            if (isCheckinButtonClicked) {
+                //checkin
+                if (presenceCheck.office_assigned.office_name.toLowerCase()
+                        .contains("rumah") || isWFH || isEligibleToCheckInOutside
+                ) {
+                    context?.startActivity<CheckinActivity>(
+                        DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                        PRESENCE_ID_KEY to 0
+                    )
+                } else {
+                    context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to presenceCheck.office_assigned)
+                }
+            } else {
+                // check in not yet
+                val dialog = MaterialDialog(context!!).show {
+                    cornerRadius(16f)
+                    customView(
+                        R.layout.dialog_maaf,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
+                    )
+                }
+                val customView = dialog.getCustomView()
+                val close = customView.findViewById<ImageView>(R.id.close)
+                close.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+        }
+    }
+
 
     private fun setupGreetings() {
         val (greeting, header) = (activity as HomeActivity).setGreeting()
@@ -477,7 +493,7 @@ class HomeSdmFragment : Fragment() {
         fun newInstance() = HomeSdmFragment()
     }
 
-    private fun setCountdown(time_zuhur: String, time_ashar: String) {
+    private fun setCountdown(time_zuhur: String?, time_ashar: String?) {
 
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 //            setHolidayView()

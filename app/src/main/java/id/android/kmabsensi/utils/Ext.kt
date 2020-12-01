@@ -92,11 +92,3 @@ fun Double.rounTwoDigitDecimal(): Double {
     return res
 }
 
-fun Double.rounDecimalToPercentage(): Double {
-    val filterNumber = this.toString().replace(",", ".").toDouble() * 100
-    val symbols = DecimalFormatSymbols(Locale.US)
-    val df = DecimalFormat("##.##", symbols);
-    val res = df.format(filterNumber).toDouble()
-    return res
-}
-

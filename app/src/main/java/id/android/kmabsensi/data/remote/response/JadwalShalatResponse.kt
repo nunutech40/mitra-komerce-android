@@ -7,14 +7,14 @@ data class JadwalShalatResponse(
 )
 
 data class Jadwal(
-    val data: JadwalShalat,
+    val data: JadwalShalat?,
     val status: String
 )
 
 data class JadwalShalat(
-    val ashar: String,
+    val ashar: String = "00:00:00",
     val dhuha: String,
-    val dzuhur: String,
+    val dzuhur: String = "00:00:00",
     val imsak: String,
     val isya: String,
     val maghrib: String,

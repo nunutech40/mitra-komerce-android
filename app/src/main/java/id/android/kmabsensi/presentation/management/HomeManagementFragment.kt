@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,9 +26,7 @@ import com.xwray.groupie.GroupieViewHolder
 import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.Dashboard
-import id.android.kmabsensi.data.remote.response.Holiday
-import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
@@ -46,10 +43,10 @@ import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
+import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
-import kotlinx.android.synthetic.main.fragment_home_admin.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
 import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
@@ -87,7 +84,6 @@ import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
 import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
 import kotlinx.android.synthetic.main.fragment_home_management.txtStatusWaktu
 import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
-import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.joda.time.LocalDate
@@ -106,7 +102,7 @@ class HomeManagementFragment : Fragment() {
     private lateinit var myDialog: MyDialog
     private val REQ_SCAN_QR = 123
 
-    var isCheckin = false
+    var isCheckinButtonClicked = false
 
     private val FORMAT = "(- %02d:%02d:%02d )"
     private var countDownTimer: CountDownTimer? = null
@@ -175,14 +171,19 @@ class HomeManagementFragment : Fragment() {
                     }
 
                     val workConfigs = it.data.data.work_config
-                    val isWFH = workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-                    val isManagementWFH = isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains("management", true) ?: false
+                    val isWFH =
+                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                    val isManagementWFH =
+                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                            "management",
+                            true
+                        ) ?: false
                     setWorkModeUI(isManagementWFH)
 
                     holidays.clear()
                     holidays.addAll(it.data.data.holidays)
 
-                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                         setHolidayView()
                     }
                 }
@@ -200,79 +201,7 @@ class HomeManagementFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.checkdeIn) {
-                        if (isCheckin) {
-                            MaterialDialog(context!!).show {
-                                cornerRadius(16f)
-                                title(text = "Check-In")
-                                message(text = "Anda sudah check-in hari ini")
-                                positiveButton(text = "OK") {
-                                    it.dismiss()
-                                }
-                            }
-                        } else {
-                            //checkout
-                            // cek jam pulang terlebih dahulu
-                            val currentTime = Calendar.getInstance()
-                            val now: Date = currentTime.time
-
-                            val cal = Calendar.getInstance()
-                            cal.set(Calendar.HOUR_OF_DAY, 16)
-                            cal.set(Calendar.MINUTE, 30)
-                            val jamPulang: Date = cal.time
-
-                            if (now.before(jamPulang)) {
-                                (activity as HomeActivity).showDialogNotYetCheckout()
-                            } else {
-                                // office name contain rumah, can direct selfie
-                                if (it.data.office_assigned.office_name.toLowerCase()
-                                        .contains("rumah")
-                                ) {
-                                    context?.startActivity<CheckinActivity>(
-                                        DATA_OFFICE_KEY to it.data.office_assigned,
-                                        PRESENCE_ID_KEY to it.data.presence_id
-                                    )
-                                } else {
-                                    context?.startActivity<CekJangkauanActivity>(
-                                        DATA_OFFICE_KEY to it.data.office_assigned,
-                                        PRESENCE_ID_KEY to it.data.presence_id
-                                    )
-                                }
-                            }
-                        }
-
-                    } else {
-                        if (isCheckin) {
-                            //checkin
-
-                            if (it.data.office_assigned.office_name.toLowerCase()
-                                    .contains("rumah")
-                            ) {
-                                context?.startActivity<CheckinActivity>(
-                                    DATA_OFFICE_KEY to it.data.office_assigned,
-                                    PRESENCE_ID_KEY to 0
-                                )
-                            } else {
-                                context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to it.data.office_assigned)
-                            }
-                        } else {
-                            val dialog = MaterialDialog(context!!).show {
-                                cornerRadius(16f)
-                                customView(
-                                    R.layout.dialog_maaf,
-                                    scrollable = false,
-                                    horizontalPadding = true,
-                                    noVerticalPadding = true
-                                )
-                            }
-                            val customView = dialog.getCustomView()
-                            val close = customView.findViewById<ImageView>(R.id.close)
-                            close.setOnClickListener {
-                                dialog.dismiss()
-                            }
-                        }
-
-                    }
+                    onPresenceCheck(it.data)
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -319,11 +248,15 @@ class HomeManagementFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    if(it.data.status.toLowerCase().equals("ok", true)){
-                        val data = it.data.jadwal.data
-                        val dzuhur = data.dzuhur
-                        val ashr = data.ashar
-                        setCountdown(dzuhur, ashr)
+                    try {
+                        if (it.data.status.toLowerCase().equals(getString(R.string.ok), true)) {
+                            val data = it.data.jadwal.data
+                            val dzuhur = data?.dzuhur
+                            val ashr = data?.ashar
+                            setCountdown(dzuhur, ashr)
+                        }
+                    } catch (e: Exception){
+                        e.printStackTrace()
                     }
                 }
                 is UiState.Error -> {
@@ -402,25 +335,26 @@ class HomeManagementFragment : Fragment() {
         })
 
         roleVM.accessMenu.observe(viewLifecycleOwner, Observer { state ->
-        when(state) {
-            is UiState.Loading -> {
+            when (state) {
+                is UiState.Loading -> {
 
-            }
-            is UiState.Success -> {
-                val data = state.data.data
-                data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
-                    view_menu_data_partner.visible()
                 }
+                is UiState.Success -> {
+                    val data = state.data.data
+                    data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
+                        view_menu_data_partner.visible()
+                    }
 
-                data[0].menus.find { menu -> menu.name.toLowerCase() == "sdm" }?.let {
-                    view_menu_sdm.visible()
+                    data[0].menus.find { menu -> menu.name.toLowerCase() == "sdm" }?.let {
+                        view_menu_sdm.visible()
+                    }
+
                 }
+                is UiState.Error -> {
 
+                }
             }
-            is UiState.Error -> {
-
-            }
-        } })
+        })
 
         vm.redeemPoin.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -455,10 +389,102 @@ class HomeManagementFragment : Fragment() {
 //            view_menu_partner_category.visibility = View.VISIBLE
         }
 
+        if ( user.position_name.toLowerCase().contains("leader")){
+            view_menu_shift.visible()
+        }
     }
 
-    private fun setWorkModeUI(isWFH: Boolean){
-        if (isWFH){
+    private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
+
+//        var isEligibleToCheckInOutside = false
+//        var isEligibleToCheckoutOutside = false
+        val isWFH = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+//        val isShiftMode = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.SHIFT_MODE }?.value == ModeKerjaActivity.MODE_ON
+//        val sdmConfig = presenceCheck.sdm_config
+//
+//        if (isShiftMode){
+//            isEligibleToCheckInOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_SIANG
+//            isEligibleToCheckoutOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_PAGI
+//        }
+
+
+        if (presenceCheck.checkdeIn) {
+            if (isCheckinButtonClicked) {
+                MaterialDialog(context!!).show {
+                    cornerRadius(16f)
+                    title(text = "Check-In")
+                    message(text = "Anda sudah check-in hari ini")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else {
+                //checkout button clicked and already check in
+                // cek jam pulang terlebih dahulu
+                val currentTime = Calendar.getInstance()
+                val now: Date = currentTime.time
+
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.HOUR_OF_DAY, 16)
+                cal.set(Calendar.MINUTE, 30)
+                val jamPulang: Date = cal.time
+
+                if (now.before(jamPulang)) {
+                    (activity as HomeActivity).showDialogNotYetCheckout()
+                } else {
+                    // office name contain rumah, can direct selfie
+                    if (presenceCheck.office_assigned.office_name.toLowerCase()
+                            .contains("rumah") || isWFH
+                    ) {
+                        context?.startActivity<CheckinActivity>(
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                        )
+                    } else {
+                        context?.startActivity<CekJangkauanActivity>(
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                        )
+                    }
+                }
+            }
+
+        } else {
+            if (isCheckinButtonClicked) {
+                //checkin
+                if (presenceCheck.office_assigned.office_name.toLowerCase()
+                        .contains("rumah") || isWFH
+                ) {
+                    context?.startActivity<CheckinActivity>(
+                        DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                        PRESENCE_ID_KEY to 0
+                    )
+                } else {
+                    context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to presenceCheck.office_assigned)
+                }
+            } else {
+                // check in not yet
+                val dialog = MaterialDialog(context!!).show {
+                    cornerRadius(16f)
+                    customView(
+                        R.layout.dialog_maaf,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
+                    )
+                }
+                val customView = dialog.getCustomView()
+                val close = customView.findViewById<ImageView>(R.id.close)
+                close.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+        }
+    }
+
+
+    private fun setWorkModeUI(isWFH: Boolean) {
+        if (isWFH) {
             dataHadir.gone()
             expandableLayout.gone()
             layoutWfhMode.visible()
@@ -576,12 +602,12 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnCheckIn.setOnClickListener {
-            isCheckin = true
+            isCheckinButtonClicked = true
             vm.presenceCheck(user.id)
         }
 
         btnCheckOut.setOnClickListener {
-            isCheckin = false
+            isCheckinButtonClicked = false
             vm.presenceCheck(user.id)
         }
 
@@ -628,6 +654,10 @@ class HomeManagementFragment : Fragment() {
             showGroupMenu(0)
         }
 
+        btnShift.setOnClickListener {
+            activity?.startActivity<SdmShiftActivity>()
+        }
+
 //        btnPartnerCategory.setOnClickListener {
 //            activity?.startActivity<KategoriPartnerActivity>()
 //        }
@@ -672,14 +702,14 @@ class HomeManagementFragment : Fragment() {
         fun newInstance() = HomeManagementFragment()
     }
 
-    private fun setHolidayView(){
+    private fun setHolidayView() {
         skeletonNextTime?.hide()
         skeletonStatusWaktu?.hide()
         skeletonContdown?.hide()
-        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             txtNextTime.text = "Hari Minggu"
         } else {
-            if (holidays.isNotEmpty()){
+            if (holidays.isNotEmpty()) {
                 txtNextTime.invis()
                 layoutHoliday.visible()
                 txtHolidayName.text = holidays[0].eventName
@@ -704,9 +734,9 @@ class HomeManagementFragment : Fragment() {
         expandableLayout.gone()
     }
 
-    private fun setCountdown(time_zuhur: String, time_ashar: String) {
+    private fun setCountdown(time_zuhur: String?, time_ashar: String?) {
 
-        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 //            setHolidayView()
         } else {
             labelWaktu.text = "WAKTU"

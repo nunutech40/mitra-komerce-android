@@ -5,7 +5,6 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.CsPerformance
-import id.android.kmabsensi.utils.rounDecimalToPercentage
 import kotlinx.android.synthetic.main.item_row_performa.view.*
 
 class PerformaItem(val performa: CsPerformance): Item() {
@@ -20,8 +19,8 @@ class PerformaItem(val performa: CsPerformance): Item() {
             itemView.txtLeads.text = "${performa.totalLeads}"
             itemView.txtTransaksi.text = "${performa.totalTransaction}"
             itemView.txtOrder.text = "${performa.totalOrder}"
-            itemView.txtRatingKonversi.text = "${performa.conversionRate.rounDecimalToPercentage()}%"
-            itemView.txtRatingOrder.text = "${performa.orderRate.rounDecimalToPercentage()}%"
+            itemView.txtRatingKonversi.text = "${performa.conversionRate}%"
+            itemView.txtRatingOrder.text = "${performa.orderRate}%"
 
             itemView.txtNb.setOnClickListener {
                 MaterialDialog(itemView.context).show {

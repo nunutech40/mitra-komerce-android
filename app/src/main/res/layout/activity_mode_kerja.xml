@@ -6,17 +6,18 @@
     android:layout_height="match_parent"
     tools:context="id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/view_wfh_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_24dp"
         android:layout_marginStart="@dimen/_18dp"
+        android:layout_marginTop="@dimen/_24dp"
         android:layout_marginEnd="@dimen/_18dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +26,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layoutModeKerja"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -46,67 +47,129 @@
                     android:layout_height="wrap_content"
                     android:text="Work From Home" />
 
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.suke.widget.SwitchButton
-                android:id="@+id/switchButton"
+                android:id="@+id/wfhSwitchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:sb_checked_color="#3FB686"
                 app:sb_uncheck_color="#E04C25"
-                />
+                app:sb_uncheckcircle_color="#E04C25" />
 
             <View
-                android:id="@+id/btnSwitchButton"
+                android:id="@+id/btnWfhSwitchButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@id/switchButton"
-                app:layout_constraintStart_toStartOf="@id/switchButton"
-                app:layout_constraintEnd_toEndOf="@id/switchButton"
-                app:layout_constraintBottom_toBottomOf="@id/switchButton"/>
+                app:layout_constraintTop_toTopOf="@id/wfhSwitchButton"
+                app:layout_constraintStart_toStartOf="@id/wfhSwitchButton"
+                app:layout_constraintEnd_toEndOf="@id/wfhSwitchButton"
+                app:layout_constraintBottom_toBottomOf="@id/wfhSwitchButton"/>
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layoutDetailWorkConfig"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="26dp"
+                android:orientation="vertical"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/layoutModeKerja"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/layoutModeKerja">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@drawable/divider"
-                    />
+                    android:background="@drawable/divider" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textView15"
+                    style="@style/tv14spf48070_avenir_heavy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16dp"
-                    android:text="Role"
-                    style="@style/tv14spf48070_avenir_heavy"/>
+                    android:text="Role" />
 
                 <TextView
                     android:id="@+id/txtWorkScope"
+                    style="@style/tv14sp000000_avenir_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Managemen"
-                    style="@style/tv14sp000000_avenir_medium" />
-
+                    android:text="Managemen" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_18dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginEnd="@dimen/_18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_wfh_mode">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="26dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutModeShift"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtModeShift"
+                    style="@style/tv24sp000000_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shift" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtModeShiftDesc"
+                    style="@style/tv14sp929292_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pagi - Siang" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.suke.widget.SwitchButton
+                android:id="@+id/shiftSwitchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sb_checked_color="#3FB686"
+                app:sb_uncheck_color="#E04C25"
+                app:sb_uncheckcircle_color="#E04C25" />
+
+            <View
+                android:id="@+id/btnShiftSwitchButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/shiftSwitchButton"
+                app:layout_constraintStart_toStartOf="@id/shiftSwitchButton"
+                app:layout_constraintEnd_toEndOf="@id/shiftSwitchButton"
+                app:layout_constraintBottom_toBottomOf="@id/shiftSwitchButton"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

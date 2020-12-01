@@ -32,8 +32,9 @@ class AddSdmLaporanActivity : BaseActivity() {
     private var totalLeads: Int = 0
     private var totalTransaction: Int = 0
     private var totalOrder: Int = 0
-    private var ratingConversion: Double = 0.0
-    private var ratingOrder: Double = 0.0
+
+    //    private var ratingConversion: Double = 0.0
+//    private var ratingOrder: Double = 0.0
     private var percentageRatingConversion: Double = 0.0
     private var percentageRatingOrder: Double = 0.0
 
@@ -79,8 +80,8 @@ class AddSdmLaporanActivity : BaseActivity() {
             }
 
             Log.d("mitraKm", "res =====================")
-            Log.d("mitraKm", "res ${ratingConversion}")
-            Log.d("mitraKm", "res ${ratingOrder}")
+//            Log.d("mitraKm", "res ${ratingConversion}")
+//            Log.d("mitraKm", "res ${ratingOrder}")
             Log.d("mitraKm", "res ${percentageRatingConversion}")
             Log.d("mitraKm", "res ${percentageRatingOrder}")
 
@@ -93,8 +94,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = ratingConversion,
-                        order_rate = ratingOrder,
+                        conversion_rate = percentageRatingConversion,
+                        order_rate = percentageRatingOrder,
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -106,8 +107,8 @@ class AddSdmLaporanActivity : BaseActivity() {
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
                         edtOrder.text.toString().toInt(),
-                        conversion_rate = ratingConversion,
-                        order_rate = ratingOrder,
+                        conversion_rate = percentageRatingConversion,
+                        order_rate = percentageRatingOrder,
                         notes = edtCatatan.text.toString()
                     )
                 )
@@ -176,13 +177,12 @@ class AddSdmLaporanActivity : BaseActivity() {
         try {
             Log.d("mitraKm", "calculate rating order")
             if (totalTransaction <= 0) {
-                ratingOrder = 0.0
-                percentageRatingOrder = ratingOrder
+                percentageRatingOrder = 0.0
                 edtRatingOrder.setText("${(percentageRatingOrder)}%")
                 return
             }
-            ratingOrder = (totalOrder.toDouble() / totalTransaction.toDouble()).rounTwoDigitDecimal()
-            percentageRatingOrder = ratingOrder.rounDecimalToPercentage()
+            val ratingOrder = (totalOrder.toDouble() / totalTransaction.toDouble()) * 100
+            percentageRatingOrder = ratingOrder.rounTwoDigitDecimal()
             edtRatingOrder.setText("${(percentageRatingOrder)}%")
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().recordException(e)
@@ -193,13 +193,12 @@ class AddSdmLaporanActivity : BaseActivity() {
         try {
             Log.d("mitraKm", "calculate rating conversion")
             if (totalLeads <= 0) {
-                ratingConversion = 0.0
-                percentageRatingConversion = ratingConversion
+                percentageRatingConversion = 0.0
                 edtRatingKonversi.setText("${(percentageRatingConversion)}%")
                 return
             }
-            ratingConversion = (totalTransaction.toDouble() / totalLeads.toDouble()).rounTwoDigitDecimal()
-            percentageRatingConversion = ratingConversion.rounDecimalToPercentage()
+            val ratingConversion = (totalTransaction.toDouble() / totalLeads.toDouble()) * 100
+            percentageRatingConversion = ratingConversion.rounTwoDigitDecimal()
             if (percentageRatingConversion < 30) {
                 view_nb.visible()
             } else {
@@ -251,11 +250,9 @@ class AddSdmLaporanActivity : BaseActivity() {
             totalLeads = it.totalLeads
             totalTransaction = it.totalTransaction
             totalOrder = it.totalOrder
-            ratingConversion = it.conversionRate
             percentageRatingConversion =
-                it.conversionRate.rounDecimalToPercentage()
-            ratingOrder = it.orderRate
-            percentageRatingOrder = it.orderRate.rounDecimalToPercentage()
+                it.conversionRate
+            percentageRatingOrder =  it.orderRate
 
 
             edtTanggal.setText(getDateStringFormatted(dateSelected!!))

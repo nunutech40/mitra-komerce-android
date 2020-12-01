@@ -19,6 +19,10 @@ class WorkConfigViewModel(
         MutableLiveData<UiState<WorkConfigResponse>>()
     }
 
+    val workConfigResult by lazy {
+        MutableLiveData<UiState<WorkConfigResponse>>()
+    }
+
     fun updateWorkConfig(workConfigParams: WorkConfigParams){
         workConfigUpdateResult.value = UiState.Loading()
         compositeDisposable.add(repository.updateWorkConfig(workConfigParams)
@@ -27,6 +31,18 @@ class WorkConfigViewModel(
                 workConfigUpdateResult.value = UiState.Success(it)
             },{
                 workConfigUpdateResult.value = UiState.Error(it)
+            }))
+    }
+
+
+    fun getWorkConfig(){
+        workConfigResult.value = UiState.Loading()
+        compositeDisposable.add(repository.getWorkConfig()
+            .with(schedulerProvider)
+            .subscribe({
+                workConfigResult.value = UiState.Success(it)
+            },{
+                workConfigResult.value = UiState.Error(it)
             }))
     }
 

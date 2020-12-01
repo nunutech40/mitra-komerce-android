@@ -8,7 +8,9 @@ data class PresenceCheckResponse(
     val code: Int,
     val office_assigned: OfficeAssigned,
     val presence_id: Int,
-    val status: Boolean
+    val status: Boolean,
+    val sdm_config: SdmConfig,
+    val work_config: List<WorkConfig> = listOf()
 )
 
 @Parcelize

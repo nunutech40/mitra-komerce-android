@@ -137,11 +137,10 @@ class HomeAdminFragment : Fragment() {
                     }
 
                     val isWFH = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
-
-                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
-                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
-
+//                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
+//
+//                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
+//                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
                     setWorkModeUI(isWFH)
 
                     holidays.clear()
@@ -182,10 +181,10 @@ class HomeAdminFragment : Fragment() {
                     skeletonNextTime?.hide()
                     skeletonStatusWaktu?.hide()
                     skeletonContdown?.hide()
-                    if(it.data.status.toLowerCase().equals("ok", true)){
+                    if (it.data.status.toLowerCase().equals(getString(R.string.ok), true)) {
                         val data = it.data.jadwal.data
-                        val dzuhur = data.dzuhur
-                        val ashr = data.ashar
+                        val dzuhur = data?.dzuhur
+                        val ashr = data?.ashar
                         setCountdown(dzuhur, ashr)
                     }
                 }
@@ -382,7 +381,7 @@ class HomeAdminFragment : Fragment() {
         expandableLayout.gone()
     }
 
-    private fun setCountdown(time_zuhur: String, time_ashar: String) {
+    private fun setCountdown(time_zuhur: String?, time_ashar: String?) {
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
         } else {
             labelWaktu.text = "WAKTU"
