@@ -22,7 +22,6 @@ android {
         versionName "1.11.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "BASE_URL_ABSENSI", "\"https://absensi.kampungmarketer.com/\""
     }
     lintOptions {
         checkReleaseBuilds false
@@ -36,11 +35,13 @@ android {
         production {
             applicationId "id.android.kmabsensi"
             resValue "string", "app_name", "Mitra KM"
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://app.komerce.id/\""
         }
         development {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra KM"
             resConfigs "en", "xxhdpi"
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://appdev.komerce.id/\""
         }
 
     }
