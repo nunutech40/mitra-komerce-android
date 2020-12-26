@@ -63,7 +63,7 @@ class PerformaActivity : BaseActivity() {
         setContentView(R.layout.activity_performa)
         setupToolbar("Performa")
 
-        noPartner = intent.getStringExtra(NO_PARTNER_KEY)
+        noPartner = intent.getStringExtra(NO_PARTNER_KEY) ?: "0"
         user = sdmVm.getUserData()
 
         dateFrom = getDateString(Calendar.getInstance().time)

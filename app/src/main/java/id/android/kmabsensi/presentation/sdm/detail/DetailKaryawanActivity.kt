@@ -89,7 +89,7 @@ class DetailKaryawanActivity : BaseActivity() {
         setupToolbar("Detail SDM")
 
         myDialog = MyDialog(this)
-        karyawan = intent.getParcelableExtra(USER_KEY)
+        karyawan = intent.getParcelableExtra(USER_KEY)!!
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementSelectedId = karyawan.user_management_id
 

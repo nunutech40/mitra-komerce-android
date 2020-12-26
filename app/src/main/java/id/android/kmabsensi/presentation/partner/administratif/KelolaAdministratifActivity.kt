@@ -228,7 +228,7 @@ class KelolaAdministratifActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 123 && resultCode == Activity.RESULT_OK && data != null) {
             val docPaths = ArrayList<Uri>()
-            docPaths.addAll(data.getParcelableArrayListExtra<Uri>(KEY_SELECTED_DOCS))
+            data.getParcelableArrayListExtra<Uri>(KEY_SELECTED_DOCS)?.let { docPaths.addAll(it) }
             docPaths.forEach {
                 val path = ContentUriUtils.getFilePath(this, it)
                 dumpFileMetaData(it)

@@ -48,7 +48,7 @@ class CheckinCoworkingActivity : BaseActivity(), OnMapReadyCallback {
 
         setupToolbar("Cek Jangkauan")
 
-        coworking = intent.getParcelableExtra("coworking")
+        coworking = intent.getParcelableExtra("coworking") ?: UserCoworkingSpace()
         myDialog = MyDialog(this)
 
         val mapFragment = supportFragmentManager

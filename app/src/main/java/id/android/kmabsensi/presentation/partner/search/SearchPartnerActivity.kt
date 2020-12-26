@@ -38,7 +38,7 @@ class SearchPartnerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_partner)
 
-        data = intent.getParcelableExtra(PARTNER_RESPONSE_KEY)
+        data = intent.getParcelableExtra(PARTNER_RESPONSE_KEY) ?: ListPartnerResponse()
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Cari Data Partner"

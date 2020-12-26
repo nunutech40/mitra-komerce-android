@@ -27,7 +27,7 @@ class BuktiPembayaranActivity : BaseActivity() {
         setupToolbar("Bukti Pembayaran")
         initRv()
 
-        val invoiceDetail = intent.getParcelableExtra<InvoiceDetail>(INVOICE_DATA_KEY)
+        val invoiceDetail = intent.getParcelableExtra<InvoiceDetail>(INVOICE_DATA_KEY) ?: InvoiceDetail()
         showDetailData(invoiceDetail)
 
     }

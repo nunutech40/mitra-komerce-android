@@ -12,16 +12,16 @@ data class UserCoworkDataResponse(
 
 @Parcelize
 data class UserCoworkingSpace(
-    val address: String,
-    val available_slot: Int,
-    val cowork_name: String,
-    val cowork_presence: List<CoworkPresence>,
-    val description: String,
-    val id: Int,
-    val lat: String,
-    val lng: String,
-    val slot: String,
-    val status: String
+    val address: String = "",
+    val available_slot: Int = 0,
+    val cowork_name: String = "",
+    val cowork_presence: List<CoworkPresence> = listOf(),
+    val description: String = "",
+    val id: Int = 0,
+    val lat: String = "",
+    val lng: String = "",
+    val slot: String = "",
+    val status: String = ""
 ): Parcelable
 
 @Parcelize

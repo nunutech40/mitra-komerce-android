@@ -76,7 +76,7 @@ class DetailPartnerActivity : BaseActivity() {
 
         setToolbar()
 
-        partner = intent.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+        partner = intent.getParcelableExtra<Partner>(PARTNER_DATA_KEY) ?: Partner()
 
         initViews()
         setDataToView(partner)

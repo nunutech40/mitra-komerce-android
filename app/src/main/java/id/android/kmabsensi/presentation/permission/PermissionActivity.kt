@@ -38,7 +38,7 @@ class PermissionActivity : BaseActivity() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
-    lateinit var user: User
+    private var user: User? = null
 
     private val REQ_FORM_IZIN = 212
 
@@ -91,12 +91,14 @@ class PermissionActivity : BaseActivity() {
         dateTo = getTodayDate()
 
 //        vm.getListPermission(userId = user.id)
-        vm.filterPermission(
-            userId = user.id,
-            dateFrom = dateFrom,
-            dateTo = dateTo,
-            permissionType = permissionType
-        )
+        user?.let { user ->
+            vm.filterPermission(
+                userId = user.id,
+                dateFrom = dateFrom,
+                dateTo = dateTo,
+                permissionType = permissionType
+            )
+        }
         btnFilter.setOnClickListener {
             showDialogFilter()
         }
@@ -116,12 +118,14 @@ class PermissionActivity : BaseActivity() {
             createAlertSuccess(this, message.toString())
             groupAdapter.clear()
 //            vm.getListPermission(userId = user.id)
-            vm.filterPermission(
-                userId = user.id,
-                dateFrom = dateFrom,
-                dateTo = dateTo,
-                permissionType = permissionType
-            )
+            user?.let { user ->
+                vm.filterPermission(
+                    userId = user.id,
+                    dateFrom = dateFrom,
+                    dateTo = dateTo,
+                    permissionType = permissionType
+                )
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -185,12 +189,14 @@ class PermissionActivity : BaseActivity() {
 
         buttonFilter.setOnClickListener {
             dialog.dismiss()
-            vm.filterPermission(
-                userId = user.id,
-                dateFrom = dateFrom,
-                dateTo = dateTo,
-                permissionType = permissionType
-            )
+            user?.let { user ->
+                vm.filterPermission(
+                    userId = user.id,
+                    dateFrom = dateFrom,
+                    dateTo = dateTo,
+                    permissionType = permissionType
+                )
+            }
         }
 
         dialog.show()

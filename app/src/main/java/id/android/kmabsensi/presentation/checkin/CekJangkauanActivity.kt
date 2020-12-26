@@ -35,7 +35,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var locationManager: LocationManager
 
-    private lateinit var data : OfficeAssigned
+    private var data : OfficeAssigned? = null
 
     //untuk keperluan checkout
     private var presenseId: Int = 0
@@ -98,43 +98,46 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         }
 
         // Add a marker in Sydney and move the camera
-        val office = LatLng(data.lat.toDouble(), data.lng.toDouble())
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(office, 15.0F))
+        var office: LatLng? = null
+        data?.let { data -> office = LatLng(data.lat.toDouble(), data.lng.toDouble()) }
+        office?.let { office ->
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(office, 15.0F))
 
-        mMap.addCircle(
-            CircleOptions()
-                .center(LatLng(office.latitude, office.longitude))
-                .radius(350.0)
-                .strokeColor(Color.TRANSPARENT)
-                .fillColor(ContextCompat.getColor(this, R.color.colorCircle))
-        )
+            mMap.addCircle(
+                CircleOptions()
+                    .center(LatLng(office.latitude, office.longitude))
+                    .radius(350.0)
+                    .strokeColor(Color.TRANSPARENT)
+                    .fillColor(ContextCompat.getColor(this, R.color.colorCircle))
+            )
 
 
-        locationManager.listenLocationUpdate {
-            lastLocation = it
-            var myLocation = LatLng(it.latitude, it.longitude)
-            if (!layoutNext.isVisible) layoutNext.visible()
-            marker?.let {
-                it.remove()
-            }
-            marker = mMap.addMarker(MarkerOptions().position(myLocation))
-            val officeLocation = Location("office").apply {
-                latitude = office.latitude
-                longitude = office.longitude
-            }
-            val distance = officeLocation.distanceTo(it)
+            locationManager.listenLocationUpdate {
+                lastLocation = it
+                var myLocation = LatLng(it.latitude, it.longitude)
+                if (!layoutNext.isVisible) layoutNext.visible()
+                marker?.let {
+                    it.remove()
+                }
+                marker = mMap.addMarker(MarkerOptions().position(myLocation))
+                val officeLocation = Location("office").apply {
+                    latitude = office.latitude
+                    longitude = office.longitude
+                }
+                val distance = officeLocation.distanceTo(it)
 
-            layoutNext.visible()
-            val animation = AnimationUtils.loadAnimation(this, R.anim.downtoup)
-            layoutNext.animation = animation
-            if (distance > 350){
-                layoutDiluarJangkauan.visible()
-                txtJangkauan.gone()
-                btnNext.isEnabled = false
-            } else {
-                txtJangkauan.visible()
-                layoutDiluarJangkauan.gone()
-                btnNext.isEnabled = true
+                layoutNext.visible()
+                val animation = AnimationUtils.loadAnimation(this, R.anim.downtoup)
+                layoutNext.animation = animation
+                if (distance > 350){
+                    layoutDiluarJangkauan.visible()
+                    txtJangkauan.gone()
+                    btnNext.isEnabled = false
+                } else {
+                    txtJangkauan.visible()
+                    layoutDiluarJangkauan.gone()
+                    btnNext.isEnabled = true
+                }
             }
         }
 

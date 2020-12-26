@@ -15,12 +15,12 @@ data class PresenceCheckResponse(
 
 @Parcelize
 data class OfficeAssigned(
-    val address: String,
-    val created_at: String,
-    val id: Int,
-    val lat: String,
-    val lng: String,
-    val office_name: String,
-    val pj_user_id: String,
-    val updated_at: String
+    val address: String = "",
+    val created_at: String = "",
+    val id: Int = 0,
+    val lat: String = "",
+    val lng: String = "",
+    val office_name: String = "",
+    val pj_user_id: String = "",
+    val updated_at: String = ""
 ) : Parcelable

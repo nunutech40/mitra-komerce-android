@@ -47,7 +47,7 @@ class FormIzinActivity : BaseActivity() {
 
     var permissionType = 0
 
-    private lateinit var user: User
+    private  var user: User? = null
 
     private var compressedImagePersetujuanPartner: File? = null
     private var compressedImageLaporanLeader: File? = null
@@ -69,13 +69,13 @@ class FormIzinActivity : BaseActivity() {
 
         user = intent.getParcelableExtra(USER_KEY)
 
-        if (user.role_id == 2) {
+        if (user?.role_id == 2) {
             txt_label_bukti_2.text = "Lampiran Bukti Izin"
             layoutPersetujuanPartner.gone()
             dividerPersetujuanPartner.gone()
 
-        } else if (user.role_id == 3) {
-            if (user.division_id == 2) {
+        } else if (user?.role_id == 3) {
+            if (user?.division_id == 2) {
                 layoutPersetujuanPartner.gone()
                 dividerPersetujuanPartner.gone()
             }
@@ -132,7 +132,7 @@ class FormIzinActivity : BaseActivity() {
 
         btnSubmit.setOnClickListener {
 
-            if (user.division_id == 1 && user.role_id == 3) {
+            if (user?.division_id == 1 && user?.role_id == 3) {
                 if (compressedImagePersetujuanPartner == null) {
                     createAlertError(this, "Peringatan", "Upload persetujuan partner dahulu.")
                     return@setOnClickListener
@@ -140,27 +140,29 @@ class FormIzinActivity : BaseActivity() {
             }
 
             if (validation()) {
-                compressedImageLaporanLeader?.let { leader ->
-                    vm.createPermission(
-                        permissionType,
-                        user.id,
-                        user.office_id,
-                        user.role_id,
-                        user.user_management_id,
-                        edtDeskripsi.text.toString(),
-                        edtDateFrom.text.toString(),
-                        edtDateTo.text.toString(),
-                        leader,
-                        compressedImagePersetujuanPartner?.let { it }
-                    )
-                } ?: run {
+                user?.let { user ->
+                    compressedImageLaporanLeader?.let { leader ->
+                        vm.createPermission(
+                            permissionType,
+                            user.id,
+                            user.office_id,
+                            user.role_id,
+                            user.user_management_id,
+                            edtDeskripsi.text.toString(),
+                            edtDateFrom.text.toString(),
+                            edtDateTo.text.toString(),
+                            leader,
+                            compressedImagePersetujuanPartner?.let { it }
+                        )
+                    } ?: run {
 
-                    if (user.role_id == 2){
-                        createAlertError(this, "Peringatan", "Upload dokumen terkait dahulu.")
-                    } else {
-                        createAlertError(this, "Peringatan", "Upload laporan leader dahulu.")
+                        if (user.role_id == 2){
+                            createAlertError(this, "Peringatan", "Upload dokumen terkait dahulu.")
+                        } else {
+                            createAlertError(this, "Peringatan", "Upload laporan leader dahulu.")
+                        }
+
                     }
-
                 }
             }
         }

@@ -43,8 +43,8 @@ class InvoiceReportDetailActivity : BaseActivity() {
     }
 
     private fun getBundle() {
-        startPeriod = intent.getStringExtra(START_PERIOD)
-        endPeriod = intent.getStringExtra(END_PERIOD)
+        startPeriod = intent.getStringExtra(START_PERIOD) ?: ""
+        endPeriod = intent.getStringExtra(END_PERIOD) ?: ""
         invoiceType = intent.getIntExtra(INVOICE_TYPE, 0)
         invoiceStatus = intent.getIntExtra(INVOICE_STATUS, 0)
         leaderIdSelected = intent.getIntExtra(LEADER_ID, 0)

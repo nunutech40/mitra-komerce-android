@@ -30,7 +30,7 @@ class SdmPartnerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sdm_partner)
 
-        noPartner = intent.getStringExtra(NO_PARTNER_KEY)
+        noPartner = intent.getStringExtra(NO_PARTNER_KEY) ?: ""
         val partnerName = intent.getStringExtra(NAME_PARTNER_KEY)
 
         setupToolbar("SDM $partnerName")

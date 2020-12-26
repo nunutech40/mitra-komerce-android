@@ -62,7 +62,7 @@ class CheckinActivity : BaseActivity() {
 
         myDialog = MyDialog(this)
 
-        data = intent.getParcelableExtra(DATA_OFFICE_KEY)
+        data = intent.getParcelableExtra(DATA_OFFICE_KEY) ?: OfficeAssigned()
 
         setupView()
 
@@ -99,8 +99,7 @@ class CheckinActivity : BaseActivity() {
 
     }
 
-    fun setupView() {
-
+    private fun setupView() {
         txtTitle.text = if (presenceId == 0) "Check in" else "Check Out"
         btnBack.setOnClickListener {
             onBackPressed()
@@ -124,30 +123,6 @@ class CheckinActivity : BaseActivity() {
         layoutBorderCamera.setOnClickListener {
             startActivityForResult<CameraActivity>(125)
         }
-
-//        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
-//        kendalaAbsen.setSpan(
-//            ForegroundColorSpan(
-//                ContextCompat.getColor(
-//                    this,
-//                    R.color.color_kirim_laporan
-//                )
-//            ),
-//            19, 32,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//        kendalaAbsen.setSpan(
-//            StyleSpan(Typeface.BOLD),
-//            19, 32,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//
-//        btnKirimLaporan.text = kendalaAbsen
-//
-//        btnKirimLaporan.setOnClickListener {
-//            startActivity<ReportAbsensiActivity>()
-//        }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -58,8 +58,8 @@ class FilterReportKantorActivity : BaseActivity() {
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
         userResponse = intent.getParcelableExtra("user_response")
         officeResponse = intent.getParcelableExtra("office_response")
-        dateFrom = intent.getStringExtra("dateFrom")
-        dateTo = intent.getStringExtra("dateTo")
+        dateFrom = intent.getStringExtra("dateFrom") ?: ""
+        dateTo = intent.getStringExtra("dateTo") ?: ""
 
 
         val dateFormat = SimpleDateFormat(DATE_FORMAT)

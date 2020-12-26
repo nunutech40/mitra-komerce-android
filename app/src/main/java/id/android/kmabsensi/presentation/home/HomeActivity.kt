@@ -107,7 +107,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
-        val message = intent.getStringExtra("message")
+        val message = intent.getStringExtra("message") ?: ""
         if (hasReportPresence) {
             createAlertSuccess(this, message)
         }

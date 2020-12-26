@@ -40,7 +40,7 @@ class UbahProfileActivity : BaseActivity() {
 
     private val vm: UbahProfileViewModel by inject()
 
-    private lateinit var user: User
+    private var user: User? = null
 
     var imagePath : String? = null
 
@@ -129,31 +129,33 @@ class UbahProfileActivity : BaseActivity() {
         }
 
         btnSimpan.setOnClickListener {
-            vm.updateKaryawan(
-                user.id.toString(),
-                edtUsername.text.toString(),
-                edtEmail.text.toString(),
-                user.role_id.toString(),
-                edtNamaLengkap.text.toString(),
-                user.division_id.toString(),
-                user.office_id.toString(),
-                user.position_id.toString(),
-                edtNoPartner.text.toString(),
-                edtAsalDesa.text.toString(),
-                edtNoHp.text.toString(),
-                edtAddress.text.toString(),
-                edtTanggalLahir.text.toString(),
-                genderSelectedId.toString(),
-                user.user_management_id.toString(),
-                user.status,
-                compressedImage,
-                edtTanggalBergabung.text.toString(),
-                martialStatus.toString(),
-                bankAccountId.toString(),
-                edtNamaBank.text.toString(),
-                edtNoRekening.text.toString(),
-                edtPemilikRekening.text.toString()
-            )
+            user?.let { user ->
+                vm.updateKaryawan(
+                    user.id.toString(),
+                    edtUsername.text.toString(),
+                    edtEmail.text.toString(),
+                    user.role_id.toString(),
+                    edtNamaLengkap.text.toString(),
+                    user.division_id.toString(),
+                    user.office_id.toString(),
+                    user.position_id.toString(),
+                    edtNoPartner.text.toString(),
+                    edtAsalDesa.text.toString(),
+                    edtNoHp.text.toString(),
+                    edtAddress.text.toString(),
+                    edtTanggalLahir.text.toString(),
+                    genderSelectedId.toString(),
+                    user.user_management_id.toString(),
+                    user.status,
+                    compressedImage,
+                    edtTanggalBergabung.text.toString(),
+                    martialStatus.toString(),
+                    bankAccountId.toString(),
+                    edtNamaBank.text.toString(),
+                    edtNoRekening.text.toString(),
+                    edtPemilikRekening.text.toString()
+                )
+            }
         }
 
         vm.crudResponse.observe(this, Observer {
@@ -177,7 +179,7 @@ class UbahProfileActivity : BaseActivity() {
             }
         })
 
-        setDataToView(user)
+        user?.let { user -> setDataToView(user) }
     }
 
     private fun setDataToView(data: User){
