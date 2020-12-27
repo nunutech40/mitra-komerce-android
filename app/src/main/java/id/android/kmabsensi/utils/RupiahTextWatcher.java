@@ -11,7 +11,7 @@ public class RupiahTextWatcher implements TextWatcher {
 
     private EditText edt;
     private String current = "";
-
+    private OnAfterTextChanged mListener;
 
     public RupiahTextWatcher(EditText edt) {
         this.edt = edt;
@@ -25,6 +25,10 @@ public class RupiahTextWatcher implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+    }
+
+    public void setListener(OnAfterTextChanged listener){
+        this.mListener = listener;
     }
 
     @Override
@@ -57,11 +61,13 @@ public class RupiahTextWatcher implements TextWatcher {
                             .getSymbol(local));
 //            String clean = "Rp. "+formatted.replaceAll(replace, "");
             String clean = formatted.replaceAll(replace, "");
-
+            if (mListener != null){
+                mListener.afterTextChanged(clean);
+            }
 
             current = formatted;
             if (clean.equals("0")){
-                edt.setText("");
+                edt.setText("0");
                 edt.addTextChangedListener(this);
             } else {
                 edt.setText(clean);

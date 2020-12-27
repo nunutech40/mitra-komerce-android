@@ -135,6 +135,7 @@
     <string name="label_on">ON</string>
     <string name="shift">Shift</string>
     <string name="ok">ok</string>
+    <string name="platform">Platform</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -223,5 +224,16 @@
         <item>Modem</item>
         <item>Lainnya</item>
     </string-array>
+
+    <string name="info_tayangan">Jumlah tayangan iklan yang dilihat oleh target audience</string>
+    <string name="info_klik_iklan">Jumlah orang yang klik iklan yang pada akhirnya setelah klik akan menuju ke halaman penawaran / landing page (LP)</string>
+    <string name="info_visitor">Jumlah orang yang mengunjungi halaman penawaran / landingpage (LP) di web</string>
+    <string name="info_klik_kontak">Jumlah orang yang klik tombol kontak pada landing page di website</string>
+    <string name="info_leads_cs">Jumlah orang yang akhirnya kontak ke tim penjualan/CS</string>
+    <string name="info_biaya_iklan">Biaya iklan yang dihabiskan</string>
+    <string name="info_ctr_link">Ukuran tingkat ketertarikan iklan, diidentifikasi dengan Click Through Rate (CTR) yaitu perbandingan antara jumlah orang yang klik iklan menuju web terhadap jumlah tayangan iklan</string>
+    <string name="info_rasio_lp">Ukuran tingkat konversi halaman penawaran; diidentifikasi dari perbandingan antara orang yang klik tombol kontak dibandingkan dengan pebaca halaman penawaran tersebut</string>
+    <string name="info_cpr">Ukuran tingkat efisiensi iklan; diidentifikasi dari biaya yang dihabiskan untuk menciptakan setiap 1 leads orang yang kontak dibandingkan dengan biaya iklan yang dihabiskan</string>
+    <string name="general_empty_message">Kolom tidak boleh kosong</string>
 
 </resources>

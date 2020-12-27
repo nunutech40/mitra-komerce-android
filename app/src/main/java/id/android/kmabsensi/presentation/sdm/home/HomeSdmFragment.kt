@@ -34,6 +34,7 @@ import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.laporan.SdmLaporanActivity
+import id.android.kmabsensi.presentation.sdm.laporan.advertiser.ListLaporanAdvertiserActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
 import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
@@ -286,7 +287,7 @@ class HomeSdmFragment : Fragment() {
         vm.getCoworkUserData(user.id)
         textView24.text = getTodayDateTimeDay()
 
-        if (user.position_name.toLowerCase() != "customer service") btnLaporanLayout.invis()
+        if (user.position_name.toLowerCase() != "customer service" && user.position_name.toLowerCase() != "advertiser") btnLaporanLayout.invis()
 
     }
 
@@ -370,7 +371,12 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnLaporan.setOnClickListener {
-            activity?.startActivity<SdmLaporanActivity>()
+            if (user.position_name.toLowerCase() == "customer service"){
+                activity?.startActivity<SdmLaporanActivity>()
+            } else {
+                activity?.startActivity<ListLaporanAdvertiserActivity>()
+            }
+
         }
 
         swipeRefresh.setOnRefreshListener {

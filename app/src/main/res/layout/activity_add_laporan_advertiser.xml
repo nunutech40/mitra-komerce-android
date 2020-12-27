@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.sdm.laporan.advertiser.KelolaLaporanAdvertiserActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="Tanggal" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtTanggal"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_calendar2"
+                android:clickable="true"
+                android:focusable="false"
+                tools:text="12 Desember 2020"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <TextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/partner" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihPartner"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Pilih Partner"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right"
+                android:drawableTint="#b4b4b4"
+                android:layout_marginHorizontal="20dp" />
+
+            <TextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/platform" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerPlatform"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_24dp"
+                android:background="@drawable/spinner_with_line_bg"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblTayangan"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:focusable="false"
+                android:drawablePadding="@dimen/_4dp"
+                android:text="Tayangan" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtJumlahTayangan"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Masukkan Jumlah Tayangan..."
+                android:inputType="number"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblKlikIklan"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:drawablePadding="@dimen/_4dp"
+                android:focusable="false"
+                android:text="Klik Iklan" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtKlikIklan"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Masukkan Jumlah Klik Iklan..."
+                android:inputType="number"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblVisitor"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:focusable="false"
+                android:drawablePadding="@dimen/_4dp"
+                android:text="Visitor" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtJumlahVisitor"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Masukkan jumlah visitor..."
+                android:inputType="number"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblKlikKontak"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:focusable="false"
+                android:drawablePadding="@dimen/_4dp"
+                android:text="Klik Kontak" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtKlikKontak"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Masukkan jumlah klik kontak..."
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblLeadsCs"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:focusable="false"
+                android:drawablePadding="@dimen/_4dp"
+                android:text="Leads CS" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtLeadsCS"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Masukkan jumlah leads..."
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblBiayaIklan"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:drawablePadding="@dimen/_4dp"
+                android:focusable="false"
+                android:text="Biaya Iklan" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtBiayaIklan"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Masukkan jumlah biaya iklan..."
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblCtrLink"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:drawablePadding="@dimen/_4dp"
+                android:focusable="false"
+                android:text="CTR Link" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtCtrLink"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="0.0%"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblRasioLP"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:drawablePadding="@dimen/_4dp"
+                android:focusable="false"
+                android:text="Rasio LP" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtRasioLP"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="0.0%"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblCpr"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_20dp"
+                app:drawableStartCompat="@drawable/ic_info"
+                android:focusable="false"
+                android:drawablePadding="@dimen/_4dp"
+                android:text="CPR" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtCPR"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="0.0%"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/view_nb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/tv14spf48070_avenir_heavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12dp"
+                    android:layout_marginStart="@dimen/_24dp"
+                    android:text="N.B" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edtCatatan"
+                    style="@style/tv14sp000000_avenir_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/masukkan_catatan"
+                    android:lines="3"
+                    android:gravity="top"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"/>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSave"
+                style="@style/AppButtonGradient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_18dp"
+                android:layout_marginEnd="@dimen/_18dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginTop="@dimen/_32dp"
+                android:text="@string/kirim_laporan"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

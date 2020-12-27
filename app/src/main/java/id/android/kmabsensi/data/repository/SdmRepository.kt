@@ -1,8 +1,6 @@
 package id.android.kmabsensi.data.repository
 
-import id.android.kmabsensi.data.remote.body.AddSdmReportParams
-import id.android.kmabsensi.data.remote.body.EditSdmReportParams
-import id.android.kmabsensi.data.remote.body.FilterSdmReportParams
+import id.android.kmabsensi.data.remote.body.*
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
@@ -96,5 +94,11 @@ class SdmRepository(val apiService: ApiService) {
     fun editSdmReport(params: EditSdmReportParams) = apiService.editSdmReport(params)
 
     fun deleteSdmReport(id: Int) = apiService.deleteSdmReport(id)
+
+    // ---- advertiser ---- //
+    fun getAdvertiserReports() = apiService.getAdvertiserReports()
+    fun addAdvertiserReport(params: AddAdvertiserReportParams) = apiService.addAdvertiserReport(params)
+    fun editAdvertiserReport(params: EditAdvertiserReportParams) = apiService.editAdvertiserReport(params)
+    fun deleteAdvertiserReport(id: Int) = apiService.deleteAdvertiserReport(id)
 
 }

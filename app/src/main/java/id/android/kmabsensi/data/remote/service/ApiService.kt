@@ -590,4 +590,25 @@ interface ApiService {
         @Body body: UpdateSdmShiftConfigParam
     ): Single<SingleSdmShiftConfigResponse>
 
+    @GET("api/performance/adv")
+    fun getAdvertiserReports() : Single<ListAdvertiserReportResponse>
+
+    @POST("api/performance/adv/add")
+    fun addAdvertiserReport(
+        @Body body: AddAdvertiserReportParams
+    ): Single<BaseResponse>
+
+    @GET("api/performance/adv/delete/{id}")
+    fun deleteAdvertiserReport(
+        @Path("id") id: Int
+    ): Single<BaseResponse>
+
+
+    @POST("api/performance/adv/edit")
+    fun editAdvertiserReport(
+        @Body body: EditAdvertiserReportParams
+    ): Single<BaseResponse>
+
+
+
 }

@@ -35,6 +35,9 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
+        <activity android:name=".presentation.sdm.laporan.advertiser.KelolaLaporanAdvertiserActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".presentation.sdm.laporan.advertiser.ListLaporanAdvertiserActivity" />
         <activity
             android:name=".presentation.sdm.shift.SdmShiftActivity"
             android:screenOrientation="portrait" />

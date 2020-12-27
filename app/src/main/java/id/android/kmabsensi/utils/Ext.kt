@@ -62,6 +62,7 @@ fun View.gone(){
 }
 
 fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
+fun convertRpWithoutSpace(number: Double) = String.format("Rp%,.0f", number).replace(",".toRegex(), ".")
 
 fun TextView.spannableQuestionEvaluation(question: String, notes: String){
     val spannable = SpannableString("$question $notes")
