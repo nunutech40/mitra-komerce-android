@@ -2,6 +2,8 @@ package id.android.kmabsensi.data.remote.response
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
+
 
 @Parcelize
 data class UserResponse(
@@ -23,7 +25,8 @@ data class User(
     val gender: Int,
     val id: Int,
     val no_hp: String,
-    val no_partner: String,
+    val no_partners: List<String>,
+    val partner_assignments: List<PartnerAssignment> = listOf(),
     val npk: String,
     val office_id: Int,
     val office_name: String,
@@ -45,4 +48,20 @@ data class User(
     val management: ManagementResponse? = ManagementResponse(),
     var sdm_config: SdmConfig? = SdmConfig()
 ) : Parcelable
+
+@Parcelize
+data class PartnerAssignment(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("full_name")
+    val fullName: String = "",
+    @SerializedName("email")
+    val email: String = "",
+    @SerializedName("role_id")
+    val roleId: Int = 0,
+    @SerializedName("position_name")
+    val positionName: String? = null,
+    @SerializedName("no_partner")
+    val noPartner: String = ""
+): Parcelable
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.sdm.laporan.AddSdmLaporanActivity">
+    tools:context=".presentation.sdm.laporan.cs.AddSdmLaporanActivity">
 
     <include layout="@layout/toolbar"/>
 

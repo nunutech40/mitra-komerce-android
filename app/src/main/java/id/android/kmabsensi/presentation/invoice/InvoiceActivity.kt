@@ -88,7 +88,7 @@ class InvoiceActivity : BaseActivity() {
                         partners.addAll(state.data.partners)
                         val partnerName = mutableListOf<String>()
                         partnerName.add("Semua")
-                        partners.forEach { partnerName.add(it.noPartner + " - " + it.fullName) }
+                        partners.forEach { partnerName.add(it.partner.noPartner + " - " + it.fullName) }
 
                         ArrayAdapter(this, R.layout.spinner_item, partnerName).also { adapter ->
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

@@ -513,7 +513,7 @@ class TambahSdmActivity : BaseActivity() {
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
             val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.noPartner)
+            edtNoPartner.setText(partners?.partner?.noPartner)
             edtNoPartner.error = null
         }
 

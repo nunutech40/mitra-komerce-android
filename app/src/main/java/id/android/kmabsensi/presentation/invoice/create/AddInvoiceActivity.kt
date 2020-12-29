@@ -278,7 +278,7 @@ class AddInvoiceActivity : BaseActivity() {
 
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
             val title =
-                "Invoice $invoiceType Partner ${partnerSelected!!.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
+                "Invoice $invoiceType Partner ${partnerSelected!!.partner.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
             edtInvoiceTitle.setText(title)
 
             spinnerMonth.setSelection(
@@ -286,7 +286,7 @@ class AddInvoiceActivity : BaseActivity() {
                     .indexOfFirst { it == "$titleMonth" })
             spinnerYear.setSelection(getYearData().indexOfFirst { it == "$titleYear" })
 
-            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
+            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -321,7 +321,7 @@ class AddInvoiceActivity : BaseActivity() {
     fun setTitleInvoice(month: String, year: String) {
         partnerSelected?.let {
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
-            val title = "Invoice $invoiceType Partner ${it.noPartner} ${it.fullName} $month $year"
+            val title = "Invoice $invoiceType Partner ${it.partner.noPartner} ${it.fullName} $month $year"
             edtInvoiceTitle.setText(title)
         }
     }

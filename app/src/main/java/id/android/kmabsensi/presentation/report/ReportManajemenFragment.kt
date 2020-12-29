@@ -9,6 +9,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.report.performa.PilihPartnerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
+import id.android.kmabsensi.utils.IS_CS
 import id.android.kmabsensi.utils.USER_ID_KEY
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.fragment_report_manajemen.*
@@ -32,7 +33,7 @@ class ReportManajemenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val user = vm.getUserData()
-        if (user.position_name.toLowerCase().contains("leader")){
+        if (user.position_name.toLowerCase().contains("leader")) {
             menu_performa.visible()
         }
 
@@ -41,7 +42,17 @@ class ReportManajemenFragment : Fragment() {
         }
 
         btnPerforma.setOnClickListener {
-            activity?.startActivity<PilihPartnerActivity>(USER_ID_KEY to user.id)
+            activity?.startActivity<PilihPartnerActivity>(
+                USER_ID_KEY to user.id,
+                IS_CS to true
+            )
+        }
+
+        btnPerformaAdvertiser.setOnClickListener {
+            activity?.startActivity<PilihPartnerActivity>(
+                USER_ID_KEY to user.id,
+                IS_CS to false
+            )
         }
 
 

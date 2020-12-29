@@ -19,6 +19,7 @@ import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Device
+import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -153,7 +154,7 @@ class AddDeviceActivity : BaseActivity() {
                     edtJenis.text.toString(),
                     edtMerek.text.toString(),
                     edtSpesifikasi.text.toString(),
-                    partnerSelected?.noPartner.toString(),
+                    partnerSelected?.partner?.noPartner.toString(),
                     sdmIdSelected.toString(),
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
@@ -166,7 +167,7 @@ class AddDeviceActivity : BaseActivity() {
                     edtJenis.text.toString(),
                     edtMerek.text.toString(),
                     edtSpesifikasi.text.toString(),
-                    partnerSelected?.noPartner.toString(),
+                    partnerSelected?.partner?.noPartner.toString(),
                     sdmIdSelected.toString(),
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
@@ -200,8 +201,9 @@ class AddDeviceActivity : BaseActivity() {
             edtJenis.setText(it.deviceType)
             edtMerek.setText(it.brancd)
             edtSpesifikasi.setText(it.spesification)
-            partnerSelected = SimplePartner(it.partner.id, it.noPartner, it.partner.fullName)
-            sdmVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
+            val partnerDetail = PartnerDetail(noPartner = it.noPartner)
+            partnerSelected = SimplePartner(id = it.partner.id, fullName = it.partner.fullName, partner = partnerDetail)
+            sdmVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
             sdmIdSelected = it.sdm.id
             edtPilihPartner.setText(it.partner.fullName)
             edtPilihSDM.setText(it.sdm.fullName)
@@ -340,7 +342,7 @@ class AddDeviceActivity : BaseActivity() {
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
 
-            sdmVM.getSdmByPartner(partnerSelected!!.noPartner.toInt())
+            sdmVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
         }
 
         super.onActivityResult(requestCode, resultCode, data)

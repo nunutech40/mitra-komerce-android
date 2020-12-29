@@ -150,7 +150,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
         edtNoHp.setText(data.no_hp)
-        edtNoPartner.setText(data.no_partner)
+        edtNoPartner.setText(data.no_partners[0])
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
 
@@ -624,7 +624,7 @@ class DetailKaryawanActivity : BaseActivity() {
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
             val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.noPartner)
+            edtNoPartner.setText(partners?.partner?.noPartner)
         }
 
         super.onActivityResult(requestCode, resultCode, data)

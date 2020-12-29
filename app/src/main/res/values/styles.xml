@@ -38,6 +38,12 @@
         <item name="android:textColor">@color/_000000</item>
     </style>
 
+    <style name="tv8sp000000_avenir_medium">
+        <item name="android:fontFamily">@font/avenir_medium</item>
+        <item name="android:textSize">@dimen/_8sp</item>
+        <item name="android:textColor">@color/_000000</item>
+    </style>
+
     <style name="tv10sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_10sp</item>

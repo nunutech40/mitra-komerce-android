@@ -1,13 +1,11 @@
-package id.android.kmabsensi.presentation.report.performa
+package id.android.kmabsensi.presentation.report.performa.cs
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.Spinner
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -26,8 +23,6 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_performa.*
-import org.jetbrains.anko.toast
-import org.joda.time.DateTime
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 

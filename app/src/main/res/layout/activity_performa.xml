@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.report.performa.PerformaActivity">
+    tools:context=".presentation.report.performa.cs.PerformaActivity">
 
     <include layout="@layout/toolbar"/>
 

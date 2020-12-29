@@ -76,7 +76,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            tools:visibility="visible">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnPerforma"
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Performa" />
+                android:text="Performa CS" />
 
         </LinearLayout>
 
@@ -107,11 +108,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:visibility="invisible"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnKelolaJabatan"
+                android:id="@+id/btnPerformaAdvertiser"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:background="?attr/selectableItemBackground">
@@ -119,7 +119,8 @@
                 <ImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_performa_mitra"/>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -129,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Data Jabatan" />
+                android:text="Performa Advertiser" />
 
         </LinearLayout>
 

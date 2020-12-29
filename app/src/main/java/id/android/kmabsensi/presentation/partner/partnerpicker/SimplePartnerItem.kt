@@ -11,7 +11,7 @@ class SimplePartnerItem(val simplePartner: SimplePartner,
                         val listener: (SimplePartner) -> Unit): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
-            itemView.textPartner.text = "${simplePartner.noPartner} - ${simplePartner.fullName.capitalizeWords()}"
+            itemView.textPartner.text = "${simplePartner.partner.noPartner} - ${simplePartner.fullName.capitalizeWords()}"
 
             itemView.setOnClickListener {
                 listener(simplePartner)

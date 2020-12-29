@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.sdm.laporan
+package id.android.kmabsensi.presentation.sdm.laporan.cs
 
 import android.app.Activity
 import android.content.Intent

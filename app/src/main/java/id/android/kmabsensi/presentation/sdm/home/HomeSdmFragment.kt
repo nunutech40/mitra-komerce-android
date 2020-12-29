@@ -33,7 +33,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
-import id.android.kmabsensi.presentation.sdm.laporan.SdmLaporanActivity
+import id.android.kmabsensi.presentation.sdm.laporan.cs.SdmLaporanActivity
 import id.android.kmabsensi.presentation.sdm.laporan.advertiser.ListLaporanAdvertiserActivity
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeActivity
@@ -367,7 +367,7 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnProductKnowledge.setOnClickListener {
-            activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partner.toInt())
+            activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partners[0].toInt())
         }
 
         btnLaporan.setOnClickListener {

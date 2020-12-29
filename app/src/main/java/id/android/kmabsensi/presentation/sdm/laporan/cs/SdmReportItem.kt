@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.sdm.laporan
+package id.android.kmabsensi.presentation.sdm.laporan.cs
 
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item

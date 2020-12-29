@@ -94,7 +94,7 @@ class CariDataSdmActivity : AppCompatActivity() {
         groupAdapter.clear()
 
         val filter = dataFilter.filter {
-            it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partner == key
+            it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partners[0] == key
         }
         if (filter.isEmpty()) layout_empty.visible() else layout_empty.gone()
         filter.forEach { sdm ->

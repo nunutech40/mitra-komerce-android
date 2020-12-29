@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.report.performa
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -12,6 +11,8 @@ import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.SimplePartnerItem
+import id.android.kmabsensi.presentation.report.performa.advertiser.PerformaAdvertiserActivity
+import id.android.kmabsensi.presentation.report.performa.cs.PerformaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_pilih_partner.*
@@ -28,6 +29,7 @@ class PilihPartnerActivity : BaseSearchActivity() {
     private var partners = mutableListOf<SimplePartner>()
 
     private var userId = 0
+    private var isCS = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class PilihPartnerActivity : BaseSearchActivity() {
         setupSearchToolbar("Pilih Partner")
 
         userId = intent.getIntExtra(USER_ID_KEY, 0)
+        isCS = intent.getBooleanExtra(IS_CS, false)
         initRv()
         observePartners()
     }
@@ -63,7 +66,11 @@ class PilihPartnerActivity : BaseSearchActivity() {
         groupAdapter.clear()
         partners.forEach {
             groupAdapter.add(SimplePartnerItem(it){
-                startActivity<PerformaActivity>(NO_PARTNER_KEY to it.noPartner)
+                if (isCS){
+                    startActivity<PerformaActivity>(NO_PARTNER_KEY to it.partner.noPartner)
+                } else {
+                    startActivity<PerformaAdvertiserActivity>(NO_PARTNER_KEY to it.partner.noPartner)
+                }
             })
         }
 
@@ -84,7 +91,7 @@ class PilihPartnerActivity : BaseSearchActivity() {
 
     override fun search(keyword: String) {
         val partners = partners.filter {
-            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.noPartner == keyword
+            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.partner.noPartner == keyword
         }
         populateData(partners)
     }

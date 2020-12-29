@@ -35,14 +35,16 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.sdm.laporan.advertiser.KelolaLaporanAdvertiserActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".presentation.report.performa.advertiser.PerformaAdvertiserActivity"></activity>
+        <activity
+            android:name=".presentation.sdm.laporan.advertiser.KelolaLaporanAdvertiserActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.sdm.laporan.advertiser.ListLaporanAdvertiserActivity" />
         <activity
             android:name=".presentation.sdm.shift.SdmShiftActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.report.performa.PerformaActivity"
+            android:name=".presentation.report.performa.cs.PerformaActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.report.performa.PilihPartnerActivity"
@@ -51,11 +53,11 @@
             android:name=".presentation.report.ReportAbsensiActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.sdm.laporan.AddSdmLaporanActivity"
+            android:name=".presentation.sdm.laporan.cs.AddSdmLaporanActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presentation.sdm.laporan.SdmLaporanActivity"
+            android:name=".presentation.sdm.laporan.cs.SdmLaporanActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.sdm.dataalfa.DataAlfaActivity"

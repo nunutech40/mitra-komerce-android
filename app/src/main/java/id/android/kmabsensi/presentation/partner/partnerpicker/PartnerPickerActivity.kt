@@ -97,7 +97,7 @@ class PartnerPickerActivity : BaseSearchActivity() {
 
     override fun search(keyword: String) {
         val partners = partners.filter {
-            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.noPartner == keyword
+            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.partner.noPartner == keyword
         }
         populateData(partners)
     }

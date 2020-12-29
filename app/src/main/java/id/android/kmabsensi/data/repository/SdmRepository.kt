@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.body.*
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -100,5 +101,12 @@ class SdmRepository(val apiService: ApiService) {
     fun addAdvertiserReport(params: AddAdvertiserReportParams) = apiService.addAdvertiserReport(params)
     fun editAdvertiserReport(params: EditAdvertiserReportParams) = apiService.editAdvertiserReport(params)
     fun deleteAdvertiserReport(id: Int) = apiService.deleteAdvertiserReport(id)
+    fun filterAdvertiserReport(params: FilterSdmReportParams) = apiService.filterAdvertiserReport(params)
+    fun filterAdvertiserReportSummary(params: FilterSdmReportParams) = apiService.filterAdvertiserReportSummary(params)
+    //---- advertiser ----//
+
+    fun getSdm(roleId: Int = 3, userManagementId: Int = 0, officeId : Int = 0, positionId: Int = 0, noPartner : Int = 0): Single<UserResponse>{
+        return apiService.getUser(roleId, userManagementId, officeId, positionId, noPartner)
+    }
 
 }

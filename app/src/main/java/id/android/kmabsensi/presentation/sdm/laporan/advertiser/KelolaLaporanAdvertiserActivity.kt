@@ -144,7 +144,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             if (advertiserReport == null){
                 val params = AddAdvertiserReportParams(
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.noPartner,
+                    no_partner = partnerSelected!!.partner.noPartner,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),
@@ -164,7 +164,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                 val params = EditAdvertiserReportParams(
                     id = advertiserReport!!.id,
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.noPartner,
+                    no_partner = partnerSelected!!.partner.noPartner,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),
@@ -216,7 +216,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             }
             is UiState.Success -> {
                 advertiserReport?.let { report ->
-                    val partner = state.data.partners.find { it.noPartner == report.noPartner }
+                    val partner = state.data.partners.find { it.partner.noPartner == report.noPartner }
                     edtPilihPartner.setText(partner?.fullName)
                 }
             }

@@ -48,6 +48,7 @@ interface ApiService {
         @Field("role_id") roleId: Int = 0,
         @Field("user_management_id") userManagementId: Int = 0,
         @Field("office_id") officeId: Int = 0,
+        @Field("position_id") positionId: Int = 0,
         @Field("no_partner") noPartner: Int = 0
     ): Single<UserResponse>
 
@@ -609,6 +610,12 @@ interface ApiService {
         @Body body: EditAdvertiserReportParams
     ): Single<BaseResponse>
 
+    @POST("api/performance/adv/filtered")
+    fun filterAdvertiserReport(@Body body: FilterSdmReportParams) : Single<ListAdvertiserReportResponse>
 
+    @POST("api/performance/adv/reportSummaryFiltered")
+    fun filterAdvertiserReportSummary(
+        @Body body: FilterSdmReportParams
+    ): Single<ListAdvertiserReportResponse>
 
 }
