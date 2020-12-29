@@ -32,13 +32,15 @@ data class Device(
     @SerializedName("partner")
     val partner: Partner = Partner(),
     @SerializedName("sdm")
-    val sdm: Sdm = Sdm(),
+    val sdm: Sdm? = Sdm(),
     @SerializedName("attachments")
     val attachments: List<Attachment> = listOf(),
     @SerializedName("created_at")
     val createdAt: String = "",
     @SerializedName("updated_at")
-    val updatedAt: String = ""
+    val updatedAt: String = "",
+    @SerializedName("device_owner_type")
+    val deviceOwnerType: Int = 1
 ): Parcelable{
     @Parcelize
     data class Partner(

@@ -21,7 +21,8 @@ class DeviceRepository(val apiService: ApiService) {
         device_pick_date: RequestBody,
         attachment_1: MultipartBody.Part?,
         attachment_2: MultipartBody.Part?,
-        attachment_3: MultipartBody.Part?
+        attachment_3: MultipartBody.Part?,
+        device_owner_type: RequestBody
     ) = apiService.addDevice(
         deviceType,
         brancd,
@@ -31,7 +32,7 @@ class DeviceRepository(val apiService: ApiService) {
         device_pick_date,
         attachment_1,
         attachment_2,
-        attachment_3
+        attachment_3, device_owner_type
     )
 
     fun editDevice(
@@ -44,7 +45,8 @@ class DeviceRepository(val apiService: ApiService) {
         device_pick_date: RequestBody,
         attachment_1: MultipartBody.Part?,
         attachment_2: MultipartBody.Part?,
-        attachment_3: MultipartBody.Part?
+        attachment_3: MultipartBody.Part?,
+        device_owner_type: RequestBody
     ) = apiService.editDevice(
         id,
         deviceType,
@@ -55,7 +57,8 @@ class DeviceRepository(val apiService: ApiService) {
         device_pick_date,
         attachment_1,
         attachment_2,
-        attachment_3
+        attachment_3,
+        device_owner_type
     )
 
     fun deleteDevice(id: Int) = apiService.deleteDevice(id)

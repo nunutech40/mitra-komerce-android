@@ -212,15 +212,38 @@
                 app:layout_constraintTop_toBottomOf="@+id/labelPartner" />
 
             <TextView
-                android:id="@+id/labelSDM"
+                android:id="@+id/labelPemegangDevice"
                 style="@style/tv14spf48070_avenir_heavy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="@dimen/_24dp"
-                android:text="@string/sdm"
+                android:text="Pemegang Device"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtPilihPartner" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerOwner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6dp"
+                android:layout_marginHorizontal="@dimen/_24dp"
+                android:background="@drawable/spinner_with_line_bg"
+                app:layout_constraintTop_toBottomOf="@id/labelPemegangDevice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/labelSDM"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/sdm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerOwner" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtPilihSDM"

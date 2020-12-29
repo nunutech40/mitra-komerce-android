@@ -20,8 +20,10 @@ class DeviceItem(
         viewHolder.apply {
             textDeviceName.text = "${device.deviceType} ${device.brancd}"
 
-            device?.sdm?.fullName?.let {
-                textSdmName.text = "Pemegang ${it}"
+            if (device.sdm == null){
+                textSdmName.text = "Pemegang IT Support"
+            } else {
+                textSdmName.text = "Pemegang ${device.sdm.fullName}"
             }
 
             btnDelete.setOnClickListener {

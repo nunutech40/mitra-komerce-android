@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.system.Os
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -26,6 +28,8 @@ import id.android.kmabsensi.presentation.viewmodels.AttachmentViewModel
 import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_device.*
+import kotlinx.android.synthetic.main.activity_add_device.edtPilihPartner
+import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -54,12 +58,16 @@ class AddDeviceActivity : BaseActivity() {
 
     private var device : Device? = null
 
+    private val deviceOwner = listOf("SDM", "IT Support")
+    private var deviceOwnerSelected = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
         setupToolbar("Tambah Device")
 
         device = intent.getParcelableExtra(DEVICE_DATA)
+        initSpinner()
         initView()
 
         edtJenis.setOnClickListener {
@@ -156,7 +164,8 @@ class AddDeviceActivity : BaseActivity() {
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
                     files2,
-                    files3
+                    files3,
+                    deviceOwnerSelected
                 )
             } else {
                 deviceVM.editDevice(
@@ -169,7 +178,8 @@ class AddDeviceActivity : BaseActivity() {
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
                     files2,
-                    files3
+                    files3,
+                    deviceOwnerSelected
                 )
             }
         }
@@ -177,6 +187,30 @@ class AddDeviceActivity : BaseActivity() {
         observeSdm()
         observeResult()
         observeDeleteAttachment()
+    }
+
+    private fun initSpinner(){
+        ArrayAdapter(this, R.layout.spinner_item, deviceOwner).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerOwner.adapter = it
+            spinnerOwner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    deviceOwnerSelected = p2 + 1
+                    if (deviceOwnerSelected == 2){
+                        labelSDM.gone()
+                        edtPilihSDM.gone()
+                        sdmIdSelected = 0
+                    } else {
+                        labelSDM.visible()
+                        edtPilihSDM.visible()
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+            }
+        }
     }
 
     private fun initView(){
@@ -194,6 +228,7 @@ class AddDeviceActivity : BaseActivity() {
                 imageDokumentasi1.isEnabled = false
                 imageDokumentasi2.isEnabled = false
                 imageDokumentasi3.isEnabled = false
+                spinnerOwner.isEnabled = false
             }
             edtJenis.setText(it.deviceType)
             edtMerek.setText(it.brancd)
@@ -201,11 +236,12 @@ class AddDeviceActivity : BaseActivity() {
             val partnerDetail = PartnerDetail(noPartner = it.noPartner)
             partnerSelected = Partner(id = it.partner.id, fullName = it.partner.fullName, partnerDetail = partnerDetail)
             sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
-            sdmIdSelected = it.sdm.id
+            sdmIdSelected = if (it.sdm == null) 0 else it.sdm.id
             edtPilihPartner.setText(it.partner.fullName)
-            edtPilihSDM.setText(it.sdm.fullName)
+            edtPilihSDM.setText(it.sdm?.fullName)
             dateSelected = parseStringDate(it.devicePickDate)
             edtTanggalDiterima.setText(getDateStringFormatted2(dateSelected!!))
+            if (it.deviceOwnerType == 2){ spinnerOwner.setSelection(1) }
             it.attachments.forEachIndexed { index, attachment ->
                 when(index){
                     0 -> {

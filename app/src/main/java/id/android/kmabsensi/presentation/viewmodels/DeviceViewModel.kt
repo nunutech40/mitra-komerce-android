@@ -60,7 +60,8 @@ class DeviceViewModel(
         devicePickDate: String,
         attachment1: File?,
         attachment2: File?,
-        attachment3: File?
+        attachment3: File?,
+        deviceOwnerType: Int
     ) {
         var attachment1File: MultipartBody.Part? = null
         var attachment2File: MultipartBody.Part? = null
@@ -90,7 +91,8 @@ class DeviceViewModel(
                 device_pick_date = devicePickDate.createRequestBodyText(),
                 attachment_1 = attachment1File,
                 attachment_2 = attachment2File,
-                attachment_3 = attachment3File
+                attachment_3 = attachment3File,
+                device_owner_type = deviceOwnerType.toString().createRequestBodyText()
             ).with(schedulerProvider)
                 .subscribe({
                     crudResult.value = UiState.Success(it)
@@ -110,7 +112,8 @@ class DeviceViewModel(
         devicePickDate: String,
         attachment1: File?,
         attachment2: File?,
-        attachment3: File?
+        attachment3: File?,
+        deviceOwnerType: Int
     ) {
         var attachment1File: MultipartBody.Part? = null
         var attachment2File: MultipartBody.Part? = null
@@ -141,7 +144,8 @@ class DeviceViewModel(
                 device_pick_date = devicePickDate.createRequestBodyText(),
                 attachment_1 = attachment1File,
                 attachment_2 = attachment2File,
-                attachment_3 = attachment3File
+                attachment_3 = attachment3File,
+                device_owner_type = deviceOwnerType.toString().createRequestBodyText()
             ).with(schedulerProvider)
                 .subscribe({
                     crudResult.value = UiState.Success(it)

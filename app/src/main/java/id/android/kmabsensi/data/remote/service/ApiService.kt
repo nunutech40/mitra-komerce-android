@@ -474,7 +474,8 @@ interface ApiService {
         @Part("device_pick_date") devicePickDate: RequestBody,
         @Part attachment_1: MultipartBody.Part?,
         @Part attachment_2: MultipartBody.Part?,
-        @Part attachment_3: MultipartBody.Part?
+        @Part attachment_3: MultipartBody.Part?,
+        @Part("device_owner_type") deviceOwnerType: RequestBody
     ): Single<BaseResponse>
 
     @Multipart
@@ -489,7 +490,8 @@ interface ApiService {
         @Part("device_pick_date") devicePickDate: RequestBody,
         @Part attachment_1: MultipartBody.Part?,
         @Part attachment_2: MultipartBody.Part?,
-        @Part attachment_3: MultipartBody.Part?
+        @Part attachment_3: MultipartBody.Part?,
+        @Part("device_owner_type") deviceOwnerType: RequestBody
     ): Single<BaseResponse>
 
 

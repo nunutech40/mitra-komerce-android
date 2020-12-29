@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_data_device.*
 import kotlinx.android.synthetic.main.edittext_search.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DataDeviceActivity : BaseSearchActivity() {
@@ -85,7 +86,8 @@ class DataDeviceActivity : BaseSearchActivity() {
 
             /* Show keyboard */
             searchView.et_search.requestFocus()
-            val imm: InputMethodManager? = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm: InputMethodManager? =
+                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm?.showSoftInput(searchView.et_search, InputMethodManager.SHOW_IMPLICIT)
         }
     }
@@ -93,13 +95,22 @@ class DataDeviceActivity : BaseSearchActivity() {
 
     override fun search(keyword: String) {
         val devices = devices.filter {
-            it.deviceType.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.spesification.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.brancd.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.partner.noPartner.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.partner.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.sdm.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
-            it.sdm.username.toLowerCase().contains(keyword.toLowerCase())
+            if (it.sdm != null) {
+                it.deviceType.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.spesification.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.brancd.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.partner.noPartner.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.partner.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.sdm.fullName.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.sdm.username.toLowerCase().contains(keyword.toLowerCase())
+            } else {
+                it.deviceType.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.spesification.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.brancd.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.partner.noPartner.toLowerCase().contains(keyword.toLowerCase()) ||
+                        it.partner.fullName.toLowerCase().contains(keyword.toLowerCase())
+            }
+
         }
         populateData(devices)
 
@@ -128,10 +139,9 @@ class DataDeviceActivity : BaseSearchActivity() {
         })
     }
 
-    private fun observeDevices(){
-        deviceVM.devices.observe(this, Observer {
-            state ->
-            when(state) {
+    private fun observeDevices() {
+        deviceVM.devices.observe(this, Observer { state ->
+            when (state) {
                 is UiState.Loading -> {
                     swipeRefresh.isRefreshing = true
                 }
@@ -148,22 +158,30 @@ class DataDeviceActivity : BaseSearchActivity() {
         })
     }
 
-    private fun populateData(devices: List<Device>){
+    private fun populateData(devices: List<Device>) {
         groupAdapter.clear()
         for (device in devices) {
             groupAdapter.add(DeviceItem(device, object : OnDeviceListener {
                 override fun onDeleteClicked(id: Int) {
-                    showDialogConfirmDelete(this@DataDeviceActivity, "Hapus Device"){
+                    showDialogConfirmDelete(this@DataDeviceActivity, "Hapus Device") {
                         deviceVM.deleteDevice(id)
                     }
                 }
 
                 override fun onEditClicked(device: Device) {
-                    startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to true)
+                    startActivityForResult<AddDeviceActivity>(
+                        CRUD_RC,
+                        DEVICE_DATA to device,
+                        "isEdit" to true
+                    )
                 }
 
                 override fun onDetailClicked(device: Device) {
-                    startActivityForResult<AddDeviceActivity>(CRUD_RC, DEVICE_DATA to device, "isEdit" to false)
+                    startActivityForResult<AddDeviceActivity>(
+                        CRUD_RC,
+                        DEVICE_DATA to device,
+                        "isEdit" to false
+                    )
                 }
             }))
         }
@@ -171,15 +189,15 @@ class DataDeviceActivity : BaseSearchActivity() {
     }
 
 
-        private fun observeCrudResult(){
+    private fun observeCrudResult() {
         deviceVM.crudResult.observe(this, Observer { state ->
-            when(state) {
+            when (state) {
                 is UiState.Loading -> {
                     showDialog()
                 }
                 is UiState.Success -> {
                     hideDialog()
-                    if (state.data.status){
+                    if (state.data.status) {
                         createAlertSuccess(this, state.data.message)
                         deviceVM.getListDevice()
                     } else {
@@ -195,7 +213,7 @@ class DataDeviceActivity : BaseSearchActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CRUD_RC && resultCode == Activity.RESULT_OK){
+        if (requestCode == CRUD_RC && resultCode == Activity.RESULT_OK) {
             deviceVM.getListDevice()
         }
     }
@@ -242,9 +260,11 @@ class DataDeviceActivity : BaseSearchActivity() {
 
         buttonFilter.setOnClickListener {
             dialog.dismiss()
-            deviceVM.filterDevice(FilterDeviceParams(
-                no_partner = noPartnerFilterSelected
-            ))
+            deviceVM.filterDevice(
+                FilterDeviceParams(
+                    no_partner = noPartnerFilterSelected
+                )
+            )
         }
 
         dialog.show()
