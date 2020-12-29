@@ -17,6 +17,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddAdvertiserReportParams
 import id.android.kmabsensi.data.remote.body.EditAdvertiserReportParams
 import id.android.kmabsensi.data.remote.response.AdvertiserReport
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
@@ -42,7 +43,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
     private var dateSelected: Date? = null
 
     private val RC_PICK_PARTNER = 122
-    private var partnerSelected: SimplePartner? = null
+    private var partnerSelected: Partner? = null
 
     private var totalView = 0
     private var totalAdClick = 0
@@ -55,7 +56,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
     private var ratioLp = 0.0
     private var cpr = 0
 
-    private var advertiserReport : AdvertiserReport? = null
+    private var advertiserReport: AdvertiserReport? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +94,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             edtCatatan.setText(it.notes)
             btnSave.text = getString(R.string.edit_laporan)
 
-            partnerVM.getSimplePartners()
+            partnerVM.getPartners()
         }
 
         lblTayangan.setOnClickListener { showInfo(R.string.info_tayangan) }
@@ -141,10 +142,10 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            if (advertiserReport == null){
+            if (advertiserReport == null) {
                 val params = AddAdvertiserReportParams(
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.partner.noPartner,
+                    no_partner = partnerSelected!!.partnerDetail.noPartner,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),
@@ -164,7 +165,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                 val params = EditAdvertiserReportParams(
                     id = advertiserReport!!.id,
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.partner.noPartner,
+                    no_partner = partnerSelected!!.partnerDetail.noPartner,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),
@@ -209,26 +210,26 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             }
         })
 
-        partnerVM.simplePartners.observe(this, { state ->
-        when(state) {
-            is UiState.Loading -> {
+        partnerVM.partners.observe(this, { state ->
+            when (state) {
+                is UiState.Loading -> {
 
-            }
-            is UiState.Success -> {
-                advertiserReport?.let { report ->
-                    val partner = state.data.partners.find { it.partner.noPartner == report.noPartner }
-                    edtPilihPartner.setText(partner?.fullName)
+                }
+                is UiState.Success -> {
+                    advertiserReport?.let { report ->
+                        val partner = state.data.partners.find { it.partnerDetail.noPartner == report.noPartner }
+                        edtPilihPartner.setText(partner?.fullName)
+                    }
+                }
+                is UiState.Error -> {
+
                 }
             }
-            is UiState.Error -> {
-
-            }
-        }
         })
     }
 
-    private fun calculateCtr(){
-        if (totalView == 0){
+    private fun calculateCtr() {
+        if (totalView == 0) {
             ctrLink = 0.0
         } else {
             val ctr = (totalAdClick.toDouble() / totalView.toDouble()) * 100
@@ -237,8 +238,8 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
         edtCtrLink.setText("$ctrLink%")
     }
 
-    private fun calculateRatioLP(){
-        if (totalVisitor == 0){
+    private fun calculateRatioLP() {
+        if (totalVisitor == 0) {
             ratioLp = 0.0
         } else {
             val rasioLP = (totalContactClick.toDouble() / totalVisitor.toDouble()) * 100
@@ -247,8 +248,8 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
         edtRasioLP.setText("$ratioLp%")
     }
 
-    private fun calculateCpr(){
-        if (totalLeadsCs == 0){
+    private fun calculateCpr() {
+        if (totalLeadsCs == 0) {
             cpr = 0
         } else {
             cpr = totalAdCost / totalLeadsCs
@@ -262,7 +263,8 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
         textWatcher.setListener(object : OnAfterTextChanged {
             override fun afterTextChanged(text: String?) {
                 text?.let {
-                    totalAdCost = if (text.isNotEmpty()) text.toString().replace(".", "").toInt() else 0
+                    totalAdCost =
+                        if (text.isNotEmpty()) text.toString().replace(".", "").toInt() else 0
                     calculateCpr()
                 }
             }
@@ -333,7 +335,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_PICK_PARTNER && resultCode == Activity.RESULT_OK) {
-            partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            partnerSelected = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
             edtPilihPartner.setText(partnerSelected?.fullName)
         }
         super.onActivityResult(requestCode, resultCode, data)

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.SimplePartner
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
-import id.android.kmabsensi.presentation.partner.partnerpicker.SimplePartnerItem
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerItem
 import id.android.kmabsensi.presentation.report.performa.advertiser.PerformaAdvertiserActivity
 import id.android.kmabsensi.presentation.report.performa.cs.PerformaActivity
 import id.android.kmabsensi.utils.*
@@ -26,7 +26,7 @@ class PilihPartnerActivity : BaseSearchActivity() {
     private val vm: PartnerViewModel by viewModel()
     private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
 
-    private var partners = mutableListOf<SimplePartner>()
+    private var partners = mutableListOf<Partner>()
 
     private var userId = 0
     private var isCS = false
@@ -62,14 +62,14 @@ class PilihPartnerActivity : BaseSearchActivity() {
             } })
     }
 
-    private fun populateData(partners: List<SimplePartner>){
+    private fun populateData(partners: List<Partner>){
         groupAdapter.clear()
         partners.forEach {
-            groupAdapter.add(SimplePartnerItem(it){
+            groupAdapter.add(PartnerPickerItem(it){
                 if (isCS){
-                    startActivity<PerformaActivity>(NO_PARTNER_KEY to it.partner.noPartner)
+                    startActivity<PerformaActivity>(NO_PARTNER_KEY to it.partnerDetail.noPartner)
                 } else {
-                    startActivity<PerformaAdvertiserActivity>(NO_PARTNER_KEY to it.partner.noPartner)
+                    startActivity<PerformaAdvertiserActivity>(NO_PARTNER_KEY to it.partnerDetail.noPartner)
                 }
             })
         }
@@ -91,7 +91,7 @@ class PilihPartnerActivity : BaseSearchActivity() {
 
     override fun search(keyword: String) {
         val partners = partners.filter {
-            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.partner.noPartner == keyword
+            it.fullName.toLowerCase().contains(keyword.toLowerCase()) || it.partnerDetail.noPartner == keyword
         }
         populateData(partners)
     }

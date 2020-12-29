@@ -50,7 +50,7 @@ class PartnerViewModel(
     }
 
     val partnerByManagement by lazy {
-        MutableLiveData<UiState<SimplePartnersResponse>>()
+        MutableLiveData<UiState<ListPartnerResponse>>()
     }
 
     val userManagements by lazy {

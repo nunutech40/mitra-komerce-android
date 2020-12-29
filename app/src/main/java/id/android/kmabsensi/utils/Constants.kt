@@ -28,7 +28,7 @@ const val IS_SORT_KEY = "is_sort"
 const val PARTNER_DATA_KEY = "partner_data_key"
 const val NO_PARTNER_KEY = "no_partner_key"
 const val NAME_PARTNER_KEY = "name_partner_key"
-const val SIMPLE_PARTNER_DATA_KEY = "simple_partner_data_key"
+//const val SIMPLE_PARTNER_DATA_KEY = "simple_partner_data_key"
 
 const val INVOICE_ID_KEY = "invoice_id"
 const val INVOICE_DATA_KEY = "invoice_data"

@@ -19,10 +19,7 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.Office
-import id.android.kmabsensi.data.remote.response.Position
-import id.android.kmabsensi.data.remote.response.SimplePartner
-import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -512,8 +509,8 @@ class TambahSdmActivity : BaseActivity() {
         }
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
-            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.partner?.noPartner)
+            val partners = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.partnerDetail?.noPartner)
             edtNoPartner.error = null
         }
 

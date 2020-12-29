@@ -16,6 +16,7 @@ import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.item.InvoiceDetail
@@ -36,7 +37,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
     private val invoiceDetailItems = mutableListOf<InvoiceDetailItem>()
     private val deleteItemSelected = mutableListOf<Int>()
 
-    private var partnerSelected: SimplePartner? = null
+    private var partnerSelected: Partner? = null
     private var isAdminInvoice = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class ManageInvoiceDetailActivity : BaseActivity() {
 
         setupToolbar("Tagihan", isWhiteBackground = true)
         isAdminInvoice = intent.getBooleanExtra(IS_INVOICE_ADMIN_KEY, false)
-        partnerSelected = intent.getParcelableExtra(SIMPLE_PARTNER_DATA_KEY)
+        partnerSelected = intent.getParcelableExtra(PARTNER_DATA_KEY)
         initView()
         initRv()
 

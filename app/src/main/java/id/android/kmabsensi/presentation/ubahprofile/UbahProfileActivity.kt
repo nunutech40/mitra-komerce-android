@@ -19,6 +19,7 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -283,8 +284,8 @@ class UbahProfileActivity : BaseActivity() {
         }
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
-            val partners = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.partner?.noPartner)
+            val partners = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            edtNoPartner.setText(partners?.partnerDetail?.noPartner)
         }
 
         super.onActivityResult(requestCode, resultCode, data)

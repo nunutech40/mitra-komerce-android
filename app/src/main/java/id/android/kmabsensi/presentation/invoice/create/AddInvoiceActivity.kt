@@ -15,6 +15,7 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.body.InvoiceItem
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceDetailData
@@ -40,7 +41,7 @@ class AddInvoiceActivity : BaseActivity() {
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private var listInvoiceDetail = mutableListOf<InvoiceDetail>()
-    private var partnerSelected: SimplePartner? = null
+    private var partnerSelected: Partner? = null
     private val PICK_PARTNER_RC = 112
 
     private val calendar = Calendar.getInstance()
@@ -77,7 +78,6 @@ class AddInvoiceActivity : BaseActivity() {
 
         InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
             if (invoices.isNotEmpty()) {
-                d { invoices.toString() }
                 btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
 
                 listInvoiceDetail.clear()
@@ -97,14 +97,12 @@ class AddInvoiceActivity : BaseActivity() {
         })
 
         edtPilihPartner.setOnClickListener {
-            startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC
-            )
+            startActivityForResult<PartnerPickerActivity>(PICK_PARTNER_RC)
         }
 
         btnUbahTagihan.setOnClickListener {
             startActivity<ManageInvoiceDetailActivity>(
-                SIMPLE_PARTNER_DATA_KEY to partnerSelected,
+                PARTNER_DATA_KEY to partnerSelected,
                 IS_INVOICE_ADMIN_KEY to isAdminInvoice
             )
         }
@@ -271,14 +269,13 @@ class AddInvoiceActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK) {
-            partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            partnerSelected = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
 
 
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
-            val title =
-                "Invoice $invoiceType Partner ${partnerSelected!!.partner.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
+            val title = "Invoice $invoiceType Partner ${partnerSelected!!.partnerDetail.noPartner} ${partnerSelected!!.fullName} $titleMonth $titleYear"
             edtInvoiceTitle.setText(title)
 
             spinnerMonth.setSelection(
@@ -286,7 +283,7 @@ class AddInvoiceActivity : BaseActivity() {
                     .indexOfFirst { it == "$titleMonth" })
             spinnerYear.setSelection(getYearData().indexOfFirst { it == "$titleYear" })
 
-            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
+            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -321,7 +318,7 @@ class AddInvoiceActivity : BaseActivity() {
     fun setTitleInvoice(month: String, year: String) {
         partnerSelected?.let {
             val invoiceType = if (isAdminInvoice) "Admin" else "Gaji SDM"
-            val title = "Invoice $invoiceType Partner ${it.partner.noPartner} ${it.fullName} $month $year"
+            val title = "Invoice $invoiceType Partner ${it.partnerDetail.noPartner} ${it.fullName} $month $year"
             edtInvoiceTitle.setText(title)
         }
     }

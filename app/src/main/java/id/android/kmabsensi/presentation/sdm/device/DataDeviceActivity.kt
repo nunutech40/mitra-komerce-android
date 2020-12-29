@@ -200,8 +200,6 @@ class DataDeviceActivity : BaseSearchActivity() {
         }
     }
 
-
-
     private fun showDialogFilter() {
         val dialog = MaterialDialog(this)
             .customView(R.layout.dialog_filter_device, noVerticalPadding = true)
@@ -212,7 +210,7 @@ class DataDeviceActivity : BaseSearchActivity() {
 
         val partnerName = mutableListOf<String>()
         partnerName.add("Semua")
-        partners.forEach { partnerName.add(it.partner.noPartner + " - " + it.fullName) }
+        partners.forEach { partnerName.add(it.noPartner + " - " + it.fullName) }
 
         btnClose.setOnClickListener {
             dialog.dismiss()
@@ -235,7 +233,7 @@ class DataDeviceActivity : BaseSearchActivity() {
                     noPartnerFilterSelected = if (position == 0) {
                         0
                     } else {
-                        partners[position - 1].partner.noPartner.toInt()
+                        partners[position - 1].noPartner.toInt()
                     }
                 }
 

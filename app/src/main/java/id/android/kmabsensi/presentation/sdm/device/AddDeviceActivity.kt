@@ -18,10 +18,7 @@ import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.Device
-import id.android.kmabsensi.data.remote.response.PartnerDetail
-import id.android.kmabsensi.data.remote.response.SimplePartner
-import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
@@ -50,7 +47,7 @@ class AddDeviceActivity : BaseActivity() {
     private var DOK_IMAGE_SELECTED = DOK_IMAGE.DOK_IMAGE_1
 
     private val PICK_PARTNER_RC = 100
-    private var partnerSelected: SimplePartner? = null
+    private var partnerSelected: Partner? = null
     private var sdm: List<User> = listOf()
     private var sdmIdSelected: Int = 0
     private var dateSelected: Date? = null
@@ -154,7 +151,7 @@ class AddDeviceActivity : BaseActivity() {
                     edtJenis.text.toString(),
                     edtMerek.text.toString(),
                     edtSpesifikasi.text.toString(),
-                    partnerSelected?.partner?.noPartner.toString(),
+                    partnerSelected?.partnerDetail?.noPartner.toString(),
                     sdmIdSelected.toString(),
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
@@ -167,7 +164,7 @@ class AddDeviceActivity : BaseActivity() {
                     edtJenis.text.toString(),
                     edtMerek.text.toString(),
                     edtSpesifikasi.text.toString(),
-                    partnerSelected?.partner?.noPartner.toString(),
+                    partnerSelected?.partnerDetail?.noPartner.toString(),
                     sdmIdSelected.toString(),
                     getDateString(dateSelected ?: Calendar.getInstance().time),
                     files1,
@@ -202,8 +199,8 @@ class AddDeviceActivity : BaseActivity() {
             edtMerek.setText(it.brancd)
             edtSpesifikasi.setText(it.spesification)
             val partnerDetail = PartnerDetail(noPartner = it.noPartner)
-            partnerSelected = SimplePartner(id = it.partner.id, fullName = it.partner.fullName, partner = partnerDetail)
-            sdmVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
+            partnerSelected = Partner(id = it.partner.id, fullName = it.partner.fullName, partnerDetail = partnerDetail)
+            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
             sdmIdSelected = it.sdm.id
             edtPilihPartner.setText(it.partner.fullName)
             edtPilihSDM.setText(it.sdm.fullName)
@@ -338,11 +335,11 @@ class AddDeviceActivity : BaseActivity() {
         }
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK) {
-            partnerSelected = data?.getParcelableExtra<SimplePartner>(SIMPLE_PARTNER_DATA_KEY)
+            partnerSelected = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
 
-            sdmVM.getSdmByPartner(partnerSelected!!.partner.noPartner.toInt())
+            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
         }
 
         super.onActivityResult(requestCode, resultCode, data)

@@ -362,7 +362,7 @@ interface ApiService {
     fun getSimplePartners(): Single<SimplePartnersResponse>
 
     @GET("api/user/partner/partnerOfSdmAssigned/{user_management_id}")
-    fun getPartnerByManagement(@Path("user_management_id") userManagementId: Int): Single<SimplePartnersResponse>
+    fun getPartnerByManagement(@Path("user_management_id") userManagementId: Int): Single<ListPartnerResponse>
 
     @Multipart
     @POST("api/user/partner/edit")

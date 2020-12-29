@@ -64,6 +64,32 @@ data class Partner(
 ): Parcelable
 
 @Parcelize
+data class PartnerDetail(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("user_id")
+    val userId: Int = 0,
+    @SerializedName("no_partner")
+    val noPartner: String = "",
+    @SerializedName("partner_category_id")
+    val partnerCategoryId: Int = 0,
+    @SerializedName("partner_category_name")
+    val partnerCategoryName: String = "",
+    @SerializedName("province_code")
+    val provinceCode: String = "",
+    @SerializedName("province_name")
+    val provinceName: String = "",
+    @SerializedName("city_code")
+    val cityCode: String = "",
+    @SerializedName("city_name")
+    val cityName: String = "",
+    @SerializedName("bonus")
+    val bonus: String = "",
+    @SerializedName("status")
+    val status: Int = 0
+): Parcelable
+
+@Parcelize
 data class BankAccount(
     @SerializedName("id")
     val id: Int = 0,
