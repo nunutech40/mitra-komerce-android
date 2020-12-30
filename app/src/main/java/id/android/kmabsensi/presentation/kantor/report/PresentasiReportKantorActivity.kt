@@ -6,16 +6,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import iammert.com.expandablelib.ExpandableLayout
+import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.OfficeResponse
-import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.remote.body.ListAlphaParams
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportKantorActivity
 import id.android.kmabsensi.utils.*
@@ -23,6 +27,7 @@ import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.toolbar
+import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
@@ -51,6 +56,10 @@ class PresentasiReportKantorActivity : BaseActivity() {
     private var userResponse: UserResponse? = null
     private var officeResponse: OfficeResponse? = null
 
+    //for expandable layout
+    val section = Section<String, List<Alpha>>()
+    var isSectionAdded = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentasi_report_kantor)
@@ -68,6 +77,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
         dateFrom = getTodayDate()
         dateTo = getTodayDate()
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
+
+        initExpandableLayout()
 
         btnBack.setOnClickListener {
             onBackPressed()
@@ -148,6 +159,25 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
         })
 
+        vm.alphaAttendances.observe(this, Observer {
+            state ->
+            when(state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    if (!isSectionAdded) expandableLayoutAlpha.addSection(getSectionAlpha(state.data.data)) else {
+                        expandableLayoutAlpha.sections[0].parent = state.data.data.size.toString()
+                        expandableLayoutAlpha.sections[0].children.clear()
+                        expandableLayoutAlpha.sections[0].children.add(state.data.data)
+                    }
+                }
+                is UiState.Error -> {
+
+                }
+            }
+        })
+
         when (categoryReport) {
             0 -> {
                 txtReport.text = "Kantor Cabang"
@@ -177,6 +207,58 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
         }
 
+        vm.getListAlpha(ListAlphaParams(office_id = 0, start_date = dateFrom, end_date = dateTo))
+
+    }
+
+    private fun initExpandableLayout(){
+        expandableLayoutAlpha.setRenderer(object : ExpandableLayout.Renderer<String, List<Alpha>> {
+            override fun renderChild(
+                view: View?,
+                model: List<Alpha>?,
+                parentPosition: Int,
+                childPosition: Int
+            ) {
+                val groupAdapterAlpha = GroupAdapter<GroupieViewHolder>()
+                view?.findViewById<RecyclerView>(R.id.rvAlpha)?.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = groupAdapterAlpha
+                }
+                groupAdapterAlpha.clear()
+                model?.let {
+                    it.forEachIndexed { index, alpha ->
+                        groupAdapterAlpha.add(AlphaItem(alpha, index+1))
+                    }
+                }
+            }
+
+            override fun renderParent(
+                view: View?,
+                model: String?,
+                isExpanded: Boolean,
+                parentPosition: Int
+            ) {
+                view?.findViewById<ImageView>(R.id.arrow)
+                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                view?.findViewById<TextView>(R.id.textTotalTidakAbsen)?.setText(model)
+            }
+        })
+        expandableLayoutAlpha.setExpandListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+        }
+
+        expandableLayoutAlpha.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
+            view?.findViewById<ImageView>(R.id.arrow)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+        }
+    }
+
+    private fun getSectionAlpha(alpha: List<Alpha>): Section<String, List<Alpha>> {
+        section.parent = alpha.size.toString()
+        section.children.add(alpha)
+        isSectionAdded = true
+        return section
     }
 
     private fun setupToolbarTitle(title: String){
@@ -233,6 +315,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         )
                     }
                 }
+
+                vm.getListAlpha(ListAlphaParams(office_id = 0, start_date = dateFrom, end_date = dateTo))
 
             }
 
