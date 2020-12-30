@@ -25,6 +25,7 @@ data class User(
     val gender: Int,
     val id: Int,
     val no_hp: String,
+    val no_partner: String = "",
     val no_partners: List<String>,
     val partner_assignments: List<PartnerAssignment> = listOf(),
     val npk: String,

@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
@@ -21,12 +22,15 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
+import id.android.kmabsensi.presentation.sdm.tambahsdm.PartnerSelectedItem
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
@@ -34,6 +38,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_karyawan.*
+import kotlinx.android.synthetic.main.activity_detail_karyawan.btnSimpan
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtAddress
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtAsalDesa
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtEmail
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNamaBank
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNamaLengkap
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNoHp
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNoPartner
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtNoRekening
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtPemilikRekening
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtTanggalBergabung
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtTanggalLahir
+import kotlinx.android.synthetic.main.activity_detail_karyawan.edtUsername
+import kotlinx.android.synthetic.main.activity_detail_karyawan.imgProfile
+import kotlinx.android.synthetic.main.activity_detail_karyawan.layout_spinner_management
+import kotlinx.android.synthetic.main.activity_detail_karyawan.rvPartner
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerDivisi
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerJabatan
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerJenisKelamin
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerKantorCabang
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerManagement
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerRole
+import kotlinx.android.synthetic.main.activity_detail_karyawan.spinnerStatusPernikahan
+import kotlinx.android.synthetic.main.activity_detail_karyawan.toolbar
+import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
@@ -75,6 +104,9 @@ class DetailKaryawanActivity : BaseActivity() {
 
     private val PICK_PARTNER_RC = 112
 
+    private val groupAdpter = GroupAdapter<GroupieViewHolder>()
+    val partnerSelected = mutableListOf<Partner>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_karyawan)
@@ -84,6 +116,7 @@ class DetailKaryawanActivity : BaseActivity() {
         supportActionBar?.title = ""
 
         setupToolbar("Detail SDM")
+        initRv()
 
         myDialog = MyDialog(this)
         karyawan = intent.getParcelableExtra(USER_KEY)!!
@@ -111,7 +144,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 divisionSelectedId.toString(),
                 officeSelectedId.toString(),
                 positionSelectedId.toString(),
-                edtNoPartner.text.toString(),
+                if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(separator = "|", transform = { it.partnerDetail.noPartner }),
                 edtAsalDesa.text.toString(),
                 edtNoHp.text.toString(),
                 edtAddress.text.toString(),
@@ -140,6 +173,13 @@ class DetailKaryawanActivity : BaseActivity() {
         }
     }
 
+    private fun initRv(){
+        rvPartner.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = groupAdpter
+        }
+    }
+
     fun setDataToView(data: User){
         edtUsername.setText(data.username)
         edtTanggalLahir.setText(data.birth_date)
@@ -147,9 +187,14 @@ class DetailKaryawanActivity : BaseActivity() {
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
         edtNoHp.setText(data.no_hp)
-        edtNoPartner.setText(data.no_partners[0])
+        edtNoPartner.setText(if (data.no_partners.isNotEmpty()) data.no_partners[0] else "")
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
+
+        data.partner_assignments.forEach {
+            partnerSelected.add(Partner(id = it.id, fullName = it.fullName, partnerDetail = PartnerDetail(noPartner = it.noPartner)))
+        }
+        populatePartnerSelected()
 
         data.bank_accounts?.let {bank_account ->
             if (bank_account.isNotEmpty()){
@@ -230,6 +275,17 @@ class DetailKaryawanActivity : BaseActivity() {
 
     }
 
+    private fun populatePartnerSelected(enableClose : Boolean = true){
+        if(partnerSelected.isNotEmpty()) edtNoPartner.setHint("") else edtNoPartner.setHint("Pilih Partner")
+        groupAdpter.clear()
+        partnerSelected.forEach {
+            groupAdpter.add(PartnerSelectedItem(it, enableClose){
+                partnerSelected.removeAt(partnerSelected.indexOf(it))
+                populatePartnerSelected(enableClose)
+            })
+        }
+    }
+
     fun setDateToView(date: String) {
         edtTanggalLahir.setText(date)
     }
@@ -262,6 +318,8 @@ class DetailKaryawanActivity : BaseActivity() {
         spinnerRole.isEnabled = enabled
         spinnerManagement.isEnabled = enabled
         spinnerStatusPernikahan.isEnabled = enabled
+
+        populatePartnerSelected(enabled)
     }
 
     fun initSpinners(){
@@ -618,8 +676,10 @@ class DetailKaryawanActivity : BaseActivity() {
         }
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
-            val partners = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.partnerDetail?.noPartner)
+            val partner = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            partnerSelected.add(partner!!)
+            populatePartnerSelected()
+//            edtNoPartner.setText(partner?.partnerDetail?.noPartner)
         }
 
         super.onActivityResult(requestCode, resultCode, data)

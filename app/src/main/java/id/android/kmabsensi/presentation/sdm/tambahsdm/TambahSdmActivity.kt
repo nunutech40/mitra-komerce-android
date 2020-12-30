@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
@@ -18,6 +19,8 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -31,6 +34,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -58,13 +62,16 @@ class TambahSdmActivity : BaseActivity() {
 
     var isManagement = false
 
-
     private lateinit var myDialog: MyDialog
 
     private val disposables = CompositeDisposable()
 
     private var compressedImage: File? = null
     private val PICK_PARTNER_RC = 112
+
+    private val groupAdpter = GroupAdapter<GroupieViewHolder>()
+
+    val partnerSelected = mutableListOf<Partner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,9 +138,7 @@ class TambahSdmActivity : BaseActivity() {
                     divisiSelectedId.toString(),
                     officeId.toString(),
                     jabatanSelectedId.toString(),
-                    if (edtNoPartner.text.toString()
-                            .isNotEmpty()
-                    ) edtNoPartner.text.toString() else "0",
+                    if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(separator = "|", transform = { it.partnerDetail.noPartner} ),
                     edtAsalDesa.text.toString(),
                     edtNoHp.text.toString(),
                     edtAddress.text.toString(),
@@ -149,9 +154,16 @@ class TambahSdmActivity : BaseActivity() {
                 )
             }
         }
+
+        initRv()
     }
 
-
+    private fun initRv(){
+        rvPartner.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = groupAdpter
+        }
+    }
 
     private fun initViews() {
         // spinner divisi
@@ -224,13 +236,11 @@ class TambahSdmActivity : BaseActivity() {
                     if (position > 0){
                         roleSelectedId = if (isManagement) position + 2 else position + 1
                         if (position == 1) {
-                            labelNoPartner.gone()
-                            edtNoPartner.gone()
+                            layoutParnter.gone()
                             if (!isManagement) userManagementId = 0
                             layout_spinner_management.gone()
                         } else if (position == 2){
-                            labelNoPartner.visible()
-                            edtNoPartner.visible()
+                            layoutParnter.visible()
                             layout_spinner_management.visible()
                         }
                     } else {
@@ -314,8 +324,6 @@ class TambahSdmActivity : BaseActivity() {
             startActivityForResult<PartnerPickerActivity>(
                 PICK_PARTNER_RC
             )
-
-
         }
     }
 
@@ -509,12 +517,24 @@ class TambahSdmActivity : BaseActivity() {
         }
 
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
-            val partners = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
-            edtNoPartner.setText(partners?.partnerDetail?.noPartner)
+            val partner = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            partnerSelected.add(partner!!)
+            populatePartnerSelected()
             edtNoPartner.error = null
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun populatePartnerSelected(){
+        if(partnerSelected.isNotEmpty()) edtNoPartner.setHint("") else edtNoPartner.setHint("Pilih Partner")
+        groupAdpter.clear()
+        partnerSelected.forEach {
+            groupAdpter.add(PartnerSelectedItem(it){
+                partnerSelected.removeAt(partnerSelected.indexOf(it))
+                populatePartnerSelected()
+            })
+        }
     }
 
     fun compress(file: File) {
