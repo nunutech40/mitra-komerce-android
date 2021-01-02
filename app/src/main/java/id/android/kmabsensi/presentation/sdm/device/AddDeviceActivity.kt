@@ -61,6 +61,8 @@ class AddDeviceActivity : BaseActivity() {
     private val deviceOwner = listOf("SDM", "IT Support")
     private var deviceOwnerSelected = 1
 
+    private var hasChangePartner = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
@@ -270,12 +272,14 @@ class AddDeviceActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     sdm = state.data.data
-                    if (sdm.isNotEmpty()) {
-                        edtPilihSDM.setText(sdm[0].full_name)
-                        sdmIdSelected = sdm[0].id
-                    } else {
-                        edtPilihSDM.setText("")
-                        sdmIdSelected = 0
+                    if (hasChangePartner){
+                        if (sdm.isNotEmpty()) {
+                            edtPilihSDM.setText(sdm[0].full_name)
+                            sdmIdSelected = sdm[0].id
+                        } else {
+                            edtPilihSDM.setText("")
+                            sdmIdSelected = 0
+                        }
                     }
                 }
                 is UiState.Error -> {
@@ -375,6 +379,7 @@ class AddDeviceActivity : BaseActivity() {
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
 
+            hasChangePartner = true
             sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
         }
 
