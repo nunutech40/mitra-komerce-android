@@ -148,7 +148,8 @@ class DataDeviceActivity : BaseSearchActivity() {
                 is UiState.Success -> {
                     swipeRefresh.isRefreshing = false
                     if (state.data.devices.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    devices = state.data.devices
+                    if (devices.isNotEmpty()) devices.clear()
+                    devices.addAll(state.data.devices)
                     populateData(devices)
                 }
                 is UiState.Error -> {
