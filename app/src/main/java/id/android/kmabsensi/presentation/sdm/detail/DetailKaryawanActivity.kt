@@ -12,9 +12,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -22,6 +25,7 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
+import com.google.android.material.button.MaterialButton
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -167,10 +171,35 @@ class DetailKaryawanActivity : BaseActivity() {
                 statusKaryawan = 1
                 switchStatus.text = "SDM Aktif"
             } else {
-                statusKaryawan = 0
-                switchStatus.text = "Non Job"
+                dialogStatusConfirmation()
             }
         }
+    }
+
+    private fun dialogStatusConfirmation(){
+        val dialog = MaterialDialog(this).
+                customView(R.layout.dialog_confirm_on_off_sdm, noVerticalPadding = true)
+        val customView = dialog.getCustomView()
+        val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
+        val btnYa = customView.findViewById<MaterialButton>(R.id.btnYa)
+        val btnBatal = customView.findViewById<MaterialButton>(R.id.btnBatal)
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnYa.setOnClickListener {
+            statusKaryawan = 0
+            switchStatus.text = "Non Job"
+            dialog.dismiss()
+        }
+
+        btnBatal.setOnClickListener {
+            dialog.dismiss()
+            switchStatus.isChecked = !switchStatus.isChecked
+        }
+
+        dialog.show()
     }
 
     private fun initRv(){

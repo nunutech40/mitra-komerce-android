@@ -10,6 +10,7 @@ class AlphaItem(val alpha: Alpha, val index: Int): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.txtSdm.text = "$index. ${alpha.fullName}"
+            itemView.txtHari.text = "${alpha.totalAlpha} Hari"
         }
     }
 

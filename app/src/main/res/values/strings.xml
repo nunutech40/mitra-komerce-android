@@ -235,5 +235,6 @@
     <string name="info_rasio_lp">Ukuran tingkat konversi halaman penawaran; diidentifikasi dari perbandingan antara orang yang klik tombol kontak dibandingkan dengan pebaca halaman penawaran tersebut</string>
     <string name="info_cpr">Ukuran tingkat efisiensi iklan; diidentifikasi dari biaya yang dihabiskan untuk menciptakan setiap 1 leads orang yang kontak dibandingkan dengan biaya iklan yang dihabiskan</string>
     <string name="general_empty_message">Kolom tidak boleh kosong</string>
+    <string name="msg_alert_on_off_sdm">Me-nonjob-kan SDM akan menghapus data-data laporan, device, dan prodcut knowledge</string>
 
 </resources>
