@@ -25,7 +25,7 @@ object DateHelper {
     }
 
     fun get7DaysAgoDate(): Date {
-        return DateTime.now().minusDays(7).toDate()
+        return DateTime.now().minusDays(6).toDate()
     }
 
     fun getLastMonth() = DateTime.now().minusMonths(1).monthOfYear
