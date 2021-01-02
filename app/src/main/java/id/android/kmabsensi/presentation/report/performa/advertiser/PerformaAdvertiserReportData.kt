@@ -36,8 +36,8 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "klik kontak" }?.today = report.totalContactClick.toString()
         reports.find { it.indikator.toLowerCase() == "leads" }?.today = report.totalLeadsCs.toString()
         reports.find { it.indikator.toLowerCase() == "biaya iklan" }?.today = convertRpWithoutSpace(report.adCost.toDouble())
-        reports.find { it.indikator.toLowerCase() == "ctr link" }?.today = "${report.ctrLink.toInt()}%"
-        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.today = "${report.ratioLp.toInt()}%"
+        reports.find { it.indikator.toLowerCase() == "ctr link" }?.today = "${report.ctrLink}%"
+        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.today = "${report.ratioLp}%"
         reports.find { it.indikator.toLowerCase() == "cpr" }?.today = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
@@ -48,8 +48,8 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "klik kontak" }?.yesterday = report.totalContactClick.toString()
         reports.find { it.indikator.toLowerCase() == "leads" }?.yesterday = report.totalLeadsCs.toString()
         reports.find { it.indikator.toLowerCase() == "biaya iklan" }?.yesterday = convertRpWithoutSpace(report.adCost.toDouble())
-        reports.find { it.indikator.toLowerCase() == "ctr link" }?.yesterday = "${report.ctrLink.toInt()}%"
-        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.yesterday = "${report.ratioLp.toInt()}%"
+        reports.find { it.indikator.toLowerCase() == "ctr link" }?.yesterday = "${report.ctrLink}%"
+        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.yesterday = "${report.ratioLp}%"
         reports.find { it.indikator.toLowerCase() == "cpr" }?.yesterday = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
@@ -60,8 +60,8 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "klik kontak" }?.last7days = report.totalContactClick.toString()
         reports.find { it.indikator.toLowerCase() == "leads" }?.last7days = report.totalLeadsCs.toString()
         reports.find { it.indikator.toLowerCase() == "biaya iklan" }?.last7days = convertRpWithoutSpace(report.adCost.toDouble())
-        reports.find { it.indikator.toLowerCase() == "ctr link" }?.last7days = "${report.ctrLink.toInt()}%"
-        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.last7days = "${report.ratioLp.toInt()}%"
+        reports.find { it.indikator.toLowerCase() == "ctr link" }?.last7days = "${report.ctrLink}%"
+        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.last7days = "${report.ratioLp}%"
         reports.find { it.indikator.toLowerCase() == "cpr" }?.last7days = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
@@ -72,8 +72,8 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "klik kontak" }?.thisMonth = report.totalContactClick.toString()
         reports.find { it.indikator.toLowerCase() == "leads" }?.thisMonth = report.totalLeadsCs.toString()
         reports.find { it.indikator.toLowerCase() == "biaya iklan" }?.thisMonth = convertRpWithoutSpace(report.adCost.toDouble())
-        reports.find { it.indikator.toLowerCase() == "ctr link" }?.thisMonth = "${report.ctrLink.toDouble().toInt()}%"
-        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.thisMonth = "${report.ratioLp.toDouble().toInt()}%"
+        reports.find { it.indikator.toLowerCase() == "ctr link" }?.thisMonth = "${report.ctrLink}%"
+        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.thisMonth = "${report.ratioLp}%"
         reports.find { it.indikator.toLowerCase() == "cpr" }?.thisMonth = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
@@ -84,8 +84,8 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "klik kontak" }?.lastMonth = report.totalContactClick.toString()
         reports.find { it.indikator.toLowerCase() == "leads" }?.lastMonth = report.totalLeadsCs.toString()
         reports.find { it.indikator.toLowerCase() == "biaya iklan" }?.lastMonth = convertRpWithoutSpace(report.adCost.toDouble())
-        reports.find { it.indikator.toLowerCase() == "ctr link" }?.lastMonth = "${report.ctrLink.toInt()}%"
-        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.lastMonth = "${report.ratioLp.toInt()}%"
+        reports.find { it.indikator.toLowerCase() == "ctr link" }?.lastMonth = "${report.ctrLink}%"
+        reports.find { it.indikator.toLowerCase() == "rasio lp" }?.lastMonth = "${report.ratioLp}%"
         reports.find { it.indikator.toLowerCase() == "cpr" }?.lastMonth = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
