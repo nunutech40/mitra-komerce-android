@@ -18,6 +18,7 @@ import id.android.kmabsensi.data.remote.body.AddAdvertiserReportParams
 import id.android.kmabsensi.data.remote.body.EditAdvertiserReportParams
 import id.android.kmabsensi.data.remote.response.AdvertiserReport
 import id.android.kmabsensi.data.remote.response.Partner
+import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
@@ -93,6 +94,8 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             edtCPR.setText("$cpr")
             edtCatatan.setText(it.notes)
             btnSave.text = getString(R.string.edit_laporan)
+
+            partnerSelected = Partner(partnerDetail = PartnerDetail(noPartner = it.noPartner))
 
             partnerVM.getPartners()
         }
@@ -218,6 +221,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                 is UiState.Success -> {
                     advertiserReport?.let { report ->
                         val partner = state.data.partners.find { it.partnerDetail.noPartner == report.noPartner }
+                        partnerSelected = partner
                         edtPilihPartner.setText(partner?.fullName)
                     }
                 }
