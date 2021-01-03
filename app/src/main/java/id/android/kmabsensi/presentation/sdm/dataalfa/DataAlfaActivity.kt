@@ -80,11 +80,7 @@ class DataAlfaActivity : BaseActivity() {
                 dateEnd = "${cal.get(Calendar.YEAR)}-${cal.get(Calendar.MONTH)+1}-${cal.getActualMaximum(Calendar.DATE)}"
             }
 
-            presenceVM.getListAlpha(
-                ListAlphaParams(
-                    officeId, dateStart, dateEnd
-                )
-            )
+            presenceVM.getListAlpha(ListAlphaParams(office_id = officeId, start_date = dateStart, end_date = dateEnd))
         }
 
         presenceVM.alphaAttendances.observe(this, Observer {

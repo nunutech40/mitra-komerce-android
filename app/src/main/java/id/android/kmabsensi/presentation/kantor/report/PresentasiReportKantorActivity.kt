@@ -134,6 +134,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     if (!isManagement) {
                         txtSubReport.text = it.data.data[0].full_name
                         vm.getPresenceReportFiltered(userManagementId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
+                        vm.getListAlpha(ListAlphaParams(user_management_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     }
                     userResponse = it.data
                 }
@@ -151,6 +152,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     txtSubReport.text = it.data.data[0].office_name
                     vm.getPresenceReportFiltered(officeId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
+                    vm.getListAlpha(ListAlphaParams(office_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     officeResponse = it.data
                 }
                 is UiState.Error -> {
@@ -166,10 +168,13 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
                 }
                 is UiState.Success -> {
-                    if (!isSectionAdded) expandableLayoutAlpha.addSection(getSectionAlpha(state.data.data)) else {
+                    if (!isSectionAdded) {
+                        expandableLayoutAlpha.addSection(getSectionAlpha(state.data.data))
+                    } else {
                         expandableLayoutAlpha.sections[0].parent = state.data.data.size.toString()
                         expandableLayoutAlpha.sections[0].children.clear()
                         expandableLayoutAlpha.sections[0].children.add(state.data.data)
+                        expandableLayoutAlpha.notifyParentChanged(0)
                     }
                 }
                 is UiState.Error -> {
@@ -188,6 +193,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 txtReport.text = "Kantor Cabang"
                 txtSubReport.text = "Semua Kantor"
                 vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
+                vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                 setupToolbarTitle("Presentasi Report Manajemen")
             }
             2 -> {
@@ -196,6 +202,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     user?.let {
                         txtSubReport.text = it.full_name
                         vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
+                        vm.getListAlpha(ListAlphaParams(user_management_id = it.id, start_date = dateFrom, end_date = dateTo))
                         vm.getUserManagement()
                     }
                 } else {
@@ -203,11 +210,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     vm.getUserManagement()
                 }
                 setupToolbarTitle("Presentasi Report SDM")
-
             }
         }
-
-        vm.getListAlpha(ListAlphaParams(office_id = 0, start_date = dateFrom, end_date = dateTo))
 
     }
 
@@ -240,7 +244,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
             ) {
                 view?.findViewById<ImageView>(R.id.arrow)
                     ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-                view?.findViewById<TextView>(R.id.textTotalTidakAbsen)?.setText(model)
+                view?.findViewById<TextView>(R.id.textTotalTidakAbsen)?.text = model
             }
         })
         expandableLayoutAlpha.setExpandListener { parentIndex: Int, parent: String, view: View? ->
@@ -299,10 +303,12 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         txtSubReport.text = officaName
                         groupAdapter.clear()
                         vm.getPresenceReportFiltered(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo)
+                        vm.getListAlpha(ListAlphaParams(office_id = officeIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                     1 -> {
                         groupAdapter.clear()
                         vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
+                        vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                     }
                     2 -> {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
@@ -313,10 +319,9 @@ class PresentasiReportKantorActivity : BaseActivity() {
                             userManagementId = userManagementIdSelected,
                             startDate = dateFrom, endDate = dateTo
                         )
+                        vm.getListAlpha(ListAlphaParams(user_management_id = userManagementIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                 }
-
-                vm.getListAlpha(ListAlphaParams(office_id = 0, start_date = dateFrom, end_date = dateTo))
 
             }
 

@@ -46,6 +46,7 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
@@ -164,10 +165,10 @@ class HomeManagementFragment : Fragment() {
                     textTotalPartner.text = it.data.data.total_partner.toString()
 
                     if (!isSectionAdded) expandableLayout.addSection(getSectionDashboard(it.data.data)) else {
-                        expandableLayout.sections[0].parent =
-                            it.data.data.total_not_present.toString()
+                        expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
                         expandableLayout.sections[0].children.clear()
                         expandableLayout.sections[0].children.add(it.data.data)
+                        expandableLayout.notifyParentChanged(0)
                     }
 
                     val workConfigs = it.data.data.work_config
