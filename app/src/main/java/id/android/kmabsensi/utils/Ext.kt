@@ -17,6 +17,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -62,6 +63,7 @@ fun View.gone(){
 }
 
 fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
+fun convertRp(number: BigDecimal) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
 fun convertRpWithoutSpace(number: Double) = String.format("Rp%,.0f", number).replace(",".toRegex(), ".")
 
 fun TextView.spannableQuestionEvaluation(question: String, notes: String){

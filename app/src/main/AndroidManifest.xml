@@ -35,7 +35,9 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.report.performa.advertiser.PerformaAdvertiserActivity"></activity>
+        <activity
+            android:name=".presentation.report.performa.advertiser.PerformaAdvertiserActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.sdm.laporan.advertiser.KelolaLaporanAdvertiserActivity"
             android:windowSoftInputMode="adjustPan" />

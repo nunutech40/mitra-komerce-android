@@ -127,11 +127,11 @@ class InvoiceReportActivity : BaseActivity() {
                     val data = state.data.invoiceReport
 
                     textTotalInvoiceCreated.text =
-                        "${convertRp(data.totalInvoice.toDouble())} | ${data.sumOfInvoice} Invoice"
+                        "${convertRp(data.totalInvoice.toBigDecimal())} | ${data.sumOfInvoice} Invoice"
                     textTotalInvoicePaid.text =
-                        "${convertRp(data.totalPaidInvoice.toDouble())} | ${data.sumOfPaidInvoice} Invoice"
+                        "${convertRp(data.totalPaidInvoice.toBigDecimal())} | ${data.sumOfPaidInvoice} Invoice"
                     textTotalInvoiceNotPaid.text =
-                        "${convertRp(data.totalUnpaidInvoice.toDouble())} | ${data.sumOfUnpaidInvoice} Invoice"
+                        "${convertRp(data.totalUnpaidInvoice.toBigDecimal())} | ${data.sumOfUnpaidInvoice} Invoice"
 
 //                groupAdapter.clear()
 //                for(x in 1..3) {

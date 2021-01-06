@@ -15,15 +15,15 @@ data class InvoiceReportResponse(
 
 data class InvoiceReport(
     @SerializedName("total_invoice")
-    val totalInvoice: Int = 0,
+    val totalInvoice: Long = 0,
     @SerializedName("sum_of_invoice")
-    val sumOfInvoice: Int = 0,
+    val sumOfInvoice: Long = 0,
     @SerializedName("total_paid_invoice")
-    val totalPaidInvoice: Int = 0,
+    val totalPaidInvoice: Long = 0,
     @SerializedName("sum_of_paid_invoice")
-    val sumOfPaidInvoice: Int = 0,
+    val sumOfPaidInvoice: Long = 0,
     @SerializedName("total_unpaid_invoice")
-    val totalUnpaidInvoice: Int = 0,
+    val totalUnpaidInvoice: Long = 0,
     @SerializedName("sum_of_unpaid_invoice")
-    val sumOfUnpaidInvoice: Int = 0
+    val sumOfUnpaidInvoice: Long = 0
 )
