@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.remote.body
 
 data class AddSdmReportParams(
     val user_id: Int,
+    val no_partner: String,
     val date: String,
     val total_leads: Int,
     val total_transaction: Int,

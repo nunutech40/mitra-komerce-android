@@ -45,13 +45,8 @@ class PerformaAdvertiserActivity : BaseActivity() {
 
         noPartner = intent.getStringExtra(NO_PARTNER_KEY) ?: "0"
 
-        PerformaAdvertiserReportData.generateData()
-        PerformaAdvertiserReportData.getData().forEach {
-            groupAdapter.add(PerformaReportAdvertiserItem(it))
-        }
-
         observeData()
-        sdmVM.getSdm(positionId = 2, noPartner = noPartner.toInt())
+        sdmVM.getSdm(userManagementId = sdmVM.getUserData().id, positionId = 2, noPartner = noPartner.toInt())
     }
 
     private fun initSpinner(){
@@ -80,6 +75,11 @@ class PerformaAdvertiserActivity : BaseActivity() {
     }
 
     private fun fetchPerforma(){
+        groupAdapter.clear()
+        PerformaAdvertiserReportData.generateData()
+        PerformaAdvertiserReportData.getData().forEach {
+            groupAdapter.add(PerformaReportAdvertiserItem(it))
+        }
         getPerformances(
             getDateString(DateHelper.getTodayDate()),
             getDateString(DateHelper.getTodayDate()),
@@ -114,13 +114,13 @@ class PerformaAdvertiserActivity : BaseActivity() {
             getDateString(
                 DateHelper.getFirstDateOfMonth(
                     DateHelper.getLastMonth(),
-                    DateHelper.getCurrentYear()
+                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
                 )
             ),
             getDateString(
                 DateHelper.getLastDateOfMonth(
                     DateHelper.getLastMonth(),
-                    DateHelper.getCurrentYear()
+                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
                 )
             ),
             PerformaPeriode.LASTMONTH

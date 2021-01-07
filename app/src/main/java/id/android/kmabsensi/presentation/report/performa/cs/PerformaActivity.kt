@@ -189,13 +189,13 @@ class PerformaActivity : BaseActivity() {
                                         getDateString(
                                             DateHelper.getFirstDateOfMonth(
                                                 DateHelper.getLastMonth(),
-                                                DateHelper.getCurrentYear()
+                                                if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
                                             )
                                         ),
                                         getDateString(
                                             DateHelper.getLastDateOfMonth(
                                                 DateHelper.getLastMonth(),
-                                                DateHelper.getCurrentYear()
+                                                if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
                                             )
                                         )
                                     )

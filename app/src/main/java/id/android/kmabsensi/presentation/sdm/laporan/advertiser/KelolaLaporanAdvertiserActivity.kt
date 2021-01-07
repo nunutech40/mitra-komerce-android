@@ -73,6 +73,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
 
         advertiserReport?.let {
             dateSelected = parseStringDate(it.date)
+            cal.time = dateSelected
             totalView = it.totalView
             totalAdClick = it.totalAdClick
             totalVisitor = it.totalVisitor
@@ -130,7 +131,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             }
         }
 
-        dateSelected = cal.time
+        if (advertiserReport == null) dateSelected = cal.time
         edtTanggal.setText(getDateStringFormatted(dateSelected!!))
         edtTanggal.setOnClickListener {
             showDatePicker()
@@ -315,9 +316,10 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
 
     private fun showDatePicker() {
         MaterialDialog(this).show {
-            datePicker { dialog, date ->
+            datePicker(currentDate = cal) { dialog, date ->
                 // Use date (Calendar)
                 dateSelected = date.time
+                cal.time = dateSelected
                 setDateText(getDateStringFormatted(date.time))
             }
         }

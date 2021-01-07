@@ -47,6 +47,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12dp"
                 android:layout_marginStart="@dimen/_24dp"
+                android:text="@string/partner" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihPartner"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Pilih Partner"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right"
+                android:drawableTint="#b4b4b4"
+                android:layout_marginHorizontal="20dp" />
+
+            <TextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginStart="@dimen/_24dp"
                 android:text="@string/leads" />
 
             <androidx.appcompat.widget.AppCompatEditText

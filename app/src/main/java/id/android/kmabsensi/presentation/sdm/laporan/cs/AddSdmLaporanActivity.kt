@@ -13,11 +13,19 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddSdmReportParams
 import id.android.kmabsensi.data.remote.body.EditSdmReportParams
 import id.android.kmabsensi.data.remote.response.CsPerformance
+import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.btnSave
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.edtCatatan
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.edtPilihPartner
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.edtTanggal
+import kotlinx.android.synthetic.main.activity_add_sdm_laporan.view_nb
+import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -32,6 +40,9 @@ class AddSdmLaporanActivity : BaseActivity() {
     private var totalLeads: Int = 0
     private var totalTransaction: Int = 0
     private var totalOrder: Int = 0
+
+    private val RC_PICK_PARTNER = 122
+    private var partnerSelected: Partner? = null
 
     //    private var ratingConversion: Double = 0.0
 //    private var ratingOrder: Double = 0.0
@@ -90,6 +101,7 @@ class AddSdmLaporanActivity : BaseActivity() {
                     EditSdmReportParams(
                         report!!.id,
                         user.id,
+                        partnerSelected!!.noPartner,
                         getDateString(dateSelected!!),
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
@@ -103,6 +115,7 @@ class AddSdmLaporanActivity : BaseActivity() {
                 sdmVM.addSdmReport(
                     AddSdmReportParams(
                         user.id,
+                        partnerSelected!!.noPartner,
                         getDateString(dateSelected!!),
                         edtLeads.text.toString().toInt(),
                         edtTransaksi.text.toString().toInt(),
@@ -245,8 +258,8 @@ class AddSdmLaporanActivity : BaseActivity() {
             showDatePicker()
         }
         report?.let {
-
             dateSelected = parseStringDate(it.date)
+            cal.time = dateSelected
             totalLeads = it.totalLeads
             totalTransaction = it.totalTransaction
             totalOrder = it.totalOrder
@@ -274,13 +287,26 @@ class AddSdmLaporanActivity : BaseActivity() {
             btnSave.text = getString(R.string.edit_laporan)
         }
 
+        edtPilihPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(RC_PICK_PARTNER)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RC_PICK_PARTNER && resultCode == Activity.RESULT_OK) {
+            partnerSelected = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            edtPilihPartner.setText(partnerSelected?.fullName)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun showDatePicker() {
         MaterialDialog(this).show {
-            datePicker { dialog, date ->
+            datePicker(currentDate = cal) { dialog, date ->
                 // Use date (Calendar)
                 dateSelected = date.time
+                cal.time = dateSelected
                 setDateText(getDateStringFormatted(date.time))
             }
         }
