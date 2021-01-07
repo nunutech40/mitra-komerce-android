@@ -19,6 +19,8 @@ data class ListCsPerformanceResponse(
 data class CsPerformance(
     @SerializedName("id")
     val id: Int = 0,
+    @SerializedName("no_partner")
+    val noPartner: String = "",
     @SerializedName("date")
     val date: String = "",
     @SerializedName("total_leads")

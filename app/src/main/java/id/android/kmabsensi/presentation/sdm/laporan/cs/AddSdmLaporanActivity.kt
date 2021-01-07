@@ -14,11 +14,14 @@ import id.android.kmabsensi.data.remote.body.AddSdmReportParams
 import id.android.kmabsensi.data.remote.body.EditSdmReportParams
 import id.android.kmabsensi.data.remote.response.CsPerformance
 import id.android.kmabsensi.data.remote.response.Partner
+import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
+import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.btnSave
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.edtCatatan
@@ -32,6 +35,7 @@ import java.util.*
 class AddSdmLaporanActivity : BaseActivity() {
 
     private val sdmVM: SdmViewModel by viewModel()
+    private val partnerVM: PartnerViewModel by viewModel()
 
     private val cal = Calendar.getInstance()
     private var dateSelected: Date? = null
@@ -128,6 +132,24 @@ class AddSdmLaporanActivity : BaseActivity() {
             }
 
         }
+
+        partnerVM.partners.observe(this, { state ->
+            when (state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    report?.let { report ->
+                        val partner = state.data.partners.find { it.partnerDetail.noPartner == report.noPartner }
+                        partnerSelected = partner
+                        edtPilihPartner.setText(partner?.fullName)
+                    }
+                }
+                is UiState.Error -> {
+
+                }
+            }
+        })
     }
 
     private fun initListener() {
@@ -274,6 +296,9 @@ class AddSdmLaporanActivity : BaseActivity() {
             edtOrder.setText(totalOrder.toString())
             edtRatingKonversi.setText("${(percentageRatingConversion)}%")
             edtRatingOrder.setText("${(percentageRatingOrder)}%")
+
+            partnerSelected = Partner(partnerDetail = PartnerDetail(noPartner = it.noPartner))
+            partnerVM.getPartners()
 
             if (percentageRatingConversion < 30) {
                 view_nb.visible()
