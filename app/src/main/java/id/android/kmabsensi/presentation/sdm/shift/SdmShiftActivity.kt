@@ -8,13 +8,13 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.UpdateSdmShiftConfigParam
 import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseSearchActivity
 import id.android.kmabsensi.presentation.viewmodels.UserConfigurationViewModel
 import id.android.kmabsensi.utils.UiState
 import kotlinx.android.synthetic.main.activity_sdm_shift.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SdmShiftActivity : BaseActivity() {
+class SdmShiftActivity : BaseSearchActivity() {
     private val userConfigurationVm: UserConfigurationViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private lateinit var user: User
@@ -27,10 +27,21 @@ class SdmShiftActivity : BaseActivity() {
         const val SHIFT_SIANG = "SIANG"
     }
 
+    override fun search(keyword: String) {
+        val listSdm = sdmShiftList.filter {
+            it.full_name.toLowerCase().contains(keyword.toLowerCase())
+        }
+        populateData(listSdm)
+    }
+
+    override fun restoreData() {
+        populateData(sdmShiftList)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sdm_shift)
-        setupToolbar(getString(R.string.shift))
+        setupSearchToolbar(getString(R.string.shift))
         user = userConfigurationVm.getUserData()
         initRv()
         observeData()
@@ -47,7 +58,7 @@ class SdmShiftActivity : BaseActivity() {
                     hideSkeleton()
                     sdmShiftList.clear()
                     sdmShiftList.addAll(state.data.data)
-                    refreshAdapter()
+                    populateData(sdmShiftList)
                 }
                 is UiState.Error -> {
                     hideSkeleton()
@@ -63,11 +74,14 @@ class SdmShiftActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     if (state.data.status){
-                        selectedUser?.sdm_config = state.data.data
-                        selectedUser?.let {
-                            sdmShiftList.set(selectedPosition, it)
-                        }
-                        refreshAdapter()
+
+                        userConfigurationVm.getsSmShiftConfiguration(userManagementId = user.id)
+
+//                        selectedUser?.sdm_config = state.data.data
+//                        selectedUser?.let {
+//                            sdmShiftList.set(selectedPosition, it)
+//                        }
+//                        populateData(sdmShiftList)
                     }
                 }
                 is UiState.Error -> {
@@ -81,9 +95,9 @@ class SdmShiftActivity : BaseActivity() {
 
     }
 
-    private fun refreshAdapter(){
+    private fun populateData(list: List<User>){
         groupAdapter.clear()
-        sdmShiftList.forEach {
+        list.forEach {
             groupAdapter.add(SdmShiftItem(this, it, object : OnSdmShiftListener {
 
                 override fun onShiftPagiSelected(position: Int, user: User) {
