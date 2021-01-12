@@ -85,7 +85,7 @@ class UbahProfileViewModel(val sdmRepository: SdmRepository,
             .with(schedulerProvider)
             .subscribe({
                 crudResponse.value = UiState.Success(it)
-                prefHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data))
+//                prefHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data))
             },{
                 crudResponse.value = UiState.Error(it)
             }))

@@ -167,6 +167,7 @@ class UbahProfileActivity : BaseActivity() {
                     if(it.data.status){
                         compressedImage?.delete()
                         createAlertSuccess(this, it.data.message)
+                        finish()
 
                     } else {
                         createAlertError(this, "Gagal", it.data.message)
@@ -295,11 +296,11 @@ class UbahProfileActivity : BaseActivity() {
         disposables.add(
             Compressor(this)
                 .setQuality(75)
-                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                .setDestinationDirectoryPath(
-                    Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).absolutePath
-                )
+                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+//                .setDestinationDirectoryPath(
+//                    Environment.getExternalStoragePublicDirectory(
+//                        Environment.DIRECTORY_PICTURES).absolutePath
+//                )
                 .compressToFileAsFlowable(file)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -12,6 +12,7 @@ import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
+import org.koin.android.ext.android.inject
 
 class HomeViewModel(
     private val preferencesHelper: PreferencesHelper,
@@ -24,6 +25,7 @@ class HomeViewModel(
     val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
+
 
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
@@ -169,6 +171,7 @@ class HomeViewModel(
                 userRepository.getProfileUser(userId)
                     .with(schedulerProvider)
                     .subscribe({
+                        preferencesHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
                         userdData.value = UiState.Success(it)
                     }, {
                         userdData.value = UiState.Error(it)

@@ -96,11 +96,27 @@ class MyProfileFragment : Fragment() {
             }
         })
 
+        vm.userdData.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    setProfile()
+                }
+                is UiState.Error -> {
+                }
+            }
+        })
+
     }
 
     override fun onResume() {
         super.onResume()
+        vm.getProfileUserData(user.id)
+    }
 
+
+    private fun setProfile() {
         user = vm.getUserData()
 
         if (user.role_id == 1){
