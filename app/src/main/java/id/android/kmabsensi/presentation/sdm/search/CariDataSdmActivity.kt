@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -69,6 +70,7 @@ class CariDataSdmActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     skeletonScreen?.hide()
                     dataFilter = it.data.data.filter { it.role_id != 4 }
+                    d { "jumlahdatafilter : ${dataFilter.size.toString()}" }
                     if (searchView.text.toString().isNotEmpty()){
                         rvSdm.visible()
                         search(searchView.text.toString())
@@ -93,9 +95,9 @@ class CariDataSdmActivity : AppCompatActivity() {
     private fun search(key: String) {
         groupAdapter.clear()
 
-        val filter = dataFilter.filter {
-            it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partners[0] == key
-        }
+        d { dataFilter.size.toString() }
+
+        val filter = dataFilter.filter { it.full_name.toLowerCase().contains(key.toLowerCase()) || it.no_partners.find { it == key } != null }
         if (filter.isEmpty()) layout_empty.visible() else layout_empty.gone()
         filter.forEach { sdm ->
             groupAdapter.add(SdmItem(sdm) {
