@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.bumptech.glide.Glide
@@ -18,19 +19,41 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Partner
+import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
+import id.android.kmabsensi.presentation.sdm.tambahsdm.PartnerSelectedItem
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import kotlinx.android.synthetic.main.activity_ubah_profile.*
+import kotlinx.android.synthetic.main.activity_ubah_profile.btnSimpan
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtAddress
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtAsalDesa
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtEmail
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtNamaBank
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtNamaLengkap
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoHp
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoPartner
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoRekening
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtPemilikRekening
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtTanggalBergabung
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtTanggalLahir
+import kotlinx.android.synthetic.main.activity_ubah_profile.edtUsername
+import kotlinx.android.synthetic.main.activity_ubah_profile.imgProfile
+import kotlinx.android.synthetic.main.activity_ubah_profile.rvPartner
+import kotlinx.android.synthetic.main.activity_ubah_profile.spinnerJenisKelamin
+import kotlinx.android.synthetic.main.activity_ubah_profile.spinnerStatusPernikahan
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
@@ -56,6 +79,9 @@ class UbahProfileActivity : BaseActivity() {
 
     private val PICK_PARTNER_RC = 112
 
+    private val groupAdpter = GroupAdapter<GroupieViewHolder>()
+    private val partnerSelected = mutableListOf<Partner>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ubah_profile)
@@ -67,6 +93,8 @@ class UbahProfileActivity : BaseActivity() {
         myDialog = MyDialog(this)
 
         user = intent.getParcelableExtra(USER_KEY)
+
+        initRv()
 
         //spinner jenis kelamin
         ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item)
@@ -184,6 +212,13 @@ class UbahProfileActivity : BaseActivity() {
         user?.let { user -> setDataToView(user) }
     }
 
+    private fun initRv(){
+        rvPartner.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = groupAdpter
+        }
+    }
+
     private fun setDataToView(data: User){
         edtUsername.setText(data.username)
         edtTanggalLahir.setText(data.birth_date)
@@ -191,9 +226,17 @@ class UbahProfileActivity : BaseActivity() {
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
         edtNoHp.setText(data.no_hp)
-        edtNoPartner.setText(data.no_partners[0])
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
+
+        if (data.no_partners.isEmpty()){
+            layoutPartner.gone()
+        }
+
+        data.partner_assignments.forEach {
+            partnerSelected.add(Partner(id = it.id, fullName = it.fullName, partnerDetail = PartnerDetail(noPartner = it.noPartner)))
+        }
+        populatePartnerSelected()
 
         data.bank_accounts?.let {bank_account ->
             if (bank_account.isNotEmpty()){
@@ -262,7 +305,17 @@ class UbahProfileActivity : BaseActivity() {
             )
         }
 
+    }
 
+    private fun populatePartnerSelected(enableClose : Boolean = false){
+        if(partnerSelected.isNotEmpty()) edtNoPartner.setHint("") else edtNoPartner.setHint("Pilih Partner")
+        groupAdpter.clear()
+        partnerSelected.forEach {
+            groupAdpter.add(PartnerSelectedItem(it, enableClose){
+                partnerSelected.removeAt(partnerSelected.indexOf(it))
+                populatePartnerSelected(enableClose)
+            })
+        }
     }
 
     fun setDateToView(date: String) {
