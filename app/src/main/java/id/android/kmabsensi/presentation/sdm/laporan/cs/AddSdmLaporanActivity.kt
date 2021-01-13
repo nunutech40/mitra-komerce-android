@@ -94,11 +94,10 @@ class AddSdmLaporanActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            Log.d("mitraKm", "res =====================")
-//            Log.d("mitraKm", "res ${ratingConversion}")
-//            Log.d("mitraKm", "res ${ratingOrder}")
-            Log.d("mitraKm", "res ${percentageRatingConversion}")
-            Log.d("mitraKm", "res ${percentageRatingOrder}")
+            if (partnerSelected == null){
+                createAlertError(this, "Peringatan", "Pilih partner terlebih dahulu.", 3000)
+                return@setOnClickListener
+            }
 
             if (report != null) {
                 sdmVM.editSdmReport(
