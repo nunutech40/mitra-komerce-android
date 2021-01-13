@@ -18,13 +18,13 @@ class PermissionItem(val permission: Permission,
 
             //2019-10-09
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val dateFrom = dateFormat.parse(permission.date_from)
-            val dateTo = dateFormat.parse(permission.date_to)
+            val dateFrom = dateFormat.parse(permission.dateFrom)
+            val dateTo = dateFormat.parse(permission.dateTo)
 //            txtDate.text = getDateStringFormatted(date)
 
             itemView.txtDateFrom.text = getDateStringFormatted2(dateFrom)
             itemView.txtDateTo.text = getDateStringFormatted2(dateTo)
-            itemView.txtAlasanTidakHadir.text = when (permission.permission_type) {
+            itemView.txtAlasanTidakHadir.text = when (permission.permissionType) {
                 1 -> "Izin"
                 2 -> "Sakit"
                 else -> "Cuti"
@@ -46,7 +46,7 @@ class PermissionItem(val permission: Permission,
             }
 
             permission.user?.let {
-                itemView.txtNamaPemohon.text = it.full_name
+                itemView.txtNamaPemohon.text = it.fullName
             }
 
             itemView.setOnClickListener {

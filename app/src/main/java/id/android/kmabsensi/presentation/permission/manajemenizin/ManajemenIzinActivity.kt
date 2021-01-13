@@ -181,7 +181,7 @@ class ManajemenIzinActivity : BaseActivity() {
                 .append(dataizin)
 
             permissions.forEach {
-                val tipeIzin = when (it.permission_type) {
+                val tipeIzin = when (it.permissionType) {
                     1 -> "Izin"
                     2 -> "Sakit"
                     else -> "Cuti"
@@ -193,12 +193,12 @@ class ManajemenIzinActivity : BaseActivity() {
                 }
 
                 stringBuilder.append(
-                    "Nama Pemohon : ${it.user?.full_name}" +
+                    "Nama Pemohon : ${it.user?.fullName}" +
                             "\nJenis Izin : $tipeIzin" +
-                            "\nTgl Mulai : ${it.date_from}" +
-                            "\nTgl Akhir : ${it.date_to}" +
-                            "\nNama Leader : ${it.management?.full_name}" +
-                            "\nNama Kantor : ${it.user?.office_name}" +
+                            "\nTgl Mulai : ${it.dateFrom}" +
+                            "\nTgl Akhir : ${it.dateTo}" +
+                            "\nNama Leader : ${it.management?.fullName}" +
+                            "\nNama Kantor : ${it.user?.officeName}" +
                             "\nKeterangan : ${it.explanation}" +
                             "\nStatus Permintaan : $status\n\n\n"
                 )

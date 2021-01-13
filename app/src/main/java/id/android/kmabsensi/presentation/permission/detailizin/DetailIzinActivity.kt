@@ -41,27 +41,26 @@ class DetailIzinActivity : BaseActivity() {
         isFromManajemenIzin = intent.getBooleanExtra(IS_FROM_MANAJEMEN_IZI, false)
 
 
-
         permission?.let {
             it.user?.let { user ->
-                d { it.user.photo_profile_url.toString() }
+                d { it.user.photoProfileUrl.toString() }
 
-                if (user.division_id == 2 || user.role_id == 2){
+                if (user.divisionId == 2 || user.roleId == 2){
                     view4.gone()
                     txt_label_persetujuan_partner.gone()
                     layoutImgPersetujuanPartner.gone()
                     btnLihatFotoPersetujuanPartner.gone()
 
-                    if (user.role_id == 2){
+                    if (user.roleId == 2){
                         txt_label_persetujuan_leader.text =  "Lampiran Bukti Izin"
                     }
                 }
 
-                txtNamaPemohon.text = "${it.user.full_name}"
-                txtRole.text = "${it.user.position_name}"
+                txtNamaPemohon.text = "${it.user.fullName}"
+                txtRole.text = "${it.user.positionName}"
             }
 
-            txtAlasanTidakHadir.text = when (it.permission_type) {
+            txtAlasanTidakHadir.text = when (it.permissionType) {
                 1 -> "Izin"
                 2 -> "Sakit"
                 else -> "Cuti"
@@ -70,8 +69,8 @@ class DetailIzinActivity : BaseActivity() {
             txtKeterangan.text = "${it.explanation}"
 
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val dateFrom = dateFormat.parse(it.date_from)
-            val dateTo = dateFormat.parse(it.date_to)
+            val dateFrom = dateFormat.parse(it.dateFrom)
+            val dateTo = dateFormat.parse(it.dateTo)
 
             if (dateTo != null && dateFrom != null){
                 val diff = dateTo.time - dateFrom.time
@@ -79,13 +78,13 @@ class DetailIzinActivity : BaseActivity() {
             }
 
 
-            imgPersetujuanPartner.loadImageFromUrl(it.attachment_partner_img_url)
-            imgLaporanLeader.loadImageFromUrl(it.attachment_leader_img_url)
+            imgPersetujuanPartner.loadImageFromUrl(it.attachmentPartnerImgUrl)
+            imgLaporanLeader.loadImageFromUrl(it.attachmentLeaderImgUrl)
 
             btnLihatFotoPersetujuanPartner.setOnClickListener { view ->
                 StfalconImageViewer.Builder<String>(
                     this,
-                    listOf(it.attachment_partner_img_url)
+                    listOf(it.attachmentPartnerImgUrl)
                 ) { view, image ->
                     Glide.with(this)
                         .load(image).into(view)
@@ -96,7 +95,7 @@ class DetailIzinActivity : BaseActivity() {
             btnLihatFotoLaporanLeader.setOnClickListener { view ->
                 StfalconImageViewer.Builder<String>(
                     this,
-                    listOf(it.attachment_leader_img_url)
+                    listOf(it.attachmentLeaderImgUrl)
                 ) { view, image ->
                     Glide.with(this)
                         .load(image).into(view)
