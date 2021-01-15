@@ -24,7 +24,6 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.PartnerDetail
-import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
@@ -35,7 +34,6 @@ import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_detail_karyawan.*
 import kotlinx.android.synthetic.main.activity_ubah_profile.*
 import kotlinx.android.synthetic.main.activity_ubah_profile.btnSimpan
 import kotlinx.android.synthetic.main.activity_ubah_profile.edtAddress
@@ -300,9 +298,9 @@ class UbahProfileActivity : BaseActivity() {
         }
 
         edtNoPartner.setOnClickListener {
-            startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC
-            )
+//            startActivityForResult<PartnerPickerActivity>(
+//                PICK_PARTNER_RC
+//            )
         }
 
     }
