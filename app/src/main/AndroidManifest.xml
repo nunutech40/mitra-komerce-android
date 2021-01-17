@@ -35,6 +35,8 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
+        <activity android:name=".presentation.notes.ListNoteActivity"></activity>
+        <activity android:name=".presentation.notes.NotesActivity" />
         <activity
             android:name=".presentation.report.performa.advertiser.PerformaAdvertiserActivity"
             android:windowSoftInputMode="adjustPan" />

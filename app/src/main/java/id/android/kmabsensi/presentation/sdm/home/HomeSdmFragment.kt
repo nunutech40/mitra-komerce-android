@@ -31,6 +31,7 @@ import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
+import id.android.kmabsensi.presentation.notes.ListNoteActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.laporan.cs.SdmLaporanActivity
@@ -377,6 +378,10 @@ class HomeSdmFragment : Fragment() {
                 activity?.startActivity<ListLaporanAdvertiserActivity>()
             }
 
+        }
+
+        btnNotes.setOnClickListener {
+            activity?.startActivity<ListNoteActivity>()
         }
 
         swipeRefresh.setOnRefreshListener {

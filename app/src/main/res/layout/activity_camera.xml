@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="20dp"
+                android:padding="@dimen/_20sdp"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_take_picture" />
 

@@ -9,7 +9,8 @@ class AuthRepository(private val apiService: ApiService) {
 
     fun login(
         usernameEmail: String,
-        password: String, fcmToken: String
+        password: String,
+        fcmToken: String
     ): Single<LoginResponse> {
         return apiService.login(usernameEmail, password, fcmToken)
     }

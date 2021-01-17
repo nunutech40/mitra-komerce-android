@@ -1,6 +1,5 @@
 package id.android.kmabsensi.data.repository
 
-import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.data.db.dao.CityDao
 import id.android.kmabsensi.data.db.dao.ProvinceDao
 import id.android.kmabsensi.data.db.entity.City

@@ -64,7 +64,6 @@ class HomeActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
-
                     viewpager.currentItem = if (role == ROLE_MANAGEMEMENT) 3 else 2
                     return@OnNavigationItemSelectedListener true
                 }
