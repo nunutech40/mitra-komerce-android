@@ -29,7 +29,7 @@ class LoginViewModel(
 
     fun login(
         usernameEmail: String,
-        password: String
+        password: String,
     ) {
         val fcmToken = prefHelper.getString(PreferencesHelper.FCM_TOKEN)
         loginState.value = UiState.Loading()

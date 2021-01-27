@@ -620,4 +620,9 @@ interface ApiService {
         @Body body: FilterSdmReportParams
     ): Single<ListAdvertiserReportResponse>
 
+    @GET("api/note")
+    fun getListNote() : Single<ListNoteResponse>
+
+    @POST("api/note/add")
+    fun addNote(@Body body: AddNoteParams): Single<BaseResponse>
 }

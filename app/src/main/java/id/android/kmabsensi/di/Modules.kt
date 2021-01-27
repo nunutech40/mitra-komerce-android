@@ -41,7 +41,6 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import kotlin.math.sin
 
 val appModule = module {
 
@@ -91,6 +90,7 @@ val repositoryModule = module {
     single { KmPoinRepository(get()) }
     single { HolidayRepository(get()) }
     single { UserConfigurationRepository(get()) }
+    single { NoteRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -123,6 +123,7 @@ val viewModelModule = module {
     viewModel { HolidayViewModel(get(), get()) }
     viewModel { SdmViewModel(get(), get(), get()) }
     viewModel { UserConfigurationViewModel(get(), get(), get()) }
+    viewModel { NotesViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

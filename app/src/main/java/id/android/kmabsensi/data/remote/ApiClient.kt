@@ -47,9 +47,7 @@ class AuthInterceptor(var pref: PreferencesHelper) : Interceptor {
         val request = chain.request().newBuilder()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
-            .addHeader(
-                "Authorization", "Bearer " +pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY)
-            )
+            .addHeader("Authorization", "Bearer " +pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
             .build()
         return chain.proceed(request)
     }

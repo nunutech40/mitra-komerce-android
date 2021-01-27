@@ -236,5 +236,9 @@
     <string name="info_cpr">Ukuran tingkat efisiensi iklan; diidentifikasi dari biaya yang dihabiskan untuk menciptakan setiap 1 leads orang yang kontak dibandingkan dengan biaya iklan yang dihabiskan</string>
     <string name="general_empty_message">Kolom tidak boleh kosong</string>
     <string name="msg_alert_on_off_sdm">Me-nonjob-kan SDM akan menghapus data-data laporan, device, dan prodcut knowledge</string>
+    <string name="label_title">Title</string>
+    <string name="hint_title">Tulis title</string>
+    <string name="label_deskripsi">Deskripsi</string>
+    <string name="hint_tulis_deskripsi">Tulis Deskripsi</string>
 
 </resources>
