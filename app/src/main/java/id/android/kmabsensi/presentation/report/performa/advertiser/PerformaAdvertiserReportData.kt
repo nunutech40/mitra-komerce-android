@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.report.performa.advertiser
 
 import id.android.kmabsensi.data.remote.response.AdvertiserReport
+import id.android.kmabsensi.data.remote.response.AdvertiserReportSummary
 import id.android.kmabsensi.utils.convertRpWithoutSpace
 
 data class PerformaAdvertiserReport(
@@ -29,7 +30,7 @@ object PerformaAdvertiserReportData {
         reports.add(PerformaAdvertiserReport(indikator = "CPR"))
     }
 
-    fun setToday(report: AdvertiserReport){
+    fun setToday(report: AdvertiserReportSummary){
         reports.find { it.indikator.toLowerCase() == "tayangan" }?.today = report.totalView.toString()
         reports.find { it.indikator.toLowerCase() == "klik iklan" }?.today = report.totalAdClick.toString()
         reports.find { it.indikator.toLowerCase() == "visitor" }?.today = report.totalVisitor.toString()
@@ -41,7 +42,7 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "cpr" }?.today = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
-    fun setYesterday(report: AdvertiserReport){
+    fun setYesterday(report: AdvertiserReportSummary){
         reports.find { it.indikator.toLowerCase() == "tayangan" }?.yesterday = report.totalView.toString()
         reports.find { it.indikator.toLowerCase() == "klik iklan" }?.yesterday = report.totalAdClick.toString()
         reports.find { it.indikator.toLowerCase() == "visitor" }?.yesterday = report.totalVisitor.toString()
@@ -53,7 +54,7 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "cpr" }?.yesterday = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
-    fun setLast7days(report: AdvertiserReport){
+    fun setLast7days(report: AdvertiserReportSummary){
         reports.find { it.indikator.toLowerCase() == "tayangan" }?.last7days = report.totalView.toString()
         reports.find { it.indikator.toLowerCase() == "klik iklan" }?.last7days = report.totalAdClick.toString()
         reports.find { it.indikator.toLowerCase() == "visitor" }?.last7days = report.totalVisitor.toString()
@@ -65,7 +66,7 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "cpr" }?.last7days = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
-    fun setThisMonth(report: AdvertiserReport){
+    fun setThisMonth(report: AdvertiserReportSummary){
         reports.find { it.indikator.toLowerCase() == "tayangan" }?.thisMonth = report.totalView.toString()
         reports.find { it.indikator.toLowerCase() == "klik iklan" }?.thisMonth = report.totalAdClick.toString()
         reports.find { it.indikator.toLowerCase() == "visitor" }?.thisMonth = report.totalVisitor.toString()
@@ -77,7 +78,7 @@ object PerformaAdvertiserReportData {
         reports.find { it.indikator.toLowerCase() == "cpr" }?.thisMonth = convertRpWithoutSpace(report.cpr.toDouble())
     }
 
-    fun setLastMonth(report: AdvertiserReport){
+    fun setLastMonth(report: AdvertiserReportSummary){
         reports.find { it.indikator.toLowerCase() == "tayangan" }?.lastMonth = report.totalView.toString()
         reports.find { it.indikator.toLowerCase() == "klik iklan" }?.lastMonth = report.totalAdClick.toString()
         reports.find { it.indikator.toLowerCase() == "visitor" }?.lastMonth = report.totalVisitor.toString()

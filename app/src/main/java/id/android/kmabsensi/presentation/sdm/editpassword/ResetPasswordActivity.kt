@@ -2,15 +2,17 @@ package id.android.kmabsensi.presentation.sdm.editpassword
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.github.ajalt.timberkt.Timber.e
+import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.activity_edit_password.*
+import kotlinx.android.synthetic.main.activity_reset_password.btnSimpan
+import kotlinx.android.synthetic.main.activity_reset_password.edtConfirmPassword
+import kotlinx.android.synthetic.main.activity_reset_password.edtPasword
 import org.koin.android.ext.android.inject
 
-class EditPasswordActivity : BaseActivity() {
+class ResetPasswordActivity : BaseActivity() {
 
     private val vm: PasswordManagementViewModel by inject()
 
@@ -20,11 +22,11 @@ class EditPasswordActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_password)
+        setContentView(R.layout.activity_reset_password)
 
         disableAutofill()
 
-        setupToolbar("Ubah Password")
+        setupToolbar("Reset Password")
 
         userId = intent.getIntExtra(USER_ID_KEY, 0)
 
@@ -43,20 +45,21 @@ class EditPasswordActivity : BaseActivity() {
                     } else {
                         createAlertError(this, "Gagal", it.data.message)
                     }
+
+
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
                     createAlertError(this, "Gagal", getString(R.string.message_error_occured))
-                    e { it.throwable.message.toString() }
+                    Timber.e { it.throwable.message.toString() }
                 }
             }
         })
 
         btnSimpan.setOnClickListener {
             if (validation()) {
-                vm.changePassword(
+                vm.resetPassword(
                     userId.toString(),
-                    edtPasswordOld.text.toString(),
                     edtConfirmPassword.text.toString()
                 )
             }
@@ -65,8 +68,6 @@ class EditPasswordActivity : BaseActivity() {
 
     fun validation(): Boolean {
 
-        val oldPassword =
-            ValidationForm.validationInput(edtPasswordOld, "Password lama harus di isi")
         val newPassword = ValidationForm.validationInput(edtPasword, "Password baru harus di isi")
         val newPasswordConfirmation =
             ValidationForm.validationInput(edtConfirmPassword, "Konfirmasi password harus di isi")
@@ -76,7 +77,8 @@ class EditPasswordActivity : BaseActivity() {
             "password baru harus sama"
         )
 
-        return oldPassword && newPassword && newPasswordConfirmation && reNewPAssInput
+        return   newPassword && newPasswordConfirmation && reNewPAssInput
 
     }
+
 }

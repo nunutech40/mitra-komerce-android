@@ -1,8 +1,10 @@
 package id.android.kmabsensi.data.remote
 
 import android.content.Context
+import android.content.Intent
 import com.readystatesoftware.chuck.ChuckInterceptor
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.presentation.login.LoginActivity
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -42,16 +44,25 @@ inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: Str
 }
 
 
-class AuthInterceptor(var pref: PreferencesHelper) : Interceptor {
+class AuthInterceptor(var pref: PreferencesHelper, val context:Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
             .addHeader("Authorization", "Bearer " +pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
             .build()
-        return chain.proceed(request)
+
+        val response = chain.proceed(request)
+
+        if (response.code == 401){
+            pref.clear()
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+        }
+
+        return response
     }
 }
-
 
 

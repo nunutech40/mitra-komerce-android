@@ -2,6 +2,8 @@ package id.android.kmabsensi.presentation.camera
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -183,10 +185,16 @@ class CameraActivity : AppCompatActivity() {
             if (FileUtils.createOrExistsDir(DIR_ROOT)) {
                 val buffer = StringBuffer()
                 var imagePath = ""
-                if (mType == IDCardCamera.TYPE_IDCARD_BACK) {
-                    imagePath = buffer.append(DIR_ROOT).append(IMG_DIRECTORY_NAME).append("/")
-                        .append(DateTime.now().toString() + "jpeg").toString()
-                }
+//                if (mType == IDCardCamera.TYPE_IDCARD_BACK) {
+//                    imagePath = buffer.append(DIR_ROOT).append(IMG_DIRECTORY_NAME).append("/")
+//                        .append(DateTime.now().toString() + "jpeg").toString()
+//                }
+
+                val cw = ContextWrapper(applicationContext)
+                val directory: File = cw.getDir("imageDir", Context.MODE_PRIVATE)
+                val file = File(directory, DateTime.now().millis.toString() + ".jpg")
+
+                imagePath = file.path
 
                 if (ImageUtils.save(mCropBitmap, imagePath, Bitmap.CompressFormat.JPEG)) {
                     capturedFilePath =

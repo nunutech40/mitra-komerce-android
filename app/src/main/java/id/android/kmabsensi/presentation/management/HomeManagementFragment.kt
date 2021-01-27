@@ -218,7 +218,11 @@ class HomeManagementFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    createAlertSuccess(activity, it.data.message)
+                    if (it.data.status){
+                        createAlertSuccess(activity, it.data.message)
+                    } else {
+                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -279,33 +283,35 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Success -> {
                     groupAdapter.clear()
                     skeletonCoworking?.hide()
-                    it.data.data.forEach {
-                        groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
-                            if (hasCheckin) {
-                                vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
-                            } else {
-                                if (coworking.available_slot > 0) {
-                                    if (coworking.cowork_presence.size < 2) {
-                                        val intent = Intent(
-                                            context,
-                                            CheckinCoworkingActivity::class.java
-                                        ).apply {
-                                            putExtra("coworking", coworking)
+
+                    if (it.data.status){
+                        it.data.data.forEach {
+                            groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
+                                if (hasCheckin) {
+                                    vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
+                                } else {
+                                    if (coworking.available_slot > 0) {
+                                        if (coworking.cowork_presence.size < 2) {
+                                            val intent = Intent(
+                                                context,
+                                                CheckinCoworkingActivity::class.java
+                                            ).apply {
+                                                putExtra("coworking", coworking)
+                                            }
+                                            startActivityForResult(intent, 112)
+                                        } else if (coworking.cowork_presence.size >= 2) {
+                                            createAlertError(
+                                                activity!!,
+                                                "Gagal",
+                                                "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                            )
                                         }
-                                        startActivityForResult(intent, 112)
-                                    } else if (coworking.cowork_presence.size >= 2) {
-                                        createAlertError(
-                                            activity!!,
-                                            "Gagal",
-                                            "Anda hanya bisa check in coworking space sebanyak 2 kali"
-                                        )
                                     }
+
                                 }
-
-                            }
-                        })
+                            })
+                        }
                     }
-
                 }
                 is UiState.Error -> {
                     skeletonCoworking?.hide()
@@ -341,15 +347,16 @@ class HomeManagementFragment : Fragment() {
 
                 }
                 is UiState.Success -> {
-                    val data = state.data.data
-                    data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
-                        view_menu_data_partner.visible()
-                    }
+                    if (state.data.status){
+                        val data = state.data.data
+                        data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
+                            view_menu_data_partner.visible()
+                        }
 
-                    data[0].menus.find { menu -> menu.name.toLowerCase() == "sdm" }?.let {
-                        view_menu_sdm.visible()
+                        data[0].menus.find { menu -> menu.name.toLowerCase() == "sdm" }?.let {
+                            view_menu_sdm.visible()
+                        }
                     }
-
                 }
                 is UiState.Error -> {
 
@@ -516,9 +523,9 @@ class HomeManagementFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupGreetings()
 
         expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
             override fun renderChild(
@@ -562,9 +569,6 @@ class HomeManagementFragment : Fragment() {
                 ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
-
-        setupGreetings()
-
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
@@ -575,6 +579,7 @@ class HomeManagementFragment : Fragment() {
             txtStatusWaktu.text = ""
             layoutHoliday.gone()
             layoutWfhMode.gone()
+            user = vm.getUserData()
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
             getDashboardData()
@@ -582,12 +587,6 @@ class HomeManagementFragment : Fragment() {
             roleVM.getAccessMenuByPosition(user.position_id)
         }
 
-        imgProfile.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-        )
-
-        txtRoleName.text = user.position_name
 
         btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
@@ -765,6 +764,13 @@ class HomeManagementFragment : Fragment() {
         val (greeting, header) = (activity as HomeActivity).setGreeting()
         txtHello.text = greeting
         header_waktu.setImageResource(header)
+
+        imgProfile.loadCircleImage(
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+        )
+
+        txtRoleName.text = user.position_name
     }
 
     private fun countDownTimer(ms: Long) {

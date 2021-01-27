@@ -26,6 +26,14 @@ class AuthRepository(private val apiService: ApiService) {
         return apiService.resetPassword(userId, password)
     }
 
+    fun changePassword(
+        userId: String,
+        passwordOld: String,
+        password: String
+    ): Single<BaseResponse> {
+        return apiService.changePassword(userId, passwordOld, password)
+    }
+
     fun forgetPassword(email: String): Single<BaseResponse> {
         return apiService.forgetPassword(email)
     }

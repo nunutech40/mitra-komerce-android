@@ -28,7 +28,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
-import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
+import id.android.kmabsensi.presentation.sdm.editpassword.ResetPasswordActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_detail_partner.*
 import kotlinx.android.synthetic.main.activity_detail_partner.btnBack
@@ -219,7 +219,7 @@ class DetailPartnerActivity : BaseActivity() {
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
-                startActivity<EditPasswordActivity>(USER_ID_KEY to partner.id)
+                startActivity<ResetPasswordActivity>(USER_ID_KEY to partner.id)
             }
             R.id.action_delete -> {
 
@@ -259,7 +259,7 @@ class DetailPartnerActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            genderSelectedId = position + 1
+                            genderSelectedId = position
                         }
 
                     }
@@ -365,8 +365,8 @@ class DetailPartnerActivity : BaseActivity() {
             imgProfile.loadCircleImage(it)
         }
 
-        spinnerJenisKelamin.setSelection(data.gender - 1)
-        spinnerStatusPernikahan.setSelection(data.martialStatus)
+        spinnerJenisKelamin.setSelection(data.gender)
+        spinnerStatusPernikahan.setSelection(data.martialStatus + 1)
 
         switchStatus.isChecked = data.status == 1
         switchStatus.text = if (data.status == 1) "Aktif" else "Off"

@@ -36,6 +36,14 @@ interface ApiService {
     ): Single<BaseResponse>
 
     @FormUrlEncoded
+    @POST("api/change_password")
+    fun changePassword(
+        @Field("id") userId: String,
+        @Field("password_old") passwordOld: String,
+        @Field("password") password: String
+    ): Single<BaseResponse>
+
+    @FormUrlEncoded
     @POST("api/user/get-profile")
     fun getProfileData(
 //        @Header("Authorization") accessToken: String,
@@ -618,7 +626,7 @@ interface ApiService {
     @POST("api/performance/adv/reportSummaryFiltered")
     fun filterAdvertiserReportSummary(
         @Body body: FilterSdmReportParams
-    ): Single<ListAdvertiserReportResponse>
+    ): Single<ListAdvertiserReportSummaryResponse>
 
     @GET("api/note")
     fun getListNote() : Single<ListNoteResponse>

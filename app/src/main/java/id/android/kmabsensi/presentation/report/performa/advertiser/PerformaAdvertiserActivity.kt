@@ -46,10 +46,14 @@ class PerformaAdvertiserActivity : BaseActivity() {
         noPartner = intent.getStringExtra(NO_PARTNER_KEY) ?: "0"
 
         observeData()
-        sdmVM.getSdm(userManagementId = sdmVM.getUserData().id, positionId = 2, noPartner = noPartner.toInt())
+        sdmVM.getSdm(
+            userManagementId = sdmVM.getUserData().id,
+            positionId = 2,
+            noPartner = noPartner.toInt()
+        )
     }
 
-    private fun initSpinner(){
+    private fun initSpinner() {
         val sdmNames = mutableListOf<String>()
         sdmNames.add("Semua")
         sdm.forEach {
@@ -62,7 +66,7 @@ class PerformaAdvertiserActivity : BaseActivity() {
 
             spinnerSdm.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    sdmIdSelected = if (p2 == 0) 0 else sdm[p2-1].id
+                    sdmIdSelected = if (p2 == 0) 0 else sdm[p2 - 1].id
                     fetchPerforma()
                 }
 
@@ -74,7 +78,7 @@ class PerformaAdvertiserActivity : BaseActivity() {
         }
     }
 
-    private fun fetchPerforma(){
+    private fun fetchPerforma() {
         groupAdapter.clear()
         PerformaAdvertiserReportData.generateData()
         PerformaAdvertiserReportData.getData().forEach {
@@ -114,13 +118,13 @@ class PerformaAdvertiserActivity : BaseActivity() {
             getDateString(
                 DateHelper.getFirstDateOfMonth(
                     DateHelper.getLastMonth(),
-                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
+                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear() - 1 else DateHelper.getCurrentYear()
                 )
             ),
             getDateString(
                 DateHelper.getLastDateOfMonth(
                     DateHelper.getLastMonth(),
-                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear()-1 else DateHelper.getCurrentYear()
+                    if (DateHelper.getLastMonth() == 12) DateHelper.getCurrentYear() - 1 else DateHelper.getCurrentYear()
                 )
             ),
             PerformaPeriode.LASTMONTH
@@ -140,10 +144,9 @@ class PerformaAdvertiserActivity : BaseActivity() {
         )
     }
 
-    private fun observeData(){
-        sdmVM.sdm.observe(this, Observer {
-            state ->
-            when(state) {
+    private fun observeData() {
+        sdmVM.sdm.observe(this, Observer { state ->
+            when (state) {
                 is UiState.Loading -> {
 
                 }
@@ -158,45 +161,35 @@ class PerformaAdvertiserActivity : BaseActivity() {
         })
 
         sdmVM.advertiserReportSummaryToday.observe(this, Observer {
-            if (it.data.isNotEmpty()){
-                PerformaAdvertiserReportData.setToday(it.data[0])
-                populateData()
-            }
+            PerformaAdvertiserReportData.setToday(it.data)
+            populateData()
         })
         sdmVM.advertiserReportSummaryYesteday.observe(this, Observer {
-            if (it.data.isNotEmpty()){
-                PerformaAdvertiserReportData.setYesterday(it.data[0])
-                populateData()
-            }
+            PerformaAdvertiserReportData.setYesterday(it.data)
+            populateData()
         })
         sdmVM.advertiserReportSummaryLast7Days.observe(this, Observer {
-            if (it.data.isNotEmpty()){
-                PerformaAdvertiserReportData.setLast7days(it.data[0])
-                populateData()
-            }
+            PerformaAdvertiserReportData.setLast7days(it.data)
+            populateData()
         })
         sdmVM.advertiserReportSummaryThisMonth.observe(this, Observer {
-            if (it.data.isNotEmpty()){
-                PerformaAdvertiserReportData.setThisMonth(it.data[0])
-                populateData()
-            }
+            PerformaAdvertiserReportData.setThisMonth(it.data)
+            populateData()
         })
         sdmVM.advertiserReportSummaryLastMonth.observe(this, Observer {
-            if (it.data.isNotEmpty()){
-                PerformaAdvertiserReportData.setLastMonth(it.data[0])
-                populateData()
-            }
+            PerformaAdvertiserReportData.setLastMonth(it.data)
+            populateData()
         })
     }
 
-    private fun populateData(){
+    private fun populateData() {
         groupAdapter.clear()
         PerformaAdvertiserReportData.getData().forEach {
             groupAdapter.add(PerformaReportAdvertiserItem(it))
         }
     }
 
-    fun initRv(){
+    fun initRv() {
         rvPerforma.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter

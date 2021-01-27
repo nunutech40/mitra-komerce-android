@@ -8,31 +8,26 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
-import com.github.ajalt.timberkt.Timber
-import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.AddAdvertiserReportParams
 import id.android.kmabsensi.data.remote.body.EditAdvertiserReportParams
 import id.android.kmabsensi.data.remote.response.AdvertiserReport
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.PartnerDetail
-import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
-import kotlinx.android.synthetic.main.activity_partner_picker.*
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class KelolaLaporanAdvertiserActivity : BaseActivity() {
+class AddLaporanAdvertiserActivity : BaseActivity() {
 
     private val sdmVM: SdmViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
@@ -157,10 +152,10 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                     total_visitor = edtJumlahVisitor.text.toString().toInt(),
                     total_contact_click = edtKlikKontak.text.toString().toInt(),
                     total_leads_cs = edtLeadsCS.text.toString().toInt(),
-                    ad_cost = edtBiayaIklan.text.toString().replace(".", ""),
+                    ad_cost = edtBiayaIklan.text.toString().replace(".", "").toLong(),
                     ctr_link = edtCtrLink.text.toString().replace("%", "").toDouble(),
                     ratio_lp = edtRasioLP.text.toString().replace("%", "").toDouble(),
-                    cpr = edtCPR.text.toString().replace(".", ""),
+                    cpr = edtCPR.text.toString().replace(".", "").toLong(),
                     notes = edtCatatan.text.toString()
                 )
 
@@ -177,10 +172,10 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
                     total_visitor = edtJumlahVisitor.text.toString().toInt(),
                     total_contact_click = edtKlikKontak.text.toString().toInt(),
                     total_leads_cs = edtLeadsCS.text.toString().toInt(),
-                    ad_cost = edtBiayaIklan.text.toString().replace(".", ""),
+                    ad_cost = edtBiayaIklan.text.toString().replace(".", "").toLong(),
                     ctr_link = edtCtrLink.text.toString().replace("%", "").toDouble(),
                     ratio_lp = edtRasioLP.text.toString().replace("%", "").toDouble(),
-                    cpr = edtCPR.text.toString().replace(".", ""),
+                    cpr = edtCPR.text.toString().replace(".", "").toLong(),
                     notes = edtCatatan.text.toString()
                 )
 
@@ -191,7 +186,7 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
     }
 
     private fun observeResult() {
-        sdmVM.crudResponse.observe(this, { state ->
+        sdmVM.crudResponse.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
                     showDialog()
@@ -214,14 +209,15 @@ class KelolaLaporanAdvertiserActivity : BaseActivity() {
             }
         })
 
-        partnerVM.partners.observe(this, { state ->
+        partnerVM.partners.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
 
                 }
                 is UiState.Success -> {
                     advertiserReport?.let { report ->
-                        val partner = state.data.partners.find { it.partnerDetail.noPartner == report.noPartner }
+                        val partner =
+                            state.data.partners.find { it.partnerDetail.noPartner == report.noPartner }
                         partnerSelected = partner
                         edtPilihPartner.setText(partner?.fullName)
                     }

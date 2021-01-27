@@ -31,7 +31,7 @@ import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
-import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordViewModel
+import id.android.kmabsensi.presentation.sdm.editpassword.PasswordManagementViewModel
 import id.android.kmabsensi.presentation.splash.SplashViewModel
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileViewModel
 import id.android.kmabsensi.presentation.viewmodels.*
@@ -45,7 +45,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     single { PreferencesHelper(androidContext()) }
-    single { AuthInterceptor(get()) }
+    single { AuthInterceptor(get(), androidContext()) }
     single { provideOkHttpClient(get(), androidContext()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
     single { AppSchedulerProvider() as SchedulerProvider }
@@ -98,7 +98,7 @@ val viewModelModule = module {
     viewModel { TambahCabangViewModel(get(), get(), get()) }
     viewModel { OfficeViewModel(get(), get()) }
     viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
-    viewModel { EditPasswordViewModel(get(), get()) }
+    viewModel { PasswordManagementViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get(),  get(), get(), get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get(), get()) }
     viewModel { RiwayatViewModel(get(), get()) }

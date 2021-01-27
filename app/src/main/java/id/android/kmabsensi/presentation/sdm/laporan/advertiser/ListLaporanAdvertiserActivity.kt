@@ -43,17 +43,35 @@ class ListLaporanAdvertiserActivity : BaseActivity() {
     private var startPeriod = ""
     private var endPeriod = ""
 
+    val ADD_LAPORAN_REQUEST_CODE = 123
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_laporan_advertiser)
         setupToolbar("Laporan", isFilterVisible = true)
         initRv()
 
+        monthFromSelected = startCalendar.get(Calendar.MONTH) + 1
+        monthToSelected = startCalendar.get(Calendar.MONTH) + 1
+        yearFromSelected = startCalendar.get(Calendar.YEAR)
+        yearToSelected = endCalendar.get(Calendar.YEAR)
+
+        startPeriod = "$yearFromSelected-$monthFromSelected-01"
+        endPeriod = "$yearToSelected-$monthToSelected-31"
+
         observeData()
-        sdmVM.getAdvertiserReports()
+        sdmVM.filterAdvertiserReports(
+            FilterSdmReportParams(
+                sdmVM.getUserData().id,
+                0,
+                "0",
+                startPeriod,
+                endPeriod
+            )
+        )
 
         fabAdd.setOnClickListener {
-            startActivityForResult<KelolaLaporanAdvertiserActivity>(112)
+            startActivityForResult<AddLaporanAdvertiserActivity>(ADD_LAPORAN_REQUEST_CODE)
         }
 
         btnFilter.setOnClickListener {
@@ -61,77 +79,106 @@ class ListLaporanAdvertiserActivity : BaseActivity() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            sdmVM.getAdvertiserReports()
+            sdmVM.filterAdvertiserReports(
+                FilterSdmReportParams(
+                    sdmVM.getUserData().id,
+                    0,
+                    "0",
+                    startPeriod,
+                    endPeriod
+                )
+            )
         }
     }
 
-    private fun initRv(){
+    private fun initRv() {
         rvLaporan.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
         }
     }
 
-    private fun observeData(){
+    private fun observeData() {
         sdmVM.advertiserReports.observe(this, Observer { state ->
-        when(state) {
-            is UiState.Loading -> {
-                swipeRefresh.isRefreshing = true
-            }
-            is UiState.Success -> {
-                swipeRefresh.isRefreshing = false
-                val data = state.data.data
-                groupAdapter.clear()
-                if (data.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                data.forEach {
-                    groupAdapter.add(ListLaporanItem(it, object : OnAdvertiserReportListener {
-                        override fun onEditClicked(report: AdvertiserReport) {
-                            startActivityForResult<KelolaLaporanAdvertiserActivity>(112, "report" to report)
-                        }
-
-                        override fun onDeleteClicked(report: AdvertiserReport) {
-                            showDialogConfirmDelete(
-                                this@ListLaporanAdvertiserActivity,
-                                "Hapus Data Laporan"
-                            ) {
-                                sdmVM.deleteAdvertiserReport(report.id)
+            when (state) {
+                is UiState.Loading -> {
+                    swipeRefresh.isRefreshing = true
+                }
+                is UiState.Success -> {
+                    swipeRefresh.isRefreshing = false
+                    val data = state.data.data
+                    groupAdapter.clear()
+                    if (data.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                    data.forEach {
+                        groupAdapter.add(ListLaporanItem(it, object : OnAdvertiserReportListener {
+                            override fun onEditClicked(report: AdvertiserReport) {
+                                startActivityForResult<AddLaporanAdvertiserActivity>(
+                                    112,
+                                    "report" to report
+                                )
                             }
-                        }
 
-                    }))
+                            override fun onDeleteClicked(report: AdvertiserReport) {
+                                showDialogConfirmDelete(
+                                    this@ListLaporanAdvertiserActivity,
+                                    "Hapus Data Laporan"
+                                ) {
+                                    sdmVM.deleteAdvertiserReport(report.id)
+                                }
+                            }
+
+                        }))
+                    }
+                }
+                is UiState.Error -> {
+                    swipeRefresh.isRefreshing = false
+                    Timber.e(state.throwable)
                 }
             }
-            is UiState.Error -> {
-                swipeRefresh.isRefreshing = false
-                Timber.e(state.throwable)
-            }
-        } })
+        })
 
         sdmVM.crudResponse.observe(this, Observer { state ->
-        when(state) {
-            is UiState.Loading -> {
-                showDialog()
-            }
-            is UiState.Success -> {
-                hideDialog()
-                if (state.data.status){
-                    createAlertSuccess(this, state.data.message)
-                    sdmVM.getAdvertiserReports()
-                } else {
-                    createAlertError(this, "Gagal", state.data.message)
+            when (state) {
+                is UiState.Loading -> {
+                    showDialog()
+                }
+                is UiState.Success -> {
+                    hideDialog()
+                    if (state.data.status) {
+                        createAlertSuccess(this, state.data.message)
+                        sdmVM.filterAdvertiserReports(
+                            FilterSdmReportParams(
+                                sdmVM.getUserData().id,
+                                0,
+                                "0",
+                                startPeriod,
+                                endPeriod
+                            )
+                        )
+                    } else {
+                        createAlertError(this, "Gagal", state.data.message)
+                    }
+                }
+                is UiState.Error -> {
+                    hideDialog()
                 }
             }
-            is UiState.Error -> {
-                hideDialog()
-            }
-        } })
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 112 && resultCode == RESULT_OK){
+        if (requestCode == ADD_LAPORAN_REQUEST_CODE && resultCode == RESULT_OK) {
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())
-            sdmVM.getAdvertiserReports()
+            sdmVM.filterAdvertiserReports(
+                FilterSdmReportParams(
+                    sdmVM.getUserData().id,
+                    0,
+                    "0",
+                    startPeriod,
+                    endPeriod
+                )
+            )
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

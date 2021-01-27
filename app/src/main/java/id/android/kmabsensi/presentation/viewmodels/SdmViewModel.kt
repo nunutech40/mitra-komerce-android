@@ -38,11 +38,11 @@ class SdmViewModel(
         MutableLiveData<UiState<ListAdvertiserReportResponse>>()
     }
 
-    val advertiserReportSummaryToday by lazy { MutableLiveData<ListAdvertiserReportResponse>() }
-    val advertiserReportSummaryYesteday by lazy { MutableLiveData<ListAdvertiserReportResponse>() }
-    val advertiserReportSummaryLast7Days by lazy { MutableLiveData<ListAdvertiserReportResponse>() }
-    val advertiserReportSummaryThisMonth by lazy { MutableLiveData<ListAdvertiserReportResponse>() }
-    val advertiserReportSummaryLastMonth by lazy { MutableLiveData<ListAdvertiserReportResponse>() }
+    val advertiserReportSummaryToday by lazy { MutableLiveData<ListAdvertiserReportSummaryResponse>() }
+    val advertiserReportSummaryYesteday by lazy { MutableLiveData<ListAdvertiserReportSummaryResponse>() }
+    val advertiserReportSummaryLast7Days by lazy { MutableLiveData<ListAdvertiserReportSummaryResponse>() }
+    val advertiserReportSummaryThisMonth by lazy { MutableLiveData<ListAdvertiserReportSummaryResponse>() }
+    val advertiserReportSummaryLastMonth by lazy { MutableLiveData<ListAdvertiserReportSummaryResponse>() }
 
     fun filterSdmReports(params: FilterSdmReportParams){
         csPerformances.value = UiState.Loading()
@@ -107,16 +107,16 @@ class SdmViewModel(
         )
     }
 
-    fun getAdvertiserReports(){
-        advertiserReports.value = UiState.Loading()
-        compositeDisposable.add(sdmRepository.getAdvertiserReports()
-            .with(schedulerProvider)
-            .subscribe({
-                advertiserReports.value = UiState.Success(it)
-            },{
-                advertiserReports.value = UiState.Error(it)
-            }))
-    }
+//    fun getAdvertiserReports(){
+//        advertiserReports.value = UiState.Loading()
+//        compositeDisposable.add(sdmRepository.getAdvertiserReports()
+//            .with(schedulerProvider)
+//            .subscribe({
+//                advertiserReports.value = UiState.Success(it)
+//            },{
+//                advertiserReports.value = UiState.Error(it)
+//            }))
+//    }
 
     fun filterAdvertiserReports(params: FilterSdmReportParams){
         advertiserReports.value = UiState.Loading()

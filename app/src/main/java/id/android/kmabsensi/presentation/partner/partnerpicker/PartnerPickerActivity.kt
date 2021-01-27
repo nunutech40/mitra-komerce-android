@@ -38,7 +38,7 @@ class PartnerPickerActivity : BaseSearchActivity() {
 
     private fun observePartners(){
         vm.getPartners()
-        vm.partners.observe(this, { state ->
+        vm.partners.observe(this,Observer { state ->
         when(state) {
             is UiState.Loading -> {
                 showSkeleton(rvPartners, R.layout.skeleton_list_jabatan, groupAdapter)

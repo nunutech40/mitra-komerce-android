@@ -10,10 +10,10 @@ data class AddAdvertiserReportParams(
     val total_visitor: Int,
     val total_contact_click: Int,
     val total_leads_cs: Int,
-    val ad_cost: String,
+    val ad_cost: Long,
     val ctr_link: Double,
     val ratio_lp: Double,
-    val cpr: String,
+    val cpr: Long,
     val notes: String
 )
 
@@ -28,9 +28,9 @@ data class EditAdvertiserReportParams(
     val total_visitor: Int,
     val total_contact_click: Int,
     val total_leads_cs: Int,
-    val ad_cost: String,
+    val ad_cost: Long,
     val ctr_link: Double,
     val ratio_lp: Double,
-    val cpr: String,
+    val cpr: Long,
     val notes: String
 )

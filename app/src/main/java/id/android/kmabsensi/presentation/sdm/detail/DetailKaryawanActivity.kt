@@ -33,7 +33,7 @@ import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
-import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
+import id.android.kmabsensi.presentation.sdm.editpassword.ResetPasswordActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.PartnerSelectedItem
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -94,7 +94,7 @@ class DetailKaryawanActivity : BaseActivity() {
     var positionSelectedId = 0
     var genderSelectedId = 0
     var userManagementSelectedId = 0
-    var martialStatus = 0
+    var martialStatus = -1
     var statusKaryawan = 1
     var bankAccountId = 0
 
@@ -139,6 +139,46 @@ class DetailKaryawanActivity : BaseActivity() {
         divisionSelectedId = karyawan.division_id
 
         btnSimpan.setOnClickListener {
+
+            if (roleSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih role dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (genderSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih jenis kelamin dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (positionSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih jabatan dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (officeSelectedId == 0) {
+                createAlertError(this, "Warning", "Pilih kantor cabang dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (martialStatus == -1) {
+                createAlertError(this, "Warning", "Pilih status pernikahan dahulu", 3000)
+                return@setOnClickListener
+            }
+
+            if (roleSelectedId == 3){
+                if (userManagementSelectedId == 0) {
+                    createAlertError(this, "Warning", "Pilih leader dahulu", 3000)
+                    return@setOnClickListener
+                }
+
+                if (partnerSelected.size == 0){
+                    createAlertError(this, "Warning", "No partner tidak boleh kosong", 3000)
+                    return@setOnClickListener
+                }
+
+
+            }
+
             vm.updateKaryawan(
                 karyawan.id.toString(),
                 edtUsername.text.toString(),
@@ -242,8 +282,10 @@ class DetailKaryawanActivity : BaseActivity() {
             imgProfile.loadCircleImage(it)
         }
 
-        spinnerStatusPernikahan.setSelection(data.martial_status)
-        spinnerJenisKelamin.setSelection(data.gender-1)
+
+
+        spinnerStatusPernikahan.setSelection(data.martial_status + 1)
+        spinnerJenisKelamin.setSelection(data.gender)
         spinnerJabatan.setSelection(data.position_id-1)
         spinnerDivisi.setSelection(data.division_id-1)
         if (!isManagement) spinnerRole.setSelection(data.role_id-2)
@@ -422,7 +464,7 @@ class DetailKaryawanActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-                        genderSelectedId = position + 1
+                        genderSelectedId = position
                     }
 
                 }
@@ -450,7 +492,7 @@ class DetailKaryawanActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            martialStatus = position
+                            martialStatus = position - 1
                         }
 
                     }
@@ -669,7 +711,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 btnSimpan.visible()
             }
             R.id.action_edit_password -> {
-                startActivity<EditPasswordActivity>(USER_ID_KEY to karyawan.id)
+                startActivity<ResetPasswordActivity>(USER_ID_KEY to karyawan.id)
             }
             R.id.action_delete -> {
 

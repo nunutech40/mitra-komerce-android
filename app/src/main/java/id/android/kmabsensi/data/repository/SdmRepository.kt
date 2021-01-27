@@ -97,7 +97,7 @@ class SdmRepository(val apiService: ApiService) {
     fun deleteSdmReport(id: Int) = apiService.deleteSdmReport(id)
 
     // ---- advertiser ---- //
-    fun getAdvertiserReports() = apiService.getAdvertiserReports()
+//    fun getAdvertiserReports() = apiService.getAdvertiserReports()
     fun addAdvertiserReport(params: AddAdvertiserReportParams) = apiService.addAdvertiserReport(params)
     fun editAdvertiserReport(params: EditAdvertiserReportParams) = apiService.editAdvertiserReport(params)
     fun deleteAdvertiserReport(id: Int) = apiService.deleteAdvertiserReport(id)

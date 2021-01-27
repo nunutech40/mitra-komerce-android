@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,21 +107,23 @@ class HomeSdmFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     skeletonKmPoin?.hide()
-                    txtKmPoin.text = it.data.data.user_kmpoin.toString()
-                    val workConfigs = it.data.data.work_config
-                    val isWFH =
-                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-                    val isSdmWFH =
-                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
-                            "sdm",
-                            true
-                        ) ?: false
-                    if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
+                    if (it.data.status){
+                        txtKmPoin.text = it.data.data.user_kmpoin.toString()
+                        val workConfigs = it.data.data.work_config
+                        val isWFH =
+                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                        val isSdmWFH =
+                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                                "sdm",
+                                true
+                            ) ?: false
+                        if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
 
-                    holidays.clear()
-                    holidays.addAll(it.data.data.holidays)
-                    if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                        setHolidayView()
+                        holidays.clear()
+                        holidays.addAll(it.data.data.holidays)
+                        if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                            setHolidayView()
+                        }
                     }
                 }
                 is UiState.Error -> {
@@ -137,7 +140,11 @@ class HomeSdmFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    onPresenceCheck(it.data)
+                    if (it.data.status){
+                        onPresenceCheck(it.data)
+                    } else {
+                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -153,7 +160,11 @@ class HomeSdmFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    createAlertSuccess(activity, it.data.message)
+                    if (it.data.status){
+                        createAlertSuccess(activity, it.data.message)
+                    } else {
+                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -204,33 +215,36 @@ class HomeSdmFragment : Fragment() {
                     groupAdapter.clear()
                     skeletonLabelCoworking?.hide()
                     skeletonCoworking?.hide()
-                    it.data.data.forEach {
-                        groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
-                            if (hasCheckin) {
-                                vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
-                            } else {
-                                if (coworking.available_slot > 0) {
-                                    if (coworking.cowork_presence.size < 2) {
-                                        val intent = Intent(
-                                            context,
-                                            CheckinCoworkingActivity::class.java
-                                        ).apply {
-                                            putExtra("coworking", coworking)
-                                        }
-                                        startActivityForResult(intent, 112)
+                    if (it.data.status) {
+                        it.data.data.forEach {
+                            groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
+                                if (hasCheckin) {
+                                    vm.checkOutCoworkingSpace(coworking.cowork_presence.last().id)
+                                } else {
+                                    if (coworking.available_slot > 0) {
+                                        if (coworking.cowork_presence.size < 2) {
+                                            val intent = Intent(
+                                                context,
+                                                CheckinCoworkingActivity::class.java
+                                            ).apply {
+                                                putExtra("coworking", coworking)
+                                            }
+                                            startActivityForResult(intent, 112)
 //                                        vm.checkInCoworkingSpace(coworking.id)
-                                    } else if (coworking.cowork_presence.size >= 2) {
-                                        createAlertError(
-                                            activity!!,
-                                            "Gagal",
-                                            "Anda hanya bisa check in coworking space sebanyak 2 kali"
-                                        )
+                                        } else if (coworking.cowork_presence.size >= 2) {
+                                            createAlertError(
+                                                activity!!,
+                                                "Gagal",
+                                                "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                            )
+                                        }
                                     }
-                                }
 
-                            }
-                        })
+                                }
+                            })
+                        }
                     }
+
                 }
                 is UiState.Error -> {
                     skeletonLabelCoworking?.hide()
@@ -337,17 +351,13 @@ class HomeSdmFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRv()
+
         setupGreetings()
 
-        imgProfile.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-        )
-
-        txtRoleName.text = user.position_name
 
         btnCheckIn.setOnClickListener {
             isCheckinButtonClicked = true
@@ -390,6 +400,7 @@ class HomeSdmFragment : Fragment() {
             txtCountdown.text = ""
             txtStatusWaktu.text = ""
             layoutHoliday.invis()
+            user = vm.getUserData()
             vm.getJadwalShalat()
             vm.getCoworkUserData(user.id)
             vm.getDashboardInfo(user.id)
@@ -497,6 +508,12 @@ class HomeSdmFragment : Fragment() {
         val (greeting, header) = (activity as HomeActivity).setGreeting()
         txtHello.text = greeting
         header_waktu.setImageResource(header)
+        imgProfile.loadCircleImage(
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+        )
+
+        txtRoleName.text = user.position_name
     }
 
     companion object {

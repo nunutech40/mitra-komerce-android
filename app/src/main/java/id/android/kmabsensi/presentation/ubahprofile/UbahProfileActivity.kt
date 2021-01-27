@@ -67,7 +67,7 @@ class UbahProfileActivity : BaseActivity() {
     var imagePath : String? = null
 
     private var genderSelectedId = 0
-    private var martialStatus = 0
+    private var martialStatus = -1
     private var bankAccountId = 0
     private var compressedImage : File? = null
 
@@ -111,7 +111,7 @@ class UbahProfileActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-                        genderSelectedId = position + 1
+                        genderSelectedId = position
                     }
 
                 }
@@ -135,7 +135,7 @@ class UbahProfileActivity : BaseActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            martialStatus = position
+                            martialStatus = position - 1
                         }
 
                     }
@@ -157,6 +157,17 @@ class UbahProfileActivity : BaseActivity() {
 
         btnSimpan.setOnClickListener {
             user?.let { user ->
+
+                if (genderSelectedId == 0) {
+                    createAlertError(this, "Warning", "Pilih jenis kelamin dahulu", 3000)
+                    return@setOnClickListener
+                }
+
+                if (martialStatus == -1) {
+                    createAlertError(this, "Warning", "Pilih status pernikahan dahulu", 3000)
+                    return@setOnClickListener
+                }
+
                 vm.updateKaryawan(
                     user.id.toString(),
                     edtUsername.text.toString(),
@@ -249,8 +260,8 @@ class UbahProfileActivity : BaseActivity() {
             d { it }
             imgProfile.loadCircleImage(it)
         }
-        spinnerStatusPernikahan.setSelection(data.martial_status)
-        spinnerJenisKelamin.setSelection(data.gender-1)
+        spinnerStatusPernikahan.setSelection(data.martial_status + 1)
+        spinnerJenisKelamin.setSelection(data.gender)
 
 
         imgProfile.setOnClickListener {

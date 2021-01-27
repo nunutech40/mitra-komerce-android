@@ -9,6 +9,7 @@ import android.os.Environment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -17,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
-import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -34,7 +34,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -55,10 +54,10 @@ class TambahSdmActivity : BaseActivity() {
     var roleSelectedId = 0
     var genderSelectedId = 0
     var divisiSelectedId = 0
-    var jabatanSelectedId = 0
+    var positionSelectedId = 0
     var userManagementId = 0
     var officeId = 0
-    var martialStatus = 0
+    var martialStatus = -1
 
     var isManagement = false
 
@@ -104,7 +103,7 @@ class TambahSdmActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            if (jabatanSelectedId == 0) {
+            if (positionSelectedId == 0) {
                 createAlertError(this, "Warning", "Pilih jabatan dahulu", 3000)
                 return@setOnClickListener
             }
@@ -124,6 +123,13 @@ class TambahSdmActivity : BaseActivity() {
                     createAlertError(this, "Warning", "Pilih leader dahulu", 3000)
                     return@setOnClickListener
                 }
+
+                if (partnerSelected.size == 0){
+                    createAlertError(this, "Warning", "No partner tidak boleh kosong", 3000)
+                    return@setOnClickListener
+                }
+
+
             }
 
             if (validation()) {
@@ -137,7 +143,7 @@ class TambahSdmActivity : BaseActivity() {
                     "0",
                     divisiSelectedId.toString(),
                     officeId.toString(),
-                    jabatanSelectedId.toString(),
+                    positionSelectedId.toString(),
                     if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(separator = "|", transform = { it.partnerDetail.noPartner} ),
                     edtAsalDesa.text.toString(),
                     edtNoHp.text.toString(),
@@ -493,9 +499,9 @@ class TambahSdmActivity : BaseActivity() {
                                 id: Long
                             ) {
                                 if (position > 0){
-                                    jabatanSelectedId = jabatans[position - 1].id
+                                    positionSelectedId = jabatans[position - 1].id
                                 } else {
-                                    jabatanSelectedId = 0
+                                    positionSelectedId = 0
                                 }
 
                             }
@@ -563,8 +569,6 @@ class TambahSdmActivity : BaseActivity() {
 
     private fun validation(): Boolean {
 
-        var noPartner = false
-
         val username = ValidationForm.validationInput(edtUsername, "Username tidak boleh kosong")
         val password = ValidationForm.validationInput(edtPassword, "Password tidak boleh kosong")
         val konfirmasiPassword = ValidationForm.validationInput(
@@ -581,9 +585,6 @@ class TambahSdmActivity : BaseActivity() {
         val noHp = ValidationForm.validationInput(edtNoHp, "No hp tidak boleh kosong")
         val validEmail = ValidationForm.validationEmail(edtEmail, "Email tidak valid")
         val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
-        if (roleSelectedId == 3){
-            noPartner = ValidationForm.validationInput(edtNoPartner, "No partner tidak boleh kosong")
-        }
         val alamat = ValidationForm.validationInput(edtAddress, "alamat tidak boleh kosong")
 
         val matchPass = ValidationForm.validationSingkronPassword(
@@ -599,7 +600,7 @@ class TambahSdmActivity : BaseActivity() {
 
         return username && password && konfirmasiPassword && namaLengkap && tanggalLahir &&
                 tempatLahir && noHp && email && alamat && validEmail && matchPass
-                && joindate && bankName && noRek && pemilikRek && if (roleSelectedId == 3) noPartner else true
+                && joindate && bankName && noRek && pemilikRek
     }
 
     override fun onDestroy() {
