@@ -41,12 +41,12 @@ class EditPasswordActivity : BaseActivity() {
                         createAlertSuccess(this, it.data.message)
                         finish()
                     } else {
-                        createAlertError(this, "Gagal", it.data.message)
+                        createAlertError(this, getString(R.string.label_gagal), it.data.message)
                     }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
-                    createAlertError(this, "Gagal", getString(R.string.message_error_occured))
+                    createAlertError(this, getString(R.string.label_gagal), getString(R.string.message_error_occured))
                     e { it.throwable.message.toString() }
                 }
             }
