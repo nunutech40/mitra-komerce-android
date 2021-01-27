@@ -486,11 +486,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnNotes"
                         android:background="?attr/selectableItemBackground"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
@@ -507,7 +507,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Notes"
                         android:gravity="center"
                         style="@style/tv13sp000000_avenir_heavy" />
 

@@ -35,8 +35,6 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.notes.ListNoteActivity"></activity>
-        <activity android:name=".presentation.notes.NotesActivity" />
         <activity
             android:name=".presentation.sdm.editpassword.ResetPasswordActivity"
             android:screenOrientation="portrait" />

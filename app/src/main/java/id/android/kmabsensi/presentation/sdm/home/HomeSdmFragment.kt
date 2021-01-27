@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,7 +31,6 @@ import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
-import id.android.kmabsensi.presentation.notes.ListNoteActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.laporan.cs.SdmLaporanActivity
@@ -390,9 +388,6 @@ class HomeSdmFragment : Fragment() {
 
         }
 
-        btnNotes.setOnClickListener {
-            activity?.startActivity<ListNoteActivity>()
-        }
 
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false

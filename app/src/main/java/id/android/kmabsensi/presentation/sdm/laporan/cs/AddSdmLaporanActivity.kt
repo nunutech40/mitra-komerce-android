@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -132,7 +133,7 @@ class AddSdmLaporanActivity : BaseActivity() {
 
         }
 
-        partnerVM.partners.observe(this, { state ->
+        partnerVM.partners.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
 
