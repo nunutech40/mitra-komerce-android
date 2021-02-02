@@ -98,13 +98,13 @@ class DetailKaryawanActivity : BaseActivity() {
     var statusKaryawan = 1
     var bankAccountId = 0
 
-    var imagePath : String? = null
+    var imagePath: String? = null
 
     var isManagement = false
 
     private val disposables = CompositeDisposable()
 
-    private var compressedImage : File? = null
+    private var compressedImage: File? = null
 
     private val PICK_PARTNER_RC = 112
 
@@ -165,13 +165,13 @@ class DetailKaryawanActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            if (roleSelectedId == 3){
+            if (roleSelectedId == 3) {
                 if (userManagementSelectedId == 0) {
                     createAlertError(this, "Warning", "Pilih leader dahulu", 3000)
                     return@setOnClickListener
                 }
 
-                if (partnerSelected.size == 0){
+                if (partnerSelected.size == 0) {
                     createAlertError(this, "Warning", "No partner tidak boleh kosong", 3000)
                     return@setOnClickListener
                 }
@@ -188,7 +188,9 @@ class DetailKaryawanActivity : BaseActivity() {
                 divisionSelectedId.toString(),
                 officeSelectedId.toString(),
                 positionSelectedId.toString(),
-                if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(separator = "|", transform = { it.partnerDetail.noPartner }),
+                if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(
+                    separator = "|",
+                    transform = { it.partnerDetail.noPartner }),
                 edtAsalDesa.text.toString(),
                 edtNoHp.text.toString(),
                 edtAddress.text.toString(),
@@ -203,22 +205,26 @@ class DetailKaryawanActivity : BaseActivity() {
                 edtNamaBank.text.toString(),
                 edtNoRekening.text.toString(),
                 edtPemilikRekening.text.toString()
-                )
+            )
         }
 
         switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 statusKaryawan = 1
                 switchStatus.text = "SDM Aktif"
             } else {
-                dialogStatusConfirmation()
+                statusKaryawan = 0
+                switchStatus.text = "Non Job"
+//                dialogStatusConfirmation()
             }
         }
     }
 
-    private fun dialogStatusConfirmation(){
-        val dialog = MaterialDialog(this).
-                customView(R.layout.dialog_confirm_on_off_sdm, noVerticalPadding = true)
+    private fun dialogStatusConfirmation() {
+        val dialog = MaterialDialog(this).customView(
+            R.layout.dialog_confirm_on_off_sdm,
+            noVerticalPadding = true
+        )
         val customView = dialog.getCustomView()
         val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
         val btnYa = customView.findViewById<MaterialButton>(R.id.btnYa)
@@ -242,14 +248,14 @@ class DetailKaryawanActivity : BaseActivity() {
         dialog.show()
     }
 
-    private fun initRv(){
+    private fun initRv() {
         rvPartner.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = groupAdpter
         }
     }
 
-    fun setDataToView(data: User){
+    fun setDataToView(data: User) {
         edtUsername.setText(data.username)
         edtTanggalLahir.setText(data.birth_date)
         edtAddress.setText(data.address)
@@ -261,12 +267,18 @@ class DetailKaryawanActivity : BaseActivity() {
         edtTanggalBergabung.setText(data.join_date)
 
         data.partner_assignments.forEach {
-            partnerSelected.add(Partner(id = it.id, fullName = it.fullName, partnerDetail = PartnerDetail(noPartner = it.noPartner)))
+            partnerSelected.add(
+                Partner(
+                    id = it.id,
+                    fullName = it.fullName,
+                    partnerDetail = PartnerDetail(noPartner = it.noPartner)
+                )
+            )
         }
         populatePartnerSelected()
 
-        data.bank_accounts?.let {bank_account ->
-            if (bank_account.isNotEmpty()){
+        data.bank_accounts?.let { bank_account ->
+            if (bank_account.isNotEmpty()) {
                 bankAccountId = bank_account[0].id
                 edtNamaBank.setText(bank_account[0].bankName)
                 edtNoRekening.setText(bank_account[0].bankNo)
@@ -282,15 +294,18 @@ class DetailKaryawanActivity : BaseActivity() {
             imgProfile.loadCircleImage(it)
         }
 
+        martialStatus = data.martial_status
+        if (martialStatus > 1) martialStatus = -1
+        spinnerStatusPernikahan.setSelection(martialStatus + 1)
 
+        genderSelectedId = data.gender
+        if (genderSelectedId > 2) genderSelectedId = 0
+        spinnerJenisKelamin.setSelection(genderSelectedId)
+        spinnerJabatan.setSelection(data.position_id - 1)
+        spinnerDivisi.setSelection(data.division_id - 1)
+        if (!isManagement) spinnerRole.setSelection(data.role_id - 2)
 
-        spinnerStatusPernikahan.setSelection(data.martial_status + 1)
-        spinnerJenisKelamin.setSelection(data.gender)
-        spinnerJabatan.setSelection(data.position_id-1)
-        spinnerDivisi.setSelection(data.division_id-1)
-        if (!isManagement) spinnerRole.setSelection(data.role_id-2)
-
-        if (karyawan.role_id == 3){
+        if (karyawan.role_id == 3) {
             layout_spinner_management.visible()
         } else {
             layout_spinner_management.gone()
@@ -346,11 +361,11 @@ class DetailKaryawanActivity : BaseActivity() {
 
     }
 
-    private fun populatePartnerSelected(enableClose : Boolean = true){
-        if(partnerSelected.isNotEmpty()) edtNoPartner.setHint("") else edtNoPartner.setHint("Pilih Partner")
+    private fun populatePartnerSelected(enableClose: Boolean = true) {
+        if (partnerSelected.isNotEmpty()) edtNoPartner.setHint("") else edtNoPartner.setHint("Pilih Partner")
         groupAdpter.clear()
         partnerSelected.forEach {
-            groupAdpter.add(PartnerSelectedItem(it, enableClose){
+            groupAdpter.add(PartnerSelectedItem(it, enableClose) {
                 partnerSelected.removeAt(partnerSelected.indexOf(it))
                 populatePartnerSelected(enableClose)
             })
@@ -365,7 +380,7 @@ class DetailKaryawanActivity : BaseActivity() {
         edtTanggalBergabung.setText(date)
     }
 
-    fun disableViews(enabled: Boolean){
+    fun disableViews(enabled: Boolean) {
 
         imgProfile.isEnabled = enabled
 
@@ -393,7 +408,7 @@ class DetailKaryawanActivity : BaseActivity() {
         populatePartnerSelected(enabled)
     }
 
-    fun initSpinners(){
+    fun initSpinners() {
 
 //        // spinner jabatan / position
 //        ArrayAdapter.createFromResource(
@@ -453,21 +468,22 @@ class DetailKaryawanActivity : BaseActivity() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinnerJenisKelamin.adapter = adapter
 
-                spinnerJenisKelamin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                spinnerJenisKelamin.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            genderSelectedId = position
+                        }
 
                     }
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        genderSelectedId = position
-                    }
-
-                }
             }
 
         /* spinner martial status */
@@ -515,8 +531,8 @@ class DetailKaryawanActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    roleSelectedId = if (isManagement) position+3 else position+2
-                    if (position == 0){
+                    roleSelectedId = if (isManagement) position + 3 else position + 2
+                    if (position == 0) {
                         if (!isManagement) userManagementSelectedId = 0
                         layout_spinner_management.gone()
                     } else {
@@ -528,35 +544,41 @@ class DetailKaryawanActivity : BaseActivity() {
         }
     }
 
-    fun observeData(){
+    fun observeData() {
         vm.officeData.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {}
+            when (it) {
+                is UiState.Loading -> {
+                }
                 is UiState.Success -> {
                     offices.addAll(it.data.data)
 
                     val officeNames = mutableListOf<String>()
                     offices.forEach { officeNames.add(it.office_name) }
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, officeNames).also { adapter ->
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        officeNames
+                    ).also { adapter ->
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         // Apply the adapter to the spinner
                         spinnerKantorCabang.adapter = adapter
 
-                        spinnerKantorCabang.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerKantorCabang.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    officeSelectedId = offices[position].id
+                                }
 
                             }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                officeSelectedId = offices[position].id
-                            }
-
-                        }
 
                         spinnerKantorCabang.setSelection(offices.indexOfFirst { it.id == karyawan.office_id })
                     }
@@ -569,8 +591,9 @@ class DetailKaryawanActivity : BaseActivity() {
         })
 
         vm.userManagementData.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {}
+            when (it) {
+                is UiState.Loading -> {
+                }
                 is UiState.Success -> {
                     userManagements.addAll(it.data.data.filter {
                         it.position_name.toLowerCase().contains("leader")
@@ -578,26 +601,31 @@ class DetailKaryawanActivity : BaseActivity() {
 
                     val userManagementNames = mutableListOf<String>()
                     userManagements.forEach { userManagementNames.add(it.full_name) }
-                    ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userManagementNames).also { adapter ->
+                    ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        userManagementNames
+                    ).also { adapter ->
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         // Apply the adapter to the spinner
                         spinnerManagement.adapter = adapter
 
-                        spinnerManagement.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerManagement.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    userManagementSelectedId = userManagements[position].id
+                                }
 
                             }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                userManagementSelectedId = userManagements[position].id
-                            }
-
-                        }
                         spinnerManagement.setSelection(userManagements.indexOfFirst { it.id == karyawan.user_management_id })
                     }
 
@@ -610,11 +638,13 @@ class DetailKaryawanActivity : BaseActivity() {
         })
 
         vm.crudResponse.observe(this, Observer {
-            when(it){
-                is UiState.Loading -> { myDialog.show() }
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if(it.data.status){
+                    if (it.data.status) {
                         compressedImage?.delete()
                         val intent = Intent()
                         intent.putExtra("message", it.data.message)
@@ -652,21 +682,22 @@ class DetailKaryawanActivity : BaseActivity() {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinnerJabatan.adapter = adapter
 
-                        spinnerJabatan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                        spinnerJabatan.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    positionSelectedId = jabatans[position].id
+                                }
 
                             }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                positionSelectedId = jabatans[position].id
-                            }
-
-                        }
                         spinnerJabatan.setSelection(jabatans.indexOfFirst { it.id == karyawan.position_id })
                     }
                 }
@@ -683,7 +714,7 @@ class DetailKaryawanActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.action_chat -> {
 
                 val firstChar = karyawan.no_hp.first().toString()
@@ -692,11 +723,11 @@ class DetailKaryawanActivity : BaseActivity() {
 
                 var validNomorHp = ""
 
-                if (firstChar == "0"){
+                if (firstChar == "0") {
                     validNomorHp = "+62${nomorHp.substring(1)}"
-                } else if(firstChar == "6"){
+                } else if (firstChar == "6") {
                     validNomorHp = "+$nomorHp"
-                } else if (firstChar == "+"){
+                } else if (firstChar == "+") {
                     validNomorHp = nomorHp
                 } else {
                     createAlertError(this, "Gagal", "Nomor hp tidak valid.")
@@ -718,12 +749,12 @@ class DetailKaryawanActivity : BaseActivity() {
                 MaterialDialog(this).show {
                     title(text = "Hapus Karyawan")
                     message(text = "Apakah anda yakin ingin menghapus karyawan ini?")
-                    positiveButton(text = "Ya"){
+                    positiveButton(text = "Ya") {
                         deleteMode = true
                         it.dismiss()
                         vm.deleteKaryawan(karyawan.id)
                     }
-                    negativeButton(text = "Batal"){
+                    negativeButton(text = "Batal") {
                         it.dismiss()
                     }
                 }
@@ -746,7 +777,7 @@ class DetailKaryawanActivity : BaseActivity() {
             compress(File(imagePath))
         }
 
-        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK){
+        if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK) {
             val partner = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
             partnerSelected.add(partner!!)
             populatePartnerSelected()
@@ -763,7 +794,8 @@ class DetailKaryawanActivity : BaseActivity() {
                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .setDestinationDirectoryPath(
                     Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).absolutePath
+                        Environment.DIRECTORY_PICTURES
+                    ).absolutePath
                 )
                 .compressToFileAsFlowable(file)
                 .subscribeOn(Schedulers.io())
