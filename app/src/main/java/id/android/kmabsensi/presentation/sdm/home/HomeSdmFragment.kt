@@ -442,7 +442,7 @@ class HomeSdmFragment : Fragment() {
 
                 val cal = Calendar.getInstance()
                 cal.set(Calendar.HOUR_OF_DAY, 16)
-                cal.set(Calendar.MINUTE, 30)
+//                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
                 if (now.before(jamPulang)) {
