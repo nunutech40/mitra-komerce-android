@@ -3,7 +3,9 @@ package id.android.kmabsensi.presentation.invoice
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,18 +47,30 @@ class InvoiceActiveFragment : BaseFragment() {
         initRv()
 
         buttonTambahInvoice.setOnClickListener {
-            val myItems = listOf("Admin", "Gaji SDM")
-
+            val myItems = ArrayList<String>()
+            when(role){
+                ROLE_ADMIN ->{
+                    myItems.add(getString(R.string.text_admin))
+                    myItems.add(getString(R.string.text_gaji_sdm))
+                }
+                ROLE_MANAGEMEMENT ->{
+                    if (user.position_name.toLowerCase().contains("leader")){
+                        myItems.add(getString(R.string.text_gaji_sdm))
+                    }else if (user.position_name.toLowerCase().contains("accountant")){
+                        myItems.add(getString(R.string.text_admin))
+                    }
+                }
+            }
             MaterialDialog(requireContext()).show {
                 title(text = "Pilih Jenis Invoice")
                 listItems(items = myItems) { dialog, index, text ->
-                    when (index) {
-                        0 -> {
+                    when (text) {
+                        getString(R.string.text_admin) -> {
                             val intent = Intent(requireContext(), AddInvoiceActivity::class.java)
                             intent.putExtra(IS_INVOICE_ADMIN_KEY, true)
                             startActivityForResult(intent, RC_ADD_INVOICE)
                         }
-                        1 -> {
+                        getString(R.string.text_gaji_sdm) -> {
                             val intent = Intent(requireContext(), AddInvoiceActivity::class.java)
                             intent.putExtra(IS_INVOICE_ADMIN_KEY, false)
                             startActivityForResult(intent, RC_ADD_INVOICE)
@@ -71,10 +85,12 @@ class InvoiceActiveFragment : BaseFragment() {
         invoiceVM.getMyInvoice(true)
 
         user = vm.getUserData()
-
+        Log.d("asda", user.toString())
         role = getRoleName(user.role_id)
 
-        if (role == ROLE_ADMIN || !user.position_name.toLowerCase().contains("leader")){
+        if (user.position_name.toLowerCase().contains("leader") || user.position_name.toLowerCase().contains("accountant")){
+            buttonTambahInvoice.visible()
+        } else{
             buttonTambahInvoice.gone()
         }
 
