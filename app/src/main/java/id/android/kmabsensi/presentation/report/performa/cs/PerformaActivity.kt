@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.report.performa.cs
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -52,6 +53,13 @@ class PerformaActivity : BaseActivity() {
     private val calendarDateTo = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
+
+    private var dataTotal = CsPerformance()
+    private var totalLeads: Int = 0
+    private var totalTransaksi: Int = 0
+    private var totalOrder: Int = 0
+    private var totalRatingKonversi: Double = 0.0
+    private var totalRatingOrder: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,12 +224,27 @@ class PerformaActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     groupAdapter.clear()
+                    clearFooter()
                     performa.clear()
                     performa.addAll(state.data.data)
                     if (performa.isEmpty()) txtEmpty.visible() else txtEmpty.gone()
                     state.data.data.forEach {
+                        totalLeads += it.totalLeads
+                        totalOrder += it.totalOrder
+                        totalTransaksi += it.totalTransaction
+                        totalRatingKonversi += it.conversionRate
+                        totalRatingOrder += it.orderRate
+
                         groupAdapter.add(PerformaItem(it))
                     }
+                    dataTotal = CsPerformance(
+                        totalLeads = totalLeads,
+                        totalOrder = totalOrder,
+                        totalTransaction = totalTransaksi,
+                        conversionRate = if(totalRatingKonversi != 0.0) totalRatingKonversi/state.data.data.size else 0.0,
+                        orderRate = if(totalRatingOrder != 0.0) totalRatingOrder/state.data.data.size else 0.0
+                    )
+                    setupFooter(dataTotal)
                 }
                 is UiState.Error -> {
                     hideDialog()
@@ -255,10 +278,10 @@ class PerformaActivity : BaseActivity() {
                     if (isLeadsToLowest) performa.sortedBy { it.totalLeads } else performa.sortedByDescending { it.totalLeads }
             }
         }
-
         performaSorted.forEach {
             groupAdapter.add(PerformaItem(it))
         }
+
     }
 
     private fun initRv() {
@@ -266,6 +289,22 @@ class PerformaActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = groupAdapter
         }
+    }
+
+    private fun clearFooter(){
+        totalLeads = 0
+        totalOrder = 0
+        totalTransaksi = 0
+        totalRatingKonversi = 0.0
+        totalRatingOrder = 0.0
+    }
+
+    private fun setupFooter(data: CsPerformance) {
+        tvTotalLeads.setText(data.totalLeads.toString())
+        tvTotalTransaksi.setText(data.totalTransaction.toString())
+        tvTotalOrder.setText(data.totalOrder.toString())
+        tvTotalRatingKonversi.setText("${data.conversionRate}%")
+        tvTotalRatingOrder.setText("${data.orderRate}%")
     }
 
     private fun showDialogFilter() {

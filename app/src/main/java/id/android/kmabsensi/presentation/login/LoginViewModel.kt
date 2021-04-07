@@ -43,9 +43,11 @@ class LoginViewModel(
                         getUserProfile(it.user_id)
                         getDataArea()
                     }
-                }, this::onError)
+                },
+                        this::onError)
         )
     }
+
 
     private fun getDataArea(){
         compositeDisposable.add(

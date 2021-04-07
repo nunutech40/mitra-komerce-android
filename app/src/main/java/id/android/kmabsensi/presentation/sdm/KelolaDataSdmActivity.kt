@@ -87,7 +87,9 @@ class KelolaDataSdmActivity : BaseActivity() {
                 is UiState.Loading -> {
                 }
                 is UiState.Success -> {
-                    userManagements.addAll(it.data.data)
+                    it.data.data.forEach {
+                        if (it.position_name != null) userManagements.add(it)
+                    }
 
                     filteredLeaderList =
                         userManagements.filter { it.position_name.toLowerCase().contains("leader") }
@@ -125,7 +127,6 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                                     filterDataSdmByLeader()
                                 }
-
                             }
                     }
                 }

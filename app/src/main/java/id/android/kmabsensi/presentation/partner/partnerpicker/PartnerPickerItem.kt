@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.partner.partnerpicker
 
+import android.util.Log
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -12,6 +13,7 @@ class PartnerPickerItem(val partner: Partner,
                         val listener: (Partner) -> Unit): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
+
             itemView.textPartner.text = "${partner.partnerDetail.noPartner} - ${partner.fullName.capitalizeWords()}"
 
             itemView.setOnClickListener {

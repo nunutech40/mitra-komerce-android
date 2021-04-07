@@ -239,11 +239,146 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPerforma"
-                android:layout_marginTop="@dimen/_8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@+id/layoutFooter"
                 android:layout_below="@id/divider"
-                />
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginBottom="-50dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutFooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="@dimen/_8dp"
+                    android:text="@string/text_total"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    style="@style/tv7sp000000_avenir"/>
+
+                <LinearLayout
+                    android:id="@+id/columnLeads"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTotalLeads"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingVertical="@dimen/_8dp"
+                        tools:text="@string/tx_10"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        style="@style/tv7sp000000_avenir"/>
+
+                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/columnTransaski"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTotalTransaksi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_8dp"
+                        tools:text="@string/tx_10"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        style="@style/tv7sp000000_avenir"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/columnOrder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTotalOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_8dp"
+                        tools:text="@string/tx_10"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        style="@style/tv7sp000000_avenir"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/columnRatingKonversi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTotalRatingKonversi"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_8dp"
+                        tools:text="@string/tx_10"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        style="@style/tv7sp000000_avenir"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/columnRatingOrder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTotalRatingOrder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingVertical="@dimen/_8dp"
+                        tools:text="@string/tx_10"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        style="@style/tv7sp000000_avenir"/>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="@dimen/_8dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    style="@style/tv7sp000000_avenir"/>
+
+
+            </LinearLayout>
 
         </RelativeLayout>
 

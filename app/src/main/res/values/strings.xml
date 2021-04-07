@@ -238,5 +238,9 @@
     <string name="msg_alert_on_off_sdm">Me-nonjob-kan SDM akan menghapus data-data laporan, device, dan prodcut knowledge</string>
     <string name="message_error_occured">Terjadi Kesalahan</string>
     <string name="label_gagal">TGagal</string>
+    <string name="text_admin">Admin</string>
+    <string name="text_gaji_sdm">Gaji SDM</string>
+    <string name="text_total">Total</string>
+    <string name="tx_10">10</string>
 
 </resources>
