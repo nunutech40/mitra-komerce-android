@@ -396,7 +396,11 @@ class TambahSdmActivity : BaseActivity() {
                 is UiState.Loading -> {
                 }
                 is UiState.Success -> {
-                    userManagements.addAll(it.data.data.filter {
+                    var userManagementsNotNull = mutableListOf<User>()
+                    it.data.data.forEach {
+                        if (it.position_name != null) userManagementsNotNull.add(it)
+                    }
+                    userManagements.addAll(userManagementsNotNull.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
 

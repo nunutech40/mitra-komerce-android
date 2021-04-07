@@ -240,5 +240,7 @@
     <string name="label_gagal">TGagal</string>
     <string name="text_admin">Admin</string>
     <string name="text_gaji_sdm">Gaji SDM</string>
+    <string name="text_total">Total</string>
+    <string name="tx_10">10</string>
 
 </resources>
