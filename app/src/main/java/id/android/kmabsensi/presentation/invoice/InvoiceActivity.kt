@@ -1,11 +1,11 @@
 package id.android.kmabsensi.presentation.invoice
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -17,9 +17,12 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.tabs.TabLayoutMediator
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.invoice.searchspinner.*
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
 import id.android.kmabsensi.utils.UiState
@@ -44,10 +47,11 @@ class InvoiceActivity : BaseActivity() {
     private lateinit var historyInvoiceFragment: HistoryInvoiceFragment
 
     private lateinit var dialogFilter: MaterialDialog
-    private var spinnerLeader: Spinner? = null
-    private var spinnerPartner: Spinner? = null
-
-
+    private var editTextLeader: EditText? = null
+    private var editTextPartner: EditText? = null
+    private var userSpinnerLeader = ArrayList<UserSpinner>()
+    private var userSpinnerPartner = ArrayList<UserSpinner>()
+    private val sharedPref by lazy { PreferencesHelper(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invoice)
@@ -81,40 +85,18 @@ class InvoiceActivity : BaseActivity() {
         vm.simplePartners.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
+                    editTextPartner?.setText(getString(R.string.text_loading))
+                    editTextPartner?.isEnabled == false
                 }
                 is UiState.Success -> {
+                    editTextPartner?.isEnabled = true
+                    editTextPartner?.setText(getString(R.string.pilih_partner))
                     hideSkeleton()
                     if (state.data.status) {
                         partners.addAll(state.data.partners)
-                        val partnerName = mutableListOf<String>()
-                        partnerName.add("Semua")
-                        partners.forEach { partnerName.add(it.noPartner + " - " + it.fullName) }
-
-                        ArrayAdapter(this, R.layout.spinner_item, partnerName).also { adapter ->
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            spinnerPartner?.adapter = adapter
-                            spinnerPartner?.onItemSelectedListener =
-                                object : AdapterView.OnItemSelectedListener {
-                                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                                    }
-
-                                    override fun onItemSelected(
-                                        parent: AdapterView<*>?,
-                                        view: View?,
-                                        position: Int,
-                                        id: Long
-                                    ) {
-                                        partnerFilterSelectedId = if (position == 0) {
-                                            0
-                                        } else {
-                                            partners[position - 1].id
-                                        }
-                                    }
-
-                                }
+                        partners.forEach {
+                            userSpinnerPartner.add(UserSpinner(it.id, getString(R.string.pilih_partner), it.fullName, getString(R.string.partner)))
                         }
-
                     }
                 }
                 is UiState.Error -> {
@@ -126,45 +108,24 @@ class InvoiceActivity : BaseActivity() {
         sdmVM.userManagementData.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
-
+                    editTextLeader?.setText(getString(R.string.text_loading))
+                    editTextLeader?.isEnabled = false
                 }
                 is UiState.Success -> {
-                    leaders.addAll(state.data.data.filter {
+                    editTextLeader?.isEnabled = true
+                    editTextLeader?.setText(getString(R.string.text_pilih_leader))
+                    val userData = ArrayList<User>()
+                    state.data.data.forEach {
+                        if (it.position_name != null){
+                            userData.add(it)
+                        }
+                    }
+                    leaders.addAll(userData.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
 
-                    val userManagementNames = mutableListOf<String>()
-                    userManagementNames.add("Semua")
-                    leaders.forEach { userManagementNames.add(it.full_name) }
-                    ArrayAdapter<String>(
-                        this,
-                        R.layout.spinner_item,
-                        userManagementNames
-                    ).also { adapter ->
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        // Apply the adapter to the spinner
-                        spinnerLeader?.adapter = adapter
-
-                        spinnerLeader?.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                                }
-
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    leaderIdSelected = if (position == 0) {
-                                        0
-                                    } else {
-                                        leaders[position - 1].id
-                                    }
-                                }
-
-                            }
+                    leaders.forEach {
+                        userSpinnerLeader.add(UserSpinner(it.id, getString(R.string.text_pilih_leader),it.full_name,getString(R.string.text_leader)))
                     }
                 }
                 is UiState.Error -> {
@@ -182,8 +143,12 @@ class InvoiceActivity : BaseActivity() {
             val customView = dialogFilter.getCustomView()
             val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
             val spinnerInvoiceType = customView.findViewById<Spinner>(R.id.spinnerInvoiceType)
-            spinnerPartner = customView.findViewById(R.id.spinnerPartner)
-            spinnerLeader = customView.findViewById(R.id.spinnerLeader)
+            editTextPartner = customView.findViewById(R.id.editTextPartner)
+            editTextLeader = customView.findViewById(R.id.editTextLeader)
+
+            setupDialogListener()
+
+
             val buttonFilter = customView.findViewById<Button>(R.id.buttonFilter)
 
             // spinner invoice type
@@ -236,6 +201,45 @@ class InvoiceActivity : BaseActivity() {
         }
         dialogFilter.show()
     }
+
+    private fun setupDialogListener() {
+
+        editTextLeader?.setOnClickListener {
+            Log.d("userSpinnerLeader", "data userSpinnerLeader: $userSpinnerLeader")
+            startActivity(Intent(this, SearchableSpinnerActivity::class.java)
+                    .putExtra("listUserSpinner", userSpinnerLeader))
+        }
+
+        editTextPartner?.setOnClickListener {
+            Log.d("userSpinnerPartner", "data userSpinnerLeader: $userSpinnerPartner")
+            startActivity(Intent(this, SearchableSpinnerActivity::class.java)
+                    .putExtra("listUserSpinner", userSpinnerPartner))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("onDestroy", "ONSTART")
+        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()){
+            editTextLeader?.setText(sharedPref.getString(filterLeaderName))
+            leaderIdSelected = sharedPref.getString(filterLeaderId).toInt()
+        }else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()){
+            editTextPartner?.setText(sharedPref.getString(filterLeaderName))
+            partnerFilterSelectedId = sharedPref.getString(filterPartnerId).toInt()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()){
+            sharedPref.saveString(filterLeaderName, "")
+            sharedPref.saveString(filterLeaderId, "")
+        }else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()){
+            sharedPref.saveString(filterPartnerName, "")
+            sharedPref.saveString(filterPartnerId, "")
+        }
+    }
+
 }
 
 class ViewPagerOrderFragmentAdapter(
@@ -254,3 +258,5 @@ class ViewPagerOrderFragmentAdapter(
     }
 
 }
+
+

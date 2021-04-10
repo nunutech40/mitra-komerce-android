@@ -242,5 +242,9 @@
     <string name="text_gaji_sdm">Gaji SDM</string>
     <string name="text_total">Total</string>
     <string name="tx_10">10</string>
+    <string name="text_filter">Filter</string>
+    <string name="text_pilih_leader">Pilih Leader</string>
+    <string name="text_leader">leader</string>
+    <string name="text_loading">Loading...</string>
 
 </resources>

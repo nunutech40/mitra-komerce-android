@@ -52,15 +52,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Partner"
+        android:text="@string/partner"
         app:layout_constraintStart_toStartOf="@+id/labelFilterBy"
         app:layout_constraintTop_toBottomOf="@+id/spinnerInvoiceType" />
 
-    <Spinner
-        android:id="@+id/spinnerPartner"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextPartner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_16dp"
+        android:hint="@string/pilih_partner"
+        android:focusable="false"
+        android:editable="false"
         android:background="@drawable/spinner_background"
         app:layout_constraintStart_toStartOf="@id/textView22"
         app:layout_constraintTop_toBottomOf="@+id/textView22"
@@ -71,17 +74,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_16dp"
-        android:text="Leader"
+        android:text="@string/text_leader"
         style="@style/tv14spf48070_avenir_heavy"
         app:layout_constraintStart_toStartOf="@+id/labelFilterBy"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPartner" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPartner" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinnerLeader"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextLeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16dp"
         android:layout_marginEnd="@dimen/_16dp"
+        android:hint="@string/text_pilih_leader"
+        android:focusable="false"
+        android:editable="false"
         android:background="@drawable/spinner_background"
         app:layout_constraintTop_toBottomOf="@id/labelLeader"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,9 +101,9 @@
         android:layout_marginTop="@dimen/_24dp"
         android:layout_marginStart="@dimen/_16dp"
         android:layout_marginEnd="@dimen/_16dp"
-        android:text="Filter"
+        android:text="@string/text_filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerLeader" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextLeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
