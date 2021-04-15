@@ -1,30 +1,26 @@
 package id.android.kmabsensi.presentation.sdm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import id.android.kmabsensi.data.remote.response.ListPositionResponse
-import id.android.kmabsensi.data.remote.response.OfficeResponse
-import id.android.kmabsensi.data.remote.response.SingleUserResponse
-import id.android.kmabsensi.data.remote.response.UserResponse
-import id.android.kmabsensi.data.repository.JabatanRepository
-import id.android.kmabsensi.data.repository.OfficeRepository
-import id.android.kmabsensi.data.repository.SdmRepository
-import id.android.kmabsensi.data.repository.UserRepository
+import id.android.kmabsensi.data.remote.response.*
+import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.base.BaseViewModel
+import id.android.kmabsensi.utils.State
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.createRequestBody
 import id.android.kmabsensi.utils.createRequestBodyText
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.File
 
 class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
                              val userRepository: UserRepository,
                              val sdmRepository: SdmRepository,
                              val jabatanRepository: JabatanRepository,
+                             val partnerRepository: PartnerRepository,
                              val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
@@ -34,6 +30,29 @@ class KelolaDataSdmViewModel(val officeRepository: OfficeRepository,
     val crudResponse = MutableLiveData<UiState<SingleUserResponse>>()
     val positionResponse = MutableLiveData<UiState<ListPositionResponse>>()
     val sdmNonJob = MutableLiveData<UiState<UserResponse>>()
+    val partners = MutableLiveData<UiState<ListPartnerResponse>>()
+
+    fun searchUser(keyword: String): LiveData<UiState<UserResponse>> =
+        userRepository.searchUser(compositeDisposable, keyword)
+
+    fun filterUser(managementId: Int): LiveData<UiState<UserResponse>> =
+        userRepository.filterUser(compositeDisposable, managementId)
+
+    fun getPartners(): LiveData<UiState<ListPartnerResponse>> =
+        partnerRepository.getPartnersCoba(compositeDisposable)
+
+    fun getUserDataWithPagedList(roleId: Int,
+                                 userManagementId: Int = 0,
+                                 leaderId: Int
+    ): LiveData<PagedList<User>> =
+        userRepository.getDataUser(compositeDisposable,
+            roleId = roleId,
+            userManagementId = userManagementId,
+            leaderId = leaderId)
+
+    fun getState(): LiveData<State> =
+        userRepository.getState()
+
 
     fun getDataOffice(){
         compositeDisposable.add(officeRepository.getOffices()

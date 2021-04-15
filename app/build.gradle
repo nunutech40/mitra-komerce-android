@@ -41,7 +41,7 @@ android {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra Komerce"
             resConfigs "en", "xxhdpi"
-            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://appdev.komerce.id/\""
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://devinternal.komerce.id/\""
         }
 
     }
@@ -206,5 +206,6 @@ dependencies {
     implementation 'com.droidninja:filepicker:2.2.5'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
 
-
+//    Paging
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 }

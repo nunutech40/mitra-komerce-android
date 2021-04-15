@@ -246,5 +246,11 @@
     <string name="text_pilih_leader">Pilih Leader</string>
     <string name="text_leader">leader</string>
     <string name="text_loading">Loading...</string>
+    <string name="ketuk_untuk_memilih">Ketuk untuk memilih</string>
+    <string name="folder">Folder</string>
+    <string name="text_anda_belum_memasukan_kata_kuncinya">anda belum memasukan kata kuncinya.</string>
+    <string name="text_cari_data_sdm">Cari Data SDM</string>
+    <string name="text_kelola_sdm">Kelola Data SDM</string>
+    <string name="text_semua_leader_spinner">- Semua Leader -</string>
 
 </resources>

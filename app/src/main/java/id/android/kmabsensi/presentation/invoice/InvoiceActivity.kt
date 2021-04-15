@@ -2,7 +2,6 @@ package id.android.kmabsensi.presentation.invoice
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -20,7 +19,6 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.searchspinner.*
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
@@ -86,11 +84,10 @@ class InvoiceActivity : BaseActivity() {
             when (state) {
                 is UiState.Loading -> {
                     editTextPartner?.setText(getString(R.string.text_loading))
-                    editTextPartner?.isEnabled == false
                 }
                 is UiState.Success -> {
-                    editTextPartner?.isEnabled = true
                     editTextPartner?.setText(getString(R.string.pilih_partner))
+                    editTextPartner?.isEnabled = true
                     hideSkeleton()
                     if (state.data.status) {
                         partners.addAll(state.data.partners)
@@ -109,11 +106,10 @@ class InvoiceActivity : BaseActivity() {
             when (state) {
                 is UiState.Loading -> {
                     editTextLeader?.setText(getString(R.string.text_loading))
-                    editTextLeader?.isEnabled = false
                 }
                 is UiState.Success -> {
-                    editTextLeader?.isEnabled = true
                     editTextLeader?.setText(getString(R.string.text_pilih_leader))
+                    editTextLeader?.isEnabled = true
                     val userData = ArrayList<User>()
                     state.data.data.forEach {
                         if (it.position_name != null){
@@ -147,7 +143,6 @@ class InvoiceActivity : BaseActivity() {
             editTextLeader = customView.findViewById(R.id.editTextLeader)
 
             setupDialogListener()
-
 
             val buttonFilter = customView.findViewById<Button>(R.id.buttonFilter)
 
@@ -219,12 +214,13 @@ class InvoiceActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("onDestroy", "ONSTART")
         if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()){
+            Log.d("filterPartnerName", "filterLeaderName = "+sharedPref.getString(filterLeaderName))
             editTextLeader?.setText(sharedPref.getString(filterLeaderName))
             leaderIdSelected = sharedPref.getString(filterLeaderId).toInt()
         }else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()){
-            editTextPartner?.setText(sharedPref.getString(filterLeaderName))
+            Log.d("filterPartnerName", "filterPartnerName = "+sharedPref.getString(filterPartnerName))
+            editTextPartner?.setText(sharedPref.getString(filterPartnerName))
             partnerFilterSelectedId = sharedPref.getString(filterPartnerId).toInt()
         }
     }

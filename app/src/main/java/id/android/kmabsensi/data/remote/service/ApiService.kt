@@ -628,4 +628,24 @@ interface ApiService {
         @Body body: FilterSdmReportParams
     ): Single<ListAdvertiserReportSummaryResponse>
 
+    @FormUrlEncoded
+    @POST("api/user/listUser")
+    fun getUserPerIndex(
+        @Query("page")page:Int,
+        @Field("role_id") roleId: Int = 0,
+        @Field("user_management_id") userManagementId: Int = 0,
+        @Field("office_id") officeId: Int = 0,
+        @Field("position_id") positionId: Int = 0,
+        @Field("no_partner") noPartner: Int = 0
+    ): Single<UserResponse>
+
+    @GET("api/user/getTalentLeader")
+    fun filterUser(
+            @Query("user_management_id") user_management_id : Int
+    ): Single<UserResponse>
+
+    @GET("api/user/searchUser")
+    fun searchUser(
+        @Query("keyword") keyword : String
+    ): Single<UserResponse>
 }

@@ -1,11 +1,18 @@
 package id.android.kmabsensi.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.ListPartnerResponse
 import id.android.kmabsensi.data.remote.response.SdmOfPartnerResponse
 import id.android.kmabsensi.data.remote.response.SimplePartnersResponse
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.rx.with
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -65,6 +72,22 @@ class PartnerRepository(val apiService: ApiService) {
 
     fun getPartners(): Single<ListPartnerResponse> {
         return apiService.getPartners()
+    }
+
+    val partners = MutableLiveData<UiState<ListPartnerResponse>>()
+    fun getPartnersCoba(
+            compositeDisposable: CompositeDisposable
+    ): LiveData<UiState<ListPartnerResponse>>{
+        partners.value = UiState.Loading()
+        compositeDisposable.add(apiService.getPartners()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    partners.value = UiState.Success(it)
+                },{
+                    partners.value = UiState.Error(it)
+                }))
+        return partners
     }
 
     fun getPartnersOff(): Single<ListPartnerResponse> {

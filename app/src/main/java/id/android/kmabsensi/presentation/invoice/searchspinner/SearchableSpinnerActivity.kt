@@ -42,6 +42,7 @@ class SearchableSpinnerActivity : AppCompatActivity() {
                     sharedPref.saveString(filterLeaderId, user.id.toString())
                 }else{
                     sharedPref.saveString(filterPartnerName, user.username)
+                    Log.d("filterPartnerName", "klik = "+user.username)
                     sharedPref.saveString(filterPartnerId, user.id.toString())
                 }
                 this@SearchableSpinnerActivity.finish()

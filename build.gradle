@@ -4,6 +4,8 @@ buildscript {
     ext.kotlin_version = '1.4.10'
     ext.koin_version = '2.1.1'
     ext.anko_version='0.10.8'
+    ext.pagingVersion = '2.1.2'
+
     repositories {
         google()
         maven {

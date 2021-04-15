@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -71,6 +72,7 @@ class TambahSdmActivity : BaseActivity() {
     private val groupAdpter = GroupAdapter<GroupieViewHolder>()
 
     val partnerSelected = mutableListOf<Partner>()
+    private var partners = mutableListOf<Partner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +92,7 @@ class TambahSdmActivity : BaseActivity() {
         vm.getDataOffice()
         vm.getUserManagement(2)
         vm.getPositions()
+
 
         btnSimpan.setOnClickListener {
 
@@ -286,8 +289,8 @@ class TambahSdmActivity : BaseActivity() {
             ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
                 .folderMode(true)
-                .toolbarFolderTitle("Folder")
-                .toolbarImageTitle("Ketuk untuk memilih")
+                .toolbarFolderTitle(getString(R.string.folder))
+                .toolbarImageTitle(getString(R.string.ketuk_untuk_memilih))
                 .toolbarArrowColor(Color.WHITE)
                 .single()
                 .theme(R.style.ImagePickerTheme)
@@ -328,7 +331,8 @@ class TambahSdmActivity : BaseActivity() {
 
         edtNoPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC
+                PICK_PARTNER_RC,
+                    "listPartner" to partners
             )
         }
     }
@@ -342,6 +346,22 @@ class TambahSdmActivity : BaseActivity() {
     }
 
     fun observeData() {
+        vm.getPartners().observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    edtNoPartner.isEnabled = false
+                    edtNoPartner.setText(getString(R.string.text_loading))
+                    Log.d("_Partner", "LOADING")
+                }
+                is UiState.Success -> {
+                    edtNoPartner.isEnabled = true
+                    edtNoPartner.setText(getString(R.string.masukkan_no_partner))
+                    partners.addAll(it.data.partners)
+                }
+                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
+            }
+        })
+
         vm.officeData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {

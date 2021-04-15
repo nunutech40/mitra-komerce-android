@@ -22,6 +22,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.sdm.adapter.KelolaSdmAdapter
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_detail_izin.*
@@ -33,6 +34,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private lateinit var myDialog: MyDialog
 
     private var skeletonScreen: SkeletonScreen? = null
+    private var skeletonScreenPaging: SkeletonScreen? = null
 
     var isSearchMode = false
 
@@ -70,6 +72,23 @@ abstract class BaseActivity : AppCompatActivity() {
                 .load(layoutRes)
                 .show()
         }
+    }
+
+    fun showSkeletonPaging(
+            view: View, @LayoutRes layoutRes: Int,
+            rvAdapter: RecyclerView.Adapter<KelolaSdmAdapter.ViewHolder>? = null
+    ) {
+        if (view is RecyclerView){
+            skeletonScreenPaging = Skeleton.bind(view)
+                    .adapter(rvAdapter)
+                    .color(R.color.shimmer_color)
+                    .load(layoutRes)
+                    .show()
+        }
+    }
+
+    fun hideSkeletonPaging(){
+        skeletonScreenPaging?.hide()
     }
 
     fun hideSkeleton(){

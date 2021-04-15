@@ -3,28 +3,27 @@ package id.android.kmabsensi.presentation.sdm
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ethanhua.skeleton.Skeleton
-import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.ActivityKelolaDataSdmBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.sdm.adapter.KelolaSdmAdapter
 import id.android.kmabsensi.presentation.sdm.detail.DetailKaryawanActivity
 import id.android.kmabsensi.presentation.sdm.search.CariDataSdmActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.TambahSdmActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_kelola_data_sdm.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 
@@ -34,45 +33,45 @@ class KelolaDataSdmActivity : BaseActivity() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
-    val roles = mutableListOf<String>("Management", "SDM")
-    var userManagements = mutableListOf<User>()
-    var filteredLeaderList: List<User> = listOf()
-    var roleId = 0
+    private val roles = mutableListOf<String>("Management", "SDM")
+    private var userManagements = mutableListOf<User>()
+    private var filteredLeaderList: List<User> = listOf()
+    private var roleId = 0
 
-    var isManagement = false
-    var userManagementId = 0
-    var selectedUserManajemenLeaderId = 0
+    private var isManagement = false
+    private var userManagementId = 0
+    private var selectedUserManajemenLeaderId = 0
+    private lateinit var kelolaSdmAdapter: KelolaSdmAdapter
 
+    private val binding by lazy { ActivityKelolaDataSdmBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_kelola_data_sdm)
+        setContentView(binding.root)
 
-        setupToolbar("Kelola Data SDM")
-        btnSearch.visible()
-        btnSearch.setOnClickListener {
-            startActivityForResult<CariDataSdmActivity>(
-                121,
-                IS_MANAGEMENT_KEY to isManagement
-            )
-        }
+        setupToolbar(getString(R.string.text_kelola_sdm))
+        binding.toolbar2.btnSearch.visible()
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
-        if (isManagement) roles.removeAt(0)
-
+        if (isManagement){
+            roles.removeAt(0)
+            binding.btnTambahSdm.gone()
+        }
         initRv()
         initData()
         setListener()
 
-        if (isManagement){
-            btnTambahSdm.gone()
-        }
 
     }
 
-
     private fun setListener() {
-        btnTambahSdm.setOnClickListener {
+        binding.toolbar2.btnSearch.setOnClickListener {
+            startActivityForResult<CariDataSdmActivity>(
+                    121,
+                    IS_MANAGEMENT_KEY to isManagement
+            )
+        }
+        binding.btnTambahSdm.setOnClickListener {
             startActivityForResult<TambahSdmActivity>(
                 121, IS_MANAGEMENT_KEY to isManagement,
                 USER_ID_KEY to userManagementId
@@ -92,10 +91,11 @@ class KelolaDataSdmActivity : BaseActivity() {
                     }
 
                     filteredLeaderList =
-                        userManagements.filter { it.position_name.toLowerCase().contains("leader") }
+                        userManagements.filter {
+                            it.position_name.toLowerCase().contains(getString(R.string.text_leader).toLowerCase()) }
 
                     val userManagementNames = mutableListOf<String>()
-                    userManagementNames.add("- Semua Leader -")
+                    userManagementNames.add(getString(R.string.text_semua_leader_spinner))
                     filteredLeaderList.forEach { userManagementNames.add(it.full_name) }
                     ArrayAdapter<String>(
                         this,
@@ -108,10 +108,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                         spinnerFilterLeader.onItemSelectedListener =
                             object : AdapterView.OnItemSelectedListener {
-                                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                                }
-
+                                override fun onNothingSelected(parent: AdapterView<*>?) {}
                                 override fun onItemSelected(
                                     parent: AdapterView<*>?,
                                     view: View?,
@@ -124,7 +121,6 @@ class KelolaDataSdmActivity : BaseActivity() {
                                         selectedUserManajemenLeaderId =
                                             filteredLeaderList[position - 1].id
                                     }
-
                                     filterDataSdmByLeader()
                                 }
                             }
@@ -142,10 +138,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
             spinnerEmployetype.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
                         view: View?,
@@ -154,75 +147,103 @@ class KelolaDataSdmActivity : BaseActivity() {
                     ) {
                         if (position == 0) {
                             spinnerFilterLeader.gone()
+                            selectedUserManajemenLeaderId = 0
                         } else {
                             spinnerFilterLeader.visible()
-
+                            selectedUserManajemenLeaderId = 0
                         }
-
                         groupAdapter.clear()
                         roleId = if (isManagement) position + 3 else position + 2
-                        vm.getUserData(roleId, userManagementId)
+                        observeUserDao()
                     }
 
                 }
         }
         vm.getUserManagement(2)
-
     }
 
     private fun observeUserDao(isFilter: Boolean = false) {
-        vm.userData.observe(this, Observer {
-            when (it) {
-                is UiState.Loading -> {
-                    showSkeleton(rvSdm, R.layout.skeleton_list_sdm, groupAdapter)
+
+        vm.getUserDataWithPagedList(
+                roleId,
+                userManagementId,
+                selectedUserManajemenLeaderId).observe(this@KelolaDataSdmActivity, Observer {
+            kelolaSdmAdapter.submitList(it)
+        })
+        vm.getState().observe(this, Observer {state ->
+            when(state){
+                State.LOADING-> {
+                    showSkeletonPaging(rvSdm, R.layout.skeleton_list_sdm, kelolaSdmAdapter)
                 }
-                is UiState.Success -> {
-                    hideSkeleton()
-
-                    val dataFilter: List<User>
-
-                    val data = it.data.data.reversed()
-
-                    if (isFilter) {
-                         dataFilter = data.filter { it.user_management_id == selectedUserManajemenLeaderId }
-                    } else {
-                        dataFilter = data
-                    }
-
-                    if (dataFilter.isEmpty()) layout_empty.visible() else layout_empty.gone()
-
-                    groupAdapter.clear()
-                    dataFilter.forEach { sdm ->
-                        groupAdapter.add(SdmItem(sdm) {
-                            startActivityForResult<DetailKaryawanActivity>(
-                                121,
-                                USER_KEY to it,
-                                IS_MANAGEMENT_KEY to isManagement
-                            )
-                        })
-                    }
-
-                }
-                is UiState.Error -> {
-                    hideSkeleton()
+                State.DONE-> hideSkeletonPaging()
+                State.ERROR-> {
+                    Log.d("_state", "ERROR")
+                    hideSkeletonPaging()
                 }
             }
         })
-
+        if (isFilter){
+            vm.filterUser(selectedUserManajemenLeaderId).observe(this, Observer {state ->
+                when(state){
+                    is UiState.Loading-> {
+                        Log.d("_filterManagement", "LOADING ISFILTER")
+                        showSkeleton(rvSdmFilter, R.layout.skeleton_list_sdm, groupAdapter)
+                    }
+                    is UiState.Success ->{
+                        Log.d("_filterManagement", "SUCCESS ISFILTER data = ${state.data}")
+                        hideSkeleton()
+                        if (state.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
+                        groupAdapter.clear()
+                        state.data.data.reversed().forEach { sdm ->
+                            groupAdapter.add(SdmItem(sdm) {
+                                startActivityForResult<DetailKaryawanActivity>(
+                                        121,
+                                        USER_KEY to it,
+                                        IS_MANAGEMENT_KEY to isManagement
+                                )
+                            })
+                        }
+                    }
+                    is UiState.Error ->{
+                        hideSkeleton()
+                        Log.d("_filterManagement", state.throwable.message.toString())
+                    }
+                }
+            })
+        }
     }
 
     private fun filterDataSdmByLeader() {
         if (selectedUserManajemenLeaderId == 0) {
-            observeUserDao()
+            observeUserDao(isFilter = false)
+            binding.rvSdmFilter.gone()
+            binding.rvSdm.visible()
         } else {
             observeUserDao(isFilter = true)
+            binding.rvSdmFilter.visible()
+            binding.rvSdm.gone()
         }
     }
 
     fun initRv() {
+        kelolaSdmAdapter = KelolaSdmAdapter(this, object : KelolaSdmAdapter.onAdapterListener{
+            override fun onClicked(user: User) {
+                startActivityForResult<DetailKaryawanActivity>(
+                        121,
+                        USER_KEY to user,
+                        IS_MANAGEMENT_KEY to isManagement
+                )
+            }
+        })
+
         val linearLayoutManager = LinearLayoutManager(this)
-        rvSdm.apply {
+        binding.rvSdm.apply {
             layoutManager = linearLayoutManager
+            addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
+            adapter = kelolaSdmAdapter
+        }
+
+        binding.rvSdmFilter.apply {
             addItemDecoration(DividerItemDecoration(this.context, linearLayoutManager.orientation))
             adapter = groupAdapter
         }
@@ -233,7 +254,7 @@ class KelolaDataSdmActivity : BaseActivity() {
             val message = data?.getStringExtra("message")
             createAlertSuccess(this, message.toString())
             groupAdapter.clear()
-            vm.getUserData(roleId, userManagementId)
+            vm.getUserDataWithPagedList(roleId, userManagementId, selectedUserManajemenLeaderId)
             vm.getUserManagement(2)
         }
         super.onActivityResult(requestCode, resultCode, data)

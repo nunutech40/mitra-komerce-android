@@ -96,7 +96,7 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { TambahCabangViewModel(get(), get(), get()) }
     viewModel { OfficeViewModel(get(), get()) }
-    viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get()) }
+    viewModel { KelolaDataSdmViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { PasswordManagementViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get(),  get(), get(), get(), get(), get(), get()) }
     viewModel { CheckinViewModel(get(), get(), get()) }
