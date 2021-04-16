@@ -11,11 +11,10 @@
     android:elevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_card_absensi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
-
-
         <TextView
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
@@ -23,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
-            android:textSize="16sp"
+            android:textSize="@dimen/_18sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,30 +39,36 @@
             app:layout_constraintStart_toStartOf="@+id/txtName"
             app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
-
         <View
             android:id="@+id/view2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             android:background="#1F000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtKantor" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:background="#1F000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
         <TextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/txtName"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
-
 
         <TextView
             android:id="@+id/txtPartner"
@@ -77,80 +82,105 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView22"
+        <LinearLayout
+            android:id="@+id/ll_check_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Datang"
-            android:textSize="12sp"
-            android:textColor="@color/colorOrangeMuda"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckin"
             app:layout_constraintStart_toStartOf="@+id/txtKantor"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+            app:layout_constraintTop_toTopOf="@+id/cardViewCheckin">
 
-        <TextView
-            android:id="@+id/textView23"
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Datang"
+                android:textColor="@color/colorOrangeMuda"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckin"
+                app:layout_constraintStart_toStartOf="@+id/txtKantor"
+                app:layout_constraintTop_toTopOf="@+id/cardViewCheckin" />
+
+            <TextView
+                android:id="@+id/txtCheckIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/textView22"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            android:text="Pulang"
-            android:textColor="@color/colorOrangeMuda"
-            app:layout_constraintEnd_toEndOf="@+id/txtPartner"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@+id/cardViewCheckout"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckout"
+            app:layout_constraintStart_toEndOf="@+id/view3"
+            android:layout_marginStart="8dp">
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:text="Pulang"
+                android:textColor="@color/colorOrangeMuda"/>
 
-        <TextView
-            android:id="@+id/txtCheckIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="TextView"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/textView22"
-            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+            <TextView
+                android:id="@+id/txtCheckOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtCheckOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtCheckIn"
-            app:layout_constraintEnd_toEndOf="@+id/textView23" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCheckin"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLihatFotoDatang"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Lihat foto"
-            android:textSize="11sp"
-            app:cornerRadius="12dp"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:textAllCaps="true"
-            android:textColor="#6799DA"
-            app:backgroundTint="@color/colorBgLihatFoto"
-            app:layout_constraintStart_toStartOf="@+id/txtCheckIn"
-            app:layout_constraintTop_toBottomOf="@+id/txtCheckIn" />
+            <ImageView
+                android:id="@+id/btnLihatFotoDatang"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="Gambar absensi"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLihatFotoPulang"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Lihat Foto"
-            android:textAllCaps="true"
-            app:cornerRadius="12dp"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:textSize="11sp"
-            android:textColor="#6799DA"
-            app:backgroundTint="@color/colorBgLihatFoto"
-            app:layout_constraintBaseline_toBaselineOf="@+id/btnLihatFotoDatang"
-            app:layout_constraintEnd_toEndOf="@+id/txtCheckOut" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCheckout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="@+id/cl_card_absensi"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate"
+            >
+            <ImageView
+                android:id="@+id/btnLihatFotoPulang"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Gambar absensi" />
+        </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 </com.google.android.material.card.MaterialCardView>

@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.riwayat
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +58,7 @@ class RiwayatFragment : Fragment() {
                     groupAdapter.clear()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
+                        Log.d("_history", "history = ${user.full_name} url Photo = ${user.photo_profile_url}")
                         groupAdapter.add(RiwayatItem(it, user.full_name, user.photo_profile_url))
                     }
                 }
