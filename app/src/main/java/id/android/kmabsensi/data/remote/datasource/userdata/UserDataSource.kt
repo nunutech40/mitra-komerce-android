@@ -1,4 +1,4 @@
-package id.android.kmabsensi.data.remote.datasource
+package id.android.kmabsensi.data.remote.datasource.userdata
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,11 +6,10 @@ import androidx.paging.PageKeyedDataSource
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.service.ApiService
 import id.android.kmabsensi.utils.State
-import id.android.kmabsensi.utils.UiState
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-const val FIRSTPAGE = 1
+private const val FIRSTPAGE = 1
 
 class UserDataSource(
         private var apiservice: ApiService,
@@ -33,9 +32,9 @@ class UserDataSource(
                         .subscribe({
                             updateState(State.DONE)
                             Log.d("PagedList", "PagedList ke $FIRSTPAGE : ${it.data}")
-                            if (leaderId!=0) callback.onResult(it.data.filter { it.user_management_id  == leaderId}, null, FIRSTPAGE+1)
+                            if (leaderId!=0) callback.onResult(it.data.filter { it.user_management_id  == leaderId}, null, FIRSTPAGE +1)
 
-                            else callback.onResult(it.data, null, FIRSTPAGE+1)
+                            else callback.onResult(it.data, null, FIRSTPAGE +1)
                         }, {
                             updateState(State.ERROR)
                             Log.d("_errorUserPagedList", it.message.toString())

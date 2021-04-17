@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.kantor.report
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -21,6 +22,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.ListAlphaParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.kantor.report.adapter.PresentasiAdapter
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportKantorActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -35,8 +37,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PresentasiReportKantorActivity : BaseActivity() {
-
-    private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
+    companion object{
+        const val _errorkantor = "_errorkantor"
+        const val _loadingkantor = "_loadingkantor"
+    }
+//    private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
 
     private val vm: PresenceReportViewModel by inject()
 
@@ -59,7 +64,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
     //for expandable layout
     val section = Section<String, List<Alpha>>()
     var isSectionAdded = false
-
+    private lateinit var presentasiAdapter : PresentasiAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentasi_report_kantor)
@@ -79,22 +84,50 @@ class PresentasiReportKantorActivity : BaseActivity() {
         setDateText(getDateStringFormatted(Calendar.getInstance().time))
 
         initExpandableLayout()
+        setupListener()
+        setupObserver()
 
-        btnBack.setOnClickListener {
-            onBackPressed()
+        when (categoryReport) {
+            0 -> {
+                txtReport.text = "Kantor Cabang"
+                setupToolbarTitle("Presentasi Report Kantor")
+                vm.getDataOffice()
+            }
+            1 -> {
+                txtReport.text = "Kantor Cabang"
+                txtSubReport.text = "Semua Kantor"
+                vm.getPresenceReportFilteredPaging(roleId = 2, startDate = dateFrom, endDate = dateTo).observe(this, {
+                    presentasiAdapter.submitList(it)
+                })
+                vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
+                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
+                vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
+                setupToolbarTitle("Presentasi Report Manajemen")
+            }
+            2 -> {
+                txtReport.text = "Manajemen"
+                if (isManagement) {
+                    user?.let {
+                        txtSubReport.text = it.full_name
+                        vm.getPresenceReportFilteredPaging(userManagementId = it.id, startDate = dateFrom, endDate = dateTo).observe(this, {
+                            presentasiAdapter.submitList(it)
+                        })
+                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
+                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
+                        vm.getListAlpha(ListAlphaParams(user_management_id = it.id, start_date = dateFrom, end_date = dateTo))
+                        vm.getUserManagement()
+                    }
+                } else {
+                    //get data user management
+                    vm.getUserManagement()
+                }
+                setupToolbarTitle("Presentasi Report SDM")
+            }
         }
 
-        btnFilter.setOnClickListener {
-            startActivityForResult<FilterReportKantorActivity>(
-                REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
-                "user_response" to userResponse,
-                "office_response" to officeResponse,
-                "dateFrom" to dateFrom,
-                "dateTo" to dateTo
-            )
+    }
 
-        }
-
+    private fun setupObserver() {
         vm.presenceReportData.observe(this, Observer {
             when (it) {
                 is UiState.Loading -> {
@@ -103,8 +136,8 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     val percentage = it.data.data.report.percentage.substring(
-                        0,
-                        it.data.data.report.percentage.length - 1
+                            0,
+                            it.data.data.report.percentage.length - 1
                     ).toDouble().toInt()
                     circularProgressBar.progress = percentage.toFloat()
                     txtPercentage.text = percentage.toString() + "%"
@@ -114,9 +147,10 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()
                     textTotalTidakAbsenPulang.text = it.data.data.report.total_not_checkout.toString()
                     if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    it.data.data.presence.forEach {
-                        groupAdapter.add(AbsensiReportItem(it))
-                    }
+                    Log.d("_asda", "data filter = ${it.data.data.presence}")
+//                    it.data.data.presence.forEach {
+//                        groupAdapter.add(AbsensiReportItem(it))
+//                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -161,12 +195,9 @@ class PresentasiReportKantorActivity : BaseActivity() {
             }
         })
 
-        vm.alphaAttendances.observe(this, Observer {
-            state ->
-            when(state) {
-                is UiState.Loading -> {
-
-                }
+        vm.alphaAttendances.observe(this, Observer { state ->
+            when (state) {
+                is UiState.Loading -> Log.d(_loadingkantor, "loadingkantor")
                 is UiState.Success -> {
                     if (!isSectionAdded) {
                         expandableLayoutAlpha.addSection(getSectionAlpha(state.data.data))
@@ -177,42 +208,27 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         expandableLayoutAlpha.notifyParentChanged(0)
                     }
                 }
-                is UiState.Error -> {
-
-                }
+                is UiState.Error -> Log.d(_errorkantor, "errorkantor")
             }
         })
 
-        when (categoryReport) {
-            0 -> {
-                txtReport.text = "Kantor Cabang"
-                setupToolbarTitle("Presentasi Report Kantor")
-                vm.getDataOffice()
-            }
-            1 -> {
-                txtReport.text = "Kantor Cabang"
-                txtSubReport.text = "Semua Kantor"
-                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
-                vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
-                setupToolbarTitle("Presentasi Report Manajemen")
-            }
-            2 -> {
-                txtReport.text = "Manajemen"
-                if (isManagement) {
-                    user?.let {
-                        txtSubReport.text = it.full_name
-                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
-                        vm.getListAlpha(ListAlphaParams(user_management_id = it.id, start_date = dateFrom, end_date = dateTo))
-                        vm.getUserManagement()
-                    }
-                } else {
-                    //get data user management
-                    vm.getUserManagement()
-                }
-                setupToolbarTitle("Presentasi Report SDM")
-            }
+    }
+
+    private fun setupListener() {
+        btnBack.setOnClickListener {
+            onBackPressed()
         }
 
+        btnFilter.setOnClickListener {
+            startActivityForResult<FilterReportKantorActivity>(
+                    REQUEST_FILTER, CATEGORY_REPORT_KEY to categoryReport,
+                    "user_response" to userResponse,
+                    "office_response" to officeResponse,
+                    "dateFrom" to dateFrom,
+                    "dateTo" to dateTo
+            )
+
+        }
     }
 
     private fun initExpandableLayout(){
@@ -275,12 +291,17 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
 
     private fun initRv() {
-        val linearLayoutManager = LinearLayoutManager(this)
-        rvAbsensi.apply {
-            isNestedScrollingEnabled = false
-            layoutManager = linearLayoutManager
-            adapter = groupAdapter
+        presentasiAdapter = PresentasiAdapter(this)
+        rvAbsensiPaged.apply {
+            adapter = presentasiAdapter
+            setHasFixedSize(true)
         }
+//        val linearLayoutManager = LinearLayoutManager(this)
+//        rvAbsensi.apply {
+//            isNestedScrollingEnabled = false
+//            layoutManager = linearLayoutManager
+//            adapter = groupAdapter
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -301,12 +322,20 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         officeIdSelected = it.getIntExtra(OFFICE_ID_FILTER, 0)
                         val officaName = it.getStringExtra(OFFICE_NAME_FILTER)
                         txtSubReport.text = officaName
-                        groupAdapter.clear()
+//                        groupAdapter.clear()
+                        vm.getPresenceReportFilteredPaging(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo).observe(this, {
+                            presentasiAdapter.submitList(it)
+                        })
+                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
                         vm.getPresenceReportFiltered(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(office_id = officeIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                     1 -> {
-                        groupAdapter.clear()
+//                        groupAdapter.clear()
+                        vm.getPresenceReportFilteredPaging(roleId = 2, startDate = dateFrom, endDate = dateTo).observe(this, {
+                            presentasiAdapter.submitList(it)
+                        })
+                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
                         vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                     }
@@ -314,7 +343,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
-                        groupAdapter.clear()
+//                        groupAdapter.clear()
+                        vm.getPresenceReportFilteredPaging(
+                                userManagementId = userManagementIdSelected,
+                                startDate = dateFrom, endDate = dateTo
+                        ).observe(this, {
+                            presentasiAdapter.submitList(it)
+                        })
+                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
                         vm.getPresenceReportFiltered(
                             userManagementId = userManagementIdSelected,
                             startDate = dateFrom, endDate = dateTo
@@ -322,9 +358,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         vm.getListAlpha(ListAlphaParams(user_management_id = userManagementIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                 }
-
             }
-
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

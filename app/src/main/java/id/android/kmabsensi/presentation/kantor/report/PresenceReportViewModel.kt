@@ -1,15 +1,15 @@
 package id.android.kmabsensi.presentation.kantor.report
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import id.android.kmabsensi.data.remote.body.ListAlphaParams
-import id.android.kmabsensi.data.remote.response.ListAlphaResponse
-import id.android.kmabsensi.data.remote.response.OfficeResponse
-import id.android.kmabsensi.data.remote.response.PresenceReportResponse
-import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.repository.OfficeRepository
 import id.android.kmabsensi.data.repository.PresenceRepository
 import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
+import id.android.kmabsensi.utils.State
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
@@ -62,6 +62,20 @@ class PresenceReportViewModel(val presenceRepository: PresenceRepository,
                 presenceReportData.value = UiState.Success(it)
             }, this::onError))
     }
+
+    fun getPresenceReportFilteredPaging(
+            roleId: Int = 0,
+            userManagementId: Int = 0,
+            officeId: Int = 0,
+            startDate: String,
+            endDate: String) : LiveData<PagedList<Presence>> = presenceRepository.getPresenceReportFilteredPaging(compositeDisposable,
+                roleId, userManagementId,
+                officeId, startDate,
+                endDate)
+
+    fun getReportFiltered() : LiveData<Report> = presenceRepository.getReportFilter()
+
+    fun getStateFiltered() : LiveData<State> = presenceRepository.getStateFilter()
 
 
     fun getDataOffice(){

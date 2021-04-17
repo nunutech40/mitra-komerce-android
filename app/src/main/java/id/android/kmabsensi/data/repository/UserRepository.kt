@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import id.android.kmabsensi.data.remote.datasource.UserDataSource
-import id.android.kmabsensi.data.remote.datasource.UserDataSourceFactory
+import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSource
+import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSourceFactory
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.remote.service.ApiService

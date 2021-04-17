@@ -59,7 +59,7 @@ class RiwayatFragment : Fragment() {
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
                         Log.d("_history", "history = ${user.full_name} url Photo = ${user.photo_profile_url}")
-                        groupAdapter.add(RiwayatItem(it, user.full_name, user.photo_profile_url))
+                        groupAdapter.add(RiwayatItem(it))
                     }
                 }
                 is UiState.Error -> {

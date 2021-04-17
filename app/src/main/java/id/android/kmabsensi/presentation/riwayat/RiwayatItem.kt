@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.riwayat
 
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -13,15 +12,12 @@ import kotlinx.android.synthetic.main.item_row_riwayat_absensi.view.*
 import java.text.SimpleDateFormat
 
 class RiwayatItem(
-    val presenceHistory: PresenceHistory,
-    val userName: String,
-    val userPict: String?
+    val presenceHistory: PresenceHistory
 ) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {
             itemView.txtCheckIn.text = presenceHistory.check_in_datetime.split(" ")[1].substring(0, 5)
-            Log.d("_asda", "bind: $presenceHistory")
             Glide.with(itemView)
                     .load(presenceHistory.checkIn_photo_url)
                     .fitCenter()
@@ -45,7 +41,7 @@ class RiwayatItem(
                 itemView.btnLihatFotoPulang.isEnabled = true
                 itemView.txtCheckOut.text = it.split(" ")[1].substring(0, 5)
                 Glide.with(itemView)
-                        .load(it)
+                        .load(presenceHistory.checkOut_photo_url)
                         .error(R.drawable.ic_fail_load_image)
                         .fitCenter()
                         .centerCrop()

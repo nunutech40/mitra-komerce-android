@@ -22,17 +22,16 @@ class KelolaSdmAdapter(
     inner class ViewHolder(private val binding: ItemRowSdmBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(datauser: User?) {
             with(binding){
-                binding.txtNamaSdm.setText(datauser?.full_name)
-                binding.txtPekerjaan.setText(datauser?.position_name)
+                txtNamaSdm.setText(datauser?.full_name)
+                txtPekerjaan.setText(datauser?.position_name)
                 Glide.with(context)
                     .load(datauser?.photo_profile_url)
-                    .into(binding.imageView13)
+                    .into(imageView13)
                 itemView.setOnClickListener {
                     listener.onClicked( datauser!! )
                 }
             }
         }
-
     }
 
     companion object{

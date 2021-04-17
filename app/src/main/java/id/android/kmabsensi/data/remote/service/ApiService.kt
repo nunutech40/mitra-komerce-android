@@ -247,6 +247,13 @@ interface ApiService {
     @POST("api/presence/report/filtered")
     fun presenceReportFiltered(@Body body: Map<String, Any>): Single<PresenceReportResponse>
 
+    @JvmSuppressWildcards
+    @POST("api/presence/report/filtered")
+    fun presenceReportFilteredPaging(
+            @Query("page")page:Int,
+            @Body body: Map<String, Any>
+    ): Single<PresenceReportResponse>
+
     @POST("api/position")
     fun listPosition(): Single<ListPositionResponse>
 

@@ -1,11 +1,20 @@
 package id.android.kmabsensi.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import id.android.kmabsensi.data.remote.body.ListAlphaParams
-import id.android.kmabsensi.data.remote.response.BaseResponse
-import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
-import id.android.kmabsensi.data.remote.response.PresenceReportResponse
+import id.android.kmabsensi.data.remote.datasource.presentasiuser.PresentasiBody
+import id.android.kmabsensi.data.remote.datasource.presentasiuser.PresentasiDataSource
+import id.android.kmabsensi.data.remote.datasource.presentasiuser.PrsentasiDataSourceFactory
+import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSource
+import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSourceFactory
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.utils.State
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.text.SimpleDateFormat
@@ -52,6 +61,37 @@ class PresenceRepository(val apiService: ApiService) {
         )
         return apiService.presenceReportFiltered(body)
     }
+    private lateinit var factory : PrsentasiDataSourceFactory
+
+    fun getPresenceReportFilteredPaging(
+            compositeDisposable: CompositeDisposable,
+            roleId: Int,
+            userManagementId: Int,
+            officeId: Int,
+            startDate: String,
+            endDate: String
+    ): LiveData<PagedList<Presence>> {
+        val body = PresentasiBody(
+                roleId = roleId,
+                userManagementId = userManagementId,
+                officeId = officeId,
+                startDate = startDate,
+                endDate = endDate)
+
+        factory = PrsentasiDataSourceFactory(apiService, compositeDisposable, body)
+        val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(100)
+                .build()
+
+        return LivePagedListBuilder(factory, config).build()
+    }
+
+    fun getReportFilter() : LiveData<Report> = Transformations.switchMap(factory.presentasiLiveData,
+            PresentasiDataSource::report)
+
+    fun getStateFilter() : LiveData<State> = Transformations.switchMap(factory.presentasiLiveData,
+            PresentasiDataSource::state)
 
     fun reportAbsen(
         userId: Int,
