@@ -64,7 +64,9 @@ class PresentasiReportKantorActivity : BaseActivity() {
     //for expandable layout
     val section = Section<String, List<Alpha>>()
     var isSectionAdded = false
+
     private lateinit var presentasiAdapter : PresentasiAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentasi_report_kantor)
@@ -96,11 +98,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
             1 -> {
                 txtReport.text = "Kantor Cabang"
                 txtSubReport.text = "Semua Kantor"
-                vm.getPresenceReportFilteredPaging(roleId = 2, startDate = dateFrom, endDate = dateTo).observe(this, {
-                    presentasiAdapter.submitList(it)
-                })
-                vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
-                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
+                vm.getPresenceReportFilteredPaging(
+                   roleId = 2,
+                    startDate = dateFrom,
+                    endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
+                vm.getReportFiltered().observe(this, { setupView(it) })
+                vm.getStateFiltered().observe(this, { setupLoad(it) })
+
+//                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
                 vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                 setupToolbarTitle("Presentasi Report Manajemen")
             }
@@ -109,11 +114,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 if (isManagement) {
                     user?.let {
                         txtSubReport.text = it.full_name
-                        vm.getPresenceReportFilteredPaging(userManagementId = it.id, startDate = dateFrom, endDate = dateTo).observe(this, {
-                            presentasiAdapter.submitList(it)
-                        })
-                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
-                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
+                        vm.getPresenceReportFilteredPaging(
+                            userManagementId = it.id,
+                            startDate = dateFrom,
+                            endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
+                        vm.getReportFiltered().observe(this, { setupView(it) })
+                        vm.getStateFiltered().observe(this, { setupLoad(it) })
+
+//                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(user_management_id = it.id, start_date = dateFrom, end_date = dateTo))
                         vm.getUserManagement()
                     }
@@ -128,36 +136,36 @@ class PresentasiReportKantorActivity : BaseActivity() {
     }
 
     private fun setupObserver() {
-        vm.presenceReportData.observe(this, Observer {
-            when (it) {
-                is UiState.Loading -> {
-                    if (isManagement) myDialog.show()
-                }
-                is UiState.Success -> {
-                    myDialog.dismiss()
-                    val percentage = it.data.data.report.percentage.substring(
-                            0,
-                            it.data.data.report.percentage.length - 1
-                    ).toDouble().toInt()
-                    circularProgressBar.progress = percentage.toFloat()
-                    txtPercentage.text = percentage.toString() + "%"
-//                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
-                    textTotalHadir.text = it.data.data.report.total_present.toString()
-                    textTotalTerlamat.text = it.data.data.report.total_come_late.toString()
-                    textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()
-                    textTotalTidakAbsenPulang.text = it.data.data.report.total_not_checkout.toString()
-                    if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
-                    Log.d("_asda", "data filter = ${it.data.data.presence}")
-//                    it.data.data.presence.forEach {
-//                        groupAdapter.add(AbsensiReportItem(it))
-//                    }
-                }
-                is UiState.Error -> {
-                    myDialog.dismiss()
-                    e(it.throwable)
-                }
-            }
-        })
+
+//        vm.presenceReportData.observe(this, Observer {
+//            when (it) {
+//                is UiState.Loading -> {
+//                    if (isManagement) myDialog.show()
+//                }
+//                is UiState.Success -> {
+//                    myDialog.dismiss()
+//                    val percentage = it.data.data.report.percentage.substring(
+//                            0,
+//                            it.data.data.report.percentage.length - 1
+//                    ).toDouble().toInt()
+//                    circularProgressBar.progress = percentage.toFloat()
+//                    txtPercentage.text = percentage.toString() + "%"
+////                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
+//                    textTotalHadir.text = it.data.data.report.total_present.toString()
+//                    textTotalTerlamat.text = it.data.data.report.total_come_late.toString()
+//                    textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()
+//                    textTotalTidakAbsenPulang.text = it.data.data.report.total_not_checkout.toString()
+//                    if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
+////                    it.data.data.presence.forEach {
+////                        groupAdapter.add(AbsensiReportItem(it))
+////                    }
+//                }
+//                is UiState.Error -> {
+//                    myDialog.dismiss()
+//                    e(it.throwable)
+//                }
+//            }
+//        })
 
         vm.userManagementData.observe(this, androidx.lifecycle.Observer {
             when (it) {
@@ -167,7 +175,14 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 is UiState.Success -> {
                     if (!isManagement) {
                         txtSubReport.text = it.data.data[0].full_name
-                        vm.getPresenceReportFiltered(userManagementId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
+                        vm.getPresenceReportFilteredPaging(
+                            officeId = it.data.data[0].id,
+                            startDate = dateFrom,
+                            endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
+                        vm.getReportFiltered().observe(this, { setupView(it) })
+                        vm.getStateFiltered().observe(this, { setupLoad(it) })
+
+//                        vm.getPresenceReportFiltered(userManagementId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(user_management_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     }
                     userResponse = it.data
@@ -185,7 +200,13 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     txtSubReport.text = it.data.data[0].office_name
-                    vm.getPresenceReportFiltered(officeId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
+                    vm.getPresenceReportFilteredPaging(
+                        officeId = it.data.data[0].id,
+                        startDate = dateFrom,
+                        endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
+                    vm.getReportFiltered().observe(this, { setupView(it) })
+                    vm.getStateFiltered().observe(this, { setupLoad(it) })
+//                    vm.getPresenceReportFiltered(officeId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                     vm.getListAlpha(ListAlphaParams(office_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     officeResponse = it.data
                 }
@@ -292,16 +313,12 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
     private fun initRv() {
         presentasiAdapter = PresentasiAdapter(this)
-        rvAbsensiPaged.apply {
+        val linearLayoutManager = LinearLayoutManager(this)
+        with(rvAbsensi){
+            isNestedScrollingEnabled = false
+            layoutManager = linearLayoutManager
             adapter = presentasiAdapter
-            setHasFixedSize(true)
         }
-//        val linearLayoutManager = LinearLayoutManager(this)
-//        rvAbsensi.apply {
-//            isNestedScrollingEnabled = false
-//            layoutManager = linearLayoutManager
-//            adapter = groupAdapter
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -310,7 +327,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
                 dateFrom = it.getStringExtra(DATE_FILTER_KEY).toString()
                 dateTo = it.getStringExtra(END_DATE_FILTER_KEY).toString()
-
+                Log.d("_asda", "onActivityResult: $dateFrom and $dateTo")
                 val dateFormat = SimpleDateFormat(DATE_FORMAT)
                 val date = dateFormat.parse(dateFrom)
                 val actualDateTo = dateFormat.parse(dateTo)
@@ -322,44 +339,75 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         officeIdSelected = it.getIntExtra(OFFICE_ID_FILTER, 0)
                         val officaName = it.getStringExtra(OFFICE_NAME_FILTER)
                         txtSubReport.text = officaName
-//                        groupAdapter.clear()
-                        vm.getPresenceReportFilteredPaging(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo).observe(this, {
+                        vm.getPresenceReportFilteredPaging(
+                            officeId = officeIdSelected,
+                            startDate = dateFrom,
+                            endDate = dateTo).observe(this, {
                             presentasiAdapter.submitList(it)
                         })
-                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
-                        vm.getPresenceReportFiltered(officeId = officeIdSelected, startDate = dateFrom, endDate = dateTo)
+                        vm.getReportFiltered().observe(this, {
+                            setupView(it)
+                        })
+                        vm.getStateFiltered().observe(this, Observer {
+                            setupLoad(it)
+                        })
                         vm.getListAlpha(ListAlphaParams(office_id = officeIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                     1 -> {
-//                        groupAdapter.clear()
-                        vm.getPresenceReportFilteredPaging(roleId = 2, startDate = dateFrom, endDate = dateTo).observe(this, {
-                            presentasiAdapter.submitList(it)
-                        })
-                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
-                        vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
+                        vm.getPresenceReportFilteredPaging(
+                            roleId = 2,
+                            startDate = dateFrom,
+                            endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
+                        vm.getReportFiltered().observe(this, { setupView(it) })
+                        vm.getStateFiltered().observe(this, { setupLoad(it)})
+
                         vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                     }
                     2 -> {
                         val userManagementIdSelected = it.getIntExtra(USER_ID_KEY, 0)
                         val userManagementName = it.getStringExtra(USER_MANAGEMENT_NAME_KEY)
                         txtSubReport.text = userManagementName
-//                        groupAdapter.clear()
+
                         vm.getPresenceReportFilteredPaging(
-                                userManagementId = userManagementIdSelected,
-                                startDate = dateFrom, endDate = dateTo
-                        ).observe(this, {
-                            presentasiAdapter.submitList(it)
-                        })
-                        vm.getReportFiltered().observe(this, { Log.d("_errorPresentation", "data Report = $it") })
-                        vm.getPresenceReportFiltered(
                             userManagementId = userManagementIdSelected,
-                            startDate = dateFrom, endDate = dateTo
-                        )
+                            startDate = dateFrom,
+                            endDate = dateTo).observe(this, {presentasiAdapter.submitList(it)})
+                        vm.getReportFiltered().observe(this, {setupView(it)})
+                        vm.getStateFiltered().observe(this, {setupLoad(it)})
+//                        vm.getPresenceReportFiltered(
+//                            userManagementId = userManagementIdSelected,
+//                            startDate = dateFrom, endDate = dateTo
+//                        )
                         vm.getListAlpha(ListAlphaParams(user_management_id = userManagementIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun setupLoad(it: State?) {
+        when(it){
+            State.LOADING-> if (isManagement) myDialog.show()
+
+            State.DONE-> myDialog.dismiss()
+
+            State.ERROR-> myDialog.dismiss()
+        }
+    }
+
+    private fun setupView(it: Report) {
+        val percentage = 10
+//        val percentage = data.percentage.substring(
+//            0,
+//            it.percentage.length - 1
+//        ).toDouble().toInt()
+        circularProgressBar.progress = percentage.toFloat()
+        txtPercentage.text = percentage.toString() + "%"
+//                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
+        textTotalHadir.text = it.total_present.toString()
+        textTotalTerlamat.text = it.total_come_late.toString()
+        textTotalGagalAbsen.text = it.total_report_presence_failure.toString()
+        textTotalTidakAbsenPulang.text = it.total_not_checkout.toString()
     }
 }

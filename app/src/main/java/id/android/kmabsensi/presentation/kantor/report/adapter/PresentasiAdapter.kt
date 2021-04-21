@@ -8,6 +8,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.stfalcon.imageviewer.StfalconImageViewer
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Presence
@@ -22,16 +23,32 @@ import java.text.SimpleDateFormat
 class PresentasiAdapter(
         private val context: Context
 ): PagedListAdapter<Presence, PresentasiAdapter.ViewHolder>(DIFF_CALLBACK) {
-
+    private var klik = false
     inner class ViewHolder(val binding: ItemRowReportAbsensiBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(dataPresentasi: Presence) {
-            Log.d("PresentasiAdapter", "data: $dataPresentasi")
             with(binding){
+                itemView.setOnClickListener {
+                    if (!klik){
+                        cardViewCheckin.visible()
+                        cardViewCheckout.visible()
+                        llCheckIn.visible()
+                        linearLayout3.visible()
+                        klik = true
+                    }else{
+                        cardViewCheckin.gone()
+                        cardViewCheckout.gone()
+                        llCheckIn.gone()
+                        linearLayout3.gone()
+                        klik = false
+                    }
+                }
                 txtCheckIn.text = "${dataPresentasi.check_in_datetime.split(" ")[1].substring(0, 5)}"
                 Glide.with(context)
                         .load(dataPresentasi.checkIn_photo_url)
                         .fitCenter()
                         .centerCrop()
+                    .override(50, 50)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .error(R.drawable.ic_fail_load_image)
                         .placeholder(R.drawable.ic_loading_image)
                         .into(btnLihatFotoDatang)
@@ -54,6 +71,8 @@ class PresentasiAdapter(
                             .load(dataPresentasi.checkOut_photo_url)
                             .error(R.drawable.ic_fail_load_image)
                             .fitCenter()
+                        .override(50, 50)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .centerCrop()
                             .placeholder(R.drawable.ic_loading_image)
                             .into(btnLihatFotoPulang)
@@ -101,6 +120,7 @@ class PresentasiAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataPresentasi = getItem(position)
+        Log.d("_presentasiAdapter", "data: $dataPresentasi")
         if (dataPresentasi!=null) holder.bind(dataPresentasi)
     }
 }

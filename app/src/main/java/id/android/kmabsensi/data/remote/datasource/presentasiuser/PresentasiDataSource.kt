@@ -31,8 +31,8 @@ class PresentasiDataSource(
                 apiservice.presenceReportFilteredPaging(FIRSTPAGE, body)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
+                            Log.d("_errorPresentation", "${it.data.presence}")
                             updateState(State.DONE)
-                            Log.d("_errorPresentation", "${it.data}")
                             updateReport(it.data.report)
                             callback.onResult(it.data.presence, null, FIRSTPAGE +1)
                         }, {

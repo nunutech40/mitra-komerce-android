@@ -252,5 +252,7 @@
     <string name="text_cari_data_sdm">Cari Data SDM</string>
     <string name="text_kelola_sdm">Kelola Data SDM</string>
     <string name="text_semua_leader_spinner">- Semua Leader -</string>
+    <string name="pilih_tanggal_awal">Pilih Tanggal Awal</string>
+    <string name="pilih_tanggal_akhir">Pilih Tanggal Akhir</string>
 
 </resources>

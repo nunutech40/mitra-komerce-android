@@ -1,23 +1,23 @@
 package id.android.kmabsensi.presentation.kantor.report.filter
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.datetime.datePicker
-import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Office
 import id.android.kmabsensi.data.remote.response.OfficeResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.databinding.ActivityFilterReportKantorBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,6 +33,19 @@ class FilterReportKantorActivity : BaseActivity() {
     private var dateFromCalendarSelected = Calendar.getInstance()
     private var dateToCalendarSelected = Calendar.getInstance()
 
+    private val endDate = Calendar.getInstance()
+    private val endyear = endDate.get(Calendar.YEAR)
+    private val endmonth = endDate.get(Calendar.MONTH)
+    private val endday = endDate.get(Calendar.DAY_OF_MONTH)
+
+    private var startDate = Calendar.getInstance()
+    private val startyear = startDate.get(Calendar.YEAR)
+    private val startmonth = startDate.get(Calendar.MONTH)
+    private val startday = startDate.get(Calendar.DAY_OF_MONTH)
+    private var saveyear = 0
+    private var savemonth = 0
+    private var saveday = 0
+
     val offices = mutableListOf<Office>()
     val officeNames = mutableListOf<String>()
     var officeIdSelected = 0
@@ -47,11 +60,13 @@ class FilterReportKantorActivity : BaseActivity() {
 
     var userResponse: UserResponse? = null
     var officeResponse: OfficeResponse? = null
+    private var isFormStart = false
+    private var isFormEnd = false
 
-
+    private val binding by lazy { ActivityFilterReportKantorBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filter_report_kantor)
+        setContentView(binding.root)
 
         setupToolbar("Filter Report")
 
@@ -68,49 +83,38 @@ class FilterReportKantorActivity : BaseActivity() {
         dateFromCalendarSelected.time = dateFromParsed
         dateToCalendarSelected.time = dateToParsed
 
-        edtStartDate.setText(dateFrom)
-        edtEndDate.setText(dateTo)
+        binding.edtStartDate.setText(dateFrom)
+        binding.edtEndDate.setText(dateTo)
+        setupListener()
+        setupObserver()
 
-        edtStartDate.setOnClickListener {
-            MaterialDialog(this).show {
-                datePicker(currentDate = dateFromCalendarSelected) { dialog, date ->
-                    dialog.dismiss()
-                    dateFromSelectedString = getDateString(date.time)
-                    setDateToView(dateFromSelectedString)
+        when (categoryReport) {
+            0 -> {
+                binding.layoutPj.gone()
+                officeResponse?.let {
+                    setSpinnerOffice(it.data)
                 }
             }
-        }
-
-        edtEndDate.setOnClickListener {
-            MaterialDialog(this).show {
-                datePicker(currentDate = dateToCalendarSelected) { dialog, date ->
-                    dialog.dismiss()
-                    dateToSelectedString = getDateString(date.time)
-                    setEndDateToView(dateToSelectedString)
+            1 -> {
+                binding.layoutPj.gone()
+                binding.layoutKantorCabang.gone()
+            }
+            2 -> {
+                binding.layoutKantorCabang.gone()
+                userResponse?.let {
+                    setSpinnerManajemen(it.data.filter {
+                        it.position_name.toLowerCase().contains("leader")
+                    })
+                } ?: kotlin.run {
+                    vm.getUserManagement(2)
                 }
+
             }
         }
+    }
 
-        btnAktifkan.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(DATE_FILTER_KEY, edtStartDate.text.toString())
-            intent.putExtra(END_DATE_FILTER_KEY, edtEndDate.text.toString())
-            when (categoryReport) {
-                0 -> {
-                    intent.putExtra(OFFICE_ID_FILTER, officeIdSelected)
-                    intent.putExtra(OFFICE_NAME_FILTER, officeNameSelected)
-                }
-                2 -> {
-                    intent.putExtra(USER_ID_KEY, userManagementIdSelected)
-                    intent.putExtra(USER_MANAGEMENT_NAME_KEY, userManagementNameSelected)
-                }
-            }
-
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
-
-        vm.userManagementData.observe(this, androidx.lifecycle.Observer {
+    private fun setupObserver() {
+        vm.userManagementData.observe(this, {
             when (it) {
                 is UiState.Loading -> {
 
@@ -123,28 +127,67 @@ class FilterReportKantorActivity : BaseActivity() {
                 }
             }
         })
+    }
 
-        when (categoryReport) {
-            0 -> {
-                layoutPj.gone()
-                officeResponse?.let {
-                    setSpinnerOffice(it.data)
-                }
+    private fun setupListener() {
+
+        binding.edtStartDate.setOnClickListener {
+            val startdatePick = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
+                val month = if (monthOfYear.toString().count()==1) "0${monthOfYear+1}" else "${monthOfYear+1}"
+                dateFromSelectedString = "$year-$month-$dayOfMonth"
+                setDateToView(dateFromSelectedString)
+                saveday = dayOfMonth
+                savemonth = monthOfYear
+                saveyear = year
+                isFormStart = true
+                isFormEnd = false
+            }, startyear, startmonth, startday)
+            startdatePick.setTitle(getString(R.string.pilih_tanggal_awal))
+            startdatePick.datePicker.maxDate = startDate.timeInMillis
+            startdatePick.show()
+        }
+
+        binding.edtEndDate.setOnClickListener {
+            if (!isFormStart){
+                toast("Anda belum memilih tanggal awal.")
+            }else{
+                endDate.set(saveyear, savemonth, saveday)
+                val endDatePick = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
+                    val month = if (monthOfYear.toString().count()==1) "0${monthOfYear+1}" else "${monthOfYear+1}"
+                    dateToSelectedString = "$year-$month-$dayOfMonth"
+                    setEndDateToView(dateToSelectedString)
+                    isFormEnd = true
+                }, endyear, endmonth, endday)
+                endDatePick.setTitle(getString(R.string.pilih_tanggal_akhir))
+                endDatePick.datePicker.minDate = endDate.timeInMillis
+                endDate.add(Calendar.DATE, +7)
+                endDatePick.datePicker.maxDate = endDate.timeInMillis
+                endDatePick.show()
             }
-            1 -> {
-                layoutPj.gone()
-                layoutKantorCabang.gone()
-            }
-            2 -> {
-                layoutKantorCabang.gone()
-                userResponse?.let {
-                    setSpinnerManajemen(it.data.filter {
-                        it.position_name.toLowerCase().contains("leader")
-                    })
-                } ?: kotlin.run {
-                    vm.getUserManagement(2)
+        }
+
+        binding.btnAktifkan.setOnClickListener {
+            if (!isFormStart){
+                toast("Anda belum memilih tanggal awal.")
+            }else if (!isFormEnd){
+                toast("Anda belum memilih tanggal akhir.")
+            }else{
+                val intent = Intent()
+                intent.putExtra(DATE_FILTER_KEY, binding.edtStartDate.text.toString())
+                intent.putExtra(END_DATE_FILTER_KEY, binding.edtEndDate.text.toString())
+                when (categoryReport) {
+                    0 -> {
+                        intent.putExtra(OFFICE_ID_FILTER, officeIdSelected)
+                        intent.putExtra(OFFICE_NAME_FILTER, officeNameSelected)
+                    }
+                    2 -> {
+                        intent.putExtra(USER_ID_KEY, userManagementIdSelected)
+                        intent.putExtra(USER_MANAGEMENT_NAME_KEY, userManagementNameSelected)
+                    }
                 }
 
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
         }
     }
@@ -168,9 +211,7 @@ class FilterReportKantorActivity : BaseActivity() {
 
             spinnerKantorCabang.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
@@ -178,12 +219,9 @@ class FilterReportKantorActivity : BaseActivity() {
                         position: Int,
                         id: Long
                     ) {
-
                         officeIdSelected = offices[position].id
                         officeNameSelected = offices[position].office_name
-
                     }
-
                 }
         }
     }
@@ -208,9 +246,7 @@ class FilterReportKantorActivity : BaseActivity() {
 
             spinnerPenanggungJawab.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
@@ -220,18 +256,16 @@ class FilterReportKantorActivity : BaseActivity() {
                     ) {
                         userManagementIdSelected = userManagement[position].id
                         userManagementNameSelected = userManagement[position].full_name
-
                     }
-
                 }
         }
     }
 
     private fun setDateToView(dateSelected: String) {
-        edtStartDate.setText(dateSelected)
+        binding.edtStartDate.setText(dateSelected)
     }
 
     private fun setEndDateToView(dateSelected: String) {
-        edtEndDate.setText(dateSelected)
+        binding.edtEndDate.setText(dateSelected)
     }
 }
