@@ -5,12 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ajalt.timberkt.Timber.e
@@ -26,10 +23,7 @@ import id.android.kmabsensi.presentation.kantor.report.adapter.PresentasiAdapter
 import id.android.kmabsensi.presentation.kantor.report.filter.FilterReportKantorActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
 import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
-import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.toolbar
-import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
@@ -41,8 +35,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
         const val _errorkantor = "_errorkantor"
         const val _loadingkantor = "_loadingkantor"
     }
-//    private val groupAdapter: GroupAdapter<GroupieViewHolder> by inject()
-
     private val vm: PresenceReportViewModel by inject()
 
     private lateinit var myDialog: MyDialog
@@ -104,8 +96,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
                 vm.getReportFiltered().observe(this, { setupView(it) })
                 vm.getStateFiltered().observe(this, { setupLoad(it) })
-
-//                vm.getPresenceReportFiltered(roleId = 2, startDate = dateFrom, endDate = dateTo)
                 vm.getListAlpha(ListAlphaParams(role_id = 2, start_date = dateFrom, end_date = dateTo))
                 setupToolbarTitle("Presentasi Report Manajemen")
             }
@@ -120,8 +110,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                             endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
                         vm.getReportFiltered().observe(this, { setupView(it) })
                         vm.getStateFiltered().observe(this, { setupLoad(it) })
-
-//                        vm.getPresenceReportFiltered(userManagementId = it.id, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(user_management_id = it.id, start_date = dateFrom, end_date = dateTo))
                         vm.getUserManagement()
                     }
@@ -136,38 +124,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
     }
 
     private fun setupObserver() {
-
-//        vm.presenceReportData.observe(this, Observer {
-//            when (it) {
-//                is UiState.Loading -> {
-//                    if (isManagement) myDialog.show()
-//                }
-//                is UiState.Success -> {
-//                    myDialog.dismiss()
-//                    val percentage = it.data.data.report.percentage.substring(
-//                            0,
-//                            it.data.data.report.percentage.length - 1
-//                    ).toDouble().toInt()
-//                    circularProgressBar.progress = percentage.toFloat()
-//                    txtPercentage.text = percentage.toString() + "%"
-////                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
-//                    textTotalHadir.text = it.data.data.report.total_present.toString()
-//                    textTotalTerlamat.text = it.data.data.report.total_come_late.toString()
-//                    textTotalGagalAbsen.text = it.data.data.report.total_report_presence_failure.toString()
-//                    textTotalTidakAbsenPulang.text = it.data.data.report.total_not_checkout.toString()
-//                    if (it.data.data.presence.isEmpty()) layout_empty.visible() else layout_empty.gone()
-////                    it.data.data.presence.forEach {
-////                        groupAdapter.add(AbsensiReportItem(it))
-////                    }
-//                }
-//                is UiState.Error -> {
-//                    myDialog.dismiss()
-//                    e(it.throwable)
-//                }
-//            }
-//        })
-
-        vm.userManagementData.observe(this, androidx.lifecycle.Observer {
+        vm.userManagementData.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
@@ -181,8 +138,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                             endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
                         vm.getReportFiltered().observe(this, { setupView(it) })
                         vm.getStateFiltered().observe(this, { setupLoad(it) })
-
-//                        vm.getPresenceReportFiltered(userManagementId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                         vm.getListAlpha(ListAlphaParams(user_management_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     }
                     userResponse = it.data
@@ -206,7 +161,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                         endDate = dateTo).observe(this, { presentasiAdapter.submitList(it) })
                     vm.getReportFiltered().observe(this, { setupView(it) })
                     vm.getStateFiltered().observe(this, { setupLoad(it) })
-//                    vm.getPresenceReportFiltered(officeId = it.data.data[0].id, startDate = dateFrom, endDate = dateTo)
                     vm.getListAlpha(ListAlphaParams(office_id = it.data.data[0].id, start_date = dateFrom, end_date = dateTo))
                     officeResponse = it.data
                 }
@@ -327,7 +281,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
                 dateFrom = it.getStringExtra(DATE_FILTER_KEY).toString()
                 dateTo = it.getStringExtra(END_DATE_FILTER_KEY).toString()
-                Log.d("_asda", "onActivityResult: $dateFrom and $dateTo")
                 val dateFormat = SimpleDateFormat(DATE_FORMAT)
                 val date = dateFormat.parse(dateFrom)
                 val actualDateTo = dateFormat.parse(dateTo)
@@ -374,10 +327,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                             endDate = dateTo).observe(this, {presentasiAdapter.submitList(it)})
                         vm.getReportFiltered().observe(this, {setupView(it)})
                         vm.getStateFiltered().observe(this, {setupLoad(it)})
-//                        vm.getPresenceReportFiltered(
-//                            userManagementId = userManagementIdSelected,
-//                            startDate = dateFrom, endDate = dateTo
-//                        )
                         vm.getListAlpha(ListAlphaParams(user_management_id = userManagementIdSelected, start_date = dateFrom, end_date = dateTo))
                     }
                 }
@@ -388,7 +337,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
 
     private fun setupLoad(it: State?) {
         when(it){
-            State.LOADING-> if (isManagement) myDialog.show()
+            State.LOADING-> myDialog.show()
 
             State.DONE-> myDialog.dismiss()
 
@@ -397,14 +346,12 @@ class PresentasiReportKantorActivity : BaseActivity() {
     }
 
     private fun setupView(it: Report) {
-        val percentage = 10
-//        val percentage = data.percentage.substring(
-//            0,
-//            it.percentage.length - 1
-//        ).toDouble().toInt()
+        val percentage = it.percentage.substring(
+            0,
+            it.percentage.length - 1
+        ).toDouble().toInt()
         circularProgressBar.progress = percentage.toFloat()
         txtPercentage.text = percentage.toString() + "%"
-//                    txtAngkaKehadiran.text = "${it.data.data.report.total_present}/${it.data.data.report.total_user}"
         textTotalHadir.text = it.total_present.toString()
         textTotalTerlamat.text = it.total_come_late.toString()
         textTotalGagalAbsen.text = it.total_report_presence_failure.toString()

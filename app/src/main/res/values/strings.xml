@@ -254,5 +254,6 @@
     <string name="text_semua_leader_spinner">- Semua Leader -</string>
     <string name="pilih_tanggal_awal">Pilih Tanggal Awal</string>
     <string name="pilih_tanggal_akhir">Pilih Tanggal Akhir</string>
+    <string name="filter_report">Filter Report</string>
 
 </resources>
