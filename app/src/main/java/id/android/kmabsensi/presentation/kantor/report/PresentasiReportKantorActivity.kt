@@ -202,7 +202,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                     "dateFrom" to dateFrom,
                     "dateTo" to dateTo
             )
-
         }
     }
 
@@ -350,6 +349,7 @@ class PresentasiReportKantorActivity : BaseActivity() {
             0,
             it.percentage.length - 1
         ).toDouble().toInt()
+        Log.d("_reporting", "setupView: $it, $percentage")
         circularProgressBar.progress = percentage.toFloat()
         txtPercentage.text = percentage.toString() + "%"
         textTotalHadir.text = it.total_present.toString()

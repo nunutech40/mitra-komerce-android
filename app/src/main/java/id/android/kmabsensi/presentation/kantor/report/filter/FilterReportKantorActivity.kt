@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_filter_report_kantor.*
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.log
 
 class FilterReportKantorActivity : BaseActivity() {
 
@@ -34,10 +33,11 @@ class FilterReportKantorActivity : BaseActivity() {
     private var dateFromCalendarSelected = Calendar.getInstance()
     private var dateToCalendarSelected = Calendar.getInstance()
 
+    private var today = Calendar.getInstance()
+    private val thisyear = today.get(Calendar.YEAR)
+    private val thismonth = today.get(Calendar.MONTH)
+    private val thisday = today.get(Calendar.DAY_OF_MONTH)
     private var startDate = Calendar.getInstance()
-    private val thisyear = startDate.get(Calendar.YEAR)
-    private val thismonth = startDate.get(Calendar.MONTH)
-    private val thisday = startDate.get(Calendar.DAY_OF_MONTH)
     private var startyear = 0
     private var startmonth = 0
     private var startday = 0
@@ -67,7 +67,6 @@ class FilterReportKantorActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        Log.d("_endDate", "onCreate: endyear = $endyear endmonth $endmonth endday $endday")
         setupToolbar(getString(R.string.filter_report))
 
         categoryReport = intent.getIntExtra(CATEGORY_REPORT_KEY, 0)
@@ -76,16 +75,7 @@ class FilterReportKantorActivity : BaseActivity() {
         dateFrom = intent.getStringExtra("dateFrom") ?: ""
         dateTo = intent.getStringExtra("dateTo") ?: ""
 
-        startyear = dateFrom.split("-")[0].toInt()
-        startmonth = dateFrom.split("-")[1].toInt()-1
-        startday = dateFrom.split("-")[2].toInt()
-
-        checkToday(startyear, startmonth, startday)
-
-        endyear = dateTo.split("-")[0].toInt()
-        endmonth = dateTo.split("-")[1].toInt()-1
-        endday = dateTo.split("-")[2].toInt()
-        endDate.set(endyear, endmonth, endday)
+        getDateStarted(dateFrom, dateTo)
 
         val dateFormat = SimpleDateFormat(DATE_FORMAT)
         val dateFromParsed: Date = dateFormat.parse(dateFrom)
@@ -123,11 +113,22 @@ class FilterReportKantorActivity : BaseActivity() {
         }
     }
 
+    private fun getDateStarted(dtFrom: String, dtTo: String) {
+        startyear = dtFrom.split("-")[0].toInt()
+        startmonth = dtFrom.split("-")[1].toInt()-1
+        startday = dtFrom.split("-")[2].toInt()
+        checkToday(startyear, startmonth, startday)
+
+        endyear = dtTo.split("-")[0].toInt()
+        endmonth = dtTo.split("-")[1].toInt()-1
+        endday = dtTo.split("-")[2].toInt()
+        endDate.set(endyear, endmonth, endday)
+    }
+
     private fun setupObserver() {
         vm.userManagementData.observe(this, {
             when (it) {
                 is UiState.Loading -> {
-
                 }
                 is UiState.Success -> {
                     setSpinnerManajemen(it.data.data)
@@ -147,14 +148,17 @@ class FilterReportKantorActivity : BaseActivity() {
                 ) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
                 dateFromSelectedString = "$year-$month-$dayOfMonth"
                 setDateToView(dateFromSelectedString)
+                updateStartDate(year, monthOfYear, dayOfMonth)
+
                 endDate.set(year, monthOfYear, dayOfMonth)
                 endDate.add(Calendar.DATE, +7)
                 checkToday(year, monthOfYear, dayOfMonth)
-                val newMonth = if ((endDate.get(Calendar.MONTH)+1).toString().count()==1) "0${endDate.get(Calendar.MONTH)+1}" else "${endDate.get(Calendar.MONTH)+1}"
-                setEndDateToView("${endDate.get(Calendar.YEAR)}-$newMonth-${endDate.get(Calendar.DAY_OF_MONTH)}")
+                val getEndDate = if (endDate.timeInMillis > today.timeInMillis) today else endDate
+
+                setEndDateToView("${getEndDate.get(Calendar.YEAR)}-$month-${getEndDate.get(Calendar.DAY_OF_MONTH)}")
             }, startyear, startmonth, startday)
             startdatePick.setTitle(getString(R.string.pilih_tanggal_awal))
-            startdatePick.datePicker.maxDate = startDate.timeInMillis
+            startdatePick.datePicker.maxDate = today.timeInMillis
             startdatePick.show()
         }
 
@@ -163,12 +167,14 @@ class FilterReportKantorActivity : BaseActivity() {
                 val month = if (monthOfYear.toString().count()==1) "0${monthOfYear+1}" else "${monthOfYear+1}"
                 dateToSelectedString = "$year-$month-$dayOfMonth"
                 setEndDateToView(dateToSelectedString)
+                updateEndDate(year, monthOfYear, dayOfMonth)
             }, endyear, endmonth, endday)
             endDatePick.setTitle(getString(R.string.pilih_tanggal_akhir))
             endDate.add(Calendar.DATE, -7)
             endDatePick.datePicker.minDate = if (isToday) startDate.timeInMillis else endDate.timeInMillis
             endDate.add(Calendar.DATE, +7)
-            endDatePick.datePicker.maxDate = endDate.timeInMillis
+            val maxdate = if (endDate.timeInMillis > today.timeInMillis) today.timeInMillis else endDate.timeInMillis
+            endDatePick.datePicker.maxDate = maxdate
             endDatePick.show()
         }
 
@@ -270,5 +276,17 @@ class FilterReportKantorActivity : BaseActivity() {
 
     private fun checkToday(year: Int, month: Int, day: Int) {
         isToday = year == thisyear && month == thismonth && day == thisday
+    }
+
+    private fun updateStartDate(year: Int, month: Int, day: Int){
+        startyear = year
+        startmonth = month
+        startday = day
+    }
+
+    private fun updateEndDate(year: Int, month: Int, day: Int){
+        endyear = year
+        endmonth = month
+        endday = day
     }
 }
