@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.partner
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.ajalt.timberkt.Timber
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -60,6 +61,9 @@ class PartnerViewModel(
     val sdmByPartner by lazy {
         MutableLiveData<UiState<UserResponse>>()
     }
+
+    fun getDataPartners(): LiveData<UiState<ListPartnerResponse>> =
+        partnerRepository.getPartnersCoba(compositeDisposable)
 
     fun addPartner(
         noPartner: String,

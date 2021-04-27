@@ -120,7 +120,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
                 setupToolbarTitle("Presentasi Report SDM")
             }
         }
-
     }
 
     private fun setupObserver() {
@@ -349,7 +348,6 @@ class PresentasiReportKantorActivity : BaseActivity() {
             0,
             it.percentage.length - 1
         ).toDouble().toInt()
-        Log.d("_reporting", "setupView: $it, $percentage")
         circularProgressBar.progress = percentage.toFloat()
         txtPercentage.text = percentage.toString() + "%"
         textTotalHadir.text = it.total_present.toString()

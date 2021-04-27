@@ -3,20 +3,19 @@ package id.android.kmabsensi.presentation.invoice.create
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.ajalt.timberkt.d
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.CreateInvoiceBody
 import id.android.kmabsensi.data.remote.body.InvoiceItem
 import id.android.kmabsensi.data.remote.response.Partner
-import id.android.kmabsensi.data.remote.response.SimplePartner
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.invoice.InvoiceDetailData
 import id.android.kmabsensi.presentation.invoice.InvoiceViewModel
@@ -29,6 +28,7 @@ import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActi
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.divider.DividerItemDecorator
 import kotlinx.android.synthetic.main.activity_add_invoice.*
+import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,6 +53,7 @@ class AddInvoiceActivity : BaseActivity() {
     private var titleMonth = ""
 
     private var isAdminInvoice = false
+    private var partners = mutableListOf<Partner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,51 +62,9 @@ class AddInvoiceActivity : BaseActivity() {
         setupToolbar(if (isAdminInvoice) "Invoice Admin" else "Invoice Gaji SDM")
         initRv()
         initView()
-
-        switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                switchLabel.text = "Free"
-                layoutDetailTagihan.gone()
-                rvInvoiceDetail.gone()
-                textTotalTagihan.text = "Rp 0"
-                InvoiceDetailData.clear()
-            } else {
-                switchLabel.text = "Not Free"
-                layoutDetailTagihan.visible()
-                rvInvoiceDetail.visible()
-            }
-        }
-
-        InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
-            if (invoices.isNotEmpty()) {
-                btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
-
-                listInvoiceDetail.clear()
-                groupAdapter.clear()
-                listInvoiceDetail.addAll(invoices)
-                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice, it.itemDescription) }
-                    .forEach {
-                        groupAdapter.add(InvoiceDetailBasicItem(it))
-                    }
-                textTotalTagihan.text = convertRp(invoices.sumBy { it.itemPrice }.toDouble())
-            } else {
-                listInvoiceDetail.clear()
-                btnUbahTagihan.text = if (isAdminInvoice) "TAMBAH TAGIHAN" else "MASUKKAN GAJI SDM"
-                groupAdapter.clear()
-                textTotalTagihan.text = "Rp 0"
-            }
-        })
-
-        edtPilihPartner.setOnClickListener {
-            startActivityForResult<PartnerPickerActivity>(PICK_PARTNER_RC)
-        }
-
-        btnUbahTagihan.setOnClickListener {
-            startActivity<ManageInvoiceDetailActivity>(
-                PARTNER_DATA_KEY to partnerSelected,
-                IS_INVOICE_ADMIN_KEY to isAdminInvoice
-            )
-        }
+        setupListener()
+        setupObserve()
+        initDateInvoice()
 
         //spinner month
         ArrayAdapter.createFromResource(this, R.array.month_array, R.layout.spinner_item)
@@ -140,7 +99,6 @@ class AddInvoiceActivity : BaseActivity() {
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinnerYear.adapter = adapter
-
                 spinnerYear.onItemSelectedListener =
                     object : AdapterView.OnItemSelectedListener {
                         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -163,6 +121,23 @@ class AddInvoiceActivity : BaseActivity() {
 
                     }
             }
+
+    }
+
+    private fun setupListener() {
+        switchStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                switchLabel.text = "Free"
+                layoutDetailTagihan.gone()
+                rvInvoiceDetail.gone()
+                textTotalTagihan.text = "Rp 0"
+                InvoiceDetailData.clear()
+            } else {
+                switchLabel.text = "Not Free"
+                layoutDetailTagihan.visible()
+                rvInvoiceDetail.visible()
+            }
+        }
 
         buttonAddInvoice.setOnClickListener {
             if (!formValidation()) {
@@ -201,23 +176,57 @@ class AddInvoiceActivity : BaseActivity() {
             invoiceVM.createInvoice(body)
         }
 
-        observeData()
-        observeDataSdm()
-
-        initDateInvoice()
-    }
-
-    private fun initDateInvoice() {
-        titleMonth = if (monthCalendar == 0) {
-            resources.getStringArray(R.array.month_array).toList()[12]
-        } else {
-            resources.getStringArray(R.array.month_array).toList()[monthCalendar]
+        edtPilihPartner.setOnClickListener {
+            startActivityForResult<PartnerPickerActivity>(
+                PICK_PARTNER_RC,
+                "listPartner" to partners)
         }
-        titleYear =
-            if (monthCalendar == 0) calendar.get(Calendar.YEAR) - 1 else calendar.get(Calendar.YEAR)
+
+        btnUbahTagihan.setOnClickListener {
+            startActivity<ManageInvoiceDetailActivity>(
+                PARTNER_DATA_KEY to partnerSelected,
+                IS_INVOICE_ADMIN_KEY to isAdminInvoice
+            )
+        }
     }
 
-    private fun observeData() {
+    private fun setupObserve() {
+        InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
+            if (invoices.isNotEmpty()) {
+                btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
+
+                listInvoiceDetail.clear()
+                groupAdapter.clear()
+                listInvoiceDetail.addAll(invoices)
+                invoices.map { InvoiceDetailBasic(it.itemName, it.itemPrice, it.itemDescription) }
+                    .forEach {
+                        groupAdapter.add(InvoiceDetailBasicItem(it))
+                    }
+                textTotalTagihan.text = convertRp(invoices.sumBy { it.itemPrice }.toDouble())
+            } else {
+                listInvoiceDetail.clear()
+                btnUbahTagihan.text = if (isAdminInvoice) "TAMBAH TAGIHAN" else "MASUKKAN GAJI SDM"
+                groupAdapter.clear()
+                textTotalTagihan.text = "Rp 0"
+            }
+        })
+
+        partnerVM.getDataPartners().observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    edtPilihPartner.isEnabled = false
+                    edtPilihPartner.setHint(getString(R.string.text_loading))
+                    Log.d("_Partner", "LOADING")
+                }
+                is UiState.Success -> {
+                    edtPilihPartner.isEnabled = true
+                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
+                    partners.addAll(it.data.partners)
+                }
+                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
+            }
+        })
+
         invoiceVM.createInvoiceResponse.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -239,6 +248,41 @@ class AddInvoiceActivity : BaseActivity() {
                 }
             }
         })
+
+        partnerVM.sdmByPartner.observe(this, Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showDialog()
+                }
+                is UiState.Success -> {
+                    hideDialog()
+                    InvoiceDetailData.clear()
+                    state.data.data.forEach {
+                        InvoiceDetailData.addInvoiceItem(
+                            InvoiceDetail(
+                                it.full_name,
+                                0,
+                                "",
+                                userId = it.id
+                            )
+                        )
+                    }
+                }
+                is UiState.Error -> {
+                    hideDialog()
+                }
+            }
+        })
+    }
+
+    private fun initDateInvoice() {
+        titleMonth = if (monthCalendar == 0) {
+            resources.getStringArray(R.array.month_array).toList()[12]
+        } else {
+            resources.getStringArray(R.array.month_array).toList()[monthCalendar]
+        }
+        titleYear =
+            if (monthCalendar == 0) calendar.get(Calendar.YEAR) - 1 else calendar.get(Calendar.YEAR)
     }
 
     private fun initView() {
@@ -286,33 +330,6 @@ class AddInvoiceActivity : BaseActivity() {
             if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun observeDataSdm() {
-        partnerVM.sdmByPartner.observe(this, Observer { state ->
-            when (state) {
-                is UiState.Loading -> {
-                    showDialog()
-                }
-                is UiState.Success -> {
-                    hideDialog()
-                    InvoiceDetailData.clear()
-                    state.data.data.forEach {
-                        InvoiceDetailData.addInvoiceItem(
-                            InvoiceDetail(
-                                it.full_name,
-                                0,
-                                "",
-                                userId = it.id
-                            )
-                        )
-                    }
-                }
-                is UiState.Error -> {
-                    hideDialog()
-                }
-            }
-        })
     }
 
     fun setTitleInvoice(month: String, year: String) {
