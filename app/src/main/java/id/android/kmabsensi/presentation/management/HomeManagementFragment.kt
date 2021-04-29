@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -218,7 +219,8 @@ class HomeManagementFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    if (it.data.status){
+                    if (it.data.status) {
+                        Log.d("_checkoutResponse", "data response: ${it.data.message}")
                         createAlertSuccess(activity, it.data.message)
                     } else {
                         createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
@@ -303,7 +305,7 @@ class HomeManagementFragment : Fragment() {
                                             createAlertError(
                                                 activity!!,
                                                 "Gagal",
-                                                "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                                "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
                                         }
                                     }
@@ -421,7 +423,7 @@ class HomeManagementFragment : Fragment() {
                 MaterialDialog(context!!).show {
                     cornerRadius(16f)
                     title(text = "Check-In")
-                    message(text = "Anda sudah check-in hari ini")
+                    message(text = "Kamu sudah check-in hari ini")
                     positiveButton(text = "OK") {
                         it.dismiss()
                     }

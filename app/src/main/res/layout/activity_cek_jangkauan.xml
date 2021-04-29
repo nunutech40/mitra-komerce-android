@@ -32,7 +32,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/avenirltstd_heavy"
-            android:text="Anda berada dalam jangkauan"
+            android:text="Kamu berada dalam jangkauan"
             android:textColor="@color/black"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/btnNext"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenirltstd_heavy"
-                android:text="Anda Diluar Jangkauan"
+                android:text="Kamu Diluar Jangkauan"
                 android:textColor="#BD3434"
                 android:textSize="16sp" />
 
