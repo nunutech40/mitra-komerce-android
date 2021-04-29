@@ -28,7 +28,7 @@
             android:id="@+id/txtKetukLayar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ketuk layar Anda \n untuk mengambil gambar"
+            android:text="Ketuk layar kamu \n untuk mengambil gambar"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -233,7 +233,7 @@ class HomeSdmFragment : Fragment() {
                                             createAlertError(
                                                 activity!!,
                                                 "Gagal",
-                                                "Anda hanya bisa check in coworking space sebanyak 2 kali"
+                                                "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
                                         }
                                     }
@@ -429,7 +429,7 @@ class HomeSdmFragment : Fragment() {
                 MaterialDialog(context!!).show {
                     cornerRadius(16f)
                     title(text = "Check-In")
-                    message(text = "Anda sudah check-in hari ini")
+                    message(text = "Kamu sudah check-in hari ini")
                     positiveButton(text = "OK") {
                         it.dismiss()
                     }

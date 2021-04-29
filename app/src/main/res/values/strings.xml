@@ -54,14 +54,14 @@
     <string name="tambah_jabatan">Tambah Jabatan</string>
     <string name="lihat_data">Lihat Data</string>
     <string name="waktu">waktu</string>
-    <string name="ask">Apa yang Anda lakukan hari ini</string>
+    <string name="ask">Apa yang Kamu lakukan hari ini</string>
     <string name="data_hadir">Data hadir</string>
     <string name="semua_kantor">SEMUA KANTOR</string>
 
     <string name="ket_belum_waktu_pulang">Belum jam 16.00, belum saatnya pulang nak, sabar..</string>
     <string name="ket_absen_lebih_awal">Hore datang lebih awal, kami kasih 2 poin KMPoin</string>
     <string name="ket_absen_tepat_waktu">Hore datang tepat waktu.</string>
-    <string name="ket_absen_telat">Sayang sekali hari ini Anda telat %1$s, besok diperbaiki ya.</string>
+    <string name="ket_absen_telat">Sayang sekali hari ini Kamu telat %1$s, besok diperbaiki ya.</string>
     <string name="data_tidak_hadir">Data Tidak Hadir</string>
 
     <string name="notifications_admin_channel_name">Notification Title</string>
@@ -72,8 +72,8 @@
     <string name="label_open">OPEN</string>
     <string name="label_completed">COMPLETED</string>
     <string name="label_expired">EXPIRED</string>
-    <string name="txt_complete_invoice_confirmation">Apakah anda yakin ingin menyelesaikan transaksi ini ?</string>
-    <string name="txt_cancel_invoice_confirmation">Apakah anda yakin ingin membatalkan transaksi ini ?</string>
+    <string name="txt_complete_invoice_confirmation">Apakah kamu yakin ingin menyelesaikan transaksi ini ?</string>
+    <string name="txt_cancel_invoice_confirmation">Apakah kamu yakin ingin membatalkan transaksi ini ?</string>
     <string name="label_data_device">Data Device</string>
     <string name="jumlah_device">Jumlah Device:</string>
     <string name="tambah_device_partner">Tambah Device Partner</string>
@@ -248,7 +248,7 @@
     <string name="text_loading">Loading...</string>
     <string name="ketuk_untuk_memilih">Ketuk untuk memilih</string>
     <string name="folder">Folder</string>
-    <string name="text_anda_belum_memasukan_kata_kuncinya">anda belum memasukan kata kuncinya.</string>
+    <string name="text_anda_belum_memasukan_kata_kuncinya">Kamu belum memasukan kata kuncinya.</string>
     <string name="text_cari_data_sdm">Cari Data SDM</string>
     <string name="text_kelola_sdm">Kelola Data SDM</string>
     <string name="text_semua_leader_spinner">- Semua Leader -</string>

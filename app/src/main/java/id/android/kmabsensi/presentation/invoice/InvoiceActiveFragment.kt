@@ -105,6 +105,7 @@ class InvoiceActiveFragment : BaseFragment() {
             invoiceVM.getMyInvoice(true)
             val message = data?.getStringExtra("message")
             createAlertSuccess(requireActivity(), message.toString())
+            Log.d("_messagenyaa", "datanya : $message ")
         }
 
         if (requestCode == RC_DETAIL_INVOICE && resultCode == Activity.RESULT_OK){

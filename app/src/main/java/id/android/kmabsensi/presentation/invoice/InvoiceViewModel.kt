@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.invoice
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import id.android.kmabsensi.data.pref.PreferencesHelper
@@ -12,6 +13,8 @@ import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class InvoiceViewModel(
     val invoiceRepository: InvoiceRepository,
@@ -73,8 +76,10 @@ class InvoiceViewModel(
         createInvoiceResponse.value = UiState.Loading()
         compositeDisposable.add(
             invoiceRepository.createInvoice(body)
-                .with(schedulerProvider)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe({
+                    Log.d("_masukngga", "createInvoice: Masuk $it")
                     createInvoiceResponse.value = UiState.Success(it)
                 }, {
                     createInvoiceResponse.value = UiState.Error(it)
