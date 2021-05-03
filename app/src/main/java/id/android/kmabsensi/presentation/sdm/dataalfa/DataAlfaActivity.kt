@@ -38,7 +38,7 @@ class DataAlfaActivity : BaseActivity() {
     private var officeId = 0
     private var isThisMonth = true
 
-    private val cal = Calendar.getInstance()
+//    private val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +69,7 @@ class DataAlfaActivity : BaseActivity() {
         initRv()
 
         btnTampilkanData.setOnClickListener {
+            val cal = Calendar.getInstance()
             var dateStart = ""
             var dateEnd = ""
             if (isThisMonth) {
@@ -81,6 +82,7 @@ class DataAlfaActivity : BaseActivity() {
             }
 
             presenceVM.getListAlpha(ListAlphaParams(office_id = officeId, start_date = dateStart, end_date = dateEnd))
+
         }
 
         presenceVM.alphaAttendances.observe(this, Observer {
@@ -92,13 +94,13 @@ class DataAlfaActivity : BaseActivity() {
                 is UiState.Success -> {
                     hideDialog()
                     txtInitial.gone()
+                    groupAdapter.clear()
                     if (state.data.data.isEmpty()) {
                         layout_empty.visible()
                     } else {
                         layoutListData.visible()
                         layout_empty.gone()
                     }
-                    groupAdapter.clear()
                     state.data.data.forEach {
                         groupAdapter.add(AlphaItem(it))
                     }
