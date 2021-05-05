@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.sdm.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -20,15 +21,15 @@ class KelolaSdmAdapter(
     }
 
     inner class ViewHolder(private val binding: ItemRowSdmBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(datauser: User?) {
+        fun bind(datauser: User) {
             with(binding){
-                txtNamaSdm.setText(datauser?.full_name)
-                txtPekerjaan.setText(datauser?.position_name)
+                txtNamaSdm.setText(datauser.full_name)
+                txtPekerjaan.setText(datauser.position_name)
                 Glide.with(context)
-                    .load(datauser?.photo_profile_url)
+                    .load(datauser.photo_profile_url)
                     .into(imageView13)
                 itemView.setOnClickListener {
-                    listener.onClicked( datauser!! )
+                    listener.onClicked( datauser )
                 }
             }
         }
@@ -47,6 +48,6 @@ class KelolaSdmAdapter(
 
     override fun onBindViewHolder(holder: KelolaSdmAdapter.ViewHolder, position: Int) {
         val datauser = getItem(position)
-        holder.bind(datauser)
+        if (datauser!=null){ holder.bind(datauser) }
     }
 }

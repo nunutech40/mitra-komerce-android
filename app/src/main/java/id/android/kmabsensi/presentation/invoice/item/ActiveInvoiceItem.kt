@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.invoice.item
 
+import android.util.Log
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R

@@ -17,7 +17,7 @@ data class UserResponse(
 data class User(
     val address: String,
     val birth_date: String,
-    val created_at: String?,
+    val created_at: String? = "",
     val division_id: Int,
     val division_name: String,
     val email: String,
@@ -25,19 +25,19 @@ data class User(
     val gender: Int,
     val id: Int,
     val no_hp: String,
-    val no_partner: String = "",
-    val no_partners: List<String>,
-    val partner_assignments: List<PartnerAssignment> = listOf(),
+    val no_partner: String? = "",
+    val no_partners: List<String>? = listOf(),
+    val partner_assignments: List<PartnerAssignment>? = listOf(),
     val npk: String,
     val office_id: Int,
     val office_name: String,
     val origin_village: String,
-    val photo_profile_url: String?,
+    val photo_profile_url: String? = "",
     val position_id: Int,
     val position_name: String,
     val role_id: Int,
-    val role_name: String?,
-    val updated_at: String?,
+    val role_name: String? = "",
+    val updated_at: String? = "",
     val user_management_id: Int,
     val username: String,
     val kmpoin: Int,
@@ -57,12 +57,11 @@ data class PartnerAssignment(
     @SerializedName("full_name")
     val fullName: String = "",
     @SerializedName("email")
-    val email: String = "",
+    val email: String? = "",
     @SerializedName("role_id")
     val roleId: Int = 0,
     @SerializedName("position_name")
-    val positionName: String? = null,
+    val positionName: String? = "",
     @SerializedName("no_partner")
-    val noPartner: String = ""
+    val noPartner: String? = ""
 ): Parcelable
-

@@ -23,6 +23,7 @@ import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cari_data_sdm.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
+import kotlin.math.log
 
 
 class CariDataSdmActivity : AppCompatActivity() {
@@ -58,13 +59,13 @@ class CariDataSdmActivity : AppCompatActivity() {
                 binding.searchView.requestFocus()
             }else{
                 vm.searchUser(keyword).observe(this, Observer {
-                    when(it){
+                    when (it) {
                         is UiState.Loading -> {
                             skeletonScreen = Skeleton.bind(rvSdm)
-                                            .adapter(groupAdapter)
-                                            .color(R.color.shimmer_color)
-                                            .load(R.layout.skeleton_list_sdm)
-                                            .show();
+                                .adapter(groupAdapter)
+                                .color(R.color.shimmer_color)
+                                .load(R.layout.skeleton_list_sdm)
+                                .show();
                             Log.d("_searching", "search Loading")
                         }
                         is UiState.Success -> {
@@ -73,13 +74,15 @@ class CariDataSdmActivity : AppCompatActivity() {
                             groupAdapter.clear()
                             if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                             it.data.data.forEach { sdm ->
-                                groupAdapter.add(SdmItem(sdm) {
-                                    startActivityForResult<DetailKaryawanActivity>(
-                                        121,
-                                        USER_KEY to it,
-                                        IS_MANAGEMENT_KEY to isManagement
-                                    )
-                                })
+                                if (sdm.role_id == 3){
+                                    groupAdapter.add(SdmItem(sdm) {
+                                        startActivityForResult<DetailKaryawanActivity>(
+                                            121,
+                                            USER_KEY to it,
+                                            IS_MANAGEMENT_KEY to isManagement
+                                        )
+                                    })
+                                }
                             }
                         }
                         is UiState.Error -> Log.d("_searching", "search error")

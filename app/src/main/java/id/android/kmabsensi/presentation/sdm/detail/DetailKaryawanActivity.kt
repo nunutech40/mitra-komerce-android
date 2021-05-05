@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -73,6 +74,7 @@ import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log
 
 class DetailKaryawanActivity : BaseActivity() {
 
@@ -121,12 +123,11 @@ class DetailKaryawanActivity : BaseActivity() {
 
         setupToolbar("Detail SDM")
         initRv()
-
         myDialog = MyDialog(this)
-        karyawan = intent.getParcelableExtra(USER_KEY)!!
+
+        karyawan = intent.getParcelableExtra<User>(USER_KEY)!!
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementSelectedId = karyawan.user_management_id
-
         initSpinners()
         setDataToView(karyawan)
         observeData()
@@ -262,16 +263,18 @@ class DetailKaryawanActivity : BaseActivity() {
         edtEmail.setText(data.email)
         edtNamaLengkap.setText(data.full_name)
         edtNoHp.setText(data.no_hp)
-        edtNoPartner.setText(if (data.no_partners.isNotEmpty()) data.no_partners[0] else "")
+        edtNoPartner.setText(if (!data.no_partners.isNullOrEmpty()) {
+            data.no_partners[0]
+        } else "")
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
 
-        data.partner_assignments.forEach {
+        data.partner_assignments?.forEach {
             partnerSelected.add(
                 Partner(
                     id = it.id,
                     fullName = it.fullName,
-                    partnerDetail = PartnerDetail(noPartner = it.noPartner)
+                    partnerDetail = PartnerDetail(noPartner = it.noPartner!!)
                 )
             )
         }
@@ -382,6 +385,8 @@ class DetailKaryawanActivity : BaseActivity() {
 
     fun disableViews(enabled: Boolean) {
 
+        setVisibilityPartner(enabled)
+
         imgProfile.isEnabled = enabled
 
         edtUsername.isEnabled = enabled
@@ -406,6 +411,14 @@ class DetailKaryawanActivity : BaseActivity() {
         spinnerStatusPernikahan.isEnabled = enabled
 
         populatePartnerSelected(enabled)
+    }
+
+    private fun setVisibilityPartner(enabled: Boolean) {
+        if (!enabled) {
+            ld_layoutParnter.visibility = View.VISIBLE
+        }else{
+            ld_layoutParnter.visibility = View.GONE
+        }
     }
 
     fun initSpinners() {

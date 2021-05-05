@@ -60,8 +60,6 @@ class KelolaDataSdmActivity : BaseActivity() {
         initRv()
         initData()
         setListener()
-
-
     }
 
     private fun setListener() {
@@ -121,7 +119,10 @@ class KelolaDataSdmActivity : BaseActivity() {
                                         selectedUserManajemenLeaderId =
                                             filteredLeaderList[position - 1].id
                                     }
-                                    filterDataSdmByLeader()
+                                    vm.getUserDataWithPagedList(roleId, selectedUserManajemenLeaderId, selectedUserManajemenLeaderId).observe(this@KelolaDataSdmActivity, {
+                                        kelolaSdmAdapter.submitList(it)
+                                    })
+//                                    filterDataSdmByLeader()
                                 }
                             }
                     }
@@ -230,8 +231,8 @@ class KelolaDataSdmActivity : BaseActivity() {
             override fun onClicked(user: User) {
                 startActivityForResult<DetailKaryawanActivity>(
                         121,
-                        USER_KEY to user,
-                        IS_MANAGEMENT_KEY to isManagement
+                        IS_MANAGEMENT_KEY to isManagement,
+                        USER_KEY to user
                 )
             }
         })
