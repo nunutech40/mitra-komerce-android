@@ -636,7 +636,7 @@ interface ApiService {
     ): Single<ListAdvertiserReportSummaryResponse>
 
     @FormUrlEncoded
-    @POST("api/user/listUser")
+    @POST("api/user/pagination")
     fun getUserPerIndex(
         @Query("page")page:Int,
         @Field("role_id") roleId: Int = 0,

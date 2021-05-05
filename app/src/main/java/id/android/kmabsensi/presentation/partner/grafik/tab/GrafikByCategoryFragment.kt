@@ -85,11 +85,12 @@ class GrafikByCategoryFragment : Fragment(), OnChartValueSelectedListener {
 
         //Now add the labels to be added on the vertical axis
         val values = mutableListOf<String>()
-        data.forEach {
-            values.add(it.partnerCategoryName)
+        if (!data.isNullOrEmpty()){
+            data.forEach {
+                values.add(if (!it.partnerCategoryName.isNullOrEmpty()) it.partnerCategoryName else "Tidak diketahui.")
+            }
+            xl.valueFormatter = MyValueFormatter(values)
         }
-        xl.valueFormatter = MyValueFormatter(values)
-
         val yl = chart.axisLeft
         yl.setDrawAxisLine(true)
         yl.setDrawGridLines(true)
@@ -120,7 +121,7 @@ class GrafikByCategoryFragment : Fragment(), OnChartValueSelectedListener {
         val entries = ArrayList<BarEntry>()
         var x = 0f
         data.forEach {
-            entries.add(BarEntry(x, it.total.toFloat()))
+            entries.add(BarEntry(x, it.total!!.toFloat()))
             x += 1
         }
 

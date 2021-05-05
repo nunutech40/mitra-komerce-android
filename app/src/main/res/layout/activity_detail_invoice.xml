@@ -245,6 +245,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Company A"
+                        android:maxWidth="250dp"
+                        android:maxLines="1"
                         app:layout_constraintBaseline_toBaselineOf="@+id/labelPartner"
                         app:layout_constraintEnd_toEndOf="parent" />
 

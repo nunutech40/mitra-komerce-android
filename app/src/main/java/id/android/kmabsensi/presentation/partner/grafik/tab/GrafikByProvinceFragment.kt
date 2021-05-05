@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.partner.grafik.tab
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,9 +51,8 @@ class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         val dashboard : Dashboard? = arguments?.getParcelable(DASHBOARD_DATA_KEY)
         dashboard?.let {
-            setSkillGraph(it.partner_province_statistic)
+            setSkillGraph(it.partner_province_statistic!!)
         }
-
     }
 
     /**
@@ -83,11 +83,13 @@ class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
 
         //Now add the labels to be added on the vertical axis
         val values = mutableListOf<String>()
-        data.forEach {
-            values.add(it.provinceName)
+        if (!data.isNullOrEmpty()){
+            data.forEach {
+                values.add(if (!it.provinceName.isNullOrEmpty()) it.provinceName else "Tidak diketahui.")
+            }
+            xl.valueFormatter = MyValueFormatter(values)
         }
 
-        xl.valueFormatter = MyValueFormatter(values)
 
         val yl = chart.axisLeft
         yl.setDrawAxisLine(true)
@@ -119,7 +121,7 @@ class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
         val entries = ArrayList<BarEntry>()
         var x = 0f
         data.forEach {
-            entries.add(BarEntry(x, it.total.toFloat()))
+            entries.add(BarEntry(x, it.total!!.toFloat()))
             x += 1
         }
 

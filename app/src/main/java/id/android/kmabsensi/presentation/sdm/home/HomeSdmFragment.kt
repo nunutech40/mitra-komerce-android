@@ -376,7 +376,7 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnProductKnowledge.setOnClickListener {
-            activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partners[0].toInt())
+            activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partners!![0].toInt())
         }
 
         btnLaporan.setOnClickListener {

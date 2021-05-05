@@ -26,7 +26,6 @@ import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.sdm.tambahsdm.PartnerSelectedItem
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -238,12 +237,12 @@ class UbahProfileActivity : BaseActivity() {
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
 
-        if (data.no_partners.isEmpty()){
+        if (data.no_partners!!.isEmpty()){
             layoutPartner.gone()
         }
 
-        data.partner_assignments.forEach {
-            partnerSelected.add(Partner(id = it.id, fullName = it.fullName, partnerDetail = PartnerDetail(noPartner = it.noPartner)))
+        data.partner_assignments?.forEach {
+            partnerSelected.add(Partner(id = it.id, fullName = it.fullName!!, partnerDetail = PartnerDetail(noPartner = it.noPartner!!)))
         }
         populatePartnerSelected()
 

@@ -24,7 +24,7 @@ data class Dashboard(
     val total_user: Int,
     val user_kmpoin: Int,
     val total_partner: Int,
-    val partner_province_statistic: List<PartnerProvinceStatistic> = mutableListOf(),
+    val partner_province_statistic: List<PartnerProvinceStatistic>? = mutableListOf(),
     val partner_category_statistic: List<PartnerCategoryStatistic> = mutableListOf(),
     val work_config: List<WorkConfig> = listOf(),
     val holidays: List<Holiday> = listOf()
@@ -33,11 +33,11 @@ data class Dashboard(
 @Parcelize
 data class PartnerProvinceStatistic(
     @SerializedName("province_code")
-    val provinceCode: String = "",
+    val provinceCode: String? = "",
     @SerializedName("province_name")
-    val provinceName: String = "",
+    val provinceName: String? = "",
     @SerializedName("total")
-    val total: String = ""
+    val total: String? = ""
 ):Parcelable
 
 @Parcelize
@@ -45,7 +45,7 @@ data class PartnerCategoryStatistic(
     @SerializedName("partner_category_id")
     val partnerCategoryId: Int = 0,
     @SerializedName("partner_category_name")
-    val partnerCategoryName: String = "",
+    val partnerCategoryName: String? = "",
     @SerializedName("total")
-    val total: String = ""
+    val total: String? = ""
 ):Parcelable
