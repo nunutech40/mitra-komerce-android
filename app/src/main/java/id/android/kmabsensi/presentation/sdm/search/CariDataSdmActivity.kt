@@ -23,7 +23,6 @@ import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_cari_data_sdm.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
-import kotlin.math.log
 
 
 class CariDataSdmActivity : AppCompatActivity() {
@@ -53,6 +52,7 @@ class CariDataSdmActivity : AppCompatActivity() {
         iniSearcView()
         binding.searchView.requestFocus()
         binding.btnSearchSdm.setOnClickListener {
+            layout_empty.gone()
             keyword = binding.searchView.text.toString().toLowerCase()
             if (keyword.isNullOrEmpty()){
                 binding.searchView.error = getString(R.string.text_anda_belum_memasukan_kata_kuncinya)

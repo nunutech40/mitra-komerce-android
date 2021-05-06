@@ -146,11 +146,10 @@ class FilterReportKantorActivity : BaseActivity() {
                         .count() == 1
                 ) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
                 dateFromSelectedString = "$year-$month-$dayOfMonth"
-                setDateToView(dateFromSelectedString)
-                updateStartDate(year, monthOfYear, dayOfMonth)
+                setDateToView(dateFromSelectedString) // set date to view
+                updateStartDate(year, monthOfYear, dayOfMonth) // update first pick date
 
                 endDate.set(year, monthOfYear, dayOfMonth)
-                endDate.add(Calendar.DATE, +7)
                 checkToday(year, monthOfYear, dayOfMonth)
                 val getEndDate = if (endDate.timeInMillis > today.timeInMillis) today else endDate
 
@@ -169,11 +168,11 @@ class FilterReportKantorActivity : BaseActivity() {
                 updateEndDate(year, monthOfYear, dayOfMonth)
             }, endyear, endmonth, endday)
             endDatePick.setTitle(getString(R.string.pilih_tanggal_akhir))
-            endDate.add(Calendar.DATE, -7)
             endDatePick.datePicker.minDate = if (isToday) startDate.timeInMillis else endDate.timeInMillis
-            endDate.add(Calendar.DATE, +7)
+            endDate.add(Calendar.DATE, +6)
             val maxdate = if (endDate.timeInMillis > today.timeInMillis) today.timeInMillis else endDate.timeInMillis
             endDatePick.datePicker.maxDate = maxdate
+            endDatePick.updateDate(startyear, startmonth, startday)
             endDatePick.show()
         }
 

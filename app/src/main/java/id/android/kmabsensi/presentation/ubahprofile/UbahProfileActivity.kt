@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -237,7 +238,7 @@ class UbahProfileActivity : BaseActivity() {
         edtAsalDesa.setText(data.origin_village)
         edtTanggalBergabung.setText(data.join_date)
 
-        if (data.no_partners!!.isEmpty()){
+        if (data.no_partners.isNullOrEmpty()){
             layoutPartner.gone()
         }
 

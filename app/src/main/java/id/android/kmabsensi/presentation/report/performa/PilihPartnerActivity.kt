@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.report.performa
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,8 +66,8 @@ class PilihPartnerActivity : BaseSearchActivity() {
     private fun populateData(partners: List<Partner>){
         groupAdapter.clear()
         partners.forEach {
-            groupAdapter.add(PartnerPickerItem(it){
-                if (isCS){
+            groupAdapter.add(PartnerPickerItem(it) {
+                if (isCS) {
                     startActivity<PerformaActivity>(NO_PARTNER_KEY to it.partnerDetail.noPartner)
                 } else {
                     startActivity<PerformaAdvertiserActivity>(NO_PARTNER_KEY to it.partnerDetail.noPartner)
