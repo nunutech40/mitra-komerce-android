@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.invoice
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,7 +47,7 @@ class HistoryInvoiceFragment : BaseFragment() {
 
     private fun observeData(){
         invoiceVM.invoices.observe(viewLifecycleOwner, Observer { state ->
-            when(state) {
+            when (state) {
                 is UiState.Loading -> {
                     swipeRefresh.isRefreshing = true
                 }
@@ -56,10 +57,15 @@ class HistoryInvoiceFragment : BaseFragment() {
                     val invoices = state.data.invoices
                     if (invoices.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     invoices.forEach {
-                        groupAdapter.add(HistoryInvoiceItem(it){
-                            activity?.startActivity<DetailInvoiceActivity>(
-                                INVOICE_ID_KEY to it.id,
-                                INVOICE_TYPE_KEY to it.invoiceType)
+                        groupAdapter.add(HistoryInvoiceItem(it) {
+                            if (it.userTo != null) {
+                                activity?.startActivity<DetailInvoiceActivity>(
+                                    INVOICE_ID_KEY to it.id,
+                                    INVOICE_TYPE_KEY to it.invoiceType
+                                )
+                            } else {
+                                Toast.makeText(activity, "Data Partner tidak diketahui.", Toast.LENGTH_SHORT).show()
+                            }
                         })
                     }
                 }

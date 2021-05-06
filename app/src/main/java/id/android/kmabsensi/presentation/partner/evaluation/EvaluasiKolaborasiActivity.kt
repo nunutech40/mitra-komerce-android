@@ -2,10 +2,7 @@ package id.android.kmabsensi.presentation.partner.evaluation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -29,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_evaluasi_kolaborasi.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -48,8 +46,6 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
     private val endCalendar = Calendar.getInstance()
     private var startPeriod = ""
     private var endPeriod = ""
-    private var monthFromSelectedLabel = ""
-    private var monthToSelectedLabel = ""
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -90,9 +86,8 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
     }
 
     private fun observeEvaluationCollaborations(){
-        evaluationVM.evaluationCollaborations.observe(this, Observer {
-            state ->
-            when(state) {
+        evaluationVM.evaluationCollaborations.observe(this, Observer { state ->
+            when (state) {
                 is UiState.Loading -> {
                     progressBar.visible()
                 }
@@ -101,8 +96,12 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
                     groupAdapter.clear()
                     if (state.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     for (data in state.data.data) {
-                        groupAdapter.add(EvaluasiKolaborasiItem(data){
-                            startActivity<EvaluationCollaborationDetailActivity>(EVALUATION_KEY to it)
+                        groupAdapter.add(EvaluasiKolaborasiItem(data) {
+                            if (it.leader != null) {
+                                startActivity<EvaluationCollaborationDetailActivity>(EVALUATION_KEY to it)
+                            } else {
+                                toast("Data Leader tidak diketahui.")
+                            }
                         })
                     }
                 }
@@ -122,7 +121,6 @@ class EvaluasiKolaborasiActivity : BaseActivity() {
                     leaders.addAll(it.data.data.filter {
                         it.position_name.toLowerCase().contains("leader")
                     })
-
                 }
                 is UiState.Error -> {
                     Timber.e { it.throwable.message.toString() }

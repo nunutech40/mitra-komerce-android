@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.partner.evaluation.item
 
+import android.util.Log
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
@@ -14,7 +15,13 @@ class EvaluasiKolaborasiItem(
         viewHolder.apply {
             itemView.txtNoPartnerAndName.text =
                 "${evaluationCollaboration.noPartner} - ${evaluationCollaboration.name}"
-            itemView.txtLeaderName.text = evaluationCollaboration.leader.fullName
+            try {
+                itemView.txtLeaderName.text = evaluationCollaboration.leader.fullName
+            }catch (e: Exception){
+                Log.d("_evalCollaboration", "error: ${e.message} - detail data : ${evaluationCollaboration}")
+                itemView.txtLeaderName.text = "Nama tidak diketahui"
+                itemView.alpha = 0.5F
+            }
 
             itemView.setOnClickListener {
                 listener(evaluationCollaboration)
