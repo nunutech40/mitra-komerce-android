@@ -784,13 +784,16 @@ class HomeManagementFragment : Fragment() {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60
                         val second = (millisUntilFinished / 1000) % 60
-
-                        txtCountdown.text = String.format(
-                            FORMAT,
-                            hour,
-                            minute,
-                            second
-                        )
+                        try {
+                            txtCountdown.text = String.format(
+                                FORMAT,
+                                hour,
+                                minute,
+                                second
+                            )
+                        }catch (e: Exception){
+                            Log.d("_txtCountdown", "onTick: ${e.message}")
+                        }
                     }
                 }
 
