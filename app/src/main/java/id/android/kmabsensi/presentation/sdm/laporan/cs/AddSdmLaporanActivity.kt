@@ -22,6 +22,7 @@ import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
+import kotlinx.android.synthetic.main.activity_add_invoice.*
 import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.*
 import kotlinx.android.synthetic.main.activity_add_sdm_laporan.btnSave
@@ -37,6 +38,8 @@ class AddSdmLaporanActivity : BaseActivity() {
 
     private val sdmVM: SdmViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
+
+    private var partners = mutableListOf<Partner>()
 
     private val cal = Calendar.getInstance()
     private var dateSelected: Date? = null
@@ -66,29 +69,8 @@ class AddSdmLaporanActivity : BaseActivity() {
         user = sdmVM.getUserData()
         initViews()
         initListener()
+        setupObserver()
 
-        sdmVM.crudResponse.observe(this, androidx.lifecycle.Observer { state ->
-            when (state) {
-                is UiState.Loading -> {
-                    showDialog()
-                }
-                is UiState.Success -> {
-                    hideDialog()
-                    if (state.data.status) {
-                        val intent = Intent()
-                        intent.putExtra("message", state.data.message)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
-                    } else {
-                        createAlertError(this, "Gagal", state.data.message)
-                    }
-                }
-                is UiState.Error -> {
-                    hideDialog()
-                    createAlertError(this, "Gagal", state.throwable.localizedMessage)
-                }
-            }
-        })
 
         btnSave.setOnClickListener {
             if (!formValidation()) {
@@ -148,6 +130,46 @@ class AddSdmLaporanActivity : BaseActivity() {
                 is UiState.Error -> {
 
                 }
+            }
+        })
+    }
+
+    private fun setupObserver() {
+        sdmVM.crudResponse.observe(this, androidx.lifecycle.Observer { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showDialog()
+                }
+                is UiState.Success -> {
+                    hideDialog()
+                    if (state.data.status) {
+                        val intent = Intent()
+                        intent.putExtra("message", state.data.message)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        createAlertError(this, "Gagal", state.data.message)
+                    }
+                }
+                is UiState.Error -> {
+                    hideDialog()
+                    createAlertError(this, "Gagal", state.throwable.localizedMessage)
+                }
+            }
+        })
+        partnerVM.getDataPartners().observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    edtPilihPartner.isEnabled = false
+                    edtPilihPartner.setHint(getString(R.string.text_loading))
+                    Log.d("_Partner", "LOADING")
+                }
+                is UiState.Success -> {
+                    edtPilihPartner.isEnabled = true
+                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
+                    partners.addAll(it.data.partners)
+                }
+                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
             }
         })
     }
@@ -313,7 +335,9 @@ class AddSdmLaporanActivity : BaseActivity() {
         }
 
         edtPilihPartner.setOnClickListener {
-            startActivityForResult<PartnerPickerActivity>(RC_PICK_PARTNER)
+            startActivityForResult<PartnerPickerActivity>(
+                RC_PICK_PARTNER,
+                "listPartner" to partners)
         }
 
     }

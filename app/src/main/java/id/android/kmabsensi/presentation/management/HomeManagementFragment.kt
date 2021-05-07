@@ -399,7 +399,7 @@ class HomeManagementFragment : Fragment() {
 //            view_menu_partner_category.visibility = View.VISIBLE
         }
 
-        if ( user.position_name.toLowerCase().contains("leader")){
+        if ( user.position_name.toLowerCase().contains(getString(R.string.category_leader))){
             view_menu_shift.visible()
         }
     }

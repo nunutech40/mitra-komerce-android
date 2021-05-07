@@ -54,9 +54,9 @@ class InvoiceActiveFragment : BaseFragment() {
                     myItems.add(getString(R.string.text_gaji_sdm))
                 }
                 ROLE_MANAGEMEMENT ->{
-                    if (user.position_name.toLowerCase().contains("leader")){
+                    if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))){
                         myItems.add(getString(R.string.text_gaji_sdm))
-                    }else if (user.position_name.toLowerCase().contains("accountant")){
+                    }else if (user.position_name.toLowerCase().contains(getString(R.string.category_accountant))){
                         myItems.add(getString(R.string.text_admin))
                     }
                 }
@@ -88,7 +88,7 @@ class InvoiceActiveFragment : BaseFragment() {
         Log.d("asda", user.toString())
         role = getRoleName(user.role_id)
 
-        if (user.position_name.toLowerCase().contains("leader") || user.position_name.toLowerCase().contains("accountant")){
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader)) || user.position_name.toLowerCase().contains(getString(R.string.category_accountant))){
             buttonTambahInvoice.visible()
         } else{
             buttonTambahInvoice.gone()
@@ -105,7 +105,6 @@ class InvoiceActiveFragment : BaseFragment() {
             invoiceVM.getMyInvoice(true)
             val message = data?.getStringExtra("message")
             createAlertSuccess(requireActivity(), message.toString())
-            Log.d("_messagenyaa", "datanya : $message ")
         }
 
         if (requestCode == RC_DETAIL_INVOICE && resultCode == Activity.RESULT_OK){

@@ -108,11 +108,12 @@ class InvoiceActivity : BaseActivity() {
                     editTextLeader?.setText(getString(R.string.text_loading))
                 }
                 is UiState.Success -> {
+                    Log.d("TAGTAGTAG", "observePartners: ${state.data.data}")
                     editTextLeader?.setText(getString(R.string.text_pilih_leader))
                     editTextLeader?.isEnabled = true
                     val userData = ArrayList<User>()
                     state.data.data.forEach {
-                        if (it.position_name != null){
+                        if (it.position_name != null) {
                             userData.add(it)
                         }
                     }
@@ -121,7 +122,14 @@ class InvoiceActivity : BaseActivity() {
                     })
 
                     leaders.forEach {
-                        userSpinnerLeader.add(UserSpinner(it.id, getString(R.string.text_pilih_leader),it.full_name,getString(R.string.text_leader)))
+                        userSpinnerLeader.add(
+                            UserSpinner(
+                                it.id,
+                                getString(R.string.text_pilih_leader),
+                                it.full_name,
+                                getString(R.string.text_leader)
+                            )
+                        )
                     }
                 }
                 is UiState.Error -> {

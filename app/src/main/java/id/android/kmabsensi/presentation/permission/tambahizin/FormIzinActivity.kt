@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -125,6 +126,7 @@ class FormIzinActivity : BaseActivity() {
 
                 }
                 is UiState.Error -> {
+                    Log.d("TAGTAGTAG", "onCreate: ${it.throwable}")
                     myDialog.dismiss()
                 }
             }
