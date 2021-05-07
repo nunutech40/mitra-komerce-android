@@ -169,10 +169,10 @@ class FilterReportKantorActivity : BaseActivity() {
             }, endyear, endmonth, endday)
             endDatePick.setTitle(getString(R.string.pilih_tanggal_akhir))
             endDatePick.datePicker.minDate = if (isToday) startDate.timeInMillis else endDate.timeInMillis
-            endDate.add(Calendar.DATE, +6)
-            val maxdate = if (endDate.timeInMillis > today.timeInMillis) today.timeInMillis else endDate.timeInMillis
+            endDate.add(Calendar.DATE, +6) // set range date from start date
+            val maxdate = if (endDate.timeInMillis > today.timeInMillis) today.timeInMillis else endDate.timeInMillis // validate end date
             endDatePick.datePicker.maxDate = maxdate
-            endDatePick.updateDate(startyear, startmonth, startday)
+            endDatePick.updateDate(startyear, startmonth, startday) // set end date on firts date
             endDatePick.show()
         }
 

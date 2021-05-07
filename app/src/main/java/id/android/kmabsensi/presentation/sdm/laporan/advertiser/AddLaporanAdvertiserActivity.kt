@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.sdm.laporan.advertiser
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -22,7 +23,9 @@ import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
+import kotlinx.android.synthetic.main.activity_add_invoice.*
 import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
+import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.edtPilihPartner
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -31,6 +34,8 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
 
     private val sdmVM: SdmViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
+
+    private var partners = mutableListOf<Partner>()
 
     private val platforms = listOf("FB & IG Ads", "Google Ads", "TikTok Ads")
     private var platformSelected = 0
@@ -133,7 +138,9 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
         }
 
         edtPilihPartner.setOnClickListener {
-            startActivityForResult<PartnerPickerActivity>(RC_PICK_PARTNER)
+            startActivityForResult<PartnerPickerActivity>(
+                RC_PICK_PARTNER,
+                "listPartner" to partners)
         }
 
         btnSave.setOnClickListener {
@@ -206,6 +213,22 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
                 is UiState.Error -> {
                     hideDialog()
                 }
+            }
+        })
+
+        partnerVM.getDataPartners().observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    edtPilihPartner.isEnabled = false
+                    edtPilihPartner.setHint(getString(R.string.text_loading))
+                    Log.d("_Partner", "LOADING")
+                }
+                is UiState.Success -> {
+                    edtPilihPartner.isEnabled = true
+                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
+                    partners.addAll(it.data.partners)
+                }
+                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
             }
         })
 

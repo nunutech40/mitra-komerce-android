@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -358,7 +359,7 @@ class DetailPartnerActivity : BaseActivity() {
         edtNoHp.setText(data.noHp)
         edtNoPartner.setText(data.noPartner)
         edtTanggalBergabung.setText(data.joinDate)
-        edtPerhitunganBonus.setText(if (data.partnerDetail.bonus.isBlank()) "-" else data.partnerDetail.bonus)
+        edtPerhitunganBonus.setText(if (data.partnerDetail.bonus.isNullOrBlank()) "-" else data.partnerDetail.bonus)
 
         data.photoProfileUrl?.let {
             d { it }

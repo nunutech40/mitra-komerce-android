@@ -84,7 +84,7 @@ data class PartnerDetail(
     @SerializedName("city_name")
     val cityName: String = "",
     @SerializedName("bonus")
-    val bonus: String = "",
+    val bonus: String? = "",
     @SerializedName("status")
     val status: Int = 0
 ): Parcelable
