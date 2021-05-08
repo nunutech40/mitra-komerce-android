@@ -19,7 +19,7 @@ data class User(
     val birth_date: String,
     val created_at: String? = "",
     val division_id: Int,
-    val division_name: String,
+    val division_name: String? = "",
     val email: String,
     val full_name: String,
     val gender: Int,
