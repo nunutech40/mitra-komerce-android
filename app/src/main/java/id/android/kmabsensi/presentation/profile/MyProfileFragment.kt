@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.FragmentMyProfileBinding
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.login.LoginActivity
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
@@ -30,19 +31,18 @@ class MyProfileFragment : Fragment() {
     private lateinit var myDialog: MyDialog
 
     lateinit var user: User
-
+    private lateinit var binding : FragmentMyProfileBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
 
-        val view = inflater.inflate(R.layout.fragment_my_profile, container, false)
-
+        binding = FragmentMyProfileBinding.inflate(inflater, container, false)
 
         myDialog = MyDialog(context!!)
 
-        return view
+        return binding.root
     }
 
     companion object {
@@ -56,20 +56,20 @@ class MyProfileFragment : Fragment() {
         user = vm.getUserData()
 
         if (user.role_id == 1) {
-            btnUbahProfile.gone()
-            divider1.gone()
+            binding.btnUbahProfile.gone()
+            binding.divider1.gone()
         }
 
 
-        btnUbahProfile.setOnClickListener {
+        binding.btnUbahProfile.setOnClickListener {
             context?.startActivity<UbahProfileActivity>(USER_KEY to user)
         }
 
-        btnLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             vm.logout()
         }
 
-        btnUbahPassword.setOnClickListener {
+        binding.btnUbahPassword.setOnClickListener {
             context?.startActivity<EditPasswordActivity>(USER_ID_KEY to user.id)
         }
 
@@ -120,18 +120,18 @@ class MyProfileFragment : Fragment() {
         user = vm.getUserData()
 
         if (user.role_id == 1){
-            imgProfile.setImageResource(R.drawable.logo)
+            binding.imgProfile.setImageResource(R.drawable.logo)
         } else {
-            imgProfile.loadCircleImage(
+            binding.imgProfile.loadCircleImage(
                 user.photo_profile_url
                     ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
             )
         }
 
-        textNama.text = user.full_name
-        txtDivisi.text = user.division_name
-        txtPhone.text = user.no_hp
-        txtJabatan.text = user.position_name
+        binding.textNama.text = user.full_name
+        binding.txtDivisi.text = user.division_name
+        binding.txtPhone.text = user.no_hp
+        binding.txtJabatan.text = user.position_name
 
     }
 

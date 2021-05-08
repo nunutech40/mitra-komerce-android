@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import id.android.kmabsensi.R
+import id.android.kmabsensi.databinding.FragmentReportBinding
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.report.PresentasiReportKantorActivity
 import id.android.kmabsensi.utils.*
@@ -21,34 +22,35 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class ReportFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
-
+    private lateinit var binding : FragmentReportBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report, container, false)
+        binding = FragmentReportBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnReportKantor.setOnClickListener {
+        binding.btnReportKantor.setOnClickListener {
             activity?.startActivity<PresentasiReportKantorActivity>(CATEGORY_REPORT_KEY to 0)
         }
 
-        btnReportSdm.setOnClickListener {
+        binding.btnReportSdm.setOnClickListener {
             activity?.startActivity<PresentasiReportKantorActivity>(CATEGORY_REPORT_KEY to 2,
                 IS_MANAGEMENT_KEY to (vm.getUserData().role_id == 2),
                 USER_KEY to vm.getUserData())
         }
 
-        btnReportManajemen.setOnClickListener {
+        binding.btnReportManajemen.setOnClickListener {
             activity?.startActivity<PresentasiReportKantorActivity>(CATEGORY_REPORT_KEY to 1)
         }
 
         if (vm.getUserData().role_id == 2){
-            btnReportManajemen.gone()
+            binding.btnReportManajemen.gone()
         }
 
 

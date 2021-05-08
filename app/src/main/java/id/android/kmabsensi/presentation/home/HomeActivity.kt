@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val vm: HomeViewModel by inject()
 
-    var role: String = ""
+    private var role: String = ""
 
     lateinit var user: User
 
