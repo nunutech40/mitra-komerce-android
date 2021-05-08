@@ -227,8 +227,9 @@ class KelolaDataSdmActivity : BaseActivity() {
     }
 
     fun initRv() {
-        kelolaSdmAdapter = KelolaSdmAdapter(this, object : KelolaSdmAdapter.onAdapterListener{
+        kelolaSdmAdapter = KelolaSdmAdapter(this, object : KelolaSdmAdapter.onAdapterListener {
             override fun onClicked(user: User) {
+                Log.d("TAGTAGTAG", "onClicked: $user")
                 startActivityForResult<DetailKaryawanActivity>(
                         121,
                         IS_MANAGEMENT_KEY to isManagement,
