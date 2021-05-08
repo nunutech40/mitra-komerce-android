@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.android.kmabsensi.R
+import id.android.kmabsensi.databinding.FragmentReportManajemenBinding
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.report.performa.PilihPartnerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
@@ -20,35 +21,36 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ReportManajemenFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
-
+    private lateinit var binding : FragmentReportManajemenBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_manajemen, container, false)
+        binding = FragmentReportManajemenBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val user = vm.getUserData()
-        if (user.position_name.toLowerCase().contains("leader")) {
-            menu_performa.visible()
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
+            binding.menuPerforma.visible()
         }
 
-        btnAbsensi.setOnClickListener {
+        binding.btnAbsensi.setOnClickListener {
             activity?.startActivity<ReportAbsensiActivity>()
         }
 
-        btnPerforma.setOnClickListener {
+        binding.btnPerforma.setOnClickListener {
             activity?.startActivity<PilihPartnerActivity>(
                 USER_ID_KEY to user.id,
                 IS_CS to true
             )
         }
 
-        btnPerformaAdvertiser.setOnClickListener {
+        binding.btnPerformaAdvertiser.setOnClickListener {
             activity?.startActivity<PilihPartnerActivity>(
                 USER_ID_KEY to user.id,
                 IS_CS to false
