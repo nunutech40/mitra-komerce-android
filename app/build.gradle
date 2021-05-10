@@ -18,8 +18,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 41
-        versionName "1.23.0"
+        versionCode 45
+        versionName "1.23.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -41,7 +41,7 @@ android {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra Komerce"
             resConfigs "en", "xxhdpi"
-            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://app.komerce.id/\""
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://appdev.komerce.id/\""
         }
 
     }
