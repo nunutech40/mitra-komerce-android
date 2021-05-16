@@ -76,8 +76,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible"
-            tools:visibility="visible">
+            android:visibility="invisible">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnPerforma"
@@ -104,10 +103,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/menu_advertiser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:visibility="invisible"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView

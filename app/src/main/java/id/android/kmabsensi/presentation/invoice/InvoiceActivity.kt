@@ -118,7 +118,7 @@ class InvoiceActivity : BaseActivity() {
                         }
                     }
                     leaders.addAll(userData.filter {
-                        it.position_name.toLowerCase().contains("leader")
+                        it.position_name.toLowerCase().contains(getString(R.string.category_leader))
                     })
 
                     leaders.forEach {

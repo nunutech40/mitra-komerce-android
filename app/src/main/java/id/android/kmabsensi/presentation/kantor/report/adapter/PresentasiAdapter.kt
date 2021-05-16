@@ -23,25 +23,9 @@ import java.text.SimpleDateFormat
 class PresentasiAdapter(
         private val context: Context
 ): PagedListAdapter<Presence, PresentasiAdapter.ViewHolder>(DIFF_CALLBACK) {
-    private var klik = false
     inner class ViewHolder(val binding: ItemRowReportAbsensiBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(dataPresentasi: Presence) {
             with(binding){
-                itemView.setOnClickListener {
-                    if (!klik){
-                        cardViewCheckin.visible()
-                        cardViewCheckout.visible()
-                        llCheckIn.visible()
-                        linearLayout3.visible()
-                        klik = true
-                    }else{
-                        cardViewCheckin.gone()
-                        cardViewCheckout.gone()
-                        llCheckIn.gone()
-                        linearLayout3.gone()
-                        klik = false
-                    }
-                }
                 txtCheckIn.text = "${dataPresentasi.check_in_datetime.split(" ")[1].substring(0, 5)}"
                 Glide.with(context)
                         .load(dataPresentasi.checkIn_photo_url)

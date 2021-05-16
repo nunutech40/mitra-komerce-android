@@ -38,6 +38,9 @@ class ReportManajemenFragment : Fragment() {
         if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
             binding.menuPerforma.visible()
         }
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader_advertiser))) {
+            binding.menuAdvertiser.visible()
+        }
 
         binding.btnAbsensi.setOnClickListener {
             activity?.startActivity<ReportAbsensiActivity>()
