@@ -10,9 +10,7 @@ import id.android.kmabsensi.databinding.FragmentReportManajemenBinding
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.report.performa.PilihPartnerActivity
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
-import id.android.kmabsensi.utils.IS_CS
-import id.android.kmabsensi.utils.USER_ID_KEY
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.fragment_report_manajemen.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -37,9 +35,11 @@ class ReportManajemenFragment : Fragment() {
         val user = vm.getUserData()
         if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
             binding.menuPerforma.visible()
+            binding.menuAdvertiser.gone()
         }
         if (user.position_name.toLowerCase().contains(getString(R.string.category_leader_advertiser))) {
             binding.menuAdvertiser.visible()
+            binding.menuPerforma.gone()
         }
 
         binding.btnAbsensi.setOnClickListener {
