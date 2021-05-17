@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -85,7 +86,6 @@ class FilterReportKantorActivity : BaseActivity() {
         binding.edtStartDate.setText(dateFrom)
         binding.edtEndDate.setText(dateTo)
         setupListener()
-        setupObserver()
 
         when (categoryReport) {
             0 -> {
@@ -102,7 +102,7 @@ class FilterReportKantorActivity : BaseActivity() {
                 binding.layoutKantorCabang.gone()
                 userResponse?.let {
                     setSpinnerManajemen(it.data.filter {
-                        it.position_name.toLowerCase().contains("leader")
+                        it.position_name.toLowerCase().contains(getString(R.string.category_leader))
                     })
                 } ?: kotlin.run {
                     vm.getUserManagement(2)
@@ -110,6 +110,8 @@ class FilterReportKantorActivity : BaseActivity() {
 
             }
         }
+        setupObserver()
+
     }
 
     private fun getDateStarted(dtFrom: String, dtTo: String) {
@@ -166,6 +168,7 @@ class FilterReportKantorActivity : BaseActivity() {
                 dateToSelectedString = "$year-$month-$dayOfMonth"
                 setEndDateToView(dateToSelectedString)
                 updateEndDate(year, monthOfYear, dayOfMonth)
+                endDate.add(Calendar.DATE, -6)
             }, endyear, endmonth, endday)
             endDatePick.setTitle(getString(R.string.pilih_tanggal_akhir))
             endDatePick.datePicker.minDate = if (isToday) startDate.timeInMillis else endDate.timeInMillis
