@@ -78,8 +78,8 @@ class DetailIzinActivity : BaseActivity() {
             }
 
 
-            imgPersetujuanPartner.loadImageFromUrl(it.attachmentPartnerImgUrl)
-            imgLaporanLeader.loadImageFromUrl(it.attachmentLeaderImgUrl)
+            imgPersetujuanPartner.loadImageFromUrl(it.attachmentPartnerImgUrl!!)
+            imgLaporanLeader.loadImageFromUrl(it.attachmentLeaderImgUrl!!)
 
             btnLihatFotoPersetujuanPartner.setOnClickListener { view ->
                 StfalconImageViewer.Builder<String>(
