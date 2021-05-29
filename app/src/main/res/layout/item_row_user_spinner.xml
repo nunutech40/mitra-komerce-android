@@ -9,9 +9,11 @@
         android:layout_height="wrap_content"
         android:hint="Username"
         android:textSize="@dimen/_16dp"
+        android:textColor="@color/cl_black"
+        android:text=""
+        android:layout_marginStart="@dimen/_10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginVertical="@dimen/_10dp"/>
+        android:layout_marginVertical="@dimen/_12dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

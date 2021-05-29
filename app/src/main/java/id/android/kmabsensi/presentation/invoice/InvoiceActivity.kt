@@ -92,7 +92,12 @@ class InvoiceActivity : BaseActivity() {
                     if (state.data.status) {
                         partners.addAll(state.data.partners)
                         partners.forEach {
-                            userSpinnerPartner.add(UserSpinner(it.id, getString(R.string.pilih_partner), it.fullName, getString(R.string.partner)))
+                            userSpinnerPartner.add(UserSpinner(
+                                it.id,
+                                0,
+                                it.noPartner,
+                                getString(R.string.pilih_partner),
+                                it.fullName, getString(R.string.partner)))
                         }
                     }
                 }
@@ -125,6 +130,8 @@ class InvoiceActivity : BaseActivity() {
                         userSpinnerLeader.add(
                             UserSpinner(
                                 it.id,
+                                1,
+                                it.no_partner,
                                 getString(R.string.text_pilih_leader),
                                 it.full_name,
                                 getString(R.string.text_leader)

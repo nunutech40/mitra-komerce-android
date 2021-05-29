@@ -27,7 +27,11 @@ class SearchableSpinnerAdapter (
         private val binding: ItemRowUserSpinnerBinding
         ): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: UserSpinner) {
-            binding.tvName.setText(user.username)
+            if (user.typeRole == 0){
+                binding.tvName.setText("${user.id} - ${user.username}")
+            }else{
+                binding.tvName.setText("${user.username}")
+            }
             itemView.setOnClickListener { listener.onCLicked(user) }
         }
 
