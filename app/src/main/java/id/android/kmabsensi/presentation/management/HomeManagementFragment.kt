@@ -27,7 +27,10 @@ import com.xwray.groupie.GroupieViewHolder
 import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.response.*
+import id.android.kmabsensi.data.remote.response.Dashboard
+import id.android.kmabsensi.data.remote.response.Holiday
+import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
@@ -47,45 +50,8 @@ import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.activity_presentasi_report_kantor.*
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_management.*
-import kotlinx.android.synthetic.main.fragment_home_management.btnCheckIn
-import kotlinx.android.synthetic.main.fragment_home_management.btnCheckOut
-import kotlinx.android.synthetic.main.fragment_home_management.btnDataPartner
-import kotlinx.android.synthetic.main.fragment_home_management.btnFormIzin
-import kotlinx.android.synthetic.main.fragment_home_management.btnGagalAbsen
-import kotlinx.android.synthetic.main.fragment_home_management.btnInvoice
-import kotlinx.android.synthetic.main.fragment_home_management.btnInvoiceReport
-import kotlinx.android.synthetic.main.fragment_home_management.btnKelolaSdm
-import kotlinx.android.synthetic.main.fragment_home_management.btnScanQr
-import kotlinx.android.synthetic.main.fragment_home_management.containerHome
-import kotlinx.android.synthetic.main.fragment_home_management.dataHadir
-import kotlinx.android.synthetic.main.fragment_home_management.expandableLayout
-import kotlinx.android.synthetic.main.fragment_home_management.header_waktu
-import kotlinx.android.synthetic.main.fragment_home_management.imgProfile
-import kotlinx.android.synthetic.main.fragment_home_management.labelPartner
-import kotlinx.android.synthetic.main.fragment_home_management.labelWaktu
-import kotlinx.android.synthetic.main.fragment_home_management.layoutHoliday
-import kotlinx.android.synthetic.main.fragment_home_management.layoutKmPoint
-import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu1
-import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu2
-import kotlinx.android.synthetic.main.fragment_home_management.layoutMenu3
-import kotlinx.android.synthetic.main.fragment_home_management.rvCoworkingSpace
-import kotlinx.android.synthetic.main.fragment_home_management.sectionPartner
-import kotlinx.android.synthetic.main.fragment_home_management.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_home_management.textView24
-import kotlinx.android.synthetic.main.fragment_home_management.textView26
-import kotlinx.android.synthetic.main.fragment_home_management.txtCountdown
-import kotlinx.android.synthetic.main.fragment_home_management.txtHello
-import kotlinx.android.synthetic.main.fragment_home_management.txtHolidayDate
-import kotlinx.android.synthetic.main.fragment_home_management.txtHolidayName
-import kotlinx.android.synthetic.main.fragment_home_management.txtKmPoin
-import kotlinx.android.synthetic.main.fragment_home_management.txtNextTime
-import kotlinx.android.synthetic.main.fragment_home_management.txtPresent
-import kotlinx.android.synthetic.main.fragment_home_management.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_management.txtStatusWaktu
-import kotlinx.android.synthetic.main.fragment_home_management.txtTotalUser
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.joda.time.LocalDate
@@ -98,22 +64,16 @@ class HomeManagementFragment : Fragment() {
     private val vm: HomeViewModel by sharedViewModel()
     private val roleVM: RoleViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-
     private lateinit var user: User
-
     private lateinit var myDialog: MyDialog
     private val REQ_SCAN_QR = 123
-
     var isCheckinButtonClicked = false
-
     private val FORMAT = "(- %02d:%02d:%02d )"
     private var countDownTimer: CountDownTimer? = null
-
     //for expandable layout
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
     private var dashboard: Dashboard? = null
-
     private var skeletonNextTime: SkeletonScreen? = null
     private var skeletonContdown: SkeletonScreen? = null
     private var skeletonStatusWaktu: SkeletonScreen? = null
@@ -128,13 +88,12 @@ class HomeManagementFragment : Fragment() {
     private var skeletonMenu2: SkeletonScreen? = null
     private var skeletonMenu3: SkeletonScreen? = null
     private var skeletonCoworking: SkeletonScreen? = null
-
     private val cal = Calendar.getInstance()
     private val holidays = mutableListOf<Holiday>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home_management, container, false)
@@ -174,12 +133,12 @@ class HomeManagementFragment : Fragment() {
 
                     val workConfigs = it.data.data.work_config
                     val isWFH =
-                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
                     val isManagementWFH =
-                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
-                            "management",
-                            true
-                        ) ?: false
+                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                                    "management",
+                                    true
+                            ) ?: false
                     setWorkModeUI(isManagementWFH)
 
                     holidays.clear()
@@ -240,14 +199,14 @@ class HomeManagementFragment : Fragment() {
                     skeletonContdown?.hide()
 
                     skeletonNextTime = Skeleton.bind(txtNextTime)
-                        .load(R.layout.skeleton_item_big)
-                        .show()
+                            .load(R.layout.skeleton_item_big)
+                            .show()
                     skeletonContdown = Skeleton.bind(txtCountdown)
-                        .load(R.layout.skeleton_item)
-                        .show()
+                            .load(R.layout.skeleton_item)
+                            .show()
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
-                        .load(R.layout.skeleton_item)
-                        .show()
+                            .load(R.layout.skeleton_item)
+                            .show()
                     if (!swipeRefresh.isRefreshing) {
                     }
                 }
@@ -262,7 +221,7 @@ class HomeManagementFragment : Fragment() {
                             val ashr = data?.ashar
                             setCountdown(dzuhur, ashr)
                         }
-                    } catch (e: Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -278,15 +237,15 @@ class HomeManagementFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     skeletonCoworking = Skeleton.bind(rvCoworkingSpace)
-                        .adapter(groupAdapter)
-                        .load(R.layout.skeleton_list_coworking_space)
-                        .show()
+                            .adapter(groupAdapter)
+                            .load(R.layout.skeleton_list_coworking_space)
+                            .show()
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
                     skeletonCoworking?.hide()
 
-                    if (it.data.status){
+                    if (it.data.status) {
                         it.data.data.forEach {
                             groupAdapter.add(CoworkingSpaceItem(it) { coworking, hasCheckin ->
                                 if (hasCheckin) {
@@ -295,17 +254,17 @@ class HomeManagementFragment : Fragment() {
                                     if (coworking.available_slot > 0) {
                                         if (coworking.cowork_presence.size < 2) {
                                             val intent = Intent(
-                                                context,
-                                                CheckinCoworkingActivity::class.java
+                                                    context,
+                                                    CheckinCoworkingActivity::class.java
                                             ).apply {
                                                 putExtra("coworking", coworking)
                                             }
                                             startActivityForResult(intent, 112)
                                         } else if (coworking.cowork_presence.size >= 2) {
                                             createAlertError(
-                                                activity!!,
-                                                "Gagal",
-                                                "Kamu hanya bisa check in coworking space sebanyak 2 kali"
+                                                    activity!!,
+                                                    "Gagal",
+                                                    "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
                                         }
                                     }
@@ -349,7 +308,7 @@ class HomeManagementFragment : Fragment() {
 
                 }
                 is UiState.Success -> {
-                    if (state.data.status){
+                    if (state.data.status) {
                         val data = state.data.data
                         data[0].menus.find { menu -> menu.name.toLowerCase() == "partner" }?.let {
                             view_menu_data_partner.visible()
@@ -399,7 +358,7 @@ class HomeManagementFragment : Fragment() {
 //            view_menu_partner_category.visibility = View.VISIBLE
         }
 
-        if ( user.position_name.toLowerCase().contains(getString(R.string.category_leader))){
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
             view_menu_shift.visible()
         }
     }
@@ -444,16 +403,16 @@ class HomeManagementFragment : Fragment() {
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.toLowerCase()
-                            .contains("rumah") || isWFH
+                                    .contains("rumah") || isWFH
                     ) {
                         context?.startActivity<CheckinActivity>(
-                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                                PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     } else {
                         context?.startActivity<CekJangkauanActivity>(
-                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                            PRESENCE_ID_KEY to presenceCheck.presence_id
+                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                                PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     }
                 }
@@ -463,11 +422,11 @@ class HomeManagementFragment : Fragment() {
             if (isCheckinButtonClicked) {
                 //checkin
                 if (presenceCheck.office_assigned.office_name.toLowerCase()
-                        .contains("rumah") || isWFH
+                                .contains("rumah") || isWFH
                 ) {
                     context?.startActivity<CheckinActivity>(
-                        DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                        PRESENCE_ID_KEY to 0
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to 0
                     )
                 } else {
                     context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to presenceCheck.office_assigned)
@@ -477,10 +436,10 @@ class HomeManagementFragment : Fragment() {
                 val dialog = MaterialDialog(context!!).show {
                     cornerRadius(16f)
                     customView(
-                        R.layout.dialog_maaf,
-                        scrollable = false,
-                        horizontalPadding = true,
-                        noVerticalPadding = true
+                            R.layout.dialog_maaf,
+                            scrollable = false,
+                            horizontalPadding = true,
+                            noVerticalPadding = true
                     )
                 }
                 val customView = dialog.getCustomView()
@@ -531,44 +490,39 @@ class HomeManagementFragment : Fragment() {
 
         expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
             override fun renderChild(
-                view: View?,
-                model: Dashboard?,
-                parentPosition: Int,
-                childPosition: Int
+                    view: View?,
+                    model: Dashboard?,
+                    parentPosition: Int,
+                    childPosition: Int
             ) {
 //                view?.findViewById<TextView>(R.id.txtJumlahCssr)
 //                    ?.setText(model?.total_cssr.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahCuti)
-                    ?.setText(model?.total_holiday.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahSakit)
-                    ?.setText(model?.total_sick.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahIzin)
-                    ?.setText(model?.total_permission.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)
-                    ?.setText(model?.total_not_yet_present.toString())
-                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)
-                    ?.setText(model?.total_failed_present.toString())
+                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.text = model?.total_holiday.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.text = model?.total_sick.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.text = model?.total_permission.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.text = model?.total_not_yet_present.toString()
+                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.text = model?.total_failed_present.toString()
             }
 
             override fun renderParent(
-                view: View?,
-                model: String?,
-                isExpanded: Boolean,
-                parentPosition: Int
+                    view: View?,
+                    model: String?,
+                    isExpanded: Boolean,
+                    parentPosition: Int
             ) {
                 view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.setText(model)
+                        ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
             }
         })
         expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
         }
 
         expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
         swipeRefresh.setOnRefreshListener {
@@ -593,12 +547,12 @@ class HomeManagementFragment : Fragment() {
         btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 context?.startActivity<KelolaDataSdmActivity>(
-                    IS_MANAGEMENT_KEY to false
+                        IS_MANAGEMENT_KEY to false
                 )
             } else {
                 context?.startActivity<KelolaDataSdmActivity>(
-                    IS_MANAGEMENT_KEY to true,
-                    USER_ID_KEY to user.id
+                        IS_MANAGEMENT_KEY to true,
+                        USER_ID_KEY to user.id
                 )
             }
         }
@@ -634,8 +588,8 @@ class HomeManagementFragment : Fragment() {
                 activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
             } else {
                 activity?.startActivity<ManajemenIzinActivity>(
-                    IS_MANAGEMENT_KEY to true,
-                    USER_ID_KEY to user.id
+                        IS_MANAGEMENT_KEY to true,
+                        USER_ID_KEY to user.id
                 )
             }
         }
@@ -723,8 +677,8 @@ class HomeManagementFragment : Fragment() {
                 else
                     "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
                         localDateFormatter(
-                            dateEnd,
-                            "dd MMM yyyy"
+                                dateEnd,
+                                "dd MMM yyyy"
                         )
                     }"
             }
@@ -743,8 +697,8 @@ class HomeManagementFragment : Fragment() {
         } else {
             labelWaktu.text = "WAKTU"
             val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
-                time_zuhur,
-                time_ashar
+                    time_zuhur,
+                    time_ashar
             )
 
             txtStatusWaktu.visible()
@@ -768,8 +722,8 @@ class HomeManagementFragment : Fragment() {
         header_waktu.setImageResource(header)
 
         imgProfile.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+                user.photo_profile_url
+                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
 
         txtRoleName.text = user.position_name
@@ -786,12 +740,12 @@ class HomeManagementFragment : Fragment() {
                         val second = (millisUntilFinished / 1000) % 60
                         try {
                             txtCountdown.text = String.format(
-                                FORMAT,
-                                hour,
-                                minute,
-                                second
+                                    FORMAT,
+                                    hour,
+                                    minute,
+                                    second
                             )
-                        }catch (e: Exception){
+                        } catch (e: Exception) {
                             Log.d("_txtCountdown", "onTick: ${e.message}")
                         }
                     }
@@ -824,28 +778,28 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonDashboardContent() {
         skeletonKmPoin = Skeleton.bind(layoutKmPoint)
-            .load(R.layout.skeleton_home_box_content)
-            .show()
+                .load(R.layout.skeleton_home_box_content)
+                .show()
 
         skeletonDate = Skeleton.bind(textView24)
-            .load(R.layout.skeleton_item)
-            .show()
+                .load(R.layout.skeleton_item)
+                .show()
 
         skeletonDataHadir = Skeleton.bind(dataHadir)
-            .load(R.layout.skeleton_home_data_hadir)
-            .show()
+                .load(R.layout.skeleton_home_data_hadir)
+                .show()
 
         skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
-            .load(R.layout.skeleton_home_box_content)
-            .show()
+                .load(R.layout.skeleton_home_box_content)
+                .show()
 
         skeletonPartnerLabel = Skeleton.bind(labelPartner)
-            .load(R.layout.skeleton_item)
-            .show()
+                .load(R.layout.skeleton_item)
+                .show()
 
         skeletonPartner = Skeleton.bind(sectionPartner)
-            .load(R.layout.skeleton_home_box_content)
-            .show()
+                .load(R.layout.skeleton_home_box_content)
+                .show()
     }
 
     private fun hideSkeletonDashboardContent() {
@@ -859,20 +813,20 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonMenu() {
         skeletonLabelMenu = Skeleton.bind(textView26)
-            .load(R.layout.skeleton_item)
-            .show()
+                .load(R.layout.skeleton_item)
+                .show()
 
         skeletonMenu1 = Skeleton.bind(layoutMenu1)
-            .load(R.layout.skeleton_home_menu)
-            .show()
+                .load(R.layout.skeleton_home_menu)
+                .show()
 
         skeletonMenu2 = Skeleton.bind(layoutMenu2)
-            .load(R.layout.skeleton_home_menu)
-            .show()
+                .load(R.layout.skeleton_home_menu)
+                .show()
 
         skeletonMenu3 = Skeleton.bind(layoutMenu3)
-            .load(R.layout.skeleton_home_menu)
-            .show()
+                .load(R.layout.skeleton_home_menu)
+                .show()
     }
 
     private fun hideSkeletonMenu() {

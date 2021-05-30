@@ -2,7 +2,6 @@ package id.android.kmabsensi.presentation.invoice
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
@@ -93,11 +92,11 @@ class InvoiceActivity : BaseActivity() {
                         partners.addAll(state.data.partners)
                         partners.forEach {
                             userSpinnerPartner.add(UserSpinner(
-                                it.id,
-                                0,
-                                it.noPartner,
-                                getString(R.string.pilih_partner),
-                                it.fullName, getString(R.string.partner)))
+                                    it.id,
+                                    "${it.noPartner} - ${it.fullName}",
+                                    getString(R.string.pilih_partner),
+                                    it.fullName,
+                                    getString(R.string.partner)))
                         }
                     }
                 }
@@ -113,7 +112,6 @@ class InvoiceActivity : BaseActivity() {
                     editTextLeader?.setText(getString(R.string.text_loading))
                 }
                 is UiState.Success -> {
-                    Log.d("TAGTAGTAG", "observePartners: ${state.data.data}")
                     editTextLeader?.setText(getString(R.string.text_pilih_leader))
                     editTextLeader?.isEnabled = true
                     val userData = ArrayList<User>()
@@ -125,17 +123,15 @@ class InvoiceActivity : BaseActivity() {
                     leaders.addAll(userData.filter {
                         it.position_name.toLowerCase().contains(getString(R.string.category_leader))
                     })
-
                     leaders.forEach {
                         userSpinnerLeader.add(
-                            UserSpinner(
-                                it.id,
-                                1,
-                                it.no_partner,
-                                getString(R.string.text_pilih_leader),
-                                it.full_name,
-                                getString(R.string.text_leader)
-                            )
+                                UserSpinner(
+                                        it.id,
+                                        it.full_name,
+                                        getString(R.string.text_pilih_leader),
+                                        it.full_name,
+                                        getString(R.string.text_leader)
+                                )
                         )
                     }
                 }
@@ -150,7 +146,7 @@ class InvoiceActivity : BaseActivity() {
         if (!::dialogFilter.isInitialized) {
 
             dialogFilter = MaterialDialog(this)
-                .customView(R.layout.dialog_filter_invoice, noVerticalPadding = true)
+                    .customView(R.layout.dialog_filter_invoice, noVerticalPadding = true)
             val customView = dialogFilter.getCustomView()
             val btnClose = customView.findViewById<AppCompatImageView>(R.id.btnClose)
             val spinnerInvoiceType = customView.findViewById<Spinner>(R.id.spinnerInvoiceType)
@@ -163,29 +159,29 @@ class InvoiceActivity : BaseActivity() {
 
             // spinner invoice type
             ArrayAdapter.createFromResource(
-                this,
-                R.array.invoice_type,
-                R.layout.spinner_item
+                    this,
+                    R.array.invoice_type,
+                    R.layout.spinner_item
             ).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinnerInvoiceType.adapter = adapter
 
                 spinnerInvoiceType.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                            override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                            ) {
+                                invoiceType = position
+                            }
 
                         }
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            invoiceType = position
-                        }
-
-                    }
             }
 
             btnClose.setOnClickListener {
@@ -196,15 +192,15 @@ class InvoiceActivity : BaseActivity() {
                 dialogFilter.dismiss()
                 if (pager.currentItem == 0) {
                     activeInvoiceFragment.filterInvoice(
-                        invoiceType,
-                        partnerFilterSelectedId,
-                        leaderIdSelected
+                            invoiceType,
+                            partnerFilterSelectedId,
+                            leaderIdSelected
                     )
                 } else {
                     historyInvoiceFragment.filterInvoice(
-                        invoiceType,
-                        partnerFilterSelectedId,
-                        leaderIdSelected
+                            invoiceType,
+                            partnerFilterSelectedId,
+                            leaderIdSelected
                     )
                 }
             }
@@ -215,26 +211,25 @@ class InvoiceActivity : BaseActivity() {
     private fun setupDialogListener() {
 
         editTextLeader?.setOnClickListener {
-            Log.d("userSpinnerLeader", "data userSpinnerLeader: $userSpinnerLeader")
             startActivity(Intent(this, SearchableSpinnerActivity::class.java)
-                    .putExtra("listUserSpinner", userSpinnerLeader))
+                    .putExtra("listUserSpinner", userSpinnerLeader)
+                    .putExtra("typeRole", 1))
         }
 
         editTextPartner?.setOnClickListener {
-            Log.d("userSpinnerPartner", "data userSpinnerLeader: $userSpinnerPartner")
             startActivity(Intent(this, SearchableSpinnerActivity::class.java)
-                    .putExtra("listUserSpinner", userSpinnerPartner))
+                    .putExtra("listUserSpinner", userSpinnerPartner)
+                    .putExtra("typeRole", 0))
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()){
-            Log.d("filterPartnerName", "filterLeaderName = "+sharedPref.getString(filterLeaderName))
+        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()) {
             editTextLeader?.setText(sharedPref.getString(filterLeaderName))
             leaderIdSelected = sharedPref.getString(filterLeaderId).toInt()
-        }else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()){
-            Log.d("filterPartnerName", "filterPartnerName = "+sharedPref.getString(filterPartnerName))
+        }
+        if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()) {
             editTextPartner?.setText(sharedPref.getString(filterPartnerName))
             partnerFilterSelectedId = sharedPref.getString(filterPartnerId).toInt()
         }
@@ -242,10 +237,10 @@ class InvoiceActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()){
+        if (!sharedPref.getString(filterLeaderId).isNullOrEmpty()) {
             sharedPref.saveString(filterLeaderName, "")
             sharedPref.saveString(filterLeaderId, "")
-        }else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()){
+        } else if (!sharedPref.getString(filterPartnerId).isNullOrEmpty()) {
             sharedPref.saveString(filterPartnerName, "")
             sharedPref.saveString(filterPartnerId, "")
         }
@@ -254,9 +249,9 @@ class InvoiceActivity : BaseActivity() {
 }
 
 class ViewPagerOrderFragmentAdapter(
-    private val fragments: List<Fragment>,
-    fm: FragmentManager,
-    lifecycle: Lifecycle
+        private val fragments: List<Fragment>,
+        fm: FragmentManager,
+        lifecycle: Lifecycle
 ) : FragmentStateAdapter(fm, lifecycle) {
 
     /* because this is static, i think its ok if i hardcode that size */

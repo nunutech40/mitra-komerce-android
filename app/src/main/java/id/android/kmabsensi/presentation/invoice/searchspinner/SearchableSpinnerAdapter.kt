@@ -27,11 +27,12 @@ class SearchableSpinnerAdapter (
         private val binding: ItemRowUserSpinnerBinding
         ): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: UserSpinner) {
-            if (user.typeRole == 0){
-                binding.tvName.setText("${user.id} - ${user.username}")
-            }else{
-                binding.tvName.setText("${user.username}")
-            }
+//            if (user.type.equals("Partner")){
+//                binding.tvName.setText("${user.id} - ${user.username}")
+//            }else{
+//                binding.tvName.setText("${user.username}")
+//            }
+            binding.tvName.setText("${user.showName}")
             itemView.setOnClickListener { listener.onCLicked(user) }
         }
 
@@ -61,7 +62,7 @@ class SearchableSpinnerAdapter (
                 } else {
                     val citiesFiltered = ArrayList<UserSpinner>()
                     for (user in listUser) {
-                        if (user.username.toLowerCase().contains(charSearch.toLowerCase())) {
+                        if (user.showName.toLowerCase().contains(charSearch.toLowerCase())) {
                             citiesFiltered.add(user)
                         }
                     }

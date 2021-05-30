@@ -6,8 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserSpinner(
         val id: Int,
-        val typeRole: Int,
-        val noPartner: String? = "",
+        val showName: String,
         val titlePage: String,
         val username: String,
         val type: String
