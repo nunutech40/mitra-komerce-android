@@ -26,12 +26,27 @@ class EvaluationDetailActivity : BaseActivity() {
             textLeaderName.text = submission.userTarget.fullName
             textEvaluatorName.text = submission.userEvaluator?.fullName
 
-            textQuestion1.spannableQuestionEvaluation(submission.formEvaluationAnswer[0].questionName, submission.formEvaluationAnswer[0].notes)
-            textQuestion2.spannableQuestionEvaluation(submission.formEvaluationAnswer[1].questionName, submission.formEvaluationAnswer[1].notes)
-            textQuestion3.spannableQuestionEvaluation(submission.formEvaluationAnswer[2].questionName, submission.formEvaluationAnswer[2].notes)
-            textAnswer1.text = submission.formEvaluationAnswer[0].answerValue
-            textAnswer2.text = submission.formEvaluationAnswer[1].answerValue
-            textAnswer3.text = submission.formEvaluationAnswer[2].answerValue
+            try {
+                textQuestion1.spannableQuestionEvaluation(submission.formEvaluationAnswer[0].questionName, submission.formEvaluationAnswer[0].notes)
+                textAnswer1.text = submission.formEvaluationAnswer[0].answerValue
+            }catch (e: Exception){
+                textQuestion1.spannableQuestionEvaluation("Tanggapan Anda terhadap kinerja Leader bulan ini?", "-")
+                textAnswer1.text = "-"
+            }
+            try {
+                textQuestion2.spannableQuestionEvaluation(submission.formEvaluationAnswer[1].questionName, submission.formEvaluationAnswer[1].notes)
+                textAnswer2.text = submission.formEvaluationAnswer[1].answerValue
+            }catch (e: Exception){
+                textQuestion2.spannableQuestionEvaluation("Saran Anda terhadap kinerja Leader bulan Depan?", "-")
+                textAnswer2.text = "-"
+            }
+            try {
+                textQuestion3.spannableQuestionEvaluation(submission.formEvaluationAnswer[2].questionName, submission.formEvaluationAnswer[2].notes)
+                textAnswer3.text = submission.formEvaluationAnswer[2].answerValue
+            }catch (e: Exception){
+                textQuestion3.spannableQuestionEvaluation("Penilaian anda bulan ini?", "Skala 1 s.d 100 -")
+                textAnswer3.text = "-"
+            }
         }
 
     }
