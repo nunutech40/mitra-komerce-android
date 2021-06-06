@@ -1,139 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="8dp">
+    android:background="@drawable/bg_white_10dp"
+    android:layout_marginTop="@dimen/_12dp"
+    android:paddingVertical="16dp"
+    android:paddingHorizontal="@dimen/_12dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/txtNamaPemohon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textColor="@color/cl_black"
+        android:textSize="18sp"
+        android:fontFamily="@font/publicsans_regular"
+        app:layout_constraintEnd_toStartOf="@+id/txtStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:fontFamily="@font/publicsans_regular"
+        android:text="@string/chuck_status"
+        android:textColor="@color/cl_yellow"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtNamaPemohon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:background="@color/cl_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamaPemohon" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_alasan_desc"
+        android:weightSum="2">
 
-        <TextView
-            android:id="@+id/txtNamaPemohon"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
-            android:text="Juang Sastra Jingga"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/txtStatus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textDari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dari"
+                android:fontFamily="@font/publicsans_regular"
+                android:textSize="@dimen/_16sp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textColor="@color/cl_grey_dark" />
 
-        <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_status_rejected"
-            android:paddingStart="16dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="4dp"
-            android:text="REQUESTED"
-            android:textColor="@android:color/white"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtNamaPemohon"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/txtDateFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txtDateFrom"
+                android:layout_marginTop="@dimen/_8dp"
+                android:fontFamily="@font/publicsans_regular"
+                android:textSize="@dimen/_16sp"
+                android:textColor="@color/cl_black"/>
 
-        <View
-            android:id="@+id/view2"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:background="#1F000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNamaPemohon" />
-
-
-        <TextView
-            android:id="@+id/textDari"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Dari :"
-            android:textColor="@color/colorOrangeMuda"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view2" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hingga :"
+                android:fontFamily="@font/publicsans_regular"
+                android:textSize="@dimen/_16sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/cl_grey_dark"/>
+            <TextView
+                android:id="@+id/txtDateTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginTop="@dimen/_8dp"
+                android:fontFamily="@font/publicsans_regular"
+                android:textSize="@dimen/_16sp"
+                android:textColor="@color/cl_black" />
+        </LinearLayout>
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtDateFrom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="TextView"
-            android:textColor="@color/black"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textDari"
-            app:layout_constraintStart_toEndOf="@+id/textDari" />
+    <TextView
+        android:id="@+id/tv_alasan_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="@dimen/_16sp"
+        android:fontFamily="@font/publicsans_regular"
+        android:text="@string/text_alasan"
+        android:textColor="@color/cl_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-        <TextView
-            android:id="@+id/txtDateTo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/black"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtDateFrom"
-            app:layout_constraintEnd_toEndOf="@+id/view2" />
+    <TextView
+        android:id="@+id/txtAlasanTidakHadir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:fontFamily="@font/publicsans_regular"
+        android:layout_marginStart="@dimen/_10dp"
+        android:textColor="@color/cl_orange"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/tv_alasan_desc"
+        app:layout_constraintStart_toEndOf="@+id/tv_alasan_desc"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_alasan_desc" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hingga :"
-            android:layout_marginEnd="6dp"
-            android:textColor="@color/colorOrangeMuda"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtDateTo"
-            app:layout_constraintEnd_toStartOf="@+id/txtDateTo" />
-
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Alasan Ketidakhadiran"
-            android:textColor="@color/colorOrangeMuda"
-            app:layout_constraintStart_toStartOf="@+id/textDari"
-            app:layout_constraintTop_toBottomOf="@+id/textDari" />
-
-        <TextView
-            android:id="@+id/txtAlasanTidakHadir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView20"
-            app:layout_constraintEnd_toEndOf="@+id/txtDateTo" />
-
-
-        <!--        <TextView-->
-<!--            android:id="@+id/txtExplanation"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:text="TextView"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/txtStatus"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/txtDate"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/txtNamaPemohon" />-->
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,10 +58,11 @@
     <string name="data_hadir">Data hadir</string>
     <string name="semua_kantor">SEMUA KANTOR</string>
 
-    <string name="ket_belum_waktu_pulang">Belum jam 16.00, belum saatnya pulang nak, sabar..</string>
-    <string name="ket_absen_lebih_awal">Hore datang lebih awal, kami kasih 2 poin KMPoin</string>
-    <string name="ket_absen_tepat_waktu">Hore datang tepat waktu.</string>
-    <string name="ket_absen_telat">Sayang sekali hari ini Kamu telat %1$s, besok diperbaiki ya.</string>
+    <string name="ket_absen_pulang">Kamu berhasil absen pulang.\nTerimakasih untuk hari ini.</string>
+    <string name="ket_belum_waktu_pulang">Belum  waktunya pulang.\nKamu harus tetap semangat!!</string>
+    <string name="ket_absen_lebih_awal">Horee! Berhasil absen lebih awal.\nKamu dapat 2 poin hari ini.</string>
+    <string name="ket_absen_tepat_waktu">Kamu berhasil absen sesuai waktu, \ncoba datang lebih awal agar kamu \nbisa dapat poin.</string>
+    <string name="ket_absen_telat">Kamu berhasil absen tapi \nsayang poinmu harus berkurang. \nYuk besok jangan telat lagi.</string>
     <string name="data_tidak_hadir">Data Tidak Hadir</string>
 
     <string name="notifications_admin_channel_name">Notification Title</string>
@@ -134,7 +135,7 @@
     <string name="edit_laporan">Edit Laporan</string>
     <string name="label_on">ON</string>
     <string name="shift">Shift</string>
-    <string name="ok">ok</string>
+    <string name="ok">Oke</string>
     <string name="platform">Platform</string>
 
     <string-array name="role">
@@ -258,5 +259,36 @@
     <string name="category_leader_advertiser">team lead adv</string>
     <string name="category_leader">team lead</string>
     <string name="category_accountant">accountant</string>
+
+    <string name="kamu_sedang_berada_diluar_jangkauan">Kamu sedang berada diluar jangkauan</string>
+    <string name="sesuaikan_posisi_wajah_dan_senyum_kamu">Sesuaikan posisi wajah \n dan senyum kamu</string>
+    <string name="wajah_dan_senyum_kamu_tidak_terdeteksi">Wajah dan senyum kamu \ntidak terdeteksi</string>
+    <string name="ambil_ulang">Ambil ulang</string>
+    <string name="staff_growth">Staff Growth</string>
+    <string name="kamu_sudah_absen_datang_hari_ini">Kamu sudah absen datang\nhari ini</string>
+    <string name="belum_checkin">Kamu belum absen datang\nhari ini</string>
+    <string name="selesai">Selesai</string>
+    <string name="jenis_dan_keterangan">Jenis dan keterangan</string>
+    <string name="text_keterangan">Keterangan</string>
+    <string name="text_tanggal_tidak_hadir">Tanggal tidak hadir</string>
+    <string name="text_silahkan_unggah_bukti">Silahkan unggah bukti</string>
+    <string name="text_silahkan_unggah_bukti_izin_dengan_pihak_terkait">*Silahkan unggah bukti izin dengan pihak terkait</string>
+    <string name="text_ajukan">Ajukan</string>
+    <string name="text_waktu_datang">Waktu Datang</string>
+    <string name="text_waktu_pulang">Waktu Pulang</string>
+    <string name="text_kehadiran">Kehadiran</string>
+    <string name="text_izin">Izin</string>
+    <string name="text_datang">Datang</string>
+    <string name="text_alasan">Alasan :</string>
+    <string name="text_dari">Dari:</string>
+    <string name="text_riwayat">Riwayat</string>
+    <string name="text_tanggal_harus_isi">Tanggal harus di isi</string>
+    <string name="text_desc_harus_isi">Deskripsi harus di isi</string>
+    <string name="text_ubah_profile">Ubah Profile</string>
+    <string name="text_ketuk_untuk_memilih">ketuk untuk memilih</string>
+    <string name="text_folder">Folder</string>
+    <string name="text_warning">Warning</string>
+    <string name="text_pilih_jenis_kelamin_dahulu">Pilih jenis kelamin dahulu</string>
+    <string name="text_status_pernikahan_dahulu">Pilih status pernikahan dahulu</string>
 
 </resources>

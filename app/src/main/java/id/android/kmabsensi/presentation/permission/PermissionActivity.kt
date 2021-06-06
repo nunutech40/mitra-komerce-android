@@ -69,7 +69,7 @@ class PermissionActivity : BaseActivity() {
                     hideSkeleton()
                     if (it.data.data.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     it.data.data.forEach {
-                        groupAdapter.add(PermissionItem(it) {
+                        groupAdapter.add(PermissionItem(this, it) {
                             startActivity<DetailIzinActivity>(
                                 PERMISSION_DATA_KEY to it,
                                 IS_FROM_MANAJEMEN_IZI to false

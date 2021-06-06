@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
+import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
@@ -64,6 +66,7 @@ class HomeManagementFragment : Fragment() {
     private val vm: HomeViewModel by sharedViewModel()
     private val roleVM: RoleViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
+    private val REQ_FORM_IZIN = 212
     private lateinit var user: User
     private lateinit var myDialog: MyDialog
     private val REQ_SCAN_QR = 123
@@ -100,7 +103,7 @@ class HomeManagementFragment : Fragment() {
 
         user = vm.getUserData()
         d { user.toString() }
-        myDialog = MyDialog(context!!)
+        myDialog = MyDialog(requireContext())
 
         return view
     }
@@ -109,7 +112,23 @@ class HomeManagementFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initRv()
+        setupObserver()
 
+        vm.getJadwalShalat()
+        vm.getCoworkUserData(user.id)
+        getDashboardData()
+        roleVM.getAccessMenuByPosition(user.position_id)
+        textView24.text = getTodayDateTimeDay()
+        if (user.position_name.equals(getString(R.string.staff_growth), true)) {
+            view_menu_data_partner.visibility = View.VISIBLE
+        }
+
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
+            view_menu_shift.visible()
+        }
+    }
+
+    private fun setupObserver() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
@@ -133,12 +152,12 @@ class HomeManagementFragment : Fragment() {
 
                     val workConfigs = it.data.data.work_config
                     val isWFH =
-                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
                     val isManagementWFH =
-                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
-                                    "management",
-                                    true
-                            ) ?: false
+                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                            "management",
+                            true
+                        ) ?: false
                     setWorkModeUI(isManagementWFH)
 
                     holidays.clear()
@@ -179,10 +198,9 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if (it.data.status) {
-                        Log.d("_checkoutResponse", "data response: ${it.data.message}")
                         createAlertSuccess(activity, it.data.message)
                     } else {
-                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                        createAlertError(requireActivity(), getString(R.string.label_gagal), getString(R.string.message_error_occured))
                     }
                 }
                 is UiState.Error -> {
@@ -199,14 +217,14 @@ class HomeManagementFragment : Fragment() {
                     skeletonContdown?.hide()
 
                     skeletonNextTime = Skeleton.bind(txtNextTime)
-                            .load(R.layout.skeleton_item_big)
-                            .show()
+                        .load(R.layout.skeleton_item_big)
+                        .show()
                     skeletonContdown = Skeleton.bind(txtCountdown)
-                            .load(R.layout.skeleton_item)
-                            .show()
+                        .load(R.layout.skeleton_item)
+                        .show()
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
-                            .load(R.layout.skeleton_item)
-                            .show()
+                        .load(R.layout.skeleton_item)
+                        .show()
                     if (!swipeRefresh.isRefreshing) {
                     }
                 }
@@ -237,9 +255,9 @@ class HomeManagementFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     skeletonCoworking = Skeleton.bind(rvCoworkingSpace)
-                            .adapter(groupAdapter)
-                            .load(R.layout.skeleton_list_coworking_space)
-                            .show()
+                        .adapter(groupAdapter)
+                        .load(R.layout.skeleton_list_coworking_space)
+                        .show()
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
@@ -254,17 +272,17 @@ class HomeManagementFragment : Fragment() {
                                     if (coworking.available_slot > 0) {
                                         if (coworking.cowork_presence.size < 2) {
                                             val intent = Intent(
-                                                    context,
-                                                    CheckinCoworkingActivity::class.java
+                                                context,
+                                                CheckinCoworkingActivity::class.java
                                             ).apply {
                                                 putExtra("coworking", coworking)
                                             }
                                             startActivityForResult(intent, 112)
                                         } else if (coworking.cowork_presence.size >= 2) {
                                             createAlertError(
-                                                    activity!!,
-                                                    "Gagal",
-                                                    "Kamu hanya bisa check in coworking space sebanyak 2 kali"
+                                                requireActivity(),
+                                                "Gagal",
+                                                "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
                                         }
                                     }
@@ -291,7 +309,7 @@ class HomeManagementFragment : Fragment() {
                     if (it.data.status) {
                         vm.getCoworkUserData(user.id)
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
 
                 }
@@ -334,10 +352,10 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if (it.data.status) {
-                        showDialogSuccess(activity!!, message = it.data.message)
+                        showDialogSuccess(requireActivity(), message = it.data.message)
                         vm.getDashboardInfo(user.id)
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
                 }
                 is UiState.Error -> {
@@ -346,21 +364,6 @@ class HomeManagementFragment : Fragment() {
             }
         })
 
-
-
-        vm.getJadwalShalat()
-        vm.getCoworkUserData(user.id)
-        getDashboardData()
-        roleVM.getAccessMenuByPosition(user.position_id)
-        textView24.text = getTodayDateTimeDay()
-        if (user.position_name.equals("Staff Growth", true)) {
-            view_menu_data_partner.visibility = View.VISIBLE
-//            view_menu_partner_category.visibility = View.VISIBLE
-        }
-
-        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
-            view_menu_shift.visible()
-        }
     }
 
     private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
@@ -379,13 +382,19 @@ class HomeManagementFragment : Fragment() {
 
         if (presenceCheck.checkdeIn) {
             if (isCheckinButtonClicked) {
-                MaterialDialog(context!!).show {
+                val dialogChecked = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
-                    title(text = "Check-In")
-                    message(text = "Kamu sudah check-in hari ini")
-                    positiveButton(text = "OK") {
-                        it.dismiss()
-                    }
+                    customView(
+                        R.layout.dialog_already_checkin,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
+                    )
+                }
+                val customView = dialogChecked.getCustomView()
+                val btn_oke = customView.findViewById<Button>(R.id.btn_oke)
+                btn_oke.setOnClickListener {
+                    dialogChecked.dismiss()
                 }
             } else {
                 //checkout button clicked and already check in
@@ -403,16 +412,16 @@ class HomeManagementFragment : Fragment() {
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.toLowerCase()
-                                    .contains("rumah") || isWFH
+                            .contains("rumah") || isWFH
                     ) {
                         context?.startActivity<CheckinActivity>(
-                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                                PRESENCE_ID_KEY to presenceCheck.presence_id
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     } else {
                         context?.startActivity<CekJangkauanActivity>(
-                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                                PRESENCE_ID_KEY to presenceCheck.presence_id
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     }
                 }
@@ -422,35 +431,37 @@ class HomeManagementFragment : Fragment() {
             if (isCheckinButtonClicked) {
                 //checkin
                 if (presenceCheck.office_assigned.office_name.toLowerCase()
-                                .contains("rumah") || isWFH
+                        .contains("rumah") || isWFH
                 ) {
                     context?.startActivity<CheckinActivity>(
-                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                            PRESENCE_ID_KEY to 0
+                        DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                        PRESENCE_ID_KEY to 0
                     )
                 } else {
                     context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to presenceCheck.office_assigned)
                 }
             } else {
                 // check in not yet
-                val dialog = MaterialDialog(context!!).show {
+                val dialog = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     customView(
-                            R.layout.dialog_maaf,
-                            scrollable = false,
-                            horizontalPadding = true,
-                            noVerticalPadding = true
+                        R.layout.dialog_retake_foto,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
                     )
                 }
                 val customView = dialog.getCustomView()
-                val close = customView.findViewById<ImageView>(R.id.close)
-                close.setOnClickListener {
+                val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
+                val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
+                btn_retake.text = getString(R.string.ok)
+                txtKeterangan.text = getString(R.string.belum_checkin)
+                btn_retake.setOnClickListener {
                     dialog.dismiss()
                 }
             }
         }
     }
-
 
     private fun setWorkModeUI(isWFH: Boolean) {
         if (isWFH) {
@@ -568,7 +579,9 @@ class HomeManagementFragment : Fragment() {
         }
 
         btnFormIzin.setOnClickListener {
-            context?.startActivity<PermissionActivity>(USER_KEY to user)
+            startActivityForResult(Intent(requireContext(),
+                FormIzinActivity::class.java).putExtra(USER_KEY, user),
+                REQ_FORM_IZIN)
         }
 
         sectionPartner.setOnClickListener {
@@ -722,8 +735,8 @@ class HomeManagementFragment : Fragment() {
         header_waktu.setImageResource(header)
 
         imgProfile.loadCircleImage(
-                user.photo_profile_url
-                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
 
         txtRoleName.text = user.position_name

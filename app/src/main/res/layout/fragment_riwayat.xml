@@ -1,67 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cl_white"
+    android:fitsSystemWindows="true"
     tools:context=".presentation.riwayat.RiwayatFragment">
 
-    <ImageView
-        android:id="@+id/imageView22"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_default"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtProfile"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/avenirltstd_heavy"
-        android:paddingTop="16dp"
-        android:text="Riwayat"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView22"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView22"
-        app:layout_constraintTop_toTopOf="@+id/imageView22" />
+        android:background="@color/cl_white"
+        tools:ignore="MissingConstraints">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView22">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRiwayat"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <RelativeLayout
+                android:id="@+id/relative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp">
 
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/custom_toolbar"
+                    />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_title"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/history"-->
+                <!--                    android:fontFamily="@font/montserrat_medium"-->
+                <!--                    android:textColor="@color/cl_black"-->
+                <!--                    android:textSize="22sp"-->
+                <!--                    android:layout_centerHorizontal="true"-->
+                <!--                    android:layout_marginVertical="@dimen/_24dp"/>-->
+            </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <include
-        android:id="@+id/layout_empty"
-        layout="@layout/layout_empty" />
+        <RadioGroup
+            android:id="@+id/btn_group"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:layout_marginBottom="@dimen/_16dp"
+            android:background="@drawable/bg_white_10dp"
+            android:layout_below="@+id/tv_title"
+            android:padding="@dimen/_10dp"
+            android:orientation="horizontal"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
 
+            <ToggleButton
+                android:id="@+id/btn_kehadiran"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:layout_marginEnd="19dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:textOn="@string/text_kehadiran"
+                android:textOff="@string/text_kehadiran"
+                android:checked="true"
+                android:background="@drawable/bg_button_toggle"
+                />
+            <ToggleButton
+                android:id="@+id/btn_izin"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:textAllCaps="false"
+                android:textOn="@string/text_izin"
+                android:textOff="@string/text_izin"
+                android:background="@drawable/bg_button_toggle"
+                />
+        </RadioGroup>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_history"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_anchorGravity="center"
+        app:navGraph="@navigation/history_navigation"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
