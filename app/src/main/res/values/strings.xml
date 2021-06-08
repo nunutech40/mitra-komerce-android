@@ -258,5 +258,8 @@
     <string name="category_leader_advertiser">team lead adv</string>
     <string name="category_leader">team lead</string>
     <string name="category_accountant">accountant</string>
+    <string name="text_penarikan_poin">Penarikan Poin</string>
+    <string name="text_total_poin">Total Poin:</string>
+    <string name="text_status">Status</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import id.android.kmabsensi.R
+import id.android.kmabsensi.databinding.FragmentPartnerMenuBinding
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.partner.PartnerActivity
@@ -28,47 +29,52 @@ import org.jetbrains.anko.startActivity
  * sementara untuk role admin
  */
 class PartnerMenuFragment : Fragment() {
-
+    private lateinit var binding: FragmentPartnerMenuBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_partner_menu, container, false)
+        binding = FragmentPartnerMenuBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             (parentFragment as HomeAdminFragment).hideGroupMenu()
         }
 
-        btnInvoice.setOnClickListener {
+        binding.btnInvoice.setOnClickListener {
             activity?.startActivity<InvoiceActivity>()
         }
 
-        btnInvoiceReport.setOnClickListener {
+        binding.btnInvoiceReport.setOnClickListener {
             activity?.startActivity<InvoiceReportActivity>()
         }
 
-        btnPartnerCategory.setOnClickListener {
+        binding.btnPartnerCategory.setOnClickListener {
             activity?.startActivity<KategoriPartnerActivity>()
         }
 
-        btnDataPartner.setOnClickListener {
+        binding.btnDataPartner.setOnClickListener {
             activity?.startActivity<PartnerActivity>()
         }
 
-        btnEvaluasi.setOnClickListener {
+        binding.btnEvaluasi.setOnClickListener {
             activity?.startActivity<EvaluasiMenuActivity>()
         }
 
-        btnAdministratif.setOnClickListener {
+        binding.btnAdministratif.setOnClickListener {
             activity?.startActivity<AdministratifActivity>()
         }
 
-        btnPartnerOff.setOnClickListener {
+        binding.btnPartnerOff.setOnClickListener {
             activity?.startActivity<PartnerOffActivity>()
+        }
+
+        binding.btnKmPoin.setOnClickListener {
+
         }
     }
 

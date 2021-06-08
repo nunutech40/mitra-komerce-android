@@ -35,7 +35,14 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.invoice.searchspinner.SearchableSpinnerActivity"></activity>
+        <activity android:name=".presentation.point.penarikan.WithdrawalListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".presentation.invoice.searchspinner.SearchableSpinnerActivity" />
         <activity
             android:name=".presentation.sdm.editpassword.ResetPasswordActivity"
             android:screenOrientation="portrait" />
@@ -277,11 +284,11 @@
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"
