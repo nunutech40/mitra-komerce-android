@@ -8,8 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -74,7 +79,7 @@ class WithdrawalDetailActivity : BaseActivity() {
 
     private fun setupListener() {
         binding.btnSelesai.setOnClickListener {
-
+            showDialogConfirm()
         }
     }
 
@@ -97,6 +102,27 @@ class WithdrawalDetailActivity : BaseActivity() {
                     }
                 }
             })
+        }
+    }
+
+    private fun showDialogConfirm(){
+        val dialog = MaterialDialog(this).show {
+            cornerRadius(16f)
+            customView(
+                    R.layout.dialog_withdrawal_confirm,
+                    scrollable = false,
+                    horizontalPadding = true,
+                    noVerticalPadding = true
+            )
+        }.cancelOnTouchOutside(false)
+        val customView = dialog.getCustomView()
+        val close = customView.findViewById<ImageView>(R.id.close)
+        val btnOke = customView.findViewById<Button>(R.id.btn_ok)
+        btnOke.setOnClickListener {
+            dialog.dismiss()
+        }
+        close.setOnClickListener {
+            dialog.dismiss()
         }
     }
 }
