@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.point.penarikan
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
+import id.android.kmabsensi.presentation.point.detailpenarikan.WithdrawalDetailActivity
 import id.android.kmabsensi.presentation.point.penarikan.adapter.PenarikanItem
 import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.toast
@@ -27,7 +29,6 @@ class WithdrawalListActivity : AppCompatActivity() {
         setupData()
         setupView()
         setupListener()
-        setupList()
         initRv()
     }
 
@@ -37,10 +38,6 @@ class WithdrawalListActivity : AppCompatActivity() {
             layoutManager = linearLayoutManager
             adapter = groupAdapter
         }
-    }
-
-    private fun setupList() {
-
     }
 
     private fun setupData() {
@@ -62,7 +59,7 @@ class WithdrawalListActivity : AppCompatActivity() {
         }
         var date = ""
         dataPenarikan.forEach {
-        var type = 0
+            var type = 0
             if (!date.equals(it.date)) {
                 type = TYPE_HEADER
                 date = it.date!!
@@ -74,7 +71,7 @@ class WithdrawalListActivity : AppCompatActivity() {
         groupAdapter.clear()
         groupDataPenarikan.forEach {
             groupAdapter.add(PenarikanItem(this, it){
-                toast("${it.data.username}")
+                startActivity(Intent(this, WithdrawalDetailActivity::class.java))
             })
         }
     }

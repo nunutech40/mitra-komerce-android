@@ -114,7 +114,6 @@ class FormIzinActivity : BaseActivity() {
                     myDialog.show()
                 }
                 is UiState.Success -> {
-                    Log.d("TAGTAGTAG", "onCreate: ${it.data}")
                     myDialog.dismiss()
                     if (it.data.status) {
                         compressedImagePersetujuanPartner?.delete()
@@ -126,7 +125,6 @@ class FormIzinActivity : BaseActivity() {
 
                 }
                 is UiState.Error -> {
-                    Log.d("TAGTAGTAG", "onCreate: ${it.throwable}")
                     myDialog.dismiss()
                 }
             }

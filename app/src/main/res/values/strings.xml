@@ -261,5 +261,14 @@
     <string name="text_penarikan_poin">Penarikan Poin</string>
     <string name="text_total_poin">Total Poin:</string>
     <string name="text_status">Status</string>
+    <string name="text_selesai">Selesai</string>
+    <string name="text_keterangan">Keterangan:</string>
+    <string name="text_nama_talent">Nama Talent</string>
+    <string name="text_point_didapat">Point Didapat</string>
+    <string name="text_detail_penarikan">Detail Penarikan</string>
+    <string name="text_nama_bank">Nama Bank</string>
+    <string name="text_no_rekening">No. Rekening</string>
+    <string name="text_pemilik_rekening">Pemilik Rekening</string>
+    <string name="text_upload_bukti_transaksi">Upload Bukti Transaksi</string>
 
 </resources>
