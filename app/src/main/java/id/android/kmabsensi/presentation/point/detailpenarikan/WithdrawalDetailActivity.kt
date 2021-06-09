@@ -14,9 +14,12 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
+import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.toast
 
-class WithdrawalDetailActivity : AppCompatActivity() {
+class WithdrawalDetailActivity : BaseActivity() {
 
     private val binding by lazy { ActivityWithdrawalDetailBinding.inflate(layoutInflater) }
     private var selectedPhotoUri: Uri? = null
@@ -28,9 +31,21 @@ class WithdrawalDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setupView()
         setupListener()
         setupRv()
         setupDataDummy()
+    }
+
+    private fun setupView() {
+        if (intent.getIntExtra("typePenarikan", 0) == 0){
+            binding.llKasihTalent.visible()
+            binding.llTarikSaldo.gone()
+        }else{
+            binding.llKasihTalent.gone()
+            binding.llTarikSaldo.visible()
+        }
+        binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
     }
 
     private fun setupDataDummy() {
@@ -68,19 +83,20 @@ class WithdrawalDetailActivity : AppCompatActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null){
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
-            dataArray.add(BuktiTransferModel(idx, bitmap))
-            Log.d("_registration", "Photo was selected, with location :  ${dataArray.size}")
             idx++
-            photoAdapter.clear()
-//            dataArray.res
-            for (index in dataArray.size ..0){
-                Log.d("_registration", "Photo was selected, with location :  ${dataArray.size}")
-                photoAdapter.add(WithDrawalItem(this, dataArray[index-1], object : WithDrawalItem.onCLick{
-                    override fun onRemove(position: Int) {
-                        photoAdapter.removeGroupAtAdapterPosition(position)
+            photoAdapter.add(WithDrawalItem(this, BuktiTransferModel(idx, bitmap), object : WithDrawalItem.onCLick{
+                override fun onRemove(position: Int) {
+                    photoAdapter.removeGroupAtAdapterPosition(position)
+                }
+            }){
+                if (it.id == 0){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        }
                     }
-                }){ })
-            }
+                }
+            })
         }
     }
 }
