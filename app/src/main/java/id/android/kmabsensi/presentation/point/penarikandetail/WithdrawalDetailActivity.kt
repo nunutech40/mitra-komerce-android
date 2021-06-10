@@ -20,7 +20,6 @@ import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
-import okhttp3.internal.notify
 import org.jetbrains.anko.toast
 
 class WithdrawalDetailActivity : BaseActivity() {
@@ -30,7 +29,7 @@ class WithdrawalDetailActivity : BaseActivity() {
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
     var idx: Int = 1
-    val dataArray : MutableList<BuktiTransferModel> = arrayListOf()
+    val dataArray: MutableList<BuktiTransferModel> = arrayListOf()
     private var isReverse = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +42,10 @@ class WithdrawalDetailActivity : BaseActivity() {
     }
 
     private fun setupView() {
-        if (intent.getIntExtra("typePenarikan", 0) == 0){
+        if (intent.getIntExtra("typePenarikan", 0) == 0) {
             binding.llKasihTalent.visible()
             binding.llTarikSaldo.gone()
-        }else{
+        } else {
             binding.llKasihTalent.gone()
             binding.llTarikSaldo.visible()
         }
@@ -97,7 +96,7 @@ class WithdrawalDetailActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
             idx++
@@ -110,7 +109,7 @@ class WithdrawalDetailActivity : BaseActivity() {
             dataArray.add(BuktiTransferModel(idx, bitmap))
 
 //            membalikan posisi data array
-            if (!isReverse){
+            if (!isReverse) {
                 dataArray.reverse()
                 isReverse = true
             }
@@ -119,7 +118,7 @@ class WithdrawalDetailActivity : BaseActivity() {
         }
     }
 
-    private fun showDialogConfirm(){
+    private fun showDialogConfirm() {
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(

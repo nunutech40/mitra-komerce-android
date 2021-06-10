@@ -26,9 +26,9 @@ class ShoppingDetailsActivity : BaseActivity() {
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
     private val shoppingAdapter = GroupAdapter<GroupieViewHolder>()
     var idx: Int = 1
-    val dataPhoto : MutableList<BuktiTransferModel> = arrayListOf()
-    val datatalent : MutableList<TalentModel> = arrayListOf()
-    val dataShopping : MutableList<ShoppingModel> = arrayListOf()
+    val dataPhoto: MutableList<BuktiTransferModel> = arrayListOf()
+    val datatalent: MutableList<TalentModel> = arrayListOf()
+    val dataShopping: MutableList<ShoppingModel> = arrayListOf()
     private var isReverse = false
     private val binding by lazy { ActivityShoppingDetailsBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,13 +44,13 @@ class ShoppingDetailsActivity : BaseActivity() {
     }
 
     private fun dataDummy() {
-        for (index in 0..3){
+        for (index in 0..3) {
             datatalent.add(TalentModel(index, "name $index", "posisi $index"))
-            talentAdapter.add(TalentItem(this, datatalent[index]){ })
+            talentAdapter.add(TalentItem(this, datatalent[index]) { })
         }
-        for (index in 0..4){
+        for (index in 0..4) {
             dataShopping.add(ShoppingModel(index, "tool $index", "$index 000 000"))
-            shoppingAdapter.add(ShoppingItem(this, dataShopping[index]){
+            shoppingAdapter.add(ShoppingItem(this, dataShopping[index]) {
                 toast("move to edit page")
             })
         }
@@ -83,6 +83,9 @@ class ShoppingDetailsActivity : BaseActivity() {
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
         }
+        binding.btnSelesai.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun setuView() {
@@ -113,7 +116,7 @@ class ShoppingDetailsActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
 //            get data photo after take pict
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
@@ -125,7 +128,7 @@ class ShoppingDetailsActivity : BaseActivity() {
             }
             dataPhoto.add(BuktiTransferModel(idx, bitmap))
 //            membalikan posisi data array
-            if (!isReverse){
+            if (!isReverse) {
                 dataPhoto.reverse()
                 isReverse = true
             }

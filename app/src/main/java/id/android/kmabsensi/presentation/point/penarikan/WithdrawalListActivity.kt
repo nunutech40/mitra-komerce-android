@@ -8,15 +8,16 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.point.penarikandetail.WithdrawalDetailActivity
 import id.android.kmabsensi.presentation.point.penarikan.adapter.PenarikanItem
+import id.android.kmabsensi.presentation.point.penarikandetail.WithdrawalDetailActivity
 import id.android.kmabsensi.utils.visible
 
 class WithdrawalListActivity : BaseActivity() {
-    companion object{
+    companion object {
         val TYPE_HEADER = 1
         val TYPE_WITHDRAWAL = 0
     }
+
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private var dataPenarikan: ArrayList<PenarikanModel> = arrayListOf()
     private var groupDataPenarikan: ArrayList<PenarikanMainModel> = arrayListOf()
@@ -40,13 +41,13 @@ class WithdrawalListActivity : BaseActivity() {
     }
 
     private fun setupData() {
-        for (i in 1..6){
+        for (i in 1..6) {
             dataPenarikan.add(PenarikanModel(
-                "name $i",
-                "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                i,
-                "$i",
-                "SELESAI", "10-10-2010"))
+                    "name $i",
+                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
+                    i,
+                    "$i",
+                    "SELESAI", "10-10-2010"))
             dataPenarikan.add(PenarikanModel(
                     "name $i",
                     "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
@@ -54,13 +55,13 @@ class WithdrawalListActivity : BaseActivity() {
                     "$i",
                     "DIAJUKAN", "10-10-2010"))
         }
-        for (i in 1..6){
+        for (i in 1..6) {
             dataPenarikan.add(PenarikanModel(
-                "name $i",
-                "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                i,
-                "$i",
-                "DIAJUKAN", "12-10-2010"))
+                    "name $i",
+                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
+                    i,
+                    "$i",
+                    "DIAJUKAN", "12-10-2010"))
             dataPenarikan.add(PenarikanModel(
                     "name $i",
                     "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
@@ -74,14 +75,14 @@ class WithdrawalListActivity : BaseActivity() {
             if (!date.equals(it.date)) {
                 type = TYPE_HEADER
                 date = it.date!!
-            }else {
+            } else {
                 type = TYPE_WITHDRAWAL
             }
             groupDataPenarikan.add(PenarikanMainModel(type, it))
         }
         groupAdapter.clear()
         groupDataPenarikan.forEach {
-            groupAdapter.add(PenarikanItem(this, it){
+            groupAdapter.add(PenarikanItem(this, it) {
                 var type = 0
                 if (it.data.status!!.toLowerCase().equals("diajukan")) type = 1 else type = 0
 
