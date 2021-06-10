@@ -1,17 +1,15 @@
-package id.android.kmabsensi.presentation.point.detailpenarikan
+package id.android.kmabsensi.presentation.point.penarikandetail
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -22,6 +20,7 @@ import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
+import okhttp3.internal.notify
 import org.jetbrains.anko.toast
 
 class WithdrawalDetailActivity : BaseActivity() {
@@ -31,15 +30,16 @@ class WithdrawalDetailActivity : BaseActivity() {
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
     var idx: Int = 1
-    val dataArray : ArrayList<BuktiTransferModel> = arrayListOf()
-
+    val dataArray : MutableList<BuktiTransferModel> = arrayListOf()
+    private var isReverse = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupView()
         setupListener()
         setupRv()
-        setupDataDummy()
+        dataArray.add(BuktiTransferModel(0, null))
+        setupDataDummy(dataArray)
     }
 
     private fun setupView() {
@@ -53,23 +53,32 @@ class WithdrawalDetailActivity : BaseActivity() {
         binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
     }
 
-    private fun setupDataDummy() {
-        dataArray.add(BuktiTransferModel(0, null))
-        photoAdapter.add(WithDrawalItem(this, dataArray[0], object : WithDrawalItem.onCLick{
-            override fun onRemove(position: Int) {
-                photoAdapter.removeGroupAtAdapterPosition(position)
-            }
-        }){
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+    private fun setupDataDummy(array: MutableList<BuktiTransferModel>) {
+        photoAdapter.clear()
+        array.forEach {
+            Log.d("TAGonRemove", "onRemove: $it")
+            photoAdapter.add(WithDrawalItem(this, it, object : WithDrawalItem.onCLick {
+                override fun onRemove(datanya: BuktiTransferModel, position: Int) {
+                    toast("$position")
+                    photoAdapter.removeGroupAtAdapterPosition(position)
+                    photoAdapter.notifyDataSetChanged()
+                    dataArray.removeAt(position)
+                    setupDataDummy(dataArray)
                 }
-            }
-        })
+            }) {
+                if (it.id == 0) {
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        }
+                    }
+                }
+            })
+        }
     }
 
     private fun setupRv() {
-        val linearLayoutManager = GridLayoutManager(this, 3)
+        val linearLayoutManager = GridLayoutManager(this, 4)
         binding.rvTransfer.apply {
             layoutManager = linearLayoutManager
             adapter = photoAdapter
@@ -81,6 +90,9 @@ class WithdrawalDetailActivity : BaseActivity() {
         binding.btnSelesai.setOnClickListener {
             showDialogConfirm()
         }
+        binding.toolbar.btnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,19 +101,21 @@ class WithdrawalDetailActivity : BaseActivity() {
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
             idx++
-            photoAdapter.add(WithDrawalItem(this, BuktiTransferModel(idx, bitmap), object : WithDrawalItem.onCLick{
-                override fun onRemove(position: Int) {
-                    photoAdapter.removeGroupAtAdapterPosition(position)
-                }
-            }){
-                if (it.id == 0){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                        }
-                    }
-                }
-            })
+
+//            membalikan posisi data array ke normal
+            if (isReverse) {
+                dataArray.reverse()
+                isReverse = false
+            }
+            dataArray.add(BuktiTransferModel(idx, bitmap))
+
+//            membalikan posisi data array
+            if (!isReverse){
+                dataArray.reverse()
+                isReverse = true
+            }
+
+            setupDataDummy(dataArray)
         }
     }
 

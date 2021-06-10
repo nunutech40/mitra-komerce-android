@@ -15,7 +15,7 @@
         android:textSize="@dimen/_14sp"
         android:text="text date"
         android:textColor="@color/cl_black"
-        android:fontFamily="@font/publicsans_regular"
+        android:fontFamily="@font/avenirltstd_medium"
         />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:text="@string/username"
                     android:textColor="@color/cl_black"
                     android:textSize="@dimen/_16sp"
-                    android:fontFamily="@font/publicsans_bold"/>
+                    android:fontFamily="@font/avenirltstd_black"/>
                 <TextView
                     android:id="@+id/tx_no_partner"
                     android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
                     android:textColor="@color/cl_grey_dark"
                     android:textSize="@dimen/_14sp"
                     android:layout_marginTop="@dimen/_2dp"
-                    android:fontFamily="@font/publicsans_regular"
+                    android:fontFamily="@font/avenirltstd_medium"
                     />
             </LinearLayout>
 
@@ -102,7 +102,7 @@
                         android:text="@string/text_total_poin"
                         android:textColor="@color/cl_grey_dark"
                         android:textSize="@dimen/_14sp"
-                        android:fontFamily="@font/publicsans_regular"
+                        android:fontFamily="@font/avenirltstd_medium"
                         />
 
                     <TextView
@@ -114,7 +114,7 @@
                         android:text="0 Point"
                         android:textColor="@color/cl_orange"
                         android:textSize="@dimen/_18sp"
-                        android:fontFamily="@font/publicsans_bold"/>
+                        android:fontFamily="@font/avenirltstd_black"/>
 
                 </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:text="@string/text_status"
                         android:textColor="@color/cl_grey_dark"
                         android:textSize="@dimen/_14sp"
-                        android:fontFamily="@font/publicsans_regular"/>
+                        android:fontFamily="@font/avenirltstd_medium"/>
 
                     <TextView
                         android:id="@+id/tx_status"
@@ -145,7 +145,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/cl_yellow"
                         android:textSize="@dimen/_18sp"
-                        android:fontFamily="@font/publicsans_bold"/>
+                        android:fontFamily="@font/avenirltstd_black"/>
                 </LinearLayout>
             </LinearLayout>
 

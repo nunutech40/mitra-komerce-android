@@ -270,5 +270,13 @@
     <string name="text_no_rekening">No. Rekening</string>
     <string name="text_pemilik_rekening">Pemilik Rekening</string>
     <string name="text_upload_bukti_transaksi">Upload Bukti Transaksi</string>
+    <string name="text_form_belanja">Form Belanja</string>
+    <string name="text_dibuat_oleh">Dibuat oleh:</string>
+    <string name="text_talent">Talent:</string>
+    <string name="text_nama_barang">Nama Barang</string>
+    <string name="text_harga">Harga</string>
+    <string name="text_catatan">Catatan</string>
+    <string name="text_posisi">Posisi</string>
+    <string name="text_detail_belanja">Detail Belanja</string>
 
 </resources>

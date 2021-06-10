@@ -1,7 +1,6 @@
 package id.android.kmabsensi.presentation.point.penarikan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -9,10 +8,9 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.point.detailpenarikan.WithdrawalDetailActivity
+import id.android.kmabsensi.presentation.point.penarikandetail.WithdrawalDetailActivity
 import id.android.kmabsensi.presentation.point.penarikan.adapter.PenarikanItem
 import id.android.kmabsensi.utils.visible
-import org.jetbrains.anko.toast
 
 class WithdrawalListActivity : BaseActivity() {
     companion object{

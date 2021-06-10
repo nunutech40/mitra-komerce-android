@@ -9,7 +9,7 @@
         android:id="@+id/img_photo"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_margin="@dimen/_12dp"
+        android:layout_margin="@dimen/_10dp"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,11 +18,12 @@
 
     <ImageView
         android:id="@+id/btn_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         app:srcCompat="@drawable/ic_close_circle_red"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bg_circle_white"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

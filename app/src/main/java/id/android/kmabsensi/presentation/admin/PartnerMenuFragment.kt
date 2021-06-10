@@ -15,6 +15,8 @@ import id.android.kmabsensi.presentation.partner.administratif.AdministratifActi
 import id.android.kmabsensi.presentation.partner.device.PartnerDeviceActivity
 import id.android.kmabsensi.presentation.partner.kategori.KategoriPartnerActivity
 import id.android.kmabsensi.presentation.partner.partneroff.PartnerOffActivity
+import id.android.kmabsensi.presentation.point.formbelanja.ShoppingCartActivity
+import id.android.kmabsensi.presentation.point.penarikan.WithdrawalListActivity
 import id.android.kmabsensi.presentation.sdm.device.DataDeviceActivity
 import kotlinx.android.synthetic.main.fragment_partner_menu.*
 import kotlinx.android.synthetic.main.fragment_partner_menu.btnDataPartner
@@ -74,7 +76,11 @@ class PartnerMenuFragment : Fragment() {
         }
 
         binding.btnKmPoin.setOnClickListener {
+            activity?.startActivity<WithdrawalListActivity>()
+        }
 
+        binding.btnShopingChart.setOnClickListener {
+            activity?.startActivity<ShoppingCartActivity>()
         }
     }
 

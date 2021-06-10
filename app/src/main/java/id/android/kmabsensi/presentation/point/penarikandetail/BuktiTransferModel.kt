@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.point.detailpenarikan
+package id.android.kmabsensi.presentation.point.penarikandetail
 
 import android.graphics.Bitmap
 
