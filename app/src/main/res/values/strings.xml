@@ -278,5 +278,11 @@
     <string name="text_catatan">Catatan</string>
     <string name="text_posisi">Posisi</string>
     <string name="text_detail_belanja">Detail Belanja</string>
+    <string name="text_edit">Edit</string>
+    <string name="text_batalkan">Batalkan</string>
+    <string name="text_tambah_barang">Tambah Barang</string>
+    <string name="text_daftar_belanja">Daftar Belanja</string>
+    <string name="text_total_belanja">Total Belanja:</string>
+    <string name="text_estimasi_harga">Estimasi harga</string>
 
 </resources>

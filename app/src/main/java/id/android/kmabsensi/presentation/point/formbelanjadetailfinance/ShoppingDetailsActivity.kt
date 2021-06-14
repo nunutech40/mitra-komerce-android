@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.point.formbelanjadetail
+package id.android.kmabsensi.presentation.point.formbelanjadetailfinance
 
 import android.app.Activity
 import android.content.Intent
@@ -13,9 +13,9 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityShoppingDetailsBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.point.formbelanjadetail.adapter.ShoppingItem
-import id.android.kmabsensi.presentation.point.formbelanjadetail.adapter.TalentItem
-import id.android.kmabsensi.presentation.point.formbelanjadetail.adapter.WithDrawalShoppingItem
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter.ShoppingItem
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter.TalentItem
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter.WithDrawalShoppingItem
 import id.android.kmabsensi.presentation.point.penarikandetail.BuktiTransferModel
 import org.jetbrains.anko.toast
 

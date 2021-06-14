@@ -1,10 +1,10 @@
-package id.android.kmabsensi.presentation.point.formbelanjadetail.adapter
+package id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter
 
 import android.content.Context
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
-import id.android.kmabsensi.presentation.point.formbelanjadetail.ShoppingModel
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.ShoppingModel
 import kotlinx.android.synthetic.main.item_row_shopping.view.*
 
 class ShoppingItem(

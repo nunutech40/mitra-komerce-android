@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.point.formbelanjadetail.adapter
+package id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter
 
 import android.content.Context
 import android.util.Log

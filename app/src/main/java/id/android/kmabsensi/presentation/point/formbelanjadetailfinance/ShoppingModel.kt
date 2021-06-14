@@ -1,4 +1,4 @@
-package id.android.kmabsensi.presentation.point.formbelanjadetail
+package id.android.kmabsensi.presentation.point.formbelanjadetailfinance
 
 class ShoppingModel(
         val id: Int,

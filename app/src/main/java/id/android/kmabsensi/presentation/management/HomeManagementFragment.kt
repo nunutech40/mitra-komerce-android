@@ -31,6 +31,7 @@ import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.FragmentHomeManagementBinding
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
@@ -43,6 +44,7 @@ import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
+import id.android.kmabsensi.presentation.point.formbelanja.ShoppingCartActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
@@ -90,26 +92,44 @@ class HomeManagementFragment : Fragment() {
     private var skeletonCoworking: SkeletonScreen? = null
     private val cal = Calendar.getInstance()
     private val holidays = mutableListOf<Holiday>()
+    private lateinit var binding : FragmentHomeManagementBinding
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home_management, container, false)
+        binding = FragmentHomeManagementBinding.inflate(layoutInflater, container, false)
 
         user = vm.getUserData()
+        Log.d("TAGTAGTAG", "onCreateView: $user")
         d { user.toString() }
         myDialog = MyDialog(context!!)
 
-        return view
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         initRv()
+        setupObserver()
 
+        vm.getJadwalShalat()
+        vm.getCoworkUserData(user.id)
+        getDashboardData()
+        roleVM.getAccessMenuByPosition(user.position_id)
+        textView24.text = getTodayDateTimeDay()
+        if (user.position_name.equals("Staff Growth", true)) {
+            view_menu_data_partner.visibility = View.VISIBLE
+        }
+
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
+            view_menu_shift.visible()
+        }
+    }
+
+    private fun setupObserver() {
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
@@ -345,22 +365,6 @@ class HomeManagementFragment : Fragment() {
                 }
             }
         })
-
-
-
-        vm.getJadwalShalat()
-        vm.getCoworkUserData(user.id)
-        getDashboardData()
-        roleVM.getAccessMenuByPosition(user.position_id)
-        textView24.text = getTodayDateTimeDay()
-        if (user.position_name.equals("Staff Growth", true)) {
-            view_menu_data_partner.visibility = View.VISIBLE
-//            view_menu_partner_category.visibility = View.VISIBLE
-        }
-
-        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
-            view_menu_shift.visible()
-        }
     }
 
     private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
@@ -525,7 +529,7 @@ class HomeManagementFragment : Fragment() {
                     ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
             txtTotalUser.text = ""
@@ -544,7 +548,7 @@ class HomeManagementFragment : Fragment() {
         }
 
 
-        btnKelolaSdm.setOnClickListener {
+        binding.btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 context?.startActivity<KelolaDataSdmActivity>(
                         IS_MANAGEMENT_KEY to false
@@ -557,17 +561,17 @@ class HomeManagementFragment : Fragment() {
             }
         }
 
-        btnCheckIn.setOnClickListener {
+        binding.btnCheckIn.setOnClickListener {
             isCheckinButtonClicked = true
             vm.presenceCheck(user.id)
         }
 
-        btnCheckOut.setOnClickListener {
+        binding.btnCheckOut.setOnClickListener {
             isCheckinButtonClicked = false
             vm.presenceCheck(user.id)
         }
 
-        btnFormIzin.setOnClickListener {
+        binding.btnFormIzin.setOnClickListener {
             context?.startActivity<PermissionActivity>(USER_KEY to user)
         }
 
@@ -575,15 +579,15 @@ class HomeManagementFragment : Fragment() {
             activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
         }
 
-        btnEvaluasiSaya.setOnClickListener {
+        binding.btnEvaluasiSaya.setOnClickListener {
             activity?.startActivity<MyEvaluationActivity>()
         }
 
-        btnInvoice.setOnClickListener {
+        binding.btnInvoice.setOnClickListener {
             activity?.startActivity<InvoiceActivity>()
         }
 
-        btnKelolaIzin.setOnClickListener {
+        binding.btnKelolaIzin.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
             } else {
@@ -594,23 +598,23 @@ class HomeManagementFragment : Fragment() {
             }
         }
 
-        btnGagalAbsen.setOnClickListener {
+        binding.btnGagalAbsen.setOnClickListener {
             activity?.startActivity<ReportAbsensiActivity>()
         }
 
-        btnInvoiceReport.setOnClickListener {
+        binding.btnInvoiceReport.setOnClickListener {
             activity?.startActivity<InvoiceReportActivity>()
         }
 
-        btnDataPartner.setOnClickListener {
+        binding.btnDataPartner.setOnClickListener {
             showGroupMenu(1)
         }
 
-        btnSdm.setOnClickListener {
+        binding.btnSdm.setOnClickListener {
             showGroupMenu(0)
         }
 
-        btnShift.setOnClickListener {
+        binding.btnShift.setOnClickListener {
             activity?.startActivity<SdmShiftActivity>()
         }
 
@@ -618,9 +622,13 @@ class HomeManagementFragment : Fragment() {
 //            activity?.startActivity<KategoriPartnerActivity>()
 //        }
 
-        btnScanQr.setOnClickListener {
+        binding.btnScanQr.setOnClickListener {
             val intent = Intent(context, ScanQrActivity::class.java)
             startActivityForResult(intent, REQ_SCAN_QR)
+        }
+
+        binding.btnShopingChart.setOnClickListener {
+            activity?.startActivity<ShoppingCartActivity>("roleId" to 2)
         }
 
     }

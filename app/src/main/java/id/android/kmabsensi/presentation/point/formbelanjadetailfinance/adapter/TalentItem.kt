@@ -1,10 +1,10 @@
-package id.android.kmabsensi.presentation.point.formbelanjadetail.adapter
+package id.android.kmabsensi.presentation.point.formbelanjadetailfinance.adapter
 
 import android.content.Context
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
-import id.android.kmabsensi.presentation.point.formbelanjadetail.TalentModel
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.TalentModel
 import kotlinx.android.synthetic.main.item_row_talent.view.*
 
 class TalentItem(

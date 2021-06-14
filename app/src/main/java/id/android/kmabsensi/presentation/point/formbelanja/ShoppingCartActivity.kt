@@ -9,8 +9,10 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivityShoppingCartBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.point.formbelanja.adapter.FormBelanjaItem
-import id.android.kmabsensi.presentation.point.formbelanjadetail.ShoppingDetailsActivity
+import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity
+import id.android.kmabsensi.presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity
 import id.android.kmabsensi.presentation.point.penarikan.WithdrawalListActivity
+import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 
 class ShoppingCartActivity : BaseActivity() {
@@ -18,6 +20,7 @@ class ShoppingCartActivity : BaseActivity() {
     private var dataBelanja: ArrayList<FormBelanjaModel> = arrayListOf()
     private var groupDataBelanja: ArrayList<FormBelanjaMainModel> = arrayListOf()
     private val binding by lazy { ActivityShoppingCartBinding.inflate(layoutInflater) }
+    private val roleId by lazy { intent.getIntExtra("roleId", 1) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -75,8 +78,11 @@ class ShoppingCartActivity : BaseActivity() {
             groupAdapter.add(FormBelanjaItem(this, it) {
                 var type = 0
                 if (it.data.status!!.toLowerCase().equals("disetujui")) type = 1 else type = 0
-                startActivity(
-                        Intent(this, ShoppingDetailsActivity::class.java))
+                if (roleId == 1){
+                    startActivity(Intent(this, ShoppingDetailsActivity::class.java))
+                }else if (roleId == 2){
+                    startActivity(Intent(this, ShoppingDetailManagementActivity::class.java))
+                }
             })
         }
     }
@@ -90,5 +96,6 @@ class ShoppingCartActivity : BaseActivity() {
     private fun setupView() {
         binding.toolbar.btnSearch.visible()
         binding.toolbar.txtTitle.text = getString(R.string.text_form_belanja)
+        if (roleId == 2) binding.fabAddShoppingList.visible() else binding.fabAddShoppingList.gone()
     }
 }
