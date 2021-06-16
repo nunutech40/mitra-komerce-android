@@ -9,9 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="tools"
-        android:textSize="@dimen/_16sp"
-        android:fontFamily="@font/avenirltstd_black"
-        android:textColor="@color/cl_black"
+        style="@style/tv14sp000000_avenir_medium"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <LinearLayout
@@ -26,9 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="price"
-            android:textSize="@dimen/_16sp"
-            android:fontFamily="@font/avenirltstd_medium"
-            android:textColor="@color/cl_orange"
+            style="@style/tv14spde4d4e_avenir_medium"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/_13dp"
             />

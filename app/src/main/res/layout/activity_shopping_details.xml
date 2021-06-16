@@ -42,10 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10dp"
-                    android:fontFamily="@font/avenirltstd_black"
                     android:text="@string/username"
-                    android:textColor="@color/cl_black"
-                    android:textSize="22sp" />
+                    style="@style/tv22sp000000_avenir_heavy"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_no_partner"
@@ -53,10 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_6dp"
-                    android:fontFamily="@font/avenirltstd_medium"
                     android:text="@string/nomor_partner"
-                    android:textColor="@color/cl_grey_dark"
-                    android:textSize="14sp" />
+                    style="@style/tv12sp7A7B7C_avenir"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,10 +76,8 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
                         android:text="@string/text_dibuat_oleh"
-                        android:textColor="@color/cl_black"
-                        android:textSize="@dimen/_18sp"
+                        style="@style/tv16sp000000_avenir_heavy"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,11 +85,9 @@
                         android:id="@+id/tx_maker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
                         android:maxLines="1"
                         android:text="name"
-                        android:textColor="@color/cl_orange"
-                        android:textSize="@dimen/_18sp"
+                        style="@style/tv16spED6E65_avenir_heavy"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,10 +104,8 @@
                             android:id="@+id/desc_talent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_talent"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,9 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/nama"
-                            android:fontFamily="@font/avenirltstd_medium"
-                            android:textColor="@color/cl_grey_dark"
-                            android:textSize="@dimen/_16sp"
+                            style="@style/tv14sp929292_avenir_medium"
                             android:layout_marginTop="12dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/desc_talent"/>
@@ -134,9 +123,7 @@
                             android:id="@+id/desc_posisi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_medium"
-                            android:textColor="@color/cl_grey_dark"
-                            android:textSize="@dimen/_16sp"
+                            style="@style/tv14sp929292_avenir_medium"
                             android:text="@string/text_posisi"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_name"
@@ -166,10 +153,8 @@
                             android:id="@+id/desc_nama_barang"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_nama_barang"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             android:layout_marginTop="14dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/line_maker" />
@@ -177,10 +162,8 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_harga"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_nama_barang"
                             app:layout_constraintBottom_toBottomOf="@+id/desc_nama_barang"/>
@@ -199,11 +182,9 @@
                             android:id="@+id/desc_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_total"
                             android:layout_marginTop="25dp"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rv_tools" />
 
@@ -211,10 +192,8 @@
                             android:id="@+id/tx_total_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="0"
-                            android:textColor="@color/cl_orange"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16spED6E65_avenir_heavy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_total"
                             app:layout_constraintBottom_toBottomOf="@+id/desc_total"/>
@@ -223,10 +202,8 @@
                             android:id="@+id/desc_notes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenir_black"
                             android:text="@string/text_catatan"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             android:layout_marginTop="40dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tx_total_price" />
@@ -263,10 +240,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="40dp"
-                                android:fontFamily="@font/publicsans_bold"
                                 android:text="@string/text_upload_bukti_transaksi"
-                                android:textColor="@color/cl_black"
-                                android:textSize="@dimen/_18sp"
+                                style="@style/tv16sp000000_avenir_heavy"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -290,10 +265,10 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/bg_orange_10dp"
                     android:elevation="0dp"
-                    android:fontFamily="@font/publicsans_regular"
+                    android:fontFamily="@font/avenir_heavy"
                     android:text="@string/text_selesai"
                     android:textAllCaps="false"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

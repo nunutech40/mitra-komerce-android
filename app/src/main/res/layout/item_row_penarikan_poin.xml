@@ -12,10 +12,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="@dimen/_14sp"
         android:text="text date"
-        android:textColor="@color/cl_black"
-        android:fontFamily="@font/avenirltstd_medium"
+        style="@style/tv12sp000000_avenir_medium"
         />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +29,7 @@
 
         <LinearLayout
             android:id="@+id/ll_profle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@+id/txtStatus"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +43,7 @@
                 android:src="@drawable/my_profile_aktif_button"
                 />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="12dp"
@@ -55,19 +53,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/username"
-                    android:textColor="@color/cl_black"
-                    android:textSize="@dimen/_16sp"
-                    android:fontFamily="@font/avenirltstd_black"/>
-                <TextView
-                    android:id="@+id/tx_no_partner"
-                    android:layout_width="wrap_content"
+                    style="@style/tv14sp000000_avenir_heavy"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/nomor_partner"
-                    android:textColor="@color/cl_grey_dark"
-                    android:textSize="@dimen/_14sp"
-                    android:layout_marginTop="@dimen/_2dp"
-                    android:fontFamily="@font/avenirltstd_medium"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tx_no_partner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/nomor_partner"
+                        android:layout_marginTop="@dimen/_2dp"
+                        style="@style/tv12sp7A7B7C_avenir"
+                        />
+
+                    <TextView
+                        android:id="@+id/tx_no_transaksi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No. shopping-KM1234567"
+                        android:maxLines="1"
+                        android:maxWidth="@dimen/_250sdp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        style="@style/tv14sp929292_avenir"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -100,9 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10dp"
                         android:text="@string/text_total_poin"
-                        android:textColor="@color/cl_grey_dark"
-                        android:textSize="@dimen/_14sp"
-                        android:fontFamily="@font/avenirltstd_medium"
+                        style="@style/tv14sp929292_avenir"
                         />
 
                     <TextView
@@ -112,9 +122,7 @@
                         android:layout_marginTop="@dimen/_6dp"
                         android:paddingVertical="@dimen/_10dp"
                         android:text="0 Point"
-                        android:textColor="@color/cl_orange"
-                        android:textSize="@dimen/_18sp"
-                        android:fontFamily="@font/avenirltstd_black"/>
+                        style="@style/tv16spED6E65_avenir_heavy"/>
 
                 </LinearLayout>
 
@@ -130,9 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/text_status"
-                        android:textColor="@color/cl_grey_dark"
-                        android:textSize="@dimen/_14sp"
-                        android:fontFamily="@font/avenirltstd_medium"/>
+                        style="@style/tv14sp929292_avenir"/>
 
                     <TextView
                         android:id="@+id/tx_status"
@@ -140,11 +146,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_6dp"
                         android:background="@drawable/bg_semi_yellow_5dp"
-                        android:paddingVertical="10dp"
+                        android:paddingVertical="14dp"
                         android:text="DIAJUKAN"
                         android:textAlignment="center"
                         android:textColor="@color/cl_yellow"
-                        android:textSize="@dimen/_18sp"
+                        android:textSize="@dimen/_16sp"
                         android:fontFamily="@font/avenirltstd_black"/>
                 </LinearLayout>
             </LinearLayout>

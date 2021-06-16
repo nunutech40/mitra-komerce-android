@@ -44,10 +44,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10dp"
-                    android:fontFamily="@font/avenirltstd_black"
                     android:text="@string/username"
-                    android:textColor="@color/cl_black"
-                    android:textSize="22sp" />
+                    style="@style/tv22sp000000_avenir_heavy"
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_no_partner"
@@ -55,10 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_6dp"
-                    android:fontFamily="@font/avenirltstd_medium"
                     android:text="@string/nomor_partner"
-                    android:textColor="@color/cl_grey_dark"
-                    android:textSize="14sp" />
+                    style="@style/tv12sp7A7B7C_avenir"/>
             </LinearLayout>
 
             <LinearLayout
@@ -81,22 +78,17 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_medium"
                         android:text="@string/text_keterangan"
-                        android:textColor="@color/cl_black"
-                        android:textSize="@dimen/_18sp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/tv16sp000000_avenir_medium"                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tx_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
                         android:maxLines="1"
                         android:text="tipe"
-                        android:textColor="@color/cl_orange"
-                        android:textSize="@dimen/_18sp"
+                        style="@style/tv16spED6E65_avenir_heavy"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,10 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_12dp"
-                        android:fontFamily="@font/avenirltstd_medium"
                         android:text="@string/text_total_poin"
-                        android:textColor="@color/cl_black"
-                        android:textSize="@dimen/_18sp"
+                        style="@style/tv16sp000000_avenir_medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tx_type" />
 
@@ -117,12 +107,9 @@
                         android:id="@+id/tx_total_poin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
                         android:maxLines="1"
                         android:text="0"
-                        android:textColor="@color/cl_orange"
-                        android:textSize="@dimen/_18sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/desc_total_poin"
+                        style="@style/tv16spED6E65_avenir_heavy"                        app:layout_constraintBottom_toBottomOf="@+id/desc_total_poin"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/desc_total_poin" />
 
@@ -130,7 +117,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/ll_kasih_talent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_24dp"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -141,21 +128,17 @@
                             android:id="@+id/desc_username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_nama_talent"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:maxLines="1"
                             android:text="@string/text_point_didapat"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -174,6 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_24dp"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tx_total_poin">
@@ -182,10 +166,8 @@
                             android:id="@+id/desc_detail_penarikan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_detail_penarikan"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -198,100 +180,54 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/desc_detail_penarikan">
 
-                            <androidx.appcompat.widget.AppCompatTextView
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/avenirltstd_black"
-                                android:text="@string/text_nama_bank"
-                                android:textColor="@color/cl_orange"
-                                android:textSize="16sp" />
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_nama_bank" />
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_name_bank"
+                                style="@style/tv14sp000000_avenir_medium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:boxStrokeColor="@color/cl_grey"
-                                app:boxStrokeWidth="0.5dp">
+                                android:paddingStart="8dp"/>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/et_name_bank"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@color/white"
-                                    android:fontFamily="@font/avenirltstd_medium"
-                                    android:paddingStart="0dp"
-                                    android:maxLines="1"
-                                    android:paddingTop="10dp"
-                                    android:textColor="@color/cl_black"
-                                    android:textSize="16sp" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <androidx.appcompat.widget.AppCompatTextView
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_12dp"
-                                android:fontFamily="@font/avenirltstd_black"
-                                android:text="@string/text_no_rekening"
-                                android:textColor="@color/cl_orange"
-                                android:textSize="16sp" />
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_no_rekening" />
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_no_rek"
+                                style="@style/tv14sp000000_avenir_medium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:boxStrokeColor="@color/cl_grey"
-                                app:boxStrokeWidth="0.5dp">
+                                android:paddingStart="8dp"/>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/et_no_rek"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@color/white"
-                                    android:fontFamily="@font/avenirltstd_medium"
-                                    android:paddingStart="0dp"
-                                    android:maxLines="1"
-                                    android:paddingTop="10dp"
-                                    android:textColor="@color/cl_black"
-                                    android:textSize="16sp" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <androidx.appcompat.widget.AppCompatTextView
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_12dp"
-                                android:fontFamily="@font/avenirltstd_black"
-                                android:text="@string/text_pemilik_rekening"
-                                android:textColor="@color/cl_orange"
-                                android:textSize="16sp" />
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_pemilik_rekening" />
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_rek_owner"
+                                style="@style/tv14sp000000_avenir_medium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:boxStrokeColor="@color/cl_grey"
-                                app:boxStrokeWidth="0.5dp">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/et_rek_owner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@color/white"
-                                    android:fontFamily="@font/avenirltstd_medium"
-                                    android:paddingStart="0dp"
-                                    android:maxLines="1"
-                                    android:paddingTop="10dp"
-                                    android:textColor="@color/cl_black"
-                                    android:textSize="16sp" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
+                                android:paddingStart="8dp"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_32dp"
-                                android:fontFamily="@font/avenirltstd_black"
                                 android:text="@string/text_upload_bukti_transaksi"
-                                android:textColor="@color/cl_black"
-                                android:textSize="@dimen/_18sp"
+                                style="@style/tv16sp000000_avenir_heavy"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -315,10 +251,10 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/bg_orange_10dp"
                     android:elevation="0dp"
-                    android:fontFamily="@font/avenir_regular"
                     android:text="@string/text_selesai"
                     android:textAllCaps="false"
-                    android:textSize="18sp" />
+                    android:fontFamily="@font/avenir_heavy"
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

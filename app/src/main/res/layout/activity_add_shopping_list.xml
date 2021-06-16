@@ -31,53 +31,36 @@
             android:paddingHorizontal="@dimen/_24dp"
             android:paddingTop="@dimen/_18dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView4"
+            <TextView
+                android:id="@+id/labelPilihPartner"
+                style="@style/tv14spf48070_avenir_heavy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/avenirltstd_black"
-                android:text="@string/partner"
-                android:textColor="@color/cl_orange"
-                android:textSize="16sp" />
+                android:layout_marginTop="24dp"
+                android:text="@string/partner" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihPartner"
+                style="@style/tv14sp000000_avenir_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:boxStrokeColor="@color/cl_grey"
-                app:boxStrokeWidth="0.5dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_partner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:fontFamily="@font/avenirltstd_medium"
-                    android:maxLines="1"
-                    android:paddingStart="0dp"
-                    android:paddingTop="15dp"
-                    android:textColor="@color/cl_black"
-                    android:textSize="16sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Silahkan Pilih Partner"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12dp"
-                android:fontFamily="@font/avenirltstd_black"
                 android:text="@string/text_talent"
-                android:textColor="@color/cl_orange"
-                android:textSize="16sp" />
+                style="@style/tv14spf48070_avenir_heavy"/>
 
             <AutoCompleteTextView
-                android:id="@+id/mainTagAutoCompleteTextView"
+                android:id="@+id/autoCompleteTagTalent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/avenirltstd_medium"
-                android:inputType="textCapWords"
-                android:textSize="16sp" />
+                style="@style/tv14sp000000_avenir_medium"/>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -96,17 +79,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12dp"
-                android:fontFamily="@font/avenirltstd_black"
                 android:text="@string/text_daftar_belanja"
-                android:textColor="@color/cl_orange"
-                android:textSize="16sp" />
+                style="@style/tv14spf48070_avenir_heavy" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_form_daftar_belanja"
+            <LinearLayout
+                android:id="@+id/ll_form_tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp" />
-
+                android:orientation="vertical" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -120,11 +100,14 @@
                     android:text="@string/text_tambah_barang"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
+                    android:fontFamily="@font/avenir_heavy"
                     android:paddingHorizontal="@dimen/_20dp"
                     android:background="@drawable/bg_orange_10dp"
                     />
+
 <!--                this used to set space button-->
                 <ImageView
+                    android:id="@+id/show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_trash"
@@ -133,21 +116,14 @@
                     android:visibility="invisible"/>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_form_daftar_belanja_sample"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/desc_notes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/avenirltstd_black"
+                android:fontFamily="@font/avenirltstd_medium"
                 android:text="@string/text_catatan"
-                android:textColor="@color/cl_orange"
-                android:textSize="16sp" />
+                style="@style/tv14spf48070_avenir_heavy" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_notes"
@@ -167,20 +143,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/avenirltstd_black"
                 android:text="@string/text_total_belanja"
-                android:textColor="@color/cl_orange"
-                android:textSize="16sp" />
+                style="@style/tv14spf48070_avenir_heavy"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tx_total_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/avenirltstd_black"
                 android:text="@string/text_total_belanja"
-                android:textColor="@color/cl_orange"
-                android:textSize="22sp" />
+                style="@style/tv18spDE4D4E_avenir_heavy"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

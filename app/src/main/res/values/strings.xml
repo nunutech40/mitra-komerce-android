@@ -284,5 +284,9 @@
     <string name="text_daftar_belanja">Daftar Belanja</string>
     <string name="text_total_belanja">Total Belanja:</string>
     <string name="text_estimasi_harga">Estimasi harga</string>
+    <string name="text_konfirmasi_pembatalan_npengajuan">Konfirmasi pembatalan \n pengajuan.</string>
+    <string name="text_tidak">Tidak</string>
+    <string name="text_ya">Ya</string>
+    <string name="text_mohon_lakukan_pembayaran_dalam_waktu">Mohon lakukan pembayaran dalam waktu :</string>
 
 </resources>

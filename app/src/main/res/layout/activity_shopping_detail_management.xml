@@ -43,10 +43,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10dp"
-                    android:fontFamily="@font/avenirltstd_black"
                     android:text="@string/username"
-                    android:textColor="@color/cl_black"
-                    android:textSize="22sp" />
+                    style="@style/tv22sp000000_avenir_heavy"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_no_partner"
@@ -56,8 +55,7 @@
                     android:layout_marginTop="@dimen/_6dp"
                     android:fontFamily="@font/avenirltstd_medium"
                     android:text="@string/nomor_partner"
-                    android:textColor="@color/cl_grey_dark"
-                    android:textSize="14sp" />
+                    style="@style/tv12sp7A7B7C_avenir"/>
             </LinearLayout>
 
             <LinearLayout
@@ -73,49 +71,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tx_no_transaksi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. shopping-KM1234567"
+                    style="@style/tv14sp000000_avenir_medium"
+                    />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="1dp"
+                    android:background="@color/cl_grey_2"
+                    android:layout_marginVertical="@dimen/_14dp"/>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
-                        android:text="@string/text_dibuat_oleh"
-                        android:textColor="@color/cl_black"
-                        android:textSize="@dimen/_18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tx_maker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_black"
-                        android:maxLines="1"
-                        android:text="name"
-                        android:textColor="@color/cl_orange"
-                        android:textSize="@dimen/_18sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/ll_tarik_saldo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_20dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tx_maker">
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/desc_talent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_talent"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,9 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/nama"
-                            android:fontFamily="@font/avenirltstd_medium"
-                            android:textColor="@color/cl_grey_dark"
-                            android:textSize="@dimen/_16sp"
+                            style="@style/tv14sp929292_avenir"
                             android:layout_marginTop="12dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/desc_talent"/>
@@ -135,9 +116,7 @@
                             android:id="@+id/desc_posisi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_medium"
-                            android:textColor="@color/cl_grey_dark"
-                            android:textSize="@dimen/_16sp"
+                            style="@style/tv14sp929292_avenir"
                             android:text="@string/text_posisi"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_name"
@@ -167,10 +146,8 @@
                             android:id="@+id/desc_nama_barang"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_nama_barang"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             android:layout_marginTop="14dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/line_maker" />
@@ -178,10 +155,8 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_harga"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16sp000000_avenir_heavy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_nama_barang"
                             app:layout_constraintBottom_toBottomOf="@+id/desc_nama_barang"/>
@@ -200,22 +175,17 @@
                             android:id="@+id/desc_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="@string/text_total"
                             android:layout_marginTop="25dp"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/tv16sp000000_avenir_heavy"                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rv_tools" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tx_total_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirltstd_black"
                             android:text="0"
-                            android:textColor="@color/cl_orange"
-                            android:textSize="@dimen/_18sp"
+                            style="@style/tv16spED6E65_avenir_heavy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/desc_total"
                             app:layout_constraintBottom_toBottomOf="@+id/desc_total"/>
@@ -224,11 +194,8 @@
                             android:id="@+id/desc_notes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenir_black"
                             android:text="@string/text_catatan"
-                            android:textColor="@color/cl_black"
-                            android:textSize="@dimen/_18sp"
-                            android:layout_marginTop="40dp"
+                            style="@style/tv16sp000000_avenir_heavy"                            android:layout_marginTop="40dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tx_total_price" />
 
@@ -264,9 +231,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/text_status"
-                                android:fontFamily="@font/avenirltstd_medium"
-                                android:textColor="@color/cl_grey_dark"
-                                android:textSize="@dimen/_14sp"/>
+                                style="@style/tv12sp929292_avenir"/>
 
                             <TextView
                                 android:id="@+id/tx_status"
@@ -279,14 +244,12 @@
                                 android:paddingHorizontal="20dp"
                                 android:textAlignment="center"
                                 android:textColor="@color/cl_yellow"
-                                android:textSize="@dimen/_18sp"
-                                android:fontFamily="@font/avenirltstd_black"/>
+                                android:textSize="@dimen/_12sp"
+                                android:fontFamily="@font/avenir_heavy"/>
 
                         </LinearLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -302,10 +265,10 @@
                         android:layout_marginTop="40dp"
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/bg_white_stroke_5dp"
-                        android:fontFamily="@font/publicsans_regular"
+                        android:fontFamily="@font/avenir_medium"
                         android:text="@string/text_edit"
                         android:textAllCaps="false"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:layout_marginEnd="10dp"/>
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -316,10 +279,10 @@
                         android:layout_marginTop="40dp"
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/bg_white_stroke_5dp"
-                        android:fontFamily="@font/publicsans_regular"
+                        android:fontFamily="@font/avenir_medium"
                         android:text="@string/text_batalkan"
                         android:textAllCaps="false"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:layout_marginStart="@dimen/_10dp"/>
 
                 </LinearLayout>

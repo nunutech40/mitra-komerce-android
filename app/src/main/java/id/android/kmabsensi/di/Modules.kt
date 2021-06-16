@@ -28,6 +28,7 @@ import id.android.kmabsensi.presentation.myevaluation.EvaluationViewModel
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
+import id.android.kmabsensi.presentation.point.tambahdaftarbelanja.AddShoppingViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -122,6 +123,7 @@ val viewModelModule = module {
     viewModel { HolidayViewModel(get(), get()) }
     viewModel { SdmViewModel(get(), get(), get()) }
     viewModel { UserConfigurationViewModel(get(), get(), get()) }
+    viewModel { AddShoppingViewModel(get(), get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

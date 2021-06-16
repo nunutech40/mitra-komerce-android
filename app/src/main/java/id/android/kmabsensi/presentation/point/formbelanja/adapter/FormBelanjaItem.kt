@@ -26,6 +26,7 @@ class FormBelanjaItem(
                 itemView.tx_date.gone()
             }
             data.data.apply {
+                itemView.tx_no_transaksi.gone()
                 itemView.tx_username.text = this.username
                 itemView.tx_no_partner.text = "No. Partner: ${this.username}"
                 itemView.tx_total_poin.text = "${this.total_poin} Poin"

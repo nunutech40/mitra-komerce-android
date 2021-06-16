@@ -38,12 +38,19 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.point.tambahdaftarbelanja.AddShoppingListActivity">
+        <activity android:name=".presentation.point.detailinvoice.DetailInvoiceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".presentation.point.tambahdaftarbelanja.AddShoppingListActivity" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity" />
         <activity android:name=".presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity" />

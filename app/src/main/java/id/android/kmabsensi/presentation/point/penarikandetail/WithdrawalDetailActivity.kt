@@ -28,8 +28,8 @@ class WithdrawalDetailActivity : BaseActivity() {
     private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
-    var idx: Int = 1
-    val dataArray: MutableList<BuktiTransferModel> = arrayListOf()
+    private var idx: Int = 1
+    private val dataArray: MutableList<BuktiTransferModel> = arrayListOf()
     private var isReverse = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

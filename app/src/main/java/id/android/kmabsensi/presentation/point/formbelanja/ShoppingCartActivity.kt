@@ -12,8 +12,10 @@ import id.android.kmabsensi.presentation.point.formbelanja.adapter.FormBelanjaIt
 import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity
 import id.android.kmabsensi.presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity
 import id.android.kmabsensi.presentation.point.penarikan.WithdrawalListActivity
+import id.android.kmabsensi.presentation.point.tambahdaftarbelanja.AddShoppingListActivity
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
+import org.jetbrains.anko.startActivity
 
 class ShoppingCartActivity : BaseActivity() {
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
@@ -78,9 +80,9 @@ class ShoppingCartActivity : BaseActivity() {
             groupAdapter.add(FormBelanjaItem(this, it) {
                 var type = 0
                 if (it.data.status!!.toLowerCase().equals("disetujui")) type = 1 else type = 0
-                if (roleId == 1){
+                if (roleId == 1) {
                     startActivity(Intent(this, ShoppingDetailsActivity::class.java))
-                }else if (roleId == 2){
+                } else if (roleId == 2) {
                     startActivity(Intent(this, ShoppingDetailManagementActivity::class.java))
                 }
             })
@@ -90,6 +92,9 @@ class ShoppingCartActivity : BaseActivity() {
     private fun setupListener() {
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
+        }
+        binding.fabAddShoppingList.setOnClickListener {
+            startActivity<AddShoppingListActivity>()
         }
     }
 
