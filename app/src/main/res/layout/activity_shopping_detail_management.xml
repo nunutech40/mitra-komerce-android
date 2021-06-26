@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_white"
-    tools:context=".presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity">
+    tools:context=".presentation.point.formbelanjadetailleader.ShoppingDetailLeaderActivity">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_32dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_profile"
@@ -39,23 +40,22 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_username"
+                    style="@style/tv22sp000000_avenir_heavy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10dp"
-                    android:text="@string/username"
-                    style="@style/tv22sp000000_avenir_heavy"
-                    />
+                    android:text="@string/username" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_no_partner"
+                    style="@style/tv12sp7A7B7C_avenir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_6dp"
                     android:fontFamily="@font/avenirltstd_medium"
-                    android:text="@string/nomor_partner"
-                    style="@style/tv12sp7A7B7C_avenir"/>
+                    android:text="@string/nomor_partner" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,183 +73,182 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_no_transaksi"
+                    style="@style/tv14sp000000_avenir_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No. shopping-KM1234567"
-                    style="@style/tv14sp000000_avenir_medium"
-                    />
+                    android:text="No. " />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/cl_grey_2"
-                    android:layout_marginVertical="@dimen/_14dp"/>
+                    android:layout_marginVertical="@dimen/_14dp"
+                    android:background="@color/cl_grey_2" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/ll_tarik_saldo"
+                    android:id="@+id/ll_tarik_saldo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_talent"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_talent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_name"
+                        style="@style/tv14sp929292_avenir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/nama"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desc_talent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_posisi"
+                        style="@style/tv14sp929292_avenir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_posisi"
+                        app:layout_constraintBottom_toBottomOf="@+id/desc_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/desc_name" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_talent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_marginTop="@dimen/_12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desc_name" />
+
+                    <View
+                        android:id="@+id/line_maker"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@color/cl_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/linearLayout6"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_talent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_nama_barang"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/text_nama_barang"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/line_maker" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_harga"
+                        app:layout_constraintBottom_toBottomOf="@+id/desc_nama_barang"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/desc_nama_barang" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_tools"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desc_nama_barang" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_total"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:text="@string/text_total"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_tools" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tx_total_price"
+                        style="@style/tv16spED6E65_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        app:layout_constraintBottom_toBottomOf="@+id/desc_total"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/desc_total" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_notes"
+                        style="@style/tv16sp000000_avenir_heavy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/text_catatan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tx_total_price" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_notes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@drawable/bg_grey_5dp"
+                        android:ems="10"
+                        android:fontFamily="@font/avenirltstd_medium"
+                        android:gravity="top|left"
+                        android:minLines="3"
+                        android:padding="@dimen/_10dp"
+                        android:textColor="@color/cl_black"
+                        android:textSize="@dimen/_18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/desc_notes" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/et_notes">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_talent"
+                            style="@style/tv12sp929292_avenir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/text_talent"
-                            style="@style/tv16sp000000_avenir_heavy"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:text="@string/text_status" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_name"
+                        <TextView
+                            android:id="@+id/tx_status"
+                            style="@style/tv12sp929292_avenir_heavy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/nama"
-                            style="@style/tv14sp929292_avenir"
-                            android:layout_marginTop="12dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/desc_talent"/>
+                            android:layout_marginTop="@dimen/_6dp"
+                            android:background="@drawable/bg_semi_yellow_5dp"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="10dp"
+                            android:text="DIAJUKAN"
+                            android:textAlignment="center"
+                            android:textColor="@color/cl_yellow" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_posisi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/tv14sp929292_avenir"
-                            android:text="@string/text_posisi"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/desc_name"
-                            app:layout_constraintBottom_toBottomOf="@+id/desc_name"/>
+                    </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_talent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_12dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/desc_name"
-                            />
-
-                        <View
-                            android:id="@+id/line_maker"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/cl_grey"
-                            android:layout_marginTop="25dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rv_talent"
-                            app:layout_constraintStart_toStartOf="@+id/linearLayout6" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_nama_barang"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_nama_barang"
-                            style="@style/tv16sp000000_avenir_heavy"
-                            android:layout_marginTop="14dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/line_maker" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_harga"
-                            style="@style/tv16sp000000_avenir_heavy"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/desc_nama_barang"
-                            app:layout_constraintBottom_toBottomOf="@+id/desc_nama_barang"/>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_tools"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_12dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/desc_nama_barang"
-                            />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_total"
-                            android:layout_marginTop="25dp"
-                            style="@style/tv16sp000000_avenir_heavy"                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rv_tools" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tx_total_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            style="@style/tv16spED6E65_avenir_heavy"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/desc_total"
-                            app:layout_constraintBottom_toBottomOf="@+id/desc_total"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/desc_notes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_catatan"
-                            style="@style/tv16sp000000_avenir_heavy"                            android:layout_marginTop="40dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tx_total_price" />
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/et_notes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_grey_5dp"
-                            android:minLines="3"
-                            android:layout_marginTop="@dimen/_8dp"
-                            android:textColor="@color/cl_black"
-                            android:padding="@dimen/_10dp"
-                            android:ems="10"
-                            android:textSize="@dimen/_18sp"
-                            android:fontFamily="@font/avenirltstd_medium"
-                            android:gravity="top|left"
-                            app:layout_constraintTop_toBottomOf="@+id/desc_notes"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayout6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:orientation="vertical"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/et_notes">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/text_status"
-                                style="@style/tv12sp929292_avenir"/>
-
-                            <TextView
-                                android:id="@+id/tx_status"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_6dp"
-                                android:background="@drawable/bg_semi_yellow_5dp"
-                                android:paddingVertical="10dp"
-                                android:text="DIAJUKAN"
-                                android:paddingHorizontal="20dp"
-                                android:textAlignment="center"
-                                android:textColor="@color/cl_yellow"
-                                android:textSize="@dimen/_12sp"
-                                android:fontFamily="@font/avenir_heavy"/>
-
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -259,31 +258,31 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_edit"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginTop="40dp"
-                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
                         android:background="@drawable/bg_white_stroke_5dp"
                         android:fontFamily="@font/avenir_medium"
                         android:text="@string/text_edit"
                         android:textAllCaps="false"
-                        android:textSize="20sp"
-                        android:layout_marginEnd="10dp"/>
+                        android:textSize="20sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_batalkan"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/_10dp"
                         android:layout_marginTop="40dp"
-                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_weight="1"
                         android:background="@drawable/bg_white_stroke_5dp"
                         android:fontFamily="@font/avenir_medium"
                         android:text="@string/text_batalkan"
                         android:textAllCaps="false"
-                        android:textSize="20sp"
-                        android:layout_marginStart="@dimen/_10dp"/>
+                        android:textSize="20sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -298,4 +297,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/load_animation"
+        android:layout_width="@dimen/_100dp"
+        android:layout_height="@dimen/_100dp"
+        app:lottie_fileName="50-material-loader.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

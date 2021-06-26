@@ -5,8 +5,6 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
 import id.android.kmabsensi.presentation.point.formbelanja.FormBelanjaMainModel
-import id.android.kmabsensi.presentation.point.formbelanja.FormBelanjaModel
-import id.android.kmabsensi.presentation.point.penarikan.PenarikanMainModel
 import id.android.kmabsensi.presentation.point.penarikan.TYPE_HEADER
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
@@ -21,18 +19,43 @@ class FormBelanjaItem(
         viewHolder.apply {
             if (data.type == TYPE_HEADER){
                 itemView.tx_date.visible()
-                itemView.tx_date.text = data.data.date
+                itemView.tx_date.text = data.data.createdAt
             }else{
                 itemView.tx_date.gone()
             }
             data.data.apply {
                 itemView.tx_no_transaksi.gone()
-                itemView.tx_username.text = this.username
-                itemView.tx_no_partner.text = "No. Partner: ${this.username}"
-                itemView.tx_total_poin.text = "${this.total_poin} Poin"
-                itemView.tx_status.text = "${this.status}"
-                itemView.tx_status.setBackgroundResource(R.drawable.bg_semi_green_5dp)
-                itemView.tx_status.setTextColor(context.resources.getColor(R.color.cl_green))
+                itemView.tx_username.text = this.partner?.fullName ?: "-"
+                itemView.tx_no_partner.text = "No. Partner: ${this.partner?.noPartner}"
+                itemView.tx_total_poin.text = "${this.total} Poin"
+                var status = this.status
+                itemView.tx_status.apply {
+                    text = when(status){
+                        "requested" -> "Diajukan"
+                        "completed" -> "Disetujui"
+                        "rejected" -> "Ditolak"
+                        "canceled" -> "Dibatalkan"
+                        else -> "-"
+                    }
+                    setTextColor(
+                        when(status){
+                            "requested" -> resources.getColor(R.color.cl_yellow)
+                            "completed" -> resources.getColor(R.color.cl_green)
+                            "rejected" -> resources.getColor(R.color.cl_orange)
+                            "canceled" -> resources.getColor(R.color.cl_orange)
+                            else -> resources.getColor(R.color.cl_yellow)
+                        }
+                    )
+                    setBackgroundColor(
+                            when(status){
+                                "requested" -> resources.getColor(R.color.cl_semi_yellow)
+                                "completed" -> resources.getColor(R.color.cl_semi_green)
+                                "rejected" -> resources.getColor(R.color.cl_semi_orange)
+                                "canceled" -> resources.getColor(R.color.cl_semi_orange)
+                                else -> resources.getColor(R.color.cl_semi_yellow)
+                            }
+                    )
+                }
                 itemView.setOnClickListener {
                     listener(data)
                 }

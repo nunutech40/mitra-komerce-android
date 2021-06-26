@@ -60,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
                 style="@style/tv14sp000000_avenir_medium"/>
 
             <HorizontalScrollView
@@ -151,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@string/text_total_belanja"
+                android:text="Rp. 0"
                 style="@style/tv18spDE4D4E_avenir_heavy"/>
         </LinearLayout>
 

@@ -38,23 +38,17 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.point.detailinvoice.DetailInvoiceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".presentation.point.tambahdaftarbelanja.AddShoppingListActivity" >
+        <activity android:name=".presentation.point.detailinvoice.DetailInvoiceActivity"/>
+        <activity android:name=".presentation.point.tambahdaftarbelanja.AddShoppingListActivity"/>
+        <activity android:name=".presentation.point.formbelanjadetailleader.ShoppingDetailLeaderActivity"/>
+        <activity android:name=".presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity" />
+        <activity android:name=".presentation.point.formbelanja.ShoppingCartActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-        <activity android:name=".presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity" />
-        <activity android:name=".presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity" />
-        <activity android:name=".presentation.point.formbelanja.ShoppingCartActivity" />
         <activity android:name=".presentation.point.penarikandetail.WithdrawalDetailActivity" />
         <activity android:name=".presentation.point.penarikan.WithdrawalListActivity" />
         <activity android:name=".presentation.invoice.searchspinner.SearchableSpinnerActivity" />
@@ -299,11 +293,11 @@
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"

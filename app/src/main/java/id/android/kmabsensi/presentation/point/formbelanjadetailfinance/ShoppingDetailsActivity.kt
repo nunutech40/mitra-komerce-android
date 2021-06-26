@@ -38,7 +38,9 @@ class ShoppingDetailsActivity : BaseActivity() {
         setupListener()
         setupRv()
         dataDummy()
-//        data used for button take pict
+        /*
+        first data(dataPhoto) used for button take pict
+         */
         dataPhoto.add(BuktiTransferModel(0, null))
         setupDataDummy(dataPhoto)
     }

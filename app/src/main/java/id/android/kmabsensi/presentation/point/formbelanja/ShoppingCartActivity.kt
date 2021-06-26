@@ -1,70 +1,78 @@
 package id.android.kmabsensi.presentation.point.formbelanja
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
+import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.kmpoint.AllShoppingRequestResponse
+import id.android.kmabsensi.data.remote.response.kmpoint.AllShoppingRequestResponse.Data.DataListShopping
 import id.android.kmabsensi.databinding.ActivityShoppingCartBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.home.HomeActivity
+import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.point.formbelanja.adapter.FormBelanjaItem
 import id.android.kmabsensi.presentation.point.formbelanjadetailfinance.ShoppingDetailsActivity
-import id.android.kmabsensi.presentation.point.formbelanjadetailleader.ShoppingDetailManagementActivity
+import id.android.kmabsensi.presentation.point.formbelanjadetailleader.ShoppingDetailLeaderActivity
 import id.android.kmabsensi.presentation.point.penarikan.WithdrawalListActivity
 import id.android.kmabsensi.presentation.point.tambahdaftarbelanja.AddShoppingListActivity
+import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.startActivity
+import org.koin.android.ext.android.inject
 
 class ShoppingCartActivity : BaseActivity() {
+    private val homeVM: HomeViewModel by inject()
+    private val vm: ShoppingCartViewModel by inject()
+    lateinit var user: User
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private var dataBelanja: ArrayList<FormBelanjaModel> = arrayListOf()
+    private var listShopping: ArrayList<DataListShopping> = arrayListOf()
     private var groupDataBelanja: ArrayList<FormBelanjaMainModel> = arrayListOf()
     private val binding by lazy { ActivityShoppingCartBinding.inflate(layoutInflater) }
-    private val roleId by lazy { intent.getIntExtra("roleId", 1) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupData()
         setupView()
         setupListener()
         initRv()
+        setupObserve()
     }
 
-    private fun initRv() {
-        val linearLayoutManager = LinearLayoutManager(this)
-        binding.rvPenarikan.apply {
-            layoutManager = linearLayoutManager
-            adapter = groupAdapter
-        }
+    private fun setupObserve() {
+        val params = AllShoppingRequestParams(user_requester_id = user.id)
+        vm.getAllShoppingList(params).observe(this, {
+            when (it) {
+                is UiState.Loading -> Log.d("_responseTAG", "Loading 3 .. ")
+
+                is UiState.Success -> {
+                    Log.d("_responseTAG", "listShopping 3: ${it?.data.message}")
+                    it.data.data.let {
+                        Log.d("_responseTAG", "listShopping 3: ${it?.data}")
+                        setupDataList(it)
+                        if (it?.data?.size == 0) binding.layoutEmpty.layoutEmpty.visible() else binding.layoutEmpty.layoutEmpty.gone()
+                    }
+                }
+                is UiState.Error -> Log.d("_responseTAG", "Error3 ${it.throwable} ")
+            }
+        })
     }
 
-    private fun setupData() {
-        for (i in 1..3) {
-            dataBelanja.add(
-                    FormBelanjaModel(
-                            "name $i",
-                            "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                            i,
-                            "$i",
-                            "DISETEJUI", "10-10-2010")
-            )
-        }
-        for (i in 1..3) {
-            dataBelanja.add(FormBelanjaModel(
-                    "name $i",
-                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                    i,
-                    "$i",
-                    "DISETEJUI", "12-10-2010"))
-        }
+    private fun setupDataList(data: AllShoppingRequestResponse.Data?) {
+        listShopping.addAll(data?.data!!)
+        /**
+        set Date for header list
+        */
         var date = ""
-        dataBelanja.forEach {
+        groupDataBelanja.clear()
+        listShopping.forEach {
             var type = 0
-            if (!date.equals(it.date)) {
+            if (!date.equals(it.createdAt!!.split(" ")[0])) {
                 type = WithdrawalListActivity.TYPE_HEADER
-                date = it.date!!
+                date = it.createdAt.split(" ")[0]
             } else {
                 type = WithdrawalListActivity.TYPE_WITHDRAWAL
             }
@@ -78,14 +86,24 @@ class ShoppingCartActivity : BaseActivity() {
         groupAdapter.clear()
         groupDataBelanja.forEach {
             groupAdapter.add(FormBelanjaItem(this, it) {
-                var type = 0
-                if (it.data.status!!.toLowerCase().equals("disetujui")) type = 1 else type = 0
-                if (roleId == 1) {
-                    startActivity(Intent(this, ShoppingDetailsActivity::class.java))
-                } else if (roleId == 2) {
-                    startActivity(Intent(this, ShoppingDetailManagementActivity::class.java))
+                if (user.position_name.toLowerCase().contains(getString(R.string.category_leader).toLowerCase())) {
+                    startActivity<ShoppingDetailLeaderActivity>(
+                            "idDetailSHopping" to it.data.id)
+                    Log.d("TAGidDetailSHopping", "setupDataList 1: ${it.data.id}")
+                } else {
+                    startActivity<ShoppingDetailsActivity>(
+                            "idDetailSHopping" to it.data.id)
+                    Log.d("TAGidDetailSHopping", "setupDataList: ${it.data.id}")
                 }
             })
+        }
+    }
+
+    private fun initRv() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        binding.rvPenarikan.apply {
+            layoutManager = linearLayoutManager
+            adapter = groupAdapter
         }
     }
 
@@ -99,8 +117,16 @@ class ShoppingCartActivity : BaseActivity() {
     }
 
     private fun setupView() {
+        user = homeVM.getUserData()
+        user.partner_assignments?.forEach {
+        }
         binding.toolbar.btnSearch.visible()
         binding.toolbar.txtTitle.text = getString(R.string.text_form_belanja)
-        if (roleId == 2) binding.fabAddShoppingList.visible() else binding.fabAddShoppingList.gone()
+        if (user.position_name.toLowerCase().contains(getString(R.string.category_leader).toLowerCase())) binding.fabAddShoppingList.visible() else binding.fabAddShoppingList.gone()
+    }
+
+    override fun onBackPressed() {
+        startActivity<HomeActivity>()
+        super.onBackPressed()
     }
 }

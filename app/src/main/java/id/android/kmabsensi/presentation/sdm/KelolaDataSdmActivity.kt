@@ -90,7 +90,7 @@ class KelolaDataSdmActivity : BaseActivity() {
 
                     filteredLeaderList =
                         userManagements.filter {
-                            it.position_name.toLowerCase().contains(getString(R.string.text_leader).toLowerCase()) }
+                            it.position_name.toLowerCase().contains(getString(R.string.category_leader).toLowerCase()) }
 
                     val userManagementNames = mutableListOf<String>()
                     userManagementNames.add(getString(R.string.text_semua_leader_spinner))

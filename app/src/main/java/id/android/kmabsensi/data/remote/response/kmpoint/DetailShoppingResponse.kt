@@ -1,33 +1,37 @@
-package id.android.kmabsensi.data.remote.response
+package id.android.kmabsensi.data.remote.response.kmpoint
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class ShoppingRequestResponse(
-        @SerializedName("data")
+data class DetailShoppingResponse(
+    @SerializedName("data")
     val `data`: Data?,
-        @SerializedName("message")
+    @SerializedName("message")
     val message: String?,
-        @SerializedName("success")
+    @SerializedName("code")
+    val code: Int?,
+    @SerializedName("success")
     val success: Boolean?
 ){
-
+    @Parcelize
     data class Data(
             @SerializedName("created_at")
             val createdAt: String?,
             @SerializedName("id")
             val id: Int?,
             @SerializedName("notes")
-            val notes: Any?,
+            val notes: String?,
             @SerializedName("partner")
             val partner: Partner?,
             @SerializedName("partner_id")
             val partnerId: Int?,
-            @SerializedName("shooping_request_attachments")
-            val shoopingRequestAttachments: List<Any>?,
-            @SerializedName("shooping_request_items")
+            @SerializedName("shopping_request_attachments")
+            val shoopingRequestAttachments: List<DataAttachments>?,
+            @SerializedName("shopping_request_items")
             val shoopingRequestItems: List<ShoopingRequestItem>?,
-            @SerializedName("shooping_request_participants")
+            @SerializedName("shopping_request_participants")
             val shoopingRequestParticipants: List<ShoopingRequestParticipant>?,
             @SerializedName("status")
             val status: String?,
@@ -41,18 +45,37 @@ data class ShoppingRequestResponse(
             val userRequester: UserRequester?,
             @SerializedName("user_requester_id")
             val userRequesterId: Int?
-    ){
+    ): Parcelable{
+
+        @Parcelize
+        data class DataAttachments(
+                @SerializedName("created_at")
+                val createdAt: String?,
+                @SerializedName("attachment_notes")
+                val attachmentNotes: String?,
+                @SerializedName("attachment_url")
+                val attachmentUrl: String?,
+                @SerializedName("attachment_type")
+                val attachmentType: String?,
+                @SerializedName("reference_id")
+                val referenceId: Int?,
+                @SerializedName("id")
+                val id: Int?,
+                @SerializedName("updated_at")
+                val updated_at: String?
+        ): Parcelable
+
+        @Parcelize
         data class Partner(
                 @SerializedName("id")
                 val id: Int?,
                 @SerializedName("no_partner")
                 val noPartner: String?,
-                @SerializedName("user")
-                val user: User?,
-                @SerializedName("user_id")
-                val userId: Int?
-        )
+                @SerializedName("full_name")
+                val fullName: String?
+        ): Parcelable
 
+        @Parcelize
         data class ShoopingRequestItem(
                 @SerializedName("created_at")
                 val createdAt: String?,
@@ -68,8 +91,9 @@ data class ShoppingRequestResponse(
                 val total: Int?,
                 @SerializedName("updated_at")
                 val updatedAt: String?
-        )
+        ): Parcelable
 
+        @Parcelize
         data class ShoopingRequestParticipant(
                 @SerializedName("created_at")
                 val createdAt: String?,
@@ -80,11 +104,12 @@ data class ShoppingRequestResponse(
                 @SerializedName("updated_at")
                 val updatedAt: String?,
                 @SerializedName("user")
-                val user: UserX?,
+                val user: User?,
                 @SerializedName("user_id")
                 val userId: Int?
-        )
+        ): Parcelable
 
+        @Parcelize
         data class User(
                 @SerializedName("email")
                 val email: String?,
@@ -94,31 +119,30 @@ data class ShoppingRequestResponse(
                 val id: Int?,
                 @SerializedName("photo_profile_url")
                 val photoProfileUrl: String?,
+                @SerializedName("position_name")
+                val positionName: String?,
                 @SerializedName("role_id")
                 val roleId: Int?
-        )
+        ): Parcelable
 
+        @Parcelize
         data class UserRequester(
                 @SerializedName("email")
                 val email: String?,
                 @SerializedName("full_name")
                 val fullName: String?,
                 @SerializedName("id")
-                val id: Int?
-        )
-
-
-        data class UserX(
-                @SerializedName("email")
-                val email: String?,
-                @SerializedName("full_name")
-                val fullName: String?,
-                @SerializedName("id")
                 val id: Int?,
-                @SerializedName("photo_profile_url")
-                val photoProfileUrl: Any?,
-                @SerializedName("role_id")
-                val roleId: Int?
-        )
+                @SerializedName("division_id")
+                val divisionId: Int?,
+                @SerializedName("division_name")
+                val divisionName: String?,
+                @SerializedName("position_id")
+                val positionId: Int?,
+                @SerializedName("position_name")
+                val positionName: String?
+        ): Parcelable
+
+
     }
 }

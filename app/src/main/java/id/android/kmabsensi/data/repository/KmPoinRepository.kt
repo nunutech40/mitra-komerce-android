@@ -1,8 +1,19 @@
 package id.android.kmabsensi.data.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
+import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
+import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.kmpoint.*
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.utils.UiState
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Abdul Aziz on 30/08/20.
@@ -18,5 +29,160 @@ class KmPoinRepository(val apiService: ApiService) {
             "total_request_redeem_kmpoin" to totalRequestRedeempoin
         )
         return apiService.redeemPoin(body)
+    }
+
+    private val detailShopping by lazy {
+        MutableLiveData<UiState<DetailShoppingResponse>>()
+    }
+
+    private var listShopping : MutableLiveData<UiState<AllShoppingRequestResponse>> = MutableLiveData()
+
+    private var createShoppingrequest : MutableLiveData<UiState<CreateShoppingRequestResponse>> = MutableLiveData()
+
+    private var updateShoppingrequest : MutableLiveData<UiState<CreateShoppingRequestResponse>> = MutableLiveData()
+
+    private var getDataWithdraw : MutableLiveData<UiState<GetWithdrawResponse>> = MutableLiveData()
+
+    private var getDetailWithdraw : MutableLiveData<UiState<DetailWithdrawResponse>> = MutableLiveData()
+
+    fun shoppingRequestDetail(
+            compositeDisposable: CompositeDisposable,
+            id : Int
+    ): MutableLiveData<UiState<DetailShoppingResponse>> {
+        detailShopping.value = UiState.Loading()
+        compositeDisposable.add(
+                apiService.shoppingRequestDetail(id = id)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            detailShopping.value = UiState.Success(it)
+                        }, {
+                            detailShopping.value = UiState.Error(it)
+                        })
+
+        )
+        return detailShopping
+    }
+
+    fun allShoppingRequest(
+            compositeDisposable: CompositeDisposable,
+            params : AllShoppingRequestParams
+    ): MutableLiveData<UiState<AllShoppingRequestResponse>> {
+        listShopping.value = UiState.Loading()
+        compositeDisposable.add(apiService.allshoppingRequest(
+                page = params.page,
+                limit = params.limit,
+                user_requester_id = params.user_requester_id
+        )
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    listShopping.value = UiState.Success(it)
+                },{
+                    listShopping.value = UiState.Error(it)
+                })
+        )
+        return listShopping
+    }
+
+    fun createShoppingRequest(
+        compositeDisposable: CompositeDisposable,
+        body : CreateShoppingRequestParams
+    ) : MutableLiveData<UiState<CreateShoppingRequestResponse>>{
+        createShoppingrequest.value = UiState.Loading()
+        compositeDisposable.add(
+            apiService.createShoppingRequest(body)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    createShoppingrequest.value = UiState.Success(it)
+                }, {
+                    createShoppingrequest.value = UiState.Error(it)
+                })
+        )
+        return createShoppingrequest
+    }
+
+    fun updateShoppingRequest(
+            compositeDisposable: CompositeDisposable,
+            id: Int,
+            body: UpdateShoppingRequestParams
+    ): MutableLiveData<UiState<CreateShoppingRequestResponse>>{
+        var items = arrayListOf<Map<String, Any?>>()
+
+        /**
+         * convert array to json
+         */
+
+        body.items.forEach {
+            val items2 = mapOf(
+                    "id" to it.id,
+                    "name" to it.name,
+                    "description" to it.description,
+                    "total" to it.total,
+                    "will_delete" to it.will_delete
+            )
+            items.add(items2)
+        }
+        val participant_user_ids = ArrayList<Int>()
+        body.participant_user_ids.forEach {
+            participant_user_ids.add(it)
+        }
+
+        val body2 = mapOf(
+                "notes" to body.notes,
+                "status" to body.status,
+                "items" to items,
+                "participant_user_ids" to participant_user_ids
+        )
+        updateShoppingrequest.value = UiState.Loading()
+        compositeDisposable.add(
+                apiService.updateShoppingRequest(id, body2)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            updateShoppingrequest.value = UiState.Success(it)
+                        },{
+                            updateShoppingrequest.value = UiState.Error(it)
+                        })
+        )
+        return updateShoppingrequest
+    }
+
+    fun getDataWithdraw(
+            compositeDisposable: CompositeDisposable,
+            page : Int,
+            limit : Int
+    ) :  MutableLiveData<UiState<GetWithdrawResponse>>{
+        getDataWithdraw.value = UiState.Loading()
+        compositeDisposable.add(
+                apiService.getDataWithdraw(page = page, limit = limit)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            getDataWithdraw.value = UiState.Success(it)
+                        },{
+                            getDataWithdraw.value = UiState.Error(it)
+                        })
+        )
+        return getDataWithdraw
+    }
+
+    fun getDetailWithdraw(
+            compositeDisposable: CompositeDisposable,
+            id : Int
+    ): MutableLiveData<UiState<DetailWithdrawResponse>>{
+        getDetailWithdraw.value = UiState.Loading()
+        compositeDisposable.add(
+                apiService.getDetailWithdraw(id)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            getDetailWithdraw.value = UiState.Success(it)
+                        },{
+                            getDetailWithdraw.value = UiState.Error(it)
+                        })
+        )
+        return getDetailWithdraw
     }
 }

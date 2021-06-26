@@ -2,34 +2,56 @@ package id.android.kmabsensi.presentation.point.penarikan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.kmpoint.GetWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.point.penarikan.adapter.PenarikanItem
 import id.android.kmabsensi.presentation.point.penarikandetail.WithdrawalDetailActivity
+import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.visible
+import org.jetbrains.anko.startActivity
+import org.koin.android.ext.android.inject
 
 class WithdrawalListActivity : BaseActivity() {
     companion object {
         val TYPE_HEADER = 1
         val TYPE_WITHDRAWAL = 0
     }
-
+    private val vm : WithDrawViewModel by inject()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private var dataPenarikan: ArrayList<PenarikanModel> = arrayListOf()
     private var groupDataPenarikan: ArrayList<PenarikanMainModel> = arrayListOf()
 
     private val binding by lazy { ActivityWithdrawalListBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupData()
         setupView()
+        setupObserver()
         setupListener()
         initRv()
+    }
+
+    private fun setupObserver() {
+        vm.getDataWithdraw().observe(this, {
+            when (it) {
+                is UiState.Loading -> {
+                    Log.d("_getDataWithDraw", "Loading... ")
+                }
+                is UiState.Success ->{
+                    Log.d("_getDataWithDraw", "Success: $it")
+                    setupData(it.data.data)
+                    it.data.data.data.forEach {
+
+                    }
+                }
+                is UiState.Error -> Log.d("_getDataWithDraw", "Error : $it")
+            }
+        })
     }
 
     private fun initRv() {
@@ -40,54 +62,27 @@ class WithdrawalListActivity : BaseActivity() {
         }
     }
 
-    private fun setupData() {
-        for (i in 1..6) {
-            dataPenarikan.add(PenarikanModel(
-                    "name $i",
-                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                    i,
-                    "$i",
-                    "SELESAI", "10-10-2010"))
-            dataPenarikan.add(PenarikanModel(
-                    "name $i",
-                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                    i,
-                    "$i",
-                    "DIAJUKAN", "10-10-2010"))
-        }
-        for (i in 1..6) {
-            dataPenarikan.add(PenarikanModel(
-                    "name $i",
-                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                    i,
-                    "$i",
-                    "DIAJUKAN", "12-10-2010"))
-            dataPenarikan.add(PenarikanModel(
-                    "name $i",
-                    "https://media.glamour.com/photos/5a425fd3b6bcee68da9f86f8/master/pass/best-face-oil.png",
-                    i,
-                    "$i",
-                    "SELESAI", "12-10-2010"))
-        }
+    private fun setupData(data: GetWithdrawResponse.DataWithDraw) {
         var date = ""
-        dataPenarikan.forEach {
+        data.data.forEach {
             var type = 0
-            if (!date.equals(it.date)) {
-                type = TYPE_HEADER
-                date = it.date!!
-            } else {
-                type = TYPE_WITHDRAWAL
-            }
+//            if (!date.equals(it.date)) {
+//                type = TYPE_HEADER
+//                date = it.date!!
+//            } else {
+//                type = TYPE_WITHDRAWAL
+//            }
             groupDataPenarikan.add(PenarikanMainModel(type, it))
         }
         groupAdapter.clear()
         groupDataPenarikan.forEach {
             groupAdapter.add(PenarikanItem(this, it) {
                 var type = 0
-                if (it.data.status!!.toLowerCase().equals("diajukan")) type = 1 else type = 0
-
-                startActivity(Intent(this, WithdrawalDetailActivity::class.java)
-                        .putExtra("typePenarikan", type))
+                if (it.data.transactionType!!.toLowerCase().equals("withdraw_to_me")) type = 1 else type = 0
+                startActivity<WithdrawalDetailActivity>(
+                        "_typePenarikan" to type,
+                        "_idWithdraw" to it.data.id
+                        )
             })
         }
     }

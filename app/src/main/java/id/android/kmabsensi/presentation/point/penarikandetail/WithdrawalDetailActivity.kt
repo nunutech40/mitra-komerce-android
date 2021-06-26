@@ -16,15 +16,25 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.response.kmpoint.DetailWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.point.penarikandetail.items.WithDrawalItem
+import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.toast
+import org.koin.android.ext.android.inject
 
 class WithdrawalDetailActivity : BaseActivity() {
-
+    private val vm : DetailWithDrawViewModel by inject()
     private val binding by lazy { ActivityWithdrawalDetailBinding.inflate(layoutInflater) }
+    private val idWithdraw by lazy {
+        intent.getIntExtra("_idWithdraw", 0)
+    }
+    private val transactionType by lazy {
+        intent.getIntExtra("_typePenarikan", 0)
+    }
     private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
@@ -34,22 +44,51 @@ class WithdrawalDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupView()
+        setupObserver()
         setupListener()
         setupRv()
         dataArray.add(BuktiTransferModel(0, null))
         setupDataDummy(dataArray)
+        Log.d("_transactionType", "setupView: $transactionType, $idWithdraw")
     }
 
-    private fun setupView() {
-        if (intent.getIntExtra("typePenarikan", 0) == 0) {
+    private fun setupObserver() {
+        vm.getDetalWithdraw(idWithdraw).observe(this, {
+            when (it) {
+                is UiState.Loading -> {
+                    Log.d("_detailWithdraw", "Loading...")
+                }
+                is UiState.Success -> {
+                    Log.d("_detailWithdraw", "Success... ${it.data}")
+                    setupView(it.data.data)
+                }
+                is UiState.Error -> {
+                    Log.d("_detailWithdraw", "Error... ${it.throwable}")
+                }
+
+            }
+        })
+    }
+
+    private fun setupView(data: DetailWithdrawResponse.DataDetailWithDraw) {
+        Log.d("_transactionType", "setupView: $transactionType")
+        var type = ""
+        if (transactionType == 0) {
             binding.llKasihTalent.visible()
             binding.llTarikSaldo.gone()
+            type = "Kasih ke Talent"
         } else {
             binding.llKasihTalent.gone()
             binding.llTarikSaldo.visible()
+            type = "Tarik Saldo"
+            binding.etNameBank.text = data.bankName.toEditable()
+            binding.etNoRek.text = data.bankNo.toEditable()
+            binding.etRekOwner.text = data.bankOwnerName.toEditable()
+
         }
         binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
+        binding.txType.text = type
+        binding.txTotalPoin.text = data.nominal.toString()
     }
 
     private fun setupDataDummy(array: MutableList<BuktiTransferModel>) {
@@ -138,4 +177,6 @@ class WithdrawalDetailActivity : BaseActivity() {
             dialog.dismiss()
         }
     }
+
+
 }

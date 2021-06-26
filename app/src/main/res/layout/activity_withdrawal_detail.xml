@@ -87,7 +87,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:text="tipe"
                         style="@style/tv16spED6E65_avenir_heavy"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +112,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/desc_total_poin" />
 
-                    <!--                display for 'kasih ke talent'-->
+    <!--
+        display for 'kasih ke talent' -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/ll_kasih_talent"
                         android:layout_width="match_parent"
@@ -151,7 +151,8 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!--                display for 'tarik saldo'-->
+    <!--
+        display for 'tarik saldo' -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/ll_tarik_saldo"
                         android:layout_width="match_parent"
@@ -253,8 +254,8 @@
                     android:elevation="0dp"
                     android:text="@string/text_selesai"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/avenir_heavy"
-                    android:textSize="20sp" />
+                    android:textColor="@color/cl_white"
+                    style="@style/tv18sp000000_avenir_heavy"/>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

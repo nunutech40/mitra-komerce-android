@@ -1,9 +1,12 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.*
+import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
+import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
+import id.android.kmabsensi.data.remote.response.kmpoint.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -655,4 +658,40 @@ interface ApiService {
     fun searchUser(
         @Query("keyword") keyword : String
     ): Single<UserResponse>
+
+    @POST("api/shoppingRequest")
+    fun createShoppingRequest(
+        @Body body : CreateShoppingRequestParams
+    ): Single<CreateShoppingRequestResponse>
+
+    @JvmSuppressWildcards
+    @PUT("api/shoppingRequest/{id}")
+    fun updateShoppingRequest(
+            @Path("id") id: Int,
+            @Body body: Map<String, Any>
+    ): Single<CreateShoppingRequestResponse>
+
+    @GET("api/shoppingRequest")
+    fun allshoppingRequest(
+            @Query("page") page : Int? = 1,
+            @Query("limit") limit : Int? = 10,
+            @Query("user_requester_id") user_requester_id : Int?,
+    ): Single<AllShoppingRequestResponse>
+
+    @GET("api/shoppingRequest/{id}")
+    fun shoppingRequestDetail(
+        @Path("id") id: Int
+    ): Single<DetailShoppingResponse>
+
+    @GET("api/kmpoin/kmPoinWithdrawalRequest")
+    fun getDataWithdraw(
+            @Query("page") page : Int? = 1,
+            @Query("limit") limit : Int? = 10,
+    ): Single<GetWithdrawResponse>
+
+    @GET("api/kmpoin/kmPoinWithdrawalRequest/{id}")
+    fun getDetailWithdraw(
+            @Path("id") id: Int
+    ): Single<DetailWithdrawResponse>
+
 }

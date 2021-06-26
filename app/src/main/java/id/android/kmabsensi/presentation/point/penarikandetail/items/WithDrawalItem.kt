@@ -1,19 +1,20 @@
-package id.android.kmabsensi.presentation.point.penarikandetail
+package id.android.kmabsensi.presentation.point.penarikandetail.items
 
 import android.content.Context
 import android.util.Log
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.point.penarikandetail.BuktiTransferModel
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.item_row_bukti_transfer.view.*
 
 class WithDrawalItem(
-    val context: Context,
-    val data: BuktiTransferModel,
-    val onRemove: onCLick,
-    val listener : (BuktiTransferModel) -> Unit): Item(){
+        val context: Context,
+        val data: BuktiTransferModel,
+        val onRemove: onCLick,
+        val listener : (BuktiTransferModel) -> Unit): Item(){
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         Log.d("TAGTAGTAG", "id: ${data.id}")

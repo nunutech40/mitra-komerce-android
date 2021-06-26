@@ -288,5 +288,8 @@
     <string name="text_tidak">Tidak</string>
     <string name="text_ya">Ya</string>
     <string name="text_mohon_lakukan_pembayaran_dalam_waktu">Mohon lakukan pembayaran dalam waktu :</string>
+    <string name="text_pilih_talent">Pilih Talent</string>
+    <string name="text_tambah_daftar_belanja">Tambah Daftar Belanja</string>
+    <string name="text_edit_daftar_belanja">Edit Daftar Belanja</string>
 
 </resources>

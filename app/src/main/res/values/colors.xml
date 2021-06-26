@@ -80,6 +80,7 @@
     <color name="cl_black">#222222</color>
     <color name="cl_white">#F8F8F8</color>
     <color name="cl_orange">#F95031</color>
+    <color name="cl_semi_orange">#F6DBD1</color>
     <color name="cl_grey">#D2D2D2</color>
     <color name="cl_grey_2">#E2E2E2</color>
     <color name="cl_grey_dark">#A2A2A2</color>

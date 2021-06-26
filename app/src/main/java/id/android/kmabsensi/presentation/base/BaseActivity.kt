@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -141,5 +142,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (isSearchVisible) btnSearch.visible()
 
     }
+
+    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 }
