@@ -31,12 +31,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_profile"
+                <androidx.cardview.widget.CardView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    app:cardCornerRadius="30dp"
+                    android:elevation="0dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/my_profile_tidak_aktif" />
+                    >
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/my_profile_tidak_aktif"
+                        android:scaleType="centerCrop"
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/img_profile"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:src="@drawable/my_profile_tidak_aktif"-->
+<!--                    tools:ignore="MissingClass" />-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_username"
@@ -158,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_24dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tx_total_poin">
@@ -245,7 +263,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_selesai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -98,7 +98,7 @@ data class GetWithdrawResponse(
                     @SerializedName("no_hp")
                     val noHp: String,
                     @SerializedName("npk")
-                    val npk: String,
+                    val npk: Int,
                     @SerializedName("office_id")
                     val officeId: Int,
                     @SerializedName("office_name")

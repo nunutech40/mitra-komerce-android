@@ -11,8 +11,11 @@ class WithdrawViewModel(
         val kmPointRepository: KmPoinRepository
 ) : BaseViewModel() {
 
-    fun getDataWithdraw(page : Int? = 1, limit: Int? = 10) : MutableLiveData<UiState<GetWithdrawResponse>> =
-            kmPointRepository.getDataWithdraw(compositeDisposable, page!!, limit!!)
+    var detailWithdraw = MutableLiveData<UiState<GetWithdrawResponse>>()
+
+    fun getDataWithdraw(page : Int? = 1, limit: Int? = 10){
+        detailWithdraw = kmPointRepository.getDataWithdraw(compositeDisposable, page!!, limit!!)
+    }
 
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }

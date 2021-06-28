@@ -12,10 +12,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.bumptech.glide.Glide
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.ImageUtils
 import com.wildma.idcardcamera.utils.PermissionUtils
@@ -25,8 +27,10 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawListActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.items.TransactionItem
 import id.android.kmabsensi.utils.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
@@ -38,9 +42,15 @@ class WithdrawalDetailActivity : BaseActivity() {
     private val idWithdraw by lazy {
         intent.getIntExtra("_idWithdraw", 0)
     }
+
+    /**
+     * transactionType = 1 -> withdraw_to_me
+     * transactionType = 0 -> share_to_talent
+     */
     private val transactionType by lazy {
         intent.getIntExtra("_typePenarikan", 0)
     }
+    private val TAG = "_withdrawResponse"
     private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
@@ -49,7 +59,7 @@ class WithdrawalDetailActivity : BaseActivity() {
     private var isReverse = false
     private var capturedFilePath: String? = null
     private lateinit var photoFile : File
-
+    private var detailWithDraw : DetailWithdrawResponse.DataDetailWithDraw? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -58,7 +68,6 @@ class WithdrawalDetailActivity : BaseActivity() {
         setupRv()
         dataArray.add(BuktiTransferModel(0, null))
         setupDataDummy(dataArray)
-        Log.d("_transactionType", "setupView: $transactionType, $idWithdraw")
     }
 
     private fun setupObserver() {
@@ -68,8 +77,8 @@ class WithdrawalDetailActivity : BaseActivity() {
                     Log.d("_detailWithdraw", "Loading...")
                 }
                 is UiState.Success -> {
-                    Log.d("_detailWithdraw", "Success... ${it.data}")
                     setupView(it.data.data)
+                    detailWithDraw = it.data.data
                 }
                 is UiState.Error -> {
                     Log.d("_detailWithdraw", "Error... ${it.throwable}")
@@ -80,7 +89,12 @@ class WithdrawalDetailActivity : BaseActivity() {
     }
 
     private fun setupView(data: DetailWithdrawResponse.DataDetailWithDraw) {
-        Log.d("_transactionType", "setupView: $transactionType")
+        if (data.status.equals("completed")) {
+            binding.btnSelesai.isClickable = false
+            binding.btnSelesai.alpha = 0.5f
+            binding.btnSelesai.setBackgroundDrawable(resources.getDrawable(R.drawable.bg_white_10dp))
+            binding.btnSelesai.setTextColor(resources.getColor(R.color.cl_grey_dark))
+        }
         var type = ""
         if (transactionType == 0) {
             binding.llKasihTalent.visible()
@@ -98,20 +112,27 @@ class WithdrawalDetailActivity : BaseActivity() {
         binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
         binding.txType.text = type
         binding.txTotalPoin.text = data.nominal.toString()
+        data.user.let {
+            Glide.with(this)
+                    .load("https://image.freepik.com/free-vector/profile-icon-male-avatar-hipster-man-wear-headphones_48369-8728.jpg")
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_loading_image)
+                    .into(binding.imgProfile)
+            binding.txUsername.text = it.fullName
+            binding.txNoPartner.text = "-"
+        }
+
     }
 
     private fun setupDataDummy(array: MutableList<BuktiTransferModel>) {
         photoAdapter.clear()
         array.forEach {
-            Log.d("TAGonRemove", "onRemove: $it")
             photoAdapter.add(TransactionItem(this, it, object : TransactionItem.onCLick {
                 override fun onRemove(datanya: BuktiTransferModel, position: Int) {
                     toast("$position")
                     photoAdapter.removeGroupAtAdapterPosition(position)
-//                    photoAdapter.notifyDataSetChanged()
                     dataArray.removeAt(position)
                     setupDataDummy(dataArray)
-                    Log.d("TAGTAGTAG", "id: $dataArray")
                 }
             }) {
                 if (it.id == 0) {
@@ -147,13 +168,26 @@ class WithdrawalDetailActivity : BaseActivity() {
 
     private fun setupListener() {
         binding.btnSelesai.setOnClickListener {
+            if (transactionType == 0){
+                vm.updateStatusWithdraw(detailWithDraw!!.id).observe(this, {
+                    when (it) {
+                        is UiState.Loading -> Log.d(TAG, "Loading...")
+                        is UiState.Success -> {
+                            showDialogConfirm()
+                            Log.d(TAG, "Success: ${it.data.data}")
+                        }
+                        is UiState.Error -> Log.d(TAG, "Error...")
+                    }
+                })
+            }else{
+                showDialogConfirm()
+            }
             dataArray.forEach {
                 Log.d("_dataArray", "dataArray = $it ")
                 if (it.id != 0){
                     convertBitmap(it.img!!)
                 }
             }
-//            showDialogConfirm()
         }
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
@@ -195,7 +229,6 @@ class WithdrawalDetailActivity : BaseActivity() {
                 dataArray.reverse()
                 isReverse = true
             }
-
             setupDataDummy(dataArray)
         }
     }
@@ -213,8 +246,13 @@ class WithdrawalDetailActivity : BaseActivity() {
         val customView = dialog.getCustomView()
         val close = customView.findViewById<ImageView>(R.id.close)
         val btnOke = customView.findViewById<Button>(R.id.btn_ok)
+        val txStatus = customView.findViewById<TextView>(R.id.textView14)
+        if (transactionType == 0) txStatus.text = "Terimakasih, Poin berhasil di bagikan."
+
         btnOke.setOnClickListener {
             dialog.dismiss()
+            startActivity<WithdrawListActivity>()
+            finishAffinity()
         }
         close.setOnClickListener {
             dialog.dismiss()

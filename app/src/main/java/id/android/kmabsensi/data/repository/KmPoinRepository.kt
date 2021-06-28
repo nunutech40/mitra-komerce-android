@@ -1,7 +1,5 @@
 package id.android.kmabsensi.data.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
@@ -44,6 +42,8 @@ class KmPoinRepository(val apiService: ApiService) {
     private var getDataWithdraw : MutableLiveData<UiState<GetWithdrawResponse>> = MutableLiveData()
 
     private var getDetailWithdraw : MutableLiveData<UiState<DetailWithdrawResponse>> = MutableLiveData()
+
+    private var updateStatusWithdraw : MutableLiveData<UiState<UpdateWithdrawResponse>> = MutableLiveData()
 
     fun shoppingRequestDetail(
             compositeDisposable: CompositeDisposable,
@@ -184,5 +184,27 @@ class KmPoinRepository(val apiService: ApiService) {
                         })
         )
         return getDetailWithdraw
+    }
+
+    fun updateStatusWithdraw(
+            compositeDisposable: CompositeDisposable,
+            id : Int,
+            status : String
+    ) : MutableLiveData<UiState<UpdateWithdrawResponse>>{
+        updateStatusWithdraw.value = UiState.Loading()
+        val body = mapOf(
+                "status" to status
+        )
+        compositeDisposable.add(
+                apiService.updateStatusWithdraw(id, body)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            updateStatusWithdraw.value = UiState.Success(it)
+                        },{
+                            updateStatusWithdraw.value = UiState.Error(it)
+                        })
+        )
+        return updateStatusWithdraw
     }
 }

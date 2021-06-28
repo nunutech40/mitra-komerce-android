@@ -2,7 +2,6 @@ package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.*
 import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
-import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
@@ -699,6 +698,18 @@ interface ApiService {
     fun updateStatusWithdraw(
             @Path("id") id: Int,
             @Body body: Map<String, Any>
+    ): Single<UpdateWithdrawResponse>
+
+    @FormUrlEncoded
+    @POST("api/kmpoin/kmPoinWithdrawalRequest")
+    fun requestWithdraw(
+            @Query("user_id") user_id : Int,
+            @Field("transaction_type") transaction_type: String,
+            @Field("nominal") nominal: Int,
+            @Field("bank_name") bank_name: String,
+            @Field("bank_no") bank_no: Int,
+            @Field("bank_owner_name") bank_owner_name: String,
+            @Field("notes") notes: String
     ): Single<CreateShoppingRequestResponse>
 
 }

@@ -9,6 +9,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.kmpoint.GetWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikan.adapter.PenarikanItem
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.WithdrawalDetailActivity
 import id.android.kmabsensi.utils.UiState
@@ -36,7 +37,8 @@ class WithdrawListActivity : BaseActivity() {
     }
 
     private fun setupObserver() {
-        vm.getDataWithdraw().observe(this, {
+        vm.getDataWithdraw()
+        vm.detailWithdraw.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                     Log.d("_getDataWithDraw", "Loading... ")
@@ -73,14 +75,34 @@ class WithdrawListActivity : BaseActivity() {
         groupAdapter.clear()
         groupDataPenarikan.forEach {
             groupAdapter.add(PenarikanItem(this, it) {
-                var type = 0
-                if (it.data.transactionType!!.toLowerCase().equals("withdraw_to_me")) type = 1 else type = 0
+                var type = if (it.data.transactionType!!.toLowerCase().equals("withdraw_to_me")) 1 else  0
                 startActivity<WithdrawalDetailActivity>(
                         "_typePenarikan" to type,
                         "_idWithdraw" to it.data.id
                         )
             })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("testLifecycle", "onStart: ")
+    }
+
+    override fun onResume() {
+        Log.d("testLifecycle", "onResume: ")
+        vm.getDataWithdraw()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("testLifecycle", "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("testLifecycle", "onStop: ")
     }
 
     private fun setupListener() {
@@ -92,5 +114,11 @@ class WithdrawListActivity : BaseActivity() {
     private fun setupView() {
         binding.toolbar.btnSearch.visible()
         binding.toolbar.txtTitle.text = getString(R.string.text_penarikan_poin)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<HomeActivity>()
+        finishAffinity()
     }
 }
