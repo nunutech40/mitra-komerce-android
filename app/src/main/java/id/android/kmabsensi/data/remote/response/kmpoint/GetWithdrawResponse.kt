@@ -92,7 +92,7 @@ data class GetWithdrawResponse(
                     @SerializedName("last_date_of_pause")
                     val lastDateOfPause: String,
                     @SerializedName("management")
-                    val management: String,
+                    val management: Management,
                     @SerializedName("martial_status")
                     val martialStatus: Int,
                     @SerializedName("no_hp")
@@ -126,6 +126,27 @@ data class GetWithdrawResponse(
                     @SerializedName("username")
                     val username: String
             ): Parcelable {
+
+                @Parcelize
+                data class Management(
+                        @SerializedName("id")
+                        val id: Int,
+                        @SerializedName("full_name")
+                        val fullName: String,
+                        @SerializedName("email")
+                        val email: String,
+                        @SerializedName("role_id")
+                        val roleId: String,
+                        @SerializedName("position_name")
+                        val positionName: String,
+                        @SerializedName("office_name")
+                        val officeName: String,
+                        @SerializedName("no_hp")
+                        val noNp: String,
+                        @SerializedName("address")
+                        val address: String
+                ): Parcelable
+
                 @Parcelize
                 data class BankAccount(
                         @SerializedName("bank_name")

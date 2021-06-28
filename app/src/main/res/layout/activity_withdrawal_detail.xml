@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_white"
-    tools:context=".presentation.point.penarikandetail.WithdrawalDetailActivity">
+    tools:context=".presentation.kmpoint.penarikandetail.WithdrawalDetailActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

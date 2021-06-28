@@ -694,4 +694,11 @@ interface ApiService {
             @Path("id") id: Int
     ): Single<DetailWithdrawResponse>
 
+    @JvmSuppressWildcards
+    @PUT("api/kmpoin/kmPoinWithdrawalRequest/{id}")
+    fun updateStatusWithdraw(
+            @Path("id") id: Int,
+            @Body body: Map<String, Any>
+    ): Single<CreateShoppingRequestResponse>
+
 }

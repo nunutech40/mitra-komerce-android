@@ -5,8 +5,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-const val _responseCreate = "_responseCreate"
-
 @Parcelize
 data class CreateShoppingRequestResponse(
     @SerializedName("data")
