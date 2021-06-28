@@ -270,6 +270,7 @@
     <string name="selesai">Selesai</string>
     <string name="jenis_dan_keterangan">Jenis dan keterangan</string>
     <string name="text_keterangan">Keterangan</string>
+    <string name="chuck_status">Status</string>
     <string name="text_tanggal_tidak_hadir">Tanggal tidak hadir</string>
     <string name="text_silahkan_unggah_bukti">Silahkan unggah bukti</string>
     <string name="text_silahkan_unggah_bukti_izin_dengan_pihak_terkait">*Silahkan unggah bukti izin dengan pihak terkait</string>
