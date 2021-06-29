@@ -48,14 +48,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-<!--                <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                    android:id="@+id/img_profile"-->
-<!--                    android:layout_width="60dp"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:src="@drawable/my_profile_tidak_aktif"-->
-<!--                    tools:ignore="MissingClass" />-->
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tx_username"
                     android:layout_width="wrap_content"
@@ -176,7 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_24dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tx_total_poin">

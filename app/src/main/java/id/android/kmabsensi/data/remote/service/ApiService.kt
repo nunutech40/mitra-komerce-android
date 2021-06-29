@@ -703,13 +703,13 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/kmpoin/kmPoinWithdrawalRequest")
     fun requestWithdraw(
-            @Query("user_id") user_id : Int,
-            @Field("transaction_type") transaction_type: String,
-            @Field("nominal") nominal: Int,
-            @Field("bank_name") bank_name: String,
-            @Field("bank_no") bank_no: Int,
-            @Field("bank_owner_name") bank_owner_name: String,
-            @Field("notes") notes: String
-    ): Single<CreateShoppingRequestResponse>
+        @Field("user_id") user_id : Int,
+        @Field("transaction_type") transaction_type: String,
+        @Field("nominal") nominal: Int,
+        @Field("bank_name") bank_name: String,
+        @Field("bank_no") bank_no: String,
+        @Field("bank_owner_name") bank_owner_name: String,
+        @Field("notes") notes: String
+    ): Single<UpdateWithdrawResponse>
 
 }

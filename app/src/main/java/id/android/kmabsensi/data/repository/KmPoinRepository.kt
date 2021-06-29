@@ -3,6 +3,7 @@ package id.android.kmabsensi.data.repository
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
+import id.android.kmabsensi.data.remote.body.kmpoint.RequestWithdrawParams
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
@@ -12,6 +13,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.http.Field
 
 /**
  * Created by Abdul Aziz on 30/08/20.
@@ -44,6 +46,8 @@ class KmPoinRepository(val apiService: ApiService) {
     private var getDetailWithdraw : MutableLiveData<UiState<DetailWithdrawResponse>> = MutableLiveData()
 
     private var updateStatusWithdraw : MutableLiveData<UiState<UpdateWithdrawResponse>> = MutableLiveData()
+
+    private var requestWithdraw : MutableLiveData<UiState<UpdateWithdrawResponse>> = MutableLiveData()
 
     fun shoppingRequestDetail(
             compositeDisposable: CompositeDisposable,
@@ -206,5 +210,31 @@ class KmPoinRepository(val apiService: ApiService) {
                         })
         )
         return updateStatusWithdraw
+    }
+
+    fun requestWithdraw(
+        compositeDisposable: CompositeDisposable,
+        params : RequestWithdrawParams
+    ) : MutableLiveData<UiState<UpdateWithdrawResponse>>{
+        requestWithdraw.value = UiState.Loading()
+        compositeDisposable.add(
+            apiService.requestWithdraw(
+                user_id = params.user_id,
+                transaction_type = params.transaction_type,
+                nominal = params.nominal,
+                bank_name = params.bank_name,
+                bank_no = params.bank_no,
+                bank_owner_name = params.bank_owner_name,
+                notes = params.notes
+            )
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    requestWithdraw.value = UiState.Success(it)
+                },{
+                    requestWithdraw.value = UiState.Error(it)
+                })
+        )
+        return requestWithdraw
     }
 }

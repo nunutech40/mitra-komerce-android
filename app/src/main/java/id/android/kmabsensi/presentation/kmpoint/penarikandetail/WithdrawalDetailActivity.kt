@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.kmpoint.penarikandetail
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -24,6 +25,7 @@ import com.wildma.idcardcamera.utils.PermissionUtils
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.remote.body.kmpoint.RequestWithdrawParams
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
@@ -86,14 +88,34 @@ class WithdrawalDetailActivity : BaseActivity() {
 
             }
         })
+//        vm.requestWithdraw.observe(this, {
+//            when (it) {
+//                is UiState.Loading -> {
+//                    Log.d(TAG, "Loading...")
+//                }
+//                is UiState.Success -> {
+//                    Log.d(TAG, "Success... ${it.data}")
+//                    showDialogConfirm()
+//                }
+//                is UiState.Error -> {
+//                    Log.d(TAG, "Error... ${it.throwable}")
+//                }
+//
+//            }
+//        })
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setupView(data: DetailWithdrawResponse.DataDetailWithDraw) {
+
         if (data.status.equals("completed")) {
-            binding.btnSelesai.isClickable = false
-            binding.btnSelesai.alpha = 0.5f
-            binding.btnSelesai.setBackgroundDrawable(resources.getDrawable(R.drawable.bg_white_10dp))
-            binding.btnSelesai.setTextColor(resources.getColor(R.color.cl_grey_dark))
+            binding.btnSelesai.apply {
+                this.isClickable = false
+                this.alpha = 0.5f
+                this.setBackgroundResource(R.drawable.bg_white_10dp)
+                this.setTextColor(R.color.cl_grey_dark)
+            }
+
         }
         var type = ""
         if (transactionType == 0) {
@@ -180,18 +202,77 @@ class WithdrawalDetailActivity : BaseActivity() {
                     }
                 })
             }else{
-                showDialogConfirm()
-            }
-            dataArray.forEach {
-                Log.d("_dataArray", "dataArray = $it ")
-                if (it.id != 0){
-                    convertBitmap(it.img!!)
+                if (validateForm()){
+                    vm.requestWithdraw(getParamsRequestWithdraw()).observe(this, {
+                        when (it) {
+                            is UiState.Loading -> {
+                                Log.d(TAG, "Loading...")
+                            }
+                            is UiState.Success -> {
+                                Log.d(TAG, "Success... ${it.data}")
+                                showDialogConfirm()
+                            }
+                            is UiState.Error -> {
+                                Log.d(TAG, "Error... ${it.throwable}")
+                            }
+
+                        }
+                    })
                 }
+//                showDialogConfirm()
             }
+//            dataArray.forEach {
+//                Log.d("_dataArray", "dataArray = $it ")
+//                if (it.id != 0){
+//                    convertBitmap(it.img!!)
+//                }
+//            }
         }
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun validateForm() : Boolean{
+        var isChecked = true
+        binding.let {
+            if (it.etNameBank.text.toString() == "") {
+                it.etNameBank.requestFocus()
+                it.etNameBank.error = "Form tidak boleh kosong."
+                isChecked = false
+            }
+
+            if (it.etNoRek.text.toString() == "") {
+                it.etNoRek.requestFocus()
+                it.etNoRek.error = "Form tidak boleh kosong."
+                isChecked = false
+            }
+
+            if (it.etRekOwner.text.toString() == ""){
+                it.etRekOwner.requestFocus()
+                it.etRekOwner.error = "Form tidak boleh kosong."
+                isChecked = false
+            }
+
+            if (dataArray.size == 1){
+                it.rvTransfer.requestFocus()
+                toast("Anda belum meng-upload bukti transaksi.")
+                isChecked = false
+            }
+        }
+        return isChecked
+    }
+
+    private fun getParamsRequestWithdraw() : RequestWithdrawParams{
+        return RequestWithdrawParams(
+            user_id = detailWithDraw!!.userId,
+            transaction_type = detailWithDraw!!.transactionType,
+            nominal = detailWithDraw!!.nominal,
+            bank_name = binding.etNameBank.text.toString(),
+            bank_no = binding.etNoRek.text.toString(),
+            bank_owner_name = binding.etRekOwner.text.toString(),
+            notes = detailWithDraw?.notes ?: "-"
+        )
     }
 
     private fun convertBitmap(bitmap: Bitmap) : File{
