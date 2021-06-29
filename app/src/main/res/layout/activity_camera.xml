@@ -36,15 +36,16 @@
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_120sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_frame_photo"
-        />
+        android:background="@drawable/ic_frame_photo"
+        android:layout_marginHorizontal="@dimen/_35sdp"
+        android:layout_marginVertical="@dimen/_120sdp"/>
 
     <TextView
         android:id="@+id/textView28"
