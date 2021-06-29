@@ -102,7 +102,7 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
                     longitude = office.longitude
                 }
                 val distance = officeLocation.distanceTo(it)
-                if (distance > 35000) {
+                if (distance > 350) {
                     countOutArea++
                 } else {
                     Handler(mainLooper).postDelayed({
