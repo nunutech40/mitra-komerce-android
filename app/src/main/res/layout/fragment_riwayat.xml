@@ -71,6 +71,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:textOn="@string/text_kehadiran"
                 android:textOff="@string/text_kehadiran"
+                android:textColor="@color/white"
                 android:checked="true"
                 android:background="@drawable/bg_button_toggle"
                 />
