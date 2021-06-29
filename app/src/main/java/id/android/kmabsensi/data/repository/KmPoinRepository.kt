@@ -3,17 +3,19 @@ package id.android.kmabsensi.data.repository
 import androidx.lifecycle.MutableLiveData
 import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
-import id.android.kmabsensi.data.remote.body.kmpoint.RequestWithdrawParams
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
 import id.android.kmabsensi.data.remote.service.ApiService
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.http.Field
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 /**
  * Created by Abdul Aziz on 30/08/20.
@@ -47,7 +49,7 @@ class KmPoinRepository(val apiService: ApiService) {
 
     private var updateStatusWithdraw : MutableLiveData<UiState<UpdateWithdrawResponse>> = MutableLiveData()
 
-    private var requestWithdraw : MutableLiveData<UiState<UpdateWithdrawResponse>> = MutableLiveData()
+    private var uploadAttachment : MutableLiveData<UiState<UploadAttachmentResponse>> = MutableLiveData()
 
     fun shoppingRequestDetail(
             compositeDisposable: CompositeDisposable,
@@ -212,29 +214,51 @@ class KmPoinRepository(val apiService: ApiService) {
         return updateStatusWithdraw
     }
 
-    fun requestWithdraw(
-        compositeDisposable: CompositeDisposable,
-        params : RequestWithdrawParams
-    ) : MutableLiveData<UiState<UpdateWithdrawResponse>>{
-        requestWithdraw.value = UiState.Loading()
+    fun uploadAttachment(
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            reference_id: RequestBody,
+            attachment_type: RequestBody,
+            attachment_file: MultipartBody.Part?
+    ): MutableLiveData<UiState<UploadAttachmentResponse>>{
+        uploadAttachment.value = UiState.Loading()
         compositeDisposable.add(
-            apiService.requestWithdraw(
-                user_id = params.user_id,
-                transaction_type = params.transaction_type,
-                nominal = params.nominal,
-                bank_name = params.bank_name,
-                bank_no = params.bank_no,
-                bank_owner_name = params.bank_owner_name,
-                notes = params.notes
-            )
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    requestWithdraw.value = UiState.Success(it)
-                },{
-                    requestWithdraw.value = UiState.Error(it)
-                })
+                apiService.uploadAttachment(
+                        reference_id,
+                        attachment_type,
+                        attachment_file!!)
+                        .with(schedulerProvider)
+                        .subscribe({
+                            uploadAttachment.value = UiState.Success(it)
+                        },{
+                            uploadAttachment.value = UiState.Error(it)
+                        })
         )
-        return requestWithdraw
+        return uploadAttachment
     }
+//    fun requestWithdraw(
+//        compositeDisposable: CompositeDisposable,
+//        params : RequestWithdrawParams
+//    ) : MutableLiveData<UiState<UpdateWithdrawResponse>>{
+//        requestWithdraw.value = UiState.Loading()
+//        compositeDisposable.add(
+//            apiService.requestWithdraw(
+//                user_id = params.user_id,
+//                transaction_type = params.transaction_type,
+//                nominal = params.nominal,
+//                bank_name = params.bank_name,
+//                bank_no = params.bank_no,
+//                bank_owner_name = params.bank_owner_name,
+//                notes = params.notes
+//            )
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({
+//                    requestWithdraw.value = UiState.Success(it)
+//                },{
+//                    requestWithdraw.value = UiState.Error(it)
+//                })
+//        )
+//        return requestWithdraw
+//    }
 }

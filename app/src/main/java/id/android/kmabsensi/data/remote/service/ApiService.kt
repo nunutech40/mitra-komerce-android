@@ -700,16 +700,19 @@ interface ApiService {
             @Body body: Map<String, Any>
     ): Single<UpdateWithdrawResponse>
 
-    @FormUrlEncoded
-    @POST("api/kmpoin/kmPoinWithdrawalRequest")
-    fun requestWithdraw(
-        @Field("user_id") user_id : Int,
-        @Field("transaction_type") transaction_type: String,
-        @Field("nominal") nominal: Int,
-        @Field("bank_name") bank_name: String,
-        @Field("bank_no") bank_no: String,
-        @Field("bank_owner_name") bank_owner_name: String,
-        @Field("notes") notes: String
-    ): Single<UpdateWithdrawResponse>
+//    @FormUrlEncoded
+//    @POST("api/attachment/file/storeFile")
+//    fun uploadAttachment(
+//        @Field("reference_id") reference_id : Int,
+//        @Field("attachment_type") attachment_type: String,
+//        @Field("attachment_file") nominal: Int
+//    ): Single<UploadAttachmentResponse>
 
+    @Multipart
+    @POST("api/attachment/file/storeFile")
+    fun uploadAttachment(
+            @Part("reference_id") reference_id: RequestBody,
+            @Part("attachment_type") attachment_type: RequestBody,
+            @Part attachment_file: MultipartBody.Part
+    ): Single<UploadAttachmentResponse>
 }

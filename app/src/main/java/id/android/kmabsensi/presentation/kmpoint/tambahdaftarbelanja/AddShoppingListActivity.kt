@@ -57,7 +57,9 @@ class AddShoppingListActivity : BaseActivity() {
     private var listItemsUpdate: ArrayList<UpdateItem> = arrayListOf()
     private var updateListItems: ArrayList<UpdateItem> = arrayListOf() // new data for update items
     private var status = ""
-    private val binding by lazy { ActivityAddShoppingListBinding.inflate(layoutInflater) }
+    private val binding by lazy {
+        ActivityAddShoppingListBinding.inflate(layoutInflater)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

@@ -32,26 +32,29 @@ class FormBelanjaItem(
                 itemView.tx_status.apply {
                     text = when(status){
                         "requested" -> "Diajukan"
-                        "completed" -> "Disetujui"
+                        "completed" -> "Selesai"
                         "rejected" -> "Ditolak"
                         "canceled" -> "Dibatalkan"
+                        "approved" -> "Disetujui"
                         else -> "-"
                     }
                     setTextColor(
                         when(status){
                             "requested" -> resources.getColor(R.color.cl_yellow)
-                            "completed" -> resources.getColor(R.color.cl_green)
+                            "approved" -> resources.getColor(R.color.cl_green)
                             "rejected" -> resources.getColor(R.color.cl_orange)
                             "canceled" -> resources.getColor(R.color.cl_orange)
+                            "completed" -> resources.getColor(R.color.cl_blue)
                             else -> resources.getColor(R.color.cl_yellow)
                         }
                     )
                     setBackgroundColor(
                             when(status){
                                 "requested" -> resources.getColor(R.color.cl_semi_yellow)
-                                "completed" -> resources.getColor(R.color.cl_semi_green)
+                                "approved" -> resources.getColor(R.color.cl_semi_green)
                                 "rejected" -> resources.getColor(R.color.cl_semi_orange)
                                 "canceled" -> resources.getColor(R.color.cl_semi_orange)
+                                "completed" -> resources.getColor(R.color.cl_semi_blue)
                                 else -> resources.getColor(R.color.cl_semi_yellow)
                             }
                     )

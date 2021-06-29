@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
@@ -19,6 +20,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.esafirm.imagepicker.features.ImagePicker
+import com.github.ajalt.timberkt.Timber
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.ImageUtils
 import com.wildma.idcardcamera.utils.PermissionUtils
@@ -32,6 +36,11 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawListActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.items.TransactionItem
 import id.android.kmabsensi.utils.*
+import id.zelory.compressor.Compressor
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_tambah_sdm.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.joda.time.DateTime
@@ -49,6 +58,7 @@ class WithdrawalDetailActivity : BaseActivity() {
      * transactionType = 1 -> withdraw_to_me
      * transactionType = 0 -> share_to_talent
      */
+
     private val transactionType by lazy {
         intent.getIntExtra("_typePenarikan", 0)
     }
@@ -62,6 +72,10 @@ class WithdrawalDetailActivity : BaseActivity() {
     private var capturedFilePath: String? = null
     private lateinit var photoFile : File
     private var detailWithDraw : DetailWithdrawResponse.DataDetailWithDraw? = null
+
+    private val disposables = CompositeDisposable()
+    private var compressedImage: File? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -92,7 +106,6 @@ class WithdrawalDetailActivity : BaseActivity() {
 
     @SuppressLint("ResourceAsColor")
     private fun setupView(data: DetailWithdrawResponse.DataDetailWithDraw) {
-
         if (data.status.equals("completed")) {
             binding.btnSelesai.apply {
                 this.isClickable = false
@@ -100,7 +113,6 @@ class WithdrawalDetailActivity : BaseActivity() {
                 this.setBackgroundResource(R.drawable.bg_white_10dp)
                 this.setTextColor(R.color.cl_grey_dark)
             }
-
         }
         var type = ""
         if (transactionType == 0) {
@@ -114,8 +126,11 @@ class WithdrawalDetailActivity : BaseActivity() {
             binding.etNameBank.text = data.bankName.toEditable()
             binding.etNoRek.text = data.bankNo.toEditable()
             binding.etRekOwner.text = data.bankOwnerName.toEditable()
-
         }
+        binding.etNameBank.isEnabled = false
+        binding.etNoRek.isEnabled = false
+        binding.etRekOwner.isEnabled = false
+
         binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
         binding.txType.text = type
         binding.txTotalPoin.text = data.nominal.toString()
@@ -158,7 +173,6 @@ class WithdrawalDetailActivity : BaseActivity() {
                             }
                         }
                     }
-
                 }
             })
         }
@@ -170,7 +184,30 @@ class WithdrawalDetailActivity : BaseActivity() {
             layoutManager = linearLayoutManager
             adapter = photoAdapter
         }
+    }
 
+    fun compress(file: File) {
+        disposables.add(
+                Compressor(this)
+                        .setQuality(75)
+                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                        .setDestinationDirectoryPath(
+                                Environment.getExternalStoragePublicDirectory(
+                                        Environment.DIRECTORY_PICTURES
+                                ).absolutePath
+                        )
+                        .compressToFileAsFlowable(file)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            compressedImage = it
+
+                            Glide.with(this)
+                                    .load(compressedImage)
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(imgProfile)
+
+                        }) { Timber.e { it.message.toString() } })
     }
 
     private fun setupListener() {
@@ -187,24 +224,39 @@ class WithdrawalDetailActivity : BaseActivity() {
                     }
                 })
             }else{
+                Log.d(TAG, "compressedImage: $compressedImage")
                 if (validateForm()){
-                    vm.requestWithdraw(getParamsRequestWithdraw()).observe(this, {
+                    vm.uploadAttachment(
+                            detailWithDraw!!.id,
+                            attachmentFile = compressedImage
+                    ).observe( this, {
                         when (it) {
                             is UiState.Loading -> {
-                                Log.d(TAG, "Loading...")
+                                Log.d(TAG, "Loading upload...")
                             }
                             is UiState.Success -> {
-                                Log.d(TAG, "Success... ${it.data}")
-                                showDialogConfirm()
+                                Log.d(TAG, "success upload ${it.data}")
+                                if (it.data.status){
+                                    vm.updateStatusWithdraw(detailWithDraw!!.id).observe(this, {
+                                        when (it) {
+                                            is UiState.Loading -> Log.d(TAG, "Loading...")
+                                            is UiState.Success -> {
+                                                Log.d(TAG, "Success... ${it.data}")
+                                                showDialogConfirm()
+                                            }
+                                            is UiState.Error -> Log.d(TAG, "Error... ${it.throwable}")
+                                        }
+                                    })
+                                }else{
+                                    toast("Berkas gagal diupload, silahkan coba lagi.")
+                                }
                             }
                             is UiState.Error -> {
-                                Log.d(TAG, "Error... ${it.throwable}")
+                                Log.d(TAG, "Error upload... ${it.throwable}")
                             }
-
                         }
                     })
                 }
-//                showDialogConfirm()
             }
 //            dataArray.forEach {
 //                Log.d("_dataArray", "dataArray = $it ")
@@ -221,24 +273,6 @@ class WithdrawalDetailActivity : BaseActivity() {
     private fun validateForm() : Boolean{
         var isChecked = true
         binding.let {
-            if (it.etNameBank.text.toString() == "") {
-                it.etNameBank.requestFocus()
-                it.etNameBank.error = "Form tidak boleh kosong."
-                isChecked = false
-            }
-
-            if (it.etNoRek.text.toString() == "") {
-                it.etNoRek.requestFocus()
-                it.etNoRek.error = "Form tidak boleh kosong."
-                isChecked = false
-            }
-
-            if (it.etRekOwner.text.toString() == ""){
-                it.etRekOwner.requestFocus()
-                it.etRekOwner.error = "Form tidak boleh kosong."
-                isChecked = false
-            }
-
             if (dataArray.size == 1){
                 it.rvTransfer.requestFocus()
                 toast("Anda belum meng-upload bukti transaksi.")
@@ -279,9 +313,17 @@ class WithdrawalDetailActivity : BaseActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//            val image = ImagePicker.getFirstImageOrNull(data)
+//            compress(File(image.path))
+//        }
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
+
+            compressedImage = convertBitmap(bitmap) as File
 
 //            membalikan posisi data array ke normal
             if (isReverse) {

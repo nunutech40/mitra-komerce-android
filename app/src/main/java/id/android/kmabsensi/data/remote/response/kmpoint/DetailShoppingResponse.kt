@@ -72,7 +72,9 @@ data class DetailShoppingResponse(
                 @SerializedName("no_partner")
                 val noPartner: String?,
                 @SerializedName("full_name")
-                val fullName: String?
+                val fullName: String?,
+                @SerializedName("photo_profile_url")
+                val photoProfileUrl: String?
         ): Parcelable
 
         @Parcelize

@@ -41,7 +41,7 @@
         <activity android:name=".presentation.kmpoint.detailinvoice.DetailInvoiceActivity"/>
         <activity android:name=".presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity"/>
         <activity android:name=".presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderActivity"/>
-        <activity android:name=".presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailsActivity" />
+        <activity android:name=".presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailsFinanceActivity" />
         <activity android:name=".presentation.kmpoint.formbelanja.ShoppingCartActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

@@ -15,7 +15,7 @@ import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kmpoint.formbelanja.adapter.FormBelanjaItem
-import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailsActivity
+import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailsFinanceActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawListActivity
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity
@@ -66,9 +66,15 @@ class ShoppingCartActivity : BaseActivity() {
     }
 
     private fun setupDataList(data: AllShoppingRequestResponse.Data?) {
-        listShopping.addAll(data?.data!!)
+
+        if (isFinance){
+            data?.data?.forEach {
+                if (it.status.equals("approved")) listShopping.add(it)
+            }
+        } else listShopping.addAll(data?.data!!)
+
         /**
-        set Date for header list
+        * set Date for header list
         */
         var date = ""
         groupDataBelanja.clear()
@@ -94,7 +100,7 @@ class ShoppingCartActivity : BaseActivity() {
                     startActivity<ShoppingDetailLeaderActivity>(
                             "idDetailSHopping" to it.data.id)
                 } else {
-                    startActivity<ShoppingDetailsActivity>(
+                    startActivity<ShoppingDetailsFinanceActivity>(
                             "idDetailSHopping" to it.data.id)
                 }
             })

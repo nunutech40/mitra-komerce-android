@@ -14,14 +14,15 @@ class WithDrawalShoppingItem(
         val context: Context,
         val data: BuktiTransferModel,
         val onRemove: onCLick,
-        val listener : (BuktiTransferModel) -> Unit): Item(){
+        val listener : (BuktiTransferModel) -> Unit
+): Item(){
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         Log.d("TAGTAGTAG", "id: ${data.id}")
             viewHolder.apply {
                 if (data.img == null && data.id == 0){
                     itemView.btn_remove.gone()
-                    itemView.img_photo.setBackgroundResource(R.drawable.ic_btn_camera)
+                    itemView.img_photo.setImageResource(R.drawable.ic_btn_camera)
                 }else{
                     itemView.btn_remove.visible()
                     itemView.img_photo.setImageBitmap(data.img)
