@@ -104,7 +104,7 @@ class HomeManagementFragment : Fragment() {
         user = vm.getUserData()
         Log.d("TAGTAGTAG", "onCreateView: $user")
         d { user.toString() }
-        myDialog = MyDialog(context!!)
+        myDialog = MyDialog(requireContext())
 
         return binding.root
     }
@@ -199,10 +199,9 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if (it.data.status) {
-                        Log.d("_checkoutResponse", "data response: ${it.data.message}")
                         createAlertSuccess(activity, it.data.message)
                     } else {
-                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                        createAlertError(requireActivity(), getString(R.string.label_gagal), getString(R.string.message_error_occured))
                     }
                 }
                 is UiState.Error -> {
@@ -282,7 +281,7 @@ class HomeManagementFragment : Fragment() {
                                             startActivityForResult(intent, 112)
                                         } else if (coworking.cowork_presence.size >= 2) {
                                             createAlertError(
-                                                    activity!!,
+                                                    requireActivity(),
                                                     "Gagal",
                                                     "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
@@ -311,7 +310,7 @@ class HomeManagementFragment : Fragment() {
                     if (it.data.status) {
                         vm.getCoworkUserData(user.id)
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
 
                 }
@@ -354,10 +353,10 @@ class HomeManagementFragment : Fragment() {
                 is UiState.Success -> {
                     myDialog.dismiss()
                     if (it.data.status) {
-                        showDialogSuccess(activity!!, message = it.data.message)
+                        showDialogSuccess(requireActivity(), message = it.data.message)
                         vm.getDashboardInfo(user.id)
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
                 }
                 is UiState.Error -> {
@@ -383,7 +382,7 @@ class HomeManagementFragment : Fragment() {
 
         if (presenceCheck.checkdeIn) {
             if (isCheckinButtonClicked) {
-                MaterialDialog(context!!).show {
+                MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     title(text = "Check-In")
                     message(text = "Kamu sudah check-in hari ini")
@@ -437,7 +436,7 @@ class HomeManagementFragment : Fragment() {
                 }
             } else {
                 // check in not yet
-                val dialog = MaterialDialog(context!!).show {
+                val dialog = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     customView(
                             R.layout.dialog_maaf,

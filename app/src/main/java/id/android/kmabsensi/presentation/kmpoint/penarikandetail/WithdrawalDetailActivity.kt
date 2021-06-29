@@ -88,21 +88,6 @@ class WithdrawalDetailActivity : BaseActivity() {
 
             }
         })
-//        vm.requestWithdraw.observe(this, {
-//            when (it) {
-//                is UiState.Loading -> {
-//                    Log.d(TAG, "Loading...")
-//                }
-//                is UiState.Success -> {
-//                    Log.d(TAG, "Success... ${it.data}")
-//                    showDialogConfirm()
-//                }
-//                is UiState.Error -> {
-//                    Log.d(TAG, "Error... ${it.throwable}")
-//                }
-//
-//            }
-//        })
     }
 
     @SuppressLint("ResourceAsColor")
