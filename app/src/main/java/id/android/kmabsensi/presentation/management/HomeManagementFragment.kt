@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -32,6 +31,7 @@ import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.FragmentHomeManagementBinding
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.checkin.ReportAbsensiActivity
@@ -44,7 +44,6 @@ import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
-import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
@@ -66,7 +65,6 @@ class HomeManagementFragment : Fragment() {
     private val vm: HomeViewModel by sharedViewModel()
     private val roleVM: RoleViewModel by viewModel()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private val REQ_FORM_IZIN = 212
     private lateinit var user: User
     private lateinit var myDialog: MyDialog
     private val REQ_SCAN_QR = 123
@@ -93,19 +91,21 @@ class HomeManagementFragment : Fragment() {
     private var skeletonCoworking: SkeletonScreen? = null
     private val cal = Calendar.getInstance()
     private val holidays = mutableListOf<Holiday>()
+    private lateinit var binding : FragmentHomeManagementBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home_management, container, false)
+        binding = FragmentHomeManagementBinding.inflate(layoutInflater, container, false)
 
         user = vm.getUserData()
+        Log.d("TAGTAGTAG", "onCreateView: $user")
         d { user.toString() }
         myDialog = MyDialog(requireContext())
 
-        return view
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -119,7 +119,7 @@ class HomeManagementFragment : Fragment() {
         getDashboardData()
         roleVM.getAccessMenuByPosition(user.position_id)
         textView24.text = getTodayDateTimeDay()
-        if (user.position_name.equals(getString(R.string.staff_growth), true)) {
+        if (user.position_name.equals("Staff Growth", true)) {
             view_menu_data_partner.visibility = View.VISIBLE
         }
 
@@ -363,7 +363,6 @@ class HomeManagementFragment : Fragment() {
                 }
             }
         })
-
     }
 
     private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
@@ -382,19 +381,13 @@ class HomeManagementFragment : Fragment() {
 
         if (presenceCheck.checkdeIn) {
             if (isCheckinButtonClicked) {
-                val dialogChecked = MaterialDialog(requireContext()).show {
+                MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
-                    customView(
-                        R.layout.dialog_already_checkin,
-                        scrollable = false,
-                        horizontalPadding = true,
-                        noVerticalPadding = true
-                    )
-                }
-                val customView = dialogChecked.getCustomView()
-                val btn_oke = customView.findViewById<Button>(R.id.btn_oke)
-                btn_oke.setOnClickListener {
-                    dialogChecked.dismiss()
+                    title(text = "Check-In")
+                    message(text = "Kamu sudah check-in hari ini")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
                 }
             } else {
                 //checkout button clicked and already check in
@@ -445,23 +438,21 @@ class HomeManagementFragment : Fragment() {
                 val dialog = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     customView(
-                        R.layout.dialog_retake_foto,
+                        R.layout.dialog_maaf,
                         scrollable = false,
                         horizontalPadding = true,
                         noVerticalPadding = true
                     )
                 }
                 val customView = dialog.getCustomView()
-                val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
-                val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
-                btn_retake.text = getString(R.string.ok)
-                txtKeterangan.text = getString(R.string.belum_checkin)
-                btn_retake.setOnClickListener {
+                val close = customView.findViewById<ImageView>(R.id.close)
+                close.setOnClickListener {
                     dialog.dismiss()
                 }
             }
         }
     }
+
 
     private fun setWorkModeUI(isWFH: Boolean) {
         if (isWFH) {
@@ -501,10 +492,10 @@ class HomeManagementFragment : Fragment() {
 
         expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
             override fun renderChild(
-                    view: View?,
-                    model: Dashboard?,
-                    parentPosition: Int,
-                    childPosition: Int
+                view: View?,
+                model: Dashboard?,
+                parentPosition: Int,
+                childPosition: Int
             ) {
 //                view?.findViewById<TextView>(R.id.txtJumlahCssr)
 //                    ?.setText(model?.total_cssr.toString())
@@ -516,27 +507,27 @@ class HomeManagementFragment : Fragment() {
             }
 
             override fun renderParent(
-                    view: View?,
-                    model: String?,
-                    isExpanded: Boolean,
-                    parentPosition: Int
+                view: View?,
+                model: String?,
+                isExpanded: Boolean,
+                parentPosition: Int
             ) {
                 view?.findViewById<ImageView>(R.id.arrow)
-                        ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
                 view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
             }
         })
         expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
         }
 
         expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
             txtPresent.text = ""
             txtTotalUser.text = ""
@@ -555,75 +546,73 @@ class HomeManagementFragment : Fragment() {
         }
 
 
-        btnKelolaSdm.setOnClickListener {
+        binding.btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 context?.startActivity<KelolaDataSdmActivity>(
-                        IS_MANAGEMENT_KEY to false
+                    IS_MANAGEMENT_KEY to false
                 )
             } else {
                 context?.startActivity<KelolaDataSdmActivity>(
-                        IS_MANAGEMENT_KEY to true,
-                        USER_ID_KEY to user.id
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
                 )
             }
         }
 
-        btnCheckIn.setOnClickListener {
+        binding.btnCheckIn.setOnClickListener {
             isCheckinButtonClicked = true
             vm.presenceCheck(user.id)
         }
 
-        btnCheckOut.setOnClickListener {
+        binding.btnCheckOut.setOnClickListener {
             isCheckinButtonClicked = false
             vm.presenceCheck(user.id)
         }
 
-        btnFormIzin.setOnClickListener {
-            startActivityForResult(Intent(requireContext(),
-                FormIzinActivity::class.java).putExtra(USER_KEY, user),
-                REQ_FORM_IZIN)
+        binding.btnFormIzin.setOnClickListener {
+            context?.startActivity<PermissionActivity>(USER_KEY to user)
         }
 
         sectionPartner.setOnClickListener {
             activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
         }
 
-        btnEvaluasiSaya.setOnClickListener {
+        binding.btnEvaluasiSaya.setOnClickListener {
             activity?.startActivity<MyEvaluationActivity>()
         }
 
-        btnInvoice.setOnClickListener {
+        binding.btnInvoice.setOnClickListener {
             activity?.startActivity<InvoiceActivity>()
         }
 
-        btnKelolaIzin.setOnClickListener {
+        binding.btnKelolaIzin.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
             } else {
                 activity?.startActivity<ManajemenIzinActivity>(
-                        IS_MANAGEMENT_KEY to true,
-                        USER_ID_KEY to user.id
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
                 )
             }
         }
 
-        btnGagalAbsen.setOnClickListener {
+        binding.btnGagalAbsen.setOnClickListener {
             activity?.startActivity<ReportAbsensiActivity>()
         }
 
-        btnInvoiceReport.setOnClickListener {
+        binding.btnInvoiceReport.setOnClickListener {
             activity?.startActivity<InvoiceReportActivity>()
         }
 
-        btnDataPartner.setOnClickListener {
+        binding.btnDataPartner.setOnClickListener {
             showGroupMenu(1)
         }
 
-        btnSdm.setOnClickListener {
+        binding.btnSdm.setOnClickListener {
             showGroupMenu(0)
         }
 
-        btnShift.setOnClickListener {
+        binding.btnShift.setOnClickListener {
             activity?.startActivity<SdmShiftActivity>()
         }
 
@@ -631,7 +620,7 @@ class HomeManagementFragment : Fragment() {
 //            activity?.startActivity<KategoriPartnerActivity>()
 //        }
 
-        btnScanQr.setOnClickListener {
+        binding.btnScanQr.setOnClickListener {
             val intent = Intent(context, ScanQrActivity::class.java)
             startActivityForResult(intent, REQ_SCAN_QR)
         }
@@ -690,8 +679,8 @@ class HomeManagementFragment : Fragment() {
                 else
                     "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
                         localDateFormatter(
-                                dateEnd,
-                                "dd MMM yyyy"
+                            dateEnd,
+                            "dd MMM yyyy"
                         )
                     }"
             }
@@ -710,8 +699,8 @@ class HomeManagementFragment : Fragment() {
         } else {
             labelWaktu.text = "WAKTU"
             val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
-                    time_zuhur,
-                    time_ashar
+                time_zuhur,
+                time_ashar
             )
 
             txtStatusWaktu.visible()
@@ -753,10 +742,10 @@ class HomeManagementFragment : Fragment() {
                         val second = (millisUntilFinished / 1000) % 60
                         try {
                             txtCountdown.text = String.format(
-                                    FORMAT,
-                                    hour,
-                                    minute,
-                                    second
+                                FORMAT,
+                                hour,
+                                minute,
+                                second
                             )
                         } catch (e: Exception) {
                             Log.d("_txtCountdown", "onTick: ${e.message}")
@@ -791,28 +780,28 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonDashboardContent() {
         skeletonKmPoin = Skeleton.bind(layoutKmPoint)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
 
         skeletonDate = Skeleton.bind(textView24)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonDataHadir = Skeleton.bind(dataHadir)
-                .load(R.layout.skeleton_home_data_hadir)
-                .show()
+            .load(R.layout.skeleton_home_data_hadir)
+            .show()
 
         skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
 
         skeletonPartnerLabel = Skeleton.bind(labelPartner)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonPartner = Skeleton.bind(sectionPartner)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
     }
 
     private fun hideSkeletonDashboardContent() {
@@ -826,20 +815,20 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonMenu() {
         skeletonLabelMenu = Skeleton.bind(textView26)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonMenu1 = Skeleton.bind(layoutMenu1)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
 
         skeletonMenu2 = Skeleton.bind(layoutMenu2)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
 
         skeletonMenu3 = Skeleton.bind(layoutMenu3)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
     }
 
     private fun hideSkeletonMenu() {
