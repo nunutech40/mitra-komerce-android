@@ -44,7 +44,6 @@ class ShoppingDetailFinanceViewModel(
     fun updateShoppingRequest(id: Int, body : UpdateShoppingRequestParams): MutableLiveData<UiState<CreateShoppingRequestResponse>>
             = kmPointRepository.updateShoppingRequest(compositeDisposable, id = id, body = body)
 
-
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
