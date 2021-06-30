@@ -133,7 +133,7 @@ val viewModelModule = module {
     viewModel { ShoppingCartViewModel(get()) }
     viewModel { WithdrawViewModel(get()) }
     viewModel { DetailWithDrawViewModel(get(), get()) }
-    viewModel { ShoppingDetailFinanceViewModel(get()) }
+    viewModel { ShoppingDetailFinanceViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

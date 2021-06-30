@@ -1,6 +1,9 @@
 package id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -17,6 +20,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.wildma.idcardcamera.camera.IDCardCamera
+import com.wildma.idcardcamera.utils.ImageUtils
+import com.wildma.idcardcamera.utils.PermissionUtils
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -27,31 +33,36 @@ import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.Data
 import id.android.kmabsensi.databinding.ActivityShoppingDetailsBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
-import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.ShoppingItem
+import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.TalentItem
 import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.WithDrawalShoppingItem
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.BuktiTransferModel
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.ToolsModel
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.compressCustomerCaptureImage
+import id.android.kmabsensi.utils.deleteCaptureFileFromPath
 import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.invis
-import id.android.kmabsensi.utils.visible
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
+import java.io.File
 
 class ShoppingDetailsFinanceActivity : BaseActivity() {
 
     private val TAG = "_detailResponse"
+    private val TAGUpdate = "_updateResponse"
+    private val TAGAttachment = "_AttachemntResponse"
     private val vm : ShoppingDetailFinanceViewModel by inject()
     private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
-    private val shoppingAdapter = GroupAdapter<GroupieViewHolder>()
     var idx: Int = 1
     private val dataPhoto: MutableList<BuktiTransferModel> = arrayListOf()
     private val datatalent: MutableList<Data.ShoopingRequestParticipant> = arrayListOf()
     private val dataShopping: MutableList<ShoopingRequestItem> = arrayListOf()
+    private var detailShopping : Data? = null
     private var isReverse = false
     private val binding by lazy {
         ActivityShoppingDetailsBinding.inflate(layoutInflater)
@@ -63,6 +74,10 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private var updateListItems: ArrayList<UpdateItem> = arrayListOf() // new data for update items
     private var shoopingRequestItems: ShoopingRequestItem? = null
     private var listItems: ArrayList<Item> = arrayListOf()
+
+    private lateinit var photoFile : File
+    private var compressedImage: File? = null
+    private var capturedFilePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +99,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
                 is UiState.Loading -> Log.d(TAG, "Loading...")
                 is UiState.Success -> {
                     Log.d(TAG, "Success ${it.data}")
-                    setuView(it.data.data)
+                    setupView(it.data.data)
                 }
                 is UiState.Error -> Log.d(TAG, "Error... ${it.throwable}")
             }
@@ -105,13 +120,6 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             layoutManager = talentLayoutManager
             adapter = talentAdapter
         }
-
-//        list Shopping
-//        val shoppingLayoutManager = LinearLayoutManager(this)
-//        binding.rvTools.apply {
-//            layoutManager = shoppingLayoutManager
-//            adapter = shoppingAdapter
-//        }
     }
 
     private fun setupListener() {
@@ -119,11 +127,73 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             onBackPressed()
         }
         binding.btnSelesai.setOnClickListener {
-//            onBackPressed()
+            updateSataShopping()
+            if (validateForm()){
+                vm.uploadAttachment(idDetailSHopping,
+                        attachmentFile = compressedImage).observe(this, {
+                    when(it){
+                        is UiState.Loading -> {
+                            Log.d(TAG, "Loading upload...")
+                        }
+                        is UiState.Success ->{
+                            Log.d(TAG, "Success... ${it.data}")
+                            if (it.data.status) updateSataShopping()
+                        }
+                        is UiState.Error -> {
+                            Log.d(TAG, "Error upload... ${it.throwable}")
+                        }
+                    }
+                })
+            }
         }
     }
 
-    private fun setuView(data: Data?) {
+    private fun updateSataShopping() {
+        var userId = ArrayList<Int>()
+        detailShopping?.shoopingRequestParticipants!!.forEach {
+            userId.add(it.userId!!)
+        }
+        saveDataFormTools()
+        vm.updateShoppingRequest(idDetailSHopping,
+        UpdateShoppingRequestParams(
+                notes = binding.etNotes.text.toString(),
+                items = updateListItems,
+                participant_user_ids = userId,
+                status = "completed",
+        )).observe(this, {
+            when (it) {
+                is UiState.Loading -> {
+                    Log.d(TAGUpdate, "Loading...")
+                }
+                is UiState.Success -> {
+                    Log.d(TAGUpdate, "Success... ${it.data}")
+                    if (it.data.success!!){
+                        startActivity<ShoppingCartActivity>()
+                        finishAffinity()
+                    }
+                }
+                is UiState.Error -> {
+                    Log.d(TAGUpdate, "Error...")
+                }
+            }
+        })
+        Log.d(TAG, "updateSataShopping: $updateListItems, ${detailShopping?.shoopingRequestParticipants}")
+    }
+
+    private fun validateForm() : Boolean{
+        var isChecked = true
+        binding.let {
+            if (dataPhoto.size == 1){
+                it.rvTransfer.requestFocus()
+                toast("Anda belum meng-upload bukti transaksi.")
+                isChecked = false
+            }
+        }
+        return isChecked
+    }
+
+    private fun setupView(data: Data?) {
+        detailShopping = data
         binding.toolbar.txtTitle.text = getString(R.string.text_detail_belanja)
         Glide.with(this)
                 .load(data?.partner?.photoProfileUrl)
@@ -160,13 +230,26 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
                     setupDataDummy(dataPhoto)
                 }
             }) {
-                if (it.id == 0) {
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                if (dataPhoto.size <= 1){
+                    if (it.id == 0) {
+                        val checkPermissionFirst = PermissionUtils.checkPermissionFirst(
+                                this, IDCardCamera.PERMISSION_CODE_FIRST,
+                                arrayOf(
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.CAMERA
+                                )
+                        )
+                        if (checkPermissionFirst){
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                                takePictureIntent.resolveActivity(packageManager)?.also {
+                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                                }
+                            }
                         }
                     }
-                }
+                } else toast("Berkas sudah ditambahkan.")
+
             })
         }
     }
@@ -237,12 +320,32 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         }
     }
 
+    private fun convertBitmap(bitmap: Bitmap) : File{
+        var imagePath = ""
+        val cw = ContextWrapper(applicationContext)
+        val directory: File = cw.getDir("imageDir", Context.MODE_PRIVATE)
+        val file = File(directory, DateTime.now().millis.toString() + ".jpg")
+
+        imagePath = file.path
+
+        if (ImageUtils.save(bitmap, imagePath, Bitmap.CompressFormat.JPEG)) {
+            capturedFilePath =
+                    compressCustomerCaptureImage(this, imagePath)
+            deleteCaptureFileFromPath(imagePath)
+            photoFile = File(capturedFilePath)
+            Log.d("_photoFile", "confirmImage: $photoFile, $bitmap")
+        }
+        return photoFile
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
 //            get data photo after take pict
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
+            compressedImage = convertBitmap(bitmap)
+
             idx++
 //            membalikan posisi data array ke normal
             if (isReverse) {

@@ -282,18 +282,6 @@ class WithdrawalDetailActivity : BaseActivity() {
         return isChecked
     }
 
-    private fun getParamsRequestWithdraw() : RequestWithdrawParams{
-        return RequestWithdrawParams(
-            user_id = detailWithDraw!!.userId,
-            transaction_type = detailWithDraw!!.transactionType,
-            nominal = detailWithDraw!!.nominal,
-            bank_name = binding.etNameBank.text.toString(),
-            bank_no = binding.etNoRek.text.toString(),
-            bank_owner_name = binding.etRekOwner.text.toString(),
-            notes = detailWithDraw?.notes ?: "-"
-        )
-    }
-
     private fun convertBitmap(bitmap: Bitmap) : File{
         var imagePath = ""
         val cw = ContextWrapper(applicationContext)
@@ -311,19 +299,16 @@ class WithdrawalDetailActivity : BaseActivity() {
         }
         return photoFile
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-//            val image = ImagePicker.getFirstImageOrNull(data)
-//            compress(File(image.path))
-//        }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
 
             compressedImage = convertBitmap(bitmap) as File
+            compress(convertBitmap(bitmap))
 
 //            membalikan posisi data array ke normal
             if (isReverse) {
