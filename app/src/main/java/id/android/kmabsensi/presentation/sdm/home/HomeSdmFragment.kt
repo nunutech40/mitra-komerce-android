@@ -8,7 +8,9 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +34,7 @@ import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.management.CoworkingSpaceItem
 import id.android.kmabsensi.presentation.permission.PermissionActivity
+import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.laporan.cs.SdmLaporanActivity
 import id.android.kmabsensi.presentation.sdm.laporan.advertiser.ListLaporanAdvertiserActivity
@@ -40,7 +43,31 @@ import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeAc
 import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.fragment_home_management.*
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
+import kotlinx.android.synthetic.main.fragment_home_sdm.btnCheckIn
+import kotlinx.android.synthetic.main.fragment_home_sdm.btnCheckOut
+import kotlinx.android.synthetic.main.fragment_home_sdm.btnFormIzin
+import kotlinx.android.synthetic.main.fragment_home_sdm.btnGagalAbsen
+import kotlinx.android.synthetic.main.fragment_home_sdm.btnScanQr
+import kotlinx.android.synthetic.main.fragment_home_sdm.header_waktu
+import kotlinx.android.synthetic.main.fragment_home_sdm.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_sdm.labelWaktu
+import kotlinx.android.synthetic.main.fragment_home_sdm.layoutHoliday
+import kotlinx.android.synthetic.main.fragment_home_sdm.layoutKmPoint
+import kotlinx.android.synthetic.main.fragment_home_sdm.layoutMenu1
+import kotlinx.android.synthetic.main.fragment_home_sdm.rvCoworkingSpace
+import kotlinx.android.synthetic.main.fragment_home_sdm.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_home_sdm.textCoworkingSpace
+import kotlinx.android.synthetic.main.fragment_home_sdm.textView24
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtCountdown
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHello
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayDate
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtHolidayName
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtKmPoin
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtNextTime
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtRoleName
+import kotlinx.android.synthetic.main.fragment_home_sdm.txtStatusWaktu
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.joda.time.LocalDate
@@ -55,6 +82,7 @@ class HomeSdmFragment : Fragment() {
 
     private val vm: HomeViewModel by inject()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
+    private val REQ_FORM_IZIN = 212
 
     private lateinit var user: User
 
@@ -87,7 +115,7 @@ class HomeSdmFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home_sdm, container, false)
 
         user = vm.getUserData()
-        myDialog = MyDialog(context!!)
+        myDialog = MyDialog(requireContext())
 
         return view
     }
@@ -222,7 +250,7 @@ class HomeSdmFragment : Fragment() {
                                     if (coworking.available_slot > 0) {
                                         if (coworking.cowork_presence.size < 2) {
                                             val intent = Intent(
-                                                context,
+                                                requireContext(),
                                                 CheckinCoworkingActivity::class.java
                                             ).apply {
                                                 putExtra("coworking", coworking)
@@ -368,7 +396,9 @@ class HomeSdmFragment : Fragment() {
         }
 
         btnFormIzin.setOnClickListener {
-            context?.startActivity<PermissionActivity>(USER_KEY to user)
+            startActivityForResult(Intent(requireContext(),
+                FormIzinActivity::class.java).putExtra(USER_KEY, user),
+                REQ_FORM_IZIN)
         }
 
         btnGagalAbsen.setOnClickListener {
@@ -404,7 +434,7 @@ class HomeSdmFragment : Fragment() {
 
         btnScanQr.setOnClickListener {
 
-            val intent = Intent(context, ScanQrActivity::class.java)
+            val intent = Intent(requireContext(), ScanQrActivity::class.java)
             startActivityForResult(intent, REQ_SCAN_QR)
         }
 
@@ -423,16 +453,21 @@ class HomeSdmFragment : Fragment() {
             isEligibleToCheckoutOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_PAGI
         }
 
-
         if (presenceCheck.checkdeIn) {
             if (isCheckinButtonClicked) {
-                MaterialDialog(context!!).show {
+                val dialogChecked = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
-                    title(text = "Check-In")
-                    message(text = "Kamu sudah check-in hari ini")
-                    positiveButton(text = "OK") {
-                        it.dismiss()
-                    }
+                    customView(
+                        R.layout.dialog_already_checkin,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
+                    )
+                }
+                val customView = dialogChecked.getCustomView()
+                val btn_oke = customView.findViewById<Button>(R.id.btn_oke)
+                btn_oke.setOnClickListener {
+                    dialogChecked.dismiss()
                 }
             } else {
                 //checkout button clicked and already check in
@@ -480,18 +515,22 @@ class HomeSdmFragment : Fragment() {
                 }
             } else {
                 // check in not yet
-                val dialog = MaterialDialog(context!!).show {
+
+                val dialog = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     customView(
-                        R.layout.dialog_maaf,
+                        R.layout.dialog_retake_foto,
                         scrollable = false,
                         horizontalPadding = true,
                         noVerticalPadding = true
                     )
                 }
                 val customView = dialog.getCustomView()
-                val close = customView.findViewById<ImageView>(R.id.close)
-                close.setOnClickListener {
+                val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
+                val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
+                btn_retake.text = getString(R.string.ok)
+                txtKeterangan.text = getString(R.string.belum_checkin)
+                btn_retake.setOnClickListener {
                     dialog.dismiss()
                 }
             }
@@ -552,13 +591,15 @@ class HomeSdmFragment : Fragment() {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60
                         val second = (millisUntilFinished / 1000) % 60
+                        try {
+                            txtCountdown.text = String.format(
+                                FORMAT,
+                                hour,
+                                minute,
+                                second
+                            )
+                        }catch (e: Exception){ }
 
-                        txtCountdown.text = String.format(
-                            FORMAT,
-                            hour,
-                            minute,
-                            second
-                        )
                     }
                 }
 
@@ -582,7 +623,7 @@ class HomeSdmFragment : Fragment() {
     fun initRv() {
         rvCoworkingSpace.apply {
             isNestedScrollingEnabled = false
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = groupAdapter
         }
     }

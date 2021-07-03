@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.home
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -8,13 +7,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
@@ -30,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class HomeActivity : AppCompatActivity() {
@@ -41,8 +38,6 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var user: User
 
-    var isCheckin = false
-    var isCheckout = false
     var hasReportPresence = false
 
     var isOpenGroupMenu = false
@@ -75,6 +70,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
         nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         nav_view.itemIconTintList = null
@@ -92,25 +88,7 @@ class HomeActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
         }
-
-        isCheckin = intent.getBooleanExtra("isCheckin", false)
-        isCheckout = intent.getBooleanExtra("isCheckout", false)
-
-        if (isCheckin) {
-            var ontimeLevel = intent.getIntExtra("ontimeLevel", 0)
-            showDialogCheckIn(ontimeLevel)
-        }
-
-        if (isCheckout) {
-            showDialogCheckIn(0)
-        }
-
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
-        val message = intent.getStringExtra("message") ?: ""
-        if (hasReportPresence) {
-            createAlertSuccess(this, message)
-        }
-
         when (role) {
             ROLE_ADMIN -> {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu)
@@ -122,7 +100,6 @@ class HomeActivity : AppCompatActivity() {
                 nav_view.inflateMenu(R.menu.bottom_nav_menu_sdm)
             }
         }
-
         setupViewPager()
     }
 
@@ -130,85 +107,20 @@ class HomeActivity : AppCompatActivity() {
         val dialog = MaterialDialog(this).show {
             cornerRadius(16f)
             customView(
-                R.layout.dialog_keterangan_checkin,
+                R.layout.dialog_retake_foto,
                 scrollable = false,
                 horizontalPadding = true,
                 noVerticalPadding = true
             )
         }
         val customView = dialog.getCustomView()
-        val close = customView.findViewById<ImageView>(R.id.close)
-        val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
-        val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
+        val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
+        val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
 
         txtKeterangan.text = getString(R.string.ket_belum_waktu_pulang)
-        lottie.setAnimation("5399-loading-17-coffee-cup.json")
-        lottie.repeatCount = ValueAnimator.INFINITE
-        lottie.playAnimation()
-        close.setOnClickListener {
-            dialog.dismiss()
-        }
-    }
+        btn_retake.text = getString(R.string.ok)
 
-    private fun showDialogCheckIn(onTimeLevel: Int) {
-        val currentTime = Calendar.getInstance()
-        val now: Date = currentTime.time
-
-        // for ontime level 3
-        val cal4 = Calendar.getInstance()
-        cal4.set(Calendar.HOUR_OF_DAY, 8)
-        cal4.set(Calendar.MINUTE, 10)
-        cal4.set(Calendar.SECOND, 0)
-        val jam8Telat: Date = cal4.time
-
-        // checkout success dialog as default
-        val dialog = MaterialDialog(this).show {
-            cornerRadius(16f)
-            customView(
-                R.layout.dialog_keterangan_checkin,
-                scrollable = false,
-                horizontalPadding = true,
-                noVerticalPadding = true
-            )
-        }
-        val customView = dialog.getCustomView()
-        val close = customView.findViewById<ImageView>(R.id.close)
-        val lottie = customView.findViewById<LottieAnimationView>(R.id.animation_view)
-        val txtKeterangan = customView.findViewById<TextView>(R.id.txtKeterangan)
-        lottie.setAnimation("433-checked-done.json")
-
-        when (onTimeLevel) {
-            1 -> {
-                txtKeterangan.text = getString(R.string.ket_absen_lebih_awal)
-                lottie.setAnimation("427-happy-birthday.json")
-            }
-            2 -> {
-                txtKeterangan.text = getString(R.string.ket_absen_tepat_waktu)
-                lottie.setAnimation("14595-thumbs-up.json")
-            }
-            3 -> {
-                val different: Long = now.time - jam8Telat.time
-
-                var telat = ""
-
-                var minutes = TimeUnit.MILLISECONDS.toMinutes(different)
-
-                if (minutes > 60) {
-                    val hour = (different / 1000) / (60 * 60) % 24
-                    val minute = (different / 1000) / 60 % 60
-                    telat = "$hour jam $minute menit"
-                } else {
-                    telat = "$minutes menit"
-                }
-
-                txtKeterangan.text = getString(R.string.ket_absen_telat, telat)
-                lottie.setAnimation("466-stopwatch-via-sketch2ae.json")
-            }
-        }
-
-        lottie.repeatCount = ValueAnimator.INFINITE
-        lottie.playAnimation()
-        close.setOnClickListener {
+        btn_retake.setOnClickListener {
             dialog.dismiss()
         }
     }
@@ -299,7 +211,7 @@ class HomeActivity : AppCompatActivity() {
         pulang.set(Calendar.HOUR_OF_DAY, 17)
 
         time_ashar?.let {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[0].toInt())
                 ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
             }
@@ -359,16 +271,6 @@ class HomeActivity : AppCompatActivity() {
 
     // for hit api dahsboard in every click beranda page
     private fun getDashboardData() {
-//        if (role == ROLE_ADMIN) {
-//            val beranda = supportFragmentManager.findFragmentByTag(
-//                getFragmentTag(
-//                    R.id.viewpager,
-//                    0
-//                )
-//            ) as HomeAdminFragment
-//            beranda.getDashboardData()
-//        }
-
         if (role == ROLE_MANAGEMEMENT) {
             val beranda = supportFragmentManager.findFragmentByTag(
                 getFragmentTag(
@@ -407,8 +309,6 @@ class HomeActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-
-
     }
 
 }

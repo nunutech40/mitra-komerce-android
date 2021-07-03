@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.permission.manajemenizin
 
-import android.R.attr.label
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ClipData
@@ -8,6 +7,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatEditText
@@ -22,7 +22,10 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Permission
+import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.home.HomeActivity
+import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.permission.PermissionItem
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
 import id.android.kmabsensi.presentation.permission.detailizin.DetailIzinActivity
@@ -32,12 +35,15 @@ import kotlinx.android.synthetic.main.activity_manajemen_izin.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ManajemenIzinActivity : BaseActivity() {
+    private val homeViewModel: HomeViewModel by viewModel()
+    private var user: User? = null
 
     private val vm: PermissionViewModel by inject()
 
@@ -56,6 +62,7 @@ class ManajemenIzinActivity : BaseActivity() {
 
     private val calendarDateForm = Calendar.getInstance()
     private val calendarDateTo = Calendar.getInstance()
+    private val calendarDateAYearsLater = Calendar.getInstance()
     private var dateFrom: String = ""
     private var dateTo: String = ""
     private var permissionType: Int = 0
@@ -65,6 +72,12 @@ class ManajemenIzinActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manajemen_izin)
+
+        var message = ""
+        message = intent.getStringExtra("message") ?: ""
+        if (!message.isNullOrBlank()) {
+            createAlertSuccess(this, message)
+        }
 
         setupToolbar("Manajemen Izin", isFilterVisible = true)
 
@@ -94,11 +107,19 @@ class ManajemenIzinActivity : BaseActivity() {
                     })
                     if (permissions.isEmpty()) layout_empty.visible() else layout_empty.gone()
                     permissions.forEach {
-                        groupAdapter.add(PermissionItem(it) { permission ->
-                            startActivityForResult<DetailIzinActivity>(
-                                REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,
-                                IS_FROM_MANAJEMEN_IZI to true
-                            )
+                        groupAdapter.add(PermissionItem(this, it) { permission ->
+//                            login as sdm
+                            if (user!!.role_id != 1){
+                                startActivity(Intent(this, DetailIzinActivity::class.java)
+                                    .putExtra(IS_FROM_MANAJEMEN_IZI, false)
+                                    .putExtra(PERMISSION_DATA_KEY, it))
+                            }else{
+//                             login as admin
+                                startActivityForResult<DetailIzinActivity>(
+                                    REQUEST_PENGAJUAN_IZIN, PERMISSION_DATA_KEY to it,
+                                    IS_FROM_MANAJEMEN_IZI to true
+                                )
+                            }
                         })
                     }
                 }
@@ -150,12 +171,31 @@ class ManajemenIzinActivity : BaseActivity() {
 //                            roleId = roleId,
 //                            userManagementId = userManagementId
 //                        )
-                        vm.filterPermission(
-                            roleId = roleId, userManagementId = userManagementId,
-                            dateFrom = dateFrom,
-                            dateTo = dateTo,
-                            permissionType = permissionType
-                        )
+                        user = homeViewModel.getUserData()
+                        if (user!!.role_id != 1){
+                            btnFilter.invis()
+                            menu_role.gone()
+                            calendarDateAYearsLater.add(Calendar.YEAR, Calendar.YEAR)
+                            val dateAYearsLater = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(calendarDateAYearsLater.time)
+                            Log.d("userTAG", "onItemSelected: $dateAYearsLater")
+                            user?.let { user ->
+                                vm.filterPermission(
+                                    userId = user.id,
+                                    dateFrom = dateFrom,
+                                    dateTo = dateAYearsLater,
+                                    permissionType = permissionType
+                                )
+                            }
+                        }else{
+                            btnFilter.visible()
+                            menu_role.visible()
+                            vm.filterPermission(
+                                roleId = roleId, userManagementId = userManagementId,
+                                dateFrom = dateFrom,
+                                dateTo = dateTo,
+                                permissionType = permissionType
+                            )
+                        }
                     }
 
                 }
@@ -327,5 +367,11 @@ class ManajemenIzinActivity : BaseActivity() {
             )
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finishAffinity()
+        super.onBackPressed()
     }
 }

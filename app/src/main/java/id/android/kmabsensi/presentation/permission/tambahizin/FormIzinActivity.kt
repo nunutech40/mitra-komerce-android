@@ -1,6 +1,5 @@
 package id.android.kmabsensi.presentation.permission.tambahizin
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -22,6 +21,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
+import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.zelory.compressor.Compressor
@@ -30,6 +30,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tidak_hadir.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -118,8 +119,12 @@ class FormIzinActivity : BaseActivity() {
                     myDialog.dismiss()
                     if (it.data.status) {
                         compressedImagePersetujuanPartner?.delete()
-                        setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
-                        finish()
+                        startActivity<ManajemenIzinActivity>(
+                            "message" to it.data.message
+                        )
+                        finishAffinity()
+//                        setResult(Activity.RESULT_OK, Intent().putExtra("message", it.data.message))
+//                        finish()
                     } else {
                         createAlertError(this, "Gagal", it.data.message)
                     }

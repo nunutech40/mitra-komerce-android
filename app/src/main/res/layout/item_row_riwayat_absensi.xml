@@ -1,186 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_card_absensi"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    app:cardCornerRadius="5dp"
-    android:elevation="4dp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_card_absensi"
-        android:layout_width="match_parent"
+    android:background="@drawable/bg_white_10dp"
+    android:layout_marginTop="@dimen/_12dp"
+    android:layout_marginHorizontal="@dimen/_16dp"
+    android:paddingVertical="@dimen/_16dp"
+    android:paddingHorizontal="@dimen/_12dp">
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="TextView"
-            android:textSize="@dimen/_18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:text="TextView"
+        android:textSize="@dimen/_18sp"
+        android:textColor="@color/cl_black"
+        android:fontFamily="@font/publicsans_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtKantor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="TextView"
+        android:textColor="@color/colorAsk"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/txtName"
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:background="@color/cl_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="1dp"
+        android:layout_height="70dp"
+        android:background="@color/cl_grey"
+        android:layout_marginTop="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/txtDate"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="TextView"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="12sp"-->
+    <!--            app:layout_constraintStart_toStartOf="@+id/txtName"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/view2"-->
+    <!--            android:visibility="gone"/>-->
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:fontFamily="@font/publicsans_light"
+        android:textSize="18sp"
+        android:textColor="@color/cl_grey_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/txtName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtName" />
+
+    <LinearLayout
+        android:id="@+id/ll_check_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@+id/cardViewCheckin"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckin"
+        app:layout_constraintTop_toTopOf="@+id/cardViewCheckin">
 
         <TextView
-            android:id="@+id/txtKantor"
+            android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="TextView"
-            android:textColor="@color/colorAsk"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/txtName" />
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
-            android:background="#1F000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtKantor" />
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="1dp"
-            android:layout_height="100dp"
-            android:background="#1F000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
-
-        <TextView
-            android:id="@+id/txtDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-        <TextView
-            android:id="@+id/txtPartner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="TextView"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/ll_check_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:text="@string/text_datang"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/cl_grey_dark"
+            android:textSize="16sp"
+            android:fontFamily="@font/publicsans_regular"
             app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckin"
             app:layout_constraintStart_toStartOf="@+id/txtKantor"
-            app:layout_constraintTop_toTopOf="@+id/cardViewCheckin">
+            app:layout_constraintTop_toTopOf="@+id/cardViewCheckin" />
 
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Datang"
-                android:textColor="@color/colorOrangeMuda"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckin"
-                app:layout_constraintStart_toStartOf="@+id/txtKantor"
-                app:layout_constraintTop_toTopOf="@+id/cardViewCheckin" />
-
-            <TextView
-                android:id="@+id/txtCheckIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="TextView"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/textView22"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+        <TextView
+            android:id="@+id/txtCheckIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="@+id/cardViewCheckout"
-            app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckout"
-            app:layout_constraintStart_toEndOf="@+id/view3"
-            android:layout_marginStart="8dp">
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:text="Pulang"
-                android:textColor="@color/colorOrangeMuda"/>
+            android:layout_marginTop="6dp"
+            android:text="time"
+            android:fontFamily="@font/publicsans_medium"
+            android:textColor="@color/cl_orange"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtCheckOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="@+id/cardViewCheckout"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewCheckout"
+        app:layout_constraintStart_toEndOf="@+id/cardViewCheckout"
+        android:layout_marginStart="12dp">
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/cl_grey_dark"
+            android:textSize="16sp"
+            android:fontFamily="@font/publicsans_regular"
+            android:text="Pulang"/>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewCheckin"
+        <TextView
+            android:id="@+id/txtCheckOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="time"
+            android:fontFamily="@font/publicsans_medium"
+            android:textColor="@color/cl_orange"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewCheckin"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtKantor"
+        app:layout_constraintTop_toBottomOf="@+id/view2">
+
+        <ImageView
+            android:id="@+id/btnLihatFotoDatang"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/view3"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate">
+            android:contentDescription="Gambar absensi"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/btnLihatFotoDatang"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:contentDescription="Gambar absensi"
-                android:scaleType="centerCrop" />
-        </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewCheckout"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/view2">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewCheckout"
+        <ImageView
+            android:id="@+id/btnLihatFotoPulang"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="@+id/cl_card_absensi"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate"
-            >
-            <ImageView
-                android:id="@+id/btnLihatFotoPulang"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="Gambar absensi" />
-        </androidx.cardview.widget.CardView>
+            android:contentDescription="Gambar absensi"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
