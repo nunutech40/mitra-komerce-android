@@ -20,6 +20,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import com.stfalcon.imageviewer.StfalconImageViewer
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.ImageUtils
 import com.wildma.idcardcamera.utils.PermissionUtils
@@ -29,8 +32,9 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.kmpoint.Item
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams.UpdateItem
-import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.Data.ShoopingRequestItem
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.Data
+import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestItem
+import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestParticipant
 import id.android.kmabsensi.databinding.ActivityShoppingDetailsBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
@@ -38,10 +42,7 @@ import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapte
 import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.WithDrawalShoppingItem
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.BuktiTransferModel
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.ToolsModel
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.compressCustomerCaptureImage
-import id.android.kmabsensi.utils.deleteCaptureFileFromPath
-import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.joda.time.DateTime
@@ -60,8 +61,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
     var idx: Int = 1
     private val dataPhoto: MutableList<BuktiTransferModel> = arrayListOf()
-    private val datatalent: MutableList<Data.ShoopingRequestParticipant> = arrayListOf()
-    private val dataShopping: MutableList<ShoopingRequestItem> = arrayListOf()
+    private val datatalent: MutableList<ShoppingRequestParticipant> = arrayListOf()
     private var detailShopping : Data? = null
     private var isReverse = false
     private val binding by lazy {
@@ -72,12 +72,13 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     }
     private var listItemsUpdate: ArrayList<UpdateItem> = arrayListOf()
     private var updateListItems: ArrayList<UpdateItem> = arrayListOf() // new data for update items
-    private var shoopingRequestItems: ShoopingRequestItem? = null
+    private var shoopingRequestItems: ShoppingRequestItem? = null
     private var listItems: ArrayList<Item> = arrayListOf()
 
     private lateinit var photoFile : File
     private var compressedImage: File? = null
     private var capturedFilePath: String? = null
+    private var skeletonPage: SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,12 +97,21 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         vm.getShoppingDetail(idDetailSHopping)
         vm.shoppingDetail.observe(this, {
             when (it) {
-                is UiState.Loading -> Log.d(TAG, "Loading...")
+                is UiState.Loading ->{
+                    skeletonPage = Skeleton.bind(binding.layout)
+                            .load(R.layout.skeleton_detail_km_poin)
+                            .show()
+                    Log.d(TAG, "Loading...")
+                }
                 is UiState.Success -> {
+                    skeletonPage?.hide()
                     Log.d(TAG, "Success ${it.data}")
                     setupView(it.data.data)
                 }
-                is UiState.Error -> Log.d(TAG, "Error... ${it.throwable}")
+                is UiState.Error -> {
+                    skeletonPage?.hide()
+                    Log.d(TAG, "Error... ${it.throwable}")
+                }
             }
         })
     }
@@ -127,23 +137,8 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             onBackPressed()
         }
         binding.btnSelesai.setOnClickListener {
-            updateSataShopping()
             if (validateForm()){
-                vm.uploadAttachment(idDetailSHopping,
-                        attachmentFile = compressedImage).observe(this, {
-                    when(it){
-                        is UiState.Loading -> {
-                            Log.d(TAG, "Loading upload...")
-                        }
-                        is UiState.Success ->{
-                            Log.d(TAG, "Success... ${it.data}")
-                            if (it.data.status) updateSataShopping()
-                        }
-                        is UiState.Error -> {
-                            Log.d(TAG, "Error upload... ${it.throwable}")
-                        }
-                    }
-                })
+                updateSataShopping()
             }
         }
     }
@@ -163,21 +158,37 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         )).observe(this, {
             when (it) {
                 is UiState.Loading -> {
-                    Log.d(TAGUpdate, "Loading...")
+                    setupLoadAnimation(true)
                 }
                 is UiState.Success -> {
                     Log.d(TAGUpdate, "Success... ${it.data}")
-                    if (it.data.success!!){
-                        startActivity<ShoppingCartActivity>()
-                        finishAffinity()
+                    if (it.data.success){
+                        vm.uploadAttachment(idDetailSHopping,
+                                attachmentFile = compressedImage).observe(this, {
+                            when (it) {
+                                is UiState.Loading -> Log.d(TAG, "Loading...")
+                                is UiState.Success -> {
+                                    setupLoadAnimation(false)
+                                    Log.d(TAG, "setupListener: ${it.data.status}")
+                                    if (it.data.status) {
+                                        startActivity<ShoppingCartActivity>("_isFinance" to true)
+                                        finishAffinity()
+                                    } else createAlertError(this, "Prosess Gagal!", it.data.message)
+                                }
+                                is UiState.Error -> setupLoadAnimation(false)
+                            }
+                        })
+                    }else {
+                        createAlertError(this, "Prosess Gagal!", it.data.message!!)
+                        setupLoadAnimation(false)
                     }
                 }
                 is UiState.Error -> {
+                    setupLoadAnimation(false)
                     Log.d(TAGUpdate, "Error...")
                 }
             }
         })
-        Log.d(TAG, "updateSataShopping: $updateListItems, ${detailShopping?.shoopingRequestParticipants}")
     }
 
     private fun validateForm() : Boolean{
@@ -185,7 +196,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         binding.let {
             if (dataPhoto.size == 1){
                 it.rvTransfer.requestFocus()
-                toast("Anda belum meng-upload bukti transaksi.")
+                createAlertError(this, "Prosess gagal!", "Anda belum meng-upload bukti transaksi.")
                 isChecked = false
             }
         }
@@ -195,13 +206,15 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private fun setupView(data: Data?) {
         detailShopping = data
         binding.toolbar.txtTitle.text = getString(R.string.text_detail_belanja)
-        Glide.with(this)
-                .load(data?.partner?.photoProfileUrl)
-                .centerCrop()
+        data?.partner?.let {
+            Glide.with(this)
+                    .load(it.user?.photoProfileUrl)
+            .centerCrop()
                 .placeholder(R.drawable.ic_my_profile)
                 .into(binding.imgProfile)
-        binding.txNoPartner.text = data?.partner?.noPartner.toString()
-        binding.txUsername.text = data?.partner?.fullName
+            binding.txNoPartner.text = "No. Partner : "+it.noPartner.toString()
+            binding.txUsername.text = it.user?.fullName?: "-"
+        }
 
         data?.shoopingRequestItems!!.forEach {
             listItemsUpdate.add(UpdateItem(id = it.id!!, name = it.name!!, total = it.total!!, will_delete = false))
@@ -230,25 +243,25 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
                     setupDataDummy(dataPhoto)
                 }
             }) {
-                if (dataPhoto.size <= 1){
-                    if (it.id == 0) {
-                        val checkPermissionFirst = PermissionUtils.checkPermissionFirst(
-                                this, IDCardCamera.PERMISSION_CODE_FIRST,
-                                arrayOf(
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.CAMERA
-                                )
-                        )
-                        if (checkPermissionFirst){
+                if (it.id == 0) {
+                    if (dataPhoto.size <= 1){
+                        if (checkPermissionCamera()){
                             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                                 takePictureIntent.resolveActivity(packageManager)?.also {
                                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                                 }
                             }
                         }
-                    }
-                } else toast("Berkas sudah ditambahkan.")
+                    }else toast("Berkas sudah ditambahkan.")
+                }else{
+                    StfalconImageViewer.Builder<String>(
+                            this,
+                            listOf(compressedImage?.path)
+                    ) { view, image ->
+                        Glide.with(this)
+                                .load(image).into(view)
+                    }.show()
+                }
 
             })
         }
@@ -269,6 +282,12 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.toString().equals("")){
+                    if (s.toString().toInt() > 100000000) {
+                        toolPrice.text = "100000000".toEditable()
+                        toolPrice.error = "Batas maksimal adalah Rp.100-juta."
+                    }
+                }
                 total = 0
                 saveDataFormTools()
                 updateListItems.forEach {
@@ -341,25 +360,41 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
-//            get data photo after take pict
+            /**
+            get data photo after take pict
+             */
             selectedPhotoUri = data.data
             val bitmap = data.extras!!.get("data") as Bitmap
             compressedImage = convertBitmap(bitmap)
 
             idx++
-//            membalikan posisi data array ke normal
+            /**
+             * membalikan posisi data array ke normal
+             */
             if (isReverse) {
                 dataPhoto.reverse()
                 isReverse = false
             }
             dataPhoto.add(BuktiTransferModel(idx, bitmap))
 
-//            membalikan posisi data array
+            /**
+             * membalikan posisi data array
+             */
             if (!isReverse) {
                 dataPhoto.reverse()
                 isReverse = true
             }
             setupDataDummy(dataPhoto)
+        }
+    }
+
+    private fun setupLoadAnimation(isPlay: Boolean){
+        if (isPlay){
+            binding.animationView.visible()
+            binding.layout.isEnabled = false
+        }else{
+            binding.animationView.gone()
+            binding.layout.isEnabled = true
         }
     }
 }

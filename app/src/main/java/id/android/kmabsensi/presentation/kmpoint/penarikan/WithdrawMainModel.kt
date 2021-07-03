@@ -6,7 +6,7 @@ import id.android.kmabsensi.data.remote.response.kmpoint.GetWithdrawResponse.Dat
 const val TYPE_HEADER = 1
 const val TYPE_WITHDRAWAL = 0
 
-data class PenarikanMainModel(
+data class WithdrawMainModel(
     val type: Int? = 0,
     val data: DataDetailWithDraw
     )

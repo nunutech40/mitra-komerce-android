@@ -13,8 +13,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="text date"
-        style="@style/tv12sp000000_avenir_medium"
+        style="@style/tv12sp000000_avenir_heavy"
         />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +32,7 @@
             android:id="@+id/ll_profle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/txtStatus"
+            android:layout_marginRight="@dimen/_25sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
@@ -53,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/username"
+                    android:textStyle="bold"
                     style="@style/tv14sp000000_avenir_heavy"/>
 
                 <LinearLayout
@@ -148,6 +150,7 @@
                         android:background="@drawable/bg_semi_yellow_5dp"
                         android:paddingVertical="14dp"
                         android:text="DIAJUKAN"
+                        android:textAllCaps="true"
                         android:textAlignment="center"
                         android:textColor="@color/cl_yellow"
                         android:textSize="@dimen/_16sp"
@@ -156,6 +159,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/right_arrow"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"

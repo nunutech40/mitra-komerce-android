@@ -6,6 +6,8 @@ import android.widget.Button
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -21,9 +23,11 @@ import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class ShoppingDetailLeaderActivity : BaseActivity() {
+    private val TAG = "_shoppingDetail"
     private val vm: ShoppingDetailLeaderViewModel by inject()
     private val binding by lazy {
         ActivityShoppingDetailManagementBinding.inflate(layoutInflater)
@@ -43,6 +47,8 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
             )
         }
     }
+
+    private var skeletonPage: SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +76,19 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
         if (idDetail != 0) {
             vm.shoppingDetail.observe(this, {
                 when (it) {
-                    is UiState.Loading -> Log.d("_testingTAG", "loading ...")
+                    is UiState.Loading ->{
+                        skeletonPage = Skeleton.bind(binding.layout)
+                                .load(R.layout.skeleton_detail_km_poin)
+                                .show()
+                    }
                     is UiState.Success -> {
+                        skeletonPage?.hide()
                         dataShopping = it.data.data!!
                         setupView(it.data.data)
                     }
-                    is UiState.Error -> Log.d("_testingTAG", "Error ${it.throwable}")
+                    is UiState.Error -> {
+                        skeletonPage?.hide()
+                    }
                 }
             })
         }
@@ -102,7 +115,10 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
         binding.etNotes.text = data.notes?.toEditable()
         talentAdapter.clear()
         data.shoopingRequestParticipants?.forEach {
-            talentAdapter.add(TalentItems(it.user!!))
+            // todo testing detail user
+            try {
+                talentAdapter.add(TalentItems(it.user!!))
+            }catch (e: Exception){}
         }
         itemsAdapter.clear()
         data.shoopingRequestItems?.forEach {
@@ -159,19 +175,17 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
                             status = "canceled")
             ).observe(this, {
                 when (it) {
-                    is UiState.Loading -> {
-                        Log.d("_cancleShopping", "loading ...")
-                        binding.loadAnimation.visible()
-                    }
+                    is UiState.Loading -> setupLoadAnimation(true)
                     is UiState.Success -> {
-                        binding.loadAnimation.gone()
-                        dialog.dismiss()
-                        onBackPressed()
+                        if (it.data.success!!){
+                            setupLoadAnimation(false)
+                            dialog.dismiss()
+                            onBackPressed()
+                        }else{
+                            toast(it.data.message!!)
+                        }
                     }
-                    is UiState.Error -> {
-                        binding.loadAnimation.gone()
-                        Log.d("_cancleShopping", "Error ${it.throwable}")
-                    }
+                    is UiState.Error -> setupLoadAnimation(false)
                 }
             })
         }
@@ -183,5 +197,15 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
     override fun onBackPressed() {
         startActivity<ShoppingCartActivity>()
         finishAffinity()
+    }
+
+    private fun setupLoadAnimation(isPlay: Boolean){
+        if (isPlay){
+            binding.loadAnimation.visible()
+            binding.layout.isEnabled = false
+        }else{
+            binding.loadAnimation.gone()
+            binding.layout.isEnabled = true
+        }
     }
 }

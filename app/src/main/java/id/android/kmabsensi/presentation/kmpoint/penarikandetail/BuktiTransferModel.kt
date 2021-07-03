@@ -6,3 +6,10 @@ data class BuktiTransferModel(
     val id: Int,
     val img: Bitmap?
 )
+
+data class BuktiTransferImgModel(
+        val id: Int,
+        val img: String?
+)
+
+

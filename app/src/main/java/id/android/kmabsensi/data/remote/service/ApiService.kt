@@ -674,7 +674,15 @@ interface ApiService {
     fun allshoppingRequest(
             @Query("page") page : Int? = 1,
             @Query("limit") limit : Int? = 10,
-            @Query("user_requester_id") user_requester_id : Int?,
+            @Query("user_requester_id") user_requester_id : Int?
+    ): Single<AllShoppingRequestResponse>
+
+    @GET("api/shoppingRequest")
+    fun allshoppingRequestPagging(
+        @Query("page") page : Int,
+        @Query("limit") limit : Int = 10,
+        @Query("status") status : String? = null,
+        @Query("user_requester_id") user_requester_id : Int? = null
     ): Single<AllShoppingRequestResponse>
 
     @GET("api/shoppingRequest/{id}")

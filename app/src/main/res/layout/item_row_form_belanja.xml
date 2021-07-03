@@ -16,6 +16,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_name_tools"
             android:layout_width="0dp"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             style="@style/tv14sp000000_avenir_medium"
             android:layout_weight="1"
@@ -31,6 +32,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="1"
+            android:maxLength="9"
             android:paddingStart="@dimen/_10dp"
             android:paddingVertical="@dimen/_13dp"
             android:inputType="number|numberDecimal"

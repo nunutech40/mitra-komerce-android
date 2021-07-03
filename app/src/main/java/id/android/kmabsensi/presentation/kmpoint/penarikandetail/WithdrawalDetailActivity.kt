@@ -16,13 +16,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
+import com.stfalcon.imageviewer.StfalconImageViewer
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.ImageUtils
 import com.wildma.idcardcamera.utils.PermissionUtils
@@ -30,10 +34,13 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.kmpoint.RequestWithdrawParams
+import id.android.kmabsensi.data.remote.response.kmpoint.DetailWithdrawResponse.DataDetailWithDraw
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalDetailBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawListActivity
+import id.android.kmabsensi.presentation.kmpoint.penarikandetail.items.TalentItems
+import id.android.kmabsensi.presentation.kmpoint.penarikandetail.items.TransactionImgItem
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.items.TransactionItem
 import id.android.kmabsensi.utils.*
 import id.zelory.compressor.Compressor
@@ -41,6 +48,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_sdm.*
+import kotlinx.android.synthetic.main.activity_tambah_sdm.imgProfile
+import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.joda.time.DateTime
@@ -49,7 +58,9 @@ import java.io.File
 
 class WithdrawalDetailActivity : BaseActivity() {
     private val vm : DetailWithDrawViewModel by inject()
-    private val binding by lazy { ActivityWithdrawalDetailBinding.inflate(layoutInflater) }
+    private val binding by lazy {
+        ActivityWithdrawalDetailBinding.inflate(layoutInflater)
+    }
     private val idWithdraw by lazy {
         intent.getIntExtra("_idWithdraw", 0)
     }
@@ -66,54 +77,81 @@ class WithdrawalDetailActivity : BaseActivity() {
     private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
-    private var idx: Int = 1
+    private val photoImgAdapter = GroupAdapter<GroupieViewHolder>()
+    private val talentAdapter = GroupAdapter<GroupieViewHolder>()
     private val dataArray: MutableList<BuktiTransferModel> = arrayListOf()
     private var isReverse = false
     private var capturedFilePath: String? = null
     private lateinit var photoFile : File
-    private var detailWithDraw : DetailWithdrawResponse.DataDetailWithDraw? = null
+    private var detailWithDraw : DataDetailWithDraw? = null
 
     private val disposables = CompositeDisposable()
     private var compressedImage: File? = null
-
+    private var skeletonPage: SkeletonScreen? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupObserver()
         setupListener()
         setupRv()
-        dataArray.add(BuktiTransferModel(0, null))
-        setupDataDummy(dataArray)
     }
 
     private fun setupObserver() {
         vm.getDetalWithdraw(idWithdraw).observe(this, {
             when (it) {
                 is UiState.Loading -> {
+                    skeletonPage = Skeleton.bind(binding.layout)
+                            .load(R.layout.skeleton_detail_km_poin)
+                            .show()
                     Log.d("_detailWithdraw", "Loading...")
                 }
                 is UiState.Success -> {
+                    skeletonPage?.hide()
                     setupView(it.data.data)
                     detailWithDraw = it.data.data
                 }
                 is UiState.Error -> {
+                    skeletonPage?.hide()
                     Log.d("_detailWithdraw", "Error... ${it.throwable}")
                 }
-
             }
         })
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun setupView(data: DetailWithdrawResponse.DataDetailWithDraw) {
+    private fun setupView(data: DataDetailWithDraw) {
         if (data.status.equals("completed")) {
+            binding.rvTransferPict.visible()
+            binding.rvTransfer.gone()
             binding.btnSelesai.apply {
                 this.isClickable = false
                 this.alpha = 0.5f
                 this.setBackgroundResource(R.drawable.bg_white_10dp)
                 this.setTextColor(R.color.cl_grey_dark)
             }
+            data.attachments.forEach {
+                photoImgAdapter.add(TransactionImgItem(this, it){
+                    StfalconImageViewer.Builder<String>(
+                            this,
+                            listOf(it.attachmentUrl)
+                    ) { view, image ->
+                        Glide.with(this)
+                                .load(image).into(view)
+                    }.show()
+                })
+            }
+        }else{
+            binding.rvTransfer.visible()
+            binding.rvTransferPict.gone()
+            dataArray.add(BuktiTransferModel(0, null))
+            setupDataDummy(dataArray)
         }
+
+        val totalPerTalent = (data.nominal / if(data.talentRecipients.size == 0) 1 else data.talentRecipients.size )
+        data.talentRecipients.forEach {
+            talentAdapter.add(TalentItems(this, it, totalPerTalent))
+        }
+
         var type = ""
         if (transactionType == 0) {
             binding.llKasihTalent.visible()
@@ -134,16 +172,17 @@ class WithdrawalDetailActivity : BaseActivity() {
         binding.toolbar.txtTitle.text = resources.getString(R.string.text_penarikan_poin)
         binding.txType.text = type
         binding.txTotalPoin.text = data.nominal.toString()
-        data.user.let {
-            Glide.with(this)
-                    .load("https://image.freepik.com/free-vector/profile-icon-male-avatar-hipster-man-wear-headphones_48369-8728.jpg")
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_loading_image)
-                    .into(binding.imgProfile)
-            binding.txUsername.text = it.fullName
-            binding.txNoPartner.text = "-"
-        }
-
+        try {
+            data.user.let {
+                Glide.with(this)
+                        .load("https://image.freepik.com/free-vector/profile-icon-male-avatar-hipster-man-wear-headphones_48369-8728.jpg")
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_loading_image)
+                        .into(binding.imgProfile)
+                binding.txUsername.text = it.fullName
+                binding.txNoPartner.text = "-"
+            }
+        }catch (e : Exception){}
     }
 
     private fun setupDataDummy(array: MutableList<BuktiTransferModel>) {
@@ -158,21 +197,23 @@ class WithdrawalDetailActivity : BaseActivity() {
                 }
             }) {
                 if (it.id == 0) {
-                    val checkPermissionFirst = PermissionUtils.checkPermissionFirst(
-                            this, IDCardCamera.PERMISSION_CODE_FIRST,
-                            arrayOf(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.CAMERA
-                            )
-                    )
-                    if (checkPermissionFirst){
-                        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                            takePictureIntent.resolveActivity(packageManager)?.also {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    if (dataArray.size <= 1){
+                        if (checkPermissionCamera()){
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                                takePictureIntent.resolveActivity(packageManager)?.also {
+                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                                }
                             }
                         }
-                    }
+                    }else toast("Berkas sudah ditambahkan.")
+                }else{
+                    StfalconImageViewer.Builder<String>(
+                            this,
+                            listOf(compressedImage?.path)
+                    ) { view, image ->
+                        Glide.with(this)
+                                .load(image).into(view)
+                    }.show()
                 }
             })
         }
@@ -183,6 +224,18 @@ class WithdrawalDetailActivity : BaseActivity() {
         binding.rvTransfer.apply {
             layoutManager = linearLayoutManager
             adapter = photoAdapter
+        }
+
+        val linearLayoutManagerPict = GridLayoutManager(this, 4)
+        binding.rvTransferPict.apply {
+            layoutManager = linearLayoutManagerPict
+            adapter = photoImgAdapter
+        }
+
+        val linearLayoutManagerTalent = LinearLayoutManager(this)
+        binding.rvTalent.apply {
+            layoutManager = linearLayoutManagerTalent
+            adapter = talentAdapter
         }
     }
 
@@ -215,55 +268,51 @@ class WithdrawalDetailActivity : BaseActivity() {
             if (transactionType == 0){
                 vm.updateStatusWithdraw(detailWithDraw!!.id).observe(this, {
                     when (it) {
-                        is UiState.Loading -> Log.d(TAG, "Loading...")
+                        is UiState.Loading -> setupLoadAnimation(true)
                         is UiState.Success -> {
-                            showDialogConfirm()
-                            Log.d(TAG, "Success: ${it.data.data}")
+                            setupLoadAnimation(false)
+                            if (it.data.success) showDialogConfirm()
+                            else createAlertError(this, "Permintaan gagal diproses!",it.data.message)
                         }
-                        is UiState.Error -> Log.d(TAG, "Error...")
+                        is UiState.Error -> setupLoadAnimation(false)
                     }
                 })
             }else{
-                Log.d(TAG, "compressedImage: $compressedImage")
                 if (validateForm()){
-                    vm.uploadAttachment(
-                            detailWithDraw!!.id,
-                            attachmentFile = compressedImage
-                    ).observe( this, {
+                    vm.updateStatusWithdraw(detailWithDraw!!.id).observe(this, {
                         when (it) {
-                            is UiState.Loading -> {
-                                Log.d(TAG, "Loading upload...")
-                            }
+                            is UiState.Loading -> setupLoadAnimation(true)
                             is UiState.Success -> {
-                                Log.d(TAG, "success upload ${it.data}")
-                                if (it.data.status){
-                                    vm.updateStatusWithdraw(detailWithDraw!!.id).observe(this, {
+                                if (it.data.success){
+                                    vm.uploadAttachment(
+                                            detailWithDraw!!.id,
+                                            attachmentFile = compressedImage
+                                    ).observe( this, {
                                         when (it) {
-                                            is UiState.Loading -> Log.d(TAG, "Loading...")
-                                            is UiState.Success -> {
-                                                Log.d(TAG, "Success... ${it.data}")
-                                                showDialogConfirm()
+                                            is UiState.Loading -> {
+                                                Log.d(TAG, "Loading upload...")
                                             }
-                                            is UiState.Error -> Log.d(TAG, "Error... ${it.throwable}")
+                                            is UiState.Success -> {
+                                                setupLoadAnimation(false)
+                                                if (it.data.status){
+                                                    showDialogConfirm()
+                                                }else{
+                                                    createAlertError(this, "Upload berkas gagal!","Berkas gagal diupload, silahkan coba lagi.", 3000)
+                                                }
+                                            }
+                                            is UiState.Error -> setupLoadAnimation(false)
                                         }
                                     })
                                 }else{
-                                    toast("Berkas gagal diupload, silahkan coba lagi.")
+                                    setupLoadAnimation(false)
+                                    createAlertError(this, "Permintaan gagal diproses!",it.data.message)
                                 }
                             }
-                            is UiState.Error -> {
-                                Log.d(TAG, "Error upload... ${it.throwable}")
-                            }
+                            is UiState.Error -> setupLoadAnimation(false)
                         }
                     })
                 }
             }
-//            dataArray.forEach {
-//                Log.d("_dataArray", "dataArray = $it ")
-//                if (it.id != 0){
-//                    convertBitmap(it.img!!)
-//                }
-//            }
         }
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
@@ -295,7 +344,6 @@ class WithdrawalDetailActivity : BaseActivity() {
                     compressCustomerCaptureImage(this, imagePath)
             deleteCaptureFileFromPath(imagePath)
             photoFile = File(capturedFilePath)
-            Log.d("_photoFile", "confirmImage: $photoFile, $bitmap")
         }
         return photoFile
     }
@@ -352,5 +400,14 @@ class WithdrawalDetailActivity : BaseActivity() {
         }
     }
 
+    private fun setupLoadAnimation(isPlay: Boolean){
+        if (isPlay){
+            binding.animationView.visible()
+            binding.layout.isEnabled = false
+        }else{
+            binding.animationView.gone()
+            binding.layout.isEnabled = true
+        }
+    }
 
 }

@@ -17,6 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/_16dp">
@@ -245,7 +246,6 @@
 
                         <TextView
                             android:id="@+id/tx_status"
-                            style="@style/tv12sp929292_avenir_heavy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_6dp"
@@ -253,6 +253,8 @@
                             android:paddingHorizontal="20dp"
                             android:paddingVertical="10dp"
                             android:text="DIAJUKAN"
+                            style="@style/tv12sp929292_avenir_heavy"
+                            android:textAllCaps="true"
                             android:textAlignment="center"
                             android:textColor="@color/cl_yellow" />
 

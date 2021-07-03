@@ -1,13 +1,25 @@
 package id.android.kmabsensi.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import id.android.kmabsensi.data.remote.body.kmpoint.AllShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
+import id.android.kmabsensi.data.remote.datasource.kmpoint.ShoppingDSFactory
+import id.android.kmabsensi.data.remote.datasource.kmpoint.ShoppingDataSource
+import id.android.kmabsensi.data.remote.datasource.kmpoint.WithdrawDSFactory
+import id.android.kmabsensi.data.remote.datasource.kmpoint.WithdrawDataSource
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingRequestModel
+import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawMainModel
+import id.android.kmabsensi.utils.State
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.isEmpty
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 import io.reactivex.Single
@@ -36,6 +48,10 @@ class KmPoinRepository(val apiService: ApiService) {
     private val detailShopping by lazy {
         MutableLiveData<UiState<DetailShoppingResponse>>()
     }
+
+    private lateinit var shoppingleaderFactory : ShoppingDSFactory
+
+    private lateinit var withdrawFactory : WithdrawDSFactory
 
     private var listShopping : MutableLiveData<UiState<AllShoppingRequestResponse>> = MutableLiveData()
 
@@ -236,29 +252,50 @@ class KmPoinRepository(val apiService: ApiService) {
         )
         return uploadAttachment
     }
-//    fun requestWithdraw(
-//        compositeDisposable: CompositeDisposable,
-//        params : RequestWithdrawParams
-//    ) : MutableLiveData<UiState<UpdateWithdrawResponse>>{
-//        requestWithdraw.value = UiState.Loading()
-//        compositeDisposable.add(
-//            apiService.requestWithdraw(
-//                user_id = params.user_id,
-//                transaction_type = params.transaction_type,
-//                nominal = params.nominal,
-//                bank_name = params.bank_name,
-//                bank_no = params.bank_no,
-//                bank_owner_name = params.bank_owner_name,
-//                notes = params.notes
-//            )
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({
-//                    requestWithdraw.value = UiState.Success(it)
-//                },{
-//                    requestWithdraw.value = UiState.Error(it)
-//                })
-//        )
-//        return requestWithdraw
-//    }
+
+    fun getShoppingRequest(
+        compositeDisposable: CompositeDisposable,
+        user_requester_id: Int? = null,
+        status: String? = null,
+        ): LiveData<PagedList<ShoppingRequestModel>>{
+
+        shoppingleaderFactory = ShoppingDSFactory(apiService, compositeDisposable, status = status, user_requester_id = user_requester_id)
+
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(100)
+            .build()
+        return LivePagedListBuilder(shoppingleaderFactory, config).build()
+    }
+
+    fun getWithdraw(
+            compositeDisposable: CompositeDisposable
+    ): LiveData<PagedList<WithdrawMainModel>>{
+        withdrawFactory = WithdrawDSFactory(apiService, compositeDisposable)
+        val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(100)
+                .build()
+        return LivePagedListBuilder(withdrawFactory, config).build()
+    }
+
+    fun getState(): LiveData<State>{
+        return Transformations.switchMap(shoppingleaderFactory.shoppingLivedata,
+                ShoppingDataSource::state)
+    }
+
+    fun isEmptyShopping(): LiveData<isEmpty>{
+        return Transformations.switchMap(shoppingleaderFactory.shoppingLivedata,
+                ShoppingDataSource::isEmpty)
+    }
+
+    fun isEmptyWithdrawal(): LiveData<isEmpty>{
+        return Transformations.switchMap(withdrawFactory.withdrawLivedata,
+                WithdrawDataSource::isEmpty)
+    }
+
+    fun getStateWithdraw(): LiveData<State>{
+        return Transformations.switchMap(withdrawFactory.withdrawLivedata,
+                WithdrawDataSource::state)
+    }
 }

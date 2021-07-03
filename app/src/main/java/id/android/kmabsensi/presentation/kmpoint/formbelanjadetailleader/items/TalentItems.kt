@@ -4,10 +4,11 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse
+import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestParticipant
 import kotlinx.android.synthetic.main.item_row_talent.view.*
 
 class TalentItems(
-        val talent : DetailShoppingResponse.Data.User
+        val talent : ShoppingRequestParticipant.User
 ): Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.apply {

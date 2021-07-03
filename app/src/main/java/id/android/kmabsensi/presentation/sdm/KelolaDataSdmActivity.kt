@@ -174,7 +174,7 @@ class KelolaDataSdmActivity : BaseActivity() {
         vm.getState().observe(this, Observer {state ->
             when(state){
                 State.LOADING-> {
-                    showSkeletonPaging(rvSdm, R.layout.skeleton_list_sdm, kelolaSdmAdapter)
+                    showSkeletonPaging(rvSdm, R.layout.skeleton_list_sdm, rvAdapter = kelolaSdmAdapter)
                 }
                 State.DONE-> hideSkeletonPaging()
                 State.ERROR-> {

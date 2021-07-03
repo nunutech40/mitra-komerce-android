@@ -10,9 +10,11 @@ import id.android.kmabsensi.data.remote.response.kmpoint.GetWithdrawResponse
 import id.android.kmabsensi.databinding.ActivityWithdrawalListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
-import id.android.kmabsensi.presentation.kmpoint.penarikan.adapter.PenarikanItem
+import id.android.kmabsensi.presentation.kmpoint.penarikan.adapter.WithdrawAdapter
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.WithdrawalDetailActivity
-import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.State
+import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.isEmpty
 import id.android.kmabsensi.utils.visible
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
@@ -24,85 +26,66 @@ class WithdrawListActivity : BaseActivity() {
     }
     private val vm : WithdrawViewModel by inject()
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private var groupDataPenarikan: ArrayList<PenarikanMainModel> = arrayListOf()
-
+    private var groupDataWithdraw: ArrayList<WithdrawMainModel> = arrayListOf()
+    private lateinit var withdrawAdapter : WithdrawAdapter
     private val binding by lazy { ActivityWithdrawalListBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupView()
+        initRv()
         setupObserver()
         setupListener()
-        initRv()
     }
 
     private fun setupObserver() {
-        vm.getDataWithdraw()
-        vm.detailWithdraw.observe(this, {
+        vm.getAllWithdrawPaged().observe(this, {
+            withdrawAdapter.submitList(it)
+        })
+
+
+        vm.getState().observe(this,{
+            when(it){
+                State.LOADING-> {
+                    showSkeletonPaging(binding.rvPenarikan, R.layout.skeleton_list_sdm, rvAdapter3 = withdrawAdapter)
+                }
+                State.DONE-> hideSkeletonPaging()
+                State.ERROR-> {
+                    Log.d("_state", "ERROR")
+                    hideSkeletonPaging()
+                }
+            }
+        })
+
+        vm.isEmpty().observe(this, {
             when (it) {
-                is UiState.Loading -> {
-                    Log.d("_getDataWithDraw", "Loading... ")
+                isEmpty.ISTRUE -> {
+                    Log.d("_isEmpty", "isEmpty.ISTRUE")
+                    binding.layoutEmpty.layoutEmpty.visible()
                 }
-                is UiState.Success ->{
-                    Log.d("_getDataWithDraw", "Success: $it")
-                    setupData(it.data.data)
+                isEmpty.ISFALSE -> {
+                    Log.d("_isEmpty", "isEmpty.ISFALSE")
+                    binding.layoutEmpty.layoutEmpty.gone()
                 }
-                is UiState.Error -> Log.d("_getDataWithDraw", "Error : $it")
             }
         })
     }
 
     private fun initRv() {
+        withdrawAdapter = WithdrawAdapter(this, object : WithdrawAdapter.onAdapterListener{
+            override fun onClickde(data: GetWithdrawResponse.DataWithDraw.DataDetailWithDraw) {
+                var type = if (data.transactionType!!.toLowerCase().equals("withdraw_to_me")) 1 else  0
+                startActivity<WithdrawalDetailActivity>(
+                        "_typePenarikan" to type,
+                        "_idWithdraw" to data.id
+                )
+            }
+        })
         val linearLayoutManager = LinearLayoutManager(this)
         binding.rvPenarikan.apply {
             layoutManager = linearLayoutManager
-            adapter = groupAdapter
+            adapter = withdrawAdapter
         }
-    }
-
-    private fun setupData(data: GetWithdrawResponse.DataWithDraw) {
-        var date = ""
-        data.data.forEach {
-            var type = 0
-//            if (!date.equals(it.date)) {
-//                type = TYPE_HEADER
-//                date = it.date!!
-//            } else {
-//                type = TYPE_WITHDRAWAL
-//            }
-            groupDataPenarikan.add(PenarikanMainModel(type, it))
-        }
-        groupAdapter.clear()
-        groupDataPenarikan.forEach {
-            groupAdapter.add(PenarikanItem(this, it) {
-                var type = if (it.data.transactionType!!.toLowerCase().equals("withdraw_to_me")) 1 else  0
-                startActivity<WithdrawalDetailActivity>(
-                        "_typePenarikan" to type,
-                        "_idWithdraw" to it.data.id
-                        )
-            })
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("testLifecycle", "onStart: ")
-    }
-
-    override fun onResume() {
-        Log.d("testLifecycle", "onResume: ")
-        vm.getDataWithdraw()
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("testLifecycle", "onPause: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("testLifecycle", "onStop: ")
     }
 
     private fun setupListener() {
@@ -112,13 +95,13 @@ class WithdrawListActivity : BaseActivity() {
     }
 
     private fun setupView() {
-        binding.toolbar.btnSearch.visible()
         binding.toolbar.txtTitle.text = getString(R.string.text_penarikan_poin)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity<HomeActivity>()
+        startActivity<HomeActivity>(
+                "isShopping" to true)
         finishAffinity()
     }
 }

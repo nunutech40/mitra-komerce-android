@@ -21,6 +21,8 @@ import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.Data
+import id.android.kmabsensi.data.remote.response.kmpoint.model.PartnerShoppingRequest
+import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestItem
 import id.android.kmabsensi.databinding.ActivityAddShoppingListBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
@@ -44,11 +46,11 @@ class AddShoppingListActivity : BaseActivity() {
     private var listItems: ArrayList<Item> = arrayListOf()
     private var partners = mutableListOf<Partner>()
     private val PICK_PARTNER_RC = 112
-    private var partnerEditMode: Data.Partner? = null // data partner when edit/update mode conditiion
+    private var partnerEditMode: PartnerShoppingRequest? = null // data partner when edit/update mode conditiion
     private var partnerSelected: Partner? = null // // data partner when normal conditiion
     private var dataTalent = ArrayList<User>()
     private lateinit var detailShopping: Data
-    private var shoopingRequestItems: Data.ShoopingRequestItem? = null
+    private var shoopingRequestItems: ShoppingRequestItem? = null
 
     /**
     edit mode is used when user access this activity from button 'edit' which in shopping detail activity
@@ -79,7 +81,7 @@ class AddShoppingListActivity : BaseActivity() {
                 detailShopping = intent.getParcelableExtra<Data>("_editDetailShopping")!!
                 detailShopping.let {
                     partnerEditMode = it.partner
-                    binding.edtPilihPartner.setText(partnerEditMode!!.fullName)
+                    binding.edtPilihPartner.setText(partnerEditMode!!.user?.fullName ?: "-")
 
                     it.shoopingRequestParticipants!!.forEach {
                         saveTalent.add(TalentModel(it.userId!!, it.user?.fullName!!, it.user.roleId.toString()))
@@ -115,7 +117,7 @@ class AddShoppingListActivity : BaseActivity() {
                 is UiState.Success -> {
                     binding.edtPilihPartner.isEnabled = true
 
-                    if (editMode) binding.edtPilihPartner.setText(partnerEditMode!!.fullName)
+                    if (editMode) binding.edtPilihPartner.setText(partnerEditMode!!.user?.fullName ?: "-")
                     else binding.edtPilihPartner.hint = getString(R.string.pilih_partner)
 
                     it.data.partners.forEach {
@@ -187,14 +189,21 @@ class AddShoppingListActivity : BaseActivity() {
                             participant_user_ids = userIds
                     )).observe(this, {
                 when (it) {
-                    is UiState.Loading -> Log.d("_createShoppList", "Loading .... ")
+                    is UiState.Loading -> {
+                        Log.d("_createShoppList", "Loading .... ")
+                        setupAnimation(true)
+                    }
                     is UiState.Success -> {
+                        setupAnimation(false)
                         val response = it.data.data
                         Log.d("_createShoppList", "Success $response ")
                         startActivity<ShoppingDetailLeaderActivity>(
                                 "idDetailSHopping" to response!!.id)
                     }
-                    is UiState.Error -> Log.d("_createShoppList", "Error.... ${it.throwable}")
+                    is UiState.Error ->{
+                        setupAnimation(false)
+                        Log.d("_createShoppList", "Error.... ${it.throwable}")
+                    }
                 }
             })
         } else {
@@ -206,13 +215,20 @@ class AddShoppingListActivity : BaseActivity() {
                     user_requester_id = user.id
             )).observe(this, {
                 when (it) {
-                    is UiState.Loading -> Log.d("_createShoppList", "Loading boss.... ")
+                    is UiState.Loading -> {
+                        Log.d("_createShoppList", "Loading .... ")
+                        setupAnimation(true)
+                    }
                     is UiState.Success -> {
+                        setupAnimation(false)
                         val response = it.data.data
                         startActivity<ShoppingDetailLeaderActivity>(
                                 "idDetailSHopping" to response!!.id)
                     }
-                    is UiState.Error -> Log.d("_createShoppList", "Error boss.... ${it.throwable}")
+                    is UiState.Error -> {
+                        setupAnimation(false)
+                        Log.d("_createShoppList", "Error boss.... ${it.throwable}")
+                    }
                 }
             })
         }
@@ -229,7 +245,12 @@ class AddShoppingListActivity : BaseActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d("TAGTAGTAG", "onTextChanged editmode: $s")
+                if (!s.toString().equals("")){
+                    if (s.toString().toInt() > 100000000) {
+                        toolsPrice.text = "100000000".toEditable()
+                        toolsPrice.error = "Batas maksimal adalah Rp.100-juta."
+                    }
+                }
                 total = 0
                 saveDataFormTools()
                 listItems.forEach {
@@ -266,6 +287,12 @@ class AddShoppingListActivity : BaseActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.toString().equals("")){
+                    if (s.toString().toInt() > 100000000) {
+                        toolPrice.text = "100000000".toEditable()
+                        toolPrice.error = "Batas maksimal adalah Rp.100-juta."
+                    }
+                }
                 total = 0
                 saveDataFormTools()
                 updateListItems.forEach {
@@ -438,5 +465,15 @@ class AddShoppingListActivity : BaseActivity() {
         }
 
         return isChecked
+    }
+
+    private fun setupAnimation(isPlay: Boolean){
+        if (isPlay){
+            binding.animationView.visible()
+            binding.layout.isEnabled = false
+        }else{
+            binding.animationView.gone()
+            binding.layout.isEnabled = true
+        }
     }
 }
