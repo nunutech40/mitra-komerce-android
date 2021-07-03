@@ -37,17 +37,17 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
     private lateinit var dataShopping: Data
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
     private val itemsAdapter = GroupAdapter<GroupieViewHolder>()
-    private val dialog by lazy {
-        MaterialDialog(this).show {
-            cornerRadius(5f)
-            customView(
-                    R.layout.dialog_batal_pengajuan_belanja,
-                    scrollable = false,
-                    horizontalPadding = false,
-                    noVerticalPadding = true
-            )
-        }
-    }
+//    private val dialog by lazy {
+//        MaterialDialog(this).show {
+//            cornerRadius(5f)
+//            customView(
+//                    R.layout.dialog_batal_pengajuan_belanja,
+//                    scrollable = false,
+//                    horizontalPadding = false,
+//                    noVerticalPadding = true
+//            )
+//        }
+//    }
 
     private var skeletonPage: SkeletonScreen? = null
 
@@ -162,6 +162,15 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
     }
 
     private fun showDialogCancle() {
+        val dialog = MaterialDialog(this).show {
+            cornerRadius(5f)
+            customView(
+                    R.layout.dialog_batal_pengajuan_belanja,
+                    scrollable = false,
+                    horizontalPadding = false,
+                    noVerticalPadding = true
+            )
+        }
         val customView = dialog.getCustomView()
         val btnYa = customView.findViewById<Button>(R.id.btn_ya)
         val btnTidak = customView.findViewById<Button>(R.id.btn_tidak)

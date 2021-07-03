@@ -31,7 +31,8 @@ class ShoppingDetailLeaderViewModel(
     fun getTextStatus(status : String) : String{
         return when (status) {
             "requested" -> "Diajukan"
-            "completed" -> "Disetujui"
+            "completed" -> "Selesai"
+            "approved" -> "Disetujui"
             "rejected" -> "Ditolak"
             "canceled" -> "Dibatalkan"
             else -> "-"
@@ -41,7 +42,8 @@ class ShoppingDetailLeaderViewModel(
     fun getStatusTextColor(status : String) : Int{
         return  when (status) {
             "requested" -> R.color.cl_yellow
-            "completed" -> R.color.cl_green
+            "completed" -> R.color.cl_blue
+            "approved" -> R.color.cl_green
             "rejected" -> R.color.cl_orange
             "canceled" -> R.color.cl_orange
             else -> R.color.cl_yellow
@@ -51,7 +53,8 @@ class ShoppingDetailLeaderViewModel(
     fun getStatusBackgroundColor(status : String) : Int{
         return  when (status) {
             "requested" -> R.color.cl_semi_yellow
-            "completed" -> R.color.cl_semi_green
+            "completed" -> R.color.cl_semi_blue
+            "approved" -> R.color.cl_semi_green
             "rejected" -> R.color.cl_semi_orange
             "canceled" -> R.color.cl_semi_orange
             else -> R.color.cl_semi_yellow

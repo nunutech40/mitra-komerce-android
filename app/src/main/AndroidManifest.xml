@@ -42,13 +42,7 @@
         <activity android:name=".presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity"/>
         <activity android:name=".presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderActivity"/>
         <activity android:name=".presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailsFinanceActivity" />
-        <activity android:name=".presentation.kmpoint.formbelanja.ShoppingCartActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+        <activity android:name=".presentation.kmpoint.formbelanja.ShoppingCartActivity"/>
         <activity android:name=".presentation.kmpoint.penarikandetail.WithdrawalDetailActivity" />
         <activity android:name=".presentation.kmpoint.penarikan.WithdrawListActivity" />
         <activity android:name=".presentation.invoice.searchspinner.SearchableSpinnerActivity" />
