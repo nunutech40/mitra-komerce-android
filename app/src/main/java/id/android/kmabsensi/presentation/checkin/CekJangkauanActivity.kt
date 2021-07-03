@@ -1,17 +1,14 @@
 package id.android.kmabsensi.presentation.checkin
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.location.Location
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
-import android.view.animation.AnimationUtils
+import android.os.Handler
+import android.widget.Button
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,37 +16,51 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import id.android.kmabsensi.data.remote.response.OfficeAssigned
-import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.R
-import id.android.kmabsensi.utils.*
-import kotlinx.android.synthetic.main.activity_cek_jangkauan.*
-import kotlinx.android.synthetic.main.toolbar.*
+import id.android.kmabsensi.data.remote.response.OfficeAssigned
+import id.android.kmabsensi.databinding.ActivityCekJangkauanBinding
+import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.utils.DATA_OFFICE_KEY
+import id.android.kmabsensi.utils.LocationManager
+import id.android.kmabsensi.utils.PRESENCE_ID_KEY
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 
 class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
 
+    private var countOutArea = 0
+
     private lateinit var mMap: GoogleMap
     private lateinit var locationManager: LocationManager
 
-    private var data : OfficeAssigned? = null
+    private var data: OfficeAssigned? = null
 
     //untuk keperluan checkout
     private var presenseId: Int = 0
 
     private var lastLocation: Location? = null
 
-    var marker : Marker? = null
+    var marker: Marker? = null
 
+    private val dialog by lazy {
+        MaterialDialog(this).apply {
+            cornerRadius(16f)
+            customView(
+                R.layout.dialog_diluar_jangkauan,
+                scrollable = false,
+                horizontalPadding = true,
+                noVerticalPadding = true
+            )
+        }
+    }
+
+    private val binding by lazy { ActivityCekJangkauanBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cek_jangkauan)
+        setContentView(binding.root)
 
-        setupToolbar()
+//        setupToolbar()
 
         data = intent.getParcelableExtra(DATA_OFFICE_KEY)
         presenseId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
@@ -59,35 +70,6 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         locationManager = LocationManager(this)
-
-        btnNext.setOnClickListener {
-            startActivity<CheckinActivity>(
-                DATA_OFFICE_KEY to data,
-                PRESENCE_ID_KEY to presenseId)
-        }
-
-//        val kendalaAbsen = SpannableString("Mengalami Kendala? Kirim Laporan")
-//        kendalaAbsen.setSpan(
-//            ForegroundColorSpan(
-//                ContextCompat.getColor(
-//                    this,
-//                    R.color.color_kirim_laporan
-//                )
-//            ),
-//            19, 32,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//        kendalaAbsen.setSpan(
-//            StyleSpan(Typeface.BOLD),
-//            19, 32,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//
-//        btnKirimLaporan.text = kendalaAbsen
-//
-//        btnKirimLaporan.setOnClickListener {
-//            startActivity<ReportAbsensiActivity>()
-//        }
 
     }
 
@@ -114,39 +96,41 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
 
             locationManager.listenLocationUpdate {
                 lastLocation = it
-                var myLocation = LatLng(it.latitude, it.longitude)
-                if (!layoutNext.isVisible) layoutNext.visible()
-                marker?.let {
-                    it.remove()
-                }
-                marker = mMap.addMarker(MarkerOptions().position(myLocation))
+
                 val officeLocation = Location("office").apply {
                     latitude = office.latitude
                     longitude = office.longitude
                 }
                 val distance = officeLocation.distanceTo(it)
-
-                layoutNext.visible()
-                val animation = AnimationUtils.loadAnimation(this, R.anim.downtoup)
-                layoutNext.animation = animation
-                if (distance > 350){
-                    layoutDiluarJangkauan.visible()
-                    txtJangkauan.gone()
-                    btnNext.isEnabled = false
+                if (distance > 350) {
+                    countOutArea++
                 } else {
-                    txtJangkauan.visible()
-                    layoutDiluarJangkauan.gone()
-                    btnNext.isEnabled = true
+                    Handler(mainLooper).postDelayed({
+                        //doSomethingHere()
+                        startActivity<CheckinActivity>(
+                            DATA_OFFICE_KEY to data,
+                            PRESENCE_ID_KEY to presenseId
+                        )
+                    }, 700)
+                }
+
+                if (countOutArea >= 2) {
+                    showDialogDiluarJangkauan()
                 }
             }
         }
 
     }
 
-    fun setupToolbar(){
-        txtTitle.text = "Cek Jangkauan"
-        btnBack.setOnClickListener {
-            onBackPressed()
+    fun showDialogDiluarJangkauan() {
+        if (!dialog.isShowing) {
+            val customView = dialog.getCustomView()
+            val btnOke = customView.findViewById<Button>(R.id.btn_oke)
+            btnOke.setOnClickListener {
+                dialog.dismiss()
+                onBackPressed()
+            }
+            dialog.show()
         }
     }
 

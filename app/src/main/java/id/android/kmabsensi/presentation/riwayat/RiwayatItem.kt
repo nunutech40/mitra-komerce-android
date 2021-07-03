@@ -71,7 +71,6 @@ class RiwayatItem(
 
             presenceHistory.user?.let {
                 itemView.txtKantor.text = it.office_name
-                itemView.txtPartner.text = it.division_name
                 itemView.txtName.text = it.full_name.toLowerCase().capitalizeWords()
             }
         }

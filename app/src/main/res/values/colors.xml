@@ -83,5 +83,7 @@
     <color name="cl_grey">#D2D2D2</color>
     <color name="cl_grey_2">#E2E2E2</color>
     <color name="cl_grey_dark">#A2A2A2</color>
+    <color name="cl_yellow">#F1BF0D</color>
+    <color name="cl_green">#34C759</color>
 
 </resources>

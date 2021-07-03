@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
@@ -17,9 +18,11 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.OfficeAssigned
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.ActivityCheckinBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.camera.CameraActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
+import id.android.kmabsensi.presentation.splashabsen.SplashAbsenActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import io.reactivex.disposables.CompositeDisposable
@@ -33,7 +36,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class CheckinActivity : BaseActivity() {
-
     private val vm: CheckinViewModel by inject()
     private val pref: PreferencesHelper by inject()
 
@@ -42,21 +44,19 @@ class CheckinActivity : BaseActivity() {
 
     private val cal = Calendar.getInstance()
 
-    var imagePath: String = ""
-
-    private var actualImage: File? = null
     private var compressedImage: File? = null
-
-    private val disposables = CompositeDisposable()
 
     private lateinit var myDialog: MyDialog
 
     var onTimeLevel = 0
 
+    private var presenceTime = ""
+
+    private val binding by lazy { ActivityCheckinBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkin)
+        setContentView(binding.root)
 
         presenceId = intent.getIntExtra(PRESENCE_ID_KEY, 0)
 
@@ -65,20 +65,47 @@ class CheckinActivity : BaseActivity() {
         data = intent.getParcelableExtra(DATA_OFFICE_KEY) ?: OfficeAssigned()
 
         setupView()
+        setupObserver()
+        setupListener()
 
-        vm.checkInResponse.observe(this, androidx.lifecycle.Observer {
+    }
+
+    private fun setupListener() {
+        binding.btnSelesai.setOnClickListener {
+            compressedImage?.let {
+                val timeFormat = SimpleDateFormat("kk:mm")
+                presenceTime = timeFormat.format(cal.time).toString()
+                if (presenceId == 0) vm.checkIn(it, getCheckinOntimeLevel() ) else vm.checkOut(presenceId, it)
+            } ?: run {
+                createAlertError(this, "Gagal", "Ambil foto terlebih dahulu", 3000)
+            }
+        }
+
+        binding.btnAmbilUlang.setOnClickListener {
+            startActivityForResult<CameraActivity>(125)
+        }
+
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun setupObserver() {
+        vm.checkInResponse.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
+                    Log.d("TAGTAGTAG", "onCreate: $presenceTime")
                     startActivity(
-                        intentFor<HomeActivity>(
+                        intentFor<SplashAbsenActivity>(
                             "isCheckin" to (presenceId == 0),
                             "isCheckout" to (presenceId != 0),
                             "message" to it.data.message,
-                            "ontimeLevel" to onTimeLevel
+                            "ontimeLevel" to onTimeLevel,
+                            "presenceTime" to presenceTime
                         ).clearTask().newTask()
                     )
                 }
@@ -89,40 +116,19 @@ class CheckinActivity : BaseActivity() {
             }
         })
 
-        btnCheckIn.setOnClickListener {
-            compressedImage?.let {
-                if (presenceId == 0) vm.checkIn(it, getCheckinOntimeLevel() ) else vm.checkOut(presenceId, it)
-            } ?: run {
-                createAlertError(this, "Gagal", "Ambil foto terlebih dahulu", 3000)
-            }
-        }
-
     }
 
     private fun setupView() {
-        txtTitle.text = if (presenceId == 0) "Check in" else "Check Out"
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
 
         val user =
             Gson().fromJson<User>(pref.getString(PreferencesHelper.PROFILE_KEY), User::class.java)
 
-        val timeFormat = SimpleDateFormat("kk:mm")
-        txtJam.text = timeFormat.format(cal.time)
         txtKantor.text = data.office_name
-
         txtName.text = user.full_name
         txtPositionName.text = user.position_name
 
-        if (presenceId != 0) {
-            txtType.text = "Pulang"
-            btnCheckIn.text = "Check out"
-        }
-
-        layoutBorderCamera.setOnClickListener {
-            startActivityForResult<CameraActivity>(125)
-        }
+//        Auto move to camera
+        startActivityForResult<CameraActivity>(125)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,14 +137,11 @@ class CheckinActivity : BaseActivity() {
             val file = data?.getSerializableExtra("image")
             compressedImage = file as File
             file?.let {
-                txtKetukLayar.gone()
-                layoutBorderCamera.gone()
                 Glide.with(this)
                     .load(it)
                     .signature(ObjectKey(System.currentTimeMillis().toString()))
                     .into(picture)
             }
-
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -187,4 +190,11 @@ class CheckinActivity : BaseActivity() {
         }
         return 0
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, HomeActivity::class.java).clearTask().newTask())
+        finishAffinity()
+    }
+
 }
