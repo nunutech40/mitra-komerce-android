@@ -146,7 +146,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private fun updateSataShopping() {
         var userId = ArrayList<Int>()
         detailShopping?.shoopingRequestParticipants!!.forEach {
-            userId.add(it.userId!!)
+            userId.add(it.userId)
         }
         saveDataFormTools()
         vm.updateShoppingRequest(idDetailSHopping,

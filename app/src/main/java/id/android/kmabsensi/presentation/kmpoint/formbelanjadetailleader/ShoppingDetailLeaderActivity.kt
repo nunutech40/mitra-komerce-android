@@ -6,6 +6,7 @@ import android.widget.Button
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.bumptech.glide.Glide
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.xwray.groupie.GroupAdapter
@@ -97,8 +98,8 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
     private fun setupView(data: Data) {
         binding.etNotes.isEnabled = false
         try {
-            binding.txUsername.text = data.userRequester!!.fullName
-            binding.txNoPartner.text = data.partner?.noPartner
+            binding.txUsername.text = data.partner!!.user?.fullName
+            binding.txNoPartner.text = "No. Partner : "+data.partner.noPartner
         } catch (e: Exception) {
             Log.d("_Exception", "setupView: ${e.message}")
         }
@@ -111,13 +112,19 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
         binding.txTotalPrice.setText(formatRupiah.format(data.total!!.toDouble()))
          */
 
+        Glide.with(this)
+            .load(data.partner?.user?.photoProfileUrl)
+            .centerCrop()
+            .placeholder(R.drawable.ic_my_profile)
+            .into(binding.imgProfile)
+
         binding.txTotalPrice.text = data.total.toString()
         binding.etNotes.text = data.notes?.toEditable()
         talentAdapter.clear()
         data.shoopingRequestParticipants?.forEach {
             // todo testing detail user
             try {
-                talentAdapter.add(TalentItems(it.user!!))
+                talentAdapter.add(TalentItems(it.user))
             }catch (e: Exception){}
         }
         itemsAdapter.clear()
@@ -164,7 +171,7 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
         }
         var idParticipant = ArrayList<Int>()
         dataShopping.shoopingRequestParticipants?.forEach {
-            idParticipant.add(it.user?.id!!)
+            idParticipant.add(it.user.id)
         }
         btnYa.setOnClickListener {
             vm.updateShoppingRequest(id = idDetail,
@@ -177,7 +184,7 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
                 when (it) {
                     is UiState.Loading -> setupLoadAnimation(true)
                     is UiState.Success -> {
-                        if (it.data.success!!){
+                        if (it.data.success){
                             setupLoadAnimation(false)
                             dialog.dismiss()
                             onBackPressed()

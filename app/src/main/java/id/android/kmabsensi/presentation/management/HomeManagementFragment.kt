@@ -126,7 +126,8 @@ class HomeManagementFragment : Fragment() {
 
         if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
             view_menu_shift.visible()
-        }
+            binding.viewMenuShopping.visible()
+        }else binding.viewMenuShopping.gone()
     }
 
     private fun setupObserver() {

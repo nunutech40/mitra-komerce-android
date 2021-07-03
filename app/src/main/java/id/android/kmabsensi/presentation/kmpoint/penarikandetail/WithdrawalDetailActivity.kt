@@ -123,6 +123,7 @@ class WithdrawalDetailActivity : BaseActivity() {
         if (data.status.equals("completed")) {
             binding.rvTransferPict.visible()
             binding.rvTransfer.gone()
+
             binding.btnSelesai.apply {
                 this.isClickable = false
                 this.alpha = 0.5f
@@ -175,12 +176,12 @@ class WithdrawalDetailActivity : BaseActivity() {
         try {
             data.user.let {
                 Glide.with(this)
-                        .load("https://image.freepik.com/free-vector/profile-icon-male-avatar-hipster-man-wear-headphones_48369-8728.jpg")
+                        .load(it.photoProfileUrl)
                         .centerCrop()
-                        .placeholder(R.drawable.ic_loading_image)
+                        .placeholder(R.drawable.ic_my_profile)
                         .into(binding.imgProfile)
                 binding.txUsername.text = it.fullName
-                binding.txNoPartner.text = "-"
+                binding.txNoPartner.text = "No. Partner : -"
             }
         }catch (e : Exception){}
     }
