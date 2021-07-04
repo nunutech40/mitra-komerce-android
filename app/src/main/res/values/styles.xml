@@ -35,25 +35,25 @@
     <style name="tv10sp000000_avenir_medium">
         <item name="android:fontFamily">@font/avenir_medium</item>
         <item name="android:textSize">@dimen/_10sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv8sp000000_avenir_medium">
         <item name="android:fontFamily">@font/avenir_medium</item>
         <item name="android:textSize">@dimen/_8sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv10sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_10sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv10sp000000_avenir">
         <item name="android:fontFamily">@font/avenir_regular</item>
         <item name="android:textSize">@dimen/_10sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv10spe15352_avenir_heavy">
@@ -90,19 +90,19 @@
     <style name="tv16sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv16sp000000_avenir">
         <item name="android:fontFamily">@font/avenir_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv16sp000000_avenir_medium">
         <item name="android:fontFamily">@font/avenir_medium</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv14spde4d4e_avenir_medium">
@@ -144,7 +144,7 @@
     <style name="tv18sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_18sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv24sp404040_avenir_heavy">
@@ -156,13 +156,13 @@
     <style name="tv24sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_24sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv22sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv24spffffff_avenir_heavy">
@@ -246,19 +246,19 @@
     <style name="tv12sp000000_avenir_medium">
         <item name="android:fontFamily">@font/avenir_medium</item>
         <item name="android:textSize">@dimen/_12sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv12sp000000_avenir">
         <item name="android:fontFamily">@font/avenir_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv12sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_12sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv13spa1a4af_avenir_heavy">
@@ -270,7 +270,7 @@
     <style name="tv13sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_13sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv8sp7a7b7c_avenir_heavy">
@@ -313,19 +313,19 @@
     <style name="tv14sp000000_avenir_medium">
         <item name="android:fontFamily">@font/avenir_medium</item>
         <item name="android:textSize">@dimen/_14sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv14sp000000_avenir_heavy">
         <item name="android:fontFamily">@font/avenir_heavy</item>
         <item name="android:textSize">@dimen/_14sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv14sp000000_avenir">
         <item name="android:fontFamily">@font/avenir_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
-        <item name="android:textColor">@color/_000000</item>
+        <item name="android:textColor">@color/cl_black</item>
     </style>
 
     <style name="tv14spffffff_avenir_medium">

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:cardCornerRadius="30dp"
+            android:elevation="0dp"
+            android:layout_gravity="center_horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cl_grey_2"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:layout_marginTop="15dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_32dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_skeleton"/>
+
+        <View
+            android:layout_marginTop="15dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_skeleton"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:layout_marginVertical="@dimen/_32dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10dp"
+                android:background="@drawable/shape_skeleton"/>
+
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_32dp"
+                android:layout_marginRight="@dimen/_50sdp"
+
+                android:background="@drawable/shape_skeleton"/>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10dp"
+                android:background="@drawable/shape_skeleton"/>
+
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_32dp"
+                android:background="@drawable/shape_skeleton"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cl_white"
+    tools:context=".presentation.kmpoint.penarikandetail.WithdrawalDetailActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_16dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_32dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="30dp"
+                    android:elevation="0dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/my_profile_tidak_aktif"
+                        android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tx_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:text="@string/username"
+                    style="@style/tv22sp000000_avenir_heavy"
+                     />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tx_no_partner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_6dp"
+                    android:text="@string/nomor_partner"
+                    style="@style/tv12sp7A7B7C_avenir"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_24dp"
+                android:background="@drawable/bg_white_10dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="23dp"
+                android:paddingVertical="@dimen/_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_keterangan"
+                        style="@style/tv16sp000000_avenir_medium"                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tx_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        style="@style/tv16spED6E65_avenir_heavy"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/desc_total_poin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12dp"
+                        android:text="@string/text_total_poin"
+                        style="@style/tv16sp000000_avenir_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tx_type" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tx_total_poin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="0"
+                        style="@style/tv16spED6E65_avenir_heavy"                        app:layout_constraintBottom_toBottomOf="@+id/desc_total_poin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/desc_total_poin" />
+
+    <!--
+        display for 'kasih ke talent' -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_kasih_talent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_24dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tx_total_poin">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/desc_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_nama_talent"
+                            style="@style/tv16sp000000_avenir_heavy"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@string/text_point_didapat"
+                            style="@style/tv16sp000000_avenir_heavy"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_talent"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/_12dp"
+                            app:layout_constraintTop_toBottomOf="@+id/desc_username" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--
+        display for 'tarik saldo' -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_tarik_saldo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_24dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tx_total_poin">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/desc_detail_penarikan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_detail_penarikan"
+                            style="@style/tv16sp000000_avenir_heavy"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10dp"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/desc_detail_penarikan">
+
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_nama_bank" />
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_name_bank"
+                                style="@style/tv14sp000000_avenir_medium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="8dp"/>
+
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_no_rekening" />
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_no_rek"
+                                style="@style/tv14sp000000_avenir_medium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="8dp"/>
+
+                            <TextView
+                                style="@style/tv14spf48070_avenir_heavy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:text="@string/text_pemilik_rekening" />
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_rek_owner"
+                                style="@style/tv14sp000000_avenir_medium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="8dp"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_32dp"
+                                android:text="@string/text_upload_bukti_transaksi"
+                                style="@style/tv16sp000000_avenir_heavy"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_transfer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_14dp"
+                                tools:listitem="@layout/item_row_bukti_transfer"
+                                />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_transfer_pict"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:layout_marginTop="@dimen/_14dp"
+                                tools:listitem="@layout/item_row_bukti_transfer"
+                                />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_selesai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/bg_orange_10dp"
+                    android:elevation="0dp"
+                    android:text="@string/text_selesai"
+                    android:textAllCaps="false"
+                    android:textColor="@color/cl_white"
+                    style="@style/tv18sp000000_avenir_heavy"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="50-material-loader.json" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,12 @@ import id.android.kmabsensi.presentation.myevaluation.EvaluationViewModel
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.kategori.PartnerCategoryViewModel
 import id.android.kmabsensi.presentation.permission.PermissionViewModel
+import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartViewModel
+import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.ShoppingDetailFinanceViewModel
+import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderViewModel
+import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawViewModel
+import id.android.kmabsensi.presentation.kmpoint.penarikandetail.DetailWithDrawViewModel
+import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.AddShoppingViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -122,6 +128,12 @@ val viewModelModule = module {
     viewModel { HolidayViewModel(get(), get()) }
     viewModel { SdmViewModel(get(), get(), get()) }
     viewModel { UserConfigurationViewModel(get(), get(), get()) }
+    viewModel { AddShoppingViewModel(get(), get(), get(), get()) }
+    viewModel { ShoppingDetailLeaderViewModel(get()) }
+    viewModel { ShoppingCartViewModel(get()) }
+    viewModel { WithdrawViewModel(get()) }
+    viewModel { DetailWithDrawViewModel(get(), get()) }
+    viewModel { ShoppingDetailFinanceViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

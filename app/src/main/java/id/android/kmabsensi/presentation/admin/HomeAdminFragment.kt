@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.admin
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,6 +91,9 @@ class HomeAdminFragment : Fragment() {
     private val cal = Calendar.getInstance()
     private val holidays = mutableListOf<Holiday>()
 
+    private val  isShopping by lazy {
+        activity?.intent?.getBooleanExtra("isShopping", false)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -104,7 +108,7 @@ class HomeAdminFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        if (isShopping!!) showGroupMenu(1)
         vm.dashboardData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is UiState.Loading -> {
@@ -430,13 +434,14 @@ class HomeAdminFragment : Fragment() {
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60
                         val second = (millisUntilFinished / 1000) % 60
-
-                        txtCountdown.text = String.format(
-                            FORMAT,
-                            hour,
-                            minute,
-                            second
-                        )
+                        try {
+                            txtCountdown.text = String.format(
+                                    FORMAT,
+                                    hour,
+                                    minute,
+                                    second
+                            )
+                        }catch (e: Exception){}
                     }
                 }
 

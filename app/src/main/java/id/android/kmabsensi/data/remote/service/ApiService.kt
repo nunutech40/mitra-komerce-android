@@ -1,9 +1,11 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.body.*
+import id.android.kmabsensi.data.remote.body.kmpoint.CreateShoppingRequestParams
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
+import id.android.kmabsensi.data.remote.response.kmpoint.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -655,4 +657,70 @@ interface ApiService {
     fun searchUser(
         @Query("keyword") keyword : String
     ): Single<UserResponse>
+
+    @POST("api/shoppingRequest")
+    fun createShoppingRequest(
+        @Body body : CreateShoppingRequestParams
+    ): Single<CreateShoppingRequestResponse>
+
+    @JvmSuppressWildcards
+    @PUT("api/shoppingRequest/{id}")
+    fun updateShoppingRequest(
+            @Path("id") id: Int,
+            @Body body: Map<String, Any>
+    ): Single<CreateShoppingRequestResponse>
+
+    @GET("api/shoppingRequest")
+    fun allshoppingRequest(
+            @Query("page") page : Int? = 1,
+            @Query("limit") limit : Int? = 10,
+            @Query("user_requester_id") user_requester_id : Int?
+    ): Single<AllShoppingRequestResponse>
+
+    @GET("api/shoppingRequest")
+    fun allshoppingRequestPagging(
+        @Query("page") page : Int,
+        @Query("limit") limit : Int = 10,
+        @Query("status") status : String? = null,
+        @Query("user_requester_id") user_requester_id : Int? = null
+    ): Single<AllShoppingRequestResponse>
+
+    @GET("api/shoppingRequest/{id}")
+    fun shoppingRequestDetail(
+        @Path("id") id: Int
+    ): Single<DetailShoppingResponse>
+
+    @GET("api/kmpoin/kmPoinWithdrawalRequest")
+    fun getDataWithdraw(
+            @Query("page") page : Int? = 1,
+            @Query("limit") limit : Int? = 10,
+    ): Single<GetWithdrawResponse>
+
+    @GET("api/kmpoin/kmPoinWithdrawalRequest/{id}")
+    fun getDetailWithdraw(
+            @Path("id") id: Int
+    ): Single<DetailWithdrawResponse>
+
+    @JvmSuppressWildcards
+    @PUT("api/kmpoin/kmPoinWithdrawalRequest/{id}")
+    fun updateStatusWithdraw(
+            @Path("id") id: Int,
+            @Body body: Map<String, Any>
+    ): Single<UpdateWithdrawResponse>
+
+//    @FormUrlEncoded
+//    @POST("api/attachment/file/storeFile")
+//    fun uploadAttachment(
+//        @Field("reference_id") reference_id : Int,
+//        @Field("attachment_type") attachment_type: String,
+//        @Field("attachment_file") nominal: Int
+//    ): Single<UploadAttachmentResponse>
+
+    @Multipart
+    @POST("api/attachment/file/storeFile")
+    fun uploadAttachment(
+            @Part("reference_id") reference_id: RequestBody,
+            @Part("attachment_type") attachment_type: RequestBody,
+            @Part attachment_file: MultipartBody.Part
+    ): Single<UploadAttachmentResponse>
 }

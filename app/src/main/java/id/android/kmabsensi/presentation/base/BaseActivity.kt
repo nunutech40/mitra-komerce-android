@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.base
 
+import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
@@ -7,6 +8,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -20,8 +22,12 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
+import com.wildma.idcardcamera.camera.IDCardCamera
+import com.wildma.idcardcamera.utils.PermissionUtils
 import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
+import id.android.kmabsensi.presentation.kmpoint.formbelanja.adapter.ShoppingFinanceAdapter
+import id.android.kmabsensi.presentation.kmpoint.penarikan.adapter.WithdrawAdapter
 import id.android.kmabsensi.presentation.sdm.adapter.KelolaSdmAdapter
 import id.android.kmabsensi.utils.ui.MyDialog
 import id.android.kmabsensi.utils.visible
@@ -76,11 +82,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showSkeletonPaging(
             view: View, @LayoutRes layoutRes: Int,
-            rvAdapter: RecyclerView.Adapter<KelolaSdmAdapter.ViewHolder>? = null
+            rvAdapter: RecyclerView.Adapter<KelolaSdmAdapter.ViewHolder>? = null,
+            rvAdapter2: RecyclerView.Adapter<ShoppingFinanceAdapter.ViewHolder>? = null,
+            rvAdapter3: RecyclerView.Adapter<WithdrawAdapter.ViewHolder>? = null
     ) {
         if (view is RecyclerView){
+            val adapter = rvAdapter ?: rvAdapter2 ?: rvAdapter3
             skeletonScreenPaging = Skeleton.bind(view)
-                    .adapter(rvAdapter)
+                    .adapter(adapter)
                     .color(R.color.shimmer_color)
                     .load(layoutRes)
                     .show()
@@ -142,4 +151,16 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
+    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+
+    fun checkPermissionCamera(): Boolean{
+        return PermissionUtils.checkPermissionFirst(
+                this, IDCardCamera.PERMISSION_CODE_FIRST,
+                arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                )
+        )
+    }
 }

@@ -44,6 +44,7 @@ import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
+import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmActivity
@@ -125,7 +126,8 @@ class HomeManagementFragment : Fragment() {
 
         if (user.position_name.toLowerCase().contains(getString(R.string.category_leader))) {
             view_menu_shift.visible()
-        }
+            binding.viewMenuShopping.visible()
+        }else binding.viewMenuShopping.gone()
     }
 
     private fun setupObserver() {
@@ -623,6 +625,10 @@ class HomeManagementFragment : Fragment() {
         binding.btnScanQr.setOnClickListener {
             val intent = Intent(context, ScanQrActivity::class.java)
             startActivityForResult(intent, REQ_SCAN_QR)
+        }
+
+        binding.btnShopingChart.setOnClickListener {
+            activity?.startActivity<ShoppingCartActivity>("roleId" to 2)
         }
 
     }

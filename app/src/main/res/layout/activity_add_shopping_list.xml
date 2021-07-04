@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    tools:context=".presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_24dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_24dp"
+            android:paddingTop="@dimen/_18dp">
+
+            <TextView
+                android:id="@+id/labelPilihPartner"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/partner" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPilihPartner"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Silahkan Pilih Partner" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:text="@string/text_talent" />
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTagTalent"
+                style="@style/tv14sp000000_avenir_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="1" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/mainTagChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:chipSpacingVertical="4dp" />
+
+            </HorizontalScrollView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12dp"
+                android:text="@string/text_daftar_belanja" />
+
+            <LinearLayout
+                android:id="@+id/ll_form_tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_tambah_barang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_orange_10dp"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:paddingHorizontal="@dimen/_20dp"
+                    android:text="@string/text_tambah_barang"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <!--                this used to set space button-->
+                <ImageView
+                    android:id="@+id/show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/_10dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_trash" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/desc_notes"
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/avenirltstd_medium"
+                android:text="@string/text_catatan" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp"
+                android:background="@drawable/bg_grey_5dp"
+                android:ems="10"
+                android:fontFamily="@font/avenirltstd_medium"
+                android:gravity="top|left"
+                android:minLines="3"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/cl_black"
+                android:textSize="@dimen/_18sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14spf48070_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/text_total_belanja" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tx_total_point"
+                style="@style/tv18spDE4D4E_avenir_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Rp. 0" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_button_gradient_selector"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="50-material-loader.json" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

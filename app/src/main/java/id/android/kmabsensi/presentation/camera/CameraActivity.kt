@@ -196,8 +196,8 @@ class CameraActivity : AppCompatActivity() {
                     capturedFilePath =
                         compressCustomerCaptureImage(this, imagePath)
                     deleteCaptureFileFromPath(imagePath)
-
                     photoFile = File(capturedFilePath)
+                    Log.d("TAGTAGTAG", "confirmImage: $photoFile, $mCropBitmap")
                     val intent = Intent()
                     intent.putExtra("image", photoFile)
                     setResult(Activity.RESULT_OK, intent)
