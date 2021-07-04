@@ -716,6 +716,39 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/view_menu_shopping"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/btn_shoping_chart"
+                            android:layout_width="62dp"
+                            android:layout_height="62dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_shopping_chart" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            style="@style/tv13sp000000_avenir_heavy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:maxWidth="62dp"
+                            android:gravity="center"
+                            android:text="@string/text_form_belanja" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/view_menu_shift"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
