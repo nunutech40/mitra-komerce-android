@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.permission
 
+import android.content.Context
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import id.android.kmabsensi.R
@@ -10,7 +11,8 @@ import kotlinx.android.synthetic.main.item_row_permission.view.*
 import kotlinx.android.synthetic.main.item_row_riwayat_absensi.*
 import java.text.SimpleDateFormat
 
-class PermissionItem(val permission: Permission,
+class PermissionItem(val context: Context,
+                     val permission: Permission,
                      val listener: (Permission) -> Unit) : Item(){
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {9
@@ -32,16 +34,16 @@ class PermissionItem(val permission: Permission,
 
             when(permission.status){
                 0 -> {
-                    itemView.txtStatus.text = "REQUESTED"
-                    itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_requested)
+                    itemView.txtStatus.text = "Pengajuan"
+                    itemView.txtStatus.setTextColor(context.resources.getColor(R.color.cl_yellow))
                 }
                 2 -> {
-                    itemView.txtStatus.text = "DISETUJUI"
-                    itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_approved)
+                    itemView.txtStatus.text = "Disetujui"
+                    itemView.txtStatus.setTextColor(context.resources.getColor(R.color.cl_green))
                 }
                 3 -> {
-                    itemView.txtStatus.text = "DITOLAK"
-                    itemView.txtStatus.setBackgroundResource(R.drawable.bg_status_rejected)
+                    itemView.txtStatus.text = "Ditolak"
+                    itemView.txtStatus.setTextColor(context.resources.getColor(R.color.cl_orange))
                 }
             }
 

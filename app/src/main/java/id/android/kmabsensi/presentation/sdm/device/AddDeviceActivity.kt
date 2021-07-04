@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -29,6 +30,7 @@ import id.android.kmabsensi.presentation.viewmodels.DeviceViewModel
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_add_device.*
 import kotlinx.android.synthetic.main.activity_add_device.edtPilihPartner
+import kotlinx.android.synthetic.main.activity_add_invoice.*
 import kotlinx.android.synthetic.main.activity_add_laporan_advertiser.*
 import org.jetbrains.anko.startActivityForResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -63,10 +65,13 @@ class AddDeviceActivity : BaseActivity() {
 
     private var hasChangePartner = false
 
+    private var partners = mutableListOf<Partner>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
         setupToolbar("Tambah Device")
+        observePartner()
 
         device = intent.getParcelableExtra(DEVICE_DATA)
         initSpinner()
@@ -78,7 +83,8 @@ class AddDeviceActivity : BaseActivity() {
 
         edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC
+                PICK_PARTNER_RC,
+                    "listPartner" to partners
             )
         }
 
@@ -261,6 +267,24 @@ class AddDeviceActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun observePartner(){
+        sdmVM.getDataPartners().observe(this, Observer {
+            when(it){
+                is UiState.Loading -> {
+                    edtPilihPartner.isEnabled = false
+                    edtPilihPartner.setHint(getString(R.string.text_loading))
+                    Log.d("_Partner", "LOADING")
+                }
+                is UiState.Success -> {
+                    edtPilihPartner.isEnabled = true
+                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
+                    partners.addAll(it.data.partners)
+                }
+                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
+            }
+        })
     }
 
     private fun observeSdm(){

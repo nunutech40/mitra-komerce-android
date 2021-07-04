@@ -95,8 +95,8 @@ class HomeManagementFragment : Fragment() {
     private lateinit var binding : FragmentHomeManagementBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeManagementBinding.inflate(layoutInflater, container, false)
@@ -154,12 +154,12 @@ class HomeManagementFragment : Fragment() {
 
                     val workConfigs = it.data.data.work_config
                     val isWFH =
-                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                        workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
                     val isManagementWFH =
-                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
-                                    "management",
-                                    true
-                            ) ?: false
+                        isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                            "management",
+                            true
+                        ) ?: false
                     setWorkModeUI(isManagementWFH)
 
                     holidays.clear()
@@ -219,14 +219,14 @@ class HomeManagementFragment : Fragment() {
                     skeletonContdown?.hide()
 
                     skeletonNextTime = Skeleton.bind(txtNextTime)
-                            .load(R.layout.skeleton_item_big)
-                            .show()
+                        .load(R.layout.skeleton_item_big)
+                        .show()
                     skeletonContdown = Skeleton.bind(txtCountdown)
-                            .load(R.layout.skeleton_item)
-                            .show()
+                        .load(R.layout.skeleton_item)
+                        .show()
                     skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
-                            .load(R.layout.skeleton_item)
-                            .show()
+                        .load(R.layout.skeleton_item)
+                        .show()
                     if (!swipeRefresh.isRefreshing) {
                     }
                 }
@@ -257,9 +257,9 @@ class HomeManagementFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     skeletonCoworking = Skeleton.bind(rvCoworkingSpace)
-                            .adapter(groupAdapter)
-                            .load(R.layout.skeleton_list_coworking_space)
-                            .show()
+                        .adapter(groupAdapter)
+                        .load(R.layout.skeleton_list_coworking_space)
+                        .show()
                 }
                 is UiState.Success -> {
                     groupAdapter.clear()
@@ -274,17 +274,17 @@ class HomeManagementFragment : Fragment() {
                                     if (coworking.available_slot > 0) {
                                         if (coworking.cowork_presence.size < 2) {
                                             val intent = Intent(
-                                                    context,
-                                                    CheckinCoworkingActivity::class.java
+                                                context,
+                                                CheckinCoworkingActivity::class.java
                                             ).apply {
                                                 putExtra("coworking", coworking)
                                             }
                                             startActivityForResult(intent, 112)
                                         } else if (coworking.cowork_presence.size >= 2) {
                                             createAlertError(
-                                                    requireActivity(),
-                                                    "Gagal",
-                                                    "Kamu hanya bisa check in coworking space sebanyak 2 kali"
+                                                requireActivity(),
+                                                "Gagal",
+                                                "Kamu hanya bisa check in coworking space sebanyak 2 kali"
                                             )
                                         }
                                     }
@@ -407,16 +407,16 @@ class HomeManagementFragment : Fragment() {
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.toLowerCase()
-                                    .contains("rumah") || isWFH
+                            .contains("rumah") || isWFH
                     ) {
                         context?.startActivity<CheckinActivity>(
-                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                                PRESENCE_ID_KEY to presenceCheck.presence_id
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     } else {
                         context?.startActivity<CekJangkauanActivity>(
-                                DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                                PRESENCE_ID_KEY to presenceCheck.presence_id
+                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                            PRESENCE_ID_KEY to presenceCheck.presence_id
                         )
                     }
                 }
@@ -426,11 +426,11 @@ class HomeManagementFragment : Fragment() {
             if (isCheckinButtonClicked) {
                 //checkin
                 if (presenceCheck.office_assigned.office_name.toLowerCase()
-                                .contains("rumah") || isWFH
+                        .contains("rumah") || isWFH
                 ) {
                     context?.startActivity<CheckinActivity>(
-                            DATA_OFFICE_KEY to presenceCheck.office_assigned,
-                            PRESENCE_ID_KEY to 0
+                        DATA_OFFICE_KEY to presenceCheck.office_assigned,
+                        PRESENCE_ID_KEY to 0
                     )
                 } else {
                     context?.startActivity<CekJangkauanActivity>(DATA_OFFICE_KEY to presenceCheck.office_assigned)
@@ -440,10 +440,10 @@ class HomeManagementFragment : Fragment() {
                 val dialog = MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     customView(
-                            R.layout.dialog_maaf,
-                            scrollable = false,
-                            horizontalPadding = true,
-                            noVerticalPadding = true
+                        R.layout.dialog_maaf,
+                        scrollable = false,
+                        horizontalPadding = true,
+                        noVerticalPadding = true
                     )
                 }
                 val customView = dialog.getCustomView()
@@ -494,10 +494,10 @@ class HomeManagementFragment : Fragment() {
 
         expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
             override fun renderChild(
-                    view: View?,
-                    model: Dashboard?,
-                    parentPosition: Int,
-                    childPosition: Int
+                view: View?,
+                model: Dashboard?,
+                parentPosition: Int,
+                childPosition: Int
             ) {
 //                view?.findViewById<TextView>(R.id.txtJumlahCssr)
 //                    ?.setText(model?.total_cssr.toString())
@@ -509,24 +509,24 @@ class HomeManagementFragment : Fragment() {
             }
 
             override fun renderParent(
-                    view: View?,
-                    model: String?,
-                    isExpanded: Boolean,
-                    parentPosition: Int
+                view: View?,
+                model: String?,
+                isExpanded: Boolean,
+                parentPosition: Int
             ) {
                 view?.findViewById<ImageView>(R.id.arrow)
-                        ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
+                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
                 view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
             }
         })
         expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
         }
 
         expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
             view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -551,12 +551,12 @@ class HomeManagementFragment : Fragment() {
         binding.btnKelolaSdm.setOnClickListener {
             if (user.position_id == 3 || user.position_id == 4 || user.position_id == 5) {
                 context?.startActivity<KelolaDataSdmActivity>(
-                        IS_MANAGEMENT_KEY to false
+                    IS_MANAGEMENT_KEY to false
                 )
             } else {
                 context?.startActivity<KelolaDataSdmActivity>(
-                        IS_MANAGEMENT_KEY to true,
-                        USER_ID_KEY to user.id
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
                 )
             }
         }
@@ -592,8 +592,8 @@ class HomeManagementFragment : Fragment() {
                 activity?.startActivity<ManajemenIzinActivity>(IS_MANAGEMENT_KEY to false)
             } else {
                 activity?.startActivity<ManajemenIzinActivity>(
-                        IS_MANAGEMENT_KEY to true,
-                        USER_ID_KEY to user.id
+                    IS_MANAGEMENT_KEY to true,
+                    USER_ID_KEY to user.id
                 )
             }
         }
@@ -685,8 +685,8 @@ class HomeManagementFragment : Fragment() {
                 else
                     "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
                         localDateFormatter(
-                                dateEnd,
-                                "dd MMM yyyy"
+                            dateEnd,
+                            "dd MMM yyyy"
                         )
                     }"
             }
@@ -705,8 +705,8 @@ class HomeManagementFragment : Fragment() {
         } else {
             labelWaktu.text = "WAKTU"
             val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
-                    time_zuhur,
-                    time_ashar
+                time_zuhur,
+                time_ashar
             )
 
             txtStatusWaktu.visible()
@@ -730,8 +730,8 @@ class HomeManagementFragment : Fragment() {
         header_waktu.setImageResource(header)
 
         imgProfile.loadCircleImage(
-                user.photo_profile_url
-                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            user.photo_profile_url
+                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
         )
 
         txtRoleName.text = user.position_name
@@ -748,10 +748,10 @@ class HomeManagementFragment : Fragment() {
                         val second = (millisUntilFinished / 1000) % 60
                         try {
                             txtCountdown.text = String.format(
-                                    FORMAT,
-                                    hour,
-                                    minute,
-                                    second
+                                FORMAT,
+                                hour,
+                                minute,
+                                second
                             )
                         } catch (e: Exception) {
                             Log.d("_txtCountdown", "onTick: ${e.message}")
@@ -786,28 +786,28 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonDashboardContent() {
         skeletonKmPoin = Skeleton.bind(layoutKmPoint)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
 
         skeletonDate = Skeleton.bind(textView24)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonDataHadir = Skeleton.bind(dataHadir)
-                .load(R.layout.skeleton_home_data_hadir)
-                .show()
+            .load(R.layout.skeleton_home_data_hadir)
+            .show()
 
         skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
 
         skeletonPartnerLabel = Skeleton.bind(labelPartner)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonPartner = Skeleton.bind(sectionPartner)
-                .load(R.layout.skeleton_home_box_content)
-                .show()
+            .load(R.layout.skeleton_home_box_content)
+            .show()
     }
 
     private fun hideSkeletonDashboardContent() {
@@ -821,20 +821,20 @@ class HomeManagementFragment : Fragment() {
 
     private fun showSkeletonMenu() {
         skeletonLabelMenu = Skeleton.bind(textView26)
-                .load(R.layout.skeleton_item)
-                .show()
+            .load(R.layout.skeleton_item)
+            .show()
 
         skeletonMenu1 = Skeleton.bind(layoutMenu1)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
 
         skeletonMenu2 = Skeleton.bind(layoutMenu2)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
 
         skeletonMenu3 = Skeleton.bind(layoutMenu3)
-                .load(R.layout.skeleton_home_menu)
-                .show()
+            .load(R.layout.skeleton_home_menu)
+            .show()
     }
 
     private fun hideSkeletonMenu() {

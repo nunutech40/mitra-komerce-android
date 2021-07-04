@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/history_navigation"
+    app:startDestination="@id/historyPresenceFragment2">
+    <fragment
+        android:id="@+id/historyPresenceFragment2"
+        android:name="id.android.kmabsensi.presentation.riwayat.HistoryPresenceFragment"
+        android:label="fragment_history_presence"
+        tools:layout="@layout/fragment_history_presence">
+        <action
+            android:id="@+id/action_historyPresenceFragment2_to_historyPermissionFragment"
+            app:destination="@id/historyPermissionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyPermissionFragment"
+        android:name="id.android.kmabsensi.presentation.riwayat.HistoryPermissionFragment"
+        android:label="fragment_history_permission"
+        tools:layout="@layout/fragment_history_permission" >
+        <action
+            android:id="@+id/action_historyPermissionFragment_to_historyPresenceFragment2"
+            app:destination="@id/historyPresenceFragment2" />
+    </fragment>
+</navigation>

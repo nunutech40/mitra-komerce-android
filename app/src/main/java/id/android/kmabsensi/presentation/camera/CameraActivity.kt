@@ -2,6 +2,7 @@ package id.android.kmabsensi.presentation.camera
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -13,17 +14,27 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.face.FirebaseVisionFace
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import com.wildma.idcardcamera.camera.CameraPreview
 import com.wildma.idcardcamera.camera.CameraUtils
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.FileUtils
 import com.wildma.idcardcamera.utils.ImageUtils
 import com.wildma.idcardcamera.utils.PermissionUtils
+import dmax.dialog.SpotsDialog
 import id.android.kmabsensi.R
+import id.android.kmabsensi.databinding.ActivityCameraBinding
 import id.android.kmabsensi.utils.DIR_ROOT
 import id.android.kmabsensi.utils.IMG_DIRECTORY_NAME
 import id.android.kmabsensi.utils.compressCustomerCaptureImage
@@ -34,15 +45,6 @@ import org.joda.time.DateTime
 import java.io.File
 
 class CameraActivity : AppCompatActivity() {
-
-//    private val permissions =
-//        arrayOf(
-//            Manifest.permission.CAMERA,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//            Manifest.permission.READ_EXTERNAL_STORAGE
-//        )
-
-
     private var mCropBitmap: Bitmap? = null
     private var mType: Int = 0//Shooting type
     private var isToast =
@@ -53,9 +55,25 @@ class CameraActivity : AppCompatActivity() {
     val FLIP_VERTICAL = 1
     val FLIP_HORIZONTAL = 2
 
+    private lateinit var waitingDialog : AlertDialog
+
+    private val dialog by lazy {
+        MaterialDialog(this).apply {
+            cornerRadius(16f)
+            customView(
+                R.layout.dialog_retake_foto,
+                scrollable = false,
+                horizontalPadding = true,
+                noVerticalPadding = true
+            )
+        }
+    }
+
+    private val binding by lazy { ActivityCameraBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        setContentView(binding.root)
 
         val checkPermissionFirst = PermissionUtils.checkPermissionFirst(
             this, IDCardCamera.PERMISSION_CODE_FIRST,
@@ -69,36 +87,16 @@ class CameraActivity : AppCompatActivity() {
         if (checkPermissionFirst) {
             initCamera()
         }
-        btn_take_picture.setOnClickListener {
+
+        delayTakePhoto()
+
+    }
+
+    private fun delayTakePhoto(){
+        Handler(mainLooper).postDelayed({
             takePhoto()
-        }
-
-        btn_confirmCrop.setOnClickListener {
-            disabledConfirmButton()
-            confirmImage(mCropBitmap!!)
-        }
-
-        btn_cancelCrop.setOnClickListener {
-            reCaptureImage()
-        }
-
-
-//        val cameraPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-//        val writePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//        val readPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-//
-//        if (cameraPermission == PackageManager.PERMISSION_GRANTED && writePermission == PackageManager.PERMISSION_GRANTED && readPermission == PackageManager.PERMISSION_GRANTED
-//        ) supportFragmentManager.beginTransaction().replace(
-//            R.id.container,
-//            CameraView()
-//        ).commit() else ActivityCompat.requestPermissions(this, permissions, 1)
-
+        }, 5000)
     }
-
-    private fun disabledConfirmButton() {
-        btn_confirmCrop.isEnabled = false
-    }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -136,20 +134,23 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun initCamera() {
+        waitingDialog = SpotsDialog.Builder().setContext(this)
+            .setMessage("Pemindaian wajah...")
+            .setCancelable(false)
+            .build()
+
         try {
             if (CameraUtils.hasCamera(this@CameraActivity)) {
-                mIvCameraCrop.visibility = View.GONE
-                mCameraView = findViewById(R.id.mCameraPreview)
-                mCameraView!!.setCameraId(1)
+//                mCameraView = findViewById(R.id.mCameraPreview)
+                binding.mCameraPreview.setCameraId(1)
                 mType = IDCardCamera.TYPE_IDCARD_BACK
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-                Handler().postDelayed({
-                    camera_preview_layout.visibility = View.VISIBLE
-                    mCameraView!!.visibility = View.VISIBLE
+                Handler(mainLooper).postDelayed({
+                    binding.cameraPreviewLayout.visibility = View.VISIBLE
+                    binding.mCameraPreview.visibility = View.VISIBLE
                 }, 200)
             } else {
-                btn_take_picture.visibility = View.GONE
                 Toast.makeText(this, "Camera tidak tersedia", Toast.LENGTH_LONG).show()
             }
         } catch (ex: Exception) {
@@ -160,12 +161,12 @@ class CameraActivity : AppCompatActivity() {
 
     private fun reCaptureImage() {
         try {
-            show_image_layout.visibility = View.GONE
-            camera_preview_layout.visibility = View.VISIBLE
-            mCameraPreview.setCameraId(1)
-            mCameraPreview.isEnabled = true
-            mCameraPreview.addCallback()
-            mCameraPreview.startPreview()
+            binding.cameraPreviewLayout.visibility = View.VISIBLE
+            binding.mCameraPreview.setCameraId(1)
+            binding.mCameraPreview.isEnabled = true
+            binding.mCameraPreview.addCallback()
+            binding.mCameraPreview.startPreview()
+            delayTakePhoto()
         } catch (ex: Exception) {
             ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
@@ -183,12 +184,7 @@ class CameraActivity : AppCompatActivity() {
             }
 
             if (FileUtils.createOrExistsDir(DIR_ROOT)) {
-                val buffer = StringBuffer()
                 var imagePath = ""
-//                if (mType == IDCardCamera.TYPE_IDCARD_BACK) {
-//                    imagePath = buffer.append(DIR_ROOT).append(IMG_DIRECTORY_NAME).append("/")
-//                        .append(DateTime.now().toString() + "jpeg").toString()
-//                }
 
                 val cw = ContextWrapper(applicationContext)
                 val directory: File = cw.getDir("imageDir", Context.MODE_PRIVATE)
@@ -209,7 +205,6 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
 
-
         } catch (ex: Exception) {
             ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
@@ -219,6 +214,7 @@ class CameraActivity : AppCompatActivity() {
     @Suppress("DEPRECATION")
     private fun takePhoto() {
         try {
+            waitingDialog.show()
             mCameraPreview!!.isEnabled = false
             CameraUtils.getCamera().setOneShotPreviewCallback { data, camera ->
                 val size = camera!!.parameters.previewSize
@@ -227,35 +223,13 @@ class CameraActivity : AppCompatActivity() {
                     val w = size.width
                     val h = size.height
                     val bitmap = ImageUtils.getBitmapFromByte(data, w, h)
-                    //cropImage(bitmap)
+//                    cropImage(bitmap)
                     mCropBitmap = rotateImage(bitmap!!, 270f)
                     mCropBitmap = flipImage(mCropBitmap!!, FLIP_HORIZONTAL)
-                    customCropImage(mCropBitmap!!)
+//                    customCropImage(mCropBitmap!!)
+                    runFaceDetector(mCropBitmap)
                 }.start()
             }
-        } catch (ex: Exception) {
-            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-        }
-
-    }
-
-
-    private fun customCropImage(mCropBitmap: Bitmap) {
-        try {
-            runOnUiThread {
-                setCropLayout()
-                captured_image.setImageBitmap(mCropBitmap)
-            }
-        } catch (ex: Exception) {
-            ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
-        }
-
-    }
-
-    private fun setCropLayout() {
-        try {
-            show_image_layout.visibility = View.VISIBLE
-            camera_preview_layout.visibility = View.GONE
         } catch (ex: Exception) {
             ex.message?.let { FirebaseCrashlytics.getInstance().log(it) }
         }
@@ -318,23 +292,39 @@ class CameraActivity : AppCompatActivity() {
         )
     }
 
-    fun enabledConfirmButton() {
-        btn_confirmCrop.isEnabled = true
+    private fun runFaceDetector(bitmap: Bitmap?) {
+        val image = FirebaseVisionImage.fromBitmap(bitmap!!)
+        val option = FirebaseVisionFaceDetectorOptions.Builder()
+            .build()
+        val detector = FirebaseVision.getInstance().getVisionFaceDetector(option)
+
+        detector.detectInImage(image)
+            .addOnSuccessListener{ result -> processFaceResult(result)}
+            .addOnFailureListener{ e-> Toast.makeText(this, e.message, Toast.LENGTH_LONG).show() }
     }
 
+    private fun processFaceResult(result: List<FirebaseVisionFace>) {
+        var count = 0
+        for (face in result){
+            count++
+        }
+        waitingDialog.dismiss()
+        if (count>0){
+            confirmImage(mCropBitmap!!)
+        }else{
+            showDialogReTakeFoto()
+        }
+    }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>, grantResults: IntArray
-//    ) {
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.CAMERA
-//            ) === PackageManager.PERMISSION_GRANTED
-//        ) supportFragmentManager.beginTransaction().replace(
-//            R.id.container,
-//            CameraFragment()
-//        ).commit() else ActivityCompat.requestPermissions(this, permissions, 1)
-//    }
+    fun showDialogReTakeFoto() {
+        val customView = dialog.getCustomView()
+        val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
+        btn_retake.setOnClickListener {
+            dialog.dismiss()
+            reCaptureImage()
+        }
+        dialog.cancelOnTouchOutside(false)
+        dialog.show()
+    }
 
 }

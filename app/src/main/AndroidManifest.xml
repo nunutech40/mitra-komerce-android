@@ -45,6 +45,7 @@
         <activity android:name=".presentation.kmpoint.formbelanja.ShoppingCartActivity"/>
         <activity android:name=".presentation.kmpoint.penarikandetail.WithdrawalDetailActivity" />
         <activity android:name=".presentation.kmpoint.penarikan.WithdrawListActivity" />
+        <activity android:name=".presentation.splashabsen.SplashAbsenActivity"></activity>
         <activity android:name=".presentation.invoice.searchspinner.SearchableSpinnerActivity" />
         <activity
             android:name=".presentation.sdm.editpassword.ResetPasswordActivity"
