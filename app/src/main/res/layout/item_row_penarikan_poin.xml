@@ -60,12 +60,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
                     <TextView
                         android:id="@+id/tx_no_partner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:text="@string/nomor_partner"
                         android:layout_marginTop="@dimen/_2dp"
                         style="@style/tv12sp7A7B7C_avenir"
@@ -73,10 +76,12 @@
 
                     <TextView
                         android:id="@+id/tx_no_transaksi"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:text="No. shopping-KM1234567"
                         android:maxLines="1"
+                        android:layout_weight="1"
                         android:maxWidth="@dimen/_250sdp"
                         android:layout_marginTop="@dimen/_2dp"
                         style="@style/tv14sp929292_avenir"
