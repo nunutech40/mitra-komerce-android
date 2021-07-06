@@ -189,7 +189,7 @@ class DetailKaryawanActivity : BaseActivity() {
                 positionSelectedId.toString(),
                 if (partnerSelected.isEmpty()) "0" else partnerSelected.joinToString(
                     separator = "|",
-                    transform = { it.partnerDetail.noPartner }),
+                    transform = { it.partnerDetail.noPartner!! }),
                 edtAsalDesa.text.toString(),
                 edtNoHp.text.toString(),
                 edtAddress.text.toString(),

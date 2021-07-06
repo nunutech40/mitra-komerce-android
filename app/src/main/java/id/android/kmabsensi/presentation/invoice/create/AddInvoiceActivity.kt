@@ -327,7 +327,7 @@ class AddInvoiceActivity : BaseActivity() {
                     .indexOfFirst { it == "$titleMonth" })
             spinnerYear.setSelection(getYearData().indexOfFirst { it == "$titleYear" })
 
-            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
+            if (!isAdminInvoice) partnerVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner!!.toInt())
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

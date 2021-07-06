@@ -151,7 +151,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
             if (advertiserReport == null) {
                 val params = AddAdvertiserReportParams(
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.partnerDetail.noPartner,
+                    no_partner = partnerSelected!!.partnerDetail.noPartner!!,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),

@@ -250,7 +250,7 @@ class AddDeviceActivity : BaseActivity() {
             edtSpesifikasi.setText(it.spesification)
             val partnerDetail = PartnerDetail(noPartner = it.noPartner)
             partnerSelected = Partner(id = it.partner.id, fullName = it.partner.fullName, partnerDetail = partnerDetail)
-            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
+            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner!!.toInt())
             sdmIdSelected = if (it.sdm == null) 0 else it.sdm.id
             edtPilihPartner.setText(it.partner.fullName)
             edtPilihSDM.setText(it.sdm?.fullName)
@@ -409,7 +409,7 @@ class AddDeviceActivity : BaseActivity() {
             edtPilihPartner.setText(partnerSelected?.fullName)
 
             hasChangePartner = true
-            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
+            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner!!.toInt())
         }
 
         super.onActivityResult(requestCode, resultCode, data)

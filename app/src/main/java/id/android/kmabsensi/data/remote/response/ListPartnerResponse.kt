@@ -76,13 +76,13 @@ data class PartnerDetail(
     @SerializedName("partner_category_name")
     val partnerCategoryName: String? = "",
     @SerializedName("province_code")
-    val provinceCode: String = "",
+    val provinceCode: String? = "",
     @SerializedName("province_name")
-    val provinceName: String = "",
+    val provinceName: String? = "",
     @SerializedName("city_code")
-    val cityCode: String = "",
+    val cityCode: String? = "",
     @SerializedName("city_name")
-    val cityName: String = "",
+    val cityName: String? = "",
     @SerializedName("bonus")
     val bonus: String? = "",
     @SerializedName("status")
