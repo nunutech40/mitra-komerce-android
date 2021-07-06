@@ -28,7 +28,6 @@ import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
 class ShoppingDetailLeaderActivity : BaseActivity() {
-    private val TAG = "_shoppingDetail"
     private val vm: ShoppingDetailLeaderViewModel by inject()
     private val binding by lazy {
         ActivityShoppingDetailManagementBinding.inflate(layoutInflater)
@@ -37,18 +36,6 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
     private lateinit var dataShopping: Data
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
     private val itemsAdapter = GroupAdapter<GroupieViewHolder>()
-//    private val dialog by lazy {
-//        MaterialDialog(this).show {
-//            cornerRadius(5f)
-//            customView(
-//                    R.layout.dialog_batal_pengajuan_belanja,
-//                    scrollable = false,
-//                    horizontalPadding = false,
-//                    noVerticalPadding = true
-//            )
-//        }
-//    }
-
     private var skeletonPage: SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,10 +126,8 @@ class ShoppingDetailLeaderActivity : BaseActivity() {
         }
 
         if (!vm.editable(data.status!!)) {
-            binding.btnEdit.isClickable = false
-            binding.btnBatalkan.isClickable = false
-            binding.btnEdit.alpha = 0.6f
-            binding.btnBatalkan.alpha = 0.6f
+            binding.btnEdit.gone()
+            binding.btnBatalkan.gone()
         }
     }
 

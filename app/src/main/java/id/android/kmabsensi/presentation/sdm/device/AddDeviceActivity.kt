@@ -22,6 +22,7 @@ import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.d
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.*
+import id.android.kmabsensi.databinding.ActivityAddDeviceBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.partner.PartnerViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickerActivity
@@ -67,98 +68,108 @@ class AddDeviceActivity : BaseActivity() {
 
     private var partners = mutableListOf<Partner>()
 
+    private val binding by lazy {
+        ActivityAddDeviceBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_device)
+        setContentView(binding.root)
         setupToolbar("Tambah Device")
         observePartner()
 
         device = intent.getParcelableExtra(DEVICE_DATA)
         initSpinner()
         initView()
+        setupListener()
+        observeSdm()
+        observeResult()
+        observeDeleteAttachment()
+    }
 
-        edtJenis.setOnClickListener {
+    private fun setupListener() {
+        binding.edtJenis.setOnClickListener {
             showDialogJenisDevice()
         }
 
-        edtPilihPartner.setOnClickListener {
+        binding.edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
                 PICK_PARTNER_RC,
-                    "listPartner" to partners
+                "listPartner" to partners
             )
         }
 
-        edtPilihSDM.setOnClickListener {
+        binding.edtPilihSDM.setOnClickListener {
             showDialogSdm()
         }
 
-        edtTanggalDiterima.setOnClickListener {
+        binding.edtTanggalDiterima.setOnClickListener {
             showDatePicker()
         }
 
-        imageDokumentasi1.setOnClickListener {
+        binding.imageDokumentasi1.setOnClickListener {
             DOK_IMAGE_SELECTED = DOK_IMAGE.DOK_IMAGE_1
             openImagePicker()
         }
 
-        btnCancelDokumentasi1.setOnClickListener {
+        binding.btnCancelDokumentasi1.setOnClickListener {
             device?.let {
                 showDialogConfirmDelete(this, "Hapus Gambar") {
                     attachmentVM.deleteAttachment(it.attachments[0].id)
-                    btnCancelDokumentasi1.gone()
-                    imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+                    binding.btnCancelDokumentasi1.gone()
+                    binding.imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
                 }
             } ?: kotlin.run {
                 files1 = null
-                btnCancelDokumentasi1.gone()
-                imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
+                binding.btnCancelDokumentasi1.gone()
+                binding.imageDokumentasi1.setImageResource(R.drawable.image_placeholder)
             }
 
 
 
         }
 
-        imageDokumentasi2.setOnClickListener {
+        binding.imageDokumentasi2.setOnClickListener {
             DOK_IMAGE_SELECTED = DOK_IMAGE.DOK_IMAGE_2
             openImagePicker()
         }
 
-        btnCancelDokumentasi2.setOnClickListener {
+        binding.btnCancelDokumentasi2.setOnClickListener {
             device?.let {
                 showDialogConfirmDelete(this, "Hapus Gambar") {
                     attachmentVM.deleteAttachment(it.attachments[1].id)
-                    btnCancelDokumentasi2.gone()
-                    imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
+                    binding.btnCancelDokumentasi2.gone()
+                    binding.imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
                 }
             } ?: kotlin.run {
                 files2 = null
-                btnCancelDokumentasi2.gone()
-                imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
+                binding.btnCancelDokumentasi2.gone()
+                binding.imageDokumentasi2.setImageResource(R.drawable.image_placeholder)
             }
 
         }
 
-        imageDokumentasi3.setOnClickListener {
+        binding.imageDokumentasi3.setOnClickListener {
             DOK_IMAGE_SELECTED = DOK_IMAGE.DOK_IMAGE_3
             openImagePicker()
         }
 
-        btnCancelDokumentasi3.setOnClickListener {
+        binding.btnCancelDokumentasi3.setOnClickListener {
             device?.let {
                 showDialogConfirmDelete(this, "Hapus Gambar") {
                     attachmentVM.deleteAttachment(it.attachments[2].id)
-                    btnCancelDokumentasi3.gone()
-                    imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+                    binding.btnCancelDokumentasi3.gone()
+                    binding.imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
                 }
             } ?: kotlin.run {
                 files3 = null
-                btnCancelDokumentasi3.gone()
-                imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
+                binding.btnCancelDokumentasi3.gone()
+                binding.imageDokumentasi3.setImageResource(R.drawable.image_placeholder)
             }
 
         }
 
-        buttonAddDevice.setOnClickListener {
+        binding.buttonAddDevice.setOnClickListener {
             if (!validationForm()){
                 return@setOnClickListener
             }
@@ -191,10 +202,6 @@ class AddDeviceActivity : BaseActivity() {
                 )
             }
         }
-
-        observeSdm()
-        observeResult()
-        observeDeleteAttachment()
     }
 
     private fun initSpinner(){
@@ -298,10 +305,10 @@ class AddDeviceActivity : BaseActivity() {
                     sdm = state.data.data
                     if (hasChangePartner){
                         if (sdm.isNotEmpty()) {
-                            edtPilihSDM.setText(sdm[0].full_name)
+                            binding.edtPilihSDM.setText(sdm[0].full_name)
                             sdmIdSelected = sdm[0].id
                         } else {
-                            edtPilihSDM.setText("")
+                            binding.edtPilihSDM.setText("")
                             sdmIdSelected = 0
                         }
                     }
@@ -327,11 +334,9 @@ class AddDeviceActivity : BaseActivity() {
                     files3?.delete()
                     if (state.data.status){
                         showDialogSuccess()
-
                     } else {
                         createAlertError(this, "Failed", state.data.message)
                     }
-
                 }
                 is UiState.Error -> {
                     hideDialog()

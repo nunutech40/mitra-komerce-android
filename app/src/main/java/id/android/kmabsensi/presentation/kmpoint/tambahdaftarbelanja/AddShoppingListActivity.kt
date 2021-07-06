@@ -62,6 +62,7 @@ class AddShoppingListActivity : BaseActivity() {
     private val binding by lazy {
         ActivityAddShoppingListBinding.inflate(layoutInflater)
     }
+    private var hasChangePartner = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -96,6 +97,7 @@ class AddShoppingListActivity : BaseActivity() {
                         shoopingRequestItems = it
                         editFormTools()
                     }
+                    addShoppingVM.getSdmByPartner(it.partner?.noPartner!!.toInt())
                 }
             } catch (e: Exception) {
             }
@@ -112,11 +114,10 @@ class AddShoppingListActivity : BaseActivity() {
                 is UiState.Loading -> {
                     binding.edtPilihPartner.isEnabled = false
                     binding.edtPilihPartner.hint = getString(R.string.text_loading)
-
+                    binding.autoCompleteTagTalent.isEnabled = false
                 }
                 is UiState.Success -> {
                     binding.edtPilihPartner.isEnabled = true
-
                     if (editMode) binding.edtPilihPartner.setText(partnerEditMode!!.user?.fullName ?: "-")
                     else binding.edtPilihPartner.hint = getString(R.string.pilih_partner)
 
@@ -130,23 +131,32 @@ class AddShoppingListActivity : BaseActivity() {
             }
         })
 
-        addShoppingVM.sdm.observe(this, {
+        binding.autoCompleteTagTalent.hint = "Pilih Partner terlebih dahulu."
+        addShoppingVM.sdmByPartner.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                     binding.autoCompleteTagTalent.isEnabled = false
-                    binding.autoCompleteTagTalent.hint = getString(R.string.text_loading)
                 }
                 is UiState.Success -> {
-                    binding.autoCompleteTagTalent.isEnabled = true
-                    binding.autoCompleteTagTalent.hint = getString(R.string.text_pilih_talent)
                     var idx = 0
-                    it.data.data.forEach {
-                        dataTalent.add(it)
-                        talentNameData.add("$idx - ${it.full_name}")
-                        idx++
-                    }
+                    dataTalent.clear()
+                    talentNameData.clear()
+                    if (it.data.data.size != 0){
+                        binding.autoCompleteTagTalent.isEnabled = true
+                        binding.autoCompleteTagTalent.hint = getString(R.string.text_pilih_talent)
+                        it.data.data.forEach {
+                                dataTalent.add(it)
+                                talentNameData.add("$idx - ${it.full_name}")
+                                idx++
+                                Log.d("TAGTAGTAG", "setupObserver: $talentNameData")
+                        }
+                        if (!editMode) setupChips()
+
+                    }else binding.autoCompleteTagTalent.hint = "Tidak ada talent."
                 }
-                is UiState.Error -> Log.d("_Talent", "ERROR ${it.throwable.message}")
+                is UiState.Error -> {
+                    Log.d("_Talent", "ERROR ${it.throwable.message}")
+                }
             }
         })
     }
@@ -430,9 +440,18 @@ class AddShoppingListActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_PARTNER_RC && resultCode == Activity.RESULT_OK) {
             partnerSelected = data?.getParcelableExtra<Partner>(PARTNER_DATA_KEY)
+            addShoppingVM.getSdmByPartner(partnerSelected?.noPartner!!.toInt())
+            hasChangePartner = true
+            binding.autoCompleteTagTalent.isEnabled = true
+            resetChip()
             edtPilihPartner.error = null
             edtPilihPartner.setText(partnerSelected?.fullName)
         }
+    }
+
+    fun resetChip(){
+        saveTalent.clear()
+        binding.mainTagChipGroup.removeAllViews()
     }
 
     fun validateForm(): Boolean {

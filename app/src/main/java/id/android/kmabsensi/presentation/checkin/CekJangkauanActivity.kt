@@ -121,12 +121,6 @@ class CekJangkauanActivity : BaseActivity(), OnMapReadyCallback {
         }
 
     }
-
-    fun setupToolbar(){
-        txtTitle.text = "Cek Jangkauan"
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
         
     fun showDialogDiluarJangkauan() {
         if (!dialog.isShowing) {

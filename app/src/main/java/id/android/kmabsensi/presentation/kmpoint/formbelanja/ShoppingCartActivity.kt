@@ -19,6 +19,7 @@ import id.android.kmabsensi.utils.State
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.isEmpty
 import id.android.kmabsensi.utils.visible
+import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 
@@ -46,13 +47,11 @@ class ShoppingCartActivity : BaseActivity() {
         if (isFinance) {
             vm.getAllShoppingListPaged(status = "approved").observe(this, {
                 shoppingFinanceAdapter.submitList(it)
-                Log.d("setupObserve", "setupObserve: ${it.size}, ${shoppingFinanceAdapter.currentList?.size} ")
 
             })
         }else {
             vm.getAllShoppingListPaged(user_request_id = user.id).observe(this, {
                 shoppingFinanceAdapter.submitList(it)
-                Log.d("setupObserve", "setupObserve: ${it.size}, ${shoppingFinanceAdapter.currentList?.size} ")
             })
         }
 
@@ -61,9 +60,12 @@ class ShoppingCartActivity : BaseActivity() {
                 State.LOADING-> {
                     showSkeletonPaging(binding.rvPenarikan, R.layout.skeleton_list_sdm, rvAdapter2 = shoppingFinanceAdapter)
                 }
-                State.DONE-> hideSkeletonPaging()
+                State.DONE-> {
+                    binding.swipeRefresh.isRefreshing = false
+                    hideSkeletonPaging()
+                }
                 State.ERROR-> {
-                    Log.d("_state", "ERROR")
+                    binding.swipeRefresh.isRefreshing = false
                     hideSkeletonPaging()
                 }
             }
@@ -110,6 +112,10 @@ class ShoppingCartActivity : BaseActivity() {
         }
         binding.fabAddShoppingList.setOnClickListener {
             startActivity<AddShoppingListActivity>()
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
+            setupObserve()
         }
     }
 

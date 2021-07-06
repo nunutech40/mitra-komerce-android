@@ -316,7 +316,7 @@
                     android:layout_marginTop="4dp"
                     android:maxWidth="62dp"
                     android:gravity="center"
-                    android:text="Prnarikan Poin" />
+                    android:text="Penarikan Poin" />
 
             </LinearLayout>
 

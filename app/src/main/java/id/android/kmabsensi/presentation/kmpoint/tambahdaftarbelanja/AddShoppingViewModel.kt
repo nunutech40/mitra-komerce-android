@@ -13,21 +13,28 @@ import id.android.kmabsensi.data.remote.response.kmpoint.CreateShoppingRequestRe
 import id.android.kmabsensi.data.repository.KmPoinRepository
 import id.android.kmabsensi.data.repository.PartnerRepository
 import id.android.kmabsensi.data.repository.SdmRepository
+import id.android.kmabsensi.data.repository.UserRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 
 class AddShoppingViewModel(
-        val partnerRepository: PartnerRepository,
-        val sdmRepository: SdmRepository,
-        val schedulerProvider: SchedulerProvider,
-        val kmPoinRepository: KmPoinRepository
+    val partnerRepository: PartnerRepository,
+    val sdmRepository: SdmRepository,
+    val userRepository: UserRepository,
+    val schedulerProvider: SchedulerProvider,
+    val kmPoinRepository: KmPoinRepository
 ) : BaseViewModel(){
 
     val crudResponse by lazy {
         MutableLiveData<UiState<BaseResponse>>()
     }
+
+    val sdmByPartner by lazy {
+        MutableLiveData<UiState<UserResponse>>()
+    }
+
 
     val sdm by lazy {
         MutableLiveData<UiState<UserResponse>>()
@@ -45,6 +52,17 @@ class AddShoppingViewModel(
                 },{
                     sdm.value = UiState.Error(it)
                 }))
+    }
+
+    fun getSdmByPartner(noPartner: Int){
+        sdmByPartner.value = UiState.Loading()
+        compositeDisposable.add(userRepository.getUserByPartner(noPartner)
+            .with(schedulerProvider)
+            .subscribe({
+                sdmByPartner.value = UiState.Success(it)
+            },{
+                sdmByPartner.value = UiState.Error(it)
+            }))
     }
 
     fun createShoppingRequest(body : CreateShoppingRequestParams): MutableLiveData<UiState<CreateShoppingRequestResponse>>

@@ -74,7 +74,7 @@ data class PartnerDetail(
     @SerializedName("partner_category_id")
     val partnerCategoryId: Int = 0,
     @SerializedName("partner_category_name")
-    val partnerCategoryName: String = "",
+    val partnerCategoryName: String? = "",
     @SerializedName("province_code")
     val provinceCode: String = "",
     @SerializedName("province_name")

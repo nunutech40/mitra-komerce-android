@@ -128,7 +128,7 @@ val viewModelModule = module {
     viewModel { HolidayViewModel(get(), get()) }
     viewModel { SdmViewModel(get(), get(), get()) }
     viewModel { UserConfigurationViewModel(get(), get(), get()) }
-    viewModel { AddShoppingViewModel(get(), get(), get(), get()) }
+    viewModel { AddShoppingViewModel(get(), get(), get(), get(), get()) }
     viewModel { ShoppingDetailLeaderViewModel(get()) }
     viewModel { ShoppingCartViewModel(get()) }
     viewModel { WithdrawViewModel(get()) }

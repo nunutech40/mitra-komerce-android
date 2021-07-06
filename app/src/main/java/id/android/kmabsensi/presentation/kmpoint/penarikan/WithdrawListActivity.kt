@@ -25,8 +25,6 @@ class WithdrawListActivity : BaseActivity() {
         val TYPE_WITHDRAWAL = 0
     }
     private val vm : WithdrawViewModel by inject()
-    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private var groupDataWithdraw: ArrayList<WithdrawMainModel> = arrayListOf()
     private lateinit var withdrawAdapter : WithdrawAdapter
     private val binding by lazy { ActivityWithdrawalListBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +47,12 @@ class WithdrawListActivity : BaseActivity() {
                 State.LOADING-> {
                     showSkeletonPaging(binding.rvPenarikan, R.layout.skeleton_list_sdm, rvAdapter3 = withdrawAdapter)
                 }
-                State.DONE-> hideSkeletonPaging()
+                State.DONE->{
+                    binding.swipeRefresh.isRefreshing = false
+                    hideSkeletonPaging()
+                }
                 State.ERROR-> {
-                    Log.d("_state", "ERROR")
+                    binding.swipeRefresh.isRefreshing = false
                     hideSkeletonPaging()
                 }
             }
@@ -60,11 +61,9 @@ class WithdrawListActivity : BaseActivity() {
         vm.isEmpty().observe(this, {
             when (it) {
                 isEmpty.ISTRUE -> {
-                    Log.d("_isEmpty", "isEmpty.ISTRUE")
                     binding.layoutEmpty.layoutEmpty.visible()
                 }
                 isEmpty.ISFALSE -> {
-                    Log.d("_isEmpty", "isEmpty.ISFALSE")
                     binding.layoutEmpty.layoutEmpty.gone()
                 }
             }
@@ -91,6 +90,10 @@ class WithdrawListActivity : BaseActivity() {
     private fun setupListener() {
         binding.toolbar.btnBack.setOnClickListener {
             onBackPressed()
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
+            setupObserver()
         }
     }
 
