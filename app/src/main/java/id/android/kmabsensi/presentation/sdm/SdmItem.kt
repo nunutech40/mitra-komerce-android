@@ -26,6 +26,5 @@ class SdmItem(val sdm: User,
         }
     }
 
-
     override fun getLayout(): Int = R.layout.item_row_sdm
 }
