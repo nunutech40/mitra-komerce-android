@@ -123,7 +123,9 @@ class AddShoppingListActivity : BaseActivity() {
 
                     it.data.partners.forEach {
                         if (!it.partnerDetail.partnerCategoryName.isNullOrEmpty()) {
-                            partners.add(it)
+                            if (it.status==1){
+                                partners.add(it)
+                            }
                         }
                     }
                 }
