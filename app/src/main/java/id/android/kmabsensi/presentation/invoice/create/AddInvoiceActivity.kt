@@ -3,7 +3,6 @@ package id.android.kmabsensi.presentation.invoice.create
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -53,7 +52,6 @@ class AddInvoiceActivity : BaseActivity() {
     private var titleMonth = ""
 
     private var isAdminInvoice = false
-    private var partners = mutableListOf<Partner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -178,8 +176,7 @@ class AddInvoiceActivity : BaseActivity() {
 
         edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC,
-                "listPartner" to partners)
+                PICK_PARTNER_RC)
         }
 
         btnUbahTagihan.setOnClickListener {
@@ -191,6 +188,8 @@ class AddInvoiceActivity : BaseActivity() {
     }
 
     private fun setupObserve() {
+        edtPilihPartner.setHint(getString(R.string.pilih_partner))
+
         InvoiceDetailData.invoiceItemsData.observe(this, Observer { invoices ->
             if (invoices.isNotEmpty()) {
                 btnUbahTagihan.text = if (isAdminInvoice) "UBAH TAGIHAN" else "MASUKKAN GAJI SDM"
@@ -210,23 +209,6 @@ class AddInvoiceActivity : BaseActivity() {
                 textTotalTagihan.text = "Rp 0"
             }
         })
-
-        partnerVM.getDataPartners().observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {
-                    edtPilihPartner.isEnabled = false
-                    edtPilihPartner.setHint(getString(R.string.text_loading))
-                    Log.d("_Partner", "LOADING")
-                }
-                is UiState.Success -> {
-                    edtPilihPartner.isEnabled = true
-                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
-                    partners.addAll(it.data.partners)
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
-            }
-        })
-
         invoiceVM.createInvoiceResponse.observe(this, Observer { state ->
             when (state) {
                 is UiState.Loading -> {

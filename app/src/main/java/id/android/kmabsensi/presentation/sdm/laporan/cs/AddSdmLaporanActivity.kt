@@ -39,7 +39,7 @@ class AddSdmLaporanActivity : BaseActivity() {
     private val sdmVM: SdmViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
 
-    private var partners = mutableListOf<Partner>()
+//    private var partners = mutableListOf<Partner>()
 
     private val cal = Calendar.getInstance()
     private var dateSelected: Date? = null
@@ -70,7 +70,7 @@ class AddSdmLaporanActivity : BaseActivity() {
         initViews()
         initListener()
         setupObserver()
-
+        edtPilihPartner.setHint(getString(R.string.pilih_partner))
 
         btnSave.setOnClickListener {
             if (!formValidation()) {
@@ -155,21 +155,6 @@ class AddSdmLaporanActivity : BaseActivity() {
                     hideDialog()
                     createAlertError(this, "Gagal", state.throwable.localizedMessage)
                 }
-            }
-        })
-        partnerVM.getDataPartners().observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {
-                    edtPilihPartner.isEnabled = false
-                    edtPilihPartner.setHint(getString(R.string.text_loading))
-                    Log.d("_Partner", "LOADING")
-                }
-                is UiState.Success -> {
-                    edtPilihPartner.isEnabled = true
-                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
-                    partners.addAll(it.data.partners)
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
             }
         })
     }
@@ -336,8 +321,7 @@ class AddSdmLaporanActivity : BaseActivity() {
 
         edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                RC_PICK_PARTNER,
-                "listPartner" to partners)
+                RC_PICK_PARTNER)
         }
 
     }
