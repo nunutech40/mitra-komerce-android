@@ -6,11 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -72,7 +70,6 @@ class TambahSdmActivity : BaseActivity() {
     private val groupAdpter = GroupAdapter<GroupieViewHolder>()
 
     val partnerSelected = mutableListOf<Partner>()
-    private var partners = mutableListOf<Partner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +77,7 @@ class TambahSdmActivity : BaseActivity() {
         disableAutofill()
 
         setupToolbar("Tambah SDM")
+        edtNoPartner.setText(getString(R.string.masukkan_no_partner))
 
         isManagement = intent.getBooleanExtra(IS_MANAGEMENT_KEY, false)
         userManagementId = intent.getIntExtra(USER_ID_KEY, 0)
@@ -331,8 +329,7 @@ class TambahSdmActivity : BaseActivity() {
 
         edtNoPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC,
-                    "listPartner" to partners
+                PICK_PARTNER_RC
             )
         }
     }
@@ -346,23 +343,7 @@ class TambahSdmActivity : BaseActivity() {
     }
 
     fun observeData() {
-        vm.getPartners().observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {
-                    edtNoPartner.isEnabled = false
-                    edtNoPartner.setText(getString(R.string.text_loading))
-                    Log.d("_Partner", "LOADING")
-                }
-                is UiState.Success -> {
-                    edtNoPartner.isEnabled = true
-                    edtNoPartner.setText(getString(R.string.masukkan_no_partner))
-                    partners.addAll(it.data.partners)
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
-            }
-        })
-
-        vm.officeData.observe(this, Observer {
+        vm.officeData.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                 }
@@ -411,12 +392,12 @@ class TambahSdmActivity : BaseActivity() {
             }
         })
 
-        vm.userManagementData.observe(this, Observer {
+        vm.userManagementData.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                 }
                 is UiState.Success -> {
-                    var userManagementsNotNull = mutableListOf<User>()
+                    val userManagementsNotNull = mutableListOf<User>()
                     it.data.data.forEach {
                         if (it.position_name != null) userManagementsNotNull.add(it)
                     }
