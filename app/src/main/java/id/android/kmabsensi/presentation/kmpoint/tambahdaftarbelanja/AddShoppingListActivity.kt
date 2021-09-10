@@ -109,27 +109,7 @@ class AddShoppingListActivity : BaseActivity() {
     }
 
     private fun setupObserver() {
-        addShoppingVM.getDataPartners().observe(this, {
-            when (it) {
-                is UiState.Loading -> {
-                    binding.edtPilihPartner.isEnabled = false
-                    binding.edtPilihPartner.hint = getString(R.string.text_loading)
-                    binding.autoCompleteTagTalent.isEnabled = false
-                }
-                is UiState.Success -> {
-                    binding.edtPilihPartner.isEnabled = true
-                    if (editMode) binding.edtPilihPartner.setText(partnerEditMode!!.user?.fullName ?: "-")
-                    else binding.edtPilihPartner.hint = getString(R.string.pilih_partner)
-
-                    it.data.partners.forEach {
-                        if (!it.partnerDetail.partnerCategoryName.isNullOrEmpty()) {
-                            partners.add(it)
-                        }
-                    }
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
-            }
-        })
+        binding.edtPilihPartner.hint = getString(R.string.pilih_partner)
 
         binding.autoCompleteTagTalent.hint = "Pilih Partner terlebih dahulu."
         addShoppingVM.sdmByPartner.observe(this, {
@@ -167,8 +147,7 @@ class AddShoppingListActivity : BaseActivity() {
         }
         binding.edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                    PICK_PARTNER_RC,
-                    "listPartner" to partners)
+                    PICK_PARTNER_RC)
         }
         binding.btnSubmit.setOnClickListener {
             if (validateForm()) {
