@@ -61,7 +61,7 @@ class CheckinCoworkingActivity : BaseActivity(), OnMapReadyCallback {
             vm.checkInCoworkingSpace(coworking.id)
         }
 
-        vm.checkInCoworkingSpace.observe(this, Observer {
+        vm.checkInCoworkingSpace.observe(this,  {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()

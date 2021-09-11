@@ -94,4 +94,3 @@ fun Double.rounTwoDigitDecimal(): Double {
     val res = df.format(filterNumber).toDouble()
     return res
 }
-

@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.splashabsen
 
 import android.animation.ValueAnimator
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -8,13 +9,16 @@ import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.R
 import id.android.kmabsensi.databinding.ActivitySplashAbsenBinding
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.home.HomeActivity
 import org.jetbrains.anko.clearTask
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import java.util.*
 
-class SplashAbsenActivity : AppCompatActivity() {
+class SplashAbsenActivity : BaseActivityRf<ActivitySplashAbsenBinding>(
+    ActivitySplashAbsenBinding::inflate
+) {
     private var lottieAnimation = ""
     private var txtMessagePresence = ""
     private var presenceTime = ""
@@ -23,10 +27,11 @@ class SplashAbsenActivity : AppCompatActivity() {
     private var isCheckout = false
     private var ontimeLevel = 0
     private var message = ""
-    private val binding by lazy { ActivitySplashAbsenBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.onCreate(savedInstanceState)
+        }
         setContentView(binding.root)
 
         try {

@@ -389,7 +389,7 @@ class HomeAdminFragment : Fragment() {
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
         } else {
             labelWaktu.text = "WAKTU"
-            val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+            val (statusWaktu, differenceTime) = vm.getCountdownTime(
                 time_zuhur,
                 time_ashar
             )
@@ -399,7 +399,7 @@ class HomeAdminFragment : Fragment() {
             txtCountdown.visible()
 
             txtStatusWaktu.text = statusWaktu
-            txtNextTime.text = nextTime
+//            txtNextTime.text = nextTime
 
             if (differenceTime != 0.toLong()) {
                 countDownTimer(differenceTime)

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cl_white_dark_new">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/cl_white_dark_new"
+    tools:context=".presentation.sample.SampleActivityRf">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -138,9 +142,7 @@
                     android:layout_marginVertical="11dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_status_waktu"
                         style="@style/tv14inter_reg"
-                        android:layout_centerVertical="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@+id/tv_count_down"
@@ -241,7 +243,6 @@
                         app:srcCompat="@drawable/ic_arrow_check_in_rf" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_coworking_presence"
                         style="@style/tv14monst_med"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -251,12 +252,127 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_co_working">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_white_10dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_100dp"
+                        android:layout_height="@dimen/_100dp"
+                        android:layout_gravity="center_horizontal">
+
+                        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                            android:id="@+id/progress_presence"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:cpb_background_progressbar_color="@color/cl_grey_bg_new"
+                            app:cpb_background_progressbar_width="@dimen/_10dp"
+                            app:cpb_progress="80"
+                            app:cpb_progress_direction="to_right"
+                            app:cpb_progress_max="100"
+                            app:cpb_progressbar_color="@color/cl_orange_text_new"
+                            app:cpb_progressbar_color_direction="bottom_to_top"
+                            app:cpb_progressbar_color_end="@color/cl_orange_light_new"
+                            app:cpb_progressbar_width="@dimen/_10dp"
+                            app:cpb_round_border="true" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_total_presence"
+                            style="@style/tv14monst_med"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="000/000" />
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv14inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_12dp"
+                        android:drawableEnd="@drawable/ic_arrow_down_rf"
+                        android:drawablePadding="5dp"
+                        android:text="Data Tidak Hadir" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_white_10dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_100dp"
+                        android:layout_height="@dimen/_100dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_stroke_orange_50dp"
+                        android:padding="@dimen/_10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_partner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="4dp"
+                            app:cardCornerRadius="40dp">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tv_partner_total"
+                                    style="@style/tv18monst_med"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="000" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/tv10inter_reg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Partner"
+                                    android:textColor="@color/cl_grey_tx_new" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                        </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv14inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_12dp"
+                        android:drawableStart="@drawable/ic_chart_rf"
+                        android:drawablePadding="@dimen/_7sdp"
+                        android:text="Info Partner" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -270,167 +386,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_co_working"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="205dp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_dd_data_presence"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_white_10dp"
-                android:paddingHorizontal="@dimen/_16dp"
-                android:paddingVertical="@dimen/_12dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/ll_chart"
-                app:layout_constraintEnd_toStartOf="@+id/guideline9"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Keterangan"
-                        android:textColor="@color/cl_grey_tx_new"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Jumlah"
-                        android:textColor="@color/cl_grey_tx_new"
-                        style="@style/tv14inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="9dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Cuti"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_cuti"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv14inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sakit"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_sakit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv14inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Izin"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_izin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv14inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Belum Hadir"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_belum_hadir"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv14inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Pulang Awal"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_pulang_awal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv12inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Datang Siang"
-                        style="@style/tv14inter_reg"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_datang_siang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        style="@style/tv12inter_reg"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                app:layout_constraintTop_toBottomOf="@+id/ll_chart"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

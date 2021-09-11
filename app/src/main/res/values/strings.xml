@@ -238,7 +238,7 @@
     <string name="general_empty_message">Kolom tidak boleh kosong</string>
     <string name="msg_alert_on_off_sdm">Me-nonjob-kan SDM akan menghapus data-data laporan, device, dan prodcut knowledge</string>
     <string name="message_error_occured">Terjadi Kesalahan</string>
-    <string name="label_gagal">TGagal</string>
+    <string name="label_gagal">Gagal</string>
     <string name="text_admin">Admin</string>
     <string name="text_gaji_sdm">Gaji SDM</string>
     <string name="text_total">Total</string>
@@ -323,5 +323,7 @@
     <string name="text_warning">Warning</string>
     <string name="text_pilih_jenis_kelamin_dahulu">Pilih jenis kelamin dahulu</string>
     <string name="text_status_pernikahan_dahulu">Pilih status pernikahan dahulu</string>
+
+    <string name="datang">Datang</string>
 
 </resources>

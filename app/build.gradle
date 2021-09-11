@@ -41,7 +41,7 @@ android {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra Komerce"
             resConfigs "en", "xxhdpi"
-            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://app.komerce.id/\""
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://appdev.komerce.id/\""
         }
 
     }
@@ -220,4 +220,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
     implementation 'com.wonderkiln:camerakit:0.13.4'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+    // progress bar
+    implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
 }

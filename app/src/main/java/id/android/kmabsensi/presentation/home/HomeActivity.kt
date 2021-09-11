@@ -16,7 +16,10 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.ActivityHomeBinding
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
+import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
@@ -30,7 +33,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivityRf<ActivityHomeBinding>(
+    ActivityHomeBinding::inflate
+){
 
     private val vm: HomeViewModel by inject()
 
@@ -66,14 +71,21 @@ class HomeActivity : AppCompatActivity() {
             false
         }
 
+//    private val binding by lazy {
+//        ActivityHomeBinding.inflate(layoutInflater)
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.onCreate(savedInstanceState)
+        }
         setContentView(R.layout.activity_home)
 
 
-        nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        nav_view.itemIconTintList = null
+        nav_view.apply {
+            setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+            itemIconTintList = null
+        }
 
         user = vm.getUserData()
 
@@ -187,78 +199,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return Pair(greeting, header)
-    }
-
-    fun getCountdownTime(time_zuhur: String?, time_ashar: String?): Triple<String, Long, String> {
-
-        val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
-        var nextTime = ""
-
-        val time_datang = "08:00:00"
-        val time_istirahat = "12:00:00"
-        val time_istirhat_selesai = "13:00:00"
-        val time_pulang = "16:00:00"
-
-        val datang = Calendar.getInstance()
-        val istirahat = Calendar.getInstance()
-        val selesai_istirahat = Calendar.getInstance()
-        val ashar = Calendar.getInstance()
-        val pulang = Calendar.getInstance()
-
-        datang.set(Calendar.HOUR_OF_DAY, 8)
-        istirahat.set(Calendar.HOUR_OF_DAY, 12)
-        selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
-        pulang.set(Calendar.HOUR_OF_DAY, 17)
-
-        time_ashar?.let {
-            if (it.isNotEmpty()) {
-                ashar.set(Calendar.HOUR_OF_DAY, time_ashar.split(":")[0].toInt())
-                ashar.set(Calendar.MINUTE, time_ashar.split(":")[1].toInt())
-            }
-        }
-        val now = Calendar.getInstance()
-
-        val currentTime = simpleDateFormat.parse(simpleDateFormat.format(now.time))
-
-        var statusWaktu = "-"
-        var endTime: Date? = null
-
-        when {
-            now.before(datang) -> {
-                statusWaktu = "Menuju Waktu Datang"
-                nextTime = "08:00"
-                endTime = simpleDateFormat.parse(time_datang)
-            }
-            now.before(istirahat) -> {
-                statusWaktu = "Menuju Waktu Istirahat"
-                nextTime = "12:00"
-                endTime = simpleDateFormat.parse(time_istirahat)
-            }
-            now.before(selesai_istirahat) -> {
-                statusWaktu = "Menuju Waktu \nSelesai Istirahat"
-                nextTime = "13:00"
-                endTime = simpleDateFormat.parse(time_istirhat_selesai)
-            }
-            now.before(ashar) -> {
-                statusWaktu = "Menuju Waktu Ashar"
-                nextTime = time_ashar ?: "-"
-                endTime = simpleDateFormat.parse("$time_ashar:00")
-            }
-            now.before(pulang) -> {
-                statusWaktu = "Menuju Waktu Pulang"
-                nextTime = "16:00"
-                endTime = simpleDateFormat.parse(time_pulang)
-            }
-            else -> statusWaktu = "Waktu Pulang"
-        }
-
-        var differenceTime: Long = 0
-
-        if (endTime != null) {
-            differenceTime = endTime.time - currentTime.time
-        }
-
-        return Triple(statusWaktu, differenceTime, nextTime)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

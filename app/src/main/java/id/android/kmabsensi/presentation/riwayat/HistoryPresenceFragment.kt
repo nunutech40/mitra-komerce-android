@@ -84,15 +84,17 @@ class HistoryPresenceFragment : Fragment() {
 
                     skeletonScreen?.hide()
                     adapter.clear()
-
                     if (it.data.data.isEmpty()) binding.layoutEmpty.layoutEmpty.visible() else binding.layoutEmpty.layoutEmpty.gone()
-
-                    it.data.data.forEach {
-                        Log.d(
-                            "_history",
-                            "history = ${user.full_name} url Photo = ${user.photo_profile_url}"
-                        )
-                        adapter.add(RiwayatItem(it))
+                    try {
+                        it.data.data.forEach {
+                            Log.d(
+                                "_history",
+                                "history = ${user.full_name} url Photo = ${user.photo_profile_url}"
+                            )
+                            adapter.add(RiwayatItem(it))
+                        }
+                    }catch (e :Exception){
+                        Log.d("_riwayatResponse", "$e")
                     }
                 }
                 is UiState.Error -> {

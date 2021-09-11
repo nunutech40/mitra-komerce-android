@@ -373,6 +373,70 @@
         <item name="android:fontFamily">@font/avenir_heavy</item>
     </style>
 
+    <style name="tv10inter_reg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/_10sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
 
+    <style name="tv12monst_med">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">@dimen/_12sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv14monst_reg">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv14monst_med">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv14monst_semi">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv12inter_reg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/_12sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv14inter_reg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv16inter_reg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv16inter_semi">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv18inter_reg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/_18sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+    <style name="tv18monst_med">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">@dimen/_18sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
 
 </resources>

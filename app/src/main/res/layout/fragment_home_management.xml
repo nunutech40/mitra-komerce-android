@@ -1,924 +1,582 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     android:background="@color/layoutBackgroundColor">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/layoutBackgroundColor">
+        android:layout_height="0dp"
+        android:background="@color/cl_white_dark_new"
+        android:minHeight="500dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/cl_orange_new"
+                android:paddingVertical="35dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/layoutHeader"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_profile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="@dimen/_16dp"
+                    app:cardCornerRadius="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_profile"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="24dp">
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ic_user" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/header_waktu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="115dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/malam"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/imgProfile"
-                            android:layout_width="47dp"
-                            android:layout_height="47dp"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="24dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:src="@tools:sample/avatars" />
-
-                        <TextView
-                            android:id="@+id/txtHello"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="TextView"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                            app:layout_constraintTop_toTopOf="@+id/imgProfile"
-                            tools:ignore="MissingPrefix"
-                            tools:text="Hello, Jajat" />
-
-                        <TextView
-                            android:id="@+id/txtRoleName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/admin"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toStartOf="@+id/txtHello"
-                            app:layout_constraintTop_toBottomOf="@+id/txtHello" />
-
-                        <TextView
-                            android:id="@+id/labelWaktu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="24dp"
-                            android:text="@string/waktu"
-                            android:textAllCaps="true"
-                            android:textColor="@color/textColorGrey"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/layoutHoliday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_24dp"
-                            android:orientation="vertical"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/labelWaktu"
-                            app:layout_constraintTop_toBottomOf="@+id/labelWaktu"
-                            app:layout_constraintVertical_bias="0.0">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txtHolidayName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                tools:text="Hari Pemuda"
-                                android:textColor="@color/textTime"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txtHolidayDate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="#A1A4AF"
-                                tools:text="28 Oktober 2020"
-                                android:includeFontPadding="false"
-                                android:fontFamily="@font/avenir_medium"
-                                android:textSize="18sp"/>
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <TextView
-                            android:id="@+id/txtNextTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="08:30"
-                            android:textColor="@color/textTime"
-                            android:textSize="42sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@+id/labelWaktu"
-                            app:layout_constraintTop_toBottomOf="@+id/labelWaktu" />
-
-                        <TextView
-                            android:id="@+id/txtCountdown"
-                            style="@style/tv18sp404040_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textTime"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/txtNextTime"
-                            tools:text="( - 00.00.00 )" />
-
-                        <TextView
-                            android:id="@+id/txtStatusWaktu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="24dp"
-                            android:textColor="@color/textTime"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtCountdown"
-                            tools:text="Menuju Waktu Dzuhur" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutKmPoint"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
-
-                    <ImageView
-                        android:id="@+id/imageView15"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/kmpoint_bg"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/labelKmpoin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_medium"
-                        android:text="KM Poin"
-                        android:textColor="@color/textWhite"
-                        android:layout_marginTop="@dimen/_10dp"
-                        android:textSize="@dimen/_14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.28"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="spread_inside" />
-
-                    <TextView
-                        android:id="@+id/txtKmPoin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/avenirltstd_heavy"
-                        android:gravity="bottom"
-                        tools:text="200"
-                        android:textColor="@color/textWhite"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/labelKmpoin"
-                        app:layout_constraintTop_toBottomOf="@+id/labelKmpoin"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <TextView
-                        android:id="@+id/textPoin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginStart="@dimen/_6dp"
-                        android:layout_marginBottom="@dimen/_4dp"
-                        android:fontFamily="@font/avenirltstd_medium"
-                        android:text="@string/poin"
-                        android:textColor="@color/textWhite"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtKmPoin"
-                        app:layout_constraintStart_toEndOf="@+id/txtKmPoin"
-                        app:layout_constraintVertical_bias="0.53" />
-
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnScanQr"
-                        android:layout_width="@dimen/_32dp"
-                        android:layout_height="@dimen/_32dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginEnd="@dimen/_24dp"
-                        android:background="@drawable/ic_qrcode" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/textView24"
-                    style="@style/tv18sp404040_avenir_heavy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="18dp"
-                    android:textColor="@color/textTime"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint"
-                    tools:text="Rabu, 13 November 2019" />
-
-                <LinearLayout
-                    android:id="@+id/layoutContentAbsen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView24">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/dataHadir"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
-
-                        <ImageView
-                            android:id="@+id/imageView12"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/_65sdp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/bg_data_hadir2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayout2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/imageView12"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.37">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/data_hadir"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/semua_kantor"
-                                android:textColor="#CDFFFFFF"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/txtPresent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@android:color/white"
-                            android:textSize="32sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-                            app:layout_constraintEnd_toStartOf="@+id/txtTotalUser"
-                            app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
-
-                        <TextView
-                            android:id="@+id/txtTotalUser"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="48dp"
-                            android:text="/0"
-                            android:textColor="#B2FFFFFF"
-                            android:textSize="22sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <iammert.com.expandablelib.ExpandableLayout
-                        android:id="@+id/expandableLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="22dp"
-                        android:layout_marginEnd="22dp"
-                        app:childLayout="@layout/layout_second"
-                        app:parentLayout="@layout/layout_parent" />
-
-                    <include
-                        layout="@layout/layout_wfh_mode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="@dimen/_16dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="2dp" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/labelPartner"
-                    style="@style/tv14sp929292_avenir_heavy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_18dp"
-                    android:text="Partner"
-                    app:layout_constraintStart_toStartOf="@+id/textView24"
-                    app:layout_constraintTop_toBottomOf="@id/layoutContentAbsen" />
-
-                <include
-                    android:id="@+id/sectionPartner"
-                    layout="@layout/dashboard_section_partner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_24dp"
-                    android:layout_marginTop="@dimen/_16dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/labelPartner" />
-
-                <TextView
-                    android:id="@+id/textView26"
-                    style="@style/tv14sp929292_avenir_heavy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/ask"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sectionPartner" />
-
-                <LinearLayout
-                    android:id="@+id/layoutMenu1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView26">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnCheckIn"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_checkin" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Datang" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnCheckOut"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_checkout" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Pulang" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnKelolaSdm"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_kelolasdm" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Data SDM" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnFormIzin"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_form_izin" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Form Izin" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layoutMenu2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutMenu1">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnKelolaIzin"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_kelola_izin" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Data Izin" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnGagalAbsen"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_gagal_absen" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Gagal Absen" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnInvoice"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp"
-                            android:background="?attr/selectableItemBackground">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_invoice" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Invoice" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnInvoiceReport"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_invoice_report" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Invoice Report" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layoutMenu3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutMenu2">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnEvaluasiSaya"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_evaluasi_saya" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Evaluasi Saya" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/view_menu_shopping"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btn_shoping_chart"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_shopping_chart" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:maxWidth="62dp"
-                            android:gravity="center"
-                            android:text="@string/text_form_belanja" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/view_menu_shift"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnShift"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <ImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_shift" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Shift" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/view_menu_sdm"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnSdm"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_kelolasdm" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="SDM" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/view_menu_data_partner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnDataPartner"
-                            android:layout_width="62dp"
-                            android:layout_height="62dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_partner" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            style="@style/tv13sp000000_avenir_heavy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:text="Partner" />
-
-                    </LinearLayout>
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:gravity="center"-->
-                    <!--                        android:orientation="vertical"-->
-                    <!--                        android:visibility="invisible">-->
-
-                    <!--                        <View-->
-                    <!--                            android:layout_width="62dp"-->
-                    <!--                            android:layout_height="62dp">-->
-
-                    <!--                        </View>-->
-
-                    <!--                        <TextView-->
-                    <!--                            style="@style/tv13sp000000_avenir_heavy"-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:layout_marginTop="4dp"-->
-                    <!--                            android:gravity="center"-->
-                    <!--                            android:text="Invoice Report" />-->
-
-                    <!--                    </LinearLayout>-->
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16dp"
-                    android:background="@android:color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layoutMenu3">
-
-                    <TextView
-                        android:id="@+id/textCoworkingSpace"
-                        style="@style/tv14sp929292_avenir_heavy"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView_profile"
+                    app:layout_constraintEnd_toStartOf="@+id/ll_point"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_profile"
+                    app:layout_constraintTop_toTopOf="@+id/cardView_profile">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_username"
+                        style="@style/tv14monst_semi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:text="Co-Working Space"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:text="Hi, Username"
+                        android:textColor="@color/cl_white" />
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position"
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:text="position"
+                        android:textColor="@color/cl_white" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_qr_code"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_qr_code"
+                    app:layout_constraintTop_toTopOf="@+id/btn_qr_code">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Poin kamu"
+                        android:textColor="@color/cl_white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_point"
+                        style="@style/tv16inter_semi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace">
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:text="Poin"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/cl_white" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvCoworkingSpace"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btn_qr_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_qr_code" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <!-- count down -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_countdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="@dimen/_8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_top_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_top_bar">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12dp"
+                    android:layout_marginVertical="11dp">
 
-    <FrameLayout
-        android:id="@+id/containerHome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/layoutBackgroundColor"
-        android:visibility="gone"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_status_waktu"
+                        style="@style/tv14inter_reg"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/tv_count_down"
+                        android:text="Menuju waktu istirahat"
+                        android:textColor="@color/cl_grey_tx_new" />
 
-</RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_count_down"
+                        style="@style/tv18inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="- 00:00:00" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- co working           -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_co_working"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_white_10dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_12dp"
+                android:paddingVertical="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_countdown">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_logo_co_working" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coworking"
+                        style="@style/tv16inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Co - Working Space 1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_available"
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:text="tersedia"
+                        android:textColor="@color/cl_grey_tx_new"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_coworking" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_chair"
+                        style="@style/tv14inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:text="- kursi"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_available" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cofee"
+                        style="@style/tv14inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_24dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:text="- Kopi"
+                        app:layout_constraintStart_toEndOf="@+id/tv_chair"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_available" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btn_checkin_co_working"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_arrow_check_in_rf" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coworking_presence"
+                        style="@style/tv14monst_med"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Check In"
+                        android:textColor="@color/cl_orange_text_new" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_co_working">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_white_10dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/_16dp"
+                    android:paddingTop="@dimen/_16dp">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_100dp"
+                        android:layout_height="@dimen/_100dp"
+                        android:layout_gravity="center_horizontal">
+
+                        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                            android:id="@+id/progress_presence"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:cpb_background_progressbar_color="@color/cl_grey_bg_new"
+                            app:cpb_background_progressbar_width="@dimen/_10dp"
+                            app:cpb_progress_direction="to_right"
+                            app:cpb_progressbar_color="@color/cl_orange_text_new"
+                            app:cpb_progressbar_color_direction="bottom_to_top"
+                            app:cpb_progressbar_color_end="@color/cl_orange_light_new"
+                            app:cpb_progressbar_width="@dimen/_10dp"
+                            app:cpb_round_border="true" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_total_presence"
+                            style="@style/tv14monst_med"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="000/000" />
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/btn_data_presence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:padding="@dimen/_12dp">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/tv14inter_reg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Data Tidak Hadir" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/img_arrow_dd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_arrow_down_rf"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btn_detail_partner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_white_10dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_100dp"
+                        android:layout_height="@dimen/_100dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_stroke_orange_50dp"
+                        android:padding="@dimen/_10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_partner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="4dp"
+                            app:cardCornerRadius="40dp">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tv_partner_total"
+                                    style="@style/tv18monst_med"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="000" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/tv10inter_reg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Partner"
+                                    android:textColor="@color/cl_grey_tx_new" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                        </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv14inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_12dp"
+                        android:drawableStart="@drawable/ic_chart_rf"
+                        android:drawablePadding="@dimen/_7sdp"
+                        android:text="Info Partner" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:background="@drawable/bg_white_top_25dp"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="@dimen/_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_chart"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="205dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_dd_data_presence"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_white_10dp"
+                android:paddingHorizontal="@dimen/_16dp"
+                android:paddingVertical="@dimen/_12dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/ll_chart"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Keterangan"
+                        android:textColor="@color/cl_grey_tx_new"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jumlah"
+                        android:textColor="@color/cl_grey_tx_new"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="9dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cuti"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cuti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sakit"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sakit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Izin"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_izin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Belum Hadir"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_belum_hadir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Pulang Awal"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_pulang_awal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv12inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Datang Siang"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_datang_siang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv12inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+<!--    <FrameLayout-->
+<!--        android:id="@+id/containerHome"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@color/layoutBackgroundColor"-->
+<!--        android:visibility="gone"/>-->
+
+<!--</RelativeLayout>-->
