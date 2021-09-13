@@ -35,8 +35,6 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
     private val sdmVM: SdmViewModel by viewModel()
     private val partnerVM: PartnerViewModel by viewModel()
 
-    private var partners = mutableListOf<Partner>()
-
     private val platforms = listOf("FB & IG Ads", "Google Ads", "TikTok Ads")
     private var platformSelected = 0
 
@@ -67,6 +65,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
         initViewListener()
         initViews()
         observeResult()
+        edtPilihPartner.setHint(getString(R.string.pilih_partner))
     }
 
     private fun initViews() {
@@ -139,8 +138,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
 
         edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                RC_PICK_PARTNER,
-                "listPartner" to partners)
+                RC_PICK_PARTNER)
         }
 
         btnSave.setOnClickListener {
@@ -151,7 +149,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
             if (advertiserReport == null) {
                 val params = AddAdvertiserReportParams(
                     user_id = sdmVM.getUserData().id,
-                    no_partner = partnerSelected!!.partnerDetail.noPartner!!,
+                    no_partner = partnerSelected!!.partnerDetail.noPartner,
                     date = getDateString(dateSelected!!),
                     platform_type = platformSelected,
                     total_view = edtJumlahTayangan.text.toString().toInt(),
@@ -193,7 +191,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
     }
 
     private fun observeResult() {
-        sdmVM.crudResponse.observe(this, Observer { state ->
+        sdmVM.crudResponse.observe(this, { state ->
             when (state) {
                 is UiState.Loading -> {
                     showDialog()
@@ -216,23 +214,7 @@ class AddLaporanAdvertiserActivity : BaseActivity() {
             }
         })
 
-        partnerVM.getDataPartners().observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {
-                    edtPilihPartner.isEnabled = false
-                    edtPilihPartner.setHint(getString(R.string.text_loading))
-                    Log.d("_Partner", "LOADING")
-                }
-                is UiState.Success -> {
-                    edtPilihPartner.isEnabled = true
-                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
-                    partners.addAll(it.data.partners)
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
-            }
-        })
-
-        partnerVM.partners.observe(this, Observer { state ->
+        partnerVM.partners.observe(this, { state ->
             when (state) {
                 is UiState.Loading -> {
 

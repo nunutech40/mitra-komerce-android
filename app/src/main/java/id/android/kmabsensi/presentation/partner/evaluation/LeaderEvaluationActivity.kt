@@ -81,7 +81,7 @@ class LeaderEvaluationActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     leaders.addAll(it.data.data.filter {
-                        it.position_name.toLowerCase().contains("leader")
+                        it.position_name.lowercase().contains(getString(R.string.category_leader))
                     })
 
                 }
