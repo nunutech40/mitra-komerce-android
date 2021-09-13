@@ -16,8 +16,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.github.ajalt.timberkt.Timber.e
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
@@ -38,7 +36,6 @@ import id.android.kmabsensi.presentation.sdm.productknowledge.ProductKnowledgeAc
 import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -78,13 +75,9 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         setupListener()
 
 //        btnLaporan.setOnClickListener {
-//            if (user.position_name.toLowerCase() == "customer service"){
-//                activity?.startActivity<SdmLaporanActivity>()
-//            } else {
-//                activity?.startActivity<ListLaporanAdvertiserActivity>()
-//            }
-//
-//        }
+//            if (user.position_name.toLowerCase() == "customer service") activity?.startActivity<SdmLaporanActivity>()
+//            else activity?.startActivity<ListLaporanAdvertiserActivity>()}
+
     }
 
     private fun setupView() {
@@ -96,7 +89,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     }
 
     private fun setupObserver() {
-        vm.dashboardData.observe(viewLifecycleOwner, Observer {
+        vm.dashboardData.observe(viewLifecycleOwner,{
             when (it) {
                 is UiState.Loading -> {
                 }
@@ -105,15 +98,15 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                         binding?.apply {
                             tvPoint.text = it.data.data.user_kmpoin.toString()
                         }
-//                        val workConfigs = it.data.data.work_config
-//                        val isWFH =
-//                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-//                        val isSdmWFH =
-//                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
-//                                "sdm",
-//                                true
-//                            ) ?: false
-//                        if (isSdmWFH) layoutWfhMode.visible() else layoutWfhMode.gone()
+                        val workConfigs = it.data.data.work_config
+                        val isWFH =
+                            workConfigs.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
+                        val isSdmWFH =
+                            isWFH && workConfigs.find { it.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value?.contains(
+                                "sdm",
+                                true
+                            ) ?: false
+                        if (isSdmWFH) binding?.cvWfh?.visible() else binding?.cvWfh?.gone()
 
                         holidays.clear()
                         holidays.addAll(it.data.data.holidays)
@@ -187,7 +180,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
             }
         })
 
-        vm.coworkUserData.observe(viewLifecycleOwner, Observer {
+        vm.coworkUserData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
 
@@ -197,14 +190,14 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                         it.data.data[0].apply {
                             dataUserCoworking = this
                             if (status.equals("2")) {
-                                binding?.tvChair?.text = "Tutup"
+                                binding?.tvChair?.text = getString(R.string.tutup)
                                 binding?.tvCofee?.gone()
                             }else binding?.tvCofee?.visible()
                             if (cowork_presence.isNotEmpty()){
                                 if (cowork_presence.last().checkout_date_time.isNullOrEmpty()){
-                                    binding?.tvCoworkingPresence?.text = "Check Out"
+                                    binding?.tvCoworkingPresence?.text = getString(R.string.checkout)
                                 }else{
-                                    binding?.tvCoworkingPresence?.text = "Check In"
+                                    binding?.tvCoworkingPresence?.text = getString(R.string.checkin)
                                 }
                             }
                             binding?.apply {
@@ -220,7 +213,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
 
         })
 
-        vm.checkInCoworkingSpace.observe(viewLifecycleOwner, Observer {
+        vm.checkInCoworkingSpace.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
@@ -431,7 +424,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                     (activity as HomeActivity).showDialogNotYetCheckout()
                 } else {
                     // office name contain rumah, can direct selfie
-                    if (presenceCheck.office_assigned.office_name.toLowerCase()
+                    if (presenceCheck.office_assigned.office_name.lowercase()
                             .contains("rumah") || isWFH || isEligibleToCheckoutOutside
                     ) {
                         context?.startActivity<CheckinActivity>(
@@ -450,7 +443,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         } else {
             if (isCheckinButtonClicked) {
                 //checkin
-                if (presenceCheck.office_assigned.office_name.toLowerCase()
+                if (presenceCheck.office_assigned.office_name.lowercase()
                         .contains("rumah") || isWFH || isEligibleToCheckInOutside
                 ) {
                     context?.startActivity<CheckinActivity>(

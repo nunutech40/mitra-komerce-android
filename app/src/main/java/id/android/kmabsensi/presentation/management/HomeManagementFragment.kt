@@ -493,13 +493,9 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     private fun setWorkModeUI(isWFH: Boolean) {
         if (isWFH) {
-//            dataHadir.gone()
-//            expandableLayout.gone()
-//            layoutWfhMode.visible()
+            binding?.cvWfh?.visible()
         } else {
-//            dataHadir.visible()
-//            expandableLayout.visible()
-//            layoutWfhMode.gone()
+            binding?.cvWfh?.gone()
         }
     }
 

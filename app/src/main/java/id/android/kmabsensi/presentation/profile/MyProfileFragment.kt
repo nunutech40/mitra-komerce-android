@@ -17,8 +17,6 @@ import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
-import kotlinx.android.synthetic.main.fragment_my_profile.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -35,12 +33,12 @@ class MyProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         binding = FragmentMyProfileBinding.inflate(inflater, container, false)
 
-        myDialog = MyDialog(context!!)
+        myDialog = MyDialog(requireContext())
 
         return binding.root
     }
@@ -85,7 +83,7 @@ class MyProfileFragment : Fragment() {
                         vm.clearPref()
                         activity?.finish()
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
 
                 }

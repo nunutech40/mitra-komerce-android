@@ -158,6 +158,46 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- wfh           -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_wfh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/_12dp"
+                app:cardCornerRadius="@dimen/_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_countdown">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12dp"
+                    android:layout_marginVertical="11dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv14inter_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/tv_wfh"
+                        android:text="Mode"
+                        android:textColor="@color/cl_grey_tx_new" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_wfh"
+                        style="@style/tv18inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Work From Home" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
             <!-- co working           -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_co_working"
@@ -171,7 +211,7 @@
                 android:paddingVertical="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_countdown">
+                app:layout_constraintTop_toBottomOf="@+id/cv_wfh">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"

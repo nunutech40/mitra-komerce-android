@@ -1,8 +1,13 @@
 package id.android.kmabsensi.presentation.home
 
 import android.annotation.SuppressLint
+import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -221,23 +226,24 @@ class HomeViewModel(
     }
 
     fun menuHome( role : Int): List<MenuModels>{
-        var list : MutableList<MenuModels> = arrayListOf()
+        val list : MutableList<MenuModels> = arrayListOf()
         val imgMenu = arrayListOf(
             R.drawable.ic_data_kantor_rf,
             R.drawable.ic_co_working_space_rf,
             R.drawable.ic_checkin_rf,
             R.drawable.ic_logout_rf,
             R.drawable.ic_data_talent_rf,
-            R.drawable.ic_form_izin_rf,
+            R.drawable.ic_form_izin_rf, // 5
             R.drawable.ic_data_izin_rf,
             R.drawable.ic_invoice_rf,
             R.drawable.ic_invoice_report_rf,
             R.drawable.ic_document_text_rf,
-            R.drawable.ic_time_square,
+            R.drawable.ic_time_square, // 10
             R.drawable.ic_partner_rf,
             R.drawable.ic_role_rf,
             R.drawable.ic_product_knowlage_rf,
-            R.drawable.ic_orderku_rf
+            R.drawable.ic_orderku_rf,
+            R.drawable.ic_talent_rf // 15
         )
 
         val nameMenu = arrayListOf(
@@ -246,16 +252,17 @@ class HomeViewModel(
             "Datang",
             "Pulang",
             "Data Talent",
-            "Form Izin",
+            "Form Izin", // 5
             "Data Izin",
             "Invoice",
             "Invoice Report",
             "Evaluasi Saya",
-            "Shift",
+            "Shift", // 10
             "Partner",
             "Role",
             "Pengetahuan Produk",
-            "Orderku"
+            "Orderku",
+            "Talent" // 15
         )
 
         /**
@@ -264,19 +271,23 @@ class HomeViewModel(
         2 -> management lead
         3 -> management growth
         4 -> talent
+        5 -> admin
          */
         for (idx in 0..imgMenu.size-1){
             if (role == 1){
-                if (idx == 0 || idx == 1 || idx == 10 || idx == 11 || idx == 12 || idx == 13 || idx == 14) continue
+                if (idx == 0 || idx == 1 || idx == 10 || idx == 11 || idx == 12 || idx == 13 || idx == 14 || idx == 15) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }else if (role == 2){
-                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13) continue
+                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13 || idx == 15) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             } else if (role == 3){
-                if (idx == 0 || idx == 1 || idx == 12 || idx == 13 || idx == 14) continue
+                if (idx == 0 || idx == 1 || idx == 12 || idx == 13 || idx == 14 || idx == 15) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
-            }else{
-                if (idx == 0 || idx == 1 || idx == 4 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 11 || idx == 12) continue
+            }else if (role  == 4){
+                if (idx == 0 || idx == 1 || idx == 4 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 11 || idx == 12 || idx == 15) continue
+                list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
+            } else if (role == 5){
+                if (idx == 2 || idx == 3 || idx == 4 || idx == 5 || idx == 6 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 13 || idx == 14 ) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }
         }
@@ -388,5 +399,16 @@ class HomeViewModel(
         greeting = "Hi, $name"
 
         return greeting
+    }
+
+    private var skeletonProfile : SkeletonScreen? = null
+
+    fun showSkeletonProfile(view : AppCompatTextView){
+        skeletonProfile = Skeleton.bind(view)
+        .load(R.layout.skeleton_list_partner)
+        .show()
+    }
+    fun hideSkeletonProfile(){
+        skeletonProfile?.hide()
     }
 }

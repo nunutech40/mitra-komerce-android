@@ -162,11 +162,11 @@ class LoginActivity : BaseActivity() {
 
                 override fun onPermissionDenied(response: PermissionDeniedResponse?) {
                     response?.let {
-//                        if (it.isPermanentlyDenied){
-//                            alert("This app needs permission to use this feature. You can grant them in app settings.", "Need Permission") {
-//                                yesButton { openSettings() }
-//                            }.show()
-//                        }
+                        if (it.isPermanentlyDenied){
+                            alert("This app needs permission to use this feature. You can grant them in app settings.", "Need Permission") {
+                                yesButton { openSettings() }
+                            }.show()
+                        }
                     }
                 }
 

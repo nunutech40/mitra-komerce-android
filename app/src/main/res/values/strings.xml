@@ -325,5 +325,8 @@
     <string name="text_status_pernikahan_dahulu">Pilih status pernikahan dahulu</string>
 
     <string name="datang">Datang</string>
+    <string name="tutup">Tutup</string>
+    <string name="checkout">Check Out</string>
+    <string name="checkin">Check In</string>
 
 </resources>
