@@ -189,7 +189,7 @@ class HomeSdmFragment : Fragment() {
                     if (it.data.status){
                         createAlertSuccess(activity, it.data.message)
                     } else {
-                        createAlertError(activity!!, getString(R.string.label_gagal), getString(R.string.message_error_occured))
+                        createAlertError(requireActivity(), getString(R.string.label_gagal), getString(R.string.message_error_occured))
                     }
                 }
                 is UiState.Error -> {
@@ -198,7 +198,7 @@ class HomeSdmFragment : Fragment() {
             }
         })
 
-        vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
+        vm.jadwalShalatData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
                     hideSkeletonTime()
