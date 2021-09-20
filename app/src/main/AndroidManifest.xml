@@ -41,13 +41,7 @@
         tools:replace="android:allowBackup">
         <activity
             android:name=".presentation.komship.usccesorder.SuccessOrderActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".presentation.komship.detailorder.DetailOrderActivity"
             android:exported="true"/>
@@ -56,7 +50,13 @@
             android:exported="true" />
         <activity
             android:name=".presentation.komship.MyOrderActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".presentation.kmpoint.detailinvoice.DetailInvoiceActivity" />
         <activity android:name=".presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity" />
         <activity android:name=".presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderActivity" />

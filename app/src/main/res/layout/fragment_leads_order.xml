@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cl_white_dark_new"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.komship.leads.LeadsOrderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayoutCompat6"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_partner"
+            style="@style/tv14inter_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NB hari ini"
+            android:textColor="@color/cl_grey_tx_new"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name"
+            style="@style/tv14inter_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NB hari ini"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_partner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_partner" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_partner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/cl_grey_tx_new"
+            app:boxStrokeColor="@color/cl_grey_2"
+            app:boxStrokeWidth="0.5dp"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_partner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_partner"
+                style="@style/tv16inter_reg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:maxLines="1"
+                android:paddingStart="0dp"
+                android:paddingTop="12dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tv_leads"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat6"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_row_leads" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
