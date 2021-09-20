@@ -2,6 +2,8 @@ package id.android.kmabsensi.utils
 
 import android.text.TextUtils
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
 object ValidationForm {
@@ -56,6 +58,16 @@ object ValidationForm {
         if (TextUtils.isEmpty(edt.text.toString())) {
             edt.error = errormsg
             edt.requestFocus()
+            return false
+        } else {
+            return true
+        }
+    }
+
+    fun validationTextInputEditText(edt: TextInputEditText, til : TextInputLayout, errormsg: String): Boolean {
+        if (TextUtils.isEmpty(edt.text.toString())) {
+            til.error = errormsg
+            til.requestFocus()
             return false
         } else {
             return true

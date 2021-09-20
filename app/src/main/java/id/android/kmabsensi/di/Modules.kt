@@ -34,6 +34,8 @@ import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailleader.Shoppin
 import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawViewModel
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.DetailWithDrawViewModel
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.AddShoppingViewModel
+import id.android.kmabsensi.presentation.komship.MyOrderViewModel
+import id.android.kmabsensi.presentation.komship.ordercart.OrderCartViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -96,6 +98,7 @@ val repositoryModule = module {
     single { KmPoinRepository(get()) }
     single { HolidayRepository(get()) }
     single { UserConfigurationRepository(get()) }
+    single { KomShipRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -134,6 +137,8 @@ val viewModelModule = module {
     viewModel { WithdrawViewModel(get()) }
     viewModel { DetailWithDrawViewModel(get(), get()) }
     viewModel { ShoppingDetailFinanceViewModel(get(), get()) }
+    viewModel { MyOrderViewModel(get(), get()) }
+    viewModel { OrderCartViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

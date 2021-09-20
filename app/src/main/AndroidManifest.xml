@@ -28,8 +28,8 @@
         android:name=".App"
         android:allowBackup="false"
         android:fullBackupOnly="false"
-        android:hasFragileUserData="true"
         android:hardwareAccelerated="true"
+        android:hasFragileUserData="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -39,6 +39,24 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
+        <activity
+            android:name=".presentation.komship.usccesorder.SuccessOrderActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".presentation.komship.detailorder.DetailOrderActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".presentation.komship.ordercart.OrderCartActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.komship.MyOrderActivity"
+            android:exported="true" />
         <activity android:name=".presentation.kmpoint.detailinvoice.DetailInvoiceActivity" />
         <activity android:name=".presentation.kmpoint.tambahdaftarbelanja.AddShoppingListActivity" />
         <activity android:name=".presentation.kmpoint.formbelanjadetailleader.ShoppingDetailLeaderActivity" />
@@ -282,19 +300,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.home.HomeActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"

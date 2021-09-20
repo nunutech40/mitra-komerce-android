@@ -20,6 +20,8 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.PartnerProvinceStatistic
+import id.android.kmabsensi.databinding.FragmentGrafikByProvinceBinding
+import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.partner.grafik.MyValueFormatter
 import id.android.kmabsensi.utils.DASHBOARD_DATA_KEY
 import kotlinx.android.synthetic.main.fragment_grafik_by_province.*
@@ -28,7 +30,9 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
+class GrafikByProvinceFragment : BaseFragmentRf<FragmentGrafikByProvinceBinding>(
+    FragmentGrafikByProvinceBinding::inflate
+), OnChartValueSelectedListener {
 
     companion object {
         fun newInstance(dashboard: Dashboard?) : GrafikByProvinceFragment {
@@ -37,14 +41,6 @@ class GrafikByProvinceFragment : Fragment(), OnChartValueSelectedListener {
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grafik_by_province, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

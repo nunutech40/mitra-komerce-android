@@ -89,43 +89,6 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         if (isShopping!!) showGroupMenu(1)
         vm.getJadwalShalat()
 
-//        expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
-//            override fun renderChild(
-//                view: View?,
-//                model: Dashboard?,
-//                parentPosition: Int,
-//                childPosition: Int
-//            ) {
-////                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.text = model?.total_cssr.toString()
-//                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.text = model?.total_holiday.toString()
-//                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.text = model?.total_sick.toString()
-//                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.text = model?.total_permission.toString()
-//                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.text = model?.total_not_yet_present.toString()
-//                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.text = model?.total_failed_present.toString()
-//            }
-//
-//            override fun renderParent(
-//                view: View?,
-//                model: String?,
-//                isExpanded: Boolean,
-//                parentPosition: Int
-//            ) {
-//                d { "render parent" }
-//                view?.findViewById<ImageView>(R.id.arrow)
-//                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-//                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
-//            }
-//        })
-//        expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
-//            view?.findViewById<ImageView>(R.id.arrow)
-//                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
-//        }
-//
-//        expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
-//            view?.findViewById<ImageView>(R.id.arrow)
-//                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
-//        }
-
         setupGreetings()
         setupView()
         setupObserver()
@@ -135,7 +98,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
     }
 
     private fun setupObserver(){
-        vm.dashboardData.observe(viewLifecycleOwner, Observer {
+        vm.dashboardData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
                 }
@@ -158,21 +121,12 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                                 }
                             }
                         }
-//                        if (!isSectionAdded){
-//                            expandableLayout.addSection(getSectionDashboard(it.data.data))
-//                        } else {
-//                            expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
-//                            expandableLayout.sections[0].children.clear()
-//                            expandableLayout.sections[0].children.add(it.data.data)
-//                            expandableLayout.notifyParentChanged(0)
-//                        }
                     }
 
                     val isWFH = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-//                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
-//
-//                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
-//                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
+                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
+                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
+                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
                     setWorkModeUI(isWFH)
 
                     holidays.clear()

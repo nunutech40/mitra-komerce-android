@@ -280,7 +280,6 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     private fun setupListMenu() {
         menusAdapter = MenusAdapter(requireContext(), object : MenusAdapter.onAdapterListener{
             override fun onClick(data: MenuModels) {
-                requireActivity().toast("data = ${data.name}")
                 when(data.name){
                     "Datang" -> {
                         isCheckinButtonClicked = true
@@ -325,27 +324,23 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-//        textView24.text = getTodayDateTimeDay()
-
 //        if (user.position_name.lowercase() != "customer service" && user.position_name.lowercase() != "advertiser") btnLaporanLayout.invis()
 
     }
 
     private fun setHolidayView() {
         binding?.apply {
-
+            tvCountDown.text = "Hari Libur"
             if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 tvCountDown.text = "Hari Minggu"
             }
-//            else {
-//                if (holidays.isNotEmpty()) {
+            else {
+                if (holidays.isNotEmpty()) {
+                    tvCountDown.text = holidays[0].eventName
 //                    txtNextTime.invis()
 //                    layoutHoliday.visible()
-//                    txtHolidayName.text = holidays[0].eventName
 //                    val dateStart: LocalDate = LocalDate.parse(holidays[0].startDate)
 //                    val dateEnd: LocalDate = LocalDate.parse(holidays[0].endDate)
-//
 //                    txtHolidayDate.text = if (holidays[0].startDate == holidays[0].endDate)
 //                        localDateFormatter(dateStart)
 //                    else
@@ -355,14 +350,9 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
 //                                "dd MMM yyyy"
 //                            )
 //                        }"
-//                }
-//            }
-            tvCountDown.text = "Hari Libur"
+                }
+            }
             tvStatusWaktu.invis()
-
-//            tvCountDown.invis()
-//            txtCountdown.invis()
-//            txtStatusWaktu.invis()
         }
 
     }
@@ -421,7 +411,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 val jamPulang: Date = cal.time
 
                 if (now.before(jamPulang)) {
-                    (activity as HomeActivity).showDialogNotYetCheckout()
+                    showDialogNotYetCheckout(requireContext())
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.lowercase()
@@ -514,6 +504,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                     countDownTimer(differenceTime)
                 } else {
                     tvCountDown.text = "-"
+                    tvStatusWaktu.text = ""
                 }
             }
         }

@@ -6,43 +6,12 @@
     android:layout_height="match_parent"
     tools:context="id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity">
 
-    <include layout="@layout/toolbar"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bgJumlahPartner"
-        android:layout_width="0dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="@dimen/_16dp"
-        android:layout_marginStart="@dimen/_16dp"
-        android:layout_marginEnd="@dimen/_16dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_toolbar_v2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_bg_jumlah_partner"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/labelJumlahPartner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jumlah Partner"
-        style="@style/tv14spffffff_avenir_medium"
-        android:layout_marginStart="@dimen/_16dp"
-        app:layout_constraintTop_toTopOf="@id/bgJumlahPartner"
-        app:layout_constraintStart_toStartOf="@id/bgJumlahPartner"
-        app:layout_constraintBottom_toBottomOf="@id/bgJumlahPartner"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textJumlahPartner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13.204"
-        style="@style/tv24spffffff_avenir_heavy"
-        android:layout_marginEnd="@dimen/_24dp"
-        app:layout_constraintTop_toTopOf="@id/bgJumlahPartner"
-        app:layout_constraintEnd_toEndOf="@id/bgJumlahPartner"
-        app:layout_constraintBottom_toBottomOf="@id/bgJumlahPartner"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -51,7 +20,7 @@
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="@color/black"
         app:tabSelectedTextColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/bgJumlahPartner"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

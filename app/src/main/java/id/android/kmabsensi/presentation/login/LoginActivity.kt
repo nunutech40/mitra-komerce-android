@@ -22,7 +22,9 @@ import com.karumi.dexter.listener.single.PermissionListener
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.databinding.ActivityLoginBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.lupapassword.LupaPasswordActivity
 import id.android.kmabsensi.presentation.splash.SplashActivity
@@ -30,39 +32,51 @@ import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
 import id.android.kmabsensi.utils.createAlertError
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.activity_form_partner.*
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.edtEmail
 import org.jetbrains.anko.*
 import org.koin.android.ext.android.inject
 
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivityRf<ActivityLoginBinding>(
+    ActivityLoginBinding::inflate
+) {
 
     private val vm: LoginViewModel by inject()
     private val prefHelper: PreferencesHelper by inject()
 
     private lateinit var myDialog: MyDialog
 
-    private var isShowPassword = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
         myDialog = MyDialog(this)
         checkPermission()
+        initView()
+        setupObserver()
+        setupListener()
+    }
 
-        vm.loginState.observe(this, Observer {
+    private fun setupListener(){
+        binding.apply {
+            btnLogin.setOnClickListener {
+                if (validation()) vm.login(tieUsername.text.toString(), tiePassword.text.toString())
+            }
+
+            tvForgotPass.setOnClickListener {
+                startActivity<LupaPasswordActivity>()
+            }
+        }
+    }
+
+    private fun setupObserver() {
+        vm.loginState.observe(this, {
             when(it){
                 is UiState.Loading -> {
                     myDialog.show()
                 }
                 is UiState.Success -> {
-                   if (it.data.message != null){
-                       myDialog.dismiss()
-                       createAlertError(this, "Login gagal", it.data.message)
-                   }
+                    if (it.data.message != null){
+                        myDialog.dismiss()
+                        createAlertError(this, "Login gagal", it.data.message)
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
@@ -70,7 +84,7 @@ class LoginActivity : BaseActivity() {
             }
         })
 
-        vm.userProfileData.observe(this, Observer {
+        vm.userProfileData.observe(this, {
             when(it){
                 is UiState.Loading -> {
 //                    myDialog.show()
@@ -86,32 +100,6 @@ class LoginActivity : BaseActivity() {
                 }
             }
         })
-
-        btnLogin.setOnClickListener {
-            if (validation()) vm.login(edtEmail.text.toString(), edtPasword.text.toString())
-        }
-
-        btnLupaPassword.setOnClickListener {
-            startActivity<LupaPasswordActivity>()
-        }
-
-        initView()
-
-        btnToggleVisiblePassword.setOnClickListener {
-            if (!isShowPassword){
-                isShowPassword = true
-                edtPasword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                btnToggleVisiblePassword.setImageResource(R.drawable.ic_visibility_password)
-                edtPasword.setSelection(edtPasword.text.toString().length)
-            } else {
-                isShowPassword = false
-                edtPasword.transformationMethod = PasswordTransformationMethod.getInstance()
-                btnToggleVisiblePassword.setImageResource(R.drawable.ic_visibility_password_off)
-                edtPasword.setSelection(edtPasword.text.toString().length)
-            }
-
-        }
-
     }
 
     private fun initView() {
@@ -140,10 +128,11 @@ class LoginActivity : BaseActivity() {
 
 
     fun validation() : Boolean {
-        val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
-        val password = ValidationForm.validationInput(edtPasword, "Password tidak boleh kosong")
-
-        return email && password
+        binding.apply {
+            val email = ValidationForm.validationTextInputEditText(tieUsername, tilUsername, "Email tidak boleh kosong")
+            val password = ValidationForm.validationTextInputEditText(tiePassword, tilPass, "Password tidak boleh kosong")
+            return email && password
+        }
     }
 
     private fun checkPermission(){

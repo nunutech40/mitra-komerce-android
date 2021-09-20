@@ -15,7 +15,7 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "id.android.kmabsensi"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         multiDexEnabled true
         versionCode 47

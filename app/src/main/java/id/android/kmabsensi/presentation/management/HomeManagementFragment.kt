@@ -171,7 +171,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private fun setupListMenu() {
         menusAdapter = MenusAdapter(requireContext(), object : MenusAdapter.onAdapterListener{
             override fun onClick(data: MenuModels) {
-                requireActivity().toast("data = ${data.name}")
                 when(data.name){
                     "Datang" -> {
                         isCheckinButtonClicked = true
@@ -438,7 +437,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                 val jamPulang: Date = cal.time
 
                 if (now.before(jamPulang)) {
-                    (activity as HomeActivity).showDialogNotYetCheckout()
+                    showDialogNotYetCheckout(requireContext())
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.lowercase()

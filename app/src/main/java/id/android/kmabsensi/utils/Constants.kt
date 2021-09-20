@@ -53,6 +53,7 @@ const val INVOICE_STATUS = "invoice_status"
 const val LEADER_ID = "leader_id"
 
 const val IS_CS = "is_cs"
+const val IS_SAVE_PHOTO = "is_save_photo"
 
 enum class SORT_TYPE {
     LEADS,  TRANSACTION, ORDER, RATE_CONVERSION, RATE_ORDER

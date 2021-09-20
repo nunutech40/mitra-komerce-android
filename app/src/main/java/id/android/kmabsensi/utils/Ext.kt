@@ -1,13 +1,18 @@
 package id.android.kmabsensi.utils
 
+import android.content.Context
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import okhttp3.MediaType
@@ -37,6 +42,7 @@ fun ImageView.loadCircleImage(url: String){
 
     Glide.with(this.context)
         .load(url)
+        .placeholder(R.drawable.ic_user)
         .apply(RequestOptions.circleCropTransform())
         .into(this)
 }
@@ -93,4 +99,26 @@ fun Double.rounTwoDigitDecimal(): Double {
     val df = DecimalFormat("##.##", symbols);
     val res = df.format(filterNumber).toDouble()
     return res
+}
+
+fun showDialogNotYetCheckout(context: Context) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        customView(
+            R.layout.dialog_retake_foto,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
+    val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
+
+    txtKeterangan.text = context.getString(R.string.ket_belum_waktu_pulang)
+    btn_retake.text = context.getString(R.string.ok)
+
+    btn_retake.setOnClickListener {
+        dialog.dismiss()
+    }
 }

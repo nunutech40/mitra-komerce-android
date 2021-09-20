@@ -226,6 +226,18 @@
         <item>Lainnya</item>
     </string-array>
 
+    <string-array name="payment_methode">
+        <item>Metode Pembayaran</item>
+        <item>COD (Bayar di tempat)</item>
+        <item>Transfer Bank</item>
+    </string-array>
+
+    <string-array name="bank">
+        <item>BCA</item>
+        <item>BNI</item>
+        <item>BRI</item>
+    </string-array>
+
     <string name="info_tayangan">Jumlah tayangan iklan yang dilihat oleh target audience</string>
     <string name="info_klik_iklan">Jumlah orang yang klik iklan yang pada akhirnya setelah klik akan menuju ke halaman penawaran / landing page (LP)</string>
     <string name="info_visitor">Jumlah orang yang mengunjungi halaman penawaran / landingpage (LP) di web</string>
