@@ -234,7 +234,7 @@ class AddShoppingListActivity : BaseActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.toString().equals("")){
+                if (s.toString() != ""){
                     if (s.toString().toInt() > 100000000) {
                         toolsPrice.text = "100000000".toEditable()
                         toolsPrice.error = "Batas maksimal adalah Rp.100-juta."
