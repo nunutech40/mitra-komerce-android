@@ -14,5 +14,15 @@ class HistoryOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
 ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupListsner()
+    }
+
+    private fun setupListsner(){
+        binding?.apply {
+            btnToTheTop.setOnClickListener {
+                rvDataOrder.scrollTo(0,0)
+            }
+        }
     }
 }

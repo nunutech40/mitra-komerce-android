@@ -445,6 +445,13 @@
         <item name="android:textColor">@color/cl_black</item>
     </style>
 
+    <style name="tv16inter_light">
+        <item name="android:fontFamily">@font/inter_light</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="android:textColor">@color/cl_black</item>
+    </style>
+
+
     <style name="tv16inter_semi">
         <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textSize">@dimen/_16sp</item>
@@ -512,5 +519,19 @@
 <!--        <item name="android:drawableEnd">@drawable/ic_arrow_down_rf</item>-->
     </style>
 
+    <!--   Bottom sheet dialog -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/custom_chip_bg</item>
+        <item name="android:textColor">@color/custom_text_chip</item>
+        <item name="android:strokeColor">@color/custom_text_chip</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
 
 </resources>

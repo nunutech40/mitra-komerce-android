@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BottomSheetDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_12dp"
+    android:paddingHorizontal="@dimen/_16dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_top_25dp"
+    >
+
+    <View
+        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_grey_8dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv20monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:layout_marginTop="@dimen/_24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv14inter_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal"
+        android:layout_marginTop="@dimen/_16dp"
+        android:textColor="@color/cl_grey_tx_new" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:boxStrokeColor="@color/cl_grey_2"
+        app:boxStrokeWidth="0.5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_date"
+            style="@style/tv16inter_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_calendar_rf"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Pilih tanggal"
+            android:paddingStart="0dp"
+            android:paddingTop="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="14dp"
+        android:text="Terapkan"
+        android:layout_marginTop="56dp"
+        style="@style/tv16monst_semi"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_orange_10dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

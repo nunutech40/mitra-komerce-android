@@ -50,7 +50,7 @@ class DetailOrderActivity : BaseActivityRf<ActivityDetailOrderBinding>(
     private fun setupList() {
         productAdapter = ProductDetailAdapter(this, object : ProductDetailAdapter.onadapterListener{
             override fun onClick(data: DetailProductSementara) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
         })

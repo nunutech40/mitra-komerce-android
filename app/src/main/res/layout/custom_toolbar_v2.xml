@@ -69,18 +69,39 @@
             android:paddingEnd="@dimen/_16dp"
             android:visibility="gone"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/btn_filter"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="?attr/selectableItemBackground"
-            app:srcCompat="@drawable/ic_search_rf"
-            android:paddingVertical="5dp"
-            android:paddingEnd="@dimen/_16dp"
-            android:visibility="gone"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            app:layout_constraintTop_toTopOf="@+id/btnBack"
+            app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+            app:layout_constraintEnd_toStartOf="@+id/btn_filter"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            >
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cari"
+                android:visibility="gone"
+                style="@style/tv16inter_reg"
+                android:backgroundTint="@color/cl_grey_2"
+                android:drawablePadding="@dimen/_10dp"
+                android:layout_toLeftOf="@+id/btn_search"
+                />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="?attr/selectableItemBackground"
+                app:srcCompat="@drawable/ic_search_rf"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_delete"

@@ -68,6 +68,8 @@ fun View.gone(){
     this.visibility = View.GONE
 }
 
+fun View.isVisib() = this.visibility
+
 fun convertRp(number: Double) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
 fun convertRp(number: BigDecimal) = String.format("Rp %,.0f", number).replace(",".toRegex(), ".")
 fun convertRpWithoutSpace(number: Double) = String.format("Rp%,.0f", number).replace(",".toRegex(), ".")
@@ -122,3 +124,34 @@ fun showDialogNotYetCheckout(context: Context) {
         dialog.dismiss()
     }
 }
+
+
+fun showDialogWarningConfirm(context: Context, listener: onWarningClicked) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        customView(
+            R.layout.dialog_warning_confirm,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btnCancle = customView.findViewById<Button>(R.id.btn_cancle)
+    val btnYa = customView.findViewById<TextView>(R.id.btn_ya)
+
+    btnCancle.setOnClickListener {
+        dialog.dismiss()
+    }
+    btnYa.setOnClickListener {
+        listener.onCLick()
+        dialog.dismiss()
+    }
+}
+
+interface onWarningClicked{
+    fun onCLick()
+}
+
+
+

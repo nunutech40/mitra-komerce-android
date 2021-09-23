@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BottomSheetDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_12dp"
+    android:paddingHorizontal="@dimen/_16dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_top_25dp"
+    >
+
+    <View
+        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_grey_8dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv20monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:layout_marginTop="@dimen/_24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv16monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal"
+        android:layout_marginTop="@dimen/_24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv14inter_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Awal"
+        android:layout_marginTop="@dimen/_8dp"
+        android:textColor="@color/cl_grey_tx_new" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_first_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:boxStrokeColor="@color/cl_grey_2"
+        app:boxStrokeWidth="0.5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_first_date"
+            style="@style/tv16inter_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_calendar_rf"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Pilih tanggal"
+            android:paddingStart="0dp"
+            android:paddingTop="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv14inter_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Akhir"
+        android:layout_marginTop="@dimen/_16dp"
+        android:textColor="@color/cl_grey_tx_new" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_last_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:boxStrokeColor="@color/cl_grey_2"
+        app:boxStrokeWidth="0.5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_last_date"
+            style="@style/tv16inter_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_calendar_rf"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Pilih tanggal"
+            android:paddingStart="0dp"
+            android:paddingTop="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semua"
+            app:checkedIconEnabled="false"
+            android:checked="true"
+            style="@style/CustomChipStyle"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="true"
+            style="@style/CustomChipStyle"
+            android:text="Diajukan"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="true"
+            style="@style/CustomChipStyle"
+            android:text="Dikirim"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="true"
+            style="@style/CustomChipStyle"
+            android:text="Diterima"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="true"
+            style="@style/CustomChipStyle"
+            android:text="Retur"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="14dp"
+        android:text="Terapkan"
+        android:layout_marginTop="56dp"
+        style="@style/tv16monst_semi"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_orange_10dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

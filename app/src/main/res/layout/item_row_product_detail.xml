@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/_16dp"
+    android:layout_marginHorizontal="@dimen/_16dp"
     android:layout_marginTop="12dp"
     android:background="@drawable/bg_white_10dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="98dp"
-        android:layout_height="98dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,57 +22,69 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_product"
-            android:layout_width="98dp"
-            android:layout_height="98dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:srcCompat="@drawable/ic_galery_rf"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="@dimen/_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete_product"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_name_product"
+            style="@style/tv16inter_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="Jilbab Pasmia 1-SKU 332"
-            tools:text="Jilbab Pasmia 1-SKU 332"
-            style="@style/tv16inter_reg"/>
+            tools:text="Jilbab Pasmia 1-SKU 332" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_variant"
+            style="@style/tv12inter_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="M - Hijau"
             android:layout_marginTop="@dimen/_4dp"
-            style="@style/tv12inter_reg" />
+            android:text="M - Hijau" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_price"
+            style="@style/tv16monst_semi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp1.000.000"
-            tools:text="Rp1.000.000"
             android:layout_marginTop="@dimen/_6dp"
-            style="@style/tv16monst_semi"
-            android:textColor="@color/cl_orange_text_new"/>
+            android:text="Rp1.000.000"
+            android:textColor="@color/cl_orange_text_new"
+            tools:text="Rp1.000.000" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_detail_product"
+            style="@style/tv12inter_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tersedia: 1000 Pcs"
-            tools:text="Tersedia: 1000 Pcs"
             android:layout_marginTop="@dimen/_4dp"
-            style="@style/tv12inter_reg"
-            android:textColor="@color/cl_grey_tx_new"/>
+            android:text="Tersedia: 1000 Pcs"
+            android:textColor="@color/cl_grey_tx_new"
+            tools:text="Tersedia: 1000 Pcs" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_delete_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_trash_rf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

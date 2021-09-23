@@ -90,28 +90,6 @@ class HomeActivity : BaseActivityRf<ActivityHomeBinding>(
         setupViewPager()
     }
 
-//    fun showDialogNotYetCheckout() {
-//        val dialog = MaterialDialog(this).show {
-//            cornerRadius(16f)
-//            customView(
-//                R.layout.dialog_retake_foto,
-//                scrollable = false,
-//                horizontalPadding = true,
-//                noVerticalPadding = true
-//            )
-//        }
-//        val customView = dialog.getCustomView()
-//        val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
-//        val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
-//
-//        txtKeterangan.text = getString(R.string.ket_belum_waktu_pulang)
-//        btn_retake.text = getString(R.string.ok)
-//
-//        btn_retake.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//    }
-
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         viewpager.offscreenPageLimit = if (role != ROLE_MANAGEMEMENT) 3 else 4

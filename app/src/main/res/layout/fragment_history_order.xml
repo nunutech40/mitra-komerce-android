@@ -64,15 +64,25 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat6"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_to_the_top"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:cardCornerRadius="25dp"
         android:layout_marginEnd="@dimen/_20dp"
         android:layout_marginBottom="@dimen/_32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/cl_orange"
-        android:src="@drawable/ic_arrow_above_rf"
-        android:tint="@color/white"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cl_orange">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_above_rf"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

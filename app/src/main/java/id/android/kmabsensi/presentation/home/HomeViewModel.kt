@@ -1,9 +1,7 @@
 package id.android.kmabsensi.presentation.home
 
 import android.annotation.SuppressLint
-import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ethanhua.skeleton.Skeleton
@@ -18,7 +16,6 @@ import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.presentation.sdm.home.MenuModels
 import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.capitalizeWords
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 import java.text.SimpleDateFormat
@@ -243,7 +240,8 @@ class HomeViewModel(
             R.drawable.ic_role_rf,
             R.drawable.ic_product_knowlage_rf,
             R.drawable.ic_orderku_rf,
-            R.drawable.ic_talent_rf // 15
+            R.drawable.ic_talent_rf, // 15
+            R.drawable.ic_orderku_rf
         )
 
         val nameMenu = arrayListOf(
@@ -262,7 +260,8 @@ class HomeViewModel(
             "Role",
             "Pengetahuan Produk",
             "Orderku",
-            "Talent" // 15
+            "Talent", // 15
+            "Form Belanja"
         )
 
         /**
@@ -275,19 +274,19 @@ class HomeViewModel(
          */
         for (idx in 0..imgMenu.size-1){
             if (role == 1){
-                if (idx == 0 || idx == 1 || idx == 10 || idx == 11 || idx == 12 || idx == 13 || idx == 14 || idx == 15) continue
+                if (idx == 0 || idx == 1 || idx == 10 || idx == 11 || idx == 12 || idx == 13 || idx == 14 || idx == 15 || idx == 16) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }else if (role == 2){
-                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13 || idx == 15) continue
+                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13 || idx == 15 ) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             } else if (role == 3){
-                if (idx == 0 || idx == 1 || idx == 12 || idx == 13 || idx == 14 || idx == 15) continue
+                if (idx == 0 || idx == 1 || idx == 12 || idx == 13 || idx == 14 || idx == 15 || idx == 16) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }else if (role  == 4){
-                if (idx == 0 || idx == 1 || idx == 4 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 11 || idx == 12 || idx == 15) continue
+                if (idx == 0 || idx == 1 || idx == 4 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 11 || idx == 12 || idx == 15 || idx == 16) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             } else if (role == 5){
-                if (idx == 2 || idx == 3 || idx == 4 || idx == 5 || idx == 6 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 13 || idx == 14 ) continue
+                if (idx == 2 || idx == 3 || idx == 4 || idx == 5 || idx == 6 || idx == 7 || idx == 8 || idx == 9 || idx == 10 || idx == 13 || idx == 14 || idx == 16) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }
         }
@@ -383,7 +382,8 @@ class HomeViewModel(
         var name = ""
 
         if (!user.full_name.isNullOrEmpty()) {
-            name = user.full_name.split(" ")[0].lowercase().capitalizeWords()
+//            name = user.full_name.split(" ")[0].lowercase().capitalizeWords()
+            name = user.full_name.split(" ")[0]
         }
 
 //        val now = Calendar.getInstance()

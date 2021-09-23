@@ -9,16 +9,19 @@ import android.text.Editable
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.wildma.idcardcamera.camera.IDCardCamera
 import com.wildma.idcardcamera.utils.PermissionUtils
 import id.android.kmabsensi.R
 import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.isVisib
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -108,16 +111,28 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
         val btnFilter = binding.root.findViewById<AppCompatImageView>(R.id.btn_filter)
         val myOrder = binding.root.findViewById<AppCompatImageView>(R.id.btn_my_order)
         val search = binding.root.findViewById<AppCompatImageView>(R.id.btn_search)
+        val etSearch = binding.root.findViewById<AppCompatEditText>(R.id.et_search)
         tvTitle.text = title
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
+
         if (isBackable) btnBack.visible() else btnBack.gone()
         if (isFilter) btnFilter.visible() else btnFilter.gone()
         if (isOrder) myOrder.visible() else myOrder.gone()
         if (isSearch) search.visible() else search.gone()
         if (isDelete) tvDelete.visible() else tvDelete.gone()
 
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
+
+        search.setOnClickListener {
+           if (etSearch.visibility == View.VISIBLE){
+               etSearch.gone()
+               tvTitle.visible()
+           }else{
+               etSearch.visible()
+               tvTitle.gone()
+           }
+        }
     }
 
 

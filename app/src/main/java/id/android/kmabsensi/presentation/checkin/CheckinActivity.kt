@@ -98,7 +98,6 @@ class CheckinActivity : BaseActivity() {
                 }
                 is UiState.Success -> {
                     myDialog.dismiss()
-                    Log.d("TAGTAGTAG", "onCreate: $presenceTime")
                     startActivity(
                         intentFor<SplashAbsenActivity>(
                             "isCheckin" to (presenceId == 0),
@@ -108,6 +107,10 @@ class CheckinActivity : BaseActivity() {
                             "presenceTime" to presenceTime
                         ).clearTask().newTask()
                     )
+
+                    if (!PreferencesHelper(this).getBoolean(IS_SAVE_PHOTO)) {
+                        compressedImage?.delete()
+                    }
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()

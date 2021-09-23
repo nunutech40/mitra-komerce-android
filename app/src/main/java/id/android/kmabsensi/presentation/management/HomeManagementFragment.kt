@@ -30,6 +30,7 @@ import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.invoice.InvoiceActivity
 import id.android.kmabsensi.presentation.invoice.report.InvoiceReportActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
+import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.myevaluation.MyEvaluationActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.permission.PermissionActivity
@@ -221,6 +222,9 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                         showGroupMenu(1)
                     }
                     "Orderku" ->{
+                        activity?.startActivity<MyOrderActivity>()
+                    }
+                    "Form Belanja" ->{
                         activity?.startActivity<ShoppingCartActivity>("roleId" to 2)
                     }
                 }
@@ -575,8 +579,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         }
         binding?.tvCountDown?.text = "Hari Libur"
         binding?.tvStatusWaktu?.invis()
-//        dataHadir.gone()
-//        expandableLayout.gone()
     }
 
     private fun setCountdown(time_zuhur: String?, time_ashar: String?) {

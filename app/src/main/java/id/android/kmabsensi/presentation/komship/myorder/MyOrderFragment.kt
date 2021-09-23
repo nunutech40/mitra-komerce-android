@@ -32,16 +32,10 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private fun setupView() {
         binding?.llVariant1?.visible()
         for (idx in 0..10){
-            val chip = Chip(binding?.chipVarian1?.context)
+            val chip = this.layoutInflater.inflate(R.layout.custom_chip_order, null, false) as Chip
+
             chip.apply {
                 text = "item ke $idx"
-                isClickable = true
-                isCheckable = true
-                chipCornerRadius = 5f
-                isCheckedIconVisible = false
-                setChipBackgroundColor(AppCompatResources.getColorStateList(requireContext(), R.color.cl_white))
-                setChipStrokeColorResource(R.color.cl_grey_2)
-                setChipStrokeWidthResource(R.dimen._1dp)
             }
 
             binding?.chipVarian1?.addView(chip)
