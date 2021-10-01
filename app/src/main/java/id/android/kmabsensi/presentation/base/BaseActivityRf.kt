@@ -101,7 +101,7 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
         title: String,
         isBackable: Boolean = false,
         isFilter: Boolean = false,
-        isOrder: Boolean = false,
+        isCart: Boolean = false,
         isSearch: Boolean = false,
         isDelete: Boolean = false,
     ) {
@@ -109,14 +109,14 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
         val tvTitle = binding.root.findViewById<AppCompatTextView>(R.id.txtTitle)
         val btnBack = binding.root.findViewById<AppCompatImageView>(R.id.btnBack)
         val btnFilter = binding.root.findViewById<AppCompatImageView>(R.id.btn_filter)
-        val myOrder = binding.root.findViewById<AppCompatImageView>(R.id.btn_my_order)
+        val btnCart = binding.root.findViewById<AppCompatImageView>(R.id.btn_my_order)
         val search = binding.root.findViewById<AppCompatImageView>(R.id.btn_search)
         val etSearch = binding.root.findViewById<AppCompatEditText>(R.id.et_search)
         tvTitle.text = title
 
         if (isBackable) btnBack.visible() else btnBack.gone()
         if (isFilter) btnFilter.visible() else btnFilter.gone()
-        if (isOrder) myOrder.visible() else myOrder.gone()
+        if (isCart) btnCart.visible() else btnCart.gone()
         if (isSearch) search.visible() else search.gone()
         if (isDelete) tvDelete.visible() else tvDelete.gone()
 

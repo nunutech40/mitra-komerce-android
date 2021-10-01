@@ -513,6 +513,7 @@
         <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/_16sp</item>
     </style>
+
 <!--    spinner custom-->
     <style name="SpinnerTheme" parent="android:Widget.Spinner">
         <item name="android:background">@drawable/ic_arrow_down_rf</item>
@@ -526,12 +527,24 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-    
+
+
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipBackgroundColor">@color/custom_chip_bg</item>
         <item name="android:textColor">@color/custom_text_chip</item>
-        <item name="android:strokeColor">@color/custom_text_chip</item>
-        <item name="strokeWidth">1dp</item>
+        <item name="chipStrokeWidth">0.5dp</item>
+        <item name="chipStrokeColor">@color/custom_text_chip</item>
+        <item name="chipCornerRadius">7dp</item>
+    </style>
+
+    <style name="CustomChipStyleFilter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/custom_chip_bg</item>
+        <item name="android:textColor">@color/custom_text_chip</item>
+        <item name="chipStrokeWidth">0.5dp</item>
+        <item name="chipStrokeColor">@color/custom_text_chip</item>
+        <item name="chipCornerRadius">7dp</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">@dimen/_16sp</item>
     </style>
 
 </resources>

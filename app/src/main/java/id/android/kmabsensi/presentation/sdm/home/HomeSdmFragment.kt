@@ -28,6 +28,7 @@ import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
+import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
@@ -308,7 +309,8 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                         activity?.startActivity<ProductKnowledgeActivity>(NO_PARTNER_KEY to user.no_partners!![0].toInt())
                     }
                     "Orderku" ->{
-                        activity?.startActivity<ShoppingCartActivity>("roleId" to 2)
+                        activity?.startActivity<MyOrderActivity>()
+//                        activity?.startActivity<ShoppingCartActivity>("roleId" to 2)
                     }
                 }
             }

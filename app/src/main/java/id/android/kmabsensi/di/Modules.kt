@@ -8,10 +8,9 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.db.AppDatabase
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.AuthInterceptor
-import id.android.kmabsensi.data.remote.createWebService
-import id.android.kmabsensi.data.remote.provideOkHttpClient
+import id.android.kmabsensi.data.remote.*
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.data.remote.service.ApiServiceKomship
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.coworking.CoworkingSpaceViewModel
@@ -50,12 +49,15 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
+val appModule = module(override = true) {
 
     single { PreferencesHelper(androidContext()) }
     single { AuthInterceptor(get(), androidContext()) }
     single { provideOkHttpClient(get(), androidContext()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
+
+    single { createWebServiceKomship<ApiServiceKomship>(get(), BuildConfig.BASE_URL_ABSENSI_KOMSHIP) }
+
     single { AppSchedulerProvider() as SchedulerProvider }
 
     factory { GroupAdapter<GroupieViewHolder>() }

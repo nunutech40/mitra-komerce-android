@@ -1,6 +1,7 @@
 package id.android.kmabsensi.utils
 
 import android.content.Context
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -152,6 +153,8 @@ fun showDialogWarningConfirm(context: Context, listener: onWarningClicked) {
 interface onWarningClicked{
     fun onCLick()
 }
+
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 
 

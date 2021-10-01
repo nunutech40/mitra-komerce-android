@@ -11,7 +11,7 @@ data class KomPartnerResponse(
 	val code: Int? = null,
 
 	@field:SerializedName("data")
-	val data: List<KomPartnerItem?>? = null,
+	val data: List<KomPartnerItem>? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null

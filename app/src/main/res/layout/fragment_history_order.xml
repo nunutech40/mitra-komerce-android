@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cl_white_dark_new"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.komship.historyorder.HistoryOrderFragment">
+    tools:context=".presentation.komship.dataorder.HistoryOrderFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat6"
@@ -19,36 +19,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/tv_partner"-->
+<!--            style="@style/tv14inter_reg"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Tanggal Order"-->
+<!--            android:textColor="@color/cl_grey_tx_new" />-->
+
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_partner"
-            style="@style/tv14inter_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tanggal Order"
-            android:textColor="@color/cl_grey_tx_new" />
+            android:text="Pilih Partner"
+            style="@style/tv14inter_reg"
+            android:textColor="@color/cl_grey_tx_new"/>
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_partner"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sp_partner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/cl_grey_tx_new"
-            app:boxStrokeColor="@color/cl_grey_2"
-            app:boxStrokeWidth="0.5dp"
-            app:hintAnimationEnabled="false"
-            app:hintEnabled="false">
+            android:gravity="center"
+            android:background="@drawable/spinner_background_rf"
+            />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_partner"
-                style="@style/tv16inter_reg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="12dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cl_grey_2"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

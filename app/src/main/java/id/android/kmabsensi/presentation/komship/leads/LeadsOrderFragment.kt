@@ -27,14 +27,6 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
 //
 //                }
 //            })
-            setupBottomSheat()
         }
-    }
-
-    fun setupBottomSheat(){
-        val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_data_order, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(bottomSheet)
-        dialog.show()
     }
 }

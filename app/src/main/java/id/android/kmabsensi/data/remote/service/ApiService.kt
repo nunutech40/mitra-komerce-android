@@ -6,6 +6,7 @@ import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
+import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -708,14 +709,6 @@ interface ApiService {
             @Body body: Map<String, Any>
     ): Single<UpdateWithdrawResponse>
 
-//    @FormUrlEncoded
-//    @POST("api/attachment/file/storeFile")
-//    fun uploadAttachment(
-//        @Field("reference_id") reference_id : Int,
-//        @Field("attachment_type") attachment_type: String,
-//        @Field("attachment_file") nominal: Int
-//    ): Single<UploadAttachmentResponse>
-
     @Multipart
     @POST("api/attachment/file/storeFile")
     fun uploadAttachment(
@@ -723,4 +716,5 @@ interface ApiService {
             @Part("attachment_type") attachment_type: RequestBody,
             @Part attachment_file: MultipartBody.Part
     ): Single<UploadAttachmentResponse>
+
 }

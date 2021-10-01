@@ -2,7 +2,6 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/BottomSheetDialogTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,21 +33,21 @@
         android:layout_marginTop="@dimen/_24dp"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/tv14inter_reg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tanggal Awal"
-        android:layout_marginTop="@dimen/_8dp"
-        android:textColor="@color/cl_grey_tx_new" />
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--        style="@style/tv14inter_reg"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Tanggal Awal"-->
+<!--        android:layout_marginTop="@dimen/_8dp"-->
+<!--        android:textColor="@color/cl_grey_tx_new" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_first_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
         app:boxStrokeColor="@color/cl_grey_2"
-        app:boxStrokeWidth="0.5dp">
+        app:boxStrokeWidth="0.5dp"
+        android:layout_marginTop="@dimen/_12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_first_date"
@@ -60,27 +59,27 @@
             android:maxLines="1"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Pilih tanggal"
+            android:hint="Tanggal Awal"
             android:paddingStart="0dp"
-            android:paddingTop="12dp" />
+            android:paddingTop="32dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/tv14inter_reg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tanggal Akhir"
-        android:layout_marginTop="@dimen/_16dp"
-        android:textColor="@color/cl_grey_tx_new" />
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--        style="@style/tv14inter_reg"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Tanggal Akhir"-->
+<!--        android:layout_marginTop="@dimen/_16dp"-->
+<!--        android:textColor="@color/cl_grey_tx_new" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_last_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
         app:boxStrokeColor="@color/cl_grey_2"
-        app:boxStrokeWidth="0.5dp">
+        app:boxStrokeWidth="0.5dp"
+        android:layout_marginTop="@dimen/_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_last_date"
@@ -92,55 +91,66 @@
             android:maxLines="1"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Pilih tanggal"
+            android:hint="Tanggal Akhir"
             android:paddingStart="0dp"
-            android:paddingTop="12dp" />
+            android:paddingTop="32dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:layout_marginTop="@dimen/_24dp"
+        style="@style/tv16monst_semi"
+        />
+
     <com.google.android.material.chip.ChipGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        android:layout_marginTop="@dimen/_8dp">
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Semua"
             app:checkedIconEnabled="false"
-            android:checked="true"
-            style="@style/CustomChipStyle"/>
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"/>
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
-            android:checked="true"
-            style="@style/CustomChipStyle"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
             android:text="Diajukan"/>
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
-            android:checked="true"
-            style="@style/CustomChipStyle"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
             android:text="Dikirim"/>
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
-            android:checked="true"
-            style="@style/CustomChipStyle"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
             android:text="Diterima"/>
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
-            android:checked="true"
-            style="@style/CustomChipStyle"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
             android:text="Retur"/>
 
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"

@@ -26,14 +26,13 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_search"
+            android:id="@+id/et_search_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cari"
             style="@style/tv16inter_reg"
             android:backgroundTint="@color/cl_grey_2"
-            android:drawablePadding="@dimen/_10dp"
-            android:drawableStart="@drawable/ic_search_rf"/>
+            android:drawablePadding="@dimen/_10dp"/>
 
     </RelativeLayout>
 

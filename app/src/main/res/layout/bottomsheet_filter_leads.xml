@@ -26,21 +26,13 @@
         android:layout_marginTop="@dimen/_24dp"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/tv14inter_reg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tanggal"
-        android:layout_marginTop="@dimen/_16dp"
-        android:textColor="@color/cl_grey_tx_new" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
         app:boxStrokeColor="@color/cl_grey_2"
-        app:boxStrokeWidth="0.5dp">
+        app:boxStrokeWidth="0.5dp"
+        android:layout_marginTop="@dimen/_12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_date"
@@ -52,9 +44,9 @@
             android:maxLines="1"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Pilih tanggal"
+            android:hint="Tanggal"
             android:paddingStart="0dp"
-            android:paddingTop="12dp" />
+            android:paddingTop="32dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
