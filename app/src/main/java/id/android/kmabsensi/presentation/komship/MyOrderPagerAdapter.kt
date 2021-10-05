@@ -3,7 +3,7 @@ package id.android.kmabsensi.presentation.komship
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import id.android.kmabsensi.presentation.komship.dataorder.HistoryOrderFragment
+import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.leads.LeadsOrderFragment
 import id.android.kmabsensi.presentation.komship.myorder.MyOrderFragment
 
@@ -12,7 +12,7 @@ class MyOrderPagerAdapter(fm : FragmentManager): FragmentPagerAdapter(fm, BEHAVI
     // sebuah list yang menampung objek Fragment
     private val pages = listOf(
         MyOrderFragment(),
-        HistoryOrderFragment(),
+        DataOrderFragment(),
         LeadsOrderFragment()
     )
 

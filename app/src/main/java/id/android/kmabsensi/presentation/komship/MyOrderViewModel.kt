@@ -3,7 +3,9 @@ package id.android.kmabsensi.presentation.komship
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
+import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.komship.KomOrderByPartnerResponse
 import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
 import id.android.kmabsensi.data.remote.response.komship.KomProductByPartnerResponse
 import id.android.kmabsensi.data.repository.KomShipRepository
@@ -23,10 +25,25 @@ class MyOrderViewModel(
     val partnerState : MutableLiveData<UiState<KomPartnerResponse>> = MutableLiveData()
     val productState : MutableLiveData<UiState<KomProductByPartnerResponse>> = MutableLiveData()
     val addCartState : MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
+    val orderByPartnerState : MutableLiveData<UiState<KomOrderByPartnerResponse>> = MutableLiveData()
 
     fun validateMinProduct(total : Int) : Boolean = total>1
 
     fun validateMaxProduct(total : Int, max : Int) : Boolean = total<=max
+
+    fun getOrderByPartner(idPartner: Int,
+                          orderParams: OrderByPartnerParams){
+        orderByPartnerState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getOrderByPartner(idPartner, orderParams)
+                .with(schedulerProvider)
+                .subscribe({
+                    orderByPartnerState.value = UiState.Success(it)
+                },{
+                    orderByPartnerState.value = UiState.Error(it)
+                })
+        )
+    }
 
     fun getPartner(){
         partnerState.value = UiState.Loading()

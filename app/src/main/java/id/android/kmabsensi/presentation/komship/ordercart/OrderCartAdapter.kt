@@ -4,18 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.CartItem
-import id.android.kmabsensi.data.remote.response.komship.DataProductItem
 import id.android.kmabsensi.databinding.ItemRowOrderCartBinding
-import id.android.kmabsensi.utils.loadImageFromUrl
 import kotlinx.android.synthetic.main.item_row_order_cart.view.*
-import org.jetbrains.anko.toast
 
 class OrderCartAdapter(
     val context : Context,
+    val isDirectOrder: Boolean,
     val listener : onAdapterListener
     ): RecyclerView.Adapter<OrderCartAdapter.VHolder>() {
 
@@ -27,7 +24,7 @@ class OrderCartAdapter(
             binding.apply {
                 tvAvailableProduct.setTextColor(context.resources.getColor(R.color.cl_black))
 //                imgProduct.loadImageFromUrl(data.!!)
-//                tvAvailableProduct.text = "Tersedia: ${data.stock}"
+                tvAvailable.text = "${data.stock} pcs"
                 tvAvailableProduct.text = data.variantName
                 tvNameProduct.text = data.productName
                 tvPrice.text = "Rp${data.productPrice}"
@@ -47,6 +44,12 @@ class OrderCartAdapter(
         val data = list[position]
         holder.bind(position, data)
         holder.itemView.apply {
+
+            if (position == 0 && isDirectOrder){
+                cb_order.isChecked = true
+                listener.onChecked(position, true, data)
+            }
+
             btn_min.setOnClickListener {
                 qty = holder.itemView.tv_total.text.toString().toInt()
                 if (validateQty(0)) qty -= 1
@@ -63,10 +66,6 @@ class OrderCartAdapter(
                     listener.onChecked(position, isChecked, data)
             }
         }
-//        holder.itemView.btn_minus.setOnClickListener {
-//            list.removeAt(position)
-//            notifyDataSetChanged()
-//        }
     }
 
     override fun getItemCount(): Int = list.size

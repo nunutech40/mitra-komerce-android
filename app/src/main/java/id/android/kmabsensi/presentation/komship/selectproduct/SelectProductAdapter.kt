@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.komship.selectproduct
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +51,7 @@ class SelectProductAdapter(
         holder.bind(data)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newData : ArrayList<ProductKomItem>){
         list.clear()
         list.addAll(newData)
@@ -67,7 +69,7 @@ class SelectProductAdapter(
                 } else {
                     val filtered = ArrayList<ProductKomItem>()
                     for (product in list) {
-                        if (product.productName?.toLowerCase()!!.contains(charSearch.toLowerCase())) {
+                        if (product.productName?.lowercase()!!.contains(charSearch.lowercase())) {
                             Log.d("performFiltering", "$product")
                             filtered.add(product)
                         }

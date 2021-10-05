@@ -47,7 +47,7 @@
             android:name=".presentation.komship.successorder.SuccessOrderActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.komship.detailorder.DetailOrderActivity"
+            android:name=".presentation.komship.delivery.DeliveryActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.komship.ordercart.OrderCartActivity"

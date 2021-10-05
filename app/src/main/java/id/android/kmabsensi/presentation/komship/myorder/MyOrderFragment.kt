@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
@@ -18,8 +19,10 @@ import id.android.kmabsensi.data.remote.response.komship.VariantKomItem
 import id.android.kmabsensi.databinding.FragmentMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
+import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
 import id.android.kmabsensi.presentation.komship.selectproduct.SelectProductActivity
 import id.android.kmabsensi.utils.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
@@ -37,17 +40,33 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private lateinit var dataProductItem : ProductKomItem
     private var variantSize = 0
     private lateinit var dataOrder : AddCartParams
-
+    private var isActive = false
     private lateinit var productVariantSelect : ProductVariantKomItem
-
+    private var isDirectOrder = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListener()
         setupView()
         setupObserver()
+
     }
 
     private fun setupObserver() {
+
+        vm.addCartState.observe(requireActivity(), {
+            when (it) {
+                is UiState.Loading -> Log.d("_addCartState", "on loading")
+                is UiState.Success -> {
+                    if (isDirectOrder){
+                        requireActivity().startActivity<OrderCartActivity>("_isDirectOrder" to isDirectOrder)
+                    }else{
+                        requireActivity().toast("Data berhasil ditambahkan ke keranjang.")
+                    }
+                    resetForm()
+                }
+                is UiState.Error -> Log.d("_addCartState", "on error ${it.throwable}")
+            }
+        })
         vm.partnerState.observe(requireActivity(), {
             when (it) {
                 is UiState.Loading -> Log.d(TAGp, "on loading")
@@ -225,7 +244,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            vm.getProduct(201)
+                            vm.getProduct(617)
 //                            vm.getProduct(dataPartner[position].partnerId!!)
                         }
                     }
@@ -233,6 +252,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     }
 
     private fun setupView() {
+        binding?.btnCart?.isClickable = false
         vm.getPartner()
     }
 
@@ -246,7 +266,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     requireActivity().toast("sudah mencapai batas max")
                 }
             }
-
             btnCart.setOnClickListener {
                 dataOrder = AddCartParams(
                     dataProductItem.productId!!,
@@ -258,6 +277,21 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     (totalProduct*productVariantSelect.price!!)
                 )
                 vm.addCart(dataOrder)
+                isDirectOrder = false
+            }
+
+            btnOrder.setOnClickListener {
+                dataOrder = AddCartParams(
+                    dataProductItem.productId!!,
+                    dataProductItem.productName!!,
+                    productVariantSelect.optionId!!,
+                    productVariantSelect.name!!,
+                    productVariantSelect.price!!,
+                    totalProduct,
+                    (totalProduct*productVariantSelect.price!!)
+                )
+                vm.addCart(dataOrder)
+                isDirectOrder = true
             }
 
             btnMinus.setOnClickListener {
@@ -269,10 +303,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 }
             }
 
-            btnOrder.setOnClickListener {
-                Log.d(TAGp, "btn Order setupListener: $dataOrder")
-            }
-
             tieProduk.setOnClickListener {
                 if (!dataPartner.isNullOrEmpty()) {
                     val intent = Intent(requireContext(), SelectProductActivity::class.java)
@@ -280,7 +310,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     startResult.launch(intent)
                 } else requireActivity().toast("Anda belum memilih Partner")
             }
-
             chipVarian1.setOnCheckedChangeListener { group, checkedId ->
                 if (variantSize>1){
                     dataProductItem.variant?.get(1)?.let { setupChip(it, 1, checkedId) }
@@ -354,31 +383,47 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             dataProductItem.productVariant?.forEach {
                 if (it.optionId == optionsId){
                     binding?.apply {
+                        isActive = true
+                        btnCart.isClickable = true
+                        btnOrder.isEnabled = true
                         tvNameProduct.text = "${dataProductItem.productName} - ${it.name}"
                         tvPrice.text = "Rp${it.price}"
                         tvAvailableProduct.text = "Tersedia: ${it.stock} Pcs"
 
-                        btnOrder.setBackgroundDrawable(resources.getDrawable(R.drawable.bg_orange_10dp))
-                        imgCart.setImageDrawable(resources.getDrawable(R.drawable.ic_orderku_rf))
+                        btnOrder.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.bg_orange_10dp))
+                        imgCart.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_orderku_rf))
                         productVariantSelect = it
                     }
                 }
             }
         }else {
             binding?.apply {
-                imgCart.setImageDrawable(resources.getDrawable(R.drawable.ic_orderku_off_rf))
-                btnOrder.setBackgroundDrawable(resources.getDrawable(R.drawable.bg_grey_8dp))
-                llQty?.gone()
+                isActive = false
+                btnCart.isClickable = false
+                btnOrder.isEnabled = false
+                imgCart.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_orderku_off_rf))
+                btnOrder.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.bg_grey_8dp))
+                llQty.gone()
             }
         }
     }
 
-    val startResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    private val startResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (it.resultCode == Activity.RESULT_OK){
             dataProductItem = it.data?.getParcelableExtra<ProductKomItem>(productKey)!!
             setupContentProduct(dataProductItem)
             hidenVariant(0)
             binding?.tieProduk?.text = dataProductItem.productName?.toEditable()
+        }
+    }
+
+    private fun resetForm(){
+        binding?.apply {
+            llDetailProduct.gone()
+            hidenVariant(0)
+            llVariant1.gone()
+            tieProduk.text = "".toEditable()
+            lastOption(false, 0)
         }
     }
 

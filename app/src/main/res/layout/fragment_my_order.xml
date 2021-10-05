@@ -403,17 +403,20 @@
             android:background="@drawable/bg_white_stroke_10dp"
             android:paddingVertical="@dimen/_14dp"
             android:paddingHorizontal="28dp">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_cart"
-                android:layout_width="wrap_content"
+                android:layout_width="14dp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_orderku_off_rf"/>
+                app:srcCompat="@drawable/ic_orderku_off_rf" />
         </RelativeLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_order"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:enabled="false"
             android:stateListAnimator="@null"
             android:textAllCaps="false"
             android:layout_marginStart="@dimen/_16dp"

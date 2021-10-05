@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.komship.ordercart
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.response.BaseResponse
@@ -10,6 +11,7 @@ import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
+import kotlinx.android.parcel.Parcelize
 
 class OrderCartViewModel(
     val komShipRepository: KomShipRepository,
@@ -76,8 +78,15 @@ class OrderCartViewModel(
     }
 }
 
+@Parcelize
 data class ValidateChecked(
     val item : CartItem,
     val position : Int,
     val isChecked: Boolean
-)
+): Parcelable
+
+@Parcelize
+data class CartListItem(
+    val isChecked: Boolean,
+    val item: CartItem
+): Parcelable

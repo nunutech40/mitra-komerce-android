@@ -106,12 +106,15 @@
         />
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:singleSelection="true"
+        app:selectionRequired="true"
         android:layout_marginTop="@dimen/_8dp">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/semua"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Semua"
@@ -119,6 +122,7 @@
             android:checked="false"
             style="@style/CustomChipStyleFilter"/>
         <com.google.android.material.chip.Chip
+            android:id="@+id/diajukan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
@@ -126,6 +130,7 @@
             style="@style/CustomChipStyleFilter"
             android:text="Diajukan"/>
         <com.google.android.material.chip.Chip
+            android:id="@+id/dikirim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
@@ -133,6 +138,7 @@
             style="@style/CustomChipStyleFilter"
             android:text="Dikirim"/>
         <com.google.android.material.chip.Chip
+            android:id="@+id/diterima"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
@@ -140,12 +146,21 @@
             style="@style/CustomChipStyleFilter"
             android:text="Diterima"/>
         <com.google.android.material.chip.Chip
+            android:id="@+id/retur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedIconEnabled="false"
             android:checked="false"
             style="@style/CustomChipStyleFilter"
             android:text="Retur"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/batal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Batal"/>
 
     </com.google.android.material.chip.ChipGroup>
 

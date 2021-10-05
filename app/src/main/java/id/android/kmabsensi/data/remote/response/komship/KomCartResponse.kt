@@ -35,6 +35,12 @@ data class CartItem(
 	@field:SerializedName("qty")
 	val qty: Int? = null,
 
+	@field:SerializedName("stock")
+	val stock: Int? = null,
+
+	@field:SerializedName("product_image")
+	val productImage: List<String>? = null,
+
 	@field:SerializedName("variant_name")
 	val variantName: String? = null,
 

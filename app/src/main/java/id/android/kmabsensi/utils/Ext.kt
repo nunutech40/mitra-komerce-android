@@ -27,6 +27,8 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun ImageView.loadImageFromUrl(url: String){
@@ -156,5 +158,14 @@ interface onWarningClicked{
 
 fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
+fun convertDate(date: String): String{
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val sdf = SimpleDateFormat("dd-MMMM-yyyy")
+    return sdf.format(dateFormat.parse(date))
+}
 
-
+fun convertRupiah(number: Double): String{
+    val localeID =  Locale("in", "ID")
+    val numberFormat = NumberFormat.getCurrencyInstance(localeID)
+    return numberFormat.format(number).toString()
+}

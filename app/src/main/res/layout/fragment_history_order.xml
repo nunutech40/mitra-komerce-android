@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/f_data_order"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_white_dark_new"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.komship.dataorder.HistoryOrderFragment">
+    tools:context=".presentation.komship.dataorder.DataOrderFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat6"

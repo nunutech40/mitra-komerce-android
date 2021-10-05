@@ -31,13 +31,13 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
     val binding : B by lazy {
         bindingFactory(layoutInflater)
     }
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
 //        hideSystemUI()
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.cl_orange, theme)
+//        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.cl_orange, theme)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -117,7 +117,11 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
         if (isBackable) btnBack.visible() else btnBack.gone()
         if (isFilter) btnFilter.visible() else btnFilter.gone()
         if (isCart) btnCart.visible() else btnCart.gone()
-        if (isSearch) search.visible() else search.gone()
+        if (isSearch) search.visible()
+        else {
+            search.gone()
+            etSearch.gone()
+        }
         if (isDelete) tvDelete.visible() else tvDelete.gone()
 
         btnBack.setOnClickListener {

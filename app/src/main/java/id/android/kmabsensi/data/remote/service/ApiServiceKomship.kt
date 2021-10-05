@@ -1,9 +1,7 @@
 package id.android.kmabsensi.data.remote.service
 
 import id.android.kmabsensi.data.remote.response.BaseResponse
-import id.android.kmabsensi.data.remote.response.komship.KomCartResponse
-import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
-import id.android.kmabsensi.data.remote.response.komship.KomProductByPartnerResponse
+import id.android.kmabsensi.data.remote.response.komship.*
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -41,15 +39,53 @@ interface ApiServiceKomship {
     : Single<BaseResponse>
 
 //    @DELETE("api/v1/cart/delete")
-    @JvmSuppressWildcards
+//    @JvmSuppressWildcards
 //    @FormUrlEncoded
-    @HTTP(method = "DELETE", path = "api/v1/cart/delete", hasBody = true)
+//    @HTTP(method = "DELETE", path = "api/v1/cart/delete", hasBody = true)
+//    fun deleteCart(
+//        @Body body: ArrayList<Int>
+//    )
+//    : Single<BaseResponse>
+//    @FormUrlEncoded
+    @DELETE("api/v1/cart/delete")
     fun deleteCart(
-        @Body body: ArrayList<Int>
+        @Query("cart_id")cartId: ArrayList<Int>
     )
     : Single<BaseResponse>
 
+    @GET("api/v1/order/{id_partner}")
+    fun getOrderByPartner(
+        @Path("id_partner")idPartner : Int,
+        @Query("page")page : Int,
+        @Query("start_date")startDate : String,
+        @Query("end_date")endDate : String,
+        @Query("payment_methode")paymentMethode : String,
+        @Query("order_status")orderStatus : Int? = null
+    )
+    : Single<KomOrderByPartnerResponse>
 
+    @GET("api/v1/destination")
+    fun getDestination(
+        @Query("page") page: Int? = 1,
+        @Query("search") search: String
+    )
+    : Single<KomDestinationResponse>
 
+    @GET("api/v1/calculate")
+    fun getCalculate(
+        @Query("discount")discount : Int? = 0,
+        @Query("shipping")shipping : String,
+        @Query("tariff_code")tariffCode : String,
+        @Query("payment_method")paymentMethod : String
+    )
+    : Single<KomCalculateResponse>
+
+    @JvmSuppressWildcards
+    @POST("api/v1/order/{id_partner}/store")
+    fun addOrder(
+        @Path("id_partner")idPartner : Int,
+        @Body body: Map<String, Any?>
+    )
+    :Single<BaseResponse>
 
 }

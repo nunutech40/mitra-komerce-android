@@ -2,20 +2,18 @@ package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.CartItem
-import id.android.kmabsensi.data.remote.response.komship.DataProductItem
 import id.android.kmabsensi.databinding.ActivityOrderCartBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
+import id.android.kmabsensi.presentation.komship.delivery.DeliveryActivity
 import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.convertRupiah
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
-import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,6 +25,12 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     private var checked : MutableList<ValidateChecked> = ArrayList()
     private lateinit var orderAdapter : OrderCartAdapter
     private var myCart = ArrayList<CartItem>()
+    private val isDirectOrder by lazy {
+        intent.getBooleanExtra("_isDirectOrder", false)
+    }
+
+    private val listChecked: MutableList<Int> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupToolbar("Pengiriman", isBackable = true, isDelete = true)
@@ -49,27 +53,28 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                        } else{
                            tvEmptyCart.gone()
                            orderAdapter.setData(myCart)
+                           orderChecked()
                        }
                     }
                 }
                 is UiState.Error -> Log.d(TAG, "on Error ${it.throwable}")
             }
         })
+
         vm.deleteState.observe(this, {
             when(it){
                 is UiState.Loading -> Log.d(TAG, "on Loading ")
                 is UiState.Success -> {
-                    Log.d(TAG, "on Success ${it.data}")
                     vm.GetDataCart()
                 }
                 is UiState.Error -> Log.d(TAG, "on Error ${it.throwable}")
             }
         })
+
         vm.updateQtyState.observe(this, {
             when (it) {
                 is UiState.Loading -> Log.d(TAG, "onLoding ")
                 is UiState.Success -> {
-                    Log.d(TAG, "on Success ${it.data}")
                     vm.GetDataCart()
                 }
                 is UiState.Error -> Log.d(TAG, "on Error ")
@@ -82,8 +87,14 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     }
 
     private fun setupList() {
-        orderAdapter = OrderCartAdapter(this, object : OrderCartAdapter.onAdapterListener{
+        orderAdapter = OrderCartAdapter(this, isDirectOrder, object : OrderCartAdapter.onAdapterListener{
             override fun onChecked(position: Int, isChecked : Boolean, product: CartItem) {
+                if (isChecked){
+                    listChecked.add(position)
+                }else{
+                    listChecked.removeAt(listChecked.indexOf(position))
+                }
+
                 if(isChecked){
                     checked.add(ValidateChecked(product, position, isChecked))
                 }else{
@@ -91,7 +102,6 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                 }
                 orderChecked()
             }
-
             override fun onUpdateQty(product: CartItem, qty: Int) {
                 vm.UpdateQtyCart(product.cartId!!, qty)
             }
@@ -106,35 +116,38 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     private fun setupListener(){
         binding.apply {
             toolbar.tvDelete.setOnClickListener {
-                val list: ArrayList<Int> = ArrayList()
-                if (checked.size > 0){
-                    checked.forEach {
-                        list.add(it.item.cartId!!)
-                    }
-                    vm.DeleteCart(list)
-                }else{
-                    toast("Anda belum memilih data yang akan dihapus.")
-                }
+//                val list: ArrayList<Int> = ArrayList()
+//                if (checked.size > 0){
+//                    checked.forEach {
+//                        list.add(it.item.cartId!!)
+//                    }
+//                    vm.DeleteCart(list)
+//                }else{
+//                    toast("Anda belum memilih data yang akan dihapus.")
+//                }
+            }
+
+            btnOrder.setOnClickListener {
+                startActivity<DeliveryActivity>(
+                    "_dataOrder" to checked
+                )
             }
         }
     }
 
 
     fun orderChecked(){
-        binding.btnOrder.text = "Order (${vm.validateOrderChecked(checked).size})"
+        if (listChecked.size != 0){
+            binding.btnOrder.text = "Order (${listChecked.size})"
+            if (vm.validateOrderChecked(checked).size > 0) binding.btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
+            else binding.btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
+            var total = 0
 
-        if (vm.validateOrderChecked(checked).size > 0) binding.btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
-        else binding.btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
-        var total = 0
-        checked.forEach {
-            total += it.item.subtotal!!
+            listChecked.forEach {
+                total = total+myCart[it].subtotal!!
+            }
+            binding.tvTotalPayment.text = convertRupiah(total.toDouble())
         }
-        binding.tvTotalPayment.text = rupiah(total.toDouble())
     }
 
-    fun rupiah(number: Double): String{
-        val localeID =  Locale("in", "ID")
-        val numberFormat = NumberFormat.getCurrencyInstance(localeID)
-        return numberFormat.format(number).toString()
-    }
 }
