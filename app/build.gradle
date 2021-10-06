@@ -11,12 +11,11 @@ static def releaseTime() {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 31
     defaultConfig {
         applicationId "id.android.kmabsensi"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdk 23
+        targetSdk 31
         multiDexEnabled true
         versionCode 47
         versionName "1.23.6"

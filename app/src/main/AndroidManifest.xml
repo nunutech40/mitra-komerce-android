@@ -304,7 +304,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.splash.SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
 
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
@@ -319,7 +320,8 @@
             android:parentActivityName=".presentation.kantor.cabang.TambahCabangActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -334,7 +336,8 @@
 
         <service
             android:name=".services.MyFirebaseMessagingService"
-            android:stopWithTask="false">
+            android:stopWithTask="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

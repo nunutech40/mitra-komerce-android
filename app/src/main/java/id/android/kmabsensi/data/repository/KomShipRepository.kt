@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
+import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.*
@@ -20,14 +21,14 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
     fun getCart(): Single<KomCartResponse>
     = apiService.getDataCart()
 
-    fun deleteCart(listId : ArrayList<Int>): Single<BaseResponse>{
-        val listReq = mapOf<String, RequestBody>()
+//    fun deleteCart(listId : ArrayList<Int>): Single<BaseResponse>{
+//        val listReq = mapOf<String, RequestBody>()
 //        listId.forEach()
 //        val listMap = listId.map {
 //            "cart_id" to it
 //        }.toMap()
-        return apiService.deleteCart(listId)
-    }
+//        return apiService.deleteCart(listId)
+//    }
 
     fun updateQtyCart(cart_id: Int, qty : Int) :Single<BaseResponse>
     = apiService.updateQtyCart(cart_id, qty)
@@ -101,5 +102,20 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
             "cart" to list
         )
         return apiService.addOrder(idPartner, body)
+    }
+
+    fun deleteCart(
+        p:List<Int>
+    ): Single<BaseResponse>{
+
+        val body = mapOf(
+            "cart_id" to p
+        )
+
+        //        (
+//            "cart_id" to p.cart_id
+//        )
+
+        return apiService.deleteCart(body)
     }
 }
