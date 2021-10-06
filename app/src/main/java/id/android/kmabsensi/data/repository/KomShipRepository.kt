@@ -61,9 +61,10 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
         discount: Int? = null,
         shipping: String,
         tariffCode: String,
-        paymentMethode: String
+        paymentMethode: String,
+        partnerId: Int
     ): Single<KomCalculateResponse>
-    = apiService.getCalculate(discount, shipping, tariffCode, paymentMethode)
+    = apiService.getCalculate(discount, shipping, tariffCode, paymentMethode, partnerId)
 
     fun addOrder(
         idPartner: Int,

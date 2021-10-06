@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/_16dp"
-    android:layout_marginHorizontal="@dimen/_16dp"
     android:layout_marginTop="12dp"
     android:background="@drawable/bg_white_10dp">
 
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="Jilbab Pasmia 1-SKU 332"
             tools:text="Jilbab Pasmia 1-SKU 332" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
-            android:text="M - Hijau" />
+            tools:text="M - Hijau" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_price"
@@ -61,7 +59,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6dp"
-            android:text="Rp1.000.000"
             android:textColor="@color/cl_orange_text_new"
             tools:text="Rp1.000.000" />
 
@@ -71,7 +68,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
-            android:text="Tersedia: 1000 Pcs"
             android:textColor="@color/cl_grey_tx_new"
             tools:text="Tersedia: 1000 Pcs" />
 

@@ -138,6 +138,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
     fun orderChecked(){
         if (listChecked.size != 0){
+            listChecked.clear()
             binding.btnOrder.text = "Order (${listChecked.size})"
             if (vm.validateOrderChecked(checked).size > 0) binding.btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
             else binding.btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)

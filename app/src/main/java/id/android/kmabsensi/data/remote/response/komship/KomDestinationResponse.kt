@@ -57,7 +57,7 @@ data class DestinationData(
 	val perPage: Int? = null,
 
 	@field:SerializedName("data")
-	val data: List<DestinationItem?>? = null,
+	val data: List<DestinationItem>? = null,
 
 	@field:SerializedName("last_page")
 	val lastPage: Int? = null,
