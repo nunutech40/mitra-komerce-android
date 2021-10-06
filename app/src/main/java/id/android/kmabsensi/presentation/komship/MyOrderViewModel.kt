@@ -18,6 +18,7 @@ class MyOrderViewModel(
     val komShipRepository: KomShipRepository,
     val schedulerProvider: SchedulerProvider
     ) : BaseViewModel(){
+
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }

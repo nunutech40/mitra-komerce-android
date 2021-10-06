@@ -39,10 +39,10 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.komship.selectproduct.SelectProductActivity"></activity>
+        <activity android:name=".presentation.komship.selectproduct.SelectProductActivity" />
         <activity
             android:name=".presentation.komship.detaildataorder.DetailDataOrderActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".presentation.komship.successorder.SuccessOrderActivity"
             android:exported="true" />
@@ -306,13 +306,11 @@
             android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"
@@ -337,7 +335,7 @@
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:stopWithTask="false"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -76,7 +76,8 @@ interface ApiServiceKomship {
         @Query("discount")discount : Int? = 0,
         @Query("shipping")shipping : String,
         @Query("tariff_code")tariffCode : String,
-        @Query("payment_method")paymentMethod : String
+        @Query("payment_method")paymentMethod : String,
+        @Query("partner_id")partnerId : Int
     )
     : Single<KomCalculateResponse>
 

@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
+import id.android.kmabsensi.data.remote.response.komship.CalculateItem
+import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.data.remote.response.komship.KomCalculateResponse
 import id.android.kmabsensi.data.remote.response.komship.KomDestinationResponse
 import id.android.kmabsensi.data.repository.KomShipRepository
 import id.android.kmabsensi.di.repositoryModule
 import id.android.kmabsensi.presentation.base.BaseViewModel
+import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.rx.SchedulerProvider
@@ -44,11 +47,12 @@ class DeliveryViewModel(
         discount: Int? = null,
         shipping: String,
         tariffCode: String,
-        paymentMethod: String
+        paymentMethod: String,
+        partnerId: Int
     ){
         calculateState.value = UiState.Loading()
         compositeDisposable.add(
-            komShipRepository.getCalculate(discount, shipping, tariffCode, paymentMethod)
+            komShipRepository.getCalculate(discount, shipping, tariffCode, paymentMethod, partnerId)
                 .with(schedulerProvider)
                 .subscribe({
                     calculateState.value = UiState.Success(it)
@@ -90,7 +94,39 @@ class DeliveryViewModel(
             else -> ""
         }
     }
+
+    fun shippingCost(type: String, list: List<CalculateItem>): ResultCalculate{
+        var calculate = CalculateItem()
+        var isCalculate = false
+        list.forEach {
+            if (it.shippingType?.lowercase() == type.lowercase()){
+                calculate = it
+                isCalculate = true
+            }
+        }
+        return ResultCalculate(calculate, isCalculate)
+    }
+
+    fun setupListCart(isLess: Boolean, list: List<ValidateChecked>): MutableList<CartItem>{
+        val listCart = ArrayList<CartItem>()
+        if (isLess){
+            for (idx in 0 until 2){
+                listCart.add(list[idx].item)
+            }
+        }else{
+            list.forEach {
+                listCart.add(it.item)
+            }
+        }
+        return listCart
+    }
+
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 }
+
+data class ResultCalculate(
+    val item : CalculateItem,
+    val isCalculate: Boolean
+)

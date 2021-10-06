@@ -21,7 +21,7 @@ data class KomCalculateResponse(
 data class CalculateItem(
 
 	@field:SerializedName("shipping_cost")
-	val shippingCost: Int? = null,
+	val shippingCost: Double? = null,
 
 	@field:SerializedName("subtotal")
 	val subtotal: Int? = null,
@@ -30,7 +30,7 @@ data class CalculateItem(
 	val shippingType: String? = null,
 
 	@field:SerializedName("service_fee")
-	val serviceFee: Int? = null,
+	val serviceFee: Double? = null,
 
 	@field:SerializedName("grandtotal")
 	val grandtotal: Int? = null,

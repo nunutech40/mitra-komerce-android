@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.databinding.ActivityOrderCartBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
@@ -144,7 +143,9 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
     fun orderChecked(){
         if (listChecked.size != 0){
+
             Log.d("listChecked", listChecked.toString())
+
             binding.btnOrder.text = "Order (${listChecked.size})"
             if (vm.validateOrderChecked(checked).size > 0) binding.btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
             else binding.btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
