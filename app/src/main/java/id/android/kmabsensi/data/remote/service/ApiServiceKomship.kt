@@ -47,11 +47,11 @@ interface ApiServiceKomship {
 //    )
 //    : Single<BaseResponse>
 //    @FormUrlEncoded
-    @DELETE("api/v1/cart/delete")
-    fun deleteCart(
-        @Query("cart_id")cartId: ArrayList<Int>
-    )
-    : Single<BaseResponse>
+//    @DELETE("api/v1/cart/delete")
+//    fun deleteCart(
+//        @Query("cart_id")cartId: ArrayList<Int>
+//    )
+//    : Single<BaseResponse>
 
     @GET("api/v1/order/{id_partner}")
     fun getOrderByPartner(
@@ -89,6 +89,7 @@ interface ApiServiceKomship {
     )
     :Single<BaseResponse>
 
+<<<<<<< HEAD
     @GET("api/v1/customer")
     fun getCustomer(
         @Query("search")search : String? = null
@@ -98,4 +99,13 @@ interface ApiServiceKomship {
     @GET("api/v1/bank-account")
     fun getBank()
     : Single<KomBankResponse>
+=======
+    @JvmSuppressWildcards
+    @HTTP(method = "DELETE", path = "api/v1/cart/delete", hasBody = true)
+    fun deleteCart(
+        @Body body: Map<String, Any?>
+    )
+    : Single<BaseResponse>
+
+>>>>>>> 95f981143fd42f5714c5177aece12f2f0ff88879
 }

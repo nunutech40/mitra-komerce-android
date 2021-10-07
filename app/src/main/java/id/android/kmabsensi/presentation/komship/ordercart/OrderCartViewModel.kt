@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.komship.ordercart
 import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.data.remote.response.komship.KomCartResponse
@@ -39,10 +40,10 @@ class OrderCartViewModel(
         )
     }
 
-    fun DeleteCart(listId : ArrayList<Int>){
+    fun DeleteCart(p:List<Int>){
         deleteState.value = UiState.Loading()
         compositeDisposable.add(
-            komShipRepository.deleteCart(listId)
+            komShipRepository.deleteCart(p)
                 .with(schedulerProvider)
                 .subscribe({
                     deleteState.value = UiState.Success(it)
