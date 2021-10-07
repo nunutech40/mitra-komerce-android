@@ -36,6 +36,7 @@ import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.AddShopping
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.komship.delivery.DeliveryViewModel
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartViewModel
+import id.android.kmabsensi.presentation.komship.selectdestination.DestinationViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
 import id.android.kmabsensi.presentation.sdm.KelolaDataSdmViewModel
@@ -143,6 +144,7 @@ val viewModelModule = module {
     viewModel { MyOrderViewModel(get(), get()) }
     viewModel { OrderCartViewModel(get(), get()) }
     viewModel { DeliveryViewModel(get(), get()) }
+    viewModel { DestinationViewModel(get(), get()) }
 }
 
 val myAppModule = listOf(appModule, dataModule, viewModelModule, repositoryModule)

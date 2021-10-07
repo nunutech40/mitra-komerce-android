@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_white_dark_new"
-    tools:context=".presentation.komship.selectproduct.SelectProductActivity">
+    tools:context=".presentation.komship.selectdestination.SelectDestinationActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -20,29 +20,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/_16dp"
+        android:paddingHorizontal="@dimen/_16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_search_product"
+            android:id="@+id/et_search_destination"
+            style="@style/tv16inter_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/cari"
-            style="@style/tv16inter_reg"
             android:backgroundTint="@color/cl_grey_2"
-            android:drawablePadding="@dimen/_10dp"/>
+            android:drawableStart="@drawable/ic_search_rf"
+            android:drawablePadding="@dimen/_10dp"
+            android:paddingBottom="@dimen/_16dp"
+            android:layout_marginVertical="@dimen/_16dp"
+            android:hint="Cari disini..." />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_product"
+        android:id="@+id/rv_destination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_10dp"
         android:layout_margin="@dimen/_16dp"
-        tools:listitem="@layout/item_row_product"
+        tools:listitem="@layout/item_row_one_text"
         app:layout_constraintTop_toBottomOf="@+id/rl_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/cl_black"
             android:fontFamily="@font/montserrat_medium"
-            android:textSize="22sp"
             style="@style/tv20monst_semi"
             android:textAlignment="center"
             android:layout_marginHorizontal="32dp"

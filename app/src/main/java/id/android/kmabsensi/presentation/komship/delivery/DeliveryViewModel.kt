@@ -1,16 +1,13 @@
 package id.android.kmabsensi.presentation.komship.delivery
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
-import id.android.kmabsensi.data.remote.response.komship.CalculateItem
-import id.android.kmabsensi.data.remote.response.komship.CartItem
-import id.android.kmabsensi.data.remote.response.komship.KomCalculateResponse
-import id.android.kmabsensi.data.remote.response.komship.KomDestinationResponse
+import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.data.repository.KomShipRepository
-import id.android.kmabsensi.di.repositoryModule
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.utils.UiState
@@ -23,22 +20,36 @@ class DeliveryViewModel(
     val komShipRepository: KomShipRepository,
     val schedulerProvider: SchedulerProvider
 ): BaseViewModel() {
-
-    val destinationState : MutableLiveData<UiState<KomDestinationResponse>> = MutableLiveData()
-
     val calculateState : MutableLiveData<UiState<KomCalculateResponse>> = MutableLiveData()
 
     val addOrderState : MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
 
-    fun getDestination(page: Int? = null, search: String?= "Purbalingga"){
-        destinationState.value = UiState.Loading()
+    val customerState : MutableLiveData<UiState<KomCustomerResponse>> = MutableLiveData()
+
+    val bankState : MutableLiveData<UiState<KomBankResponse>> = MutableLiveData()
+
+    fun getBank(){
+        bankState.value = UiState.Loading()
         compositeDisposable.add(
-            komShipRepository.getDestination(page, search!!)
+            komShipRepository.getBank()
                 .with(schedulerProvider)
                 .subscribe({
-                    destinationState.value = UiState.Success(it)
+                    bankState.value = UiState.Success(it)
                 },{
-                    destinationState.value = UiState.Error(it)
+                    bankState.value = UiState.Error(it)
+                })
+        )
+    }
+
+    fun getCustomer(search: String? = null){
+        customerState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getCustomer(search)
+                .with(schedulerProvider)
+                .subscribe({
+                    customerState.value = UiState.Success(it)
+                },{
+                    customerState.value = UiState.Error(it)
                 })
         )
     }
@@ -121,9 +132,46 @@ class DeliveryViewModel(
         return listCart
     }
 
+    fun getCostOrder(list: List<ValidateChecked>): Int{
+        var cost = 0
+        list.forEach {
+            cost += (it.item.productPrice!!*it.item.qty!!)
+        }
+        return cost
+    }
+
+    fun getCustomerDetail(list: List<CustomerItem>, item: String): CustomerItem{
+        var cusItem = CustomerItem(name = item)
+        list.forEach {
+            if (it.name?.lowercase() == item.lowercase()){
+                cusItem = it
+            }
+        }
+        return cusItem
+    }
+
+    fun getBankDetail(list: List<BankItem>, item: String): BankItem{
+        var bank = BankItem()
+        list.forEach {
+            if (it.bankName?.lowercase()!!.contains(item)){
+                bank = it
+            }
+        }
+        return bank
+    }
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
+
+    /** get id Cart */
+    fun getIdOrder(list: ArrayList<ValidateChecked>?): ArrayList<Int> {
+        val listId = ArrayList<Int>()
+        list!!.forEach {
+            listId.add(it.item.cartId!!)
+        }
+        return listId
+    }
+
 }
 
 data class ResultCalculate(

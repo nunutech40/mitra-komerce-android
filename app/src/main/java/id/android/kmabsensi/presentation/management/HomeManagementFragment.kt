@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
@@ -47,7 +49,6 @@ import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_home_management.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -75,6 +76,15 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private lateinit var menusAdapter : MenusAdapter
     private lateinit var dataUserCoworking : UserCoworkingSpace
     private var roleMenu = 0
+
+    private var sklUsername : SkeletonScreen? = null
+    private var sklPoin : SkeletonScreen? = null
+    private var sklTimer : SkeletonScreen? = null
+    private var sklChair : SkeletonScreen? = null
+    private var sklPhoto : SkeletonScreen? = null
+    private var sklQtyPartner : SkeletonScreen? = null
+    private var sklQtyPresence : SkeletonScreen? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         user = vm.getUserData()
@@ -124,9 +134,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                 llDdDataPresence.layoutParams = params
             }
         }
-        //        btnPartnerCategory.setOnClickListener {
-//            activity?.startActivity<KategoriPartnerActivity>()
-//        }
     }
 
     private fun validateCoworking() {
@@ -239,13 +246,44 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     }
 
+    private fun showSkeleton() {
+        if (sklUsername == null){
+            binding?.apply {
+                sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
+                sklPoin = Skeleton.bind(tvPoint).load(R.layout.skeleton_item).show()
+                sklChair = Skeleton.bind(tvChair).load(R.layout.skeleton_item).show()
+                sklTimer = Skeleton.bind(tvCountDown).load(R.layout.skeleton_item).show()
+                sklQtyPresence = Skeleton.bind(tvTotalPresence).load(R.layout.skeleton_hm_profile).show()
+                sklQtyPartner = Skeleton.bind(tvPartnerTotal).load(R.layout.skeleton_hm_profile).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+            }
+        }else{
+            sklUsername?.show()
+            sklPoin?.show()
+            sklChair?.show()
+            sklTimer?.show()
+            sklPhoto?.show()
+            sklQtyPresence?.show()
+            sklQtyPartner?.show()
+        }
+    }
+
+    private fun hideSkeleton(){
+        sklUsername?.hide()
+        sklPoin?.hide()
+        sklPhoto?.hide()
+        sklQtyPresence?.hide()
+        sklQtyPartner?.hide()
+    }
+
     private fun setupObserver() {
         vm.dashboardData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
+                    showSkeleton()
                 }
                 is UiState.Success -> {
-
+                    hideSkeleton()
                     dashboard = it.data.data
                     binding?.apply {
                         dashboard.let { ds ->
@@ -281,6 +319,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    hideSkeleton()
                     e { it.throwable.message.toString() }
                 }
             }
@@ -328,6 +367,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                     }
                 }
                 is UiState.Success -> {
+                    sklTimer?.hide()
                     try {
                         if (it.data.status.lowercase().equals(getString(R.string.ok), true)) {
                             val data = it.data.jadwal.data
@@ -340,6 +380,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    sklTimer?.hide()
                 }
             }
         })
@@ -350,6 +391,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
                 }
                 is UiState.Success -> {
+                    sklChair?.hide()
                     if (it.data.status) {
                         it.data.data[0].apply {
                             dataUserCoworking = this
@@ -371,6 +413,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    sklChair?.hide()
                 }
             }
 

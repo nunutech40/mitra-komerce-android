@@ -103,4 +103,10 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
         )
         return apiService.addOrder(idPartner, body)
     }
+
+    fun getCustomer(search: String? = null): Single<KomCustomerResponse>
+    = apiService.getCustomer(search)
+
+    fun getBank(): Single<KomBankResponse>
+    = apiService.getBank()
 }

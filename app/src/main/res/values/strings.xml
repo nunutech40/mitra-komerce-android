@@ -340,5 +340,7 @@
     <string name="tutup">Tutup</string>
     <string name="checkout">Check Out</string>
     <string name="checkin">Check In</string>
+    <string name="cari">Cari</string>
+    <string name="selengkapnya">Selengkapnya</string>
 
 </resources>

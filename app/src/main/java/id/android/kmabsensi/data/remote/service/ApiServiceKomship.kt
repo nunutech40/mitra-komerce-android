@@ -89,4 +89,13 @@ interface ApiServiceKomship {
     )
     :Single<BaseResponse>
 
+    @GET("api/v1/customer")
+    fun getCustomer(
+        @Query("search")search : String? = null
+    )
+    :Single<KomCustomerResponse>
+
+    @GET("api/v1/bank-account")
+    fun getBank()
+    : Single<KomBankResponse>
 }

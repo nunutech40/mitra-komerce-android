@@ -77,11 +77,17 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
 
     private lateinit var dataUserCoworking : UserCoworkingSpace
 
-    private val profileSkeleton: SkeletonScreen? = null
-
     private val  isShopping by lazy {
         activity?.intent?.getBooleanExtra("isShopping", false)
     }
+
+    private var sklUsername : SkeletonScreen? = null
+    private var sklPoin : SkeletonScreen? = null
+    private var sklTimer : SkeletonScreen? = null
+    private var sklChair : SkeletonScreen? = null
+    private var sklPhoto : SkeletonScreen? = null
+    private var sklQtyPartner : SkeletonScreen? = null
+    private var sklQtyPresence : SkeletonScreen? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,8 +107,10 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         vm.dashboardData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
+                    showSkeleton()
                 }
                 is UiState.Success -> {
+                    hideSkeleton()
                     dashboard = it.data.data
                     binding?.swipeRefresh?.isRefreshing = false
                     if (it.data.status) {
@@ -137,6 +145,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    hideSkeleton()
                     binding?.swipeRefresh?.isRefreshing = false
                     e { it.throwable.message.toString() }
                 }
@@ -149,6 +158,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
 
                 }
                 is UiState.Success -> {
+                    sklTimer?.hide()
                     if (it.data.status.lowercase().equals(getString(R.string.ok), true)) {
                         val data = it.data.jadwal.data
                         val dzuhur = data?.dzuhur
@@ -157,6 +167,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    sklTimer?.hide()
                 }
             }
         })
@@ -167,6 +178,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
 
                 }
                 is UiState.Success -> {
+                    sklChair?.hide()
                     if (it.data.status) {
                         it.data.data[0].apply {
                             dataUserCoworking = this
@@ -194,6 +206,7 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    sklChair?.hide()
                 }
             }
 
@@ -410,8 +423,6 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                         }"
                     tvCountDown.text = "Hari Libur"
                 }
-//                dataHadir.gone()
-//                expandableLayout.gone()
             }
         }
     }
@@ -500,13 +511,34 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         }
     }
 
-    private fun resetText(){
-        binding?.apply {
-            tvUsername.text = ""
-            tvPosition.text = ""
-            tvChair.text = ""
-            tvCountDown.text = ""
+    private fun showSkeleton() {
+        if (sklUsername == null){
+            binding?.apply {
+                sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
+                sklPoin = Skeleton.bind(tvPoint).load(R.layout.skeleton_item).show()
+                sklChair = Skeleton.bind(tvChair).load(R.layout.skeleton_item).show()
+                sklTimer = Skeleton.bind(tvCountDown).load(R.layout.skeleton_item).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+                sklQtyPartner = Skeleton.bind(tvPartnerTotal).load(R.layout.skeleton_hm_profile).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+            }
+        }else{
+            sklUsername?.show()
+            sklPoin?.show()
+            sklChair?.show()
+            sklTimer?.show()
+            sklPhoto?.show()
+            sklQtyPresence?.show()
+            sklQtyPartner?.show()
         }
+    }
+
+    private fun hideSkeleton(){
+        sklUsername?.hide()
+        sklPoin?.hide()
+        sklPhoto?.hide()
+        sklQtyPresence?.hide()
+        sklQtyPartner?.hide()
     }
 }
 

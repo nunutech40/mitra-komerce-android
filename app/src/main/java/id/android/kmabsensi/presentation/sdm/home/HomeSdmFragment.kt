@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Holiday
@@ -25,9 +27,7 @@ import id.android.kmabsensi.databinding.FragmentHomeSdmBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
-import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
-import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
 import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
@@ -38,7 +38,6 @@ import id.android.kmabsensi.presentation.sdm.shift.SdmShiftActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -67,6 +66,12 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     private lateinit var menusAdapter : MenusAdapter
     private lateinit var dataUserCoworking : UserCoworkingSpace
 
+    private var sklUsername : SkeletonScreen? = null
+    private var sklPoin : SkeletonScreen? = null
+    private var sklTimer : SkeletonScreen? = null
+    private var sklChair : SkeletonScreen? = null
+    private var sklPhoto : SkeletonScreen? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
@@ -74,11 +79,6 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         setupGreetings()
         setupListMenu()
         setupListener()
-
-//        btnLaporan.setOnClickListener {
-//            if (user.position_name.toLowerCase() == "customer service") activity?.startActivity<SdmLaporanActivity>()
-//            else activity?.startActivity<ListLaporanAdvertiserActivity>()}
-
     }
 
     private fun setupView() {
@@ -93,6 +93,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         vm.dashboardData.observe(viewLifecycleOwner,{
             when (it) {
                 is UiState.Loading -> {
+                    showSkeleton()
                 }
                 is UiState.Success -> {
                     if (it.data.status){
@@ -115,9 +116,11 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                             setHolidayView()
                         }
                     }
+                    hideSkeleton()
                 }
                 is UiState.Error -> {
                     e { it.throwable.message.toString() }
+                    hideSkeleton()
                 }
             }
         })
@@ -255,6 +258,32 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 }
             }
         })
+    }
+
+    private fun showSkeleton() {
+        if (sklUsername == null){
+            binding?.apply {
+                sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
+                sklPoin = Skeleton.bind(tvPoint).load(R.layout.skeleton_item).show()
+                sklChair = Skeleton.bind(tvChair).load(R.layout.skeleton_item).show()
+                sklTimer = Skeleton.bind(tvCountDown).load(R.layout.skeleton_item).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+            }
+        }else{
+            sklUsername?.show()
+            sklPoin?.show()
+            sklChair?.show()
+            sklTimer?.show()
+            sklPhoto?.show()
+        }
+    }
+
+    private fun hideSkeleton(){
+        sklUsername?.hide()
+        sklPoin?.hide()
+        sklChair?.hide()
+        sklTimer?.hide()
+        sklPhoto?.hide()
     }
 
     private fun setupListener() {
