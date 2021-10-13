@@ -7,6 +7,7 @@ import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.data.remote.response.komship.KomCartResponse
+import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
 import id.android.kmabsensi.data.repository.KomShipRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
@@ -17,15 +18,17 @@ import kotlinx.android.parcel.Parcelize
 class OrderCartViewModel(
     val komShipRepository: KomShipRepository,
     val schedulerProvider: SchedulerProvider
-) :BaseViewModel(){
+) : BaseViewModel() {
 
-    val cartState : MutableLiveData<UiState<KomCartResponse>> = MutableLiveData()
+    val cartState: MutableLiveData<UiState<KomCartResponse>> = MutableLiveData()
 
-    val deleteState : MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
+    val deleteState: MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
 
-    val updateQtyState : MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
+    val updateQtyState: MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
 
-    fun GetDataCart(){
+    val partnerState: MutableLiveData<UiState<KomPartnerResponse>> = MutableLiveData()
+
+    fun GetDataCart() {
         cartState.value = UiState.Loading()
         compositeDisposable.add(
             komShipRepository.getCart()
@@ -33,41 +36,64 @@ class OrderCartViewModel(
                 .subscribe(
                     {
                         cartState.value = UiState.Success(it)
-                    },{
+                    }, {
                         cartState.value = UiState.Error(it)
                     }
                 )
         )
     }
 
-    fun DeleteCart(p:List<Int>){
+    fun DeleteCart(p: List<Int>) {
         deleteState.value = UiState.Loading()
         compositeDisposable.add(
             komShipRepository.deleteCart(p)
                 .with(schedulerProvider)
                 .subscribe({
                     deleteState.value = UiState.Success(it)
-                },{
+                }, {
                     deleteState.value = UiState.Error(it)
                 })
         )
     }
 
-    fun UpdateQtyCart(cartId: Int, qty: Int){
+    fun UpdateQtyCart(cartId: Int, qty: Int) {
         updateQtyState.value = UiState.Loading()
         compositeDisposable.add(
             komShipRepository.updateQtyCart(cartId, qty)
                 .with(schedulerProvider)
                 .subscribe({
                     updateQtyState.value = UiState.Success(it)
-                },{
+                }, {
                     updateQtyState.value = UiState.Error(it)
                 })
         )
     }
 
-    fun validateOrderChecked(list : MutableList<ValidateChecked>) : MutableList<ValidateChecked>{
-        val count : MutableList<ValidateChecked> = ArrayList()
+    fun getPartner() {
+        partnerState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getPartner()
+                .with(schedulerProvider)
+                .subscribe({
+                    partnerState.value = UiState.Success(it)
+                }, {
+                    partnerState.value = UiState.Error(it)
+                })
+        )
+    }
+
+    fun filterCart(list: ArrayList<CartItem>?, idPartner: Int): ArrayList<CartItem> {
+        var filter = ArrayList<CartItem>()
+        list?.forEach {
+            if (it.partnerId == idPartner){
+                filter.add(it)
+            }
+        }
+        return filter
+    }
+
+    fun validateOrderChecked(list: MutableList<ValidateChecked>): MutableList<ValidateChecked> {
+        val count: MutableList<ValidateChecked> = ArrayList()
         list.forEach {
             if (it.isChecked) count.add(it)
         }
@@ -81,13 +107,13 @@ class OrderCartViewModel(
 
 @Parcelize
 data class ValidateChecked(
-    val item : CartItem,
-    val position : Int,
+    val item: CartItem,
+    val position: Int,
     val isChecked: Boolean
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class CartListItem(
     val isChecked: Boolean,
     val item: CartItem
-): Parcelable
+) : Parcelable

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.CartItem
@@ -18,17 +19,19 @@ class OrderCartAdapter(
 
     private var list : MutableList<CartItem> = ArrayList()
     private var qty = 0
-    private var maxQty = 20
+    private var maxQty = 1
     inner class VHolder(val binding : ItemRowOrderCartBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int, data: CartItem) {
             binding.apply {
-                tvAvailableProduct.setTextColor(context.resources.getColor(R.color.cl_black))
+                tvAvailableProduct.setTextColor(ContextCompat.getColor(context, R.color.cl_black))
 //                imgProduct.loadImageFromUrl(data.!!)
                 tvAvailable.text = "${data.stock} pcs"
+                maxQty = data.stock!!
                 tvAvailableProduct.text = data.variantName
                 tvNameProduct.text = data.productName
                 tvPrice.text = "Rp${data.productPrice}"
                 tvTotal.text = "${data.qty}"
+                cbOrder.isChecked = false
             }
         }
     }
@@ -36,6 +39,7 @@ class OrderCartAdapter(
     private fun validateQty(type : Int): Boolean{
         return  if (type == 0) (qty >= 1) else (qty <= maxQty)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHolder = VHolder(
         ItemRowOrderCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )

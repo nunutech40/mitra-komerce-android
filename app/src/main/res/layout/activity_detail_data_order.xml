@@ -47,6 +47,7 @@
                     android:text="Status"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_status_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diajukan"
@@ -169,7 +170,7 @@
                         style="@style/tv16inter_light"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_distric"
+                        android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="Purbalingga"
@@ -229,12 +230,13 @@
                 android:id="@+id/rv_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginHorizontal="@dimen/_16dp"
                 android:layout_marginBottom="@dimen/_12dp"
-                tools:listitem="@layout/item_row_product_detail"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_detail_product"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_detail_product"
+                tools:listitem="@layout/item_row_product_detail" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -269,7 +271,9 @@
             android:layout_height="wrap_content"
             style="@style/tv16monst_semi"
             android:text="Batalkan Pesanan"
-            android:layout_marginVertical="22dp"
+            android:layout_marginVertical="17dp"
+            android:padding="5dp"
+            android:visibility="gone"
             android:textColor="@color/cl_orange_text_new"
             android:layout_gravity="center_horizontal"/>
     </androidx.appcompat.widget.LinearLayoutCompat>

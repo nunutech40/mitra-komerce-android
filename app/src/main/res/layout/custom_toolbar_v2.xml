@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:contentInsetStart="0dp"
+    android:paddingTop="@dimen/_12dp"
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout

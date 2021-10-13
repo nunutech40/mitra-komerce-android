@@ -7,13 +7,46 @@
     android:layout_height="match_parent"
     android:background="@color/cl_white_dark_new"
     tools:context=".presentation.komship.ordercart.OrderCartActivity">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/custom_toolbar_v2"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar_v2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Partner"
+            style="@style/tv14inter_reg"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_16dp"
+            android:textColor="@color/cl_grey_tx_new"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sp_partner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:paddingStart="0dp"
+            style="@style/tv16inter_reg"
+            android:background="@drawable/spinner_background_rf" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cl_grey_2"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:layout_marginBottom="@dimen/_16dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_empty_cart"
@@ -27,18 +60,23 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_bar"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_order_cart"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_list_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_bar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_order_cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat5"

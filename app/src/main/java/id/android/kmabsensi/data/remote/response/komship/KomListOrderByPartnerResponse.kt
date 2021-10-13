@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class KomOrderByPartnerResponse(
+data class KomListOrderByPartnerResponse(
 
 	@field:SerializedName("code")
 	val code: Int? = null,
@@ -15,6 +15,49 @@ data class KomOrderByPartnerResponse(
 
 	@field:SerializedName("status")
 	val status: String? = null
+) : Parcelable
+
+@Parcelize
+data class DataOrder(
+
+	@field:SerializedName("per_page")
+	val perPage: Int? = null,
+
+	@field:SerializedName("data")
+	val data: List<OrderItem>? = null,
+
+	@field:SerializedName("last_page")
+	val lastPage: Int? = null,
+
+	@field:SerializedName("next_page_url")
+	val nextPageUrl: String? = null,
+
+	@field:SerializedName("prev_page_url")
+	val prevPageUrl: String? = null,
+
+	@field:SerializedName("first_page_url")
+	val firstPageUrl: String? = null,
+
+	@field:SerializedName("path")
+	val path: String? = null,
+
+	@field:SerializedName("total")
+	val total: Int? = null,
+
+	@field:SerializedName("last_page_url")
+	val lastPageUrl: String? = null,
+
+	@field:SerializedName("from")
+	val from: Int? = null,
+
+	@field:SerializedName("links")
+	val links: List<LinksItem>? = null,
+
+	@field:SerializedName("to")
+	val to: Int? = null,
+
+	@field:SerializedName("current_page")
+	val currentPage: Int? = null
 ) : Parcelable
 
 @Parcelize
@@ -32,6 +75,9 @@ data class OrderItem(
 	@field:SerializedName("detail_address")
 	val detailAddress: String? = null,
 
+	@field:SerializedName("bank_account_no")
+	val bankAccountNo: Int? = null,
+
 	@field:SerializedName("airway_bill")
 	val airwayBill: String? = null,
 
@@ -40,6 +86,9 @@ data class OrderItem(
 
 	@field:SerializedName("order_date")
 	val orderDate: String? = null,
+
+	@field:SerializedName("bank_account_name")
+	val bankAccountName: String? = null,
 
 	@field:SerializedName("bank")
 	val bank: String? = null,
@@ -61,19 +110,6 @@ data class OrderItem(
 
 	@field:SerializedName("payment_method")
 	val paymentMethod: String? = null
-) : Parcelable
-
-@Parcelize
-data class LinksItem(
-
-	@field:SerializedName("active")
-	val active: Boolean? = null,
-
-	@field:SerializedName("label")
-	val label: String? = null,
-
-	@field:SerializedName("url")
-	val url: String? = null
 ) : Parcelable
 
 @Parcelize
@@ -111,44 +147,14 @@ data class ProductItem(
 ) : Parcelable
 
 @Parcelize
-data class DataOrder(
+data class LinksItem(
 
-	@field:SerializedName("per_page")
-	val perPage: Int? = null,
+	@field:SerializedName("active")
+	val active: Boolean? = null,
 
-	@field:SerializedName("data")
-	val data: List<OrderItem>? = null,
+	@field:SerializedName("label")
+	val label: String? = null,
 
-	@field:SerializedName("last_page")
-	val lastPage: Int? = null,
-
-	@field:SerializedName("next_page_url")
-	val nextPageUrl: String? = null,
-
-	@field:SerializedName("prev_page_url")
-	val prevPageUrl: String? = null,
-
-	@field:SerializedName("first_page_url")
-	val firstPageUrl: String? = null,
-
-	@field:SerializedName("path")
-	val path: String? = null,
-
-	@field:SerializedName("total")
-	val total: Int? = null,
-
-	@field:SerializedName("last_page_url")
-	val lastPageUrl: String? = null,
-
-	@field:SerializedName("from")
-	val from: Int? = null,
-
-	@field:SerializedName("links")
-	val links: List<LinksItem?>? = null,
-
-	@field:SerializedName("to")
-	val to: Int? = null,
-
-	@field:SerializedName("current_page")
-	val currentPage: Int? = null
+	@field:SerializedName("url")
+	val url: String? = null
 ) : Parcelable

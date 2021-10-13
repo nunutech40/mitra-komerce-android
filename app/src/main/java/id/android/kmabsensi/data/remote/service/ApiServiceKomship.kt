@@ -38,21 +38,6 @@ interface ApiServiceKomship {
     )
     : Single<BaseResponse>
 
-//    @DELETE("api/v1/cart/delete")
-//    @JvmSuppressWildcards
-//    @FormUrlEncoded
-//    @HTTP(method = "DELETE", path = "api/v1/cart/delete", hasBody = true)
-//    fun deleteCart(
-//        @Body body: ArrayList<Int>
-//    )
-//    : Single<BaseResponse>
-//    @FormUrlEncoded
-//    @DELETE("api/v1/cart/delete")
-//    fun deleteCart(
-//        @Query("cart_id")cartId: ArrayList<Int>
-//    )
-//    : Single<BaseResponse>
-
     @GET("api/v1/order/{id_partner}")
     fun getOrderByPartner(
         @Path("id_partner")idPartner : Int,
@@ -62,7 +47,7 @@ interface ApiServiceKomship {
         @Query("payment_methode")paymentMethode : String,
         @Query("order_status")orderStatus : Int? = null
     )
-    : Single<KomOrderByPartnerResponse>
+    : Single<KomListOrderByPartnerResponse>
 
     @GET("api/v1/destination")
     fun getDestination(
@@ -77,7 +62,8 @@ interface ApiServiceKomship {
         @Query("shipping")shipping : String,
         @Query("tariff_code")tariffCode : String,
         @Query("payment_method")paymentMethod : String,
-        @Query("partner_id")partnerId : Int
+        @Query("partner_id")partner_id : Int,
+        @Query("cart")cart : List<Int>? = null
     )
     : Single<KomCalculateResponse>
 
@@ -87,9 +73,8 @@ interface ApiServiceKomship {
         @Path("id_partner")idPartner : Int,
         @Body body: Map<String, Any?>
     )
-    :Single<BaseResponse>
+    :Single<KomAddOrderResponse>
 
-<<<<<<< HEAD
     @GET("api/v1/customer")
     fun getCustomer(
         @Query("search")search : String? = null
@@ -99,7 +84,7 @@ interface ApiServiceKomship {
     @GET("api/v1/bank-account")
     fun getBank()
     : Single<KomBankResponse>
-=======
+
     @JvmSuppressWildcards
     @HTTP(method = "DELETE", path = "api/v1/cart/delete", hasBody = true)
     fun deleteCart(
@@ -107,5 +92,17 @@ interface ApiServiceKomship {
     )
     : Single<BaseResponse>
 
->>>>>>> 95f981143fd42f5714c5177aece12f2f0ff88879
+    @GET("api/v1/order/{id_partner}/detail/{id_order}")
+    fun getDetailOrder(
+        @Path("id_partner") idPartner: Int,
+        @Path("id_order") idOrder: Int
+    )
+    : Single<KomOrderDetailResponse>
+
+    @DELETE("api/v1/order/{id_partner}/delete/{id_order}")
+    fun deleteOder(
+        @Path("id_partner") idPartner: Int,
+        @Path("id_order") idOrder: Int
+    )
+    : Single<BaseResponse>
 }

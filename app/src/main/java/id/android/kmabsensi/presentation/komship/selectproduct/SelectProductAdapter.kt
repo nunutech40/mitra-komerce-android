@@ -33,7 +33,7 @@ class SelectProductAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ProductKomItem) {
             binding.apply {
-                ivProduct.loadImageFromUrl(data.productImage?:"https://www.kindpng.com/picc/m/600-6008515_shopping-transparent-design-png-shopping-bag-icon-png.png")
+                ivProduct.loadImageFromUrl(if (data.productImage?.size != 0 ) data.productImage?.get(0)!! else "https://www.kindpng.com/picc/m/600-6008515_shopping-transparent-design-png-shopping-bag-icon-png.png")
                 tvProductName.text = data.productName
             }
             itemView.setOnClickListener {

@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.home
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +20,7 @@ import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class HomeViewModel(

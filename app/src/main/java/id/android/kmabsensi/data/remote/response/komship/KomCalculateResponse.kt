@@ -30,13 +30,19 @@ data class CalculateItem(
 	val shippingType: String? = null,
 
 	@field:SerializedName("service_fee")
-	val serviceFee: Double? = null,
+	val serviceFee: Int? = null,
+
+	@field:SerializedName("service_fee_percentage")
+	val serviceFeePercentage: Double? = null,
 
 	@field:SerializedName("grandtotal")
 	val grandtotal: Int? = null,
 
-	@field:SerializedName("shipping_cashback")
-	val shippingCashback: Int? = null,
+	@field:SerializedName("cashback")
+	val cashback: Int? = null,
+
+	@field:SerializedName("cashback_percentage")
+	val cashbackPercentage: Int? = null,
 
 	@field:SerializedName("discount")
 	val discount: String? = null,

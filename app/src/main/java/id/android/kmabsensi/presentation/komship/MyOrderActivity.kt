@@ -27,7 +27,7 @@ import java.util.*
 class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     ActivityMyOrderBinding::inflate
 ) {
-    private lateinit var pagerAdapter : MyOrderPagerAdapter
+    private lateinit var pagerAdapter: MyOrderPagerAdapter
     private var pagePosition = 0
     lateinit var dateFrom: Date
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,32 +35,44 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         setupToolbar("Orderku", isBackable = true, isCart = true)
         setupPager()
         setupListener()
-
+        setupCurrentPage()
     }
 
-    private fun setupListener(){
+    private fun setupCurrentPage() {
+        if (intent.getIntExtra("_currentPage", 0) != 0) {
+            val page = intent.getIntExtra("_currentPage", 0)
+            when (page) {
+                1 -> binding.viewPager.currentItem = 1
+            }
+        }
+    }
+
+    private fun setupListener() {
 
         binding.toolbar.apply {
+
             btnMyOrder.setOnClickListener {
                 startActivity<OrderCartActivity>()
             }
+
             btnFilter.setOnClickListener {
-                if (pagePosition == 1){
+                if (pagePosition == 1) {
                     setupBottomSheatFilterDataOrder()
-                }else if (pagePosition == 2){
+                } else if (pagePosition == 2) {
                     setupBottomSheatFilterLeads()
                 }
             }
+
             etSearch.doAfterTextChanged {
-                if (pagePosition == 1){
+                if (pagePosition == 1) {
                     val fm2 = supportFragmentManager
                     val fDataOrder2 = fm2.fragments[1] as DataOrderFragment
                     fDataOrder2.searchOrder(it.toString())
                 }
             }
         }
-
     }
+
     private fun setupPager() {
         pagerAdapter = MyOrderPagerAdapter(supportFragmentManager)
         binding.viewPager.apply {
@@ -71,7 +83,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
-
                 }
 
                 override fun onPageSelected(position: Int) {
@@ -99,7 +110,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
     }
 
-    fun setupBottomSheatFilterDataOrder(){
+    fun setupBottomSheatFilterDataOrder() {
         val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_data_order, null)
         val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val btnStartDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_first_date)
@@ -114,16 +125,16 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
 
         btnLastDate.setOnClickListener {
-            if (btnStartDate.text.toString() != ""){
+            if (btnStartDate.text.toString() != "") {
                 pickLastDate(btnStartDate.text.toString(), btnLastDate)
-            }else{
+            } else {
                 toast("Pilih Tanggal Awal terlebih dahulu!")
             }
         }
 
-        var chipSelected : Int? = View.NO_ID
-        chipGroup.setOnCheckedChangeListener{ group, id->
-            if (id == View.NO_ID){
+        var chipSelected: Int? = View.NO_ID
+        chipGroup.setOnCheckedChangeListener { group, id ->
+            if (id == View.NO_ID) {
                 group.check(chipSelected!!)
                 return@setOnCheckedChangeListener
             }
@@ -133,28 +144,36 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         btnApply.setOnClickListener {
             val sDate = btnStartDate.text.toString()
             val lDate = btnLastDate.text.toString()
-            if (PreferencesHelper(this).getInt(partnerOrder) != 0){
+            if (PreferencesHelper(this).getInt(partnerOrder) != 0) {
                 val fm = supportFragmentManager
                 val fDataOrder = fm.fragments[1] as DataOrderFragment
-                fDataOrder.filterOrder(PreferencesHelper(this).getInt(partnerOrder),
-                    OrderByPartnerParams(1, sDate, lDate, "COD", if (chipSelected == 121) null else chipSelected ))
+                fDataOrder.filterOrder(
+                    PreferencesHelper(this).getInt(partnerOrder),
+                    OrderByPartnerParams(
+                        1,
+                        sDate,
+                        lDate,
+                        "COD",
+                        if (chipSelected == 121) null else chipSelected
+                    )
+                )
                 dialog.dismiss()
             }
         }
     }
 
-    private fun orderStatus(idChip : Int): Int{
-        return when(idChip){
-            2131362203 ->  0
-            2131362205 ->  1
-            2131362214 ->  2
-            2131362838 ->  3
-            2131361928 ->  4
+    private fun orderStatus(idChip: Int): Int {
+        return when (idChip) {
+            2131362203 -> 0
+            2131362205 -> 1
+            2131362214 -> 2
+            2131362838 -> 3
+            2131361928 -> 4
             else -> 121
         }
     }
 
-    private fun pickDate(view : TextInputEditText){
+    private fun pickDate(view: TextInputEditText) {
         var selected = ""
         MaterialDialog(this).show {
             datePicker { dialog, date ->
@@ -169,7 +188,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
-    private fun pickLastDate(sDate: String, view : TextInputEditText){
+    private fun pickLastDate(sDate: String, view: TextInputEditText) {
         MaterialDialog(this).show {
             datePicker { dialog, date ->
                 // Use date (Calendar)
@@ -185,7 +204,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
-    fun setupBottomSheatFilterLeads(){
+    fun setupBottomSheatFilterLeads() {
         val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_leads, null)
         val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val btnDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_date)
@@ -194,7 +213,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         btnDate.setOnClickListener {
             pickDate(btnDate)
         }
-
     }
 }
 

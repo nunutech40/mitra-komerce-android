@@ -40,7 +40,7 @@ data class ProductVariantKomItem(
 data class ProductKomItem(
 
 	@field:SerializedName("product_image")
-	val productImage: String? = null,
+	val productImage: List<String>? = null,
 
 	@field:SerializedName("price")
 	val price: Int? = null,
@@ -59,6 +59,9 @@ data class ProductKomItem(
 
 	@field:SerializedName("product_name")
 	val productName: String? = null,
+
+	@field:SerializedName("weight")
+	val weight: Int? = null,
 
 	@field:SerializedName("product_variant")
 	val productVariant: List<ProductVariantKomItem>? = null

@@ -22,11 +22,26 @@ class DeliveryViewModel(
 ): BaseViewModel() {
     val calculateState : MutableLiveData<UiState<KomCalculateResponse>> = MutableLiveData()
 
-    val addOrderState : MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
+    val addOrderState : MutableLiveData<UiState<KomAddOrderResponse>> = MutableLiveData()
 
     val customerState : MutableLiveData<UiState<KomCustomerResponse>> = MutableLiveData()
 
     val bankState : MutableLiveData<UiState<KomBankResponse>> = MutableLiveData()
+
+    val destinationState : MutableLiveData<UiState<KomDestinationResponse>> = MutableLiveData()
+
+    fun getDestination(page: Int? = null, search: String?= "Purbalingga"){
+        destinationState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getDestination(page, search!!)
+                .with(schedulerProvider)
+                .subscribe({
+                    destinationState.value = UiState.Success(it)
+                },{
+                    destinationState.value = UiState.Error(it)
+                })
+        )
+    }
 
     fun getBank(){
         bankState.value = UiState.Loading()
@@ -59,11 +74,12 @@ class DeliveryViewModel(
         shipping: String,
         tariffCode: String,
         paymentMethod: String,
-        partnerId: Int
+        partnerId: Int,
+        cartId: List<Int>? = null
     ){
         calculateState.value = UiState.Loading()
         compositeDisposable.add(
-            komShipRepository.getCalculate(discount, shipping, tariffCode, paymentMethod, partnerId)
+            komShipRepository.getCalculate(discount, shipping, tariffCode, paymentMethod, partnerId, cartId)
                 .with(schedulerProvider)
                 .subscribe({
                     calculateState.value = UiState.Success(it)
@@ -145,6 +161,7 @@ class DeliveryViewModel(
         list.forEach {
             if (it.name?.lowercase() == item.lowercase()){
                 cusItem = it
+                Log.d("_getCustomerDetail", "getCustomerDetail: $it")
             }
         }
         return cusItem

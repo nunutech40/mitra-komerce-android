@@ -39,13 +39,20 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".presentation.komship.selectproduct.SelectProductActivity" />
+        <activity
+            android:name=".presentation.komship.selectdestination.SelectDestinationActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".presentation.komship.selectproduct.SelectProductActivity"
+            android:exported="true"/>
         <activity
             android:name=".presentation.komship.detaildataorder.DetailDataOrderActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".presentation.komship.MyOrderActivity"/>
         <activity
             android:name=".presentation.komship.successorder.SuccessOrderActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".presentation.komship.MyOrderActivity"/>
         <activity
             android:name=".presentation.komship.delivery.DeliveryActivity"
             android:exported="true" />

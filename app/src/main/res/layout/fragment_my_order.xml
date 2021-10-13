@@ -11,6 +11,7 @@
     tools:context=".presentation.komship.myorder.MyOrderFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/ns_product"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingStart="0dp"
+                    style="@style/tv16inter_reg"
                     android:background="@drawable/spinner_background_rf"
                     />
 
@@ -55,54 +58,27 @@
                     android:layout_height="1dp"
                     android:background="@color/cl_grey_2"/>
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:id="@+id/til_partner"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:boxStrokeColor="@color/cl_grey_2"-->
-<!--                    app:boxStrokeWidth="0.5dp" >-->
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:id="@+id/tie_partner"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        style="@style/tv16inter_reg"-->
-<!--                        android:paddingStart="0dp"-->
-<!--                        android:paddingTop="12dp"-->
-<!--                        android:maxLines="1"-->
-<!--                        android:background="@color/white"-->
-<!--                        android:drawableEnd="@drawable/ic_arrow_down_rf"-->
-<!--                        />-->
-
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--                <androidx.appcompat.widget.AppCompatTextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Pilih Produk"-->
-<!--                    style="@style/tv14inter_reg"-->
-<!--                    android:layout_marginTop="@dimen/_24dp"-->
-<!--                    android:textColor="@color/cl_grey_tx_new"/>-->
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_produk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:boxStrokeColor="@color/cl_grey_2"
                     app:boxStrokeWidth="0.5dp"
+                    app:hintTextColor="@color/cl_grey_2"
+                    app:hintTextAppearance="@style/tv14inter_reg"
                     android:layout_marginTop="@dimen/_12dp">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tie_produk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/tv16inter_reg"
-                        android:paddingStart="0dp"
-                        android:paddingTop="30dp"
+                        android:paddingTop="40dp"
                         android:focusable="false"
+                        android:paddingStart="6dp"
                         android:clickable="true"
                         android:hint="Pilih Produk"
                         android:maxLines="1"
-                        android:background="@color/white"
-                        android:drawableEnd="@drawable/ic_arrow_down_rf"/>
+                        android:background="@color/white"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -319,6 +295,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_qty"
         android:layout_width="match_parent"

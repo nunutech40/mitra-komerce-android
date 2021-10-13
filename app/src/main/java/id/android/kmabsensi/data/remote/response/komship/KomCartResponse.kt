@@ -20,11 +20,17 @@ data class KomCartResponse(
 @Parcelize
 data class CartItem(
 
+	@field:SerializedName("partner_id")
+	val partnerId: Int? = null,
+
 	@field:SerializedName("cart_id")
 	val cartId: Int? = null,
 
 	@field:SerializedName("variant_id")
 	val variantId: Int? = null,
+
+	@field:SerializedName("product_weight")
+	val productWeight: Int? = null,
 
 	@field:SerializedName("subtotal")
 	val subtotal: Int? = null,

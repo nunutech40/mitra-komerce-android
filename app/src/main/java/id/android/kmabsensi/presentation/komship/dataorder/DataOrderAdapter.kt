@@ -15,6 +15,7 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.OrderItem
 import id.android.kmabsensi.databinding.ItemRowDataOrderBinding
 import id.android.kmabsensi.utils.convertDate
+import id.android.kmabsensi.utils.convertRupiah
 import kotlinx.android.synthetic.main.item_row_data_order.view.*
 import org.jetbrains.anko.toast
 
@@ -36,6 +37,7 @@ class DataOrderAdapter(
         list.addAll(newList)
         notifyDataSetChanged()
     }
+
     interface onAdapterListener{
         fun onCLick(data : OrderItem)
     }
@@ -52,9 +54,9 @@ class DataOrderAdapter(
                 val type = if (data.isKomship == 1) "Komship" else "Non Komship"
                 tvUsername.text = data.customerName
                 tvDateType.text = "${convertDate(data.orderDate!!)} - $type"
-                tvNameProduct.text = "Resi: ${data.product?.get(0)?.productName}"
-                tvTotalPrice.text = data.grandTotal.toString()
-                tvResi.text = data.airwayBill?:"-"
+                tvNameProduct.text = "${data.product?.get(0)?.productName}"
+                tvTotalPrice.text = convertRupiah(data.grandTotal!!.toDouble())
+                tvResi.text = "Resi: ${data.airwayBill}"
                 tvTotalProduct.text = "$totalItem pcs (${data.product?.size} produk)"
                 tvStatus.setStatusView(data.orderStatus!!)
             }
@@ -76,6 +78,10 @@ class DataOrderAdapter(
             val clip: ClipData = ClipData.newPlainText("resi", stringBuilder.toString())
             clipboard.setPrimaryClip(clip)
             context.toast("Copied!")
+        }
+
+        holder.itemView.setOnClickListener {
+            listener.onCLick(data)
         }
     }
 

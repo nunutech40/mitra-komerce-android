@@ -1,6 +1,8 @@
 package id.android.kmabsensi.utils
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
@@ -160,12 +163,53 @@ fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(
 
 fun convertDate(date: String): String{
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val sdf = SimpleDateFormat("dd-MMMM-yyyy")
+    val sdf = SimpleDateFormat("dd MMMM yyyy")
+    return sdf.format(dateFormat.parse(date))
+}
+
+fun convertTime(date: String): String{
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val sdf = SimpleDateFormat("HH:mm")
     return sdf.format(dateFormat.parse(date))
 }
 
 fun convertRupiah(number: Double): String{
     val localeID =  Locale("in", "ID")
     val numberFormat = NumberFormat.getCurrencyInstance(localeID)
-    return numberFormat.format(number).toString()
+    return numberFormat.format(number).toString().split(",")[0]
+}
+
+fun AppCompatTextView.setStatusOrderView(status : String){
+    this.text = status
+    when(status.lowercase()){
+        "diajukan" -> {
+            this.setTextColor(ContextCompat.getColor(context, R.color.cl_yellow))
+            this.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_semi_yellow))
+        }
+        "dikirim" -> {
+            this.setTextColor(ContextCompat.getColor(context, R.color.cl_blue))
+            this.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_semi_blue))
+        }
+        "diterima" -> {
+            this.setTextColor(ContextCompat.getColor(context, R.color.cl_green))
+            this.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_semi_green))
+        }
+        "batal" -> {
+            this.setTextColor(ContextCompat.getColor(context, R.color.cl_orange))
+            this.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_semi_orange))
+        }
+    }
+}
+
+fun openWhatsappContact(context: Context, number: String) {
+    var phone = when {
+        number.take(1) == "0" -> "+62${number.drop(1)}"
+        number.take(1) == "6" -> "+$number"
+        else -> number
+    }
+
+    val uri = Uri.parse("smsto:" + phone)
+    val i = Intent(Intent.ACTION_SENDTO, uri)
+    i.setPackage("com.whatsapp")
+    context.startActivity(Intent.createChooser(i, "KomShip"))
 }

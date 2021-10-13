@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    style="@style/tv14sp000000_avenir_medium"
+    style="@style/tv16inter_reg"
     android:singleLine="true"
-    android:paddingStart="2dp"
+    android:paddingStart="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>

@@ -5,27 +5,30 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class KomPartnerResponse(
+data class KomAddOrderResponse(
 
 	@field:SerializedName("code")
 	val code: Int? = null,
 
 	@field:SerializedName("data")
-	val data: List<KomPartnerItem>? = null,
+	val data: DataOrderSuccess? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null
 ) : Parcelable
 
 @Parcelize
-data class KomPartnerItem(
+data class DataOrderSuccess(
 
-	@field:SerializedName("partner_id")
-	val partnerId: Int? = null,
+	@field:SerializedName("order_no")
+	val orderNo: String? = null,
 
-	@field:SerializedName("partner_user_id")
-	val partnerUserId: Int? = null,
+	@field:SerializedName("order_date")
+	val orderDate: String? = null,
 
-	@field:SerializedName("partner_name")
-	val partnerName: String? = null
+	@field:SerializedName("customer_name")
+	val customerName: String? = null
 ) : Parcelable

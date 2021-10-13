@@ -21,25 +21,18 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
     fun getCart(): Single<KomCartResponse>
     = apiService.getDataCart()
 
-//    fun deleteCart(listId : ArrayList<Int>): Single<BaseResponse>{
-//        val listReq = mapOf<String, RequestBody>()
-//        listId.forEach()
-//        val listMap = listId.map {
-//            "cart_id" to it
-//        }.toMap()
-//        return apiService.deleteCart(listId)
-//    }
-
     fun updateQtyCart(cart_id: Int, qty : Int) :Single<BaseResponse>
     = apiService.updateQtyCart(cart_id, qty)
 
     fun addCart(data : AddCartParams): Single<BaseResponse>{
         val body = mapOf(
+            "partner_id" to data.idPartner,
             "product_id" to data.productId,
             "product_name" to data.productName,
             "variant_id" to data.variantId,
             "variant_name" to data.variantName,
             "product_price" to data.productPrice,
+            "product_weight" to data.productWeight,
             "qty" to data.qty,
             "subtotal" to data.subtotal
         )
@@ -49,7 +42,7 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
     fun getOrderByPartner(
         idPartner: Int,
         params: OrderByPartnerParams
-    ): Single<KomOrderByPartnerResponse>
+    ): Single<KomListOrderByPartnerResponse>
     = apiService.getOrderByPartner(idPartner, params.page, params.startDate, params.lastDate, params.paymentMethode, params.orderStatus)
 
     fun getDestination(
@@ -63,19 +56,15 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
         shipping: String,
         tariffCode: String,
         paymentMethode: String,
-        partnerId: Int
+        partnerId: Int,
+        cartId: List<Int>? = null
     ): Single<KomCalculateResponse>
-    = apiService.getCalculate(discount, shipping, tariffCode, paymentMethode, partnerId)
+    = apiService.getCalculate(discount, shipping, tariffCode, paymentMethode, partnerId, cartId)
 
     fun addOrder(
         idPartner: Int,
         p: AddOrderParams
-    ): Single<BaseResponse>{
-
-        val list = p.cart.map {
-            "cart" to it
-        }.toMap()
-
+    ): Single<KomAddOrderResponse>{
         val body = mapOf(
             "date" to p.date,
             "tariff_code" to p.tariff_code,
@@ -84,7 +73,7 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
             "city_name" to p.city_name,
             "is_komship" to p.is_komship,
             "customer_id" to p.customer_id,
-            "customer_name" to p.customer_phone,
+            "customer_name" to p.customer_name,
             "customer_phone" to p.customer_phone,
             "detail_address" to p.detail_address,
             "shipping" to p.shipping,
@@ -92,7 +81,7 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
             "payment_method" to p.payment_method,
             "bank" to p.bank,
             "bank_account_name" to p.bank_account_name,
-            "bank_account_no" to p.bank_account_no,
+            "bank_account_no" to p.bank_account_no.toString(),
             "subtotal" to p.subtotal,
             "grandtotal" to p.grandtotal,
             "shipping_cost" to p.shipping_cost,
@@ -100,18 +89,17 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
             "discount" to p.discount,
             "shipping_cashback" to p.shipping_cashback,
             "net_profit" to p.net_profit,
-            "cart" to list
+            "cart" to p.cart
         )
         return apiService.addOrder(idPartner, body)
     }
 
-<<<<<<< HEAD
     fun getCustomer(search: String? = null): Single<KomCustomerResponse>
     = apiService.getCustomer(search)
 
     fun getBank(): Single<KomBankResponse>
     = apiService.getBank()
-=======
+
     fun deleteCart(
         p:List<Int>
     ): Single<BaseResponse>{
@@ -120,11 +108,18 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
             "cart_id" to p
         )
 
-        //        (
-//            "cart_id" to p.cart_id
-//        )
-
         return apiService.deleteCart(body)
     }
->>>>>>> 95f981143fd42f5714c5177aece12f2f0ff88879
+
+    fun getDetailOrder(
+        idPartner: Int,
+        idOrder: Int
+    ): Single<KomOrderDetailResponse>
+    = apiService.getDetailOrder(idPartner, idOrder)
+
+    fun deleteOrder(
+        idPartner: Int,
+        idOrder: Int
+    ): Single<BaseResponse>
+    = apiService.deleteOder(idPartner, idOrder)
 }
