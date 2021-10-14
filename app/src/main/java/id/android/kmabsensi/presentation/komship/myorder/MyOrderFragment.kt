@@ -48,7 +48,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private lateinit var productVariantSelect: ProductVariantKomItem
     private var isActive = false
     private var isDirectOrder = false
-
+    private var idPartner = 0
     /** variantName used to collect variant name from option varian */
     private var variantName = ArrayList<String>()
 
@@ -119,7 +119,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             partner.add(it.partnerName!!)
         }
 
-        ArrayAdapter<String>(requireContext(), R.layout.spinner_item, partner)
+        ArrayAdapter(requireContext(), R.layout.spinner_item, partner)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
                 binding?.spPartner?.adapter = adapter
@@ -135,8 +135,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            vm.getProduct(617)
-//                            vm.getProduct(dataPartner[position].partnerId!!)
+                            idPartner = dataPartner[position].partnerId!!
+                            vm.getProduct(idPartner)
                         }
                     }
             }
@@ -162,7 +162,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnCart.setOnClickListener {
                 dataOrder = vm.getDataOrderParam(
-                    201,
+                    idPartner,
                     dataProductItem,
                     productVariantSelect,
                     vm.variantName(variantName),
@@ -174,7 +174,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnOrder.setOnClickListener {
                 dataOrder = vm.getDataOrderParam(
-                    201,
+                    idPartner,
                     dataProductItem,
                     productVariantSelect,
                     vm.variantName(variantName),

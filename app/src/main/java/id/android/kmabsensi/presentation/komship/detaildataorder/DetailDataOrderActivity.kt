@@ -2,6 +2,9 @@ package id.android.kmabsensi.presentation.komship.detaildataorder
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.DataDetailOrder
 import id.android.kmabsensi.data.remote.response.komship.OrderItem
 import id.android.kmabsensi.databinding.ActivityDetailDataOrderBinding
@@ -28,6 +31,11 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
 
     private var detailOrder: DataDetailOrder? = null
     private var orderAdapter: DetailOrderAdapter? = null
+
+    private var sklList : SkeletonScreen? = null
+    private var sklStatus : SkeletonScreen? = null
+    private var sklDetail : SkeletonScreen? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupToolbar("Data Order", isBackable = true)
@@ -40,16 +48,22 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
         vm.getDetailOrder(idPartner, dataOrder?.orderId!!)
         vm.detailOrderState.observe(this, {
             when (it) {
-                is UiState.Loading -> Timber.tag("detailOrderState").d("on Loading")
+                is UiState.Loading -> {
+                    showSkelekton()
+                    Timber.tag("detailOrderState").d("on Loading")
+                }
                 is UiState.Success -> {
-                    Timber.tag("detailOrderState").d("on Success ${it.data.data}")
+                    hideSkeleton()
                     detailOrder = it.data.data
                     detailOrder.let {
                         setupView()
                         orderAdapter?.setData(it?.product!!)
                     }
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    hideSkeleton()
+                    Timber.d(it.throwable)
+                }
             }
         })
 
@@ -111,4 +125,28 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
         }
     }
 
+    private fun showSkelekton(){
+        if (sklList == null){
+            sklList = Skeleton.bind(binding.rvProduct)
+                .adapter(orderAdapter)
+                .load(R.layout.skeleton_list_order)
+                .show()
+            sklStatus = Skeleton.bind(binding.tvStatusOrder)
+                .load(R.layout.skeleton_item_big)
+                .show()
+            sklDetail = Skeleton.bind(binding.llDetailProduct)
+                .load(R.layout.skeleton_item_layout)
+                .show()
+        }else{
+            sklList?.show()
+            sklStatus?.show()
+            sklDetail
+        }
+    }
+
+    private fun hideSkeleton(){
+        sklList?.hide()
+        sklStatus?.hide()
+        sklDetail?.hide()
+    }
 }

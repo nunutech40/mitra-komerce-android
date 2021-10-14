@@ -44,7 +44,7 @@ interface ApiServiceKomship {
         @Query("page")page : Int,
         @Query("start_date")startDate : String,
         @Query("end_date")endDate : String,
-        @Query("payment_methode")paymentMethode : String,
+        @Query("payment_methode")paymentMethode : String? = null,
         @Query("order_status")orderStatus : Int? = null
     )
     : Single<KomListOrderByPartnerResponse>

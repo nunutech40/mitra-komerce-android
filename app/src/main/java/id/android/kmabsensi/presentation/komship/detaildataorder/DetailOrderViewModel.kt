@@ -1,7 +1,10 @@
 package id.android.kmabsensi.presentation.komship.detaildataorder
 
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
+import com.ethanhua.skeleton.Skeleton
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.KomOrderDetailResponse
 import id.android.kmabsensi.data.repository.KomShipRepository
@@ -54,4 +57,5 @@ class DetailOrderViewModel(
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
+
 }

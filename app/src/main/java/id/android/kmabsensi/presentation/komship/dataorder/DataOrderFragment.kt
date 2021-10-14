@@ -13,13 +13,13 @@ import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.data.remote.response.komship.KomPartnerItem
 import id.android.kmabsensi.data.remote.response.komship.OrderItem
-import id.android.kmabsensi.databinding.FragmentHistoryOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.komship.detaildataorder.DetailDataOrderActivity
 import id.android.kmabsensi.presentation.komship.partnerOrder
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.getTodayDate
+import id.android.kmabsensi.databinding.FragmentHistoryOrderBinding
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 
@@ -74,7 +74,7 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
             when (it) {
                 is UiState.Loading -> {
                     Timber.tag("_partnerState").d("on loading")
-                    if (!showSkeleton()) sklPartner?.show()
+                    showSkeleton()
                 }
                 is UiState.Success -> {
                     sklPartner?.hide()
@@ -92,7 +92,6 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
             when(it){
                 is UiState.Loading -> {
                     Timber.tag("_orderByPartnerState").d( "on Loading")
-//                    showSkeleton()
                 }
                 is UiState.Success -> {
                     binding?.srDataOrder?.isRefreshing = false
@@ -102,6 +101,7 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
                     sklList?.hide()
                 }
                 is UiState.Error -> {
+                    Timber.tag("_orderByPartnerState").d( "on error ${it.throwable}")
                     sklList?.hide()
                     binding?.srDataOrder?.isRefreshing = false
                     Timber.d(it.throwable)
@@ -156,23 +156,18 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-
                             idPartner = vm.getIdPartnerFromList(dataPartner, position)
                             PreferencesHelper(requireContext()).saveInt(partnerOrder, idPartner)
                             vm.getOrderByPartner(idPartner, OrderByPartnerParams(1,
-                                "2021-09-08",
-                                getTodayDate(),
-                            "COD"))
-//                            vm.getProduct(dataPartner[position].partnerId!!)
+                                "2021-01-01",
+                                getTodayDate()))
                         }
                     }
             }
     }
 
-    private fun showSkeleton(): Boolean{
-        var partner = false
+    private fun showSkeleton(){
         if (sklList == null){
-            partner = true
             sklList = Skeleton.bind(binding?.rvDataOrder)
                 .adapter(orderAdapter)
                 .load(R.layout.skeleton_list_permission)
@@ -182,7 +177,7 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
                 .show()
         }else{
             sklList?.show()
+            sklPartner?.show()
         }
-        return partner
     }
 }

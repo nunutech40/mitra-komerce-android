@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.CartItem
@@ -39,6 +41,9 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
     private var dataPartner: MutableList<KomPartnerItem> = ArrayList()
 
+    private var sklList: SkeletonScreen? = null
+    private var sklPartner: SkeletonScreen? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupToolbar("Keranjang", isBackable = true, isDelete = true)
@@ -51,8 +56,11 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     private fun setupObserve(){
         vm.cartState.observe(this, {
             when (it) {
-                is UiState.Loading -> Timber.tag(TAG).d("on Loading ")
+                is UiState.Loading -> {
+                    Timber.tag(TAG).d("on Loading ")
+                }
                 is UiState.Success -> {
+                    sklList?.hide()
                     myCart.clear()
                     myCart.addAll(it.data.data!!)
                     binding.apply {
@@ -67,6 +75,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                     }
                 }
                 is UiState.Error -> {
+                    sklList?.hide()
                     binding.srListCart.isRefreshing = false
                     Timber.d(it.throwable)
                 }
@@ -75,12 +84,19 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
         vm.deleteState.observe(this, {
             when(it){
-                is UiState.Loading -> Timber.tag(TAG).d("on Loading ")
+                is UiState.Loading -> {
+                    showSkeleton()
+                    Timber.tag(TAG).d("on Loading ")
+                }
                 is UiState.Success -> {
+                    sklList?.hide()
                     removeChecked()
                     vm.GetDataCart()
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    sklList?.hide()
+                    Timber.d(it.throwable)
+                }
 
             }
         })
@@ -97,12 +113,19 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
         vm.partnerState.observe(this, {
             when (it) {
-                is UiState.Loading -> Timber.tag(TAG).d("onLoding ")
+                is UiState.Loading ->{
+                    showSkeleton()
+                    Timber.tag(TAG).d("onLoding ")
+                }
                 is UiState.Success -> {
+                    sklPartner?.hide()
                     dataPartner.addAll(it.data.data!!)
                     setupSpinnerPartner(it.data.data)
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    sklPartner?.hide()
+                    Timber.d(it.throwable)
+                }
             }
         })
     }
@@ -228,5 +251,20 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         listChecked.clear()
         listId.clear()
         orderChecked()
+    }
+
+    private fun showSkeleton(){
+        if (sklList == null){
+            sklList = Skeleton.bind(binding.rvOrderCart)
+                .adapter(orderAdapter)
+                .load(R.layout.skeleton_list_cart)
+                .show()
+            sklPartner = Skeleton.bind(binding.spPartner)
+                .load(R.layout.skeleton_item_small)
+                .show()
+        }else{
+            sklList?.show()
+            sklPartner?.show()
+        }
     }
 }

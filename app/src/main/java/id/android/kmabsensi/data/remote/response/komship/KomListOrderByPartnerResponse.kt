@@ -76,7 +76,7 @@ data class OrderItem(
 	val detailAddress: String? = null,
 
 	@field:SerializedName("bank_account_no")
-	val bankAccountNo: Int? = null,
+	val bankAccountNo: String? = null,
 
 	@field:SerializedName("airway_bill")
 	val airwayBill: String? = null,

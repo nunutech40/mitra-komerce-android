@@ -4,6 +4,6 @@ data class OrderByPartnerParams(
     val page: Int,
     val startDate: String,
     val lastDate: String,
-    val paymentMethode: String,
+    val paymentMethode: String? = null,
     val orderStatus: Int? = null
 )

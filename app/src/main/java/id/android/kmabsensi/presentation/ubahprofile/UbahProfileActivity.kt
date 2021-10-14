@@ -5,12 +5,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
@@ -26,7 +23,8 @@ import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Partner
 import id.android.kmabsensi.data.remote.response.PartnerDetail
 import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.databinding.ActivityUbahProfileBinding
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.sdm.tambahsdm.PartnerSelectedItem
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
@@ -34,31 +32,19 @@ import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_delivery.*
 import kotlinx.android.synthetic.main.activity_ubah_profile.*
-import kotlinx.android.synthetic.main.activity_ubah_profile.btnSimpan
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtAddress
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtAsalDesa
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtEmail
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtNamaBank
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtNamaLengkap
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoHp
 import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoPartner
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtNoRekening
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtPemilikRekening
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtTanggalBergabung
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtTanggalLahir
-import kotlinx.android.synthetic.main.activity_ubah_profile.edtUsername
 import kotlinx.android.synthetic.main.activity_ubah_profile.imgProfile
 import kotlinx.android.synthetic.main.activity_ubah_profile.rvPartner
-import kotlinx.android.synthetic.main.activity_ubah_profile.spinnerJenisKelamin
-import kotlinx.android.synthetic.main.activity_ubah_profile.spinnerStatusPernikahan
-import org.jetbrains.anko.startActivityForResult
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UbahProfileActivity : BaseActivity() {
+class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
+    ActivityUbahProfileBinding::inflate
+){
 
     private val vm: UbahProfileViewModel by inject()
 
@@ -82,121 +68,22 @@ class UbahProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ubah_profile)
 
-        disableAutofill()
 
-        setupToolbar("Ubah Profile")
-
+        setupToolbar("Ubah Profile", isBackable = true)
+        setupObserver()
+        setupListener()
         myDialog = MyDialog(this)
 
         user = intent.getParcelableExtra(USER_KEY)
 
         initRv()
 
-        //spinner jenis kelamin
-        ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerJenisKelamin.adapter = adapter
+        user?.let { user -> setDataToView(user) }
+    }
 
-                spinnerJenisKelamin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        genderSelectedId = position
-                    }
-
-                }
-            }
-
-        /* spinner martial status */
-        ArrayAdapter.createFromResource(this, R.array.martial_status, android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerStatusPernikahan.adapter = adapter
-
-                spinnerStatusPernikahan.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                        }
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            martialStatus = position - 1
-                        }
-
-                    }
-            }
-
-        imgProfile.setOnClickListener {
-            ImagePicker.create(this)
-                .returnMode(ReturnMode.ALL)
-                .folderMode(true)
-                .toolbarFolderTitle("Folder")
-                .toolbarImageTitle("ketuk untuk memilih")
-                .toolbarArrowColor(Color.WHITE)
-                .single()
-                .theme(R.style.ImagePickerTheme)
-                .enableLog(true)
-                .start()
-
-        }
-
-        btnSimpan.setOnClickListener {
-            user?.let { user ->
-
-                if (genderSelectedId == 0) {
-                    createAlertError(this, "Warning", "Pilih jenis kelamin dahulu", 3000)
-                    return@setOnClickListener
-                }
-
-                if (martialStatus == -1) {
-                    createAlertError(this, "Warning", "Pilih status pernikahan dahulu", 3000)
-                    return@setOnClickListener
-                }
-
-                vm.updateKaryawan(
-                    user.id.toString(),
-                    edtUsername.text.toString(),
-                    edtEmail.text.toString(),
-                    user.role_id.toString(),
-                    edtNamaLengkap.text.toString(),
-                    user.division_id.toString(),
-                    user.office_id.toString(),
-                    user.position_id.toString(),
-                    edtNoPartner.text.toString(),
-                    edtAsalDesa.text.toString(),
-                    edtNoHp.text.toString(),
-                    edtAddress.text.toString(),
-                    edtTanggalLahir.text.toString(),
-                    genderSelectedId.toString(),
-                    user.user_management_id.toString(),
-                    user.status,
-                    compressedImage,
-                    edtTanggalBergabung.text.toString(),
-                    martialStatus.toString(),
-                    bankAccountId.toString(),
-                    edtNamaBank.text.toString(),
-                    edtNoRekening.text.toString(),
-                    edtPemilikRekening.text.toString()
-                )
-            }
-        }
-
-        vm.crudResponse.observe(this, Observer {
+    private fun setupObserver() {
+        vm.crudResponse.observe(this, {
             when(it){
                 is UiState.Loading -> { myDialog.show() }
                 is UiState.Success -> {
@@ -217,8 +104,162 @@ class UbahProfileActivity : BaseActivity() {
                 }
             }
         })
+    }
 
-        user?.let { user -> setDataToView(user) }
+    private fun setupListener() {
+        binding.apply {
+            tvChangePhoto.setOnClickListener {
+                ImagePicker.create(this@UbahProfileActivity)
+                    .returnMode(ReturnMode.ALL)
+                    .folderMode(true)
+                    .toolbarFolderTitle("Folder")
+                    .toolbarImageTitle("ketuk untuk memilih")
+                    .toolbarArrowColor(Color.WHITE)
+                    .single()
+                    .theme(R.style.ImagePickerTheme)
+                    .enableLog(true)
+                    .start()
+            }
+
+            btnSimpan.setOnClickListener {
+                user?.let { user ->
+
+                    if (genderSelectedId == 0) {
+                        createAlertError(this@UbahProfileActivity, "Warning", "Pilih jenis kelamin dahulu", 3000)
+                        return@setOnClickListener
+                    }
+
+                    if (martialStatus == -1) {
+                        createAlertError(this@UbahProfileActivity, "Warning", "Pilih status pernikahan dahulu", 3000)
+                        return@setOnClickListener
+                    }
+
+                    vm.updateKaryawan(
+                        user.id.toString(),
+                        tieUsername.text.toString(),
+                        tieEmail.text.toString(),
+                        user.role_id.toString(),
+                        tieFullName.text.toString(),
+                        user.division_id.toString(),
+                        user.office_id.toString(),
+                        user.position_id.toString(),
+                        edtNoPartner.text.toString(),
+                        tieVilage.text.toString(),
+                        tiePhone.text.toString(),
+                        tieFullAddres.text.toString(),
+                        tieBirthDay.text.toString(),
+                        genderSelectedId.toString(),
+                        user.user_management_id.toString(),
+                        user.status,
+                        compressedImage,
+                        tieJoinDate.text.toString(),
+                        martialStatus.toString(),
+                        bankAccountId.toString(),
+                        tieBank.text.toString(),
+                        tieNoRek.text.toString(),
+                        tieNoRekOwner.text.toString()
+                    )
+                }
+            }
+
+
+            imgProfile.setOnClickListener {
+                ImagePicker.create(this@UbahProfileActivity)
+                    .returnMode(ReturnMode.ALL)
+                    .folderMode(true)
+                    .toolbarFolderTitle("Folder")
+                    .toolbarImageTitle("ketuk untuk memilih")
+                    .toolbarArrowColor(Color.WHITE)
+                    .single()
+                    .theme(R.style.ImagePickerTheme)
+                    .enableLog(true)
+                    .start()
+
+            }
+
+            tieBirthDay.setOnClickListener {
+                MaterialDialog(this@UbahProfileActivity).show {
+                    datePicker { dialog, date ->
+
+                        // Use date (Calendar)
+
+                        dialog.dismiss()
+
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val dateSelected: String = dateFormat.format(date.time)
+                        setDateToView(dateSelected)
+                    }
+                }
+            }
+
+            tieJoinDate.setOnClickListener {
+                MaterialDialog(this@UbahProfileActivity).show {
+                    datePicker { dialog, date ->
+
+                        // Use date (Calendar)
+
+                        dialog.dismiss()
+
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val dateSelected: String = dateFormat.format(date.time)
+                        setJoinDate(dateSelected)
+                    }
+                }
+            }
+
+            edtNoPartner.setOnClickListener {
+//            startActivityForResult<PartnerPickerActivity>(
+//                PICK_PARTNER_RC
+//            )
+            }
+
+            //spinner jenis kelamin
+            ArrayAdapter.createFromResource(this@UbahProfileActivity, R.array.gender, android.R.layout.simple_spinner_item)
+                .also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerJenisKelamin.adapter = adapter
+
+                    spinnerJenisKelamin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            genderSelectedId = position
+                        }
+
+                    }
+                }
+
+            /* spinner martial status */
+            ArrayAdapter.createFromResource(this@UbahProfileActivity, R.array.martial_status, android.R.layout.simple_spinner_item)
+                .also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerStatusPernikahan.adapter = adapter
+
+                    spinnerStatusPernikahan.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                martialStatus = position - 1
+                            }
+
+                        }
+                }
+        }
     }
 
     private fun initRv(){
@@ -229,89 +270,41 @@ class UbahProfileActivity : BaseActivity() {
     }
 
     private fun setDataToView(data: User){
-        edtUsername.setText(data.username)
-        edtTanggalLahir.setText(data.birth_date)
-        edtAddress.setText(data.address)
-        edtEmail.setText(data.email)
-        edtNamaLengkap.setText(data.full_name)
-        edtNoHp.setText(data.no_hp)
-        edtAsalDesa.setText(data.origin_village)
-        edtTanggalBergabung.setText(data.join_date)
+        binding.apply {
 
-        if (data.no_partners.isNullOrEmpty()){
-            layoutPartner.gone()
-        }
+            tieUsername.text = data.username.toEditable()
+            tieFullName.text = data.full_name.toEditable()
+            tieJoinDate.text = data.join_date.toEditable()
+            tieBirthDay.text = data.birth_date.toEditable()
+            tieVilage.text = data.origin_village.toEditable()
+            tiePhone.text = data.no_hp.toEditable()
+            tieEmail.text = data.email.toEditable()
+            tieFullAddres.text = data.address.toEditable()
 
-        data.partner_assignments?.forEach {
-            partnerSelected.add(Partner(id = it.id, fullName = it.fullName!!, partnerDetail = PartnerDetail(noPartner = it.noPartner!!)))
-        }
-        populatePartnerSelected()
-
-        data.bank_accounts?.let {bank_account ->
-            if (bank_account.isNotEmpty()){
-                bankAccountId = bank_account[0].id
-                edtNamaBank.setText(bank_account[0].bankName)
-                edtNoRekening.setText(bank_account[0].bankNo)
-                edtPemilikRekening.setText(bank_account[0].bankOwnerName)
+            if (data.no_partners.isNullOrEmpty()){
+                layoutPartner.gone()
             }
-        }
 
-        data.photo_profile_url?.let {
-            d { it }
-            imgProfile.loadCircleImage(it)
-        }
-        spinnerStatusPernikahan.setSelection(data.martial_status + 1)
-        spinnerJenisKelamin.setSelection(data.gender)
+            data.partner_assignments?.forEach {
+                partnerSelected.add(Partner(id = it.id, fullName = it.fullName, partnerDetail = PartnerDetail(noPartner = it.noPartner!!)))
+            }
+            populatePartnerSelected()
 
-
-        imgProfile.setOnClickListener {
-            ImagePicker.create(this)
-                .returnMode(ReturnMode.ALL)
-                .folderMode(true)
-                .toolbarFolderTitle("Folder")
-                .toolbarImageTitle("ketuk untuk memilih")
-                .toolbarArrowColor(Color.WHITE)
-                .single()
-                .theme(R.style.ImagePickerTheme)
-                .enableLog(true)
-                .start()
-
-        }
-
-        edtTanggalLahir.setOnClickListener {
-            MaterialDialog(this).show {
-                datePicker { dialog, date ->
-
-                    // Use date (Calendar)
-
-                    dialog.dismiss()
-
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val dateSelected: String = dateFormat.format(date.time)
-                    setDateToView(dateSelected)
+            data.bank_accounts?.let {bank_account ->
+                if (bank_account.isNotEmpty()){
+                    bankAccountId = bank_account[0].id
+                    tieBank.text = bank_account[0].bankName.toEditable()
+                    tieNoRek.text = bank_account[0].bankNo.toEditable()
+                    tieNoRekOwner.text = bank_account[0].bankOwnerName.toEditable()
                 }
             }
-        }
 
-        edtTanggalBergabung.setOnClickListener {
-            MaterialDialog(this).show {
-                datePicker { dialog, date ->
-
-                    // Use date (Calendar)
-
-                    dialog.dismiss()
-
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val dateSelected: String = dateFormat.format(date.time)
-                    setJoinDate(dateSelected)
-                }
+            data.photo_profile_url?.let {
+                d { it }
+                imgProfile.loadCircleImage(it)
             }
-        }
-
-        edtNoPartner.setOnClickListener {
-//            startActivityForResult<PartnerPickerActivity>(
-//                PICK_PARTNER_RC
-//            )
+            spinnerStatusPernikahan.setSelection(data.martial_status + 1)
+            spinnerJenisKelamin.setSelection(data.gender)
         }
 
     }
@@ -328,11 +321,11 @@ class UbahProfileActivity : BaseActivity() {
     }
 
     fun setDateToView(date: String) {
-        edtTanggalLahir.setText(date)
+        binding.tieBirthDay.text = date.toEditable()
     }
 
     fun setJoinDate(date: String) {
-        edtTanggalBergabung.setText(date)
+        binding.tieJoinDate.text = date.toEditable()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -359,10 +352,6 @@ class UbahProfileActivity : BaseActivity() {
             Compressor(this)
                 .setQuality(75)
                 .setCompressFormat(Bitmap.CompressFormat.JPEG)
-//                .setDestinationDirectoryPath(
-//                    Environment.getExternalStoragePublicDirectory(
-//                        Environment.DIRECTORY_PICTURES).absolutePath
-//                )
                 .compressToFileAsFlowable(file)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
