@@ -194,8 +194,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                 // Use date (Calendar)
                 dialog.dismiss()
                 dateFrom = date.time
-//                if (startDate.time > dateFrom){
-//                }
                 // TODO { validate start date < last date }
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val selected = dateFormat.format(date.time)

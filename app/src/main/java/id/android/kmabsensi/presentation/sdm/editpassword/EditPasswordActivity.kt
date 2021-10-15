@@ -4,13 +4,17 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
-import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.databinding.ActivityEditPasswordBinding
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.utils.*
+import id.android.kmabsensi.utils.ValidationForm.validationTextInputEditText
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.activity_edit_password.*
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 
-class EditPasswordActivity : BaseActivity() {
+class EditPasswordActivity : BaseActivityRf<ActivityEditPasswordBinding>(
+    ActivityEditPasswordBinding::inflate
+) {
 
     private val vm: PasswordManagementViewModel by inject()
 
@@ -20,11 +24,8 @@ class EditPasswordActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_password)
 
-        disableAutofill()
-
-        setupToolbar("Ubah Password")
+        setupToolbar("Ubah Password", isBackable = true)
 
         userId = intent.getIntExtra(USER_ID_KEY, 0)
 
@@ -51,32 +52,39 @@ class EditPasswordActivity : BaseActivity() {
                 }
             }
         })
+        setupListener()
+    }
 
-        btnSimpan.setOnClickListener {
-            if (validation()) {
-                vm.changePassword(
-                    userId.toString(),
-                    edtPasswordOld.text.toString(),
-                    edtConfirmPassword.text.toString()
-                )
+    private fun setupListener() {
+        binding.apply {
+            btnSimpan.setOnClickListener {
+                if (validation()) {
+                    vm.changePassword(
+                        userId.toString(),
+                        tieOldPass.text.toString(),
+                        tieKonfirmPass.text.toString()
+                    )
+                }
             }
         }
     }
 
     fun validation(): Boolean {
+        binding.apply {
+            val oldPassword =
+                validationTextInputEditText(tieOldPass,tilOldPass, "Password lama harus di isi")
+            val newPassword = validationTextInputEditText(tieNewPass,tilNewPass, "Password baru harus di isi")
+            val newPasswordConfirmation =
+                validationTextInputEditText(tieKonfirmPass, tilKonfirmPass, "Konfirmasi password harus di isi")
+            var isValid = false
+            if (tieNewPass.text.toString() != tieKonfirmPass.text.toString()){
+                tilKonfirmPass.requestFocus()
+                tilKonfirmPass.error = "password baru harus sama"
+            }else{
+                isValid = true
+            }
+            return oldPassword && newPassword && newPasswordConfirmation && isValid
 
-        val oldPassword =
-            ValidationForm.validationInput(edtPasswordOld, "Password lama harus di isi")
-        val newPassword = ValidationForm.validationInput(edtPasword, "Password baru harus di isi")
-        val newPasswordConfirmation =
-            ValidationForm.validationInput(edtConfirmPassword, "Konfirmasi password harus di isi")
-        val reNewPAssInput: Boolean = ValidationForm.validationSingkronPassword(
-            edtPasword,
-            edtConfirmPassword,
-            "password baru harus sama"
-        )
-
-        return oldPassword && newPassword && newPasswordConfirmation && reNewPAssInput
-
+        }
     }
 }

@@ -243,7 +243,7 @@ class HomeViewModel(
             R.drawable.ic_product_knowlage_rf,
             R.drawable.ic_orderku_rf,
             R.drawable.ic_talent_rf, // 15
-            R.drawable.ic_orderku_rf
+            R.drawable.ic_form_shopping_rf
         )
 
         val nameMenu = arrayListOf(
@@ -279,7 +279,7 @@ class HomeViewModel(
                 if (idx == 0 || idx == 1 || idx == 10 || idx == 11 || idx == 12 || idx == 13 || idx == 14 || idx == 15 || idx == 16) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             }else if (role == 2){
-                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13 || idx == 15 ) continue
+                if (idx == 0 || idx == 1 || idx == 11 || idx == 12 || idx == 13 || idx == 14 || idx == 15 ) continue
                 list.add(MenuModels(nameMenu[idx], imgMenu[idx]))
             } else if (role == 3){
                 if (idx == 0 || idx == 1 || idx == 12 || idx == 13 || idx == 14 || idx == 15 || idx == 16) continue

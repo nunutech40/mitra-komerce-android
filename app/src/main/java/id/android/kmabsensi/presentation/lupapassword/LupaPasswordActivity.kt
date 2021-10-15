@@ -4,16 +4,21 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber.e
 import id.android.kmabsensi.R
+import id.android.kmabsensi.databinding.ActivityLupaPasswordBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.ValidationForm
+import id.android.kmabsensi.utils.ValidationForm.validationTextInputEditText
 import id.android.kmabsensi.utils.createAlertError
 import id.android.kmabsensi.utils.createAlertSuccess
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.activity_lupa_password.*
 import org.koin.android.ext.android.inject
 
-class LupaPasswordActivity : BaseActivity() {
+class LupaPasswordActivity : BaseActivityRf<ActivityLupaPasswordBinding>(
+    ActivityLupaPasswordBinding::inflate
+) {
 
     private val vm: LupaPasswordViewModel by inject()
     private lateinit var myDialog: MyDialog
@@ -22,15 +27,11 @@ class LupaPasswordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lupa_password)
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.title = "Lupa Password"
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        setupToolbar("Lupa Password")
+        setupToolbar("Lupa Password", isBackable = true)
 
         myDialog = MyDialog(this)
 
-        vm.response.observe(this, Observer {
+        vm.response.observe(this, {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
@@ -53,15 +54,12 @@ class LupaPasswordActivity : BaseActivity() {
 
         btnSubmit.setOnClickListener {
             if (validation()){
-                vm.forgetPassword(edtEmail.text.toString())
+                vm.forgetPassword(binding.tieEmail.text.toString())
             }
         }
     }
 
     fun validation() : Boolean {
-        val email = ValidationForm.validationInput(edtEmail, "Email tidak boleh kosong")
-        val validEmail = ValidationForm.validationInput(edtEmail, "Email tidak valid")
-
-        return email && validEmail
+        return validationTextInputEditText(binding.tieEmail, binding.tilEmail,"Email tidak boleh kosong")
     }
 }

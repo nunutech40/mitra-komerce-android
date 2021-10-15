@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.komship.detaildataorder
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
@@ -12,7 +13,6 @@ import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -94,8 +94,11 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
         binding.apply {
             if (detailOrder != null) {
                 tvStatusOrder.setStatusOrderView(detailOrder?.orderStatus!!)
-                if (detailOrder?.orderStatus!!.lowercase() == "diajukan"){
-                    btnCancle.visible()
+                if (detailOrder?.orderStatus!!.lowercase() != "diajukan"){
+                    btnCancle.isClickable = false
+                    btnCancle.isEnabled = false
+                    btnCancle.alpha = 0.5f
+                    btnCancle.setTextColor(ContextCompat.getColor(this@DetailDataOrderActivity, R.color.cl_grey_dark_tx_new))
                 }
                 tvNoOrder.text = detailOrder?.orderNo.toString()
                 tvOrderTime.text = vm.getTime(detailOrder?.orderDate!!)
@@ -111,16 +114,17 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
     private fun setupListener() {
         binding.apply {
             btnToTheTop.setOnClickListener {
-                toast("Scroll to the top")
                 nestedScrollView.scrollTo(0, 0)
             }
             btnChatWhatsapp.setOnClickListener {
                 openWhatsappContact(this@DetailDataOrderActivity, detailOrder?.customerPhone!!)
             }
             btnCancle.setOnClickListener {
-                showDialogConfirmDelete(this@DetailDataOrderActivity, "", "Yakin ingin menghapus Pesanan ini?"){
-                    vm.deleteOrder(idPartner, dataOrder?.orderId!!)
-                }
+                showDialogConfirmCancle(this@DetailDataOrderActivity, object : OnSingleCLick{
+                    override fun onCLick() {
+                        vm.deleteOrder(idPartner, dataOrder?.orderId!!)
+                    }
+                })
             }
         }
     }
@@ -140,7 +144,7 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
         }else{
             sklList?.show()
             sklStatus?.show()
-            sklDetail
+            sklDetail?.show()
         }
     }
 

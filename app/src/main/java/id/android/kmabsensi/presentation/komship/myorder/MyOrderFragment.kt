@@ -158,8 +158,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 }
             }
 
-            // TODO : ID PARTNER Masih data dummy
-
             btnCart.setOnClickListener {
                 dataOrder = vm.getDataOrderParam(
                     idPartner,
