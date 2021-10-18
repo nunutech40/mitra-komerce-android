@@ -3,7 +3,6 @@ package id.android.kmabsensi.presentation.komship.myorder
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,6 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -29,7 +30,6 @@ import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
-
 
 class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     FragmentMyOrderBinding::inflate
@@ -51,6 +51,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private var idPartner = 0
     /** variantName used to collect variant name from option varian */
     private var variantName = ArrayList<String>()
+    private var sklPartner: SkeletonScreen? = null
+    private var sklProduct: SkeletonScreen? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,8 +64,18 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private fun setupObserver() {
         vm.addCartState.observe(requireActivity(), {
             when (it) {
-                is UiState.Loading -> Timber.tag("_addCartState").d("on loading")
+                is UiState.Loading -> {
+                    binding?.apply {
+                        progressBar.visible()
+                        btnOrder.disableButton(false)
+                    }
+                    Timber.tag("_addCartState").d("on loading")
+                }
                 is UiState.Success -> {
+                    binding?.apply {
+                        btnOrder.disableButton(true)
+                        progressBar.gone()
+                    }
                     if (isDirectOrder) {
                         requireActivity().startActivity<OrderCartActivity>("_isDirectOrder" to isDirectOrder)
                     } else {
@@ -71,18 +83,33 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     }
                     resetForm()
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    binding?.apply {
+                        btnOrder.disableButton(true)
+                        progressBar.gone()
+                    }
+                    Timber.d(it.throwable)
+                }
             }
         })
 
         vm.partnerState.observe(requireActivity(), {
             when (it) {
-                is UiState.Loading -> Timber.tag(TAGp).d("on loading")
+                is UiState.Loading -> {
+                    showSkeleton()
+                    Timber.tag(TAGp).d("on loading")
+                }
                 is UiState.Success -> {
+                    binding?.srMyOrder?.isRefreshing = false
+                    sklPartner?.hide()
                     dataPartner.addAll(it.data.data!!)
                     setupSpinnerPartner(it.data.data)
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    binding?.srMyOrder?.isRefreshing = false
+                    sklPartner?.hide()
+                    Timber.d(it.throwable)
+                }
             }
         })
 
@@ -90,10 +117,14 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             when (it) {
                 is UiState.Loading -> Timber.tag("_productState").d("on loading")
                 is UiState.Success -> {
+                    sklProduct?.hide()
                     dataProduct.clear()
                     dataProduct.addAll(it.data.data!!)
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    sklProduct?.hide()
+                    Timber.d(it.throwable)
+                }
             }
         })
     }
@@ -148,7 +179,14 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     }
 
     private fun setupListener() {
+
         binding?.apply {
+
+            srMyOrder.setOnRefreshListener {
+                srMyOrder.isRefreshing = true
+                setupView()
+            }
+
             btnPlus.setOnClickListener {
                 if (vm.validateMaxProduct(totalProduct, maxProduct)) {
                     totalProduct += 1
@@ -178,9 +216,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     vm.variantName(variantName),
                     totalProduct
                 )
-                Log.d("_dataOrder", "params:  $dataOrder")
-//                vm.addCart(dataOrder)
-//                isDirectOrder = true
+                vm.addCart(dataOrder)
+                isDirectOrder = true
             }
 
             btnMinus.setOnClickListener {
@@ -242,12 +279,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         tvPrice.text = convertRupiah(it.price?.toDouble()!!)
                         tvAvailableProduct.text = "Tersedia: ${it.stock} Pcs"
 
-                        btnOrder.setBackgroundDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.bg_orange_10dp
-                            )
-                        )
+                        btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
                         imgCart.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
@@ -267,12 +299,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         R.drawable.ic_orderku_off_rf
                     )
                 )
-                btnOrder.setBackgroundDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.bg_grey_8dp
-                    )
-                )
+                btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
                 llQty.gone()
             }
         }
@@ -408,4 +435,17 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
         } else lastOption(true, checkedId)
     }
 
+    private fun showSkeleton(){
+        if (sklPartner == null){
+            sklPartner = Skeleton.bind(binding?.spPartner)
+                .load(R.layout.skeleton_item_big)
+                .show()
+            sklProduct = Skeleton.bind(binding?.tieProduk)
+                .load(R.layout.skeleton_item_big)
+                .show()
+        }else {
+            sklPartner?.show()
+            sklProduct?.show()
+        }
+    }
 }

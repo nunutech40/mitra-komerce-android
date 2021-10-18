@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
@@ -212,4 +213,11 @@ fun openWhatsappContact(context: Context, number: String) {
     val i = Intent(Intent.ACTION_SENDTO, uri)
     i.setPackage("com.whatsapp")
     context.startActivity(Intent.createChooser(i, "KomShip"))
+}
+
+fun AppCompatButton.disableButton(isTrue : Boolean){
+    this.apply {
+        isEnabled = isTrue
+        isClickable = isTrue
+    }
 }

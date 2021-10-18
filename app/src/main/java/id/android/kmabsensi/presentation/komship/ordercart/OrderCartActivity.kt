@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -49,6 +50,9 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         setupToolbar("Keranjang", isBackable = true, isDelete = true)
         setupView()
         setupObserve()
+        if (isDirectOrder && myCart.size != 0){
+            setupDirectOrder()
+        }
         setupList()
         setupListener()
     }
@@ -61,18 +65,18 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                 }
                 is UiState.Success -> {
                     sklList?.hide()
-                    myCart.clear()
-                    myCart.addAll(it.data.data!!)
                     binding.apply {
                         srListCart.isRefreshing = false
                         if (myCart.size<1){
                             tvEmptyCart.visible()
                        } else{
                            tvEmptyCart.gone()
-//                           orderAdapter.setData(myCart)
                            orderChecked()
                        }
                     }
+                    myCart.clear()
+                    myCart.addAll(it.data.data!!)
+                    orderAdapter.setData(myCart)
                 }
                 is UiState.Error -> {
                     sklList?.hide()
@@ -97,7 +101,6 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                     sklList?.hide()
                     Timber.d(it.throwable)
                 }
-
             }
         })
 
@@ -135,6 +138,10 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         vm.GetDataCart()
     }
 
+    private fun setupDirectOrder(){
+        listChecked.add(0)
+        listId.add(myCart[0].cartId!!)
+    }
     private fun setupList() {
         orderAdapter = OrderCartAdapter(this, isDirectOrder, object : OrderCartAdapter.onAdapterListener{
             override fun onChecked(position: Int, isChecked : Boolean, product: CartItem) {
@@ -215,6 +222,10 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
             }
 
             btnOrder.setOnClickListener {
+                val list: ArrayList<Int> = ArrayList()
+                checked.forEach {
+                    list.add(it.item.cartId!!)
+                }
                 startActivity<DeliveryActivity>(
                     "_dataOrder" to checked
                 )
