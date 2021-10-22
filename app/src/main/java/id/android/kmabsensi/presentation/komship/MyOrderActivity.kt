@@ -17,6 +17,7 @@ import id.android.kmabsensi.databinding.ActivityMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
+import id.android.kmabsensi.utils.createAlertError
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.startActivity
@@ -30,9 +31,10 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     private lateinit var pagerAdapter: MyOrderPagerAdapter
     private var pagePosition = 0
     lateinit var dateFrom: Date
+    lateinit var dateTo: Date
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupToolbar("Orderku", isBackable = true, isCart = true)
+        setupToolbar(getString(R.string.orderku), isBackable = true, isCart = true)
         setupPager()
         setupListener()
         setupCurrentPage()
@@ -40,8 +42,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
     private fun setupCurrentPage() {
         if (intent.getIntExtra("_currentPage", 0) != 0) {
-            val page = intent.getIntExtra("_currentPage", 0)
-            when (page) {
+            when (intent.getIntExtra("_currentPage", 0)) {
                 1 -> binding.viewPager.currentItem = 1
             }
         }
@@ -110,7 +111,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
     }
 
-    fun setupBottomSheatFilterDataOrder() {
+    private fun setupBottomSheatFilterDataOrder() {
         val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_data_order, null)
         val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val btnStartDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_first_date)
@@ -126,7 +127,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
         btnLastDate.setOnClickListener {
             if (btnStartDate.text.toString() != "") {
-                pickLastDate(btnStartDate.text.toString(), btnLastDate)
+                pickLastDate(btnLastDate)
             } else {
                 toast("Pilih Tanggal Awal terlebih dahulu!")
             }
@@ -174,27 +175,12 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     }
 
     private fun pickDate(view: TextInputEditText) {
-        var selected = ""
         MaterialDialog(this).show {
             datePicker { dialog, date ->
                 // Use date (Calendar)
                 dialog.dismiss()
                 dateFrom = date.time
 
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                selected = dateFormat.format(date.time)
-                view.text = selected.toEditable()
-            }
-        }
-    }
-
-    private fun pickLastDate(sDate: String, view: TextInputEditText) {
-        MaterialDialog(this).show {
-            datePicker { dialog, date ->
-                // Use date (Calendar)
-                dialog.dismiss()
-                dateFrom = date.time
-                // TODO { validate start date < last date }
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val selected = dateFormat.format(date.time)
                 view.text = selected.toEditable()
@@ -202,7 +188,29 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
-    fun setupBottomSheatFilterLeads() {
+    private fun pickLastDate(view: TextInputEditText) {
+        MaterialDialog(this).show {
+            datePicker { dialog, date ->
+                // Use date (Calendar)
+                dialog.dismiss()
+                dateTo = date.time
+                if (dateTo.before(dateFrom)){
+                    createAlertError(
+                        this@MyOrderActivity,
+                        "Peringatan",
+                        "Pilih Tanggal akhir dengan benar",
+                        3000
+                    )
+                }else{
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val selected = dateFormat.format(date.time)
+                    view.text = selected.toEditable()
+                }
+            }
+        }
+    }
+
+    private fun setupBottomSheatFilterLeads() {
         val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_leads, null)
         val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val btnDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_date)

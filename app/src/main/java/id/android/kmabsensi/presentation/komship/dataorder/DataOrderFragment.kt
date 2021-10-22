@@ -134,7 +134,7 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
 
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
-        var partner = ArrayList<String>()
+        val partner = ArrayList<String>()
         data?.forEach {
             partner.add(it.partnerName!!)
         }

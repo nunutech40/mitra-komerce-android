@@ -77,10 +77,13 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         progressBar.gone()
                     }
                     if (isDirectOrder) {
-                        requireActivity().startActivity<OrderCartActivity>("_isDirectOrder" to isDirectOrder)
+                        requireActivity().startActivity<OrderCartActivity>(
+                            "idPartner" to idPartner,
+                            "_isDirectOrder" to isDirectOrder)
                     } else {
                         requireActivity().toast("Data berhasil ditambahkan ke keranjang.")
                     }
+                    updateQTY("reset")
                     resetForm()
                 }
                 is UiState.Error -> {
@@ -189,8 +192,9 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnPlus.setOnClickListener {
                 if (vm.validateMaxProduct(totalProduct, maxProduct)) {
-                    totalProduct += 1
-                    tvTotal.text = totalProduct.toString()
+//                    totalProduct += 1
+//                    tvTotal.text = totalProduct.toString()
+                    updateQTY("plus")
                 } else {
                     requireActivity().toast("sudah mencapai batas max")
                 }
@@ -222,8 +226,9 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnMinus.setOnClickListener {
                 if (vm.validateMinProduct(totalProduct)) {
-                    totalProduct -= 1
-                    tvTotal.text = totalProduct.toString()
+//                    totalProduct -= 1
+//                    tvTotal.text = totalProduct.toString()
+                    updateQTY("minus")
                 } else {
                     requireActivity().toast("sudah mencapai batas min")
                 }
@@ -447,5 +452,14 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             sklPartner?.show()
             sklProduct?.show()
         }
+    }
+
+    private fun updateQTY(type: String){
+        when(type){
+            "plus" -> totalProduct += 1
+            "minus" -> totalProduct -= 1
+            "reset" -> totalProduct = 1
+        }
+        binding?.tvTotal?.text = totalProduct.toString()
     }
 }

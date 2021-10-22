@@ -3,18 +3,17 @@ package id.android.kmabsensi.presentation.komship.delivery
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatSpinner
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
@@ -40,6 +39,9 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
     private val dataOrder by lazy {
         intent.getParcelableArrayListExtra<ValidateChecked>("_dataOrder")
     }
+    private val idPartner by lazy {
+        intent.getIntExtra("_idPartner", 0)
+    }
     private var listIdOrder = ArrayList<Int>()
     private var listExpandable = false
     private var listOrder: MutableList<CartItem> = ArrayList()
@@ -63,6 +65,8 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 
     /** disable payment methode */
     private var isPayment = false
+
+    private var sklBank : SkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,8 +116,12 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 
         vm.calculateState.observe(this, {
             when (it) {
-                is UiState.Loading -> Timber.tag("calculateState").d("on Loading ")
+                is UiState.Loading -> {
+                    showSkeleton()
+                    Timber.tag("_calculateState").d("on Loading ")
+                }
                 is UiState.Success -> {
+                    sklBank?.hide()
                     listCalculate.clear()
                     listCalculate.addAll(it.data.data!!)
                     if (typeEkspedisi != "") setupEkspedisi(
@@ -121,7 +129,11 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                     )
                     if (listCalculate.size > 0) binding.rdGroup.visible() else binding.rdGroup.gone()
                 }
-                is UiState.Error -> Timber.d(it.throwable)
+                is UiState.Error -> {
+                    sklBank?.hide()
+                    Timber.tag("_calculateState").d(it.throwable)
+                    toast("Server sedang bermasalah, Coba lagi nanti ya")
+                }
             }
         })
 
@@ -185,7 +197,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = false
                 btnOrder.isEnabled = false
 
-                tvSendingCost.text = "Kelas tidak tersedia."
+                tvSendingCost.text = getString(R.string.paket_tidak_tersedia)
                 costShippingCost = 0
                 tvTotalCost.text = convertRupiah(totalCost().toDouble())
             }
@@ -230,7 +242,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 }
             }
             acCustomer.onItemClickListener =
-                AdapterView.OnItemClickListener { p0, p1, p2, p3 ->
+                AdapterView.OnItemClickListener { _, _, _, _ ->
                     cust = vm.getCustomerDetail(listCustomer, acCustomer.text.toString())
                     if (cust.phone != null) {
                         binding.apply {
@@ -261,7 +273,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                                 "JNE",
                                 destination?.value!!,
                                 paymentMethode,
-                                201,
+                                idPartner,
                                 listIdOrder
                             )
                         } else rdGroup.gone()
@@ -274,8 +286,8 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             spBank.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     /** get initial name bank */
-                    nameBank = p1.toString().split(" ")[0]
-                    bankItem = vm.getBankDetail(listBank, nameBank)
+                    nameBank = spBank.selectedItem.toString().split(" ")[0]
+                    bankItem = vm.getBankDetail(listBank, nameBank.lowercase())
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -298,7 +310,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                         "JNE",
                         destination?.value!!,
                         paymentMethode,
-                        201,
+                        idPartner,
                         listIdOrder
                     )
                 }
@@ -324,9 +336,9 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                         "JNE",
                         typeEkspedisi,
                         paymentMethode,
-                        null,
-                        null,
-                        null,
+                        bankItem.bankName,
+                        bankItem.accountName,
+                        bankItem.accountNo,
                         dataCalculate.subtotal!!,
                         dataCalculate.grandtotal!!,
                         dataCalculate.shippingCost?.toInt()!!,
@@ -336,18 +348,18 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                         dataCalculate.netProfit!!,
                         listIdOrder
                     )
-                    vm.addOrder(201, params)
+                    vm.addOrder(idPartner, params)
                 }
             }
 
             btnExpandable.setOnClickListener {
                 if (listExpandable) {
                     listExpandable = false
-                    btnExpandable.text = "Lebih sedikit"
+                    btnExpandable.text = getString(R.string.tampilkan_lebih_sedikit)
                     ivExpand.rotation = 180f
                 } else {
                     listExpandable = true
-                    btnExpandable.text = "Selengkapnya"
+                    btnExpandable.text = getString(R.string.selengkapnya)
                     ivExpand.rotation = 0f
                 }
                 listOrder.clear()
@@ -428,12 +440,15 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
         }
     }
 
-    private fun AppCompatSpinner.setupSpinner(mode: Boolean) {
-        this.isEnabled = mode
-        this.isClickable = mode
-    }
-
     private fun totalCost(): Int {
         return costOrder + costShippingCost
+    }
+
+    private fun showSkeleton(){
+        if (sklBank == null){
+            sklBank = Skeleton.bind(binding.rdGroup)
+                .load(R.layout.skeleton_item_big)
+                .show()
+        } else sklBank?.show()
     }
 }

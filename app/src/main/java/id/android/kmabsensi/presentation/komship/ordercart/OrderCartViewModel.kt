@@ -7,6 +7,7 @@ import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.data.remote.response.komship.KomCartResponse
+import id.android.kmabsensi.data.remote.response.komship.KomPartnerItem
 import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
 import id.android.kmabsensi.data.repository.KomShipRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
@@ -98,6 +99,16 @@ class OrderCartViewModel(
             if (it.isChecked) count.add(it)
         }
         return count
+    }
+
+    fun getPartnerPosition(list: MutableList<KomPartnerItem>, idPartner : Int): Int{
+        var position = 0
+        for (id in 0 until list.size){
+            if (list[id].partnerId == idPartner){
+                position = id
+            }
+        }
+        return position
     }
 
     override fun onError(error: Throwable) {

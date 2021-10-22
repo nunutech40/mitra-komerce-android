@@ -2,13 +2,11 @@ package id.android.kmabsensi.data.repository
 
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
-import id.android.kmabsensi.data.remote.body.komship.DeleteParams
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.data.remote.service.ApiServiceKomship
 import io.reactivex.Single
-import okhttp3.RequestBody
 
 class KomShipRepository(val apiService: ApiServiceKomship) {
 

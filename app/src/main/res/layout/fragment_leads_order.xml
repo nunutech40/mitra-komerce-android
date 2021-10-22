@@ -7,6 +7,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.komship.leads.LeadsOrderFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_empty_cart"
+        style="@style/tv18inter_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data tidak ada"
+        android:textAlignment="center"
+        android:textColor="@color/cl_grey_dark_tx_new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayoutCompat6"
         android:layout_width="match_parent"

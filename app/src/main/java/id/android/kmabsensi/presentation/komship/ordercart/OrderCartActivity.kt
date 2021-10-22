@@ -1,7 +1,6 @@
 package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -36,12 +35,10 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     private val isDirectOrder by lazy {
         intent.getBooleanExtra("_isDirectOrder", false)
     }
-
+    private var idPartner   = 0
     private val listChecked = ArrayList<Int>()
     private val listId : ArrayList<Int> = ArrayList()
-
     private var dataPartner: MutableList<KomPartnerItem> = ArrayList()
-
     private var sklList: SkeletonScreen? = null
     private var sklPartner: SkeletonScreen? = null
 
@@ -124,6 +121,8 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                     sklPartner?.hide()
                     dataPartner.addAll(it.data.data!!)
                     setupSpinnerPartner(it.data.data)
+                    // todo : testing
+                    binding.spPartner.setSelection(vm.getPartnerPosition(dataPartner, idPartner))
                 }
                 is UiState.Error -> {
                     sklPartner?.hide()
@@ -134,6 +133,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     }
 
     private fun setupView(){
+        idPartner = intent.getIntExtra("_idPartner", 0)
         vm.getPartner()
         vm.GetDataCart()
     }
@@ -195,7 +195,13 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            orderAdapter.setData(vm.filterCart(myCart, dataPartner[position].partnerId!!))
+                            idPartner = dataPartner[position].partnerId!!
+
+                            if (vm.filterCart(myCart, idPartner).size<=0){
+                                binding.tvEmptyCart.visible()
+                            }else binding.tvEmptyCart.gone()
+
+                            orderAdapter.setData(vm.filterCart(myCart, idPartner))
                         }
                     }
             }
@@ -222,13 +228,16 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
             }
 
             btnOrder.setOnClickListener {
-                val list: ArrayList<Int> = ArrayList()
-                checked.forEach {
-                    list.add(it.item.cartId!!)
+                if (checked.size > 0 && idPartner > 0){
+                    val list: ArrayList<Int> = ArrayList()
+                    checked.forEach {
+                        list.add(it.item.cartId!!)
+                    }
+                    startActivity<DeliveryActivity>(
+                        "_dataOrder" to checked,
+                        "_idPartner" to idPartner
+                    )
                 }
-                startActivity<DeliveryActivity>(
-                    "_dataOrder" to checked
-                )
             }
         }
     }

@@ -342,5 +342,8 @@
     <string name="checkin">Check In</string>
     <string name="cari">Cari</string>
     <string name="selengkapnya">Selengkapnya</string>
+    <string name="orderku">Orderku</string>
+    <string name="paket_tidak_tersedia">Paket ini tidak tersedia</string>
+    <string name="tampilkan_lebih_sedikit">Tampilkan lebih sedikit</string>
 
 </resources>

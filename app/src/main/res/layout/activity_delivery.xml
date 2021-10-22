@@ -52,6 +52,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_white_10dp"
                     android:paddingHorizontal="@dimen/_16dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:stateListAnimator="@null"
                     android:text="@string/selengkapnya"
                     android:textAllCaps="false"
