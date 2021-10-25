@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.komship.myorder
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -24,7 +25,8 @@ import id.android.kmabsensi.data.remote.response.komship.VariantKomItem
 import id.android.kmabsensi.databinding.FragmentMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
-import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
+import id.android.kmabsensi.presentation.komship.delivery.DeliveryActivity
+import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.presentation.komship.selectproduct.SelectProductActivity
 import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
@@ -54,6 +56,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private var sklPartner: SkeletonScreen? = null
     private var sklProduct: SkeletonScreen? = null
 
+    private var orderList : MutableList<ValidateChecked> = ArrayList()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListener()
@@ -62,6 +66,31 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     }
 
     private fun setupObserver() {
+        vm.cartState.observe(requireActivity(), {
+            when (it) {
+                is UiState.Loading -> {
+                    Timber.tag("_cartState").d("on Loading")
+                }
+                is UiState.Success -> {
+                    binding?.apply {
+                        btnOrder.disableButton(true)
+                        progressBar.gone()
+                    }
+                    orderList.clear()
+                    orderList.add(ValidateChecked(it.data.data!![0], 0, true))
+                    Log.d("_cartStateTAG", "setupObserver: ${it.data.data!![0]} \n" +
+                            "${it.data.data}")
+                    requireActivity().startActivity<DeliveryActivity>(
+                        "_dataOrder" to orderList,
+                        "_idPartner" to idPartner
+                    )
+                }
+                is UiState.Error -> {
+                    Timber.tag("_cartState").d("on Error ${it.throwable}")
+                }
+            }
+        })
+
         vm.addCartState.observe(requireActivity(), {
             when (it) {
                 is UiState.Loading -> {
@@ -72,15 +101,13 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     Timber.tag("_addCartState").d("on loading")
                 }
                 is UiState.Success -> {
-                    binding?.apply {
-                        btnOrder.disableButton(true)
-                        progressBar.gone()
-                    }
                     if (isDirectOrder) {
-                        requireActivity().startActivity<OrderCartActivity>(
-                            "idPartner" to idPartner,
-                            "_isDirectOrder" to isDirectOrder)
+                        vm.getDataCart()
                     } else {
+                        binding?.apply {
+                            btnOrder.disableButton(true)
+                            progressBar.gone()
+                        }
                         requireActivity().toast("Data berhasil ditambahkan ke keranjang.")
                     }
                     updateQTY("reset")
@@ -138,7 +165,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             variantSize = data.variant!!.size
             imgProduct.loadImageFromUrl(
                 if (data.productImage?.size != 0) data.productImage?.get(0)!!
-                else "https://www.kindpng.com/picc/m/600-6008515_shopping-transparent-design-png-shopping-bag-icon-png.png"
+                else URL_SHOPPING_EMPTY
             )
             tvNameProduct.text = data.productName ?: "-"
             tvPrice.text = convertRupiah(data.price?.toDouble()!!)
@@ -192,8 +219,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnPlus.setOnClickListener {
                 if (vm.validateMaxProduct(totalProduct, maxProduct)) {
-//                    totalProduct += 1
-//                    tvTotal.text = totalProduct.toString()
                     updateQTY("plus")
                 } else {
                     requireActivity().toast("sudah mencapai batas max")
@@ -226,8 +251,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
             btnMinus.setOnClickListener {
                 if (vm.validateMinProduct(totalProduct)) {
-//                    totalProduct -= 1
-//                    tvTotal.text = totalProduct.toString()
                     updateQTY("minus")
                 } else {
                     requireActivity().toast("sudah mencapai batas min")
@@ -243,23 +266,23 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             }
 
             /** variant Size = total variant is availeble in product */
-            chipVarian1.setOnCheckedChangeListener { group, checkedId ->
+            chipVarian1.setOnCheckedChangeListener { _, checkedId ->
                 setupChipChangeListener(checkedId, 1)
             }
 
-            chipVarian2.setOnCheckedChangeListener { group, checkedId ->
+            chipVarian2.setOnCheckedChangeListener { _, checkedId ->
                 setupChipChangeListener(checkedId, 2)
             }
 
-            chipVarian3.setOnCheckedChangeListener { group, checkedId ->
+            chipVarian3.setOnCheckedChangeListener { _, checkedId ->
                 setupChipChangeListener(checkedId, 3)
             }
 
-            chipVarian4.setOnCheckedChangeListener { group, checkedId ->
+            chipVarian4.setOnCheckedChangeListener { _, checkedId ->
                 setupChipChangeListener(checkedId, 4)
             }
 
-            chipVarian5.setOnCheckedChangeListener { group, checkedId ->
+            chipVarian5.setOnCheckedChangeListener { _, checkedId ->
                 setupChipChangeListener(checkedId, 5)
             }
 
@@ -313,7 +336,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private val startResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                dataProductItem = it.data?.getParcelableExtra<ProductKomItem>(productKey)!!
+                dataProductItem = it.data?.getParcelableExtra(productKey)!!
                 setupContentProduct(dataProductItem)
                 hiddenVariant(0)
                 binding?.tieProduk?.text = dataProductItem.productName?.toEditable()

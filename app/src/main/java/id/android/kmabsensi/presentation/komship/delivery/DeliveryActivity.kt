@@ -42,26 +42,26 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
     private val idPartner by lazy {
         intent.getIntExtra("_idPartner", 0)
     }
-    private var listIdOrder = ArrayList<Int>()
-    private var listExpandable = false
-    private var listOrder: MutableList<CartItem> = ArrayList()
     private lateinit var datePick: Date
-    private var productAdapter: ProductDetailAdapter? = null
-    private var paymentMethode = ""
-    private var nameBank = ""
-    private var typeEkspedisi = "REG"
-    private val listCalculate: MutableList<CalculateItem> = ArrayList()
-    private var dataCalculate = CalculateItem()
-    private var destination: DestinationItem? = null
-    private var listCustomer: MutableList<CustomerItem> = ArrayList()
+    private var listOrder       : MutableList<CartItem> = ArrayList()
+    private val listCalculate   : MutableList<CalculateItem> = ArrayList()
+    private var listCustomer    : MutableList<CustomerItem> = ArrayList()
+    private var listBank        : MutableList<BankItem> = ArrayList()
+    private var productAdapter  : ProductDetailAdapter? = null
+    private var destination     : DestinationItem?   = null
     private var listCustomerName = ArrayList<String>()
-    private var cust = CustomerItem()
-    private var listBank: MutableList<BankItem> = ArrayList()
-    private var listBankName = ArrayList<String>()
-    private var bankItem = BankItem()
-    private var costOrder = 0
-    private var costShippingCost = 0
-    private var discount = 0
+    private var listIdOrder     = ArrayList<Int>()
+    private var listExpandable  = false
+    private var paymentMethode  = ""
+    private var nameBank        = ""
+    private var typeEkspedisi   = "REG"
+    private var dataCalculate   = CalculateItem()
+    private var cust            = CustomerItem()
+    private var listBankName    = ArrayList<String>()
+    private var bankItem        = BankItem()
+    private var costOrder       = 0
+    private var costShipping    = 0
+    private var discount        = 0
 
     /** disable payment methode */
     private var isPayment = false
@@ -187,7 +187,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isEnabled = true
 
                 tvSendingCost.text = convertRupiah(calculate.item.shippingCost!!)
-                costShippingCost = calculate.item.shippingCost.toInt()
+                costShipping = calculate.item.shippingCost.toInt()
                 tvTotalCost.text = convertRupiah(calculate.item.grandtotal!!.toDouble())
             }
         } else {
@@ -196,9 +196,8 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
                 btnOrder.isClickable = false
                 btnOrder.isEnabled = false
-
                 tvSendingCost.text = getString(R.string.paket_tidak_tersedia)
-                costShippingCost = 0
+                costShipping = 0
                 tvTotalCost.text = convertRupiah(totalCost().toDouble())
             }
         }
@@ -401,7 +400,6 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 
     private fun validateCreateOrder(): Boolean {
         binding.apply {
-//            cust = vm.getCustomerDetail(listCustomer, acCustomer.text.toString())
             return validationTextInputEditText(tieDate, tilDate, "Form tidak boleh kosong") &&
                     acCustomer.validateAutoComplete(tilCustomer, "Form tidak boleh kosong") &&
                     validationTextInputEditText(tieTelp, tilTelp, "Form tidak boleh kosong") &&
@@ -441,7 +439,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
     }
 
     private fun totalCost(): Int {
-        return costOrder + costShippingCost
+        return costOrder + costShipping
     }
 
     private fun showSkeleton(){

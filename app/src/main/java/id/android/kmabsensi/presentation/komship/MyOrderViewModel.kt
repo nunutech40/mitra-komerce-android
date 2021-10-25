@@ -24,15 +24,35 @@ class MyOrderViewModel(
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
     }
 
-    val partnerState: MutableLiveData<UiState<KomPartnerResponse>> = MutableLiveData()
-    val productState: MutableLiveData<UiState<KomProductByPartnerResponse>> = MutableLiveData()
-    val addCartState: MutableLiveData<UiState<BaseResponse>> = MutableLiveData()
-    val orderByPartnerState: MutableLiveData<UiState<KomListOrderByPartnerResponse>> =
-        MutableLiveData()
+    val partnerState: MutableLiveData<UiState<KomPartnerResponse>>
+    = MutableLiveData()
+    val productState: MutableLiveData<UiState<KomProductByPartnerResponse>>
+    = MutableLiveData()
+    val addCartState: MutableLiveData<UiState<BaseResponse>>
+    = MutableLiveData()
+    val orderByPartnerState: MutableLiveData<UiState<KomListOrderByPartnerResponse>>
+    = MutableLiveData()
+    val cartState: MutableLiveData<UiState<KomCartResponse>>
+    = MutableLiveData()
 
     fun validateMinProduct(total: Int): Boolean = total > 1
 
     fun validateMaxProduct(total: Int, max: Int): Boolean = total <= max
+
+    fun getDataCart() {
+        cartState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getCart()
+                .with(schedulerProvider)
+                .subscribe(
+                    {
+                        cartState.value = UiState.Success(it)
+                    }, {
+                        cartState.value = UiState.Error(it)
+                    }
+                )
+        )
+    }
 
     fun getOrderByPartner(
         idPartner: Int,

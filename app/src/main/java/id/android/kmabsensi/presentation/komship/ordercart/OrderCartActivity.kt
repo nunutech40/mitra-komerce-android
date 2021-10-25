@@ -86,7 +86,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         vm.deleteState.observe(this, {
             when(it){
                 is UiState.Loading -> {
-                    showSkeleton()
+                    sklList?.show()
                     Timber.tag(TAG).d("on Loading ")
                 }
                 is UiState.Success -> {

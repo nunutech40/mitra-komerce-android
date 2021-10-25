@@ -62,3 +62,6 @@ enum class SORT_TYPE {
 
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"
+
+// dummy image shopping
+const val URL_SHOPPING_EMPTY = "https://www.pngitem.com/pimgs/m/208-2086269_instagram-shopping-icon-png-transparent-png.png"

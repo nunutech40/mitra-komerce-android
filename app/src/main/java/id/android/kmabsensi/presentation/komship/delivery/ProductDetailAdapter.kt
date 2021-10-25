@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.databinding.ItemRowProductDetailBinding
+import id.android.kmabsensi.utils.URL_SHOPPING_EMPTY
 import id.android.kmabsensi.utils.convertRupiah
 import id.android.kmabsensi.utils.loadImageFromUrl
 
@@ -24,9 +25,7 @@ class ProductDetailAdapter(
                 tvPrice.text = convertRupiah(data.productPrice?.toDouble()!!)
                 tvVariant.text = data.variantName
                 tvDetailProduct.text = "${data.qty} Barang (x gram)"
-                // TODO : Dummy image
-//                imgProduct.loadImageFromUrl(data.productImage?.get(0) ?: "https://png.pngtree.com/png-vector/20191031/ourlarge/pngtree-t-shirt-and-hanger-vector-illustration-isolated-on-white-background-clothes-png-image_1928833.jpg")
-                imgProduct.loadImageFromUrl("https://png.pngtree.com/png-vector/20191031/ourlarge/pngtree-t-shirt-and-hanger-vector-illustration-isolated-on-white-background-clothes-png-image_1928833.jpg")
+                imgProduct.loadImageFromUrl(if (data.productImage?.isNotEmpty()!!) data.productImage.get(0) else URL_SHOPPING_EMPTY)
             }
         }
     }
