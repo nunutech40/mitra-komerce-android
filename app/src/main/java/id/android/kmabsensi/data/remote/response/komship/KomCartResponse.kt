@@ -45,7 +45,7 @@ data class CartItem(
 	val stock: Int? = null,
 
 	@field:SerializedName("product_image")
-	val productImage: List<String>? = null,
+	val productImage: String? = null,
 
 	@field:SerializedName("variant_name")
 	val variantName: String? = null,

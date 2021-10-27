@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.komship.selectproduct
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.android.kmabsensi.data.remote.response.komship.ProductKomItem
@@ -23,7 +24,7 @@ class SelectProductActivity : BaseActivityRf<ActivitySelectProductBinding>(
         setupToolbar("Pilih Produk", isBackable = true)
         setupList()
         setupListener()
-
+        Log.d("_listProduct", "listProduct: $listProduct")
     }
 
     private fun setupListener(){

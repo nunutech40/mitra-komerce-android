@@ -36,7 +36,7 @@ interface ApiServiceKomship {
     fun addCart(
         @Body body: Map<String, Any>
     )
-    : Single<BaseResponse>
+    : Single<KomAddCartResponse>
 
     @GET("api/v1/order/{id_partner}")
     fun getOrderByPartner(

@@ -55,7 +55,7 @@ class DataOrderAdapter(
                 tvUsername.text = data.customerName
                 tvDateType.text = "${convertDate(data.orderDate!!)} - $type"
                 tvNameProduct.text = "${data.product?.get(0)?.productName}"
-                tvTotalPrice.text = convertRupiah(data.grandTotal!!.toDouble())
+                tvTotalPrice.text = convertRupiah((data.grandTotal ?: 0).toDouble())
                 tvResi.text = "Resi: ${data.airwayBill}"
                 tvTotalProduct.text = "$totalItem pcs (${data.product?.size} produk)"
                 tvStatus.setStatusView(data.orderStatus!!)

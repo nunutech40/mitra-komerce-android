@@ -1,5 +1,6 @@
 package id.android.kmabsensi.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -7,7 +8,6 @@ import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -20,7 +20,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import okhttp3.MediaType
 import okhttp3.RequestBody
 import id.android.kmabsensi.R
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -28,7 +27,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
@@ -162,12 +160,14 @@ interface onWarningClicked{
 
 fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
+@SuppressLint("SimpleDateFormat")
 fun convertDate(date: String): String{
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val sdf = SimpleDateFormat("dd MMMM yyyy")
     return sdf.format(dateFormat.parse(date))
 }
 
+@SuppressLint("SimpleDateFormat")
 fun convertTime(date: String): String{
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val sdf = SimpleDateFormat("HH:mm")
@@ -203,7 +203,7 @@ fun AppCompatTextView.setStatusOrderView(status : String){
 }
 
 fun openWhatsappContact(context: Context, number: String) {
-    var phone = when {
+    val phone = when {
         number.take(1) == "0" -> "+62${number.drop(1)}"
         number.take(1) == "6" -> "+$number"
         else -> number

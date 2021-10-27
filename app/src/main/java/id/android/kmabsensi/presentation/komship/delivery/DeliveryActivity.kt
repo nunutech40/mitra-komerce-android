@@ -186,9 +186,9 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = true
                 btnOrder.isEnabled = true
 
-                tvSendingCost.text = convertRupiah(calculate.item.shippingCost!!)
-                costShipping = calculate.item.shippingCost.toInt()
-                tvTotalCost.text = convertRupiah(calculate.item.grandtotal!!.toDouble())
+                tvSendingCost.text = convertRupiah((calculate.item.shippingCost ?: 0.0))
+                costShipping = (calculate.item.shippingCost ?: 0).toInt()
+                tvTotalCost.text = convertRupiah((calculate.item.grandtotal ?: 0).toDouble())
             }
         } else {
             dataCalculate = CalculateItem()
@@ -426,7 +426,6 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                     isPayment = destination != null
                     setEnableShipping(isPayment)
                 }
-
             }
         }
 

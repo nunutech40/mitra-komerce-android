@@ -28,31 +28,14 @@ class MyOrderViewModel(
     = MutableLiveData()
     val productState: MutableLiveData<UiState<KomProductByPartnerResponse>>
     = MutableLiveData()
-    val addCartState: MutableLiveData<UiState<BaseResponse>>
+    val addCartState: MutableLiveData<UiState<KomAddCartResponse>>
     = MutableLiveData()
     val orderByPartnerState: MutableLiveData<UiState<KomListOrderByPartnerResponse>>
-    = MutableLiveData()
-    val cartState: MutableLiveData<UiState<KomCartResponse>>
     = MutableLiveData()
 
     fun validateMinProduct(total: Int): Boolean = total > 1
 
-    fun validateMaxProduct(total: Int, max: Int): Boolean = total <= max
-
-    fun getDataCart() {
-        cartState.value = UiState.Loading()
-        compositeDisposable.add(
-            komShipRepository.getCart()
-                .with(schedulerProvider)
-                .subscribe(
-                    {
-                        cartState.value = UiState.Success(it)
-                    }, {
-                        cartState.value = UiState.Error(it)
-                    }
-                )
-        )
-    }
+    fun validateMaxProduct(total: Int, max: Int): Boolean = total < max
 
     fun getOrderByPartner(
         idPartner: Int,

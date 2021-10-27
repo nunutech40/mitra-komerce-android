@@ -22,10 +22,10 @@ class ProductDetailAdapter(
         fun bind(data: CartItem) {
             binding.apply {
                 tvNameProduct.text = data.productName
-                tvPrice.text = convertRupiah(data.productPrice?.toDouble()!!)
+                tvPrice.text = convertRupiah((data.productPrice ?: 0).toDouble())
                 tvVariant.text = data.variantName
                 tvDetailProduct.text = "${data.qty} Barang (x gram)"
-                imgProduct.loadImageFromUrl(if (data.productImage?.isNotEmpty()!!) data.productImage.get(0) else URL_SHOPPING_EMPTY)
+                imgProduct.loadImageFromUrl(data.productImage ?: URL_SHOPPING_EMPTY)
             }
         }
     }

@@ -2,7 +2,6 @@ package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,10 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.databinding.ItemRowOrderCartBinding
+import id.android.kmabsensi.utils.URL_SHOPPING_EMPTY
+import id.android.kmabsensi.utils.convertRp
+import id.android.kmabsensi.utils.convertRupiah
+import id.android.kmabsensi.utils.loadImageFromUrl
 import kotlinx.android.synthetic.main.item_row_order_cart.view.*
 
 class OrderCartAdapter(
     val context : Context,
+    val idCart: Int? = 0,
     val isDirectOrder: Boolean,
     val listener : onAdapterListener
     ): RecyclerView.Adapter<OrderCartAdapter.VHolder>() {
@@ -25,13 +29,13 @@ class OrderCartAdapter(
         fun bind(position: Int, data: CartItem) {
             binding.apply {
                 tvAvailableProduct.setTextColor(ContextCompat.getColor(context, R.color.cl_black))
-//                imgProduct.loadImageFromUrl(data.!!)
+                imgProduct.loadImageFromUrl(data.productImage?: URL_SHOPPING_EMPTY)
                 tvAvailable.text = "${data.stock} pcs"
                 maxQty = data.stock!!
                 tvAvailableProduct.text = data.variantName
                 tvNameProduct.text = data.productName
-                tvPrice.text = "Rp${data.productPrice}"
-                tvTotal.text = "${data.qty}"
+                tvPrice.text = convertRupiah((data.productPrice ?: 0).toDouble())
+                tvTotal.text = data.qty.toString()
                 cbOrder.isChecked = false
             }
         }
@@ -50,7 +54,7 @@ class OrderCartAdapter(
         holder.bind(position, data)
         holder.itemView.apply {
 
-            if (position == 0 && isDirectOrder){
+            if (data.cartId == idCart && isDirectOrder){
                 cb_order.isChecked = true
                 listener.onChecked(position, true, data)
             }
@@ -67,7 +71,7 @@ class OrderCartAdapter(
                 holder.itemView.tv_total.text = "$qty"
                 listener.onUpdateQty(data, qty)
             }
-            cb_order.setOnCheckedChangeListener { buttonView, isChecked ->
+            cb_order.setOnCheckedChangeListener { _, isChecked ->
                     listener.onChecked(position, isChecked, data)
             }
         }

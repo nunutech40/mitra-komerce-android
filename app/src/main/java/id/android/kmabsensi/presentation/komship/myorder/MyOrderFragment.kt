@@ -25,8 +25,7 @@ import id.android.kmabsensi.data.remote.response.komship.VariantKomItem
 import id.android.kmabsensi.databinding.FragmentMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
-import id.android.kmabsensi.presentation.komship.delivery.DeliveryActivity
-import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
+import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
 import id.android.kmabsensi.presentation.komship.selectproduct.SelectProductActivity
 import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
@@ -39,8 +38,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
     private val vm: MyOrderViewModel by inject()
     private var totalProduct = 1
-    private var maxProduct = 10
-    private val TAGp = "_partnerState"
+    private var maxProduct = 0
     private val productKey = "_productByPartner"
     private var dataPartner: MutableList<KomPartnerItem> = ArrayList()
     private var dataProduct: ArrayList<ProductKomItem> = ArrayList()
@@ -55,42 +53,14 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private var variantName = ArrayList<String>()
     private var sklPartner: SkeletonScreen? = null
     private var sklProduct: SkeletonScreen? = null
-
-    private var orderList : MutableList<ValidateChecked> = ArrayList()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupListener()
         setupView()
         setupObserver()
+        setupListener()
     }
 
     private fun setupObserver() {
-        vm.cartState.observe(requireActivity(), {
-            when (it) {
-                is UiState.Loading -> {
-                    Timber.tag("_cartState").d("on Loading")
-                }
-                is UiState.Success -> {
-                    binding?.apply {
-                        btnOrder.disableButton(true)
-                        progressBar.gone()
-                    }
-                    orderList.clear()
-                    orderList.add(ValidateChecked(it.data.data!![0], 0, true))
-                    Log.d("_cartStateTAG", "setupObserver: ${it.data.data!![0]} \n" +
-                            "${it.data.data}")
-                    requireActivity().startActivity<DeliveryActivity>(
-                        "_dataOrder" to orderList,
-                        "_idPartner" to idPartner
-                    )
-                }
-                is UiState.Error -> {
-                    Timber.tag("_cartState").d("on Error ${it.throwable}")
-                }
-            }
-        })
-
         vm.addCartState.observe(requireActivity(), {
             when (it) {
                 is UiState.Loading -> {
@@ -101,14 +71,18 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     Timber.tag("_addCartState").d("on loading")
                 }
                 is UiState.Success -> {
+                    binding?.apply {
+                        btnOrder.disableButton(true)
+                        progressBar.gone()
+                    }
                     if (isDirectOrder) {
-                        vm.getDataCart()
+                        val cartItem = it.data.data
+                        requireActivity().startActivity<OrderCartActivity>(
+                            "_isDirectOrder" to true,
+                            "_cartItem" to cartItem
+                        )
                     } else {
-                        binding?.apply {
-                            btnOrder.disableButton(true)
-                            progressBar.gone()
-                        }
-                        requireActivity().toast("Data berhasil ditambahkan ke keranjang.")
+                        requireActivity().toast(getString(R.string.data_cart_berhasil_ditambahkan))
                     }
                     updateQTY("reset")
                     resetForm()
@@ -127,7 +101,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             when (it) {
                 is UiState.Loading -> {
                     showSkeleton()
-                    Timber.tag(TAGp).d("on loading")
+                    Timber.tag("_partnerState").d("on loading")
                 }
                 is UiState.Success -> {
                     binding?.srMyOrder?.isRefreshing = false
@@ -138,7 +112,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 is UiState.Error -> {
                     binding?.srMyOrder?.isRefreshing = false
                     sklPartner?.hide()
-                    Timber.d(it.throwable)
+                    Timber.tag("_partnerState").d("on error ${it.throwable}")
                 }
             }
         })
@@ -153,7 +127,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 }
                 is UiState.Error -> {
                     sklProduct?.hide()
-                    Timber.d(it.throwable)
+                    Timber.tag("_productState").d(it.throwable)
                 }
             }
         })
@@ -162,22 +136,20 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     private fun setupContentProduct(data: ProductKomItem) {
         binding?.apply {
             llDetailProduct.visible()
-            variantSize = data.variant!!.size
-            imgProduct.loadImageFromUrl(
-                if (data.productImage?.size != 0) data.productImage?.get(0)!!
-                else URL_SHOPPING_EMPTY
-            )
+            variantSize = data.variant?.size ?: 0
+            imgProduct.loadImageFromUrl(data.productImage ?: URL_SHOPPING_EMPTY )
             tvNameProduct.text = data.productName ?: "-"
-            tvPrice.text = convertRupiah(data.price?.toDouble()!!)
-            tvAvailableProduct.text = "Tersedia: ${data.stock} Pcs"
-            setupChip(data.variant[0], 0)
+            tvPrice.text = convertRupiah((data.price ?: 0).toDouble())
+            val productAvailable = "Tersedia: ${data.stock} Pcs"
+            tvAvailableProduct.text = productAvailable
+            setupChip(data.variant!![0], 0)
         }
     }
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
         data?.forEach {
-            partner.add(it.partnerName!!)
+            partner.add(it.partnerName ?: "-")
         }
 
         ArrayAdapter(requireContext(), R.layout.spinner_item, partner)
@@ -196,8 +168,10 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            idPartner = dataPartner[position].partnerId!!
-                            vm.getProduct(idPartner)
+                            idPartner = dataPartner[position].partnerId ?: 0
+                            if (idPartner != 0){
+                                vm.getProduct(idPartner)
+                            }
                         }
                     }
             }
@@ -218,6 +192,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             }
 
             btnPlus.setOnClickListener {
+                Log.d("_maxProduct", "maxProduct: $maxProduct")
                 if (vm.validateMaxProduct(totalProduct, maxProduct)) {
                     updateQTY("plus")
                 } else {
@@ -303,9 +278,12 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 if (it.optionId == optionsId) {
                     binding?.apply {
                         setupButton(true)
-                        tvNameProduct.text = "${dataProductItem.productName} - ${it.name}"
-                        tvPrice.text = convertRupiah(it.price?.toDouble()!!)
-                        tvAvailableProduct.text = "Tersedia: ${it.stock} Pcs"
+                        val productName = "${dataProductItem.productName} - ${it.name}"
+                        val availableProduct = "Tersedia: ${it.stock} Pcs"
+                        maxProduct = it.stock ?: 0
+                        tvNameProduct.text = productName
+                        tvAvailableProduct.text = availableProduct
+                        tvPrice.text = convertRupiah((it.price ?: 0).toDouble())
 
                         btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
                         imgCart.setImageDrawable(
@@ -362,7 +340,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
         }
     }
 
-
     private fun createChipItem(
         ll: LinearLayoutCompat,
         cg: ChipGroup,
@@ -372,7 +349,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     ) {
         ll.visible()
         dv.apply {
-            tv.text = "Pilih ${this.variantName}"
+            val titleVariant = "Pilih ${this.variantName}"
+            tv.text = titleVariant
             cg.removeAllViews()
             this.variantOption?.forEach {
                 if (it.optionParent == optionId) {
@@ -400,7 +378,8 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         llVariant1.visible()
                         chipVarian1.removeAllViews()
                         dataVariant.apply {
-                            tvNameVariant1.text = "Pilih ${this.variantName}"
+                            val titleVariant = "Pilih ${this.variantName}"
+                            tvNameVariant1.text = titleVariant
                             this.variantOption?.forEach {
                                 val chip = this@MyOrderFragment.layoutInflater.inflate(
                                     R.layout.custom_chip_order,
@@ -417,34 +396,13 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         }
                     }
                 }
-                1 -> createChipItem(
-                    llVariant2,
-                    chipVarian2,
-                    tvNameVariant2,
-                    dataVariant,
-                    optionId!!
-                )
-                2 -> createChipItem(
-                    llVariant3,
-                    chipVarian3,
-                    tvNameVariant3,
-                    dataVariant,
-                    optionId!!
-                )
-                3 -> createChipItem(
-                    llVariant4,
-                    chipVarian4,
-                    tvNameVariant4,
-                    dataVariant,
-                    optionId!!
-                )
-                4 -> createChipItem(
-                    llVariant5,
-                    chipVarian5,
-                    tvNameVariant5,
-                    dataVariant,
-                    optionId!!
-                )
+                1 -> createChipItem(llVariant2, chipVarian2, tvNameVariant2, dataVariant, optionId ?: 0)
+
+                2 -> createChipItem(llVariant3, chipVarian3, tvNameVariant3, dataVariant, optionId ?: 0)
+
+                3 -> createChipItem(llVariant4, chipVarian4, tvNameVariant4, dataVariant, optionId ?: 0)
+
+                4 -> createChipItem(llVariant5, chipVarian5, tvNameVariant5, dataVariant, optionId ?: 0)
             }
         }
     }

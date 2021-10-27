@@ -22,7 +22,7 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
     fun updateQtyCart(cart_id: Int, qty : Int) :Single<BaseResponse>
     = apiService.updateQtyCart(cart_id, qty)
 
-    fun addCart(data : AddCartParams): Single<BaseResponse>{
+    fun addCart(data : AddCartParams): Single<KomAddCartResponse>{
         val body = mapOf(
             "partner_id" to data.idPartner,
             "product_id" to data.productId,

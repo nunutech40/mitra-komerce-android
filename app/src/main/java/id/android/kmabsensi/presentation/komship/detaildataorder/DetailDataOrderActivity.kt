@@ -105,7 +105,7 @@ class DetailDataOrderActivity : BaseActivityRf<ActivityDetailDataOrderBinding>(
                 tvOrderDate.text = convertDate(detailOrder?.orderDate!!)
                 tvCustomerName.text = detailOrder?.customerName
                 tvAddress.text = detailOrder?.customerAddress
-                tvPayment.text = convertRupiah(detailOrder?.grandtotal?.toDouble()!!)
+                tvPayment.text = convertRupiah((detailOrder?.grandtotal ?: 0).toDouble())
                 tvSendingType.text = detailOrder?.shippingType
             }
         }

@@ -27,18 +27,18 @@ import kotlin.collections.ArrayList
 class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     ActivityOrderCartBinding::inflate
 ) {
-    private val TAG = "_cartState"
-    private val vm : OrderCartViewModel by inject()
-    private var checked : MutableList<ValidateChecked> = ArrayList()
-    private lateinit var orderAdapter : OrderCartAdapter
-    private var myCart = ArrayList<CartItem>()
+    private val vm: OrderCartViewModel by inject()
+    private lateinit var orderAdapter: OrderCartAdapter
+    private var checked     : MutableList<ValidateChecked> = ArrayList()
+    private val listId      : ArrayList<Int> = ArrayList()
+    private var dataPartner : MutableList<KomPartnerItem> = ArrayList()
+    private var myCart      = ArrayList<CartItem>()
+    private val listChecked = ArrayList<Int>()
     private val isDirectOrder by lazy {
         intent.getBooleanExtra("_isDirectOrder", false)
     }
-    private var idPartner   = 0
-    private val listChecked = ArrayList<Int>()
-    private val listId : ArrayList<Int> = ArrayList()
-    private var dataPartner: MutableList<KomPartnerItem> = ArrayList()
+    private var cartItem = CartItem()
+    private var idPartner = 0
     private var sklList: SkeletonScreen? = null
     private var sklPartner: SkeletonScreen? = null
 
@@ -47,32 +47,29 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         setupToolbar("Keranjang", isBackable = true, isDelete = true)
         setupView()
         setupObserve()
-        if (isDirectOrder && myCart.size != 0){
+        if (isDirectOrder && myCart.size != 0) {
             setupDirectOrder()
         }
         setupList()
         setupListener()
     }
 
-    private fun setupObserve(){
+    private fun setupObserve() {
         vm.cartState.observe(this, {
             when (it) {
                 is UiState.Loading -> {
-                    Timber.tag(TAG).d("on Loading ")
+                    Timber.tag("_cartState").d("on Loading ")
                 }
                 is UiState.Success -> {
                     sklList?.hide()
                     binding.apply {
                         srListCart.isRefreshing = false
-                        if (myCart.size<1){
-                            tvEmptyCart.visible()
-                       } else{
-                           tvEmptyCart.gone()
-                           orderChecked()
-                       }
                     }
                     myCart.clear()
                     myCart.addAll(it.data.data!!)
+                    if (myCart.size<1){
+                        binding.tvEmptyCart.gone()
+                    }else binding.tvEmptyCart.visible()
                     orderAdapter.setData(myCart)
                 }
                 is UiState.Error -> {
@@ -84,10 +81,10 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         })
 
         vm.deleteState.observe(this, {
-            when(it){
+            when (it) {
                 is UiState.Loading -> {
                     sklList?.show()
-                    Timber.tag(TAG).d("on Loading ")
+                    Timber.tag("_cartState").d("on Loading ")
                 }
                 is UiState.Success -> {
                     sklList?.hide()
@@ -103,7 +100,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
         vm.updateQtyState.observe(this, {
             when (it) {
-                is UiState.Loading -> Timber.tag(TAG).d("onLoding ")
+                is UiState.Loading -> Timber.tag("_cartState").d("onLoding ")
                 is UiState.Success -> {
                     vm.GetDataCart()
                 }
@@ -113,16 +110,15 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
         vm.partnerState.observe(this, {
             when (it) {
-                is UiState.Loading ->{
+                is UiState.Loading -> {
                     showSkeleton()
-                    Timber.tag(TAG).d("onLoding ")
+                    Timber.tag("_cartState").d("onLoding ")
                 }
                 is UiState.Success -> {
                     sklPartner?.hide()
+                    dataPartner.clear()
                     dataPartner.addAll(it.data.data!!)
-                    setupSpinnerPartner(it.data.data)
-                    // todo : testing
-                    binding.spPartner.setSelection(vm.getPartnerPosition(dataPartner, idPartner))
+                    setupSpinnerPartner(dataPartner)
                 }
                 is UiState.Error -> {
                     sklPartner?.hide()
@@ -132,40 +128,46 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         })
     }
 
-    private fun setupView(){
+    private fun setupView() {
+        if (isDirectOrder){
+            cartItem = intent.getParcelableExtra("_cartItem")!!
+        }
         idPartner = intent.getIntExtra("_idPartner", 0)
-        vm.getPartner()
         vm.GetDataCart()
+        vm.getPartner()
     }
 
-    private fun setupDirectOrder(){
+    private fun setupDirectOrder() {
         listChecked.add(0)
         listId.add(myCart[0].cartId!!)
     }
+
     private fun setupList() {
-        orderAdapter = OrderCartAdapter(this, isDirectOrder, object : OrderCartAdapter.onAdapterListener{
-            override fun onChecked(position: Int, isChecked : Boolean, product: CartItem) {
+        orderAdapter =
+            OrderCartAdapter(this,  cartItem.cartId, isDirectOrder, object : OrderCartAdapter.onAdapterListener {
+                override fun onChecked(position: Int, isChecked: Boolean, product: CartItem) {
 
-                if (isChecked){
-                    /** set position checked*/
-                    listChecked.add(position)
-                    listId.add(product.cartId!!)
-                }else{
-                    listId.remove(product.cartId!!)
-                    listChecked.remove(position)
+                    if (isChecked) {
+                        /** set position checked*/
+                        listChecked.add(position)
+                        listId.add(product.cartId!!)
+                    } else {
+                        listId.remove(product.cartId!!)
+                        listChecked.remove(position)
+                    }
+
+                    if (isChecked) {
+                        checked.add(ValidateChecked(product, position, isChecked))
+                    } else {
+                        checked.remove(ValidateChecked(product, position, true))
+                    }
+                    orderChecked()
                 }
 
-                if(isChecked){
-                    checked.add(ValidateChecked(product, position, isChecked))
-                }else{
-                    checked.remove(ValidateChecked(product, position, true))
+                override fun onUpdateQty(product: CartItem, qty: Int) {
+                    vm.UpdateQtyCart(product.cartId!!, qty)
                 }
-                orderChecked()
-            }
-            override fun onUpdateQty(product: CartItem, qty: Int) {
-                vm.UpdateQtyCart(product.cartId!!, qty)
-            }
-        })
+            })
         binding.rvOrderCart.apply {
             adapter = orderAdapter
             layoutManager = LinearLayoutManager(this@OrderCartActivity)
@@ -196,18 +198,19 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                             id: Long
                         ) {
                             idPartner = dataPartner[position].partnerId!!
-
-                            if (vm.filterCart(myCart, idPartner).size<=0){
+                            if (vm.filterCart(myCart, idPartner).size < 1) {
                                 binding.tvEmptyCart.visible()
-                            }else binding.tvEmptyCart.gone()
-
+                            } else {
+                                binding.tvEmptyCart.gone()
+                                orderChecked()
+                            }
                             orderAdapter.setData(vm.filterCart(myCart, idPartner))
                         }
                     }
             }
     }
 
-    private fun setupListener(){
+    private fun setupListener() {
         binding.apply {
 
             srListCart.setOnRefreshListener {
@@ -217,18 +220,18 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
             toolbar.tvDelete.setOnClickListener {
                 val list: ArrayList<Int> = ArrayList()
-                if (checked.size > 0){
+                if (checked.size > 0) {
                     checked.forEach {
                         list.add(it.item.cartId!!)
                     }
                     vm.DeleteCart(list)
-                }else{
-                    toast("Anda belum memilih data yang akan dihapus.")
+                } else {
+                    toast(getString(R.string.anda_belum_memilih_item))
                 }
             }
 
             btnOrder.setOnClickListener {
-                if (checked.size > 0 && idPartner > 0){
+                if (checked.size > 0 && idPartner > 0) {
                     val list: ArrayList<Int> = ArrayList()
                     checked.forEach {
                         list.add(it.item.cartId!!)
@@ -243,16 +246,16 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     }
 
     /** set checked list*/
-    fun orderChecked(){
-        binding.btnOrder.text = "Order (${listChecked.size})"
+    fun orderChecked() {
+        val textBtnOrder = "Order (${listChecked.size})"
+        binding.btnOrder.text = textBtnOrder
         if (vm.validateOrderChecked(checked).size > 0) {
             binding.btnOrder.apply {
                 setBackgroundResource(R.drawable.bg_orange_10dp)
                 isEnabled = true
                 isClickable = true
             }
-        }
-        else {
+        } else {
             binding.btnOrder.apply {
                 setBackgroundResource(R.drawable.bg_grey_8dp)
                 isEnabled = false
@@ -261,20 +264,20 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
         }
         var total = 0
         listChecked.forEach {
-            total += myCart[it].subtotal!!
+            total += myCart[it].subtotal ?: 0
         }
         binding.tvTotalPayment.text = convertRupiah(total.toDouble())
     }
 
-    private fun removeChecked(){
+    private fun removeChecked() {
         checked.clear()
         listChecked.clear()
         listId.clear()
         orderChecked()
     }
 
-    private fun showSkeleton(){
-        if (sklList == null){
+    private fun showSkeleton() {
+        if (sklList == null) {
             sklList = Skeleton.bind(binding.rvOrderCart)
                 .adapter(orderAdapter)
                 .load(R.layout.skeleton_list_cart)
@@ -282,7 +285,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
             sklPartner = Skeleton.bind(binding.spPartner)
                 .load(R.layout.skeleton_item_small)
                 .show()
-        }else{
+        } else {
             sklList?.show()
             sklPartner?.show()
         }

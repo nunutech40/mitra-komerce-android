@@ -23,7 +23,7 @@ class DetailOrderAdapter(
                 imgProduct.loadImageFromUrl(data.productImage?:"https://png.pngtree.com/png-vector/20190703/ourlarge/pngtree-shopping-bag-icon-in-trendy-style-isolated-background-png-image_1536177.jpg")
                 tvNameProduct.text = data.productName
                 tvVariant.text = data.variantName
-                tvPrice.text = convertRupiah(data.price?.toDouble()!!)
+                tvPrice.text = convertRupiah((data.price ?: 0).toDouble())
                 tvDetailProduct.text = "${data.qty} pcs (${data.weight}gr)"
             }
         }
