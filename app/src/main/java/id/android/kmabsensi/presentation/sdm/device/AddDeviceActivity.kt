@@ -66,7 +66,7 @@ class AddDeviceActivity : BaseActivity() {
 
     private var hasChangePartner = false
 
-    private var partners = mutableListOf<Partner>()
+//    private var partners = mutableListOf<Partner>()
 
     private val binding by lazy {
         ActivityAddDeviceBinding.inflate(layoutInflater)
@@ -76,7 +76,7 @@ class AddDeviceActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupToolbar("Tambah Device")
-        observePartner()
+        edtPilihPartner.setHint(getString(R.string.pilih_partner))
 
         device = intent.getParcelableExtra(DEVICE_DATA)
         initSpinner()
@@ -94,8 +94,7 @@ class AddDeviceActivity : BaseActivity() {
 
         binding.edtPilihPartner.setOnClickListener {
             startActivityForResult<PartnerPickerActivity>(
-                PICK_PARTNER_RC,
-                "listPartner" to partners
+                PICK_PARTNER_RC
             )
         }
 
@@ -250,7 +249,7 @@ class AddDeviceActivity : BaseActivity() {
             edtSpesifikasi.setText(it.spesification)
             val partnerDetail = PartnerDetail(noPartner = it.noPartner)
             partnerSelected = Partner(id = it.partner.id, fullName = it.partner.fullName, partnerDetail = partnerDetail)
-            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner!!.toInt())
+            sdmVM.getSdmByPartner(partnerSelected!!.partnerDetail.noPartner.toInt())
             sdmIdSelected = if (it.sdm == null) 0 else it.sdm.id
             edtPilihPartner.setText(it.partner.fullName)
             edtPilihSDM.setText(it.sdm?.fullName)
@@ -276,26 +275,8 @@ class AddDeviceActivity : BaseActivity() {
         }
     }
 
-    private fun observePartner(){
-        sdmVM.getDataPartners().observe(this, Observer {
-            when(it){
-                is UiState.Loading -> {
-                    edtPilihPartner.isEnabled = false
-                    edtPilihPartner.setHint(getString(R.string.text_loading))
-                    Log.d("_Partner", "LOADING")
-                }
-                is UiState.Success -> {
-                    edtPilihPartner.isEnabled = true
-                    edtPilihPartner.setHint(getString(R.string.pilih_partner))
-                    partners.addAll(it.data.partners)
-                }
-                is UiState.Error -> Log.d("_Partner", "ERROR ${it.throwable.message}")
-            }
-        })
-    }
-
     private fun observeSdm(){
-        sdmVM.sdmByPartner.observe(this, Observer {
+        sdmVM.sdmByPartner.observe(this, {
             state ->
             when(state) {
                 is UiState.Loading -> {
@@ -321,7 +302,7 @@ class AddDeviceActivity : BaseActivity() {
     }
 
     private fun observeResult(){
-        deviceVM.crudResult.observe(this, Observer {
+        deviceVM.crudResult.observe(this, {
             state ->
             when(state) {
                 is UiState.Loading -> {
@@ -346,7 +327,7 @@ class AddDeviceActivity : BaseActivity() {
     }
 
     fun observeDeleteAttachment(){
-        attachmentVM.deleteResult.observe(this, Observer { state ->
+        attachmentVM.deleteResult.observe(this, { state ->
         when(state) {
             is UiState.Loading -> {
             }
