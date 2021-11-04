@@ -122,13 +122,8 @@ class CameraActivity : AppCompatActivity() {
         }
         isToast = true
         if (isPermissions) {
-            Log.d("onRequestPermission", "onRequestPermissionsResult: " + "Allow all permissions")
             initCamera()
         } else {
-            Log.d(
-                "onRequestPermission",
-                "onRequestPermissionsResult: " + "Have permission not allowed"
-            )
             finish()
         }
     }

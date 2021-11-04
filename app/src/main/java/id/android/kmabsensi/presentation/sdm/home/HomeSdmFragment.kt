@@ -476,7 +476,7 @@ class HomeSdmFragment : Fragment() {
                 val now: Date = currentTime.time
 
                 val cal = Calendar.getInstance()
-                cal.set(Calendar.HOUR_OF_DAY, 16)
+                cal.set(Calendar.HOUR_OF_DAY, 17)
 //                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
@@ -484,7 +484,7 @@ class HomeSdmFragment : Fragment() {
                     (activity as HomeActivity).showDialogNotYetCheckout()
                 } else {
                     // office name contain rumah, can direct selfie
-                    if (presenceCheck.office_assigned.office_name.toLowerCase()
+                    if (presenceCheck.office_assigned.office_name.lowercase()
                             .contains("rumah") || isWFH || isEligibleToCheckoutOutside
                     ) {
                         context?.startActivity<CheckinActivity>(
@@ -503,7 +503,7 @@ class HomeSdmFragment : Fragment() {
         } else {
             if (isCheckinButtonClicked) {
                 //checkin
-                if (presenceCheck.office_assigned.office_name.toLowerCase()
+                if (presenceCheck.office_assigned.office_name.lowercase()
                         .contains("rumah") || isWFH || isEligibleToCheckInOutside
                 ) {
                     context?.startActivity<CheckinActivity>(

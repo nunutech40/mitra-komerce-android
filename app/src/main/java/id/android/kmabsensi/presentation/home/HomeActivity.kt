@@ -197,7 +197,7 @@ class HomeActivity : AppCompatActivity() {
         val time_datang = "08:00:00"
         val time_istirahat = "12:00:00"
         val time_istirhat_selesai = "13:00:00"
-        val time_pulang = "16:00:00"
+        val time_pulang = "17:00:00"
 
         val datang = Calendar.getInstance()
         val istirahat = Calendar.getInstance()
@@ -246,7 +246,7 @@ class HomeActivity : AppCompatActivity() {
             }
             now.before(pulang) -> {
                 statusWaktu = "Menuju Waktu Pulang"
-                nextTime = "16:00"
+                nextTime = "17:00"
                 endTime = simpleDateFormat.parse(time_pulang)
             }
             else -> statusWaktu = "Waktu Pulang"
