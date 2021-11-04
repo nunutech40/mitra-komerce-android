@@ -368,18 +368,7 @@ class HomeManagementFragment : Fragment() {
     }
 
     private fun onPresenceCheck(presenceCheck: PresenceCheckResponse) {
-
-//        var isEligibleToCheckInOutside = false
-//        var isEligibleToCheckoutOutside = false
         val isWFH = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-//        val isShiftMode = presenceCheck.work_config.find { config -> config.key == ModeKerjaActivity.SHIFT_MODE }?.value == ModeKerjaActivity.MODE_ON
-//        val sdmConfig = presenceCheck.sdm_config
-//
-//        if (isShiftMode){
-//            isEligibleToCheckInOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_SIANG
-//            isEligibleToCheckoutOutside = sdmConfig.shiftMode == SdmShiftActivity.SHIFT_PAGI
-//        }
-
 
         if (presenceCheck.checkdeIn) {
             if (isCheckinButtonClicked) {
@@ -398,10 +387,11 @@ class HomeManagementFragment : Fragment() {
                 val now: Date = currentTime.time
 
                 val cal = Calendar.getInstance()
-                cal.set(Calendar.HOUR_OF_DAY, 16)
+                cal.set(Calendar.HOUR_OF_DAY, 17)
 //                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
+                Log.d("_jamPulang", "jamPulang: $jamPulang")
                 if (now.before(jamPulang)) {
                     (activity as HomeActivity).showDialogNotYetCheckout()
                 } else {
