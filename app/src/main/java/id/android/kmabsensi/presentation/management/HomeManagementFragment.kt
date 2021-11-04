@@ -391,7 +391,6 @@ class HomeManagementFragment : Fragment() {
 //                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
-                Log.d("_jamPulang", "jamPulang: $jamPulang")
                 if (now.before(jamPulang)) {
                     (activity as HomeActivity).showDialogNotYetCheckout()
                 } else {
