@@ -102,10 +102,8 @@ class HomeManagementFragment : Fragment() {
         binding = FragmentHomeManagementBinding.inflate(layoutInflater, container, false)
 
         user = vm.getUserData()
-        Log.d("TAGTAGTAG", "onCreateView: $user")
         d { user.toString() }
         myDialog = MyDialog(requireContext())
-
         return binding.root
     }
 
@@ -117,6 +115,7 @@ class HomeManagementFragment : Fragment() {
 
         vm.getJadwalShalat()
         vm.getCoworkUserData(user.id)
+
         getDashboardData()
         roleVM.getAccessMenuByPosition(user.position_id)
         textView24.text = getTodayDateTimeDay()
@@ -387,7 +386,8 @@ class HomeManagementFragment : Fragment() {
                 val now: Date = currentTime.time
 
                 val cal = Calendar.getInstance()
-                cal.set(Calendar.HOUR_OF_DAY, 17)
+                if (vm.isNormal(user)) cal.set(Calendar.HOUR_OF_DAY, 16) else cal.set(Calendar.HOUR_OF_DAY, 17)
+
 //                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
@@ -395,8 +395,7 @@ class HomeManagementFragment : Fragment() {
                     (activity as HomeActivity).showDialogNotYetCheckout()
                 } else {
                     // office name contain rumah, can direct selfie
-                    if (presenceCheck.office_assigned.office_name.toLowerCase()
-                            .contains("rumah") || isWFH
+                    if (presenceCheck.office_assigned.office_name.lowercase().contains("rumah") || isWFH || isSaturday()
                     ) {
                         context?.startActivity<CheckinActivity>(
                             DATA_OFFICE_KEY to presenceCheck.office_assigned,

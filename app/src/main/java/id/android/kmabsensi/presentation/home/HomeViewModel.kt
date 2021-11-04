@@ -9,10 +9,10 @@ import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.base.BaseViewModel
+import id.android.kmabsensi.utils.ROLE_SDM
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
-import org.koin.android.ext.android.inject
 
 class HomeViewModel(
     private val preferencesHelper: PreferencesHelper,
@@ -209,6 +209,10 @@ class HomeViewModel(
 
     fun clearPref() {
         preferencesHelper.clear()
+    }
+
+    fun isNormal(user: User): Boolean{
+        return user.role_name == ROLE_SDM || user.position_name.lowercase().contains("team lead") || user.position_name.lowercase().contains("partner acquisition")
     }
 
     override fun onError(error: Throwable) {
