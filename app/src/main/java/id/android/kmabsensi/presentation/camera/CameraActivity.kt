@@ -56,7 +56,7 @@ class CameraActivity : AppCompatActivity() {
     val FLIP_HORIZONTAL = 2
 
     private lateinit var waitingDialog : AlertDialog
-
+    private var handler = Handler(mainLooper)
     private val dialog by lazy {
         MaterialDialog(this).apply {
             cornerRadius(16f)
@@ -93,7 +93,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun delayTakePhoto(){
-        Handler(mainLooper).postDelayed({
+        handler.postDelayed({
             takePhoto()
         }, 5000)
     }
@@ -238,20 +238,12 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onStop() {
         super.onStop()
         if (mCameraView != null) {
             mCameraView!!.onStop()
         }
+        handler.removeCallbacksAndMessages(null)
     }
 
     fun flipImage(source: Bitmap, type: Int): Bitmap {
