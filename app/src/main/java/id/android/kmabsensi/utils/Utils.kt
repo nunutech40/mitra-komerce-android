@@ -218,7 +218,7 @@ interface OnAfterTextChanged {
 fun isSaturday(): Boolean{
     val cal = Calendar.getInstance()
     val day = cal.get(Calendar.DAY_OF_WEEK)
-    return day == Calendar.THURSDAY
+    return day == Calendar.SATURDAY
 }
 
 

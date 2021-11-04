@@ -171,7 +171,10 @@ class HomeViewModel(
                 userRepository.getProfileUser(userId)
                     .with(schedulerProvider)
                     .subscribe({
-                        preferencesHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
+                        preferencesHelper.saveString(
+                            PreferencesHelper.PROFILE_KEY,
+                            Gson().toJson(it.data[0])
+                        )
                         userdData.value = UiState.Success(it)
                     }, {
                         userdData.value = UiState.Error(it)
@@ -211,8 +214,10 @@ class HomeViewModel(
         preferencesHelper.clear()
     }
 
-    fun isNormal(user: User): Boolean{
-        return user.role_name == ROLE_SDM || user.position_name.lowercase().contains("team lead") || user.position_name.lowercase().contains("partner acquisition")
+    fun isNormal(user: User): Boolean {
+        /** role id 3 -> sdm */
+        return user.role_id == 3 || user.position_name.lowercase()
+            .contains("team lead") || user.position_name.lowercase().contains("partner acquisition")
     }
 
     override fun onError(error: Throwable) {
