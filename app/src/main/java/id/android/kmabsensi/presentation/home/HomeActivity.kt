@@ -70,13 +70,12 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
         nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         nav_view.itemIconTintList = null
 
         user = vm.getUserData()
-
+        vm.isNormal(user)
         role = getRoleName(user.role_id)
 
         window.apply {
@@ -197,7 +196,7 @@ class HomeActivity : AppCompatActivity() {
         val time_datang = "08:00:00"
         val time_istirahat = "12:00:00"
         val time_istirhat_selesai = "13:00:00"
-        val time_pulang = "17:00:00"
+        val time_pulang = if (vm.isNormal(user)) "16:00:00" else "17:00:00"
 
         val datang = Calendar.getInstance()
         val istirahat = Calendar.getInstance()
@@ -208,7 +207,7 @@ class HomeActivity : AppCompatActivity() {
         datang.set(Calendar.HOUR_OF_DAY, 8)
         istirahat.set(Calendar.HOUR_OF_DAY, 12)
         selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
-        pulang.set(Calendar.HOUR_OF_DAY, 17)
+        if (vm.isNormal(user)) pulang.set(Calendar.HOUR_OF_DAY, 16) else pulang.set(Calendar.HOUR_OF_DAY, 17)
 
         time_ashar?.let {
             if (it.isNotEmpty()) {
@@ -246,7 +245,7 @@ class HomeActivity : AppCompatActivity() {
             }
             now.before(pulang) -> {
                 statusWaktu = "Menuju Waktu Pulang"
-                nextTime = "17:00"
+                nextTime = if (vm.isNormal(user)) "16:00" else "17:00"
                 endTime = simpleDateFormat.parse(time_pulang)
             }
             else -> statusWaktu = "Waktu Pulang"
