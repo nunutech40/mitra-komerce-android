@@ -56,7 +56,7 @@ class CameraActivity : AppCompatActivity() {
     val FLIP_HORIZONTAL = 2
 
     private lateinit var waitingDialog : AlertDialog
-    private var handler = Handler(mainLooper)
+    private lateinit var handler: Handler
     private val dialog by lazy {
         MaterialDialog(this).apply {
             cornerRadius(16f)
@@ -129,6 +129,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun initCamera() {
+        handler = Handler(mainLooper)
         waitingDialog = SpotsDialog.Builder().setContext(this)
             .setMessage("Pemindaian wajah...")
             .setCancelable(false)
