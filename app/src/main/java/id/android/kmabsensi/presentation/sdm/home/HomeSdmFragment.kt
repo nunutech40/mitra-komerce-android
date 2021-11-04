@@ -485,7 +485,7 @@ class HomeSdmFragment : Fragment() {
                 } else {
                     // office name contain rumah, can direct selfie
                     if (presenceCheck.office_assigned.office_name.lowercase()
-                            .contains("rumah") || isWFH || isEligibleToCheckoutOutside || isSaturday()
+                            .contains("rumah") || isWFH || isEligibleToCheckoutOutside || (isSaturday() && vm.isNormal(user))
                     ) {
                         context?.startActivity<CheckinActivity>(
                             DATA_OFFICE_KEY to presenceCheck.office_assigned,
