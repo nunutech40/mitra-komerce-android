@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.*
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -31,13 +32,9 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
     val binding : B by lazy {
         bindingFactory(layoutInflater)
     }
-//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-//        hideSystemUI()
-//        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.cl_orange, theme)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -109,7 +106,7 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
         val tvTitle = binding.root.findViewById<AppCompatTextView>(R.id.txtTitle)
         val btnBack = binding.root.findViewById<AppCompatImageView>(R.id.btnBack)
         val btnFilter = binding.root.findViewById<AppCompatImageView>(R.id.btn_filter)
-        val btnCart = binding.root.findViewById<AppCompatImageView>(R.id.btn_my_order)
+        val btnCart = binding.root.findViewById<FrameLayout>(R.id.btn_cart)
         val search = binding.root.findViewById<AppCompatImageView>(R.id.btn_search)
         val etSearch = binding.root.findViewById<AppCompatEditText>(R.id.et_search)
         tvTitle.text = title

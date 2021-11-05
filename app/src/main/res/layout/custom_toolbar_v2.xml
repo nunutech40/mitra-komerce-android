@@ -44,18 +44,40 @@
             android:paddingVertical="5dp"
             android:paddingStart="@dimen/_16dp"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btn_my_order"
+        <FrameLayout
+            android:id="@+id/btn_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="?attr/selectableItemBackground"
-            app:srcCompat="@drawable/ic_orderku_rf"
-            android:paddingVertical="5dp"
-            android:paddingEnd="@dimen/_16dp"
-            android:visibility="gone"/>
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_my_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_orderku_rf"
+                android:layout_margin="@dimen/_7sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cart_badge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right|end|top"
+                android:maxLength="2"
+                android:ellipsize="end"
+                android:background="@drawable/bg_orange_rad_25"
+                android:gravity="center"
+                android:padding="3dp"
+                tools:text="10"
+                android:visibility="gone"
+                android:textColor="@color/cl_white"
+                style="@style/tv10monst_med"/>
+
+        </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_filter"

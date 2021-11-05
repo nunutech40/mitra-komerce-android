@@ -7,6 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import com.github.ajalt.timberkt.Timber
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
@@ -17,27 +20,61 @@ import id.android.kmabsensi.databinding.ActivityMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
+import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.createAlertError
+import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     ActivityMyOrderBinding::inflate
 ) {
+    private val vm: MyOrderViewModel by inject()
     private lateinit var pagerAdapter: MyOrderPagerAdapter
     private var pagePosition = 0
     lateinit var dateFrom: Date
     lateinit var dateTo: Date
+    private var sklCart : SkeletonScreen? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupToolbar(getString(R.string.orderku), isBackable = true, isCart = true)
+        setupObserver()
         setupPager()
         setupListener()
         setupCurrentPage()
+    }
+
+    private fun setupObserver() {
+        vm.getCart()
+        vm.cartState.observe(this, {
+            when (it) {
+                is UiState.Loading -> {
+                    showSkeleton()
+                    Timber.tag("_cartState").d("on Loading ")
+                }
+                is UiState.Success -> {
+                    sklCart?.hide()
+                    val totalCart = it.data.data?.size
+                    binding.apply {
+                        if (totalCart != 0) {
+                            toolbar.tvCartBadge.visible()
+                            toolbar.tvCartBadge.text = totalCart.toString()
+                        } else toolbar.tvCartBadge.gone()
+                    }
+                }
+                is UiState.Error -> {
+                    sklCart?.hide()
+                    Timber.d(it.throwable)
+                }
+            }
+        })
     }
 
     private fun setupCurrentPage() {
@@ -52,7 +89,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
         binding.toolbar.apply {
 
-            btnMyOrder.setOnClickListener {
+            btnCart.setOnClickListener {
                 startActivity<OrderCartActivity>()
             }
 
@@ -72,6 +109,10 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                 }
             }
         }
+    }
+
+    fun refreshCart(){
+        vm.getCart()
     }
 
     private fun setupPager() {
@@ -108,7 +149,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         binding.tabLayout.apply {
             setupWithViewPager(binding.viewPager)
         }
-
     }
 
     private fun setupBottomSheatFilterDataOrder() {
@@ -218,6 +258,17 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         dialog.show()
         btnDate.setOnClickListener {
             pickDate(btnDate)
+        }
+    }
+
+    private fun showSkeleton(){
+        if (sklCart!=null){
+            sklCart = Skeleton.bind(binding.toolbar.tvCartBadge)
+                .load(R.layout.skeleton_badge)
+                .show()
+        }else{
+            sklCart?.show()
+
         }
     }
 }

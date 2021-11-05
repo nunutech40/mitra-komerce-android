@@ -24,6 +24,7 @@ import id.android.kmabsensi.data.remote.response.komship.ProductVariantKomItem
 import id.android.kmabsensi.data.remote.response.komship.VariantKomItem
 import id.android.kmabsensi.databinding.FragmentMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
+import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
 import id.android.kmabsensi.presentation.komship.selectproduct.SelectProductActivity
@@ -71,21 +72,24 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     Timber.tag("_addCartState").d("on loading")
                 }
                 is UiState.Success -> {
-                    binding?.apply {
-                        btnOrder.disableButton(true)
-                        progressBar.gone()
+                    if (it.data.code == 200){
+                        binding?.apply {
+                            btnOrder.disableButton(true)
+                            progressBar.gone()
+                        }
+                        if (isDirectOrder) {
+                            val cartItem = it.data.data
+                            requireActivity().startActivity<OrderCartActivity>(
+                                "_isDirectOrder" to true,
+                                "_cartItem" to cartItem
+                            )
+                        } else {
+                            requireActivity().toast(getString(R.string.data_cart_berhasil_ditambahkan))
+                        }
+                        updateQTY("reset")
+                        resetForm()
+                        (activity as MyOrderActivity).refreshCart()
                     }
-                    if (isDirectOrder) {
-                        val cartItem = it.data.data
-                        requireActivity().startActivity<OrderCartActivity>(
-                            "_isDirectOrder" to true,
-                            "_cartItem" to cartItem
-                        )
-                    } else {
-                        requireActivity().toast(getString(R.string.data_cart_berhasil_ditambahkan))
-                    }
-                    updateQTY("reset")
-                    resetForm()
                 }
                 is UiState.Error -> {
                     binding?.apply {
@@ -119,7 +123,10 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
         vm.productState.observe(requireActivity(), {
             when (it) {
-                is UiState.Loading -> Timber.tag("_productState").d("on loading")
+                is UiState.Loading -> {
+                    showSkeletonProduct()
+                    Timber.tag("_productState").d("on loading")
+                }
                 is UiState.Success -> {
                     sklProduct?.hide()
                     dataProduct.clear()
@@ -148,6 +155,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
+        partner.add("Pilih Partner")
         data?.forEach {
             partner.add(it.partnerName ?: "-")
         }
@@ -168,10 +176,13 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            idPartner = dataPartner[position].partnerId ?: 0
-                            if (idPartner != 0){
-                                vm.getProduct(idPartner)
-                            }
+                            if (position != 0){
+                                binding?.tilProduk?.disableForm(true)
+                                idPartner = dataPartner[(position-1)].partnerId ?: 0
+                                if (idPartner != 0){
+                                    vm.getProduct(idPartner)
+                                }
+                            }else binding?.tilProduk?.disableForm(false)
                         }
                     }
             }
@@ -426,13 +437,18 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             sklPartner = Skeleton.bind(binding?.spPartner)
                 .load(R.layout.skeleton_item_big)
                 .show()
+        }else {
+            sklPartner?.show()
+        }
+    }
+
+    private fun showSkeletonProduct(){
+        if (sklPartner == null){
             sklProduct = Skeleton.bind(binding?.tieProduk)
                 .load(R.layout.skeleton_item_big)
                 .show()
-        }else {
-            sklPartner?.show()
-            sklProduct?.show()
-        }
+        }else sklProduct?.show()
+
     }
 
     private fun updateQTY(type: String){

@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.komship
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
@@ -14,6 +15,7 @@ import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
+import id.android.kmabsensi.utils.visible
 
 class MyOrderViewModel(
     val komShipRepository: KomShipRepository,
@@ -32,6 +34,24 @@ class MyOrderViewModel(
     = MutableLiveData()
     val orderByPartnerState: MutableLiveData<UiState<KomListOrderByPartnerResponse>>
     = MutableLiveData()
+    val cartState: MutableLiveData<UiState<KomCartResponse>>
+    = MutableLiveData()
+
+    fun getCart() {
+        cartState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getCart()
+                .with(schedulerProvider)
+                .subscribe(
+                    {
+                        cartState.value = UiState.Success(it)
+                    }, {
+                        cartState.value = UiState.Error(it)
+                    }
+                )
+        )
+    }
+
 
     fun validateMinProduct(total: Int): Boolean = total > 1
 
@@ -161,16 +181,15 @@ class MyOrderViewModel(
     ): AddCartParams {
         return AddCartParams(
             idPartner,
-            pk.productId!!,
-            pk.productName!!,
-            pv.optionId!!,
+            pk.productId?:0,
+            pk.productName?:"-",
+            pv.optionId?:0,
             vn,
-            pv.price!!,
-            pk.weight!!,
+            pv.price?:0,
+            pk.weight?:0,
             total,
-            (total * pv.price)
+            (total * pv.price!!)
         )
-
     }
 }
 

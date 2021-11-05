@@ -177,6 +177,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
+        partner.add("Pilih Partner")
         data?.forEach {
             partner.add(it.partnerName!!)
         }
@@ -197,14 +198,16 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            idPartner = dataPartner[position].partnerId!!
-                            if (vm.filterCart(myCart, idPartner).size < 1) {
-                                binding.tvEmptyCart.visible()
-                            } else {
-                                binding.tvEmptyCart.gone()
-                                orderChecked()
+                            if (position != 0){
+                                idPartner = dataPartner[(position-1)].partnerId ?: 0
+                                if (vm.filterCart(myCart, idPartner).size < 1) {
+                                    binding.tvEmptyCart.visible()
+                                } else {
+                                    binding.tvEmptyCart.gone()
+                                    orderChecked()
+                                }
+                                orderAdapter.setData(vm.filterCart(myCart, idPartner))
                             }
-                            orderAdapter.setData(vm.filterCart(myCart, idPartner))
                         }
                     }
             }
