@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.komship
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -21,7 +22,6 @@ import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
 import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.createAlertError
 import id.android.kmabsensi.utils.gone
 import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_checkin.*
@@ -158,18 +158,25 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         val btnLastDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_last_date)
         val btnApply = bottomSheet.findViewById<AppCompatButton>(R.id.btn_apply)
         val chipGroup = bottomSheet.findViewById<ChipGroup>(R.id.chip_group)
+        val warningLast = bottomSheet.findViewById<AppCompatTextView>(R.id.tv_warning_last_date)
+        val warningFirst = bottomSheet.findViewById<AppCompatTextView>(R.id.tv_warning_first_date)
         dialog.setContentView(bottomSheet)
         dialog.show()
 
         btnStartDate.setOnClickListener {
             pickDate(btnStartDate)
+            warningFirst.gone()
         }
 
         btnLastDate.setOnClickListener {
             if (btnStartDate.text.toString() != "") {
-                pickLastDate(btnLastDate)
+                pickLastDate(btnLastDate, warningLast)
+//                    warningLast.visible()
+//                }else{
+//                    warningLast.gone()
+//                }
             } else {
-                toast("Pilih Tanggal Awal terlebih dahulu!")
+                warningFirst.visible()
             }
         }
 
@@ -228,23 +235,20 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
-    private fun pickLastDate(view: TextInputEditText) {
+    private fun pickLastDate(view: TextInputEditText, warningLast: AppCompatTextView){
         MaterialDialog(this).show {
             datePicker { dialog, date ->
                 // Use date (Calendar)
                 dialog.dismiss()
                 dateTo = date.time
-                if (dateTo.before(dateFrom)){
-                    createAlertError(
-                        this@MyOrderActivity,
-                        "Peringatan",
-                        "Pilih Tanggal akhir dengan benar",
-                        3000
-                    )
-                }else{
+                if (!dateTo.before(dateFrom)){
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val selected = dateFormat.format(date.time)
+                    val selected = dateFormat.format(dateTo)
                     view.text = selected.toEditable()
+                    warningLast.gone()
+                }else{
+                    view.text = "".toEditable()
+                    warningLast.visible()
                 }
             }
         }

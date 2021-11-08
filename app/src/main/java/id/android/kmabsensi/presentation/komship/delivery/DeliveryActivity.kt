@@ -133,7 +133,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 is UiState.Error -> {
                     sklBank?.hide()
                     Timber.tag("_calculateState").d(it.throwable)
-                    toast("Server sedang bermasalah, Coba lagi nanti ya")
+                    toast("Server sedang bermasalah, Silahkan coba lagi ya")
                 }
             }
         })
@@ -187,6 +187,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = true
                 btnOrder.isEnabled = true
 
+                tvAreaNotFound.gone()
                 tvSendingCost.text = convertRupiah((calculate.item.shippingCost ?: 0.0))
                 costShipping = (calculate.item.shippingCost ?: 0).toInt()
                 tvTotalCost.text = convertRupiah((calculate.item.grandtotal ?: 0).toDouble())
@@ -198,6 +199,8 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = false
                 btnOrder.isEnabled = false
                 tvSendingCost.text = getString(R.string.paket_tidak_tersedia)
+
+                tvAreaNotFound.visible()
                 costShipping = 0
                 tvTotalCost.text = convertRupiah(totalCost().toDouble())
             }

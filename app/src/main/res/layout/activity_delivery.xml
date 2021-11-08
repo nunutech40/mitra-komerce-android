@@ -322,14 +322,21 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_area_not_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6dp"
+                    style="@style/tv14monst_med"
+                    android:visibility="gone"
+                    android:textColor="@color/cl_orange"
+                    android:text="@string/outside_area"/>
+
                 <RadioGroup
                     android:id="@+id/rd_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_ekspedisi">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/rb_reguler"

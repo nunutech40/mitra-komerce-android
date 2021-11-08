@@ -33,14 +33,6 @@
         android:layout_marginTop="@dimen/_24dp"
         />
 
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        style="@style/tv14inter_reg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Tanggal Awal"-->
-<!--        android:layout_marginTop="@dimen/_8dp"-->
-<!--        android:textColor="@color/cl_grey_tx_new" />-->
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_first_date"
         android:layout_width="match_parent"
@@ -65,13 +57,15 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        style="@style/tv14inter_reg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Tanggal Akhir"-->
-<!--        android:layout_marginTop="@dimen/_16dp"-->
-<!--        android:textColor="@color/cl_grey_tx_new" />-->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_warning_first_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tv14monst_med"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_6dp"
+        android:textColor="@color/cl_orange"
+        android:text="*Anda belum memilih tanggal awal"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_last_date"
@@ -96,6 +90,16 @@
             android:paddingTop="32dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_warning_last_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tv14monst_med"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_6dp"
+        android:textColor="@color/cl_orange"
+        android:text="*Tanggal akhir tidak boleh kurang dari awal"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"

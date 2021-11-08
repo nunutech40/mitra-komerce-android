@@ -347,5 +347,6 @@
     <string name="tampilkan_lebih_sedikit">Tampilkan lebih sedikit</string>
     <string name="data_cart_berhasil_ditambahkan">Data berhasil ditambahkan ke keranjang</string>
     <string name="anda_belum_memilih_item">Anda belum memilih item yang akan dihapus</string>
+    <string name="outside_area">*Mohon maaf ekspedisi ini tidak menjangkau daerah tersebut</string>
 
 </resources>
