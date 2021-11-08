@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.datetime.DateTimeCallback
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
@@ -226,19 +227,21 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             tvTotalCost.text = convertRupiah(totalCost().toDouble())
         }
     }
-
+    private var today = Calendar.getInstance()
     private fun setupListener() {
         binding.apply {
             tieDate.setOnClickListener {
-                MaterialDialog(this@DeliveryActivity).show {
-                    datePicker { dialog, date ->
+                val datePicker = MaterialDialog(this@DeliveryActivity)
+                datePicker.datePicker(minDate = today, dateCallback = object : DateTimeCallback{
+                    override fun invoke(dialog: MaterialDialog, date: Calendar) {
                         dialog.dismiss()
                         datePick = date.time
                         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val dateSelected: String = dateFormat.format(date.time)
                         setDateFrom(dateSelected)
                     }
-                }
+                })
+                datePicker.show()
             }
             acCustomer.onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, _, _ ->
