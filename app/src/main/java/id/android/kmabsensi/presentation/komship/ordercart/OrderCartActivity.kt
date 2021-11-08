@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -9,6 +10,7 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.data.remote.response.komship.KomPartnerItem
 import id.android.kmabsensi.databinding.ActivityOrderCartBinding
@@ -33,6 +35,7 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     private val listId      : ArrayList<Int> = ArrayList()
     private var dataPartner : MutableList<KomPartnerItem> = ArrayList()
     private var myCart      = ArrayList<CartItem>()
+    private var myCartEmpty = ArrayList<CartItem>()
     private val listChecked = ArrayList<Int>()
     private val isDirectOrder by lazy {
         intent.getBooleanExtra("_isDirectOrder", false)
@@ -67,10 +70,10 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                     }
                     myCart.clear()
                     myCart.addAll(it.data.data!!)
-                    if (myCart.size<1){
-                        binding.tvEmptyCart.gone()
-                    }else binding.tvEmptyCart.visible()
-                    orderAdapter.setData(myCart)
+//                    if (myCart.size<1){
+//                        binding.tvEmptyCart.gone()
+//                    }else binding.tvEmptyCart.visible()
+//                    setDataListCart(myCart)
                 }
                 is UiState.Error -> {
                     sklList?.hide()
@@ -206,21 +209,30 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                                     binding.tvEmptyCart.gone()
                                     orderChecked()
                                 }
-                                orderAdapter.setData(vm.filterCart(myCart, idPartner))
+                                setDataListCart(vm.filterCart(myCart, idPartner))
+                            } else{
+                                setDataListCart(myCartEmpty, false)
                             }
                         }
                     }
             }
     }
 
+    private fun setDataListCart(list: ArrayList<CartItem>, isPickedPartner: Boolean? = true){
+        orderAdapter.setData(list)
+        if (list.size<1){
+            binding.tvEmptyCart.visible()
+
+            binding.tvEmptyCart.text = if (isPickedPartner!!) "Kamu belum memiliki\\nproduk di keranjang" else "Anda belum memilih partner"
+        }else binding.tvEmptyCart.gone()
+    }
+
     private fun setupListener() {
         binding.apply {
-
             srListCart.setOnRefreshListener {
                 srListCart.isRefreshing = true
                 setupView()
             }
-
             toolbar.tvDelete.setOnClickListener {
                 val list: ArrayList<Int> = ArrayList()
                 if (checked.size > 0) {

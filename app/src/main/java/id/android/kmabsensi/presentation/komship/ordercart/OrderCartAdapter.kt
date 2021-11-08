@@ -2,11 +2,13 @@ package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.databinding.ItemRowOrderCartBinding
 import id.android.kmabsensi.utils.URL_SHOPPING_EMPTY
@@ -26,7 +28,7 @@ class OrderCartAdapter(
     private var qty = 0
     private var maxQty = 1
     inner class VHolder(val binding : ItemRowOrderCartBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int, data: CartItem) {
+        fun bind(data: CartItem) {
             binding.apply {
                 tvAvailableProduct.setTextColor(ContextCompat.getColor(context, R.color.cl_black))
                 imgProduct.loadImageFromUrl(data.productImage?: URL_SHOPPING_EMPTY)
@@ -35,14 +37,14 @@ class OrderCartAdapter(
                 tvAvailableProduct.text = data.variantName
                 tvNameProduct.text = data.productName
                 tvPrice.text = convertRupiah((data.productPrice ?: 0).toDouble())
-                tvTotal.text = data.qty.toString()
                 cbOrder.isChecked = false
+                tvTotal.text = data.qty.toString()
             }
         }
     }
 
     private fun validateQty(type : Int): Boolean{
-        return  if (type == 0) (qty >= 1) else (qty <= maxQty)
+        return  if (type == 0) (qty > 1) else (qty < maxQty)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHolder = VHolder(
@@ -51,7 +53,7 @@ class OrderCartAdapter(
 
     override fun onBindViewHolder(holder: VHolder, position: Int) {
         val data = list[position]
-        holder.bind(position, data)
+        holder.bind(data)
         holder.itemView.apply {
 
             if (data.cartId == idCart && isDirectOrder){
