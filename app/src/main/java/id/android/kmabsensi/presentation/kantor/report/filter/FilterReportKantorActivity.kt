@@ -144,10 +144,9 @@ class FilterReportKantorActivity : BaseActivity() {
     private fun setupListener() {
         binding.edtStartDate.setOnClickListener {
             val startdatePick = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
-                val month = if (monthOfYear.toString()
-                        .count() == 1
-                ) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
-                dateFromSelectedString = "$year-$month-$dayOfMonth"
+                val month = (monthOfYear + 1)
+                val convertMonth = if (month.toString().count() <= 1) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
+                dateFromSelectedString = "$year-$convertMonth-$dayOfMonth"
                 setDateToView(dateFromSelectedString) // set date to view
                 updateStartDate(year, monthOfYear, dayOfMonth) // update first pick date
 
@@ -155,7 +154,7 @@ class FilterReportKantorActivity : BaseActivity() {
                 checkToday(year, monthOfYear, dayOfMonth)
                 val getEndDate = if (endDate.timeInMillis > today.timeInMillis) today else endDate
 
-                setEndDateToView("${getEndDate.get(Calendar.YEAR)}-$month-${getEndDate.get(Calendar.DAY_OF_MONTH)}")
+                setEndDateToView("${getEndDate.get(Calendar.YEAR)}-$convertMonth-${getEndDate.get(Calendar.DAY_OF_MONTH)}")
             }, startyear, startmonth, startday)
             startdatePick.setTitle(getString(R.string.pilih_tanggal_awal))
             startdatePick.datePicker.maxDate = today.timeInMillis
@@ -164,8 +163,9 @@ class FilterReportKantorActivity : BaseActivity() {
 
         binding.edtEndDate.setOnClickListener {
             val endDatePick = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
-                val month = if (monthOfYear.toString().count()==1) "0${monthOfYear+1}" else "${monthOfYear+1}"
-                dateToSelectedString = "$year-$month-$dayOfMonth"
+                val month = (monthOfYear + 1)
+                val convertMonth = if (month.toString().count() <= 1) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
+                dateToSelectedString = "$year-$convertMonth-$dayOfMonth"
                 setEndDateToView(dateToSelectedString)
                 updateEndDate(year, monthOfYear, dayOfMonth)
                 endDate.add(Calendar.DATE, -6)

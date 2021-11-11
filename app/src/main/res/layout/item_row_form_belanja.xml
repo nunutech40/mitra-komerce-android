@@ -36,7 +36,7 @@
             android:maxLength="9"
             android:paddingStart="@dimen/_10dp"
             android:paddingVertical="@dimen/_13dp"
-            android:inputType="number|numberDecimal"
+            android:inputType="number"
             style="@style/tv14sp000000_avenir_medium"
             android:layout_marginStart="5dp"
             android:hint="@string/text_estimasi_harga"
