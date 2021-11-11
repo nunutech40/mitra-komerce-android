@@ -10,7 +10,10 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
 ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.tiePartner?.setOnClickListener {
+        binding?.apply {
+            tiePartner.setOnClickListener {
+            }
         }
+
     }
 }
