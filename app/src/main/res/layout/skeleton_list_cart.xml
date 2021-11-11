@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_8dp"
+    android:layout_marginTop="@dimen/_4dp"
+    android:layout_marginEnd="@dimen/_8dp"
+    android:layout_marginBottom="@dimen/_4dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingTop="@dimen/_16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="@dimen/_16dp">
+
+        <View
+            android:id="@+id/textPartnerNumber"
+            android:layout_width="@dimen/_100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/textPartnerName"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintStart_toStartOf="@+id/textPartnerNumber"
+            app:layout_constraintTop_toBottomOf="@+id/textPartnerNumber" />
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="@dimen/_16dp"
+            android:layout_marginStart="@dimen/_8dp"
+            android:background="@drawable/shape_skeleton"
+            app:layout_constraintBottom_toBottomOf="@+id/textPartnerName"
+            app:layout_constraintStart_toEndOf="@+id/textPartnerName"
+            app:layout_constraintTop_toTopOf="@+id/textPartnerName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

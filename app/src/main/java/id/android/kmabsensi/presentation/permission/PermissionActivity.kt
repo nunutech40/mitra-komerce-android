@@ -207,7 +207,7 @@ class PermissionActivity : BaseActivity() {
 
         val datePickerDialog = DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
+            { datePicker, year, monthOfYear, dayOfMonth ->
                 if (isDateFrom) {
                     calendarDateForm.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
                     callback(calendarDateForm.time)

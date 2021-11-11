@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/BottomSheetDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_12dp"
+    android:paddingHorizontal="@dimen/_16dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_top_25dp"
+    >
+
+    <View
+        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_grey_8dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv20monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:layout_marginTop="@dimen/_24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv16monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal"
+        android:layout_marginTop="@dimen/_24dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_first_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/cl_grey_2"
+        app:boxStrokeWidth="0.5dp"
+        android:layout_marginTop="@dimen/_12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_first_date"
+            style="@style/tv16inter_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_calendar_rf"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Tanggal Awal"
+            android:paddingStart="0dp"
+            android:paddingTop="32dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_warning_first_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tv14monst_med"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_6dp"
+        android:textColor="@color/cl_orange"
+        android:text="*Anda belum memilih tanggal awal"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_last_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/cl_grey_2"
+        app:boxStrokeWidth="0.5dp"
+        android:layout_marginTop="@dimen/_24dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_last_date"
+            style="@style/tv16inter_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_calendar_rf"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Tanggal Akhir"
+            android:paddingStart="0dp"
+            android:paddingTop="32dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_warning_last_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tv14monst_med"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_6dp"
+        android:textColor="@color/cl_orange"
+        android:text="*Tanggal akhir tidak boleh kurang dari awal"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:layout_marginTop="@dimen/_24dp"
+        style="@style/tv16monst_semi"
+        />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        android:layout_marginTop="@dimen/_8dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/semua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semua"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/diajukan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Diajukan"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dikirim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Dikirim"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/diterima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Diterima"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/retur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Retur"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/batal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedIconEnabled="false"
+            android:checked="false"
+            style="@style/CustomChipStyleFilter"
+            android:text="Batal"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="14dp"
+        android:text="Terapkan"
+        android:layout_marginTop="56dp"
+        style="@style/tv16monst_semi"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_orange_10dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -2,6 +2,7 @@ package id.android.kmabsensi.data.remote
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.readystatesoftware.chuck.ChuckInterceptor
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.presentation.login.LoginActivity
@@ -52,6 +53,8 @@ class AuthInterceptor(var pref: PreferencesHelper, val context:Context) : Interc
             .addHeader("Authorization", "Bearer " +pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
             .build()
 
+        Log.d("TAGTAGTAG", "intercept22: ${pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY)}")
+
         val response = chain.proceed(request)
 
         if (response.code == 401){
@@ -64,5 +67,17 @@ class AuthInterceptor(var pref: PreferencesHelper, val context:Context) : Interc
         return response
     }
 }
+
+
+inline fun <reified T> createWebServiceKomship(okHttpClient: OkHttpClient, baseUrl: String): T {
+    val retrofitKom = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+    return retrofitKom.create(T::class.java)
+}
+
 
 

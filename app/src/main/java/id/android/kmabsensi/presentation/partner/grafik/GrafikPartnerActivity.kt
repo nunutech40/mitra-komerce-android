@@ -8,13 +8,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.Dashboard
+import id.android.kmabsensi.databinding.ActivityGrafikPartnerBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByCategoryFragment
 import id.android.kmabsensi.presentation.partner.grafik.tab.GrafikByProvinceFragment
 import id.android.kmabsensi.utils.DASHBOARD_DATA_KEY
 import kotlinx.android.synthetic.main.activity_grafik_partner.*
 
-class GrafikPartnerActivity : BaseActivity() {
+class GrafikPartnerActivity : BaseActivityRf<ActivityGrafikPartnerBinding>(
+    ActivityGrafikPartnerBinding::inflate) {
 
     // tab titles
     private val tabTitles = arrayOf("Provinsi", "Kategori")
@@ -22,9 +25,11 @@ class GrafikPartnerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_grafik_partner)
-        setupToolbar("Grafik Persebaran Partner")
+        setupToolbar("Grafik Partner", isBackable = true)
+        setupView()
+    }
 
+    private fun setupView() {
         val dashboard: Dashboard? = intent.getParcelableExtra(DASHBOARD_DATA_KEY)
 
         val fragments = mutableListOf<Fragment>()
@@ -39,9 +44,6 @@ class GrafikPartnerActivity : BaseActivity() {
         TabLayoutMediator(tab_layout, pager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-
-        textJumlahPartner.text = dashboard?.total_partner.toString()
-
     }
 }
 

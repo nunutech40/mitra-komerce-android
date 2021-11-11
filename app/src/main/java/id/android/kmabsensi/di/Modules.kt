@@ -8,10 +8,9 @@ import com.xwray.groupie.GroupieViewHolder
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.db.AppDatabase
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.AuthInterceptor
-import id.android.kmabsensi.data.remote.createWebService
-import id.android.kmabsensi.data.remote.provideOkHttpClient
+import id.android.kmabsensi.data.remote.*
 import id.android.kmabsensi.data.remote.service.ApiService
+import id.android.kmabsensi.data.remote.service.ApiServiceKomship
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.checkin.CheckinViewModel
 import id.android.kmabsensi.presentation.coworking.CoworkingSpaceViewModel
@@ -34,6 +33,11 @@ import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailleader.Shoppin
 import id.android.kmabsensi.presentation.kmpoint.penarikan.WithdrawViewModel
 import id.android.kmabsensi.presentation.kmpoint.penarikandetail.DetailWithDrawViewModel
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.AddShoppingViewModel
+import id.android.kmabsensi.presentation.komship.MyOrderViewModel
+import id.android.kmabsensi.presentation.komship.delivery.DeliveryViewModel
+import id.android.kmabsensi.presentation.komship.detaildataorder.DetailOrderViewModel
+import id.android.kmabsensi.presentation.komship.ordercart.OrderCartViewModel
+import id.android.kmabsensi.presentation.komship.selectdestination.DestinationViewModel
 import id.android.kmabsensi.presentation.partner.partnerpicker.PartnerPickViewModel
 import id.android.kmabsensi.presentation.riwayat.RiwayatViewModel
 import id.android.kmabsensi.presentation.role.RoleViewModel
@@ -49,12 +53,15 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
+val appModule = module(override = true) {
 
     single { PreferencesHelper(androidContext()) }
     single { AuthInterceptor(get(), androidContext()) }
     single { provideOkHttpClient(get(), androidContext()) }
     single { createWebService<ApiService>(get(), BuildConfig.BASE_URL_ABSENSI) }
+
+    single { createWebServiceKomship<ApiServiceKomship>(get(), BuildConfig.BASE_URL_ABSENSI_KOMSHIP) }
+
     single { AppSchedulerProvider() as SchedulerProvider }
 
     factory { GroupAdapter<GroupieViewHolder>() }
@@ -97,6 +104,7 @@ val repositoryModule = module {
     single { KmPoinRepository(get()) }
     single { HolidayRepository(get()) }
     single { UserConfigurationRepository(get()) }
+    single { KomShipRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -135,6 +143,11 @@ val viewModelModule = module {
     viewModel { WithdrawViewModel(get()) }
     viewModel { DetailWithDrawViewModel(get(), get()) }
     viewModel { ShoppingDetailFinanceViewModel(get(), get()) }
+    viewModel { MyOrderViewModel(get(), get()) }
+    viewModel { OrderCartViewModel(get(), get()) }
+    viewModel { DeliveryViewModel(get(), get()) }
+    viewModel { DestinationViewModel(get(), get()) }
+    viewModel { DetailOrderViewModel(get(), get()) }
     viewModel { PartnerPickViewModel(get(), get()) }
 }
 

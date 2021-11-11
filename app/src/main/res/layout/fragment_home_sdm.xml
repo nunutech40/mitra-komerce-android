@@ -5,586 +5,473 @@
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/layoutBackgroundColor">
+    android:background="@color/cl_white_dark_new">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/layoutBackgroundColor">
+        android:layout_height="0dp"
+        android:background="@color/cl_white_dark_new"
+        android:minHeight="500dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/layoutHeader"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="4dp"
+                android:background="@color/cl_orange_new"
+                android:paddingVertical="35dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_profile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="@dimen/_16dp"
+                    app:cardCornerRadius="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ic_user" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView_profile"
+                    app:layout_constraintEnd_toStartOf="@+id/ll_point"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_profile"
+                    app:layout_constraintTop_toTopOf="@+id/cardView_profile">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_username"
+                        style="@style/tv14monst_semi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Hi, Username"
+                        android:textColor="@color/cl_white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position"
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        tools:text="position"
+                        android:textColor="@color/cl_white" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_qr_code"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_qr_code"
+                    app:layout_constraintTop_toTopOf="@+id/btn_qr_code">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Poin kamu"
+                        android:textColor="@color/cl_white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_point"
+                        style="@style/tv16inter_semi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        tools:text="Poin"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/cl_white" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btn_qr_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_qr_code" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- count down -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_countdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="@dimen/_8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_top_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_top_bar">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="24dp">
+                    android:layout_marginHorizontal="@dimen/_12dp"
+                    android:layout_marginVertical="11dp">
 
-                    <ImageView
-                        android:id="@+id/header_waktu"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_status_waktu"
+                        style="@style/tv14inter_reg"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/tv_count_down"
+                        android:text="Menuju waktu istirahat"
+                        android:textColor="@color/cl_grey_tx_new" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_count_down"
+                        style="@style/tv18inter_reg"
                         android:layout_width="wrap_content"
-                        android:layout_height="115dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/malam"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="- 00:00:00" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- wfh           -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_wfh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/_12dp"
+                app:cardCornerRadius="@dimen/_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_countdown">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12dp"
+                    android:layout_marginVertical="11dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv14inter_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/tv_wfh"
+                        android:text="Mode"
+                        android:textColor="@color/cl_grey_tx_new" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_wfh"
+                        style="@style/tv18inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Work From Home" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <!-- co working           -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_co_working"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_white_10dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_12dp"
+                android:paddingVertical="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_wfh">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_logo_co_working" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coworking"
+                        style="@style/tv16inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Co - Working Space 1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/imgProfile"
-                        android:layout_width="47dp"
-                        android:layout_height="47dp"
-                        android:layout_marginStart="24dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/header_waktu"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_available"
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:text="tersedia"
+                        android:textColor="@color/cl_grey_tx_new"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@tools:sample/avatars" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_coworking" />
 
-                    <TextView
-                        android:id="@+id/txtHello"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_chair"
+                        style="@style/tv14inter_reg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="TextView"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                        app:layout_constraintTop_toTopOf="@+id/imgProfile"
-                        tools:ignore="MissingPrefix"
-                        tools:text="Hello, Jajat" />
-
-                    <TextView
-                        android:id="@+id/txtRoleName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/admin"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/txtHello"
-                        app:layout_constraintTop_toBottomOf="@+id/txtHello" />
-
-                    <TextView
-                        android:id="@+id/labelWaktu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/waktu"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorGrey"
-                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:text="- kursi"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/header_waktu" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_available" />
 
-                    <TextView
-                        android:id="@+id/txtNextTime"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cofee"
+                        style="@style/tv14inter_reg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textTime"
-                        android:textSize="42sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/labelWaktu"
-                        app:layout_constraintTop_toBottomOf="@+id/labelWaktu"
-                        tools:text="08:30" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/layoutHoliday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_24dp"
-                        android:orientation="vertical"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/labelWaktu"
-                        app:layout_constraintTop_toBottomOf="@+id/labelWaktu"
-                        app:layout_constraintVertical_bias="0.0">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txtHolidayName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="Hari Pemuda"
-                            android:textColor="@color/textTime"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txtHolidayDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="#A1A4AF"
-                            tools:text="28 Oktober 2020"
-                            android:includeFontPadding="false"
-                            android:fontFamily="@font/avenir_medium"
-                            android:textSize="18sp"/>
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <TextView
-                        android:id="@+id/txtCountdown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:textColor="@color/textTime"
-                        style="@style/tv18sp404040_avenir_heavy"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/txtNextTime"
-                        tools:text="( - 00.00.00 )" />
-
-                    <TextView
-                        android:id="@+id/txtStatusWaktu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="24dp"
-                        android:textColor="@color/textTime"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtCountdown"
-                        tools:text="Menuju Waktu Dzuhur" />
-
+                        android:layout_marginStart="@dimen/_24dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:text="- Kopi"
+                        app:layout_constraintStart_toEndOf="@+id/tv_chair"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_available" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btn_checkin_co_working"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
 
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_arrow_check_in_rf" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutKmPoint"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coworking_presence"
+                        style="@style/tv14monst_med"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Check In"
+                        android:textColor="@color/cl_orange_text_new" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:background="@drawable/bg_white_top_25dp"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="@dimen/_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
-
-                <ImageView
-                    android:id="@+id/imageView15"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/kmpoint_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/labelKmpoin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenirltstd_medium"
-                    android:text="KM Poin"
-                    android:textColor="@color/textWhite"
-                    android:layout_marginTop="@dimen/_10dp"
-                    android:textSize="@dimen/_14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.28"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread_inside" />
-
-                <TextView
-                    android:id="@+id/txtKmPoin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenirltstd_heavy"
-                    android:gravity="bottom"
-                    android:text="200"
-                    android:textColor="@color/textWhite"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/labelKmpoin"
-                    app:layout_constraintTop_toBottomOf="@+id/labelKmpoin"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/textPoin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="@dimen/_6dp"
-                    android:layout_marginBottom="@dimen/_4dp"
-                    android:fontFamily="@font/avenirltstd_medium"
-                    android:text="@string/poin"
-                    android:textColor="@color/textWhite"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtKmPoin"
-                    app:layout_constraintStart_toEndOf="@+id/txtKmPoin"
-                    app:layout_constraintVertical_bias="0.53" />
-
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btnScanQr"
-                    android:layout_width="@dimen/_32dp"
-                    android:layout_height="@dimen/_32dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="@dimen/_24dp"
-                    android:background="@drawable/ic_qrcode" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/textTime"
-                style="@style/tv18sp404040_avenir_heavy"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutKmPoint"
-                tools:text="Rabu, 13 November 2019" />
-
-            <include layout="@layout/layout_wfh_mode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="@dimen/_24dp"
-                android:layout_marginEnd="@dimen/_24dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/ll_co_working"/>
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline5"
+                android:id="@+id/guideline9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
+                app:layout_constraintGuide_begin="205dp" />
 
-            <LinearLayout
-                android:id="@+id/layoutMenu1"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_dd_data_presence"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/layoutWfhMode"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_white_10dp"
+                android:paddingHorizontal="@dimen/_16dp"
+                android:paddingVertical="@dimen/_12dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/ll_chart"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnCheckIn"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp"
-                        android:background="?attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_checkin"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Datang"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnCheckOut"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_checkout"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Pulang"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnFormIzin"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_form_izin"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Form Izin"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:visibility="visible"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnGagalAbsen"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_gagal_absen"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Gagal Absen"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutMenu2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/layoutMenu1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnProductKnowledge"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp"
-                        android:background="?attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_product_knowledge"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Product Knowledge"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btnLaporanLayout"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnLaporan"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_sdm_laporan"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Laporan"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:visibility="invisible"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_sdm_evaluasi"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:visibility="invisible"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_width="62dp"
-                        android:layout_height="62dp">
-
-                        <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_gagal_absen"/>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Gagal Absen"
-                        android:gravity="center"
-                        style="@style/tv13sp000000_avenir_heavy" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:layout_marginTop="@dimen/_16dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutMenu2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <TextView
-                    android:id="@+id/textCoworkingSpace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Co-Working Space"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
-                    style="@style/tv14sp929292_avenir_heavy"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textCoworkingSpace"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/rvCoworkingSpace"
-                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:text="Keterangan"
+                        android:textColor="@color/cl_grey_tx_new"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jumlah"
+                        android:textColor="@color/cl_grey_tx_new"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="9dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cuti"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cuti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </LinearLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sakit"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sakit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Izin"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_izin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Belum Hadir"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_belum_hadir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv14inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Pulang Awal"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_pulang_awal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv12inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Datang Siang"
+                        style="@style/tv14inter_reg"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_datang_siang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        style="@style/tv12inter_reg"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

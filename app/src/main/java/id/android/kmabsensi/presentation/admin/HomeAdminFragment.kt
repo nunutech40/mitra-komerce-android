@@ -1,56 +1,48 @@
 package id.android.kmabsensi.presentation.admin
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
-import com.github.ajalt.timberkt.d
-import iammert.com.expandablelib.ExpandableLayout
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.Dashboard
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.data.remote.response.UserCoworkingSpace
+import id.android.kmabsensi.databinding.FragmentHomeAdminBinding
+import id.android.kmabsensi.presentation.base.BaseFragmentRf
+import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.coworking.ListCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.kantor.KelolaKantorActivity
 import id.android.kmabsensi.presentation.partner.grafik.GrafikPartnerActivity
 import id.android.kmabsensi.presentation.role.RoleActivity
+import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
+import id.android.kmabsensi.presentation.sdm.home.MenuModels
+import id.android.kmabsensi.presentation.sdm.home.MenusAdapter
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
+import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import kotlinx.android.synthetic.main.fragment_home_admin.header_waktu
-import kotlinx.android.synthetic.main.fragment_home_admin.labelWaktu
-import kotlinx.android.synthetic.main.fragment_home_admin.layoutHoliday
-import kotlinx.android.synthetic.main.fragment_home_admin.layoutMenu1
-import kotlinx.android.synthetic.main.fragment_home_admin.layoutMenu2
-import kotlinx.android.synthetic.main.fragment_home_admin.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_home_admin.textView24
-import kotlinx.android.synthetic.main.fragment_home_admin.txtCountdown
-import kotlinx.android.synthetic.main.fragment_home_admin.txtHello
-import kotlinx.android.synthetic.main.fragment_home_admin.txtHolidayDate
-import kotlinx.android.synthetic.main.fragment_home_admin.txtHolidayName
-import kotlinx.android.synthetic.main.fragment_home_admin.txtNextTime
-import kotlinx.android.synthetic.main.fragment_home_admin.txtRoleName
-import kotlinx.android.synthetic.main.fragment_home_admin.txtStatusWaktu
 import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import kotlinx.android.synthetic.main.item_row_hari_libur.view.*
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import org.joda.time.LocalDate
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -60,7 +52,9 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeAdminFragment : Fragment() {
+class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
+    FragmentHomeAdminBinding::inflate
+) {
 
     private val vm: HomeViewModel by sharedViewModel()
     private val prefHelper: PreferencesHelper by inject()
@@ -70,81 +64,77 @@ class HomeAdminFragment : Fragment() {
 
     private var countDownTimer: CountDownTimer? = null
 
+    private lateinit var myDialog: MyDialog
+    private val REQ_SCAN_QR = 123
     //for expandable layout
     val section = Section<String, Dashboard>()
     var isSectionAdded = false
     private var dashboard: Dashboard? = null
 
-    private var skeletonNextTime: SkeletonScreen? = null
-    private var skeletonContdown: SkeletonScreen? = null
-    private var skeletonStatusWaktu: SkeletonScreen? = null
-    private var skeletonDate: SkeletonScreen? = null
-    private var skeletonDataHadir: SkeletonScreen? = null
-    private var skeletonDataBelumHadir: SkeletonScreen? = null
-    private var skeletonPartnerLabel: SkeletonScreen? = null
-    private var skeletonPartner: SkeletonScreen? = null
-    private var skeletonLabelMenu: SkeletonScreen? = null
-    private var skeletonMenu1: SkeletonScreen? = null
-    private var skeletonMenu2: SkeletonScreen? = null
-    private var skeletonMenu3: SkeletonScreen? = null
-
     private val cal = Calendar.getInstance()
     private val holidays = mutableListOf<Holiday>()
+    private lateinit var menusAdapter: MenusAdapter
+
+    private lateinit var dataUserCoworking : UserCoworkingSpace
 
     private val  isShopping by lazy {
         activity?.intent?.getBooleanExtra("isShopping", false)
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_home_admin, container, false)
+    private var sklUsername : SkeletonScreen? = null
+    private var sklPoin : SkeletonScreen? = null
+    private var sklTimer : SkeletonScreen? = null
+    private var sklChair : SkeletonScreen? = null
+    private var sklPhoto : SkeletonScreen? = null
+    private var sklQtyPartner : SkeletonScreen? = null
+    private var sklQtyPresence : SkeletonScreen? = null
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         user = vm.getUserData()
+        if (isShopping!!) showGroupMenu(1)
+        vm.getJadwalShalat()
 
-        return view
+        setupGreetings()
+        setupView()
+        setupObserver()
+        setupListener()
+        setupListMenus()
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (isShopping!!) showGroupMenu(1)
-        vm.dashboardData.observe(viewLifecycleOwner, Observer {
+    private fun setupObserver(){
+        vm.dashboardData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
-                    hideSkeletonDashboardContent()
-                    hideSkeletonMenu()
-
-                    showSkeletonDashboardContent()
-                    if (!swipeRefresh.isRefreshing) {
-                        showSkeletonMenu()
-                    }
+                    showSkeleton()
                 }
                 is UiState.Success -> {
+                    hideSkeleton()
                     dashboard = it.data.data
-                    hideSkeletonDashboardContent()
-                    hideSkeletonMenu()
-                    swipeRefresh.isRefreshing = false
+                    binding?.swipeRefresh?.isRefreshing = false
                     if (it.data.status) {
-                        txtPresent.text = it.data.data.total_present.toString()
-                        txtTotalUser.text = " /${it.data.data.total_user}"
-                        textTotalPartner.text = it.data.data.total_partner.toString()
+                        binding?.apply {
+                            dashboard.let { ds ->
+                                tvPoint.text = ds?.user_kmpoin.toString()
+                                tvTotalPresence.text = "${ds?.total_present}/${ds?.total_user}"
+                                tvPartnerTotal.text = ds?.total_partner.toString()
 
-                        if (!isSectionAdded){
-                            expandableLayout.addSection(getSectionDashboard(it.data.data))
-                        } else {
-                            expandableLayout.sections[0].parent = it.data.data.total_not_present.toString()
-                            expandableLayout.sections[0].children.clear()
-                            expandableLayout.sections[0].children.add(it.data.data)
-                            expandableLayout.notifyParentChanged(0)
+                                tvBelumHadir.text = ds?.total_not_present.toString()
+                                tvIzin.text = ds?.total_permission.toString()
+                                tvCuti.text = ds?.total_holiday.toString()
+                                progressPresence?.apply {
+                                    progress = ds?.total_present?.toFloat()!!
+                                    progressMax = ds.total_user.toFloat()
+                                }
+                            }
                         }
                     }
 
                     val isWFH = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WORK_MODE }?.value == ModeKerjaActivity.WFH
-//                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
-//
-//                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
-//                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
+                    val workModeScope = it.data.data.work_config.find { config -> config.key == ModeKerjaActivity.WFH_USER_SCOPE }?.value
+                    prefHelper.saveBoolean(PreferencesHelper.WORK_MODE_IS_WFH, isWFH)
+                    prefHelper.saveString(PreferencesHelper.WORK_MODE_SCOPE, workModeScope.toString())
                     setWorkModeUI(isWFH)
 
                     holidays.clear()
@@ -155,37 +145,21 @@ class HomeAdminFragment : Fragment() {
                     }
                 }
                 is UiState.Error -> {
-                    hideSkeletonDashboardContent()
-                    hideSkeletonMenu()
-                    swipeRefresh.isRefreshing = false
+                    hideSkeleton()
+                    binding?.swipeRefresh?.isRefreshing = false
                     e { it.throwable.message.toString() }
                 }
             }
         })
 
-        vm.jadwalShalatData.observe(viewLifecycleOwner, Observer {
+        vm.jadwalShalatData.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
-                    skeletonNextTime?.hide()
-                    skeletonStatusWaktu?.hide()
-                    skeletonContdown?.hide()
-
-                    skeletonNextTime = Skeleton.bind(txtNextTime)
-                        .load(R.layout.skeleton_item_big)
-                        .show()
-                    skeletonContdown = Skeleton.bind(txtCountdown)
-                        .load(R.layout.skeleton_item)
-                        .show()
-                    skeletonStatusWaktu = Skeleton.bind(txtStatusWaktu)
-                        .load(R.layout.skeleton_item)
-                        .show()
 
                 }
                 is UiState.Success -> {
-                    skeletonNextTime?.hide()
-                    skeletonStatusWaktu?.hide()
-                    skeletonContdown?.hide()
-                    if (it.data.status.toLowerCase().equals(getString(R.string.ok), true)) {
+                    sklTimer?.hide()
+                    if (it.data.status.lowercase().equals(getString(R.string.ok), true)) {
                         val data = it.data.jadwal.data
                         val dzuhur = data?.dzuhur
                         val ashr = data?.ashar
@@ -193,120 +167,195 @@ class HomeAdminFragment : Fragment() {
                     }
                 }
                 is UiState.Error -> {
-                    skeletonNextTime?.hide()
-                    skeletonStatusWaktu?.hide()
-                    skeletonContdown?.hide()
+                    sklTimer?.hide()
                 }
             }
         })
 
-        getPrayerTime()
-//        getDashboardData()
+        vm.coworkUserData.observe(viewLifecycleOwner, {
+            when (it) {
+                is UiState.Loading -> {
 
-        textView24.text = getTodayDateTimeDay()
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        expandableLayout.setRenderer(object : ExpandableLayout.Renderer<String, Dashboard> {
-            override fun renderChild(
-                view: View?,
-                model: Dashboard?,
-                parentPosition: Int,
-                childPosition: Int
-            ) {
-//                view?.findViewById<TextView>(R.id.txtJumlahCssr)?.text = model?.total_cssr.toString()
-                view?.findViewById<TextView>(R.id.txtJumlahCuti)?.text = model?.total_holiday.toString()
-                view?.findViewById<TextView>(R.id.txtJumlahSakit)?.text = model?.total_sick.toString()
-                view?.findViewById<TextView>(R.id.txtJumlahIzin)?.text = model?.total_permission.toString()
-                view?.findViewById<TextView>(R.id.txtJumlahBelumHadir)?.text = model?.total_not_yet_present.toString()
-                view?.findViewById<TextView>(R.id.txtJumlahGagalAbsen)?.text = model?.total_failed_present.toString()
+                }
+                is UiState.Success -> {
+                    sklChair?.hide()
+                    if (it.data.status) {
+                        it.data.data[0].apply {
+                            dataUserCoworking = this
+                            binding?.apply {
+                                if (status.equals("2")) {
+                                    btnCheckinCoWorking.alpha = 0.3f
+                                    btnCheckinCoWorking.isEnabled = false
+                                    tvChair.text = "Tutup"
+                                    tvCofee.gone()
+                                }else {
+                                    btnCheckinCoWorking.alpha = 1f
+                                    btnCheckinCoWorking.isEnabled = true
+                                    tvCofee.visible()
+                                    tvChair.text = "$available_slot Kursi"
+                                }
+                                if (cowork_presence.isNotEmpty()){
+                                    if (cowork_presence.last().checkout_date_time.isNullOrEmpty()){
+                                        tvCoworkingPresence.text = "Check Out"
+                                    }else{
+                                        tvCoworkingPresence.text = "Check In"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                is UiState.Error -> {
+                    sklChair?.hide()
+                }
             }
 
-            override fun renderParent(
-                view: View?,
-                model: String?,
-                isExpanded: Boolean,
-                parentPosition: Int
-            ) {
-                d { "render parent" }
-                view?.findViewById<ImageView>(R.id.arrow)
-                    ?.setBackgroundResource(if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down)
-                view?.findViewById<TextView>(R.id.txtJumlahTidakHadir)?.text = model
+        })
+
+        vm.checkInCoworkingSpace.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    if (it.data.status) vm.getCoworkUserData(user.id)
+                    else createAlertError(requireActivity(), "Failed", it.data.message)
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                    Timber.e(it.throwable)
+                }
             }
         })
-        expandableLayout.setExpandListener { parentIndex: Int, parent: String, view: View? ->
-            view?.findViewById<ImageView>(R.id.arrow)
-                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_up)
+
+        vm.redeemPoin.observe(viewLifecycleOwner, {
+            when (it) {
+                is UiState.Loading -> {
+                    myDialog.show()
+
+                }
+                is UiState.Success -> {
+                    myDialog.dismiss()
+                    if (it.data.status) {
+                        showDialogSuccess(requireActivity(), message = it.data.message)
+                        vm.getDashboardInfo(user.id)
+                    } else {
+                        createAlertError(requireActivity(), "Failed", it.data.message)
+                    }
+                }
+                is UiState.Error -> {
+                    myDialog.dismiss()
+                }
+            }
+        })
+    }
+
+    private fun setupListMenus(){
+        menusAdapter = MenusAdapter(requireActivity(), object : MenusAdapter.onAdapterListener{
+            override fun onClick(data: MenuModels) {
+                when(data.name){
+                    "Data Kantor" ->{
+                        activity?.startActivity<KelolaKantorActivity>()
+                    }
+                    "Co-Working" ->{
+                        activity?.startActivity<ListCoworkingActivity>()
+                    }
+                    "Talent" ->{
+        //            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
+                        showGroupMenu(0)
+                    }
+                    "Partner" ->{
+        //            activity?.startActivity<PartnerActivity>()
+                        showGroupMenu(1)
+                    }
+                    "Role" ->{
+                        activity?.startActivity<RoleActivity>()
+                    }
+                }
+            }
+        })
+        binding?.rvMenu?.apply {
+            adapter = menusAdapter
+            layoutManager = GridLayoutManager(requireContext(), 4)
         }
+        menusAdapter.setData(vm.menuHome(5))
+    }
 
-        expandableLayout.setCollapseListener { parentIndex: Int, parent: String, view: View? ->
-            view?.findViewById<ImageView>(R.id.arrow)
-                ?.setBackgroundResource(R.drawable.ic_keyboard_arrow_down)
+    private fun setupView(){
+        myDialog = MyDialog(requireContext())
+        vm.getDashboardInfo(user.id)
+        vm.getCoworkUserData(user.id)
+        binding?.apply {
+            imgProfile?.loadCircleImage(
+                user.photo_profile_url
+                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            )
+            tvPosition.text = getRoleName(user.role_id).capitalizeWords()
         }
+    }
 
+    private fun setupListener(){
+        binding?.apply {
+            btnDetailPartner.setOnClickListener {
+                activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
+            }
 
-        setupGreetings()
+            btnQrCode.setOnClickListener {
+                requireActivity().startActivityForResult<ScanQrActivity>(REQ_SCAN_QR)
+            }
 
-        txtRoleName.text = getRoleName(user.role_id).capitalize()
+            btnCheckinCoWorking.setOnClickListener {
+                validateCoworking()
+            }
 
-        btnKelolaKantor.setOnClickListener {
-            activity?.startActivity<KelolaKantorActivity>()
+            swipeRefresh.setOnRefreshListener {
+//                resetText()
+//                layoutHoliday.invis()
+//                layoutWfhMode.gone()
+                vm.getDashboardInfo(user.id)
+                vm.getCoworkUserData(user.id)
+                vm.getJadwalShalat()
+                setupGreetings()
+            }
+
+            btnDataPresence.setOnClickListener {
+                val params = llDdDataPresence.layoutParams
+                params.height = if (llDdDataPresence.height == 0) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+                imgArrowDd.rotation = if (llDdDataPresence.height == 0) 180f else 0f
+                llDdDataPresence.layoutParams = params
+            }
         }
+    }
 
-        btnKelolaSdm.setOnClickListener {
-//            activity?.startActivity<KelolaDataSdmActivity>(IS_MANAGEMENT_KEY to false)
-            showGroupMenu(0)
+    private fun validateCoworking() {
+        dataUserCoworking.apply {
+            if (cowork_presence.isNotEmpty() && cowork_presence.last().checkout_date_time?.isEmpty()?:true){
+                vm.checkOutCoworkingSpace(this.cowork_presence.last().id)
+                vm.getCoworkUserData(user.id)
+            }else{
+                if (available_slot > 0) {
+                    if (cowork_presence.size < 2) {
+                        requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
+                            "coworking" to dataUserCoworking
+                        )
+                    } else if (cowork_presence.size >= 2) {
+                        createAlertError(
+                            requireActivity(),
+                            "Gagal",
+                            "Kamu hanya bisa check in coworking space sebanyak 2 kali"
+                        )
+                    }
+                }
+            }
         }
-
-
-
-        btnKelolaCoworking.setOnClickListener {
-            activity?.startActivity<ListCoworkingActivity>()
-        }
-
-        btnDataPartner.setOnClickListener {
-//            activity?.startActivity<PartnerActivity>()
-            showGroupMenu(1)
-        }
-
-        btnRole.setOnClickListener {
-            activity?.startActivity<RoleActivity>()
-        }
-
-
-        sectionPartner.setOnClickListener {
-            activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
-        }
-
-
-
-        swipeRefresh.setOnRefreshListener {
-            txtPresent.text = ""
-            txtTotalUser.text = ""
-            txtNextTime.text = ""
-            txtCountdown.text = ""
-            txtStatusWaktu.text = ""
-            layoutHoliday.invis()
-            layoutWfhMode.gone()
-            getPrayerTime()
-            getDashboardData()
-            setupGreetings()
-        }
-
     }
 
     private fun setWorkModeUI(isWFH: Boolean){
         if (isWFH){
-            dataHadir.gone()
-            expandableLayout.gone()
-            layoutWfhMode.visible()
+            binding?.cvWfh?.visible()
         } else {
-            dataHadir.visible()
-            expandableLayout.visible()
-            layoutWfhMode.gone()
+            binding?.cvWfh?.gone()
         }
     }
 
@@ -316,7 +365,7 @@ class HomeAdminFragment : Fragment() {
      * 2 - Evaluasi
      */
     private fun showGroupMenu(menu: Int) {
-        swipeRefresh.gone()
+        binding?.swipeRefresh?.gone()
         containerHome.visible()
         val fragment = when (menu) {
             0 -> SdmMenuFragment()
@@ -330,7 +379,7 @@ class HomeAdminFragment : Fragment() {
 
     fun hideGroupMenu() {
         containerHome.gone()
-        swipeRefresh.visible()
+        binding?.swipeRefresh?.visible()
         childFragmentManager.popBackStack()
         (activity as HomeActivity).isOpenGroupMenu = false
     }
@@ -343,80 +392,67 @@ class HomeAdminFragment : Fragment() {
         return section
     }
 
-    private fun getPrayerTime() {
-        vm.getJadwalShalat()
-    }
 
     private fun setupGreetings() {
-        val (greeting, header) = (activity as HomeActivity).setGreeting()
-        txtHello.text = greeting
-        header_waktu.setImageResource(header)
+        val greeting = vm.setGreeting()
+        binding?.apply {
+            tvUsername.text = greeting
+        }
     }
 
     private fun setHolidayView(){
-        skeletonNextTime?.hide()
-        skeletonStatusWaktu?.hide()
-        skeletonContdown?.hide()
         if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            txtNextTime.text = "Hari Minggu"
+            binding?.tvCountDown?.text = "Hari Minggu"
         } else {
-            if (holidays.isNotEmpty()){
-                txtNextTime.invis()
-                layoutHoliday.visible()
-                txtHolidayName.text = holidays[0].eventName
-                val dateStart: LocalDate = LocalDate.parse(holidays[0].startDate)
-                val dateEnd: LocalDate = LocalDate.parse(holidays[0].endDate)
+            binding?.apply {
+                tvCountDown.invis()
+                tvStatusWaktu.invis()
+                if (holidays.isNotEmpty()){
+                    tvCountDown.text = holidays[0].eventName
+                    val dateStart: LocalDate = LocalDate.parse(holidays[0].startDate)
+                    val dateEnd: LocalDate = LocalDate.parse(holidays[0].endDate)
 
-                txtHolidayDate.text = if (holidays[0].startDate == holidays[0].endDate)
-                    localDateFormatter(dateStart)
-                else
-                    "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
-                        localDateFormatter(
-                            dateEnd,
-                            "dd MMM yyyy"
-                        )
-                    }"
+                    tvCountDown.text = if (holidays[0].startDate == holidays[0].endDate)
+                        localDateFormatter(dateStart)
+                    else
+                        "${localDateFormatter(dateStart, "dd MMM yyyy")} s.d ${
+                            localDateFormatter(
+                                dateEnd,
+                                "dd MMM yyyy"
+                            )
+                        }"
+                    tvCountDown.text = "Hari Libur"
+                }
             }
         }
-        labelWaktu.text = "Hari Libur"
-        txtCountdown.invis()
-        txtStatusWaktu.invis()
-        dataHadir.gone()
-        expandableLayout.gone()
     }
 
     private fun setCountdown(time_zuhur: String?, time_ashar: String?) {
         if (holidays.isNotEmpty() || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
         } else {
-            labelWaktu.text = "WAKTU"
-            val (statusWaktu, differenceTime, nextTime) = (activity as HomeActivity).getCountdownTime(
+//            labelWaktu.text = "WAKTU"
+            val (statusWaktu, differenceTime) = vm.getCountdownTime(
                 time_zuhur,
                 time_ashar
             )
+            binding?.apply{
+                tvStatusWaktu.visible()
+                tvCountDown.visible()
+                tvStatusWaktu.text = statusWaktu
 
-            txtStatusWaktu.visible()
-            txtNextTime.visible()
-            txtCountdown.visible()
-
-            txtStatusWaktu.text = statusWaktu
-            txtNextTime.text = nextTime
-
-            if (differenceTime != 0.toLong()) {
-                countDownTimer(differenceTime)
-            } else {
-                txtCountdown.text = "-"
+                if (differenceTime != 0.toLong()) {
+                    countDownTimer(differenceTime)
+                } else {
+                    tvCountDown.text = "-"
+                }
             }
         }
 
     }
 
-    private fun getDashboardData() {
-        vm.getDashboardInfo(user.id)
-    }
-
     override fun onResume() {
         super.onResume()
-        getDashboardData()
+        vm.getDashboardInfo(user.id)
     }
 
     companion object {
@@ -429,13 +465,13 @@ class HomeAdminFragment : Fragment() {
             countDownTimer = object : CountDownTimer(ms, 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
-                    if (txtCountdown != null) {
+                    if (binding?.tvCountDown != null) {
 
                         val hour = (millisUntilFinished / 1000) / (60 * 60) % 24
                         val minute = (millisUntilFinished / 1000) / 60 % 60
                         val second = (millisUntilFinished / 1000) % 60
                         try {
-                            txtCountdown.text = String.format(
+                            binding?.tvCountDown?.text = String.format(
                                     FORMAT,
                                     hour,
                                     minute,
@@ -446,13 +482,13 @@ class HomeAdminFragment : Fragment() {
                 }
 
                 override fun onFinish() {
-                    txtCountdown.text = "Waktu Tiba!"
+                    binding?.tvCountDown?.text = "Waktu Tiba!"
                 }
 
             }
             countDownTimer?.start()
         } catch (e: Exception) {
-            Timber.e(e)
+            e(e)
         }
 
     }
@@ -462,58 +498,47 @@ class HomeAdminFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun showSkeletonDashboardContent() {
-        skeletonDate = Skeleton.bind(textView24)
-            .load(R.layout.skeleton_item)
-            .show()
-
-        skeletonDataHadir = Skeleton.bind(dataHadir)
-            .load(R.layout.skeleton_home_data_hadir)
-            .show()
-
-        skeletonDataBelumHadir = Skeleton.bind(expandableLayout)
-            .load(R.layout.skeleton_home_box_content)
-            .show()
-
-        skeletonPartnerLabel = Skeleton.bind(labelPartner)
-            .load(R.layout.skeleton_item)
-            .show()
-
-        skeletonPartner = Skeleton.bind(sectionPartner)
-            .load(R.layout.skeleton_home_box_content)
-            .show()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_SCAN_QR && resultCode == Activity.RESULT_OK) {
+            val redeemPoin = data?.getIntExtra(getString(R.string.qrdata), 0)
+            redeemPoin?.let {
+                vm.redeemPoin(user.id, it)
+            }
+        }
+        if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
+            vm.getCoworkUserData(user.id)
+        }
     }
 
-    private fun hideSkeletonDashboardContent() {
-        skeletonDate?.hide()
-        skeletonDataHadir?.hide()
-        skeletonDataBelumHadir?.hide()
-        skeletonPartnerLabel?.hide()
-        skeletonPartner?.hide()
+    private fun showSkeleton() {
+        if (sklUsername == null){
+            binding?.apply {
+                sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
+                sklPoin = Skeleton.bind(tvPoint).load(R.layout.skeleton_item).show()
+                sklChair = Skeleton.bind(tvChair).load(R.layout.skeleton_item).show()
+                sklTimer = Skeleton.bind(tvCountDown).load(R.layout.skeleton_item).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+                sklQtyPartner = Skeleton.bind(tvPartnerTotal).load(R.layout.skeleton_hm_profile).show()
+                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+            }
+        }else{
+            sklUsername?.show()
+            sklPoin?.show()
+            sklChair?.show()
+            sklTimer?.show()
+            sklPhoto?.show()
+            sklQtyPresence?.show()
+            sklQtyPartner?.show()
+        }
     }
 
-    private fun showSkeletonMenu() {
-        skeletonLabelMenu = Skeleton.bind(textView26)
-            .load(R.layout.skeleton_item)
-            .show()
-
-        skeletonMenu1 = Skeleton.bind(layoutMenu1)
-            .load(R.layout.skeleton_home_menu)
-            .show()
-
-        skeletonMenu2 = Skeleton.bind(layoutMenu2)
-            .load(R.layout.skeleton_home_menu)
-            .show()
-
-        skeletonMenu3 = Skeleton.bind(layoutMenu3)
-            .load(R.layout.skeleton_home_menu)
-            .show()
-    }
-
-    private fun hideSkeletonMenu() {
-        skeletonLabelMenu?.hide()
-        skeletonMenu1?.hide()
-        skeletonMenu2?.hide()
-        skeletonMenu3?.hide()
+    private fun hideSkeleton(){
+        sklUsername?.hide()
+        sklPoin?.hide()
+        sklPhoto?.hide()
+        sklQtyPresence?.hide()
+        sklQtyPartner?.hide()
     }
 }
+

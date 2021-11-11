@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/f_my_order"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/cl_white_dark_new"
+    tools:context=".presentation.komship.myorder.MyOrderFragment">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_my_order"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ll_qty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns_product"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_form_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_16dp"
+                    android:padding="@dimen/_16dp"
+                    android:background="@drawable/bg_white_10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Partner"
+                        style="@style/tv14inter_reg"
+                        android:textColor="@color/cl_grey_tx_new"/>
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/sp_partner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingStart="0dp"
+                        style="@style/tv16inter_reg"
+                        android:background="@drawable/spinner_background_rf"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cl_grey_2"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_produk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/cl_grey_2"
+                        app:boxStrokeWidth="0.5dp"
+                        app:hintTextColor="@color/cl_grey_2"
+                        app:hintTextAppearance="@style/tv14inter_reg"
+                        android:layout_marginTop="@dimen/_12dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_produk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/tv16inter_reg"
+                            android:paddingTop="40dp"
+                            android:focusable="false"
+                            android:paddingStart="6dp"
+                            android:clickable="true"
+                            android:hint="Pilih Produk"
+                            android:maxLines="1"
+                            android:background="@color/white"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12dp"
+                    android:layout_marginHorizontal="@dimen/_16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_form_product">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_detail_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_16dp"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView"
+                            android:layout_width="98dp"
+                            android:layout_height="98dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img_product"
+                                android:layout_width="98dp"
+                                android:layout_height="98dp"
+                                app:srcCompat="@drawable/ic_galery_rf"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="@dimen/_8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cardView"
+                            app:layout_constraintTop_toTopOf="@+id/cardView">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_name_product"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jilbab Pasmia 1-SKU 332"
+                                tools:text="Jilbab Pasmia 1-SKU 332"
+                                style="@style/tv16inter_reg"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rp1.000.000"
+                                tools:text="Rp1.000.000"
+                                android:layout_marginTop="@dimen/_6dp"
+                                style="@style/tv16monst_semi"
+                                android:textColor="@color/cl_orange_text_new"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_available_product"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tersedia: 1000 Pcs"
+                                tools:text="Tersedia: 1000 Pcs"
+                                android:layout_marginTop="@dimen/_4dp"
+                                style="@style/tv12inter_reg"
+                                android:textColor="@color/cl_grey_tx_new"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_variant1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp"
+                        android:padding="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_name_variant1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih -"
+                            style="@style/tv14monst_semi"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_varian1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_variant2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp"
+                        android:padding="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_name_variant2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih -"
+                            style="@style/tv14monst_semi"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_varian2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_variant3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp"
+                        android:padding="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_name_variant3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih -"
+                            style="@style/tv14monst_semi"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_varian3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_variant4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp"
+                        android:padding="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_name_variant4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih -"
+                            style="@style/tv14monst_semi"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_varian4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_variant5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_white_10dp"
+                        android:padding="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_name_variant5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih -"
+                            style="@style/tv14monst_semi"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_varian5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_16dp"
+        android:background="@drawable/bg_white_10dp"
+        android:paddingHorizontal="@dimen/_16dp"
+        android:paddingVertical="@dimen/_12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/tv14monst_semi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Kuantitas" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/btn_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_white_dark_10dp"
+                android:padding="@dimen/_12dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    app:srcCompat="@drawable/ic_minus_rf" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_total"
+                style="@style/tv16monst_semi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="17dp"
+                android:text="1"/>
+
+            <RelativeLayout
+                android:id="@+id/btn_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_white_dark_10dp"
+                android:padding="@dimen/_12dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_plus_rf" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:paddingVertical="@dimen/_12dp"
+        android:paddingHorizontal="@dimen/_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <RelativeLayout
+            android:id="@+id/btn_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_stroke_10dp"
+            android:paddingVertical="@dimen/_14dp"
+            android:paddingHorizontal="28dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_cart"
+                android:layout_width="14dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_orderku_off_rf" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:layout_marginStart="@dimen/_16dp"
+            android:textColor="@color/white"
+            android:text="Order Langsung"
+            android:background="@drawable/bg_grey_8dp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_6dp"
+    android:layout_marginBottom="@dimen/_6dp"
+    android:paddingVertical="@dimen/_12dp"
+    android:background="@drawable/bg_white_10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_username"
+        style="@style/tv16inter_med"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Putri Maharani"
+        android:layout_marginTop="@dimen/_12dp"
+        android:layout_marginStart="@dimen/_12dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_status"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_status"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Diajukan"
+        style="@style/tv10monst_semi"
+        android:textColor="@color/cl_yellow"
+        android:background="@color/cl_semi_yellow"
+        android:paddingVertical="@dimen/_6dp"
+        android:layout_marginEnd="@dimen/_12dp"
+        android:paddingHorizontal="@dimen/_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_date_type"
+        style="@style/tv12inter_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12dp"
+        android:textColor="@color/cl_grey_tx_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
+        tools:text="22 Agustus 2021. 16:30 - Kompship" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date_type">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_galery_rf" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name_product"
+                style="@style/tv14inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Jilbab Pasmia 1-SKU 332" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_total_product"
+                style="@style/tv12inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:textColor="@color/cl_grey_tx_new"
+                tools:text="5 pcs (2 produk)" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/cl_grey_dark_tx_new"
+            app:srcCompat="@drawable/ic_chevron_right" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/cl_grey_2"
+        android:layout_marginVertical="@dimen/_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat7" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/_12dp"
+        android:layout_marginTop="@dimen/_12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_line"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: "
+            android:layout_gravity="bottom"
+            android:textColor="@color/cl_grey_dark_tx_new"
+            style="@style/tv12monst_med" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Rp500.000"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/cl_orange_text_new"
+            style="@style/tv14monst_semi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_resi"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/cl_grey_dark_tx_new"
+            style="@style/tv12inter_reg"
+            tools:text="Resi: 123..."
+            android:drawableEnd="@drawable/ic_copy_rf"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

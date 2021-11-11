@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cl_white_dark_new"
+    tools:context=".presentation.komship.selectproduct.SelectProductActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_toolbar_v2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/_16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_search_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cari"
+            style="@style/tv16inter_reg"
+            android:backgroundTint="@color/cl_grey_2"
+            android:drawablePadding="@dimen/_10dp"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_10dp"
+        android:layout_margin="@dimen/_16dp"
+        tools:listitem="@layout/item_row_product"
+        app:layout_constraintTop_toBottomOf="@+id/rl_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

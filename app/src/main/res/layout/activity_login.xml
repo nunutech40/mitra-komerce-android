@@ -1,164 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cl_white_dark_new"
     tools:context=".presentation.login.LoginActivity"
     tools:ignore="MissingPrefix">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_hallo"
+        style="@style/tv28monst_semi"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:text="Hallo! Selamat \nDatang"
+        android:layout_marginTop="@dimen/_100dp"
+        android:layout_marginStart="@dimen/_24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/vector" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_desc_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/login_bottom_shape" />
+        android:text="Masukan username/email dan\npassword kamu"
+        android:layout_marginStart="@dimen/_24dp"
+        android:layout_marginTop="@dimen/_4dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hallo"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_top_circle_gradient" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_right_circle" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_top_circle_shape" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/login_bottom_circle" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="135dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        app:srcCompat="@drawable/mitra_km_logo" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_24sdp"
-        android:layout_marginBottom="@dimen/_42sdp"
-        android:text="@string/username"
-        android:textColor="@color/textColor"
-        android:textAppearance="@style/TextAppearance.Bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_22sdp"
-        android:layout_marginEnd="@dimen/_24sdp"
-        android:ems="10"
-        android:hint="@string/input_username"
-        android:inputType="textEmailAddress"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.Bold"
-        android:text="@string/password"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
-
-    <EditText
-        android:id="@+id/edtPasword"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_22sdp"
-        android:layout_marginEnd="@dimen/_24sdp"
-        android:ems="10"
-        android:hint="@string/input_password"
-        android:inputType="textPassword"
-        android:textSize="16sp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_white_top_25dp"
+        android:paddingHorizontal="@dimen/_24dp"
+        android:paddingTop="@dimen/_32dp"
+        android:layout_marginTop="@dimen/_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_desc_login">
 
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_24sdp"-->
+<!--            android:layout_marginBottom="@dimen/_42sdp"-->
+<!--            android:text="@string/username"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textAppearance="@style/TextAppearance.Bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/tv_desc_login"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
+<!--        <EditText-->
+<!--            android:id="@+id/edtEmail"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_22sdp"-->
+<!--            android:layout_marginEnd="@dimen/_24sdp"-->
+<!--            android:ems="10"-->
+<!--            android:hint="@string/input_username"-->
+<!--            android:inputType="textEmailAddress"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView2" />-->
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        style="@style/Widget.AppCompat.Button.Colored"
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:textAppearance="@style/TextAppearance.Bold"-->
+<!--            android:text="@string/password"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView2"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/edtEmail" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/edtPasword"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_22sdp"-->
+<!--            android:layout_marginEnd="@dimen/_24sdp"-->
+<!--            android:ems="10"-->
+<!--            android:hint="@string/input_password"-->
+<!--            android:inputType="textPassword"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/btnLupaPassword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="Lupa Password?"-->
+<!--            android:textAppearance="@style/TextAppearance.Bold"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/edtPasword"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/edtPasword" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/btnToggleVisiblePassword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="@dimen/_8dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/edtPasword"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/edtPasword"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/edtPasword"-->
+<!--            app:srcCompat="@drawable/ic_visibility_password_off" />-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username/Email"
+            style="@style/tv14inter_reg"
+            android:textColor="@color/cl_grey_tx_new"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/cl_grey_2"
+            app:boxStrokeWidth="0.5dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/tv16inter_reg"
+                android:paddingStart="0dp"
+                android:paddingTop="12dp"
+                android:maxLines="1"
+                android:background="@color/white"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            style="@style/tv14inter_reg"
+            android:layout_marginTop="@dimen/_16dp"
+            android:textColor="@color/cl_grey_tx_new"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:boxStrokeColor="@color/cl_grey_2"
+            app:boxStrokeWidth="0.5dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textPassword"
+                style="@style/tv16inter_reg"
+                android:paddingStart="0dp"
+                android:maxLines="1"
+                android:paddingTop="12dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_forgot_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lupa Password?"
+            style="@style/tv14inter_reg"
+            android:layout_gravity="end"
+            android:textColor="@color/cl_orange"
+            android:layout_marginTop="@dimen/_12dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_24sdp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/_24sdp"
-        android:text="@string/login"
+        style="@style/tv16monst_med"
+        android:textColor="@color/white"
+        android:paddingVertical="@dimen/_14dp"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:text="Masuk"
         android:textAllCaps="false"
-        app:cornerRadius="10dp"
+        android:background="@drawable/bg_orange_10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLupaPassword" />
-
-    <TextView
-        android:id="@+id/btnLupaPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Lupa Password?"
-        android:textAppearance="@style/TextAppearance.Bold"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/edtPasword"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasword" />
-
-    <ImageView
-        android:id="@+id/btnToggleVisiblePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edtPasword"
-        app:layout_constraintEnd_toEndOf="@+id/edtPasword"
-        app:layout_constraintTop_toTopOf="@+id/edtPasword"
-        app:srcCompat="@drawable/ic_visibility_password_off" />
-
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

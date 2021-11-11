@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.komship.successorder.SuccessOrderActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_show_detail_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_icon_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="55dp"
+                app:srcCompat="@drawable/ic_success_order_rf" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/desc_success"
+                style="@style/tv24inter_med"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_24dp"
+                android:text="Orderan berhasil dibuat" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Nama Pelanggan"
+                android:textColor="@color/cl_grey_tx_new" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_username"
+                style="@style/tv16inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:text="Putri Maharani" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Tanggal Order"
+                android:textColor="@color/cl_grey_tx_new" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_date_order"
+                style="@style/tv16inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:text="22 Agustus 2021" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Waktu Order"
+                android:textColor="@color/cl_grey_tx_new" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_time_order"
+                style="@style/tv16inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:text="16:30WIB" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/tv14inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="No. Order"
+                android:textColor="@color/cl_grey_tx_new" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_no_order"
+                style="@style/tv16inter_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:text="RX1234567890" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_show_detail_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lihat Data Order"
+        android:textAllCaps="false"
+        android:stateListAnimator="@null"
+        style="@style/tv16monst_semi"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_orange_10dp"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_order"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tambah Order"
+        android:textAllCaps="false"
+        android:stateListAnimator="@null"
+        style="@style/tv16monst_semi"
+        android:textColor="@color/cl_orange"
+        android:background="@drawable/bg_with_stroke_orange_8d"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

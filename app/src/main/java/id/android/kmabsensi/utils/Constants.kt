@@ -53,6 +53,7 @@ const val INVOICE_STATUS = "invoice_status"
 const val LEADER_ID = "leader_id"
 
 const val IS_CS = "is_cs"
+const val IS_SAVE_PHOTO = "is_save_photo"
 
 enum class SORT_TYPE {
     LEADS,  TRANSACTION, ORDER, RATE_CONVERSION, RATE_ORDER
@@ -61,3 +62,6 @@ enum class SORT_TYPE {
 
 // tanggal format = yyyy-MM-dd
 const val JADWAL_SHOLAT_URL = "https://api.banghasan.com/sholat/format/json/jadwal/kota/725/tanggal/"
+
+// dummy image shopping
+const val URL_SHOPPING_EMPTY = "https://www.pngitem.com/pimgs/m/208-2086269_instagram-shopping-icon-png-transparent-png.png"

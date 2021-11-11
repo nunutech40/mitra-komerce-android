@@ -226,6 +226,18 @@
         <item>Lainnya</item>
     </string-array>
 
+    <string-array name="payment_methode">
+        <item>Metode Pembayaran</item>
+        <item>COD (Bayar di tempat)</item>
+        <item>Transfer Bank</item>
+    </string-array>
+
+    <string-array name="bank">
+        <item>BCA</item>
+        <item>BNI</item>
+        <item>BRI</item>
+    </string-array>
+
     <string name="info_tayangan">Jumlah tayangan iklan yang dilihat oleh target audience</string>
     <string name="info_klik_iklan">Jumlah orang yang klik iklan yang pada akhirnya setelah klik akan menuju ke halaman penawaran / landing page (LP)</string>
     <string name="info_visitor">Jumlah orang yang mengunjungi halaman penawaran / landingpage (LP) di web</string>
@@ -238,7 +250,7 @@
     <string name="general_empty_message">Kolom tidak boleh kosong</string>
     <string name="msg_alert_on_off_sdm">Me-nonjob-kan SDM akan menghapus data-data laporan, device, dan prodcut knowledge</string>
     <string name="message_error_occured">Terjadi Kesalahan</string>
-    <string name="label_gagal">TGagal</string>
+    <string name="label_gagal">Gagal</string>
     <string name="text_admin">Admin</string>
     <string name="text_gaji_sdm">Gaji SDM</string>
     <string name="text_total">Total</string>
@@ -323,5 +335,18 @@
     <string name="text_warning">Warning</string>
     <string name="text_pilih_jenis_kelamin_dahulu">Pilih jenis kelamin dahulu</string>
     <string name="text_status_pernikahan_dahulu">Pilih status pernikahan dahulu</string>
+
+    <string name="datang">Datang</string>
+    <string name="tutup">Tutup</string>
+    <string name="checkout">Check Out</string>
+    <string name="checkin">Check In</string>
+    <string name="cari">Cari</string>
+    <string name="selengkapnya">Selengkapnya</string>
+    <string name="orderku">Orderku</string>
+    <string name="paket_tidak_tersedia">Paket ini tidak tersedia</string>
+    <string name="tampilkan_lebih_sedikit">Tampilkan lebih sedikit</string>
+    <string name="data_cart_berhasil_ditambahkan">Data berhasil ditambahkan ke keranjang</string>
+    <string name="anda_belum_memilih_item">Anda belum memilih item yang akan dihapus</string>
+    <string name="outside_area">*Mohon maaf ekspedisi ini tidak menjangkau daerah tersebut</string>
 
 </resources>

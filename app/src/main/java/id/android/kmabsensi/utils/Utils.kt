@@ -7,6 +7,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.customview.customView
@@ -209,6 +210,35 @@ fun showDialogConfirmDelete(
             it.dismiss()
         }
     }
+}
+
+fun showDialogConfirmCancle(
+    context: Context,
+    listener: OnSingleCLick
+) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        customView(
+            R.layout.dialog_confirm_cancle_order,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btnCancle = customView.findViewById<AppCompatButton>(R.id.btn_no)
+    val btnYes = customView.findViewById<AppCompatButton>(R.id.btn_yes)
+    btnCancle.setOnClickListener {
+        dialog.dismiss()
+    }
+    btnYes.setOnClickListener {
+        listener.onCLick()
+        dialog.dismiss()
+    }
+}
+
+interface OnSingleCLick{
+    fun onCLick()
 }
 
 interface OnAfterTextChanged {

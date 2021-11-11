@@ -2,6 +2,9 @@ package id.android.kmabsensi.utils
 
 import android.text.TextUtils
 import android.widget.EditText
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
 object ValidationForm {
@@ -62,4 +65,24 @@ object ValidationForm {
         }
     }
 
+    fun validationTextInputEditText(edt: TextInputEditText, til : TextInputLayout, errormsg: String): Boolean {
+        if (TextUtils.isEmpty(edt.text.toString())) {
+            til.error = errormsg
+            til.requestFocus()
+            return false
+        } else {
+            return true
+        }
+    }
+
+}
+
+fun AppCompatAutoCompleteTextView.validateAutoComplete(et: TextInputLayout, msg: String): Boolean{
+    var result = false
+    if (this.text.toString() == ""){
+        et.requestFocus()
+        et.error = msg
+    }else result = true
+
+    return result
 }

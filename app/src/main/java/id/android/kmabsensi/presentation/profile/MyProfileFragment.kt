@@ -2,48 +2,36 @@ package id.android.kmabsensi.presentation.profile
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.databinding.FragmentMyProfileBinding
+import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.login.LoginActivity
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.fragment_home_admin.imgProfile
-import kotlinx.android.synthetic.main.fragment_my_profile.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class MyProfileFragment : Fragment() {
+class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
+    FragmentMyProfileBinding::inflate
+) {
 
     private val vm: HomeViewModel by sharedViewModel()
     private lateinit var myDialog: MyDialog
 
     lateinit var user: User
-    private lateinit var binding : FragmentMyProfileBinding
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-
-        binding = FragmentMyProfileBinding.inflate(inflater, container, false)
-
-        myDialog = MyDialog(context!!)
-
-        return binding.root
-    }
 
     companion object {
         @JvmStatic
@@ -52,28 +40,25 @@ class MyProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
+        setupObserver()
+        setupListener()
+        setupToolbar("Akun", isBgWhite = true)
+    }
 
+    private fun setupView(){
+        myDialog = MyDialog(requireContext())
         user = vm.getUserData()
-
-        if (user.role_id == 1) {
-            binding.btnUbahProfile.gone()
-            binding.divider1.gone()
+        binding?.apply {
+            swSavePhoto.isChecked = PreferencesHelper(requireContext()).getBoolean(IS_SAVE_PHOTO) ?: true
+            if (user.role_id == 1) {
+                btnChangeProfile.gone()
+            }
         }
+    }
 
-
-        binding.btnUbahProfile.setOnClickListener {
-            context?.startActivity<UbahProfileActivity>(USER_KEY to user)
-        }
-
-        binding.btnLogout.setOnClickListener {
-            vm.logout()
-        }
-
-        binding.btnUbahPassword.setOnClickListener {
-            context?.startActivity<EditPasswordActivity>(USER_ID_KEY to user.id)
-        }
-
-        vm.logoutState.observe(viewLifecycleOwner, Observer {
+    private fun setupObserver(){
+        vm.logoutState.observe(viewLifecycleOwner, {
             when (it) {
                 is UiState.Loading -> {
                     myDialog.show()
@@ -85,7 +70,7 @@ class MyProfileFragment : Fragment() {
                         vm.clearPref()
                         activity?.finish()
                     } else {
-                        createAlertError(activity!!, "Failed", it.data.message)
+                        createAlertError(requireActivity(), "Failed", it.data.message)
                     }
 
                 }
@@ -96,7 +81,7 @@ class MyProfileFragment : Fragment() {
             }
         })
 
-        vm.userdData.observe(viewLifecycleOwner, Observer { state ->
+        vm.userdData.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
@@ -107,7 +92,25 @@ class MyProfileFragment : Fragment() {
                 }
             }
         })
+    }
 
+    private fun setupListener(){
+        binding?.apply {
+            swSavePhoto.setOnCheckedChangeListener{ _, isChecked ->
+                PreferencesHelper(requireContext()).saveBoolean(IS_SAVE_PHOTO, isChecked)
+            }
+            btnChangeProfile.setOnClickListener {
+                context?.startActivity<UbahProfileActivity>(USER_KEY to user)
+            }
+
+            btnLogOut.setOnClickListener {
+                vm.logout()
+            }
+
+            btnForgotPass.setOnClickListener {
+                context?.startActivity<EditPasswordActivity>(USER_ID_KEY to user.id)
+            }
+        }
     }
 
     override fun onResume() {
@@ -118,21 +121,18 @@ class MyProfileFragment : Fragment() {
 
     private fun setProfile() {
         user = vm.getUserData()
-
-        if (user.role_id == 1){
-            binding.imgProfile.setImageResource(R.drawable.logo)
-        } else {
-            binding.imgProfile.loadCircleImage(
-                user.photo_profile_url
-                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-            )
+        binding?.apply {
+            if (user.role_id == 1){
+                imgProfile.setImageResource(R.drawable.logo)
+            } else {
+                imgProfile.loadCircleImage(
+                    user.photo_profile_url
+                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+                )
+            }
+            tvUsername.text = user.full_name
+            tvPosition.text = user.position_name
         }
-
-        binding.textNama.text = user.full_name
-        binding.txtDivisi.text = user.division_name
-        binding.txtPhone.text = user.no_hp
-        binding.txtJabatan.text = user.position_name
-
     }
 
 

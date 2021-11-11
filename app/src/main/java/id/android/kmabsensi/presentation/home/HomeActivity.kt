@@ -2,21 +2,19 @@ package id.android.kmabsensi.presentation.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.response.User
+import id.android.kmabsensi.databinding.ActivityHomeBinding
 import id.android.kmabsensi.presentation.admin.HomeAdminFragment
+import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.management.HomeManagementFragment
 import id.android.kmabsensi.presentation.profile.MyProfileFragment
 import id.android.kmabsensi.presentation.report.ReportFragment
@@ -26,11 +24,12 @@ import id.android.kmabsensi.presentation.sdm.home.HomeSdmFragment
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.ext.android.inject
-import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivityRf<ActivityHomeBinding>(
+    ActivityHomeBinding::inflate
+){
 
     private val vm: HomeViewModel by inject()
 
@@ -65,28 +64,18 @@ class HomeActivity : AppCompatActivity() {
             }
             false
         }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        nav_view.apply {
+            setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+            itemIconTintList = null
+        }
         setContentView(R.layout.activity_home)
-
-        nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        nav_view.itemIconTintList = null
 
         user = vm.getUserData()
         vm.isNormal(user)
         role = getRoleName(user.role_id)
 
-        window.apply {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = Color.TRANSPARENT
-        }
         hasReportPresence = intent.getBooleanExtra("hasReportPresence", false)
         when (role) {
             ROLE_ADMIN -> {
@@ -100,28 +89,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         setupViewPager()
-    }
-
-    fun showDialogNotYetCheckout() {
-        val dialog = MaterialDialog(this).show {
-            cornerRadius(16f)
-            customView(
-                R.layout.dialog_retake_foto,
-                scrollable = false,
-                horizontalPadding = true,
-                noVerticalPadding = true
-            )
-        }
-        val customView = dialog.getCustomView()
-        val btn_retake = customView.findViewById<Button>(R.id.btn_retake)
-        val txtKeterangan = customView.findViewById<TextView>(R.id.tv_detection)
-
-        txtKeterangan.text = getString(R.string.ket_belum_waktu_pulang)
-        btn_retake.text = getString(R.string.ok)
-
-        btn_retake.setOnClickListener {
-            dialog.dismiss()
-        }
     }
 
     private fun setupViewPager() {
@@ -148,7 +115,6 @@ class HomeActivity : AppCompatActivity() {
 
         viewpager.adapter = adapter
     }
-
 
     @SuppressLint("SimpleDateFormat")
     fun setGreeting(): Pair<String, Int> {
