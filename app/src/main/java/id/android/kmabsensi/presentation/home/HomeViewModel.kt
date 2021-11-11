@@ -22,6 +22,10 @@ import id.android.kmabsensi.utils.rx.with
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
+import id.android.kmabsensi.utils.ROLE_SDM
+import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.rx.SchedulerProvider
+import id.android.kmabsensi.utils.rx.with
 
 class HomeViewModel(
     private val preferencesHelper: PreferencesHelper,
@@ -180,7 +184,10 @@ class HomeViewModel(
                 userRepository.getProfileUser(userId)
                     .with(schedulerProvider)
                     .subscribe({
-                        preferencesHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
+                        preferencesHelper.saveString(
+                            PreferencesHelper.PROFILE_KEY,
+                            Gson().toJson(it.data[0])
+                        )
                         userdData.value = UiState.Success(it)
                     }, {
                         userdData.value = UiState.Error(it)
@@ -218,6 +225,12 @@ class HomeViewModel(
 
     fun clearPref() {
         preferencesHelper.clear()
+    }
+
+    fun isNormal(user: User): Boolean {
+        /** role id 3 -> sdm */
+        return user.role_id == 3 || user.position_name.lowercase()
+            .contains("team lead") || user.position_name.lowercase().contains("partner acquisition")
     }
 
     override fun onError(error: Throwable) {

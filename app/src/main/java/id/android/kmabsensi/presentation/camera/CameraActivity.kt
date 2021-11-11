@@ -56,7 +56,7 @@ class CameraActivity : AppCompatActivity() {
     val FLIP_HORIZONTAL = 2
 
     private lateinit var waitingDialog : AlertDialog
-
+    private lateinit var handler: Handler
     private val dialog by lazy {
         MaterialDialog(this).apply {
             cornerRadius(16f)
@@ -93,7 +93,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun delayTakePhoto(){
-        Handler(mainLooper).postDelayed({
+        handler.postDelayed({
             takePhoto()
         }, 5000)
     }
@@ -122,18 +122,14 @@ class CameraActivity : AppCompatActivity() {
         }
         isToast = true
         if (isPermissions) {
-            Log.d("onRequestPermission", "onRequestPermissionsResult: " + "Allow all permissions")
             initCamera()
         } else {
-            Log.d(
-                "onRequestPermission",
-                "onRequestPermissionsResult: " + "Have permission not allowed"
-            )
             finish()
         }
     }
 
     private fun initCamera() {
+        handler = Handler(mainLooper)
         waitingDialog = SpotsDialog.Builder().setContext(this)
             .setMessage("Pemindaian wajah...")
             .setCancelable(false)
@@ -243,20 +239,12 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onStop() {
         super.onStop()
         if (mCameraView != null) {
             mCameraView!!.onStop()
         }
+        handler.removeCallbacksAndMessages(null)
     }
 
     fun flipImage(source: Bitmap, type: Int): Bitmap {

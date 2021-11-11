@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
@@ -242,6 +243,12 @@ interface OnSingleCLick{
 
 interface OnAfterTextChanged {
     fun afterTextChanged(text: String?)
+}
+
+fun isSaturday(): Boolean{
+    val cal = Calendar.getInstance()
+    val day = cal.get(Calendar.DAY_OF_WEEK)
+    return day == Calendar.SATURDAY
 }
 
 

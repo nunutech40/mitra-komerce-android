@@ -437,7 +437,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 val now: Date = currentTime.time
 
                 val cal = Calendar.getInstance()
-                cal.set(Calendar.HOUR_OF_DAY, 16)
+                if (vm.isNormal(user)) cal.set(Calendar.HOUR_OF_DAY, 16) else cal.set(Calendar.HOUR_OF_DAY, 17)
 //                cal.set(Calendar.MINUTE, 30)
                 val jamPulang: Date = cal.time
 
@@ -445,8 +445,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                     showDialogNotYetCheckout(requireContext())
                 } else {
                     // office name contain rumah, can direct selfie
-                    if (presenceCheck.office_assigned.office_name.lowercase()
-                            .contains("rumah") || isWFH || isEligibleToCheckoutOutside
+                    if (presenceCheck.office_assigned.office_name.lowercase().contains("rumah") || isWFH || isEligibleToCheckoutOutside || (isSaturday() && vm.isNormal(user))
                     ) {
                         context?.startActivity<CheckinActivity>(
                             DATA_OFFICE_KEY to presenceCheck.office_assigned,

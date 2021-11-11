@@ -3,6 +3,7 @@ package id.android.kmabsensi.presentation.sdm.laporan.cs
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -92,13 +93,14 @@ class SdmLaporanActivity : BaseActivity() {
     }
 
     private fun observeResult() {
-        sdmVM.csPerformances.observe(this, Observer { state ->
+        sdmVM.csPerformances.observe(this, { state ->
             when (state) {
                 is UiState.Loading -> {
                     swipeRefresh.isRefreshing = true
                 }
                 is UiState.Success -> {
                     swipeRefresh.isRefreshing = false
+                    Log.d("_csPerformances", "csPerformances: ${state.data.data}")
                     groupAdapter.clear()
                     val data = state.data.data
                     if (data.isEmpty()) layout_empty.visible() else layout_empty.gone()
@@ -125,6 +127,7 @@ class SdmLaporanActivity : BaseActivity() {
                 }
                 is UiState.Error -> {
                     swipeRefresh.isRefreshing = false
+                    Log.d("_csPerformances", "error: ${state.throwable}")
                 }
             }
         })
