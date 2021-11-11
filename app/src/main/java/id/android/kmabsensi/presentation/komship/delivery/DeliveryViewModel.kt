@@ -134,24 +134,24 @@ class DeliveryViewModel(
         return ResultCalculate(calculate, isCalculate)
     }
 
-    fun setupListCart(isLess: Boolean, list: List<ValidateChecked>): MutableList<CartItem>{
+    fun setupListCart(isLess: Boolean, list: List<CartItem>): MutableList<CartItem>{
         val listCart = ArrayList<CartItem>()
         if (isLess){
             for (idx in 0 until 2){
-                listCart.add(list[idx].item)
+                listCart.add(list[idx])
             }
         }else{
             list.forEach {
-                listCart.add(it.item)
+                listCart.add(it)
             }
         }
         return listCart
     }
 
-    fun getCostOrder(list: List<ValidateChecked>): Int{
+    fun getCostOrder(list: List<CartItem>): Int{
         var cost = 0
         list.forEach {
-            cost += (it.item.productPrice!!*it.item.qty!!)
+            cost += (it.productPrice!!*it.qty!!)
         }
         return cost
     }
@@ -181,10 +181,10 @@ class DeliveryViewModel(
     }
 
     /** get id Cart */
-    fun getIdOrder(list: ArrayList<ValidateChecked>?): ArrayList<Int> {
+    fun getIdOrder(list: ArrayList<CartItem>?): ArrayList<Int> {
         val listId = ArrayList<Int>()
         list!!.forEach {
-            listId.add(it.item.cartId!!)
+            listId.add(it.cartId!!)
         }
         return listId
     }

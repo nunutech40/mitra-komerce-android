@@ -2,25 +2,20 @@ package id.android.kmabsensi.presentation.komship.ordercart
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.R
-import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.komship.CartItem
 import id.android.kmabsensi.databinding.ItemRowOrderCartBinding
 import id.android.kmabsensi.utils.URL_SHOPPING_EMPTY
-import id.android.kmabsensi.utils.convertRp
 import id.android.kmabsensi.utils.convertRupiah
 import id.android.kmabsensi.utils.loadImageFromUrl
 import kotlinx.android.synthetic.main.item_row_order_cart.view.*
 
 class OrderCartAdapter(
     val context : Context,
-    val idCart: Int? = 0,
-    val isDirectOrder: Boolean,
     val listener : onAdapterListener
     ): RecyclerView.Adapter<OrderCartAdapter.VHolder>() {
 
@@ -55,11 +50,6 @@ class OrderCartAdapter(
         val data = list[position]
         holder.bind(data)
         holder.itemView.apply {
-
-            if (data.cartId == idCart && isDirectOrder){
-                cb_order.isChecked = true
-                listener.onChecked(position, true, data)
-            }
 
             btn_min.setOnClickListener {
                 qty = holder.itemView.tv_total.text.toString().toInt()

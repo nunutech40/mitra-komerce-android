@@ -127,4 +127,12 @@
             android:textAllCaps="false"
             android:textColor="@color/white" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/loading_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package id.android.kmabsensi.data.repository
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
 import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
+import id.android.kmabsensi.data.remote.body.komship.UpdateQtyParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.data.remote.service.ApiServiceKomship
@@ -120,4 +121,14 @@ class KomShipRepository(val apiService: ApiServiceKomship) {
         idOrder: Int
     ): Single<BaseResponse>
     = apiService.deleteOder(idPartner, idOrder)
+
+    fun updateListQtyCart(
+        listQty: List<UpdateQtyParams>
+    ): Single<BaseResponse>{
+        val body = mapOf(
+            "cart" to listQty
+        )
+        return apiService.updateListQtyCart(body)
+    }
+
 }

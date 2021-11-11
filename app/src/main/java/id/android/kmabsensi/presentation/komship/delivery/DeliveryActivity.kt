@@ -21,7 +21,6 @@ import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
 import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.databinding.ActivityDeliveryBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
-import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.presentation.komship.selectdestination.SelectDestinationActivity
 import id.android.kmabsensi.presentation.komship.successorder.SuccessOrderActivity
 import id.android.kmabsensi.utils.*
@@ -38,7 +37,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 ) {
     private val vm: DeliveryViewModel by inject()
     private val dataOrder by lazy {
-        intent.getParcelableArrayListExtra<ValidateChecked>("_dataOrder")
+        intent.getParcelableArrayListExtra<CartItem>("_dataOrder")
     }
     private val idPartner by lazy {
         intent.getIntExtra("_idPartner", 0)
@@ -123,12 +122,16 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 }
                 is UiState.Success -> {
                     sklBank?.hide()
-                    listCalculate.clear()
-                    listCalculate.addAll(it.data.data!!)
-                    if (typeEkspedisi != "") setupEkspedisi(
-                        vm.shippingCost(typeEkspedisi, listCalculate)
-                    )
-                    if (listCalculate.size > 0) binding.rdGroup.visible() else binding.rdGroup.gone()
+                    if (it.data.code == 200){
+                        listCalculate.clear()
+                        listCalculate.addAll(it.data.data!!)
+                        if (typeEkspedisi != "") setupEkspedisi(
+                            vm.shippingCost(typeEkspedisi, listCalculate)
+                        )
+                        if (listCalculate.size > 0) binding.rdGroup.visible() else binding.rdGroup.gone()
+                    } else{
+                        toast("Total biaya gagal di perbarui, Coba lagi")
+                    }
                 }
                 is UiState.Error -> {
                     sklBank?.hide()
@@ -142,10 +145,14 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             when (it) {
                 is UiState.Loading -> Timber.tag("_addOrderState").d("on Loading ")
                 is UiState.Success -> {
-                    startActivity<SuccessOrderActivity>(
-                        "_successOrder" to it.data.data
-                    )
-                    finishAffinity()
+                    if (it.data.code == 200){
+                        startActivity<SuccessOrderActivity>(
+                            "_successOrder" to it.data.data
+                        )
+                        finishAffinity()
+                    } else{
+                        toast("Order gagal dibuat, Coba lagi")
+                    }
                 }
                 is UiState.Error -> Timber.d(it.throwable)
             }
@@ -155,21 +162,24 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             when (uiState) {
                 is UiState.Loading -> Timber.tag("bankState").d("on Loading")
                 is UiState.Success -> {
-                    Timber.tag("bankState").d("on Success ${uiState.data.data}")
-                    listBank.addAll(uiState.data.data!!)
-                    listBank.forEach {
-                        val nameBank =
-                            if (it.bankName?.lowercase()?.contains("bca")!!) "BCA" else it.bankName
-                        listBankName.add("$nameBank (${it.accountName}-${it.accountNo})")
-                    }
+                    if (uiState.data.code == 200){
+                        listBank.addAll(uiState.data.data!!)
+                        listBank.forEach {
+                            val nameBank =
+                                if (it.bankName?.lowercase()?.contains("bca")!!) "BCA" else it.bankName
+                            listBankName.add("$nameBank (${it.accountName}-${it.accountNo})")
+                        }
 
-                    if (listBankName.size != 0) {
-                        val spAdapter = ArrayAdapter(
-                            this,
-                            android.R.layout.simple_dropdown_item_1line,
-                            listBankName
-                        )
-                        binding.spBank.adapter = spAdapter
+                        if (listBankName.size != 0) {
+                            val spAdapter = ArrayAdapter(
+                                this,
+                                android.R.layout.simple_dropdown_item_1line,
+                                listBankName
+                            )
+                            binding.spBank.adapter = spAdapter
+                        }
+                    } else{
+                      toast("Data Bank gagal dimuat, Coba lagi")
                     }
                 }
                 is UiState.Error -> {

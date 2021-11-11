@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.*
 import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -134,6 +135,16 @@ abstract class BaseActivityRf<B: ViewBinding>(val bindingFactory: (LayoutInflate
                tvTitle.gone()
            }
         }
+    }
+
+    fun showProgress(){
+        val progress = binding.root.findViewById<RelativeLayout>(R.id.progress_bar)
+        progress.visible()
+    }
+
+    fun hideProgress(){
+        val progress = binding.root.findViewById<RelativeLayout>(R.id.progress_bar)
+        progress.gone()
     }
 
 
