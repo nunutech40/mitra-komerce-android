@@ -24,13 +24,6 @@ interface ApiServiceKomship {
     fun getDataCart()
     : Single<KomCartResponse>
 
-    @PUT("api/v1/cart/update/{cart_id}")
-    fun updateQtyCart(
-        @Path("cart_id") cartId : Int,
-        @Query("qty") qty : Int
-    )
-    : Single<BaseResponse>
-
     @JvmSuppressWildcards
     @POST("api/v1/cart/store")
     fun addCart(
@@ -105,4 +98,17 @@ interface ApiServiceKomship {
         @Path("id_order") idOrder: Int
     )
     : Single<BaseResponse>
+
+    @PUT("api/v1/cart/update/{cart_id}")
+    fun updateQtyCart(
+        @Path("cart_id") cartId : Int,
+        @Query("qty") qty : Int
+    )
+    : Single<BaseResponse>
+
+    @JvmSuppressWildcards
+    @PUT("api/v1/cart/bulk-update")
+    fun updateListQtyCart(
+        @Body body: Map<String, Any?>
+    ): Single<BaseResponse>
 }

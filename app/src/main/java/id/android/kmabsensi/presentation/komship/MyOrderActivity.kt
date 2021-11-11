@@ -3,10 +3,14 @@ package id.android.kmabsensi.presentation.komship
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
+import com.github.ajalt.timberkt.Timber
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
@@ -17,27 +21,60 @@ import id.android.kmabsensi.databinding.ActivityMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
-import id.android.kmabsensi.utils.createAlertError
+import id.android.kmabsensi.utils.UiState
+import id.android.kmabsensi.utils.gone
+import id.android.kmabsensi.utils.visible
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     ActivityMyOrderBinding::inflate
 ) {
+    private val vm: MyOrderViewModel by inject()
     private lateinit var pagerAdapter: MyOrderPagerAdapter
     private var pagePosition = 0
     lateinit var dateFrom: Date
     lateinit var dateTo: Date
+    private var sklCart : SkeletonScreen? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupToolbar(getString(R.string.orderku), isBackable = true, isCart = true)
+        setupObserver()
         setupPager()
         setupListener()
         setupCurrentPage()
+    }
+
+    private fun setupObserver() {
+        vm.getCart()
+        vm.cartState.observe(this, {
+            when (it) {
+                is UiState.Loading -> {
+                    showSkeleton()
+                    Timber.tag("_cartState").d("on Loading ")
+                }
+                is UiState.Success -> {
+                    sklCart?.hide()
+                    val totalCart = it.data.data?.size
+                    binding.apply {
+                        if (totalCart != 0) {
+                            toolbar.tvCartBadge.visible()
+                            toolbar.tvCartBadge.text = totalCart.toString()
+                        } else toolbar.tvCartBadge.gone()
+                    }
+                }
+                is UiState.Error -> {
+                    sklCart?.hide()
+                    Timber.d(it.throwable)
+                }
+            }
+        })
     }
 
     private fun setupCurrentPage() {
@@ -52,7 +89,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
         binding.toolbar.apply {
 
-            btnMyOrder.setOnClickListener {
+            btnCart.setOnClickListener {
                 startActivity<OrderCartActivity>()
             }
 
@@ -72,6 +109,10 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                 }
             }
         }
+    }
+
+    fun refreshCart(){
+        vm.getCart()
     }
 
     private fun setupPager() {
@@ -108,7 +149,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         binding.tabLayout.apply {
             setupWithViewPager(binding.viewPager)
         }
-
     }
 
     private fun setupBottomSheatFilterDataOrder() {
@@ -118,18 +158,25 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         val btnLastDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_last_date)
         val btnApply = bottomSheet.findViewById<AppCompatButton>(R.id.btn_apply)
         val chipGroup = bottomSheet.findViewById<ChipGroup>(R.id.chip_group)
+        val warningLast = bottomSheet.findViewById<AppCompatTextView>(R.id.tv_warning_last_date)
+        val warningFirst = bottomSheet.findViewById<AppCompatTextView>(R.id.tv_warning_first_date)
         dialog.setContentView(bottomSheet)
         dialog.show()
 
         btnStartDate.setOnClickListener {
             pickDate(btnStartDate)
+            warningFirst.gone()
         }
 
         btnLastDate.setOnClickListener {
             if (btnStartDate.text.toString() != "") {
-                pickLastDate(btnLastDate)
+                pickLastDate(btnLastDate, warningLast)
+//                    warningLast.visible()
+//                }else{
+//                    warningLast.gone()
+//                }
             } else {
-                toast("Pilih Tanggal Awal terlebih dahulu!")
+                warningFirst.visible()
             }
         }
 
@@ -188,23 +235,20 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
-    private fun pickLastDate(view: TextInputEditText) {
+    private fun pickLastDate(view: TextInputEditText, warningLast: AppCompatTextView){
         MaterialDialog(this).show {
             datePicker { dialog, date ->
                 // Use date (Calendar)
                 dialog.dismiss()
                 dateTo = date.time
-                if (dateTo.before(dateFrom)){
-                    createAlertError(
-                        this@MyOrderActivity,
-                        "Peringatan",
-                        "Pilih Tanggal akhir dengan benar",
-                        3000
-                    )
-                }else{
+                if (!dateTo.before(dateFrom)){
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val selected = dateFormat.format(date.time)
+                    val selected = dateFormat.format(dateTo)
                     view.text = selected.toEditable()
+                    warningLast.gone()
+                }else{
+                    view.text = "".toEditable()
+                    warningLast.visible()
                 }
             }
         }
@@ -218,6 +262,17 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         dialog.show()
         btnDate.setOnClickListener {
             pickDate(btnDate)
+        }
+    }
+
+    private fun showSkeleton(){
+        if (sklCart!=null){
+            sklCart = Skeleton.bind(binding.toolbar.tvCartBadge)
+                .load(R.layout.skeleton_badge)
+                .show()
+        }else{
+            sklCart?.show()
+
         }
     }
 }

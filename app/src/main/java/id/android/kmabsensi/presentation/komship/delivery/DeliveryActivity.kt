@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.datetime.DateTimeCallback
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
@@ -20,7 +21,6 @@ import id.android.kmabsensi.data.remote.body.komship.AddOrderParams
 import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.databinding.ActivityDeliveryBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
-import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.presentation.komship.selectdestination.SelectDestinationActivity
 import id.android.kmabsensi.presentation.komship.successorder.SuccessOrderActivity
 import id.android.kmabsensi.utils.*
@@ -37,7 +37,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 ) {
     private val vm: DeliveryViewModel by inject()
     private val dataOrder by lazy {
-        intent.getParcelableArrayListExtra<ValidateChecked>("_dataOrder")
+        intent.getParcelableArrayListExtra<CartItem>("_dataOrder")
     }
     private val idPartner by lazy {
         intent.getIntExtra("_idPartner", 0)
@@ -122,17 +122,21 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 }
                 is UiState.Success -> {
                     sklBank?.hide()
-                    listCalculate.clear()
-                    listCalculate.addAll(it.data.data!!)
-                    if (typeEkspedisi != "") setupEkspedisi(
-                        vm.shippingCost(typeEkspedisi, listCalculate)
-                    )
-                    if (listCalculate.size > 0) binding.rdGroup.visible() else binding.rdGroup.gone()
+                    if (it.data.code == 200){
+                        listCalculate.clear()
+                        listCalculate.addAll(it.data.data!!)
+                        if (typeEkspedisi != "") setupEkspedisi(
+                            vm.shippingCost(typeEkspedisi, listCalculate)
+                        )
+                        if (listCalculate.size > 0) binding.rdGroup.visible() else binding.rdGroup.gone()
+                    } else{
+                        toast("Total biaya gagal di perbarui, Coba lagi")
+                    }
                 }
                 is UiState.Error -> {
                     sklBank?.hide()
                     Timber.tag("_calculateState").d(it.throwable)
-                    toast("Server sedang bermasalah, Coba lagi nanti ya")
+                    toast("Server sedang bermasalah, Silahkan coba lagi ya")
                 }
             }
         })
@@ -141,10 +145,14 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             when (it) {
                 is UiState.Loading -> Timber.tag("_addOrderState").d("on Loading ")
                 is UiState.Success -> {
-                    startActivity<SuccessOrderActivity>(
-                        "_successOrder" to it.data.data
-                    )
-                    finishAffinity()
+                    if (it.data.code == 200){
+                        startActivity<SuccessOrderActivity>(
+                            "_successOrder" to it.data.data
+                        )
+                        finishAffinity()
+                    } else{
+                        toast("Order gagal dibuat, Coba lagi")
+                    }
                 }
                 is UiState.Error -> Timber.d(it.throwable)
             }
@@ -154,21 +162,24 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             when (uiState) {
                 is UiState.Loading -> Timber.tag("bankState").d("on Loading")
                 is UiState.Success -> {
-                    Timber.tag("bankState").d("on Success ${uiState.data.data}")
-                    listBank.addAll(uiState.data.data!!)
-                    listBank.forEach {
-                        val nameBank =
-                            if (it.bankName?.lowercase()?.contains("bca")!!) "BCA" else it.bankName
-                        listBankName.add("$nameBank (${it.accountName}-${it.accountNo})")
-                    }
+                    if (uiState.data.code == 200){
+                        listBank.addAll(uiState.data.data!!)
+                        listBank.forEach {
+                            val nameBank =
+                                if (it.bankName?.lowercase()?.contains("bca")!!) "BCA" else it.bankName
+                            listBankName.add("$nameBank (${it.accountName}-${it.accountNo})")
+                        }
 
-                    if (listBankName.size != 0) {
-                        val spAdapter = ArrayAdapter(
-                            this,
-                            android.R.layout.simple_dropdown_item_1line,
-                            listBankName
-                        )
-                        binding.spBank.adapter = spAdapter
+                        if (listBankName.size != 0) {
+                            val spAdapter = ArrayAdapter(
+                                this,
+                                android.R.layout.simple_dropdown_item_1line,
+                                listBankName
+                            )
+                            binding.spBank.adapter = spAdapter
+                        }
+                    } else{
+                      toast("Data Bank gagal dimuat, Coba lagi")
                     }
                 }
                 is UiState.Error -> {
@@ -186,6 +197,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = true
                 btnOrder.isEnabled = true
 
+                tvAreaNotFound.gone()
                 tvSendingCost.text = convertRupiah((calculate.item.shippingCost ?: 0.0))
                 costShipping = (calculate.item.shippingCost ?: 0).toInt()
                 tvTotalCost.text = convertRupiah((calculate.item.grandtotal ?: 0).toDouble())
@@ -197,6 +209,8 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                 btnOrder.isClickable = false
                 btnOrder.isEnabled = false
                 tvSendingCost.text = getString(R.string.paket_tidak_tersedia)
+
+                tvAreaNotFound.visible()
                 costShipping = 0
                 tvTotalCost.text = convertRupiah(totalCost().toDouble())
             }
@@ -226,19 +240,21 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
             tvTotalCost.text = convertRupiah(totalCost().toDouble())
         }
     }
-
+    private var today = Calendar.getInstance()
     private fun setupListener() {
         binding.apply {
             tieDate.setOnClickListener {
-                MaterialDialog(this@DeliveryActivity).show {
-                    datePicker { dialog, date ->
+                val datePicker = MaterialDialog(this@DeliveryActivity)
+                datePicker.datePicker(minDate = today, dateCallback = object : DateTimeCallback{
+                    override fun invoke(dialog: MaterialDialog, date: Calendar) {
                         dialog.dismiss()
                         datePick = date.time
                         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val dateSelected: String = dateFormat.format(date.time)
                         setDateFrom(dateSelected)
                     }
-                }
+                })
+                datePicker.show()
             }
             acCustomer.onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, _, _ ->

@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.textfield.TextInputLayout
 import okhttp3.RequestBody
 import id.android.kmabsensi.R
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -220,4 +221,10 @@ fun AppCompatButton.disableButton(isTrue : Boolean){
         isEnabled = isTrue
         isClickable = isTrue
     }
+}
+
+
+fun TextInputLayout.disableForm(isTrue: Boolean){
+    this.isEnabled = isTrue
+    this.isClickable = isTrue
 }

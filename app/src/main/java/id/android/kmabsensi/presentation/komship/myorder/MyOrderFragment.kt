@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -18,14 +19,14 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
-import id.android.kmabsensi.data.remote.response.komship.KomPartnerItem
-import id.android.kmabsensi.data.remote.response.komship.ProductKomItem
-import id.android.kmabsensi.data.remote.response.komship.ProductVariantKomItem
-import id.android.kmabsensi.data.remote.response.komship.VariantKomItem
+import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.databinding.FragmentMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
+import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
+import id.android.kmabsensi.presentation.komship.delivery.DeliveryActivity
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
+import id.android.kmabsensi.presentation.komship.ordercart.ValidateChecked
 import id.android.kmabsensi.presentation.komship.selectproduct.SelectProductActivity
 import id.android.kmabsensi.utils.*
 import org.jetbrains.anko.startActivity
@@ -75,17 +76,24 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         btnOrder.disableButton(true)
                         progressBar.gone()
                     }
-                    if (isDirectOrder) {
-                        val cartItem = it.data.data
-                        requireActivity().startActivity<OrderCartActivity>(
-                            "_isDirectOrder" to true,
-                            "_cartItem" to cartItem
-                        )
-                    } else {
-                        requireActivity().toast(getString(R.string.data_cart_berhasil_ditambahkan))
+                    if (it.data.code == 200){
+                        if (isDirectOrder) {
+                            val cartItem = it.data.data
+                            val order = ArrayList<CartItem>()
+                            order.add(cartItem!!)
+                            requireActivity().startActivity<DeliveryActivity>(
+                                "_dataOrder" to order,
+                                "_idPartner" to idPartner
+                            )
+                        } else {
+                            requireActivity().toast(getString(R.string.data_cart_berhasil_ditambahkan))
+                        }
+                        updateQTY("reset")
+                        resetForm()
+                        (activity as MyOrderActivity).refreshCart()
+                    } else{
+                        requireActivity().toast("Order gagal dibuat, Coba lagi")
                     }
-                    updateQTY("reset")
-                    resetForm()
                 }
                 is UiState.Error -> {
                     binding?.apply {
@@ -106,8 +114,12 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 is UiState.Success -> {
                     binding?.srMyOrder?.isRefreshing = false
                     sklPartner?.hide()
-                    dataPartner.addAll(it.data.data!!)
-                    setupSpinnerPartner(it.data.data)
+                    if (it.data.code == 200){
+                        dataPartner.addAll(it.data.data!!)
+                        setupSpinnerPartner(it.data.data)
+                    } else {
+                        requireActivity().toast("Partner gagal dimuat, Coba lagi")
+                    }
                 }
                 is UiState.Error -> {
                     binding?.srMyOrder?.isRefreshing = false
@@ -119,7 +131,10 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
         vm.productState.observe(requireActivity(), {
             when (it) {
-                is UiState.Loading -> Timber.tag("_productState").d("on loading")
+                is UiState.Loading -> {
+                    showSkeletonProduct()
+                    Timber.tag("_productState").d("on loading")
+                }
                 is UiState.Success -> {
                     sklProduct?.hide()
                     dataProduct.clear()
@@ -148,6 +163,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
+        partner.add("Pilih Partner")
         data?.forEach {
             partner.add(it.partnerName ?: "-")
         }
@@ -168,10 +184,13 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             position: Int,
                             id: Long
                         ) {
-                            idPartner = dataPartner[position].partnerId ?: 0
-                            if (idPartner != 0){
-                                vm.getProduct(idPartner)
-                            }
+                            if (position != 0){
+                                binding?.tilProduk?.disableForm(true)
+                                idPartner = dataPartner[(position-1)].partnerId ?: 0
+                                if (idPartner != 0){
+                                    vm.getProduct(idPartner)
+                                }
+                            }else binding?.tilProduk?.disableForm(false)
                         }
                     }
             }
@@ -192,7 +211,6 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             }
 
             btnPlus.setOnClickListener {
-                Log.d("_maxProduct", "maxProduct: $maxProduct")
                 if (vm.validateMaxProduct(totalProduct, maxProduct)) {
                     updateQTY("plus")
                 } else {
@@ -426,13 +444,18 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             sklPartner = Skeleton.bind(binding?.spPartner)
                 .load(R.layout.skeleton_item_big)
                 .show()
-            sklProduct = Skeleton.bind(binding?.tieProduk)
-                .load(R.layout.skeleton_item_big)
-                .show()
         }else {
             sklPartner?.show()
-            sklProduct?.show()
         }
+    }
+
+    private fun showSkeletonProduct(){
+        if (sklPartner == null){
+            sklProduct = Skeleton.bind(binding?.tilProduk)
+                .load(R.layout.skeleton_item_big)
+                .show()
+        }else sklProduct?.show()
+
     }
 
     private fun updateQTY(type: String){
