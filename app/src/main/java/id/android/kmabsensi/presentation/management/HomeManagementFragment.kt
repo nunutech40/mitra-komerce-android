@@ -90,13 +90,13 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         user = vm.getUserData()
         d { user.toString() }
         myDialog = MyDialog(requireContext())
-        return binding.root
+//        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        initRv()
+//        initRv()
         setupObserver()
         setupView()
         setupGreetings()

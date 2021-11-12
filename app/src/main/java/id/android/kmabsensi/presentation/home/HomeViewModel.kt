@@ -16,8 +16,8 @@ import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.repository.*
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.presentation.sdm.home.MenuModels
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.rx.SchedulerProvider
+//import id.android.kmabsensi.utils.UiState
+//import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -316,7 +316,7 @@ class HomeViewModel(
         val time_datang = "08:00:00"
         val time_istirahat = "12:00:00"
         val time_istirhat_selesai = "13:00:00"
-        val time_pulang = "16:00:00"
+        val time_pulang = if (isNormal(getUserData())) "16:00:00" else "17:00:00"
 
         val datang = Calendar.getInstance()
         val istirahat = Calendar.getInstance()
@@ -327,7 +327,7 @@ class HomeViewModel(
         datang.set(Calendar.HOUR_OF_DAY, 8)
         istirahat.set(Calendar.HOUR_OF_DAY, 12)
         selesai_istirahat.set(Calendar.HOUR_OF_DAY, 13)
-        pulang.set(Calendar.HOUR_OF_DAY, 17)
+        if (isNormal(getUserData())) pulang.set(Calendar.HOUR_OF_DAY, 16) else pulang.set(Calendar.HOUR_OF_DAY, 17)
 
         time_ashar?.let {
             if (it.isNotEmpty()) {
@@ -365,7 +365,7 @@ class HomeViewModel(
             }
             now.before(pulang) -> {
                 statusWaktu = "Menuju Waktu Pulang"
-                nextTime = "16:00"
+                nextTime = if (isNormal(getUserData())) "16:00" else "17:00"
                 endTime = simpleDateFormat.parse(time_pulang)
             }
             else -> statusWaktu = "Waktu Pulang"

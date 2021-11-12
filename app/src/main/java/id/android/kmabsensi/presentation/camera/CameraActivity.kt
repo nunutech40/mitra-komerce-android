@@ -46,9 +46,10 @@ import java.io.File
 
 class CameraActivity : AppCompatActivity() {
     private var mCropBitmap: Bitmap? = null
-    private var mType: Int = 0//Shooting type
-    private var isToast =
-        true//Whether to play the toast, in order to ensure that the for loop only plays once
+    // Shooting type
+    private var mType: Int = 0
+    // Whether to play the toast, in order to ensure that the for loop only plays once
+    private var isToast = true
     private var mCameraView: CameraPreview? = null
     private var capturedFilePath: String? = null
     private lateinit var photoFile : File
@@ -142,7 +143,7 @@ class CameraActivity : AppCompatActivity() {
                 mType = IDCardCamera.TYPE_IDCARD_BACK
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-                Handler(mainLooper).postDelayed({
+                handler.postDelayed({
                     binding.cameraPreviewLayout.visibility = View.VISIBLE
                     binding.mCameraPreview.visibility = View.VISIBLE
                 }, 200)
@@ -314,5 +315,4 @@ class CameraActivity : AppCompatActivity() {
         dialog.cancelOnTouchOutside(false)
         dialog.show()
     }
-
 }
