@@ -332,6 +332,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                         var availableProduct = ""
                         if (it.stock!! <= 0 ) {
                             availableProduct = "Stock habis"
+                            tvAvailableProduct.text = availableProduct
                             btnMinus.isEnabled = false
                             btnPlus.isEnabled = false
                             imgCart.setImageDrawable(
@@ -340,21 +341,29 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                                     R.drawable.ic_orderku_off_rf
                                 )
                             )
+                            btnOrder.isEnabled = false
+                            btnCart.isEnabled = false
+                            imgCart.isEnabled = false
                             btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
                             tvTotal.text = "habis"
-                        }else availableProduct = "Tersedia: ${it.stock} Pcs"
+                        }else {
+                            availableProduct = "Tersedia: ${it.stock} Pcs"
+                            tvAvailableProduct.text = availableProduct
+                            tvTotal.text = "$totalProduct"
+                            btnOrder.isEnabled = true
+                            btnCart.isEnabled = true
+                            imgCart.isEnabled = true
+                            btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
+                            imgCart.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_orderku_rf
+                                )
+                            )
+                        }
                         maxProduct = it.stock ?: 0
                         tvNameProduct.text = productName
-                        tvAvailableProduct.text = availableProduct
                         tvPrice.text = convertRupiah((it.price ?: 0).toDouble())
-
-                        btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
-                        imgCart.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_orderku_rf
-                            )
-                        )
                         productVariantSelect = it
                     }
                 }
