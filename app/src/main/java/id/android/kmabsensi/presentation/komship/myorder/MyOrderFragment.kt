@@ -152,7 +152,12 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
         binding?.apply {
             llDetailProduct.visible()
             variantSize = data.variant?.size ?: 0
-            imgProduct.loadImageFromUrl(data.productImage ?: URL_SHOPPING_EMPTY )
+//            imgProduct.loadImageFromUrl(data.productImage ?: URL_SHOPPING_EMPTY )
+            if (data.productImage.equals("")){
+                imgProduct.loadImageFromUrl(URL_SHOPPING_EMPTY)
+            }else{
+                imgProduct.loadImageFromUrl(data.productImage.toString())
+            }
             tvNameProduct.text = data.productName ?: "-"
             tvPrice.text = convertRupiah((data.price ?: 0).toDouble())
 //            val productAvailable = "Tersedia: ${data.stock} Pcs"
