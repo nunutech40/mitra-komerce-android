@@ -85,7 +85,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 override fun onCLick() {
                     val intentSetKomboard = Intent()
                     intentSetKomboard.component =
-                        ComponentName(requireActivity(), "id.android.kmabsensi.presentation.komboards.KomboardActivity")
+                        ComponentName(requireActivity(), "id.android.kmabsensi.presentation.komboard.KomboardActivity")
                     intentSetKomboard.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intentSetKomboard)
                     requireActivity().finish()
@@ -172,7 +172,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 is UiState.Success -> {
                     if (it.data.data == null){
                         binding?.apply {
-                            tiePartner.isEnabled = getTodayDate()  == getTodayDate()
+                            tiePartner.isEnabled = getTodayDate().equals(true)
                             tvEmptyCart.visible()
                             tiePartner.setText("")
                             rvLeads.gone()

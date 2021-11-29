@@ -61,6 +61,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.google.gson.Gson
+import github.ankushsachdeva.emojicon.EmojiconsPopup
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.ApiClient
@@ -161,7 +162,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     private lateinit var dataLocal: KomPartnerResponse
 
     //Emoticon
-//    private var popupWindow: EmojiconsPopup? = null
+    private var popupWindow: EmojiconsPopup? = null
 
     //Calculator
     private lateinit var btnCopyResultCalculator: ImageButton
@@ -868,7 +869,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         // Apply the selected keyboard to the input view.
         getTotalLeads()
         setLatinKeyboard(mCurKeyboard)
-//        closeEmoticons()
+        closeEmoticons()
         mInputView!!.closing()
         val subtype = mInputMethodManager!!.currentInputMethodSubtype
         mInputView!!.setSubtypeOnSpaceKey(subtype)
@@ -1137,7 +1138,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             handleClose()
             return
         } else if (primaryCode == LatinKeyboardView.KEYCODE_EMOTICON) {
-//            handleEmoticon()
+            handleEmoticon()
             return
         } else if (primaryCode == LatinKeyboardView.KEYCODE_CHECKLIST) {
             handleClose()
@@ -1275,58 +1276,58 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         updateShiftKeyState(currentInputEditorInfo)
     }
 
-//    fun handleEmoticon() {
-//        val layoutInflater = baseContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        if (layoutInflater != null) {
-//            val popupView: View = layoutInflater.inflate(R.layout.emoji_listview_layout, null)
-//            popupWindow = EmojiconsPopup(popupView, this)
-//            popupWindow!!.setSizeForSoftKeyboard()
-////            // get device dimensions
-//            val displayMetrics = DisplayMetrics()
-//            val windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-//            windowManager.defaultDisplay?.getMetrics(displayMetrics)
-//            val height = displayMetrics.heightPixels
-//            when {
-//                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R -> {
-//                    popupWindow!!.setSize(MATCH_PARENT, (height/3.2).toInt())
-//                }
-//                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q -> {
-//                    popupWindow!!.setSize(MATCH_PARENT,height/4)
-//                }
-//                else -> {
-//                    popupWindow!!.setSize(MATCH_PARENT, (height/3.2).toInt())
-//                }
-//            }
-//
-//            popupWindow!!.showAtLocation(mInputView!!.rootView, Gravity.BOTTOM, 0, 0)
-//            // If the text keyboard closes, also dismiss the emoji popup
-//            popupWindow!!.setOnSoftKeyboardOpenCloseListener(object :
-//                EmojiconsPopup.OnSoftKeyboardOpenCloseListener {
-//                override fun onKeyboardOpen(keyBoardHeight: Int) {}
-//                override fun onKeyboardClose() {
-//                    if (popupWindow!!.isShowing) popupWindow!!.dismiss()
-//                }
-//            })
-//            popupWindow!!.setOnEmojiconClickedListener { emojicon ->
-//                mComposing.append(emojicon.emoji)
-//                commitTyped(currentInputConnection)
-//            }
-//            popupWindow!!.setOnEmojiconBackspaceClickedListener {
-//                val event = KeyEvent(
-//                    0,
-//                    0,
-//                    0,
-//                    KeyEvent.KEYCODE_DEL,
-//                    0,
-//                    0,
-//                    0,
-//                    0,
-//                    KeyEvent.KEYCODE_ENDCALL
-//                )
-//                handleBackspace()
-//            }
-//        }
-//    }
+    fun handleEmoticon() {
+        val layoutInflater = baseContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (layoutInflater != null) {
+            val popupView: View = layoutInflater.inflate(R.layout.emoji_listview_layout, null)
+            popupWindow = EmojiconsPopup(popupView, this)
+            popupWindow!!.setSizeForSoftKeyboard()
+//            // get device dimensions
+            val displayMetrics = DisplayMetrics()
+            val windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            windowManager.defaultDisplay?.getMetrics(displayMetrics)
+            val height = displayMetrics.heightPixels
+            when {
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R -> {
+                    popupWindow!!.setSize(MATCH_PARENT, (height/3.2).toInt())
+                }
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q -> {
+                    popupWindow!!.setSize(MATCH_PARENT,height/4)
+                }
+                else -> {
+                    popupWindow!!.setSize(MATCH_PARENT, (height/3.2).toInt())
+                }
+            }
+
+            popupWindow!!.showAtLocation(mInputView!!.rootView, Gravity.BOTTOM, 0, 0)
+            // If the text keyboard closes, also dismiss the emoji popup
+            popupWindow!!.setOnSoftKeyboardOpenCloseListener(object :
+                EmojiconsPopup.OnSoftKeyboardOpenCloseListener {
+                override fun onKeyboardOpen(keyBoardHeight: Int) {}
+                override fun onKeyboardClose() {
+                    if (popupWindow!!.isShowing) popupWindow!!.dismiss()
+                }
+            })
+            popupWindow!!.setOnEmojiconClickedListener { emojicon ->
+                mComposing.append(emojicon.emoji)
+                commitTyped(currentInputConnection)
+            }
+            popupWindow!!.setOnEmojiconBackspaceClickedListener {
+                val event = KeyEvent(
+                    0,
+                    0,
+                    0,
+                    KeyEvent.KEYCODE_DEL,
+                    0,
+                    0,
+                    0,
+                    0,
+                    KeyEvent.KEYCODE_ENDCALL
+                )
+                handleBackspace()
+            }
+        }
+    }
 
     private fun handleCalculator() {
         customToast(applicationContext, "Coming Soon")
@@ -1493,8 +1494,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         internal val PROCESS_HARD_KEYS = true
     }
 
-//    fun closeEmoticons() {
-//        if (popupWindow != null) popupWindow!!.dismiss()
-//    }
+    fun closeEmoticons() {
+        if (popupWindow != null) popupWindow!!.dismiss()
+    }
 }
 
