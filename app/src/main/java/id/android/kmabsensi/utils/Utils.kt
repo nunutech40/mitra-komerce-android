@@ -60,6 +60,20 @@ fun getTodayDate(): String {
 
     return simpleDateFormat.format(cal.time)
 }
+fun getSevenDayDate(): String {
+    val cal = Calendar.getInstance(Locale.getDefault())
+    val year = cal.get(Calendar.YEAR)
+    val month = cal.get(Calendar.MONTH) + 1
+    val day = cal.get(Calendar.DAY_OF_MONTH)
+    var old = 0
+    if (day > 7) {
+        old = day - 7
+    } else {
+        old = 1
+    }
+    return "$year-$month-$old"
+}
+
 
 fun getTodayDateTimeDay(): String {
     val cal = Calendar.getInstance()

@@ -1,6 +1,7 @@
 package id.android.kmabsensi.presentation.komship
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -21,11 +22,10 @@ import id.android.kmabsensi.databinding.ActivityMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
-import id.android.kmabsensi.utils.UiState
-import id.android.kmabsensi.utils.gone
-import id.android.kmabsensi.utils.visible
+import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.bottomsheet_filter_data_order.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
@@ -162,7 +162,9 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         val warningFirst = bottomSheet.findViewById<AppCompatTextView>(R.id.tv_warning_first_date)
         dialog.setContentView(bottomSheet)
         dialog.show()
-
+        btnStartDate.text = getSevenDayDate().toEditable()
+        btnLastDate.text = getTodayDate().toEditable()
+        dialog.semua.isChecked = true
         btnStartDate.setOnClickListener {
             pickDate(btnStartDate)
             warningFirst.gone()
@@ -171,10 +173,6 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         btnLastDate.setOnClickListener {
             if (btnStartDate.text.toString() != "") {
                 pickLastDate(btnLastDate, warningLast)
-//                    warningLast.visible()
-//                }else{
-//                    warningLast.gone()
-//                }
             } else {
                 warningFirst.visible()
             }
@@ -186,6 +184,7 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                 group.check(chipSelected!!)
                 return@setOnCheckedChangeListener
             }
+            Log.d("onChipSelected", "setupBottomSheatFilterDataOrder: $id")
             chipSelected = orderStatus(id)
         }
 
@@ -202,9 +201,10 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
                         sDate,
                         lDate,
                         "COD",
-                        if (chipSelected == 121) null else chipSelected
+                        if(chipSelected!! < 0) null else chipSelected
                     )
                 )
+                Log.d("onStatusOrder", "statusOrder: $chipSelected")
                 dialog.dismiss()
             }
         }
@@ -212,12 +212,12 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
     private fun orderStatus(idChip: Int): Int {
         return when (idChip) {
-            2131362203 -> 0
-            2131362205 -> 1
-            2131362214 -> 2
-            2131362838 -> 3
-            2131361928 -> 4
-            else -> 121
+            2131362210 -> 0
+            2131362212 -> 1
+            2131362221 -> 2
+            2131362853 -> 3
+            2131361929 -> 4
+            else -> -1
         }
     }
 

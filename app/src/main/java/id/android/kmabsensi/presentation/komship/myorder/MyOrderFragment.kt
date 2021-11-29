@@ -155,19 +155,24 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
             imgProduct.loadImageFromUrl(data.productImage ?: URL_SHOPPING_EMPTY )
             tvNameProduct.text = data.productName ?: "-"
             tvPrice.text = convertRupiah((data.price ?: 0).toDouble())
-            val productAvailable = "Tersedia: ${data.stock} Pcs"
-            tvAvailableProduct.text = productAvailable
+//            val productAvailable = "Tersedia: ${data.stock} Pcs"
+            tvAvailableProduct.text = "Silahkan pilih varian yang ada"
             setupChip(data.variant!![0], 0)
         }
     }
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
-        partner.add("Pilih Partner")
-        data?.forEach {
-            partner.add(it.partnerName ?: "-")
+        if (data?.count()!! > 1){
+            partner.add("Pilih Partner")
+            data?.forEach {
+                partner.add(it.partnerName ?: "-")
+            }
+        }else{
+            data?.forEach {
+                partner.add(it.partnerName ?: "-")
+            }
         }
-
         ArrayAdapter(requireContext(), R.layout.spinner_item, partner)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
@@ -177,14 +182,19 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                     object : AdapterView.OnItemSelectedListener {
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                         }
-
                         override fun onItemSelected(
                             parent: AdapterView<*>?,
                             view: View?,
                             position: Int,
                             id: Long
                         ) {
-                            if (position != 0){
+                            if (data?.count()!! <= 1 && position == 0){
+                                binding?.tilProduk?.disableForm(true)
+                                idPartner = dataPartner[position].partnerId ?: 0
+                                if (idPartner != 0){
+                                    vm.getProduct(idPartner)
+                                }
+                            }else if(data?.count()!! > 1 && position != 0){
                                 binding?.tilProduk?.disableForm(true)
                                 idPartner = dataPartner[(position-1)].partnerId ?: 0
                                 if (idPartner != 0){
@@ -289,15 +299,45 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
     }
 
     private fun lastOption(last: Boolean, optionsId: Int) {
+        Log.d("onChipID", "lastOption: $optionsId")
         if (last) {
+            if (optionsId == -1){
+                binding?.apply {
+                    tvAvailableProduct.text = "Silahkan pilih varian yang ada"
+                    llQty.gone()
+                    btnMinus.isEnabled = false
+                    btnPlus.isEnabled = false
+                    imgCart.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_orderku_off_rf
+                        )
+                    )
+                    btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
+                }
+            }else{
+                binding?.llQty?.visible()
+            }
             binding?.nsProduct?.smoothScrollTo(0, binding?.nsProduct?.getChildAt(0)!!.height)
-            binding?.llQty?.visible()
             dataProductItem.productVariant?.forEach {
                 if (it.optionId == optionsId) {
                     binding?.apply {
                         setupButton(true)
                         val productName = "${dataProductItem.productName} - ${it.name}"
-                        val availableProduct = "Tersedia: ${it.stock} Pcs"
+                        var availableProduct = ""
+                        if (it.stock!! <= 0 ) {
+                            availableProduct = "Stock habis"
+                            btnMinus.isEnabled = false
+                            btnPlus.isEnabled = false
+                            imgCart.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_orderku_off_rf
+                                )
+                            )
+                            btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
+                            tvTotal.text = "habis"
+                        }else availableProduct = "Tersedia: ${it.stock} Pcs"
                         maxProduct = it.stock ?: 0
                         tvNameProduct.text = productName
                         tvAvailableProduct.text = availableProduct
@@ -315,6 +355,12 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                 }
             }
         } else {
+            if (optionsId == -1){
+                binding?.apply {
+                    llVariant2.visibility = View.GONE
+                    tvAvailableProduct.text = "Silahkan pilih varian yang ada"
+                }
+            }
             binding?.apply {
                 setupButton(false)
                 imgCart.setImageDrawable(

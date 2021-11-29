@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
@@ -20,6 +21,7 @@ import id.android.kmabsensi.presentation.komship.partnerOrder
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.getTodayDate
 import id.android.kmabsensi.databinding.FragmentHistoryOrderBinding
+import id.android.kmabsensi.utils.getSevenDayDate
 import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 
@@ -30,8 +32,18 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
     private var dataPartner : MutableList<KomPartnerItem> = ArrayList()
     private lateinit var orderAdapter : DataOrderAdapter
     private var listOrder : MutableList<OrderItem> = ArrayList()
+    private var listOrderShow : MutableList<OrderItem> = ArrayList()
     private lateinit var mLayoutManager: LinearLayoutManager
+
     private var idPartner = 0
+    private var pageOrder = 1
+    private var lastPage = 0
+    private var filterMode = false
+    private var startDate = ""
+    private var endDate = ""
+    private var payMethod = ""
+    private var statusOrder: Int = 0
+
 
     private var sklList: SkeletonScreen? = null
     private var sklPartner: SkeletonScreen? = null
@@ -97,8 +109,11 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
                     binding?.srDataOrder?.isRefreshing = false
                     listOrder.clear()
                     listOrder.addAll(it.data.data?.data!!)
-                    orderAdapter.setData(listOrder)
+                    listOrderShow.addAll(listOrder)
+                    orderAdapter.setData(listOrderShow)
+                    lastPage = it.data.data?.lastPage!!
                     sklList?.hide()
+                    binding?.progressMore?.visibility = View.GONE
                 }
                 is UiState.Error -> {
                     Timber.tag("_orderByPartnerState").d( "on error ${it.throwable}")
@@ -120,12 +135,59 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
             srDataOrder.setOnRefreshListener {
                 srDataOrder.isRefreshing = true
                 vm.getPartner()
+                pageOrder = 1
+                filterMode = false
+                binding?.progressMore?.visibility = View.GONE
+                listOrderShow.clear()
             }
+            rvDataOrder.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val itemOn = mLayoutManager.childCount
+                    val itemonVisible = mLayoutManager.findFirstCompletelyVisibleItemPosition()
+                    val dataCount = orderAdapter.itemCount
+                    if ((itemOn+itemonVisible) >= dataCount && pageOrder < lastPage){
+                        pageOrder += 1
+                        binding?.progressMore?.visibility = View.VISIBLE
+                        when(filterMode){
+                            true -> vm.getMoreOrderByPartner(
+                                idPartner, OrderByPartnerParams(
+                                    pageOrder,
+                                    startDate,
+                                    endDate,
+                                    payMethod,
+                                    if (statusOrder < 0) null else statusOrder
+                                )
+                            )
+                            false -> vm.getMoreOrderByPartner(
+                                idPartner, OrderByPartnerParams(
+                                    pageOrder,
+                                    getSevenDayDate(),
+                                    getTodayDate()
+                                )
+                            )
+                        }
+                    }
+                    binding?.progressMore?.visibility = View.GONE
+                    super.onScrolled(recyclerView, dx, dy)
+                }
+            })
         }
     }
 
     fun filterOrder(idPartner: Int, params: OrderByPartnerParams){
+        filterMode = true
         vm.getOrderByPartner(idPartner, params)
+        listOrderShow.clear()
+        startDate = params.startDate
+        endDate = params.lastDate
+        payMethod = params.paymentMethode.toString()
+        if (params.orderStatus == null){
+            statusOrder = -1
+        }else{
+            statusOrder = params.orderStatus
+        }
+        lastPage = 0
+        pageOrder = 1
     }
 
     fun searchOrder(char: String){
@@ -159,7 +221,7 @@ class DataOrderFragment : BaseFragmentRf<FragmentHistoryOrderBinding>(
                             idPartner = vm.getIdPartnerFromList(dataPartner, position)
                             PreferencesHelper(requireContext()).saveInt(partnerOrder, idPartner)
                             vm.getOrderByPartner(idPartner, OrderByPartnerParams(1,
-                                "2021-01-01",
+                                getSevenDayDate(),
                                 getTodayDate()))
                         }
                     }

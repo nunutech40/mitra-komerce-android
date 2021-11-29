@@ -52,29 +52,52 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     }
 
     private fun setupObserve() {
-        vm.cartState.observe(this, { state ->
-            when (state) {
+
+        vm.partnerState.observe(this, {
+            when (it) {
                 is UiState.Loading -> {
-                    Timber.tag("_cartState").d("on Loading ")
+                    showSkeleton()
+                    Timber.tag("_cartState").d("onLoding")
                 }
                 is UiState.Success -> {
-                    sklList?.hide()
-                    if (state.data.code == 200){
-                        binding.apply {
-                            srListCart.isRefreshing = false
-                        }
-                        myCart.clear()
-                        myCart.addAll(state.data.data!!)
-                        setupListCartItem()
-                        setDataListCart(position)
-                    } else{
+                    sklPartner?.hide()
+                    if (it.data.code == 200){
+                        dataPartner.clear()
+                        dataPartner.addAll(it.data.data!!)
+                        setupSpinnerPartner(dataPartner)
+                        vm.cartState.observe(this, { state ->
+                            when (state) {
+                                is UiState.Loading -> {
+                                    Timber.tag("_cartState").d("on Loading ")
+                                }
+                                is UiState.Success -> {
+                                    sklList?.hide()
+                                    if (state.data.code == 200){
+                                        binding.apply {
+                                            srListCart.isRefreshing = false
+                                        }
+                                        myCart.clear()
+                                        myCart.addAll(state.data.data!!)
+                                        setupListCartItem()
+                                        setDataListCart(position)
+                                    } else{
+                                        toast("Data tidak berhasil di unduh, Coba lagi.")
+                                    }
+                                }
+                                is UiState.Error -> {
+                                    sklList?.hide()
+                                    binding.srListCart.isRefreshing = false
+                                    Timber.d(state.throwable)
+                                }
+                            }
+                        })
+                    } else {
                         toast("Data tidak berhasil di unduh, Coba lagi.")
                     }
                 }
                 is UiState.Error -> {
-                    sklList?.hide()
-                    binding.srListCart.isRefreshing = false
-                    Timber.d(state.throwable)
+                    sklPartner?.hide()
+                    Timber.d(it.throwable)
                 }
             }
         })
@@ -127,29 +150,6 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                 }
             }
         })
-
-        vm.partnerState.observe(this, {
-            when (it) {
-                is UiState.Loading -> {
-                    showSkeleton()
-                    Timber.tag("_cartState").d("onLoding")
-                }
-                is UiState.Success -> {
-                    sklPartner?.hide()
-                    if (it.data.code == 200){
-                        dataPartner.clear()
-                        dataPartner.addAll(it.data.data!!)
-                        setupSpinnerPartner(dataPartner)
-                    } else {
-                        toast("Data tidak berhasil di unduh, Coba lagi.")
-                    }
-                }
-                is UiState.Error -> {
-                    sklPartner?.hide()
-                    Timber.d(it.throwable)
-                }
-            }
-        })
     }
 
     private fun orderPayment(){
@@ -160,8 +160,8 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
     }
     private fun setupView() {
         idPartner = intent.getIntExtra("_idPartner", 0)
-        vm.GetDataCart()
         vm.getPartner()
+        vm.GetDataCart()
     }
 
     private fun setupListCartItem(){
@@ -208,11 +208,16 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
 
     private fun setupSpinnerPartner(data: List<KomPartnerItem>?) {
         val partner = ArrayList<String>()
-        partner.add("Pilih Partner")
-        data?.forEach {
-            partner.add(it.partnerName!!)
+        if (data?.count()!! <= 1){
+            data?.forEach {
+                partner.add(it.partnerName!!)
+            }
+        }else{
+            partner.add("Pilih Partner")
+            data?.forEach {
+                partner.add(it.partnerName!!)
+            }
         }
-
         ArrayAdapter(this, R.layout.spinner_item, partner)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
@@ -253,11 +258,15 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                 orderChecked()
             }
             orderAdapter.setData(vm.filterCart(myCart, idPartner))
-        } else{
+        }else{
+            if (dataPartner.count() <= 1){
+                idPartner = dataPartner[posit].partnerId ?: 0
+                orderAdapter.setData(vm.filterCart(myCart, idPartner))
+            }else{
             orderAdapter.setData(myCartEmpty)
             binding.tvEmptyCart.apply {
                 visible()
-                text = "Anda belum memilih partner"
+                text = "Anda belum memilih partner"}
             }
         }
     }

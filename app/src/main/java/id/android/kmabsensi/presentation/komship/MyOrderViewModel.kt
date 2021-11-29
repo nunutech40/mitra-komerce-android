@@ -72,7 +72,21 @@ class MyOrderViewModel(
                 })
         )
     }
-
+    fun getMoreOrderByPartner(
+        idPartner: Int,
+        orderParams: OrderByPartnerParams
+    ) {
+        orderByPartnerState.value = UiState.Loading()
+        compositeDisposable.add(
+            komShipRepository.getOrderByPartner(idPartner, orderParams)
+                .with(schedulerProvider)
+                .subscribe({
+                    orderByPartnerState.value = UiState.Success(it)
+                }, {
+                    orderByPartnerState.value = UiState.Error(it)
+                })
+        )
+    }
     fun getPartner() {
         partnerState.value = UiState.Loading()
         compositeDisposable.add(
