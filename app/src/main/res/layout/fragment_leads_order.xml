@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_white_dark_new"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.komship.leads.LeadsOrderFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -15,10 +15,11 @@
         android:text="Data tidak ada"
         android:textAlignment="center"
         android:textColor="@color/cl_grey_dark_tx_new"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btn_save_nb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutCompat6" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayoutCompat6"
@@ -58,18 +59,17 @@
             android:textColorHint="@color/cl_grey_tx_new"
             app:boxStrokeColor="@color/cl_grey_2"
             app:boxStrokeWidth="0.5dp"
-            app:hintAnimationEnabled="false"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_partner">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/tie_partner"
                 style="@style/tv16inter_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="12dp" />
 
@@ -77,29 +77,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tv_leads"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_leads_order"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_save"
+        android:layout_marginBottom="@dimen/_16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_save_nb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat6"
-        tools:listitem="@layout/item_row_leads" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat6">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_leads"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_row_leads" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_save_nb"
         style="@style/tv16monst_semi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_orange_10dp"
+        android:layout_margin="@dimen/_16dp"
+        android:background="@drawable/bg_button_disable_komboard"
         android:paddingVertical="14dp"
         android:text="Simpan NB"
-        android:layout_margin="@dimen/_16dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

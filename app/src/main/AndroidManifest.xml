@@ -39,6 +39,17 @@
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
+
+        <service
+            android:name=".utils.komboard.BackIntentService"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.komboard.KomboardSettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.komboard.KomboardActivity"
+            android:exported="true" />
         <activity
             android:name=".presentation.komship.selectdestination.SelectDestinationActivity"
             android:exported="true"/>
@@ -346,6 +357,20 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".utils.komboard.CustomKeyboard"
+            android:exported="true"
+            android:label="Komboard"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
         </service>
     </application>
 

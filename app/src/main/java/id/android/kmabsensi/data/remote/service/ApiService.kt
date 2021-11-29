@@ -6,11 +6,15 @@ import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
+import id.android.kmabsensi.data.remote.response.komship.KomCreateLeadsResponse
+import id.android.kmabsensi.data.remote.response.komship.KomLeadsResponse
 import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
+import id.android.kmabsensi.data.remote.response.komship.LeadsCountResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.http.*
 import retrofit2.http.Query
 
@@ -716,5 +720,38 @@ interface ApiService {
             @Part("attachment_type") attachment_type: RequestBody,
             @Part attachment_file: MultipartBody.Part
     ): Single<UploadAttachmentResponse>
+
+    @GET("api/orderku/")
+    fun getLeadsFilter(
+        @Query("user_id") idUser: Int,
+        @Query("partner_id") idPartner: Int,
+        @Query("filter_date")filterDate: String
+    )
+            : Single<KomLeadsResponse>
+
+    @JvmSuppressWildcards
+    @POST("api/orderku/create/leads")
+    fun createLeads(
+        @Header("Authorization") token: String,
+        @Body body: Map<String, Any?>
+    ): Call<KomCreateLeadsResponse>
+
+    @DELETE("api/orderku/delete/{id}")
+    fun deleteLeads(
+        @Path("id") id: Int
+    ):Single<BaseResponse>
+
+    @JvmSuppressWildcards
+    @POST("api/orderku/create/notes")
+    fun inputNotesLeads(
+        @Body body: Map<String, Any?>
+    ):Single<BaseResponse>
+
+    @GET("api/orderku/leads/count")
+    fun getCountLeads(
+        @Header("Authorization") token: String,
+        @Query("user_id") idUser: Int,
+        @Query("partner_id") idPartner: Int
+    ): Call<LeadsCountResponse>
 
 }

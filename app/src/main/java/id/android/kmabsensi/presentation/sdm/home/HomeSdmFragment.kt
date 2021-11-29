@@ -17,8 +17,11 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.github.ajalt.timberkt.Timber
 import com.github.ajalt.timberkt.Timber.e
+import com.google.gson.Gson
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.Holiday
 import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
 import id.android.kmabsensi.data.remote.response.User
@@ -29,6 +32,7 @@ import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.komship.MyOrderActivity
+import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.permission.manajemenizin.ManajemenIzinActivity
 import id.android.kmabsensi.presentation.permission.tambahizin.FormIzinActivity
 import id.android.kmabsensi.presentation.scanqr.ScanQrActivity
@@ -72,6 +76,9 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     private var sklChair : SkeletonScreen? = null
     private var sklPhoto : SkeletonScreen? = null
 
+    private val vmOrder: MyOrderViewModel by inject()
+    private val prefHelper: PreferencesHelper by inject()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
@@ -84,6 +91,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     private fun setupView() {
         user = vm.getUserData()
         myDialog = MyDialog(requireContext())
+        vmOrder.getPartner()
         vm.getJadwalShalat()
         vm.getDashboardInfo(user.id)
         vm.getCoworkUserData(user.id)
@@ -160,6 +168,21 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 }
                 is UiState.Error -> {
                     myDialog.dismiss()
+                }
+            }
+        })
+
+        vmOrder.partnerState.observe(viewLifecycleOwner, {
+            when (it) {
+                is UiState.Loading -> {
+                    Timber.tag("_partnerState").d("on loading")
+                }
+                is UiState.Success -> {
+                    prefHelper.saveString(PreferencesHelper.DATA_PARTNER, Gson().toJson(it.data))
+                    Log.i("From API", "api: ${it.data.data?.size}")
+                }
+                is UiState.Error -> {
+                    Timber.tag("_partnerState").d("on error ${it.throwable}")
                 }
             }
         })

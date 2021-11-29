@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_white_10dp"
+    android:paddingVertical="28dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_fail_jangkauan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="img cancle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_notice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_detection"
+        style="@style/tv16inter_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_34sdp"
+        android:layout_marginTop="@dimen/_14dp"
+        android:layout_marginEnd="@dimen/_34sdp"
+        android:text="Kamu belum pilih partner pada Komboard. Ayo pilih partner sekarang!"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_fail_jangkauan" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_set_partner"
+        style="@style/tv14monst_semi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_orange_10dp"
+        android:padding="@dimen/_12dp"
+        android:stateListAnimator="@null"
+        android:text="Atur Partner"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detection" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

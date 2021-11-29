@@ -1,8 +1,12 @@
 package id.android.kmabsensi.presentation.komship
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.doAfterTextChanged
@@ -21,6 +25,7 @@ import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.databinding.ActivityMyOrderBinding
 import id.android.kmabsensi.presentation.base.BaseActivityRf
 import id.android.kmabsensi.presentation.komship.dataorder.DataOrderFragment
+import id.android.kmabsensi.presentation.komship.leads.LeadsOrderFragment
 import id.android.kmabsensi.presentation.komship.ordercart.OrderCartActivity
 import id.android.kmabsensi.utils.*
 import kotlinx.android.synthetic.main.activity_checkin.*
@@ -41,6 +46,9 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
     lateinit var dateFrom: Date
     lateinit var dateTo: Date
     private var sklCart : SkeletonScreen? = null
+
+    private lateinit var btnDate: TextInputEditText
+    private lateinit var btnApplyLeads: AppCompatButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -254,14 +262,30 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
         }
     }
 
+    //leads
     private fun setupBottomSheatFilterLeads() {
         val bottomSheet = layoutInflater.inflate(R.layout.bottomsheet_filter_leads, null)
         val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-        val btnDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_date)
+        btnDate = bottomSheet.findViewById<TextInputEditText>(R.id.tie_date)
+        btnApplyLeads = bottomSheet.findViewById<AppCompatButton>(R.id.btn_apply)
+        btnDate.addTextChangedListener(filterLeadsTextWatcher)
         dialog.setContentView(bottomSheet)
         dialog.show()
         btnDate.setOnClickListener {
             pickDate(btnDate)
+        }
+
+        btnApplyLeads.setOnClickListener {
+            val date = btnDate.text.toString()
+            val fm = supportFragmentManager
+            val fLeads = fm.fragments[1] as LeadsOrderFragment
+
+            fLeads.filterLeads(
+                PreferencesHelper(this).getInt(PreferencesHelper.ID_USER.toString()),
+                PreferencesHelper(this).getInt(PreferencesHelper.ID_PARTNER.toString()),
+                date
+            )
+            dialog.dismiss()
         }
     }
 
@@ -275,7 +299,22 @@ class MyOrderActivity : BaseActivityRf<ActivityMyOrderBinding>(
 
         }
     }
-}
 
+    private val filterLeadsTextWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            val filerDate: String = btnDate.text.toString().trim()
+            if (filerDate.isNotEmpty()){
+                btnApplyLeads.isEnabled = true
+                btnApplyLeads.background = getDrawable(R.drawable.background_orange_10dp)
+            } else {
+                btnApplyLeads.isEnabled = false
+                btnApplyLeads.background =getDrawable(R.drawable.bg_button_disable_komboard)
+            }
+        }
+
+        override fun afterTextChanged(s: Editable) {}
+    }
+}
 const val partnerOrder = "Partner_Order"
 

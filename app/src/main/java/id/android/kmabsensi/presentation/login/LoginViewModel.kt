@@ -1,5 +1,6 @@
 package id.android.kmabsensi.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.github.ajalt.timberkt.Timber
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -26,6 +27,7 @@ class LoginViewModel(
 
     val loginState = MutableLiveData<UiState<LoginResponse>>()
     val userProfileData = MutableLiveData<UiState<UserResponse>>()
+    var userId: Int ? =null
 
     fun login(
         usernameEmail: String,
@@ -65,6 +67,9 @@ class LoginViewModel(
             .with(schedulerProvider)
             .subscribe({
                 prefHelper.saveString(PreferencesHelper.PROFILE_KEY, Gson().toJson(it.data[0]))
+                toInteger(it.data[0].id.toString())
+                prefHelper.saveInt(PreferencesHelper.ID_USER.toString(), userId)
+                Log.d("Cek id", "getUserProfile: $userId")
                 prefHelper.saveBoolean(PreferencesHelper.IS_LOGIN, true)
                 userProfileData.value = UiState.Success(it)
             }, {
@@ -73,6 +78,13 @@ class LoginViewModel(
         )
     }
 
+    fun toInteger(s: String) {
+        try {
+            userId = s.toInt()
+        } catch (ex: NumberFormatException) {
+            ex.printStackTrace()
+        }
+    }
     fun getIsLogin() = prefHelper.getBoolean(PreferencesHelper.IS_LOGIN)
 
     override fun onError(error: Throwable) {

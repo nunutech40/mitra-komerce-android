@@ -1,2 +1,2 @@
-include ':app', ':idcardcamera'
+include ':app', ':idcardcamera', ':emoji'
 rootProject.name='AbsensiKampungMarketer'

@@ -100,4 +100,13 @@
     <color name="cl_grey_bg_new">#EDEDED</color>
     <color name="cl_white_dark_new">#F6F6F6</color>
 
+    //
+    <color name="color_btn_disable">#C2C2C2</color>
+    <color name="color_icon_back">#08A0F7</color>
+    <color name="candidate_other">#ff808080</color>
+    <color name="colorBgKeyMenu">#F67149</color>
+    <color name="colorBagKeyboard">#F2F2F2</color>
+    <color name="candidate_recommended">#FFE35900</color>
+    <color name="candidate_background">#bbffffff</color>
+
 </resources>

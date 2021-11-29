@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import id.android.kmabsensi.data.remote.body.komship.AddCartParams
+import id.android.kmabsensi.data.remote.body.komship.InputNotesParams
 import id.android.kmabsensi.data.remote.body.komship.OrderByPartnerParams
 import id.android.kmabsensi.data.remote.response.BaseResponse
 import id.android.kmabsensi.data.remote.response.komship.*
 import id.android.kmabsensi.data.repository.KomShipRepository
+import id.android.kmabsensi.data.repository.LeadsRepository
 import id.android.kmabsensi.presentation.base.BaseViewModel
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.gone
@@ -19,8 +21,9 @@ import id.android.kmabsensi.utils.visible
 
 class MyOrderViewModel(
     val komShipRepository: KomShipRepository,
-    val schedulerProvider: SchedulerProvider
-) : BaseViewModel() {
+    val schedulerProvider: SchedulerProvider ,
+    val leadsRepository: LeadsRepository
+    ) : BaseViewModel() {
 
     override fun onError(error: Throwable) {
         error.message?.let { FirebaseCrashlytics.getInstance().log(it) }
@@ -36,6 +39,12 @@ class MyOrderViewModel(
     = MutableLiveData()
     val cartState: MutableLiveData<UiState<KomCartResponse>>
     = MutableLiveData()
+    val leadsFilterState: MutableLiveData<UiState<KomLeadsResponse>>
+            = MutableLiveData()
+    val inputNotesState: MutableLiveData<UiState<BaseResponse>>
+            = MutableLiveData()
+    val deleteState: MutableLiveData<UiState<BaseResponse>>
+            = MutableLiveData()
 
     fun getCart() {
         cartState.value = UiState.Loading()
@@ -111,6 +120,53 @@ class MyOrderViewModel(
                 }, {
                     productState.value = UiState.Error(it)
                 })
+        )
+    }
+
+    fun getLeadsFilter(
+        idUser: Int,
+        idPartner: Int,
+        filterDate: String
+    ) {
+        leadsFilterState.value = UiState.Loading()
+        compositeDisposable.add(
+            leadsRepository.getLeadsFilter(idUser, idPartner, filterDate)
+                .with(schedulerProvider)
+                .subscribe({
+                    leadsFilterState.value = UiState.Success(it)
+                }, {
+                    leadsFilterState.value = UiState.Error(it)
+                })
+        )
+    }
+
+    fun deleteLeadsOrder(id: Int){
+        deleteState.value = UiState.Loading()
+
+        compositeDisposable.add(
+            leadsRepository.deleteLeads(id)
+                .with(schedulerProvider)
+                .subscribe({
+                    deleteState.value = UiState.Success(it)
+                }, {
+                    deleteState.value = UiState.Error(it)
+                })
+        )
+    }
+
+    fun inputNotesLeads(data: InputNotesParams){
+        inputNotesState.value = UiState.Loading()
+
+        compositeDisposable.add(
+
+            leadsRepository.inputNotesLeads(data)
+                .with(schedulerProvider)
+                .subscribe({
+                    inputNotesState.value = UiState.Success(it)
+                }, {
+                    inputNotesState.value = UiState.Error(it)
+                })
+
         )
     }
 

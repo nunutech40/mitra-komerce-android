@@ -13,6 +13,7 @@ import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.databinding.FragmentMyProfileBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.home.HomeViewModel
+import id.android.kmabsensi.presentation.komboard.KomboardActivity
 import id.android.kmabsensi.presentation.login.LoginActivity
 import id.android.kmabsensi.presentation.sdm.editpassword.EditPasswordActivity
 import id.android.kmabsensi.presentation.ubahprofile.UbahProfileActivity
@@ -53,6 +54,10 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
             swSavePhoto.isChecked = PreferencesHelper(requireContext()).getBoolean(IS_SAVE_PHOTO) ?: true
             if (user.role_id == 1) {
                 btnChangeProfile.gone()
+            }
+
+            if (user.position_id != 1){
+                llKomboard.gone()
             }
         }
     }
@@ -109,6 +114,10 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
 
             btnForgotPass.setOnClickListener {
                 context?.startActivity<EditPasswordActivity>(USER_ID_KEY to user.id)
+            }
+
+            btnKomboard.setOnClickListener {
+                context?.startActivity<KomboardActivity>()
             }
         }
     }

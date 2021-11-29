@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_cek_ongkir"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@color/cl_white_dark_new">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ib_check_done_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@null"
+            android:padding="8dp"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="@id/edt_alamat_asal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edt_alamat_asal"
+            app:tint="@color/colorPrimaryDark" />
+
+        <EditText
+            android:id="@+id/edt_alamat_asal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Alamat Asal"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ib_check_done_address"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ib_check_done_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@null"
+            android:padding="8dp"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="@id/edt_kecamatan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edt_kecamatan"
+            app:tint="@color/colorPrimaryDark"
+            tools:ignore="DuplicateIds" />
+
+        <EditText
+            android:id="@+id/edt_kecamatan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Kota/Kecamatan"
+            app:layout_constraintEnd_toEndOf="@+id/edt_alamat_asal"
+            app:layout_constraintStart_toStartOf="@+id/edt_alamat_asal"
+            app:layout_constraintTop_toBottomOf="@id/edt_alamat_asal" />
+
+
+        <ImageButton
+            android:id="@+id/ib_check_done_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@null"
+            android:padding="8dp"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="@id/edt_berat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edt_berat"
+            app:tint="@color/colorPrimaryDark"
+            tools:ignore="DuplicateIds" />
+
+        <EditText
+            android:id="@+id/edt_berat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Berat (kg)"
+            app:layout_constraintEnd_toEndOf="@+id/edt_kecamatan"
+            app:layout_constraintStart_toStartOf="@+id/edt_kecamatan"
+            app:layout_constraintTop_toBottomOf="@id/edt_kecamatan" />
+
+        <Button
+            android:id="@+id/tv_pilih_semua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Pilih semua"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/edt_berat"
+            app:layout_constraintTop_toBottomOf="@id/edt_berat"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_tes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tes"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_berat" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_ekspedisi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/rl_btm"
+            app:layout_constraintEnd_toEndOf="@id/edt_berat"
+            app:layout_constraintStart_toStartOf="@id/edt_berat"
+            app:layout_constraintTop_toBottomOf="@id/tv_pilih_semua"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_ekspedisi" />
+
+        <RelativeLayout
+            android:id="@+id/rl_btm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_back_ongkir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="19dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_left"
+                android:tint="@color/color_icon_back"
+                app:tint="@color/color_icon_back"
+                tools:ignore="UseAppTint" />
+
+            <Button
+                android:id="@+id/btn_cek_ongkir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="14dp"
+                android:layout_toEndOf="@id/iv_back_ongkir"
+                android:background="@drawable/bg_button_disable_komboard"
+                android:enabled="false"
+                android:text="Cek Ongkir"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_salin_ongkir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="14dp"
+                android:layout_toEndOf="@id/iv_back_ongkir"
+                android:background="@drawable/bg_button_disable_komboard"
+                android:enabled="false"
+                android:text="Salin Ongkir"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -105,6 +105,7 @@ val repositoryModule = module {
     single { HolidayRepository(get()) }
     single { UserConfigurationRepository(get()) }
     single { KomShipRepository(get()) }
+    single { LeadsRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -143,7 +144,7 @@ val viewModelModule = module {
     viewModel { WithdrawViewModel(get()) }
     viewModel { DetailWithDrawViewModel(get(), get()) }
     viewModel { ShoppingDetailFinanceViewModel(get(), get()) }
-    viewModel { MyOrderViewModel(get(), get()) }
+    viewModel { MyOrderViewModel(get(), get(),get()) }
     viewModel { OrderCartViewModel(get(), get()) }
     viewModel { DeliveryViewModel(get(), get()) }
     viewModel { DestinationViewModel(get(), get()) }

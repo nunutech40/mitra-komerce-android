@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.readystatesoftware.chuck.ChuckInterceptor
+import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.presentation.login.LoginActivity
 import okhttp3.Interceptor
@@ -78,6 +79,19 @@ inline fun <reified T> createWebServiceKomship(okHttpClient: OkHttpClient, baseU
         .build()
     return retrofitKom.create(T::class.java)
 }
-
+object ApiClient {
+    const val BASE_URL = BuildConfig.BASE_URL_ABSENSI
+    private var retrofit: Retrofit? = null
+    val client: Retrofit?
+        get() {
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            }
+            return retrofit
+        }
+}
 
 

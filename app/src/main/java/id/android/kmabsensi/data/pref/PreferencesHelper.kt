@@ -15,6 +15,12 @@ class PreferencesHelper(val context: Context){
         val IS_LOGIN = "is_login"
         val WORK_MODE_IS_WFH = "work_mode"
         val WORK_MODE_SCOPE = "work_mode_scope"
+
+        val ID_PARTNER = 0
+        val NAME_PARTNER = "name_partner"
+        val DATA_PARTNER = "data_partner"
+        val ID_USER = 111
+        val POSITION_PARTNER = ""
     }
 
     private var sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

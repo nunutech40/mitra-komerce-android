@@ -51,15 +51,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"
         android:text="Terapkan"
+        android:enabled="false"
         android:layout_marginTop="56dp"
         style="@style/tv16monst_semi"
         android:layout_marginBottom="@dimen/_24dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@drawable/bg_orange_10dp"/>
+        android:background="@drawable/bg_button_disable_komboard"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_setting"
+    android:background="@color/cl_white_dark_new"
+    android:fitsSystemWindows="true"
+    tools:context=".presentation.komboard.KomboardSettingActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_toolbar_v2" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_komboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_white_10dp"
+        android:backgroundTint="@color/white"
+        android:elevation="@dimen/_1dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_102sdp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_24dp"
+            android:src="@drawable/ic_komboard" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_actived_komboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_24dp"
+            android:layout_marginTop="@dimen/_24dp"
+            android:layout_marginEnd="@dimen/_24dp"
+            android:background="@drawable/bg_with_stroke_orange_8d"
+            android:text="Aktifkan Komboard"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_selected_komboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_24dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:layout_marginEnd="@dimen/_24dp"
+            android:layout_marginBottom="@dimen/_24dp"
+            android:background="@drawable/bg_with_stroke_grey_8d"
+            android:enabled="false"
+            android:text="Pilih Keyboard"
+            android:textAllCaps="false"
+            android:textColor="@color/color_btn_disable" />
+
+        <Button
+            android:id="@+id/btn_testing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="test"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_nonaktif_keyboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:background="@drawable/bg_with_stroke_orange_8d"
+        android:text="Nonaktifkan Keyboard"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

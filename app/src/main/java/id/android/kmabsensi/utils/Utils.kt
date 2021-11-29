@@ -251,6 +251,77 @@ fun showDialogConfirmCancle(
     }
 }
 
+fun showDialogConfirmDeleteLeads(
+    context: Context,
+    listener: OnSingleCLick
+) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        customView(
+            R.layout.dialog_confirm_delete_leads,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btnCancle = customView.findViewById<AppCompatButton>(R.id.btn_no)
+    val btnDelete = customView.findViewById<AppCompatButton>(R.id.btn_delete)
+    btnCancle.setOnClickListener {
+        dialog.dismiss()
+    }
+    btnDelete.setOnClickListener {
+        listener.onCLick()
+        dialog.dismiss()
+    }
+}
+
+fun showDialogSetPartner(
+    context: Context,
+    listener: OnSingleCLick
+) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        setCancelable(false)
+        setCanceledOnTouchOutside(false)
+        customView(
+            R.layout.dialog_set_partner_leads,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btnSetPartner = customView.findViewById<AppCompatButton>(R.id.btn_set_partner)
+    btnSetPartner.setOnClickListener {
+        listener.onCLick()
+        dialog.dismiss()
+    }
+}
+
+fun showDialogAfterChangePartner(
+    context: Context,
+    listener: OnSingleCLick
+) {
+    val dialog = MaterialDialog(context).show {
+        cornerRadius(16f)
+        setCancelable(false)
+        setCanceledOnTouchOutside(false)
+        customView(
+            R.layout.dialog_after_change_partner,
+            scrollable = false,
+            horizontalPadding = true,
+            noVerticalPadding = true
+        )
+    }
+    val customView = dialog.getCustomView()
+    val btnOk = customView.findViewById<AppCompatButton>(R.id.btn_ok)
+    btnOk.setOnClickListener {
+        listener.onCLick()
+        dialog.dismiss()
+    }
+}
+
 interface OnSingleCLick{
     fun onCLick()
 }
