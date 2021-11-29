@@ -121,6 +121,7 @@
                                 android:id="@+id/img_product"
                                 android:layout_width="98dp"
                                 android:layout_height="98dp"
+                                android:scaleType="fitXY"
                                 app:srcCompat="@drawable/ic_galery_rf"/>
                         </androidx.cardview.widget.CardView>
 

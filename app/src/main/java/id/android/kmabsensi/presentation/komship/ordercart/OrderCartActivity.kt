@@ -310,12 +310,14 @@ class OrderCartActivity : BaseActivityRf<ActivityOrderCartBinding>(
                 isEnabled = true
                 isClickable = true
             }
+            binding.toolbar.tvDelete.visible()
         } else {
             binding.btnOrder.apply {
                 setBackgroundResource(R.drawable.bg_grey_8dp)
                 isEnabled = false
                 isClickable = false
             }
+            binding.toolbar.tvDelete.gone()
         }
         binding.tvTotalPayment.text = convertRupiah(vm.totalCost(listCartItem))
 
