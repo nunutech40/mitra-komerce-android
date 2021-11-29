@@ -466,11 +466,11 @@
                 style="@style/tv14inter_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Pembayarn"
+                android:text="Total Pembayaran"
                 android:textColor="@color/cl_grey_tx_new" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_total_cost"
+                android:id="@+id/tv_total_costfi"
                 style="@style/tv16monst_semi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
