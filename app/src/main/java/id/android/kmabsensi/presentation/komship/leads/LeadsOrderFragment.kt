@@ -25,6 +25,8 @@ import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
+import kotlinx.android.synthetic.main.fragment_leads_order.*
+import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -48,6 +50,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     private var userId: Int? = null
     private lateinit var myDialog: MyDialog
     private lateinit var dataLocal: KomPartnerResponse
+    private lateinit var isToday: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +63,6 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     private fun setupView() {
         myDialog = MyDialog(requireContext())
         userId = sdmVM.getUserData().id
-//        binding?.tiePartner?.addTextChangedListener(cekNotesTextWatcher)
         Log.i("idUser", "setupView: $userId")
         dataLocal =
             Gson().fromJson<KomPartnerResponse>(
@@ -69,7 +71,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
             )
         Log.d("Size", "setupView: ${dataLocal.data?.size}")
 
-        if (dataLocal.data?.size!! > 1){
+        if (dataLocal.data?.size!! > 1) {
 
             idPartner = prefHelper.getInt(PreferencesHelper.ID_PARTNER.toString())
             binding?.tvName?.text = prefHelper.getString(PreferencesHelper.NAME_PARTNER)
@@ -80,17 +82,19 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
 
         }
 
-        if (idPartner == 0){
+        if (idPartner == 0) {
             showDialogSetPartner(requireContext(), object : OnSingleCLick {
                 override fun onCLick() {
                     val intentSetKomboard = Intent()
                     intentSetKomboard.component =
-                        ComponentName(requireActivity(), "id.android.kmabsensi.presentation.komboard.KomboardActivity")
+                        ComponentName(
+                            requireActivity(),
+                            "id.android.kmabsensi.presentation.komboard.KomboardActivity"
+                        )
                     intentSetKomboard.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intentSetKomboard)
                     requireActivity().finish()
                 }
-
             })
         } else {
             vm.getLeadsFilter(userId!!, idPartner, getTodayDate())
@@ -102,6 +106,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
             srLeadsOrder.setOnRefreshListener {
                 srLeadsOrder.isRefreshing = true
                 userId?.let { vm.getLeadsFilter(it, idPartner, getTodayDate()) }
+                binding?.tiePartner?.isEnabled = getTodayDate() == getTodayDate()
             }
 
 //            tvName.text = prefHelper.getString(PreferencesHelper.NAME_PARTNER)
@@ -123,39 +128,45 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 dateTime
             )
         }
-        inputParams?.let { it1 -> vm.inputNotesLeads(it1)
+        inputParams?.let { it1 ->
+            vm.inputNotesLeads(it1)
             vm.inputNotesState.observe(requireActivity(), {
-                when(it) {
+                when (it) {
                     is UiState.Loading -> {
                         myDialog.show()
                     }
                     is UiState.Success -> {
                         myDialog.dismiss()
-                        Toast.makeText(requireContext(), "Berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Berhasil ditambahkan", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     is UiState.Error -> {
                         myDialog.dismiss()
-                        Toast.makeText(requireContext(), it.throwable.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.throwable.message, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             })
         }
     }
 
-    fun filterLeads(idUser: Int, idPartners: Int, filterDate: String){
+    fun filterLeads(idUser: Int, idPartners: Int, filterDate: String) {
         vm.getLeadsFilter(idUser, idPartner, filterDate)
+        binding?.tiePartner?.isEnabled = filterDate == getTodayDate()
     }
 
     private val cekNotesTextWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             val notes: String = binding?.tiePartner?.text.toString()
-            if (notes.isNotEmpty()){
+            if (notes.isNotEmpty()) {
                 binding?.btnSaveNb?.isEnabled = true
-                binding?.btnSaveNb?.background = resources.getDrawable(R.drawable.background_orange_10dp)
+                binding?.btnSaveNb?.background =
+                    resources.getDrawable(R.drawable.background_orange_10dp)
             } else {
                 binding?.btnSaveNb?.isEnabled = false
-                binding?.btnSaveNb?.background = resources.getDrawable(R.drawable.bg_button_disable_komboard)
+                binding?.btnSaveNb?.background =
+                    resources.getDrawable(R.drawable.bg_button_disable_komboard)
             }
         }
 
@@ -164,41 +175,42 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
 
     private fun setupObserver() {
         vm.leadsFilterState.observe(requireActivity(), {
-            when(it) {
+            when (it) {
                 is UiState.Loading -> {
-                    Timber.tag("_leadsFilter").d( "on Loading")
+                    Timber.tag("_leadsFilter").d("on Loading")
                     showSkeleton()
                 }
                 is UiState.Success -> {
-                    if (it.data.data == null){
+                    if (it.data.data == null) {
                         binding?.apply {
-                            tiePartner.isEnabled = getTodayDate().equals(true)
                             tvEmptyCart.visible()
                             tiePartner.setText("")
                             rvLeads.gone()
                             srLeadsOrder.isRefreshing = false
                         }
-                    }else{
+
+                    } else {
                         binding?.apply {
                             srLeadsOrder.isRefreshing = false
                             tvEmptyCart.gone()
                             rvLeads.visible()
-                            tiePartner.isEnabled = true
                             tiePartner.setText(it.data.data.notes)
                         }
                         listLeads.clear()
                         it.data.data?.leads?.let { it1 -> listLeads.addAll(it1) }
                         leadsOrderAdapter.setData(listLeads)
-                        if (getTodayDate() != it.data.data.leads?.get(0)?.date_leads){
+                        if (getTodayDate() != it.data.data.leads?.get(0)?.date_leads) {
                             binding?.btnSaveNb?.isEnabled = false
                             binding?.btnSaveNb?.background = resources.getDrawable(R.drawable.bg_button_disable_komboard)
                             binding?.tiePartner?.isEnabled = false
+                        } else {
+                            binding?.tiePartner?.isEnabled = true
                         }
                     }
                     sklList?.hide()
                 }
                 is UiState.Error -> {
-                    Timber.tag("_leadsFilter").d( "on error ${it.throwable}")
+                    Timber.tag("_leadsFilter").d("on error ${it.throwable}")
                     sklList?.hide()
                     binding?.srLeadsOrder?.isRefreshing = false
                     Timber.d(it.throwable)

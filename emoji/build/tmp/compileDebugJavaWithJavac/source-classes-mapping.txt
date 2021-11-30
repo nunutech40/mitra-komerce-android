@@ -6,32 +6,12 @@ github/ankushsachdeva/emojicon/emoji/Nature.java
  github.ankushsachdeva.emojicon.emoji.Nature
 github/ankushsachdeva/emojicon/EmojiconSpan.java
  github.ankushsachdeva.emojicon.EmojiconSpan
-github/ankushsachdeva/emojicon/emoji/Places.java
- github.ankushsachdeva.emojicon.emoji.Places
-github/ankushsachdeva/emojicon/emoji/Symbols.java
- github.ankushsachdeva.emojicon.emoji.Symbols
-github/ankushsachdeva/emojicon/EmojiconHandler.java
- github.ankushsachdeva.emojicon.EmojiconHandler
-github/ankushsachdeva/emojicon/EmojiconRecents.java
- github.ankushsachdeva.emojicon.EmojiconRecents
-github/ankushsachdeva/emojicon/EmojiconEditText.java
- github.ankushsachdeva.emojicon.EmojiconEditText
-github/ankushsachdeva/emojicon/emoji/People.java
- github.ankushsachdeva.emojicon.emoji.People
-github/ankushsachdeva/emojicon/emoji/Emojicon.java
- github.ankushsachdeva.emojicon.emoji.Emojicon
-github/ankushsachdeva/emojicon/EmojiAdapter.java
- github.ankushsachdeva.emojicon.EmojiAdapter
- github.ankushsachdeva.emojicon.EmojiAdapter$1
- github.ankushsachdeva.emojicon.EmojiAdapter$ViewHolder
-github/ankushsachdeva/emojicon/BuildConfig.java
- github.ankushsachdeva.emojicon.BuildConfig
-github/ankushsachdeva/emojicon/EmojiconRecentsManager.java
- github.ankushsachdeva.emojicon.EmojiconRecentsManager
 github/ankushsachdeva/emojicon/EmojiconGridView.java
  github.ankushsachdeva.emojicon.EmojiconGridView
  github.ankushsachdeva.emojicon.EmojiconGridView$1
  github.ankushsachdeva.emojicon.EmojiconGridView$OnEmojiconClickedListener
+github/ankushsachdeva/emojicon/emoji/Symbols.java
+ github.ankushsachdeva.emojicon.emoji.Symbols
 github/ankushsachdeva/emojicon/EmojiconsPopup.java
  github.ankushsachdeva.emojicon.EmojiconsPopup
  github.ankushsachdeva.emojicon.EmojiconsPopup$1
@@ -46,3 +26,23 @@ github/ankushsachdeva/emojicon/EmojiconsPopup.java
 github/ankushsachdeva/emojicon/EmojiconRecentsGridView.java
  github.ankushsachdeva.emojicon.EmojiconRecentsGridView
  github.ankushsachdeva.emojicon.EmojiconRecentsGridView$1
+github/ankushsachdeva/emojicon/EmojiconEditText.java
+ github.ankushsachdeva.emojicon.EmojiconEditText
+github/ankushsachdeva/emojicon/emoji/People.java
+ github.ankushsachdeva.emojicon.emoji.People
+github/ankushsachdeva/emojicon/emoji/Emojicon.java
+ github.ankushsachdeva.emojicon.emoji.Emojicon
+github/ankushsachdeva/emojicon/EmojiAdapter.java
+ github.ankushsachdeva.emojicon.EmojiAdapter
+ github.ankushsachdeva.emojicon.EmojiAdapter$1
+ github.ankushsachdeva.emojicon.EmojiAdapter$ViewHolder
+github/ankushsachdeva/emojicon/BuildConfig.java
+ github.ankushsachdeva.emojicon.BuildConfig
+github/ankushsachdeva/emojicon/EmojiconRecentsManager.java
+ github.ankushsachdeva.emojicon.EmojiconRecentsManager
+github/ankushsachdeva/emojicon/EmojiconRecents.java
+ github.ankushsachdeva.emojicon.EmojiconRecents
+github/ankushsachdeva/emojicon/EmojiconHandler.java
+ github.ankushsachdeva.emojicon.EmojiconHandler
+github/ankushsachdeva/emojicon/emoji/Places.java
+ github.ankushsachdeva.emojicon.emoji.Places
