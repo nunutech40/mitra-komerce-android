@@ -54,7 +54,7 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
     private var listExpandable  = false
     private var paymentMethode  = ""
     private var nameBank        = ""
-    private var typeEkspedisi   = "REG"
+    private var typeEkspedisi   = "REG19"
     private var dataCalculate   = CalculateItem()
     private var cust            = CustomerItem()
     private var listBankName    = ArrayList<String>()
@@ -276,10 +276,15 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
                         p3: Long
                     ) {
                         paymentMethode = vm.paymentMethode(p2)
-
                         if (p2 != 2) {
                             /** reset bank item */
                             bankItem = BankItem()
+                            rbOke.gone()
+                            rbYes.gone()
+                        }
+                        if(p2 == 2){
+                            rbOke.visible()
+                            rbYes.visible()
                         }
                         vm.setupBank(llBank, p2)
                         if (paymentMethode != "") {
@@ -311,7 +316,16 @@ class DeliveryActivity : BaseActivityRf<ActivityDeliveryBinding>(
 
             rdGroup.setOnCheckedChangeListener { p0, _ ->
                 val rd = findViewById<RadioButton>(p0.checkedRadioButtonId)
-                typeEkspedisi = rd.text.toString().take(3)
+//                typeEkspedisi = rd.text.toString().take(3)
+                if (rbReguler.isChecked){
+                    typeEkspedisi = "REG19"
+                }
+                if(rbYes.isChecked){
+                    typeEkspedisi = "YES19"
+                }
+                if (rbOke.isChecked){
+                    typeEkspedisi = "OKE19"
+                }
                 setupEkspedisi(vm.shippingCost(typeEkspedisi, listCalculate))
             }
 

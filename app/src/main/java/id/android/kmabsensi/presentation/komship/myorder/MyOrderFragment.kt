@@ -346,13 +346,15 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
                             imgCart.isEnabled = false
                             btnOrder.setBackgroundResource(R.drawable.bg_grey_8dp)
                             tvTotal.text = "habis"
-                        }else {
+                        }else{
                             availableProduct = "Tersedia: ${it.stock} Pcs"
                             tvAvailableProduct.text = availableProduct
                             tvTotal.text = "$totalProduct"
                             btnOrder.isEnabled = true
                             btnCart.isEnabled = true
                             imgCart.isEnabled = true
+                            btnMinus.isEnabled = true
+                            btnPlus.isEnabled = true
                             btnOrder.setBackgroundResource(R.drawable.bg_orange_10dp)
                             imgCart.setImageDrawable(
                                 ContextCompat.getDrawable(
