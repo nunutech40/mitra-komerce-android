@@ -25,16 +25,12 @@ import id.android.kmabsensi.presentation.komship.MyOrderViewModel
 import id.android.kmabsensi.presentation.viewmodels.SdmViewModel
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.fragment_leads_order.*
-import org.jetbrains.anko.toast
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-//baru
 class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     FragmentLeadsOrderBinding::inflate
 ) {
@@ -70,17 +66,13 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 prefHelper.getString(PreferencesHelper.DATA_PARTNER),
                 KomPartnerResponse::class.java
             )
-        Log.d("Size", "setupView: ${dataLocal.data?.size}")
 
         if (dataLocal.data?.size!! > 1) {
-
             idPartner = prefHelper.getInt(PreferencesHelper.ID_PARTNER.toString())
             binding?.tvName?.text = prefHelper.getString(PreferencesHelper.NAME_PARTNER)
         } else {
-
             idPartner = dataLocal.data!![0].partnerId!!
             binding?.tvName?.text = dataLocal.data!![0].partnerName
-
         }
 
         if (idPartner == 0) {
@@ -108,7 +100,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 srLeadsOrder.isRefreshing = true
                 userId?.let { vm.getLeadsFilter(it, idPartner, getTodayDate()) }
                 binding?.tiePartner?.isEnabled = getTodayDate() == getTodayDate()
-                binding?.tvPartner?.text = "NB hari ini"
+                dateTodayActived()
             }
 
 //            tvName.text = prefHelper.getString(PreferencesHelper.NAME_PARTNER)
@@ -154,11 +146,16 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
 
     fun filterLeads(idUser: Int, idPartners: Int, filterDate: String) {
         vm.getLeadsFilter(idUser, idPartner, filterDate)
-        binding?.tiePartner?.isEnabled = filterDate == getTodayDate()
-        val dateFormat1 = SimpleDateFormat(DATE_FORMAT)
-        val dateFormat2 = SimpleDateFormat(DATE_FORMAT2, LOCALE)
-        val dateFilter = dateFormat2.format(dateFormat1.parse(filterDate))
-        binding?.tvPartner?.text = "NB $dateFilter"
+        if (filterDate != getTodayDate()){
+            binding?.tiePartner?.isEnabled = false
+            binding?.btnSaveNb?.gone()
+            val dateFormat1 = SimpleDateFormat(DATE_FORMAT)
+            val dateFormat2 = SimpleDateFormat(DATE_FORMAT2, LOCALE)
+            val dateFilter = dateFormat2.format(dateFormat1.parse(filterDate))
+            binding?.tvPartner?.text = "NB $dateFilter"
+        } else {
+            dateTodayActived()
+        }
     }
 
     private val cekNotesTextWatcher: TextWatcher = object : TextWatcher {
@@ -206,11 +203,10 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                         it.data.data?.leads?.let { it1 -> listLeads.addAll(it1) }
                         leadsOrderAdapter.setData(listLeads)
                         if (getTodayDate() != it.data.data.leads?.get(0)?.date_leads) {
-                            binding?.btnSaveNb?.isEnabled = false
-                            binding?.btnSaveNb?.background = resources.getDrawable(R.drawable.bg_button_disable_komboard)
+                            binding?.btnSaveNb?.gone()
                             binding?.tiePartner?.isEnabled = false
                         } else {
-                            binding?.tiePartner?.isEnabled = true
+                            dateTodayActived()
                         }
                     }
                     sklList?.hide()
@@ -251,7 +247,13 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     override fun onResume() {
         super.onResume()
         vm.getLeadsFilter(userId!!, idPartner, getTodayDate())
+        dateTodayActived()
+    }
+
+    private fun dateTodayActived(){
+        binding?.tiePartner?.isEnabled = true
         binding?.tvPartner?.text = "NB hari ini"
+        binding?.btnSaveNb?.visible()
     }
 
     private fun showSkeleton() {
