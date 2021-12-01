@@ -27,6 +27,7 @@ import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
 import kotlinx.android.synthetic.main.fragment_leads_order.*
 import org.jetbrains.anko.toast
+import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -107,6 +108,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
                 srLeadsOrder.isRefreshing = true
                 userId?.let { vm.getLeadsFilter(it, idPartner, getTodayDate()) }
                 binding?.tiePartner?.isEnabled = getTodayDate() == getTodayDate()
+                binding?.tvPartner?.text = "NB hari ini"
             }
 
 //            tvName.text = prefHelper.getString(PreferencesHelper.NAME_PARTNER)
@@ -153,6 +155,10 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     fun filterLeads(idUser: Int, idPartners: Int, filterDate: String) {
         vm.getLeadsFilter(idUser, idPartner, filterDate)
         binding?.tiePartner?.isEnabled = filterDate == getTodayDate()
+        val dateFormat1 = SimpleDateFormat(DATE_FORMAT)
+        val dateFormat2 = SimpleDateFormat(DATE_FORMAT2, LOCALE)
+        val dateFilter = dateFormat2.format(dateFormat1.parse(filterDate))
+        binding?.tvPartner?.text = "NB $dateFilter"
     }
 
     private val cekNotesTextWatcher: TextWatcher = object : TextWatcher {
@@ -245,6 +251,7 @@ class LeadsOrderFragment : BaseFragmentRf<FragmentLeadsOrderBinding>(
     override fun onResume() {
         super.onResume()
         vm.getLeadsFilter(userId!!, idPartner, getTodayDate())
+        binding?.tvPartner?.text = "NB hari ini"
     }
 
     private fun showSkeleton() {
