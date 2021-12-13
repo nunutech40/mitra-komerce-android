@@ -41,7 +41,7 @@ android {
             applicationId "id.android.kmabsensi.dev"
             resValue "string", "app_name", "Dev Mitra Komerce"
             resConfigs "en", "xxhdpi"
-            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://devinternal.komerce.id/\""
+            buildConfigField "String", "BASE_URL_ABSENSI", "\"https://appdev.komerce.id/\""
             buildConfigField "String", "BASE_URL_ABSENSI_KOMSHIP", "\"https://komshipdev.komerce.id/\""
         }
 

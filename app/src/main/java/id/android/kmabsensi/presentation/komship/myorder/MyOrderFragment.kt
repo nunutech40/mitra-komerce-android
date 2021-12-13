@@ -305,6 +305,7 @@ class MyOrderFragment : BaseFragmentRf<FragmentMyOrderBinding>(
 
     private fun lastOption(last: Boolean, optionsId: Int) {
         Log.d("onChipID", "lastOption: $optionsId")
+        totalProduct = 1
         if (last) {
             if (optionsId == -1){
                 binding?.apply {
