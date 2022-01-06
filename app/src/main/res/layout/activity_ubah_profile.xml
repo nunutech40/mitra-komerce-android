@@ -130,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
                     android:hint="Asal Desa"
+                    android:visibility="gone"
                     app:boxStrokeColor="@color/cl_grey_2"
                     app:boxStrokeWidth="0.3dp">
 
@@ -140,7 +141,10 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:paddingStart="0dp"
-                        android:paddingTop="30dp" />
+                        android:editable="false"
+                        android:paddingTop="30dp"
+                        android:clickable="false"
+                        android:focusable="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -256,16 +260,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
                     android:hint="Tanggal Bergabung"
+                    android:clickable="false"
                     app:boxStrokeColor="@color/cl_grey_2"
                     app:boxStrokeWidth="0.3dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/tie_join_date"
                         style="@style/tv16inter_reg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:focusable="false"
                         android:paddingStart="0dp"
                         android:paddingTop="30dp" />
@@ -323,7 +328,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:hint="No. Rekening"
+                    android:hint="Pemilik Rekening"
                     app:boxStrokeColor="@color/cl_grey_2"
                     app:boxStrokeWidth="0.3dp">
 

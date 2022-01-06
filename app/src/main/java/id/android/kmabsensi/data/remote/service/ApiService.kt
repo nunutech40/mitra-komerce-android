@@ -6,10 +6,7 @@ import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.data.remote.response.invoice.InvoiceDetailResponse
 import id.android.kmabsensi.data.remote.response.invoice.MyInvoiceResponse
 import id.android.kmabsensi.data.remote.response.kmpoint.*
-import id.android.kmabsensi.data.remote.response.komship.KomCreateLeadsResponse
-import id.android.kmabsensi.data.remote.response.komship.KomLeadsResponse
-import id.android.kmabsensi.data.remote.response.komship.KomPartnerResponse
-import id.android.kmabsensi.data.remote.response.komship.LeadsCountResponse
+import id.android.kmabsensi.data.remote.response.komship.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -56,6 +53,13 @@ interface ApiService {
 //        @Header("Authorization") accessToken: String,
         @Field("user_id") userId: Int
     ): Single<UserResponse>
+
+//    @FormUrlEncoded
+//    @POST("api/user/get-profile")
+//    fun getProfileDataNew(
+////        @Header("Authorization") accessToken: String,
+//        @Field("user_id") userId: Int
+//    ): Single<ResponseUserNew>
 
     @FormUrlEncoded
     @POST("api/user")
@@ -156,6 +160,70 @@ interface ApiService {
         @Part("bank_no") bankNo: RequestBody,
         @Part("bank_owner_name") bankOwnerName: RequestBody
     ): Single<SingleUserResponse>
+
+    @Multipart
+    @POST("api/staff/{id}")
+    fun editSdmStaff(
+        @Path("id") id: Int,
+        @Part("_method") method: RequestBody,
+//        @Part("id") id: RequestBody,
+        @Part("username") username: RequestBody, //
+        @Part("email") email: RequestBody, //
+//        @Part("role_id") role_id: RequestBody,
+        @Part("full_name") full_name: RequestBody, //
+        @Part("division_id") divisionId: RequestBody, //
+        @Part("office_id") officeId: RequestBody, //
+        @Part("position_id") positionId: RequestBody, //
+//        @Part("no_partner") noPartner: RequestBody,
+//        @Part("origin_village") originVillage: RequestBody,
+        @Part("no_hp") no_hp: RequestBody, //
+        @Part("address") address: RequestBody, //
+        @Part("birth_date") birth_date: RequestBody, //
+        @Part("gender") gender: RequestBody, //
+//        @Part("user_management_id") user_management_id: RequestBody,
+        @Part("status") status: RequestBody, //
+        @Part("district_id") district_id: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?, //
+        @Part("join_date") joinDate: RequestBody, //
+        @Part("martial_status") martialStatus: RequestBody, //
+//        @Part("bank_account_id") bankAccountId: RequestBody, //
+        @Part("bank_code") bankCode: RequestBody, //
+        @Part("bank_name") bankName: RequestBody, //
+        @Part("bank_no") bankNo: RequestBody, //
+        @Part("bank_owner_name") bankOwnerName: RequestBody //
+    ): Single<SingleUserResponse2>
+
+    @Multipart
+    @POST("api/talent/{id}")
+    fun editSdmTalent(
+        @Path("id") id: Int,
+        @Part("_method") method: RequestBody,
+//        @Part("id") id: RequestBody,
+        @Part("username") username: RequestBody, //
+        @Part("email") email: RequestBody, //
+//        @Part("role_id") role_id: RequestBody,
+        @Part("full_name") full_name: RequestBody, //
+        @Part("division_id") divisionId: RequestBody, //
+        @Part("office_id") officeId: RequestBody, //
+        @Part("position_id") positionId: RequestBody, //
+//        @Part("no_partner") noPartner: RequestBody,
+//        @Part("origin_village") originVillage: RequestBody,
+        @Part("no_hp") no_hp: RequestBody, //
+        @Part("address") address: RequestBody, //
+        @Part("birth_date") birth_date: RequestBody, //
+        @Part("gender") gender: RequestBody, //
+//        @Part("user_management_id") user_management_id: RequestBody,
+        @Part("status") status: RequestBody, //
+        @Part("district_id") district_id: RequestBody,
+        @Part photo_profile_url: MultipartBody.Part?, //
+        @Part("join_date") joinDate: RequestBody, //
+        @Part("martial_status") martialStatus: RequestBody, //
+//        @Part("bank_account_id") bankAccountId: RequestBody, //
+        @Part("bank_code") bankCode: RequestBody, //
+        @Part("bank_name") bankName: RequestBody, //
+        @Part("bank_no") bankNo: RequestBody, //
+        @Part("bank_owner_name") bankOwnerName: RequestBody //
+    ): Single<SingleUserResponse2>
 
     @GET("api/user/delete/{user_id}")
     fun deleteSdm(
@@ -728,6 +796,9 @@ interface ApiService {
         @Query("filter_date")filterDate: String
     )
             : Single<KomLeadsResponse>
+
+    @GET("api/xendit/disbursementbankAvailable")
+    fun getAllBank(): Single<AllBankResponse>
 
     @JvmSuppressWildcards
     @POST("api/orderku/create/leads")

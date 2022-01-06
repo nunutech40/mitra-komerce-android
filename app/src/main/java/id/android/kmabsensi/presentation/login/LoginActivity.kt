@@ -22,6 +22,7 @@ import com.karumi.dexter.listener.single.PermissionListener
 import id.android.kmabsensi.BuildConfig
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.response.AllBankResponse
 import id.android.kmabsensi.databinding.ActivityLoginBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.base.BaseActivityRf
@@ -44,6 +45,8 @@ class LoginActivity : BaseActivityRf<ActivityLoginBinding>(
     private val prefHelper: PreferencesHelper by inject()
 
     private lateinit var myDialog: MyDialog
+    var allBankResponse: AllBankResponse? =null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +103,23 @@ class LoginActivity : BaseActivityRf<ActivityLoginBinding>(
                 }
             }
         })
+
+        vm.allBankData.observe(this, { state ->
+            when(state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    setAlBank()
+                }
+                is UiState.Error -> {
+                }
+            }
+        })
+    }
+
+    private fun setAlBank() {
+        allBankResponse = vm.getAllBankData()
+        Log.d("TAG", "setAlBank: $allBankResponse")
     }
 
     private fun initView() {

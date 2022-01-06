@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/close"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_16dp"
+        app:srcCompat="@drawable/icon_close" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_search_bank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cari"
+        style="@style/tv16inter_reg"
+        android:padding="@dimen/_16dp"
+        android:backgroundTint="@color/cl_grey_2"
+        android:drawablePadding="@dimen/_10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_banks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_10dp"
+        android:layout_margin="@dimen/_8dp"
+        tools:listitem="@layout/item_row_one_text"/>
+
+
+</LinearLayout>

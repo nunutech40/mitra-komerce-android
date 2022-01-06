@@ -3,6 +3,7 @@ package id.android.kmabsensi.data.repository
 import id.android.kmabsensi.data.remote.body.*
 import id.android.kmabsensi.data.remote.response.SingleUserResponse
 import id.android.kmabsensi.data.remote.response.UserResponse
+import id.android.kmabsensi.data.remote.response.komship.SingleUserResponse2
 import id.android.kmabsensi.data.remote.service.ApiService
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -78,6 +79,82 @@ class SdmRepository(val apiService: ApiService) {
             status,
             photoProfileUrl,
             joinDate, martialStatus, bankAccoutId, bankName, bankNo, bankOwnerName)
+    }
+
+    fun updateSdmStaff(
+        id: Int,
+        method: RequestBody,
+        username: RequestBody,
+        email: RequestBody,
+        full_name: RequestBody,
+        division_id: RequestBody,
+        office_id: RequestBody,
+        position_id: RequestBody,
+        noHp: RequestBody,
+        address: RequestBody,
+        birthDate: RequestBody,
+        gender: RequestBody,
+        status: RequestBody,
+        districtId: RequestBody,
+        photoProfileUrl: MultipartBody.Part?,
+        joinDate: RequestBody,
+        martialStatus: RequestBody,
+        bankCode: RequestBody,
+        bankName: RequestBody,
+        bankNo: RequestBody,
+        bankOwnerName: RequestBody
+    ): Single<SingleUserResponse2>{
+        return apiService.editSdmStaff(id,method, username, email, full_name, division_id, office_id,
+            position_id,
+            noHp,
+            address,
+            birthDate,
+            gender,
+            status,
+            districtId,
+            photoProfileUrl,
+            joinDate, martialStatus,
+            bankCode,
+            bankName,
+            bankNo, bankOwnerName)
+    }
+
+    fun updateSdmTalent(
+        id: Int,
+        method: RequestBody,
+        username: RequestBody,
+        email: RequestBody,
+        full_name: RequestBody,
+        division_id: RequestBody,
+        office_id: RequestBody,
+        position_id: RequestBody,
+        noHp: RequestBody,
+        address: RequestBody,
+        birthDate: RequestBody,
+        gender: RequestBody,
+        status: RequestBody,
+        districtId: RequestBody,
+        photoProfileUrl: MultipartBody.Part?,
+        joinDate: RequestBody,
+        martialStatus: RequestBody,
+        bankCode: RequestBody,
+        bankName: RequestBody,
+        bankNo: RequestBody,
+        bankOwnerName: RequestBody
+    ): Single<SingleUserResponse2>{
+        return apiService.editSdmTalent(id,method, username, email, full_name, division_id, office_id,
+            position_id,
+            noHp,
+            address,
+            birthDate,
+            gender,
+            status,
+            districtId,
+            photoProfileUrl,
+            joinDate, martialStatus,
+            bankCode,
+            bankName,
+            bankNo, bankOwnerName)
     }
 
     fun deleteKaryawan(userId: Int) = apiService.deleteSdm(userId)

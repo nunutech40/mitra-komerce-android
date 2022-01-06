@@ -21,6 +21,8 @@ class PreferencesHelper(val context: Context){
         val DATA_PARTNER = "data_partner"
         val ID_USER = 111
         val POSITION_PARTNER = ""
+        val ALL_BANK = "all_bank"
+        val PROFILE_KEY_MANAJEMEN = "profile_manajemen"
     }
 
     private var sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

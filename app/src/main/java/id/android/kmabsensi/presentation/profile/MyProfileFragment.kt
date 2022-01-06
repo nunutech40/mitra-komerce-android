@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.response.AllBankResponse
+import id.android.kmabsensi.data.remote.response.DataBank
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.databinding.FragmentMyProfileBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
@@ -33,7 +35,8 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private lateinit var myDialog: MyDialog
 
     lateinit var user: User
-
+    var allBankResponse: AllBankResponse ? =null
+//
     companion object {
         @JvmStatic
         fun newInstance() = MyProfileFragment()
@@ -50,6 +53,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private fun setupView(){
         myDialog = MyDialog(requireContext())
         user = vm.getUserData()
+        Log.d("TAG", "setupView: $allBankResponse")
         binding?.apply {
             swSavePhoto.isChecked = PreferencesHelper(requireContext()).getBoolean(IS_SAVE_PHOTO) ?: true
             if (user.role_id == 1) {
@@ -86,6 +90,18 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
             }
         })
 
+        vm.allBankData.observe(viewLifecycleOwner, { state ->
+            when(state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    setAlBank()
+                }
+                is UiState.Error -> {
+                }
+            }
+        })
+
         vm.userdData.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -99,13 +115,21 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         })
     }
 
+    private fun setAlBank() {
+        allBankResponse = vm.getAllBankData()
+        Log.d("TAG", "setAlBank: $allBankResponse")
+    }
+
     private fun setupListener(){
         binding?.apply {
             swSavePhoto.setOnCheckedChangeListener{ _, isChecked ->
                 PreferencesHelper(requireContext()).saveBoolean(IS_SAVE_PHOTO, isChecked)
             }
             btnChangeProfile.setOnClickListener {
-                context?.startActivity<UbahProfileActivity>(USER_KEY to user)
+                context?.startActivity<UbahProfileActivity>(
+                    USER_KEY to user,
+                    BANK_KEY to allBankResponse
+                )
             }
 
             btnLogOut.setOnClickListener {
@@ -124,6 +148,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
 
     override fun onResume() {
         super.onResume()
+        vm.getAllBanks()
         vm.getProfileUserData(user.id)
     }
 
