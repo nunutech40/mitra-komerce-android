@@ -1,7 +1,5 @@
 package id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -9,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -22,12 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
-import com.stfalcon.imageviewer.StfalconImageViewer
-import com.wildma.idcardcamera.camera.IDCardCamera
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.wildma.idcardcamera.utils.ImageUtils
-import com.wildma.idcardcamera.utils.PermissionUtils
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
+import droidninja.filepicker.FilePickerConst.KEY_SELECTED_MEDIA
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.remote.body.kmpoint.Item
 import id.android.kmabsensi.data.remote.body.kmpoint.UpdateShoppingRequestParams
@@ -36,34 +41,29 @@ import id.android.kmabsensi.data.remote.response.kmpoint.DetailShoppingResponse.
 import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestItem
 import id.android.kmabsensi.data.remote.response.kmpoint.model.ShoppingRequestParticipant
 import id.android.kmabsensi.databinding.ActivityShoppingDetailsBinding
+import id.android.kmabsensi.databinding.DialogChooseImageBinding
 import id.android.kmabsensi.presentation.base.BaseActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanja.ShoppingCartActivity
 import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.TalentItem
-import id.android.kmabsensi.presentation.kmpoint.formbelanjadetailfinance.adapter.WithDrawalShoppingItem
-import id.android.kmabsensi.presentation.kmpoint.penarikandetail.BuktiTransferModel
 import id.android.kmabsensi.presentation.kmpoint.tambahdaftarbelanja.ToolsModel
 import id.android.kmabsensi.utils.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import org.joda.time.DateTime
+import org.jetbrains.anko.yesButton
 import org.koin.android.ext.android.inject
 import java.io.File
+import org.joda.time.DateTime
 
 class ShoppingDetailsFinanceActivity : BaseActivity() {
 
     private val TAG = "_detailResponse"
     private val TAGUpdate = "_updateResponse"
-    private val TAGAttachment = "_AttachemntResponse"
     private val vm : ShoppingDetailFinanceViewModel by inject()
-    private var selectedPhotoUri: Uri? = null
     private val REQUEST_IMAGE_CAPTURE = 0
     private val photoAdapter = GroupAdapter<GroupieViewHolder>()
     private val talentAdapter = GroupAdapter<GroupieViewHolder>()
-    var idx: Int = 1
-    private val dataPhoto: MutableList<BuktiTransferModel> = arrayListOf()
     private val datatalent: MutableList<ShoppingRequestParticipant> = arrayListOf()
     private var detailShopping : Data? = null
-    private var isReverse = false
     private val binding by lazy {
         ActivityShoppingDetailsBinding.inflate(layoutInflater)
     }
@@ -74,11 +74,10 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private var updateListItems: ArrayList<UpdateItem> = arrayListOf() // new data for update items
     private var shoopingRequestItems: ShoppingRequestItem? = null
     private var listItems: ArrayList<Item> = arrayListOf()
-
-    private lateinit var photoFile : File
     private var compressedImage: File? = null
-    private var capturedFilePath: String? = null
     private var skeletonPage: SkeletonScreen? = null
+    private lateinit var photoFile : File
+    private var capturedFilePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,11 +85,6 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         setupListener()
         setupRv()
         setupObserver()
-        /**
-        first data(dataPhoto) used for button take pict
-         */
-        dataPhoto.add(BuktiTransferModel(0, null))
-        setupDataDummy(dataPhoto)
     }
 
     private fun setupObserver() {
@@ -133,14 +127,97 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     }
 
     private fun setupListener() {
-        binding.toolbar.btnBack.setOnClickListener {
-            onBackPressed()
-        }
-        binding.btnSelesai.setOnClickListener {
-            if (validateForm()){
-                updateSataShopping()
+        binding.apply {
+            toolbar.btnBack.setOnClickListener {
+                onBackPressed()
+            }
+            btnSelesai.setOnClickListener {
+                if (validateForm()) {
+                    updateSataShopping()
+                }
+            }
+
+            addImage.setOnClickListener {
+                showBottomDialog()
             }
         }
+
+    }
+
+    private fun showBottomDialog(){
+        val bottomSheet = BottomSheetDialog(this, R.style.BottomSheetDialog)
+        val bottomBinding = DialogChooseImageBinding.inflate(layoutInflater, null, false)
+        bottomSheet.setContentView(bottomBinding.root)
+        bottomBinding.apply {
+            ambilGallery.setOnClickListener {
+                openGallery()
+                bottomSheet.dismiss()
+            }
+            ambilFoto.setOnClickListener {
+                openCamera()
+                bottomSheet.dismiss()
+            }
+        }
+        bottomSheet.show()
+    }
+
+    private fun openCamera(){
+        if (checkPermissionCamera()){
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                takePictureIntent.resolveActivity(packageManager)?.also {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+    }
+
+    private fun openGallery() {
+        Dexter.withContext(this)
+            .withPermissions(
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.CAMERA
+            )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    // check if all permissions are granted
+                    report?.let {
+                        if (report.areAllPermissionsGranted()) {
+                            // do you work now
+                            FilePickerBuilder.instance
+                                .enableCameraSupport(true)
+                                .setMaxCount(1) //optional
+                                .setActivityTheme(R.style.LibAppTheme) //optional
+                                .pickPhoto(this@ShoppingDetailsFinanceActivity)
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied) {
+                            // permission is denied permenantly, navigate user to app settings
+                            alert(
+                                "This app needs permission to use this feature. You can grant them in app settings.",
+                                "Need Permission"
+                            ) {
+                                yesButton { openSettings() }
+                            }.show()
+                        }
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: MutableList<PermissionRequest>?,
+                    p1: PermissionToken?,
+                ) {
+                    p1?.continuePermissionRequest()
+                }
+            }).check()
+    }
+
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
     }
 
     private fun updateSataShopping() {
@@ -194,8 +271,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
     private fun validateForm() : Boolean{
         var isChecked = true
         binding.let {
-            if (dataPhoto.size == 1){
-                it.rvTransfer.requestFocus()
+            if (compressedImage == null){
                 createAlertError(this, "Prosess gagal!", "Anda belum meng-upload bukti transaksi.")
                 isChecked = false
             }
@@ -232,41 +308,6 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
 
     }
 
-    private fun setupDataDummy(array: MutableList<BuktiTransferModel>) {
-        photoAdapter.clear()
-        array.forEach {
-            photoAdapter.add(WithDrawalShoppingItem(this, it, object : WithDrawalShoppingItem.onCLick {
-                override fun onRemove(position: Int) {
-                    dataPhoto.removeAt(position)
-                    photoAdapter.removeGroupAtAdapterPosition(position)
-                    photoAdapter.notifyDataSetChanged()
-                    setupDataDummy(dataPhoto)
-                }
-            }) {
-                if (it.id == 0) {
-                    if (dataPhoto.size <= 1){
-                        if (checkPermissionCamera()){
-                            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                                takePictureIntent.resolveActivity(packageManager)?.also {
-                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                                }
-                            }
-                        }
-                    }else toast("Berkas sudah ditambahkan.")
-                }else{
-                    StfalconImageViewer.Builder<String>(
-                            this,
-                            listOf(compressedImage?.path)
-                    ) { view, image ->
-                        Glide.with(this)
-                                .load(image).into(view)
-                    }.show()
-                }
-
-            })
-        }
-    }
-
     private fun editFormTools() {
         val inflater = LayoutInflater.from(this).inflate(R.layout.item_row_form_belanja, null, false)
         binding.llFormTools.addView(inflater, binding.llFormTools.childCount)
@@ -282,7 +323,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.toString().equals("")){
+                if (s.toString() != ""){
                     if (s.toString().toInt() > 100000000) {
                         toolPrice.text = "100000000".toEditable()
                         toolPrice.error = "Batas maksimal adalah Rp.100-juta."
@@ -315,13 +356,13 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             val btnRemove: ImageView = v.findViewById(R.id.btn_remove)
             btnRemove.gone()
 
-            if (toolsName.text.toString().equals("")) {
+            if (toolsName.text.toString() == "") {
                 toolsName.error = "form nama barang tidak boleh kosong!"
                 checked = false
                 binding.btnSelesai.isEnabled = false
             } else binding.btnSelesai.isEnabled = true
 
-            if (toolsPrice.text.toString().equals("")) {
+            if (toolsPrice.text.toString() == "") {
                 toolsPrice.error = "form tidak boleh kosong!"
                 checked = false
                 binding.btnSelesai.isEnabled = false
@@ -330,11 +371,13 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             if (checked) {
                 val total = if (toolsPrice.isEnabled) toolsPrice.text.toString() else "0"
                 val datatools = ToolsModel(i, toolsName.text.toString(), total)
-                updateListItems.add(UpdateShoppingRequestParams.UpdateItem(
+                updateListItems.add(
+                    UpdateItem(
                         id = listItemsUpdate[i].id,
                         name = datatools.name!!,
                         total = datatools.price!!.toInt(),
-                        will_delete = !toolsName.isEnabled))
+                        will_delete = !toolsName.isEnabled)
+                )
             }
         }
     }
@@ -348,8 +391,7 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
         imagePath = file.path
 
         if (ImageUtils.save(bitmap, imagePath, Bitmap.CompressFormat.JPEG)) {
-            capturedFilePath =
-                    compressCustomerCaptureImage(this, imagePath)
+            capturedFilePath = compressCustomerCaptureImage(this, imagePath)
             deleteCaptureFileFromPath(imagePath)
             photoFile = File(capturedFilePath)
             Log.d("_photoFile", "confirmImage: $photoFile, $bitmap")
@@ -359,32 +401,25 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
-            /**
-            get data photo after take pict
-             */
-            selectedPhotoUri = data.data
-            val bitmap = data.extras!!.get("data") as Bitmap
-            compressedImage = convertBitmap(bitmap)
+        when(requestCode){
+            FilePickerConst.REQUEST_CODE_PHOTO -> {
+                if (resultCode == RESULT_OK && data != null){
+                    val photoPaths = ArrayList<Uri>()
+                    photoPaths.addAll(data.getParcelableArrayListExtra(KEY_SELECTED_MEDIA)!!)
+                    compressedImage = File(compressCustomerCaptureImage(this,
+                        ContentUriUtils.getFilePath(this, photoPaths[0])!!
+                    )!!)
 
-            idx++
-            /**
-             * membalikan posisi data array ke normal
-             */
-            if (isReverse) {
-                dataPhoto.reverse()
-                isReverse = false
+                    binding.addImage.setImageURI(photoPaths[0])
+                }
             }
-            dataPhoto.add(BuktiTransferModel(idx, bitmap))
-
-            /**
-             * membalikan posisi data array
-             */
-            if (!isReverse) {
-                dataPhoto.reverse()
-                isReverse = true
+            REQUEST_IMAGE_CAPTURE -> {
+                if (resultCode == RESULT_OK && data != null){
+                    val datas = data.extras!!.get("data") as Bitmap
+                    compressedImage = convertBitmap(datas)
+                    binding.addImage.setImageBitmap(datas)
+                }
             }
-            setupDataDummy(dataPhoto)
         }
     }
 

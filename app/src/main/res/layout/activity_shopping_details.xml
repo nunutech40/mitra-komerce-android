@@ -144,6 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_12dp"
+                            tools:itemCount="2"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/desc_name"
@@ -265,11 +266,22 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <ImageView
+                                android:id="@+id/add_image"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_marginTop="@dimen/_14dp"
+                                android:scaleType="centerCrop"
+                                app:srcCompat="@drawable/ic_addimage"/>
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_transfer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_14dp"
+                                android:orientation="horizontal"
+                                tools:itemCount="1"
+                                android:visibility="gone"
                                 tools:listitem="@layout/item_row_bukti_transfer" />
                         </LinearLayout>
 
