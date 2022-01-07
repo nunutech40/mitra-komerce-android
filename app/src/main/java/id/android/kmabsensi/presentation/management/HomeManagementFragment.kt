@@ -416,6 +416,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                             }
                             binding?.apply {
                                 tvChair.text = "$available_slot Kursi"
+                                tvCofee.text = "$slot Kopi"
                             }
                         }
                     }

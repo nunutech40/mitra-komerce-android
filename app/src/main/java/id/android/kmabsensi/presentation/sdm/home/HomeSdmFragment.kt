@@ -86,6 +86,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         setupGreetings()
         setupListMenu()
         setupListener()
+        Log.d("test1", "HomeSdmFragment runnnnn")
     }
 
     private fun setupView() {
@@ -229,12 +230,13 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                             }
                             binding?.apply {
                                 tvChair.text = "$available_slot Kursi"
+                                tvCofee.text = "$slot Kopi"
                             }
                         }
                     }
-
                 }
                 is UiState.Error -> {
+
                 }
             }
 

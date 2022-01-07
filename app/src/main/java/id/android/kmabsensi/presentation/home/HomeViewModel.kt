@@ -57,7 +57,6 @@ class HomeViewModel(
 
     val redeemPoin = LiveEvent<UiState<BaseResponse>>()
 
-
     fun getDashboardInfo(userId: Int) {
         try {
             dashboardData.value = UiState.Loading()
