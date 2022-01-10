@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="id.android.kmabsensi">
+    package="id.android.kmabsensi" >
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -38,8 +39,7 @@
         android:theme="@style/Theme.Mitra"
         android:usesCleartextTraffic="false"
         tools:ignore="LockedOrientationActivity"
-        tools:replace="android:allowBackup">
-
+        tools:replace="android:allowBackup" >
         <service
             android:name=".utils.komboard.BackIntentService"
             android:exported="false" />
@@ -52,18 +52,18 @@
             android:exported="true" />
         <activity
             android:name=".presentation.komship.selectdestination.SelectDestinationActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".presentation.komship.selectproduct.SelectProductActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".presentation.komship.detaildataorder.DetailDataOrderActivity"
             android:exported="true"
-            android:parentActivityName=".presentation.komship.MyOrderActivity"/>
+            android:parentActivityName=".presentation.komship.MyOrderActivity" />
         <activity
             android:name=".presentation.komship.successorder.SuccessOrderActivity"
             android:exported="true"
-            android:parentActivityName=".presentation.komship.MyOrderActivity"/>
+            android:parentActivityName=".presentation.komship.MyOrderActivity" />
         <activity
             android:name=".presentation.komship.delivery.DeliveryActivity"
             android:exported="true" />
@@ -322,8 +322,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.splash.SplashActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -332,12 +332,12 @@
         </activity>
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"
+            android:exported="true"
             android:label="@string/leku_title_activity_location_picker"
             android:parentActivityName=".presentation.kantor.cabang.TambahCabangActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
+            android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -352,18 +352,32 @@
 
         <service
             android:name=".services.MyFirebaseMessagingService"
-            android:stopWithTask="false"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".services.komboard.KomboardService"
+            android:exported="true"
+            android:label="soft-komboard"
+            android:permission="android.permission.BIND_INPUT_METHOD" >
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+        <service android:name=".services.windowService.LayoutCekongkir" />
+        <service android:name=".services.windowService.LayoutResi" />
         <service
             android:name=".utils.komboard.CustomKeyboard"
             android:exported="true"
             android:label="Komboard"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD" >
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
