@@ -46,7 +46,7 @@ class LoginViewModel(
                     if (it.message == null){
                         prefHelper.saveString(PreferencesHelper.ACCESS_TOKEN_KEY, it.access_token)
                         getUserProfile(it.user_id)
-                        getAllBank()
+//                        getAllBank()
                         getDataArea()
                     }
                 },
@@ -90,7 +90,7 @@ class LoginViewModel(
                 userRepository.getAllBank()
                 .with(schedulerProvider)
                 .subscribe({
-                    prefHelper.saveString(PreferencesHelper.ALL_BANK, Gson().toJson(it))
+                    prefHelper.saveString(PreferencesHelper.ALL_BANK, Gson().toJson(it.data))
                     allBankData.value = UiState.Success(it)
                 }, {
                     allBankData.value = UiState.Error(it)

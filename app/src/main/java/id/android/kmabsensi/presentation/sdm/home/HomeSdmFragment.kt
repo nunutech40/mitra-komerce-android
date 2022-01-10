@@ -22,10 +22,7 @@ import com.github.ajalt.timberkt.Timber.e
 import com.google.gson.Gson
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
-import id.android.kmabsensi.data.remote.response.Holiday
-import id.android.kmabsensi.data.remote.response.PresenceCheckResponse
-import id.android.kmabsensi.data.remote.response.User
-import id.android.kmabsensi.data.remote.response.UserCoworkingSpace
+import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.databinding.FragmentHomeSdmBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity

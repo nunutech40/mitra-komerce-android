@@ -166,7 +166,7 @@
     <string-array name="permission">
         <item>Semua</item>
         <item>Izin</item>
-        <item>Sakit</item>
+        <item>Sakit</item>d
         <item>Cuti</item>
     </string-array>
 
@@ -178,6 +178,11 @@
 
     <string-array name="gender">
         <item>Pilih Jenis Kelamin</item>
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="genders">
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
@@ -194,6 +199,11 @@
 
     <string-array name="martial_status">
         <item>Pilih Status Pernikahan</item>
+        <item>Belum Menikah</item>
+        <item>Sudah Menikah</item>
+    </string-array>
+
+    <string-array name="martial_statuses">
         <item>Belum Menikah</item>
         <item>Sudah Menikah</item>
     </string-array>

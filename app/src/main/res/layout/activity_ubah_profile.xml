@@ -9,8 +9,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/custom_toolbar_v2"
-        />
+        layout="@layout/custom_toolbar_v2" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -140,11 +139,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingStart="0dp"
-                        android:editable="false"
-                        android:paddingTop="30dp"
                         android:clickable="false"
-                        android:focusable="false"/>
+                        android:editable="false"
+                        android:focusable="false"
+                        android:paddingStart="0dp"
+                        android:paddingTop="30dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -153,8 +152,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_24dp"
-                    android:entries="@array/payment_methode"
+                    android:visibility="gone"
+                    android:entries="@array/martial_statuses"
                     android:paddingVertical="@dimen/_12dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jenis Kelamin"
+                        android:textColor="@color/cl_grey_dark_tx_new" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/sp_jenisKelamin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background_rf"
+                        android:gravity="center" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cl_grey_2" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_phone"
@@ -171,6 +202,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:inputType="number"
                         android:paddingStart="0dp"
                         android:paddingTop="30dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -190,6 +222,7 @@
                         style="@style/tv16inter_reg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
                         android:background="@color/white"
                         android:paddingStart="0dp"
                         android:paddingTop="30dp" />
@@ -259,8 +292,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:hint="Tanggal Bergabung"
                     android:clickable="false"
+                    android:hint="Tanggal Bergabung"
                     app:boxStrokeColor="@color/cl_grey_2"
                     app:boxStrokeWidth="0.3dp">
 
@@ -281,9 +314,41 @@
                     style="@style/tv16inter_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_24dp"
                     android:entries="@array/payment_methode"
                     android:paddingVertical="@dimen/_12dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/tv12inter_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status Pernikahan"
+                        android:textColor="@color/cl_grey_dark_tx_new" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/sp_statusPernikahan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background_rf"
+                        android:gravity="center" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cl_grey_2" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_bank"
@@ -300,6 +365,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:clickable="true"
+                        android:focusable="false"
                         android:paddingStart="0dp"
                         android:paddingTop="30dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -319,6 +386,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:inputType="number"
                         android:paddingStart="0dp"
                         android:paddingTop="30dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -350,18 +418,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSimpan"
+        style="@style/tv16monst_med"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_24dp"
         android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
         android:background="@drawable/bg_orange_10dp"
-        android:text="@string/simpan"
-        android:textColor="@color/white"
         android:paddingVertical="@dimen/_14dp"
-        style="@style/tv16monst_med"
+        android:text="@string/simpan"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -104,23 +104,23 @@ class LoginActivity : BaseActivityRf<ActivityLoginBinding>(
             }
         })
 
-        vm.allBankData.observe(this, { state ->
-            when(state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Success -> {
-                    setAlBank()
-                }
-                is UiState.Error -> {
-                }
-            }
-        })
+//        vm.allBankData.observe(this, { state ->
+//            when(state) {
+//                is UiState.Loading -> {
+//                }
+//                is UiState.Success -> {
+//                    setAlBank()
+//                }
+//                is UiState.Error -> {
+//                }
+//            }
+//        })
     }
 
-    private fun setAlBank() {
-        allBankResponse = vm.getAllBankData()
-        Log.d("TAG", "setAlBank: $allBankResponse")
-    }
+//    private fun setAlBank() {
+//        allBankResponse = vm.getAllBankData()
+//        Log.d("TAG", "setAlBank: $allBankResponse")
+//    }
 
     private fun initView() {
         try {
