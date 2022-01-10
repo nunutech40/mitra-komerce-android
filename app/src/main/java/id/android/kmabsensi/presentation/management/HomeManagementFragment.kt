@@ -110,7 +110,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         roleVM.getAccessMenuByPosition(user.position_id)
     }
 
-
     private fun setupListener() {
         binding?.apply {
             swipeRefresh.setOnRefreshListener {
@@ -122,13 +121,13 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                 setupGreetings()
                 roleVM.getAccessMenuByPosition(user.position_id)
             }
+
             btnDetailPartner.setOnClickListener {
                 activity?.startActivity<GrafikPartnerActivity>(DASHBOARD_DATA_KEY to dashboard)
             }
 
             btnQrCode.setOnClickListener {
-                val intent = Intent(context, ScanQrActivity::class.java)
-                startActivityForResult(intent, REQ_SCAN_QR)
+                validateScanning()
             }
 
             btnCheckinCoWorking.setOnClickListener {
@@ -144,22 +143,48 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         }
     }
 
+    private fun validateScanning() {
+        dataUserCoworking.apply {
+            if(cowork_presence.isEmpty()) {
+                MaterialDialog(requireContext()).show {
+                    cornerRadius(16f)
+                    title(text = "Scan")
+                    message(text = "Kamu Belum Melakukan Check-In di Coworking. Silahkan Lakukan Check-In Terlebih Dahulu.")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else {
+                val intent = Intent(context, ScanQrActivity::class.java)
+                startActivityForResult(intent, REQ_SCAN_QR)
+            }
+        }
+    }
+
     private fun validateCoworking() {
         dataUserCoworking.apply {
-            if (cowork_presence.isNotEmpty() && cowork_presence.last().checkout_date_time?.isEmpty()?:true){
-                vm.checkOutCoworkingSpace(this.cowork_presence.last().id)
-            }else{
+            if (cowork_presence.isNotEmpty()) {
+                MaterialDialog(requireContext()).show {
+                    cornerRadius(16f)
+                    title(text = "Scan")
+                    message(text = "Kamu sudah melakukan Check-In Hari Ini, Tunggu Besok Untuk Check-In Kembali.")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else {
                 if (available_slot > 0) {
-                    if (cowork_presence.size < 2) {
-                        requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
-                            "coworking" to dataUserCoworking
-                            )
-                    } else if (cowork_presence.size >= 2) {
-                        createAlertError(
-                            requireActivity(),
-                            "Gagal",
-                            "Kamu hanya bisa check in coworking space sebanyak 2 kali"
-                        )
+                    requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
+                        "coworking" to dataUserCoworking
+                    )
+                } else {
+                    MaterialDialog(requireContext()).show {
+                        cornerRadius(16f)
+                        title(text = "Check-In Coworking")
+                        message(text = "Slot Kursi Di Coworking Hari Ini Sudah Habis.")
+                        positiveButton(text = "OK") {
+                            it.dismiss()
+                        }
                     }
                 }
             }
@@ -406,13 +431,11 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                             if (status.equals("2")) {
                                 binding?.tvChair?.text = "Tutup"
                                 binding?.tvCofee?.gone()
-                            }else binding?.tvCofee?.visible()
+                            } else binding?.tvCofee?.visible()
                             if (cowork_presence.isNotEmpty()){
-                                if (cowork_presence.last().checkout_date_time.isNullOrEmpty()){
-                                    binding?.tvCoworkingPresence?.text = "Check Out"
-                                }else{
-                                    binding?.tvCoworkingPresence?.text = "Check In"
-                                }
+                                binding?.tvCoworkingPresence?.text = "Check Out"
+                            } else {
+                                binding?.tvCoworkingPresence?.text = "Check In"
                             }
                             binding?.apply {
                                 tvChair.text = "$available_slot Kursi"
@@ -564,6 +587,18 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
+            dataUserCoworking.apply {
+                binding?.tvCoworkingPresence?.text = "Check Out"
+            }
+//            swipeRefresh.setOnRefreshListener {
+//                swipeRefresh.isRefreshing = false
+//                user = vm.getUserData()
+//                vm.getJadwalShalat()
+//                vm.getCoworkUserData(user.id)
+//                getDashboardData()
+//                setupGreetings()
+//                roleVM.getAccessMenuByPosition(user.position_id)
+//            }
         }
         if (requestCode == REQ_SCAN_QR && resultCode == Activity.RESULT_OK) {
             val redeemPoin = data?.getIntExtra(getString(R.string.qrdata), 0)
