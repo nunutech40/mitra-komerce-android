@@ -432,4 +432,5 @@ class ShoppingDetailsFinanceActivity : BaseActivity() {
             binding.layout.isEnabled = true
         }
     }
+
 }
