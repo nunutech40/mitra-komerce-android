@@ -147,7 +147,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     private fun validateScanning() {
         dataUserCoworking.apply {
-            Log.d("test1", "cek prese")
             if(cowork_presence.isEmpty()) {
                 MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
@@ -167,12 +166,18 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private fun validateCoworking() {
         dataUserCoworking.apply {
             if (cowork_presence.isNotEmpty()) {
-                MaterialDialog(requireContext()).show {
-                    cornerRadius(16f)
-                    title(text = "Scan")
-                    message(text = "Kamu sudah melakukan Check-In Hari Ini, Tunggu Besok Untuk Check-In Kembali.")
-                    positiveButton(text = "OK") {
-                        it.dismiss()
+                if (binding?.tvCoworkingPresence?.text == "Check Out") {
+                    Log.d("test1", "check out dong...")
+                    vm.checkOutCoworkingSpace(cowork_presence[0].id)
+                    vm.getCoworkUserData(user.id)
+                } else {
+                    MaterialDialog(requireContext()).show {
+                        cornerRadius(16f)
+                        title(text = "Scan")
+                        message(text = "Kamu sudah melakukan Check-In Hari Ini, Tunggu Besok Untuk Check-In Kembali.")
+                        positiveButton(text = "OK") {
+                            it.dismiss()
+                        }
                     }
                 }
             } else {
@@ -183,7 +188,6 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                     val intent= Intent(context, CheckinCoworkingActivity::class.java)
                     intent.putExtra("coworking", dataUserCoworking)
                     resultLauncher.launch(intent)
-                    Log.d("test1", "checkin")
                 } else {
                     MaterialDialog(requireContext()).show {
                         cornerRadius(16f)
@@ -441,6 +445,9 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                             } else binding?.tvCofee?.visible()
                             if (cowork_presence.isNotEmpty()){
                                 binding?.tvCoworkingPresence?.text = "Check Out"
+                                if (cowork_presence[0].checkout_date_time != null) {
+                                    binding?.tvCoworkingPresence?.text = "Check In"
+                                }
                             } else {
                                 binding?.tvCoworkingPresence?.text = "Check In"
                             }
@@ -600,17 +607,17 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d("test1", "on activity result")
+
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
-            //Log.d("test1", "Bukan req scan")
+
         }
         if (requestCode == REQ_SCAN_QR && resultCode == Activity.RESULT_OK) {
             val redeemPoin = data?.getIntExtra(getString(R.string.qrdata), 0)
             redeemPoin?.let {
                 vm.redeemPoin(user.id, it)
             }
-            //Log.d("test1", "Req Scan")
+
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

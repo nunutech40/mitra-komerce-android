@@ -36,9 +36,7 @@ import id.android.kmabsensi.presentation.sdm.home.MenusAdapter
 import id.android.kmabsensi.presentation.sdm.modekerja.ModeKerjaActivity
 import id.android.kmabsensi.utils.*
 import id.android.kmabsensi.utils.ui.MyDialog
-import kotlinx.android.synthetic.main.dashboard_section_partner.*
 import kotlinx.android.synthetic.main.fragment_home_admin.*
-import kotlinx.android.synthetic.main.fragment_home_sdm.*
 import kotlinx.android.synthetic.main.item_row_hari_libur.view.*
 import kotlinx.android.synthetic.main.layout_wfh_mode.*
 import org.jetbrains.anko.startActivity

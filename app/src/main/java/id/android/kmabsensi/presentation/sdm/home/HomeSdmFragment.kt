@@ -86,7 +86,6 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         setupGreetings()
         setupListMenu()
         setupListener()
-        Log.d("test1", "HomeSdmFragment runnnnn")
     }
 
     private fun setupView() {
