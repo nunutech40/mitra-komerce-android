@@ -42,6 +42,10 @@ class CheckinCoworkingActivity : BaseActivity(), OnMapReadyCallback {
 
     lateinit var myDialog : MyDialog
 
+    companion object {
+        const val RESULT_CODE = 110
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin_coworking)

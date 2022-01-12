@@ -229,5 +229,7 @@ dependencies {
     implementation 'com.nex3z:notification-badge:1.0.4'
     implementation project(':emoji')
 
+    // livedata
+    implementation 'com.android.databinding:viewbinding:4.0.1'
 
 }

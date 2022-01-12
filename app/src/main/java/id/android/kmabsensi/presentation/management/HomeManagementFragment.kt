@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -145,6 +147,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     private fun validateScanning() {
         dataUserCoworking.apply {
+            Log.d("test1", "cek prese")
             if(cowork_presence.isEmpty()) {
                 MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
@@ -174,9 +177,12 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                 }
             } else {
                 if (available_slot > 0) {
-                    requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
-                        "coworking" to dataUserCoworking
-                    )
+//                    requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
+//                        "coworking" to dataUserCoworking
+//                    )
+                    val intent= Intent(context, CheckinCoworkingActivity::class.java)
+                    resultLauncher.launch(intent)
+                    Log.d("test1", "checkin")
                 } else {
                     MaterialDialog(requireContext()).show {
                         cornerRadius(16f)
@@ -584,27 +590,27 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         return section
     }
 
+    private val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+
+        if(result.resultCode == CheckinCoworkingActivity.RESULT_CODE) {
+            binding?.tvCoworkingPresence?.text = "Check Out"
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("test1", "on activity result")
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
-            dataUserCoworking.apply {
-                binding?.tvCoworkingPresence?.text = "Check Out"
-            }
-//            swipeRefresh.setOnRefreshListener {
-//                swipeRefresh.isRefreshing = false
-//                user = vm.getUserData()
-//                vm.getJadwalShalat()
-//                vm.getCoworkUserData(user.id)
-//                getDashboardData()
-//                setupGreetings()
-//                roleVM.getAccessMenuByPosition(user.position_id)
-//            }
+            //Log.d("test1", "Bukan req scan")
         }
         if (requestCode == REQ_SCAN_QR && resultCode == Activity.RESULT_OK) {
             val redeemPoin = data?.getIntExtra(getString(R.string.qrdata), 0)
             redeemPoin?.let {
                 vm.redeemPoin(user.id, it)
             }
+            //Log.d("test1", "Req Scan")
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
