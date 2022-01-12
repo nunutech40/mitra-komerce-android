@@ -147,7 +147,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     private fun validateScanning() {
         dataUserCoworking.apply {
-            if(cowork_presence.isEmpty()) {
+            if(cowork_presence.isEmpty() || cowork_presence[0].checkout_date_time != null) {
                 MaterialDialog(requireContext()).show {
                     cornerRadius(16f)
                     title(text = "Scan")
@@ -167,9 +167,18 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         dataUserCoworking.apply {
             if (cowork_presence.isNotEmpty()) {
                 if (binding?.tvCoworkingPresence?.text == "Check Out") {
-                    Log.d("test1", "check out dong...")
-                    vm.checkOutCoworkingSpace(cowork_presence[0].id)
-                    vm.getCoworkUserData(user.id)
+                    MaterialDialog(requireContext()).show {
+                        title(text = "Check Out")
+                        message(text = "Apakah anda yakin ingin melakukan Check Out?")
+                        positiveButton(text = "Ya") {
+                            vm.checkOutCoworkingSpace(cowork_presence[0].id)
+                            vm.getCoworkUserData(user.id)
+                        }
+                        negativeButton(text = "Batal") {
+                            it.dismiss()
+                        }
+                    }
+
                 } else {
                     MaterialDialog(requireContext()).show {
                         cornerRadius(16f)
