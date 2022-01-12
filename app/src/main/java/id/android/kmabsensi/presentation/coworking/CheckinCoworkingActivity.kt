@@ -43,7 +43,7 @@ class CheckinCoworkingActivity : BaseActivity(), OnMapReadyCallback {
     lateinit var myDialog : MyDialog
 
     companion object {
-        const val RESULT_CODE = 110
+        const val RESULT_CODE = -1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -181,6 +181,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 //                        "coworking" to dataUserCoworking
 //                    )
                     val intent= Intent(context, CheckinCoworkingActivity::class.java)
+                    intent.putExtra("coworking", dataUserCoworking)
                     resultLauncher.launch(intent)
                     Log.d("test1", "checkin")
                 } else {
@@ -593,9 +594,8 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-
         if(result.resultCode == CheckinCoworkingActivity.RESULT_CODE) {
-            binding?.tvCoworkingPresence?.text = "Check Out"
+            vm.getCoworkUserData(user.id)
         }
     }
 
