@@ -7,6 +7,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSource
 import id.android.kmabsensi.data.remote.datasource.userdata.UserDataSourceFactory
+import id.android.kmabsensi.data.remote.response.AllBankResponse
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.data.remote.response.UserResponse
 import id.android.kmabsensi.data.remote.service.ApiService
@@ -48,6 +49,10 @@ class UserRepository(val apiService: ApiService) {
 
     fun getProfileUser(userId: Int): Single<UserResponse> {
         return apiService.getProfileData(userId)
+    }
+
+    fun getAllBank(): Single<AllBankResponse> {
+        return apiService.getAllBank()
     }
 
     fun getUserByRole(roleId: Int, userManagementId: Int = 0): Single<UserResponse>{

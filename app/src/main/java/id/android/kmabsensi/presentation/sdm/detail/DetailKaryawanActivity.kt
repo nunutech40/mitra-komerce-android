@@ -280,7 +280,7 @@ class DetailKaryawanActivity : BaseActivity() {
 
         data.bank_accounts?.let { bank_account ->
             if (bank_account.isNotEmpty()) {
-                bankAccountId = bank_account[0].id
+                bankAccountId = bank_account[0].id!!
                 edtNamaBank.setText(bank_account[0].bankName)
                 edtNoRekening.setText(bank_account[0].bankNo)
                 edtPemilikRekening.setText(bank_account[0].bankOwnerName)

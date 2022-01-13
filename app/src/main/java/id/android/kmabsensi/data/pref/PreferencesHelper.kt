@@ -21,7 +21,12 @@ class PreferencesHelper(val context: Context){
         val DATA_PARTNER = "data_partner"
         val ID_USER = 111
         val POSITION_PARTNER = ""
+<<<<<<< HEAD
         val IS_SCAN = "isScan"
+=======
+        val ALL_BANK = "all_bank"
+        val PROFILE_KEY_MANAJEMEN = "profile_manajemen"
+>>>>>>> merubah-api-dieditprofilemitra-aris
     }
 
     private var sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

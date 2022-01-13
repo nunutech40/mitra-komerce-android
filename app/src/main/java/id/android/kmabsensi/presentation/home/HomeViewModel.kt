@@ -26,6 +26,7 @@ import id.android.kmabsensi.utils.ROLE_SDM
 import id.android.kmabsensi.utils.UiState
 import id.android.kmabsensi.utils.rx.SchedulerProvider
 import id.android.kmabsensi.utils.rx.with
+import java.security.AllPermission
 
 class HomeViewModel(
     private val preferencesHelper: PreferencesHelper,
@@ -43,6 +44,7 @@ class HomeViewModel(
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
     val userdData = MutableLiveData<UiState<UserResponse>>()
+    val allBankData = MutableLiveData<UiState<AllBankResponse>>()
     val presenceCheckResponse = LiveEvent<UiState<PresenceCheckResponse>>()
     val checkoutResponse = LiveEvent<UiState<CheckinResponse>>()
 
@@ -57,6 +59,7 @@ class HomeViewModel(
 
     val redeemPoin = LiveEvent<UiState<BaseResponse>>()
 
+<<<<<<< HEAD
     var isScan = false
 
     fun setScanCoffee(isScan: Boolean) {
@@ -67,6 +70,8 @@ class HomeViewModel(
         return preferencesHelper.getBoolean(PreferencesHelper.IS_SCAN)
     }
 
+=======
+>>>>>>> merubah-api-dieditprofilemitra-aris
     fun getDashboardInfo(userId: Int) {
         try {
             dashboardData.value = UiState.Loading()
@@ -207,12 +212,36 @@ class HomeViewModel(
         }
     }
 
+    fun getAllBanks() {
+        try {
+            allBankData.value = UiState.Loading()
+            compositeDisposable.add(
+                userRepository.getAllBank()
+                    .with(schedulerProvider)
+                    .subscribe({
+                        preferencesHelper.saveString(PreferencesHelper.ALL_BANK, Gson().toJson(it))
+                        allBankData.value = UiState.Success(it)
+                        Log.d("TAG", "getAllBanks: $it")
+                    }, {
+                        allBankData.value = UiState.Error(it)
+                    })
+            )
+        } catch (e: Exception) {
+            allBankData.value = UiState.Error(e)
+        }
+    }
+
     fun getUserData(): User {
         val userDara = preferencesHelper.getString(PreferencesHelper.PROFILE_KEY)
         return Gson().fromJson(
             userDara,
             User::class.java
         )
+    }
+
+    fun getAllBankData(): AllBankResponse {
+        val userData = preferencesHelper.getString(PreferencesHelper.ALL_BANK)
+        return Gson().fromJson(userData, AllBankResponse::class.java)
     }
 
     fun redeemPoin(userId: Int, totalRequestRedeemPoin: Int) {

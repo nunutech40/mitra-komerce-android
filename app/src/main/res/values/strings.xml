@@ -135,8 +135,9 @@
     <string name="edit_laporan">Edit Laporan</string>
     <string name="label_on">ON</string>
     <string name="shift">Shift</string>
-    <string name="ok">ok</string>
+    <string name="ok">Oke</string>
     <string name="platform">Platform</string>
+    <string name="success_edit_profile">Profil kamu berhasil diubah</string>
 
     <string-array name="role">
         <item>Admin</item>
@@ -165,7 +166,7 @@
     <string-array name="permission">
         <item>Semua</item>
         <item>Izin</item>
-        <item>Sakit</item>
+        <item>Sakit</item>d
         <item>Cuti</item>
     </string-array>
 
@@ -177,6 +178,11 @@
 
     <string-array name="gender">
         <item>Pilih Jenis Kelamin</item>
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="genders">
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
@@ -193,6 +199,11 @@
 
     <string-array name="martial_status">
         <item>Pilih Status Pernikahan</item>
+        <item>Belum Menikah</item>
+        <item>Sudah Menikah</item>
+    </string-array>
+
+    <string-array name="martial_statuses">
         <item>Belum Menikah</item>
         <item>Sudah Menikah</item>
     </string-array>

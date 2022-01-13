@@ -32,6 +32,17 @@ object ValidationForm {
 
     }
 
+    fun validationEmail(edt: TextInputEditText, til: TextInputLayout, errormsg: String): Boolean {
+        val emailText = edt.text.toString()
+        if (!EMAIL_ADDRESS_PATTERN.matcher(emailText).matches()) {
+            til.error = errormsg
+            til.requestFocus()
+            return false
+        } else {
+            return true
+        }
+    }
+
     fun validationPassword(password: EditText, errormsg: String):Boolean{
         //val passwordText = password.text.toString()
         if (password.toString().trim().length<6){

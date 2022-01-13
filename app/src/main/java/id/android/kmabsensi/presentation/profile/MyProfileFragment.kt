@@ -6,9 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.github.ajalt.timberkt.Timber
 import id.android.kmabsensi.R
 import id.android.kmabsensi.data.pref.PreferencesHelper
+import id.android.kmabsensi.data.remote.response.AllBankResponse
+import id.android.kmabsensi.data.remote.response.DataBank
 import id.android.kmabsensi.data.remote.response.User
 import id.android.kmabsensi.databinding.FragmentMyProfileBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
@@ -33,6 +37,12 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private lateinit var myDialog: MyDialog
 
     lateinit var user: User
+    var allBankResponse: AllBankResponse ? =null
+    lateinit var banks: DataBank
+
+    private var sklUsername: SkeletonScreen? = null
+    private var sklPosition: SkeletonScreen? = null
+    private var sklImgProfile: SkeletonScreen? = null
 
     companion object {
         @JvmStatic
@@ -50,6 +60,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private fun setupView(){
         myDialog = MyDialog(requireContext())
         user = vm.getUserData()
+//        allBankResponse = vm.getAllBankData()
         binding?.apply {
             swSavePhoto.isChecked = PreferencesHelper(requireContext()).getBoolean(IS_SAVE_PHOTO) ?: true
             if (user.role_id == 1) {
@@ -86,17 +97,44 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
             }
         })
 
-        vm.userdData.observe(viewLifecycleOwner, { state ->
-            when (state) {
+        vm.allBankData.observe(viewLifecycleOwner, { state ->
+            when(state) {
                 is UiState.Loading -> {
+                    showSkeleton()
+                    binding?.btnChangeProfile?.visible()
                 }
                 is UiState.Success -> {
-                    setProfile()
+                    setAllBank()
+                    hideSkeleton()
                 }
                 is UiState.Error -> {
+                    hideSkeleton()
+                    binding?.btnChangeProfile?.gone()
                 }
             }
         })
+
+        vm.userdData.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showSkeleton()
+                    binding?.btnChangeProfile?.visible()
+                }
+                is UiState.Success -> {
+                    setProfile()
+                    hideSkeleton()
+                }
+                is UiState.Error -> {
+                    hideSkeleton()
+                    binding?.btnChangeProfile?.gone()
+                }
+            }
+        })
+    }
+
+    private fun setAllBank() {
+        allBankResponse = vm.getAllBankData()
+        Log.d("TAG", "setAlBank: $allBankResponse")
     }
 
     private fun setupListener(){
@@ -105,7 +143,10 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
                 PreferencesHelper(requireContext()).saveBoolean(IS_SAVE_PHOTO, isChecked)
             }
             btnChangeProfile.setOnClickListener {
-                context?.startActivity<UbahProfileActivity>(USER_KEY to user)
+                context?.startActivity<UbahProfileActivity>(
+                    USER_KEY to user,
+                    BANK_KEY to allBankResponse
+                )
             }
 
             btnLogOut.setOnClickListener {
@@ -124,9 +165,11 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
 
     override fun onResume() {
         super.onResume()
+        vm.getAllBanks()
+//        allBankResponse = vm.getAllBankData()
+        Log.d("TAG", "onResume: $allBankResponse")
         vm.getProfileUserData(user.id)
     }
-
 
     private fun setProfile() {
         user = vm.getUserData()
@@ -144,5 +187,24 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         }
     }
 
+    private fun showSkeleton(){
+        if (sklUsername == null){
+            binding?.apply {
+                sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
+                sklPosition = Skeleton.bind(tvPosition).load(R.layout.skeleton_item).show()
+                sklImgProfile = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+            }
+        } else {
+            sklUsername?.show()
+            sklPosition?.show()
+            sklImgProfile?.show()
+        }
+    }
+
+    private fun hideSkeleton(){
+        sklUsername?.hide()
+        sklPosition?.hide()
+        sklImgProfile?.hide()
+    }
 
 }
