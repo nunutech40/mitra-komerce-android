@@ -174,11 +174,6 @@ fun compressCustomerCaptureImage(context: Context, imagePath: String): String? {
     val compressedImageFile = Compressor(context)
         .setQuality(70)
         .setCompressFormat(Bitmap.CompressFormat.JPEG)
-        .setDestinationDirectoryPath(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES
-            ).path
-        )
         .compressToFile(File(imagePath))
     return compressedImageFile.path
 }
