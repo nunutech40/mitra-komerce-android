@@ -18,6 +18,10 @@ class ScanQrActivity : BaseActivity(), ZXingScannerView.ResultHandler, View.OnCl
 
     private lateinit var mScannerView: ZXingScannerView
 
+    companion object {
+        const val RESULT_CODE = -1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_qr)

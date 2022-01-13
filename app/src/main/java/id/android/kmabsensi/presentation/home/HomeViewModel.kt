@@ -57,6 +57,16 @@ class HomeViewModel(
 
     val redeemPoin = LiveEvent<UiState<BaseResponse>>()
 
+    var isScan = false
+
+    fun setScanCoffee(isScan: Boolean) {
+        preferencesHelper.saveBoolean(PreferencesHelper.IS_SCAN, isScan)
+    }
+
+    fun getScanData(): Boolean {
+        return preferencesHelper.getBoolean(PreferencesHelper.IS_SCAN)
+    }
+
     fun getDashboardInfo(userId: Int) {
         try {
             dashboardData.value = UiState.Loading()

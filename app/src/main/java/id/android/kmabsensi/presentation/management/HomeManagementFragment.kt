@@ -23,6 +23,7 @@ import com.github.ajalt.timberkt.Timber.d
 import com.github.ajalt.timberkt.Timber.e
 import iammert.com.expandablelib.Section
 import id.android.kmabsensi.R
+import id.android.kmabsensi.data.pref.PreferencesHelper
 import id.android.kmabsensi.data.remote.response.*
 import id.android.kmabsensi.databinding.FragmentHomeManagementBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
@@ -156,9 +157,21 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
                         it.dismiss()
                     }
                 }
+            } else if (vm.isScan) {
+                MaterialDialog(requireContext()).show {
+                    cornerRadius(16f)
+                    title(text = "Scan")
+                    message(text = "Jatah scan Kopi mu hari ini sudah habis. Tunggu besok ya...")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
             } else {
                 val intent = Intent(context, ScanQrActivity::class.java)
                 startActivityForResult(intent, REQ_SCAN_QR)
+//
+//                val intent= Intent(context, ScanQrActivity::class.java)
+//                resultLauncher.launch(intent)
             }
         }
     }
@@ -612,7 +625,10 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     ) { result ->
         if(result.resultCode == CheckinCoworkingActivity.RESULT_CODE) {
             vm.getCoworkUserData(user.id)
+            vm.setScanCoffee(false)
+            vm.isScan = vm.getScanData()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -626,7 +642,8 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
             redeemPoin?.let {
                 vm.redeemPoin(user.id, it)
             }
-
+            vm.setScanCoffee(true)
+            vm.isScan = vm.getScanData()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -657,6 +674,7 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
 
     fun getDashboardData() {
         vm.getDashboardInfo(user.id)
+        vm.isScan = vm.getScanData()
     }
 
     companion object {

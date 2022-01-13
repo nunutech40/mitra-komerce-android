@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +33,7 @@ import id.android.kmabsensi.databinding.FragmentHomeSdmBinding
 import id.android.kmabsensi.presentation.base.BaseFragmentRf
 import id.android.kmabsensi.presentation.checkin.CekJangkauanActivity
 import id.android.kmabsensi.presentation.checkin.CheckinActivity
+import id.android.kmabsensi.presentation.coworking.CheckinCoworkingActivity
 import id.android.kmabsensi.presentation.home.HomeViewModel
 import id.android.kmabsensi.presentation.komship.MyOrderActivity
 import id.android.kmabsensi.presentation.komship.MyOrderViewModel
@@ -95,7 +99,91 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
         vm.getJadwalShalat()
         vm.getDashboardInfo(user.id)
         vm.getCoworkUserData(user.id)
+        getDashboardData()
     }
+
+    fun getDashboardData() {
+        vm.isScan = vm.getScanData()
+    }
+
+    private fun validateScanning() {
+        dataUserCoworking.apply {
+            if(cowork_presence.isEmpty() || cowork_presence[0].checkout_date_time != null) {
+                MaterialDialog(requireContext()).show {
+                    cornerRadius(16f)
+                    title(text = "Scan")
+                    message(text = "Kamu Belum Melakukan Check-In di Coworking. Silahkan Lakukan Check-In Terlebih Dahulu.")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else if (vm.isScan) {
+                MaterialDialog(requireContext()).show {
+                    cornerRadius(16f)
+                    title(text = "Scan")
+                    message(text = "Jatah scan Kopi mu hari ini sudah habis. Tunggu besok ya...")
+                    positiveButton(text = "OK") {
+                        it.dismiss()
+                    }
+                }
+            } else {
+                val intent = Intent(context, ScanQrActivity::class.java)
+                startActivityForResult(intent, REQ_SCAN_QR)
+//
+//                val intent= Intent(context, ScanQrActivity::class.java)
+//                resultLauncher.launch(intent)
+            }
+        }
+    }
+
+    private fun validateCoworking() {
+        dataUserCoworking.apply {
+            if (cowork_presence.isNotEmpty()) {
+                if (binding?.tvCoworkingPresence?.text == "Check Out") {
+                    MaterialDialog(requireContext()).show {
+                        title(text = "Check Out")
+                        message(text = "Apakah anda yakin ingin melakukan Check Out?")
+                        positiveButton(text = "Ya") {
+                            vm.checkOutCoworkingSpace(cowork_presence[0].id)
+                            vm.getCoworkUserData(user.id)
+                        }
+                        negativeButton(text = "Batal") {
+                            it.dismiss()
+                        }
+                    }
+
+                } else {
+                    MaterialDialog(requireContext()).show {
+                        cornerRadius(16f)
+                        title(text = "Scan")
+                        message(text = "Kamu sudah melakukan Check-In Hari Ini, Tunggu Besok Untuk Check-In Kembali.")
+                        positiveButton(text = "OK") {
+                            it.dismiss()
+                        }
+                    }
+                }
+            } else {
+                if (available_slot > 0) {
+//                    requireActivity().startActivityForResult<CheckinCoworkingActivity>(122,
+//                        "coworking" to dataUserCoworking
+//                    )
+                    val intent= Intent(context, CheckinCoworkingActivity::class.java)
+                    intent.putExtra("coworking", dataUserCoworking)
+                    resultLauncher.launch(intent)
+                } else {
+                    MaterialDialog(requireContext()).show {
+                        cornerRadius(16f)
+                        title(text = "Check-In Coworking")
+                        message(text = "Slot Kursi Di Coworking Hari Ini Sudah Habis.")
+                        positiveButton(text = "OK") {
+                            it.dismiss()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun setupObserver() {
         vm.dashboardData.observe(viewLifecycleOwner,{
@@ -212,20 +300,23 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 is UiState.Loading -> {
 
                 }
+
                 is UiState.Success -> {
+                    sklChair?.hide()
                     if (it.data.status) {
                         it.data.data[0].apply {
                             dataUserCoworking = this
                             if (status.equals("2")) {
-                                binding?.tvChair?.text = getString(R.string.tutup)
+                                binding?.tvChair?.text = "Tutup"
                                 binding?.tvCofee?.gone()
-                            }else binding?.tvCofee?.visible()
+                            } else binding?.tvCofee?.visible()
                             if (cowork_presence.isNotEmpty()){
-                                if (cowork_presence.last().checkout_date_time.isNullOrEmpty()){
-                                    binding?.tvCoworkingPresence?.text = getString(R.string.checkout)
-                                }else{
-                                    binding?.tvCoworkingPresence?.text = getString(R.string.checkin)
+                                binding?.tvCoworkingPresence?.text = "Check Out"
+                                if (cowork_presence[0].checkout_date_time != null) {
+                                    binding?.tvCoworkingPresence?.text = "Check In"
                                 }
+                            } else {
+                                binding?.tvCoworkingPresence?.text = "Check In"
                             }
                             binding?.apply {
                                 tvChair.text = "$available_slot Kursi"
@@ -234,6 +325,7 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                         }
                     }
                 }
+
                 is UiState.Error -> {
 
                 }
@@ -319,15 +411,16 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
                 vm.getCoworkUserData(user.id)
                 vm.getDashboardInfo(user.id)
                 setupGreetings()
+                getDashboardData()
             }
             btnQrCode.setOnClickListener {
-                val intent = Intent(requireContext(), ScanQrActivity::class.java)
-                startActivityForResult(intent, REQ_SCAN_QR)
+                validateScanning()
             }
 
             btnCheckinCoWorking.setOnClickListener {
-
+                validateCoworking()
             }
+
         }
     }
 
@@ -412,6 +505,16 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
 
     }
 
+    private val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if(result.resultCode == CheckinCoworkingActivity.RESULT_CODE) {
+            vm.getCoworkUserData(user.id)
+            vm.setScanCoffee(false)
+            vm.isScan = vm.getScanData()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 112 && resultCode == Activity.RESULT_OK) {
             vm.getCoworkUserData(user.id)
@@ -422,6 +525,8 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
             redeemPoin?.let {
                 vm.redeemPoin(user.id, it)
             }
+            vm.setScanCoffee(true)
+            vm.isScan = vm.getScanData()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
