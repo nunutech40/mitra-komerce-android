@@ -654,10 +654,14 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private fun setupGreetings() {
         val greeting = vm.setGreeting()
         binding?.tvUsername?.text = greeting
-        binding?.imgProfile?.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-        )
+        if (user.role_id ==2){
+            binding?.imgProfile?.setImageResource(R.drawable.logo_mitra_km)
+        } else{
+            binding?.imgProfile?.loadCircleImage(
+                user.photo_profile_url
+                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            )
+        }
 
         binding?.tvPosition?.text = user.position_name
     }

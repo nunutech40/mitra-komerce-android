@@ -322,7 +322,7 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
 
                     if (!formValidation()) {
                         return@setOnClickListener
-                    } else if (!validationEmail()){
+                    } else if (!validationEmail()) {
                         return@setOnClickListener
                     }
                     vm.updateKaryawanTalent(
@@ -353,6 +353,7 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
 
         }
     }
+
     private fun setupListener() {
         binding.apply {
             tvChangePhoto.setOnClickListener {
@@ -652,18 +653,31 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
                 }
             }
 
-            data.photo_profile_url?.let {
-                d { it }
-                imgProfile.loadCircleImage(it)
+            if (data.role_id ==2){
+                imgProfile.setImageResource(R.drawable.logo_mitra_km)
+            } else {
+                imgProfile.loadCircleImage(
+                    data.photo_profile_url
+                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+                )
             }
+
 //            spinnerStatusPernikahan.setSelection(data.martial_status + 1)
 //            spinnerJenisKelamin.setSelection(data.gender)
             if (data.gender == 2) {
                 genderSelectedId = 1
+                tieGender.text = "Perempuan".toEditable()
             } else if (data.gender == 1) {
                 genderSelectedId = 0
+                tieGender.text = "Laki-laki".toEditable()
+
             }
 
+            if (data.martial_status == 0){
+                tieStatusPernikahan.text = "Belum Menikah".toEditable()
+            } else if (data.martial_status ==1){
+                tieStatusPernikahan.text = "Sudah Menikah".toEditable()
+            }
             spJenisKelamin.setSelection(genderSelectedId)
             spStatusPernikahan.setSelection(martialStatus)
         }
@@ -731,25 +745,41 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
         binding.apply {
             val username =
                 ValidationForm.validationTextInputEditText(tieUsername, tilUsername, "Wajib diisi.")
-            val fullName = ValidationForm.validationTextInputEditText(tieFullName, tilFullName, "Wajib diisi.")
-            val noHp = ValidationForm.validationTextInputEditText(tiePhone, tilPhone, "Wajib diisi.")
-            val address = ValidationForm.validationTextInputEditText(tieFullAddres, tilFullAddres, "Wajib diisi.")
-            val noRek = ValidationForm.validationTextInputEditText(tieNoRek, tilNoRek, "Wajib diisi.")
-            val noRekOwner = ValidationForm.validationTextInputEditText(tieNoRekOwner, tilNoRekOwner, "Wajib diisi.")
+            val fullName =
+                ValidationForm.validationTextInputEditText(tieFullName, tilFullName, "Wajib diisi.")
+            val noHp =
+                ValidationForm.validationTextInputEditText(tiePhone, tilPhone, "Wajib diisi.")
+            val address = ValidationForm.validationTextInputEditText(
+                tieFullAddres,
+                tilFullAddres,
+                "Wajib diisi."
+            )
+            val noRek =
+                ValidationForm.validationTextInputEditText(tieNoRek, tilNoRek, "Wajib diisi.")
+            val noRekOwner = ValidationForm.validationTextInputEditText(
+                tieNoRekOwner,
+                tilNoRekOwner,
+                "Wajib diisi."
+            )
             val email =
                 ValidationForm.validationTextInputEditText(tieEmail, tilEmail, "Wajib diisi.")
             return username && fullName && noHp && address && noRek && noRekOwner && email
         }
     }
 
-    private fun validationEmail():Boolean {
+    private fun validationEmail(): Boolean {
         binding.apply {
-            val validEmail = ValidationForm.validationEmail(tieEmail,tilEmail, "Format Email Kamu tidak sesuai.")
+            val validEmail = ValidationForm.validationEmail(
+                tieEmail,
+                tilEmail,
+                "Format Email Kamu tidak sesuai."
+            )
             return validEmail
         }
     }
 
     private fun disableViews(enabled: Boolean) {
+        setupToolbar("Data Profile", isBackable = true)
         binding.apply {
             tieUsername.isEnabled = enabled
             tieFullName.isEnabled = enabled
@@ -762,13 +792,13 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
             tieBank.isEnabled = enabled
             tieNoRek.isEnabled = enabled
             tieNoRekOwner.isEnabled = enabled
-            btnSimpan.gone()
-            spJenisKelamin.isEnabled = enabled
-            spJenisKelamin.isClickable = enabled
-            spStatusPernikahan.isEnabled = enabled
-            spStatusPernikahan.isClickable = enabled
-            tvChangePhoto.isEnabled = enabled
+            tilGender.visible()
+            tilStatusPernikahan.visible()
             imgProfile.isEnabled = enabled
+            tvChangePhoto.gone()
+            btnSimpan.gone()
+            llSpGender.gone()
+            llSpPernikahan.gone()
         }
     }
 }

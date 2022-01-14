@@ -174,13 +174,19 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private fun setProfile() {
         user = vm.getUserData()
         binding?.apply {
-            if (user.role_id == 1){
-                imgProfile.setImageResource(R.drawable.logo)
-            } else {
-                imgProfile.loadCircleImage(
-                    user.photo_profile_url
-                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-                )
+            when (user.role_id) {
+                1 -> {
+                    imgProfile.setImageResource(R.drawable.logo)
+                }
+                2 -> {
+                    imgProfile.setImageResource(R.drawable.logo_mitra_km)
+                }
+                else -> {
+                    imgProfile.loadCircleImage(
+                        user.photo_profile_url
+                            ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+                    )
+                }
             }
             tvUsername.text = user.full_name
             tvPosition.text = user.position_name
@@ -202,6 +208,9 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     }
 
     private fun hideSkeleton(){
+        if (user.role_id == 1) {
+            binding?.btnChangeProfile?.gone()
+        }
         sklUsername?.hide()
         sklPosition?.hide()
         sklImgProfile?.hide()

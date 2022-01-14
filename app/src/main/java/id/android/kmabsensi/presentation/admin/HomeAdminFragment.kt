@@ -397,6 +397,9 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         val greeting = vm.setGreeting()
         binding?.apply {
             tvUsername.text = greeting
+            if (user.role_id ==1){
+                imgProfile.setImageResource(R.drawable.logo)
+            }
         }
     }
 
