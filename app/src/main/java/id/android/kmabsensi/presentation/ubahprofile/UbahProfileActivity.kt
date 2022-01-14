@@ -762,7 +762,11 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
             tieBank.isEnabled = enabled
             tieNoRek.isEnabled = enabled
             tieNoRekOwner.isEnabled = enabled
-            btnSimpan.isEnabled = enabled
+            btnSimpan.gone()
+            spJenisKelamin.isEnabled = enabled
+            spJenisKelamin.isClickable = enabled
+            spStatusPernikahan.isEnabled = enabled
+            spStatusPernikahan.isClickable = enabled
             tvChangePhoto.isEnabled = enabled
             imgProfile.isEnabled = enabled
         }
