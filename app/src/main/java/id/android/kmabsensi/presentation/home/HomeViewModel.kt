@@ -59,7 +59,6 @@ class HomeViewModel(
 
     val redeemPoin = LiveEvent<UiState<BaseResponse>>()
 
-<<<<<<< HEAD
     var isScan = false
 
     fun setScanCoffee(isScan: Boolean) {
@@ -70,8 +69,6 @@ class HomeViewModel(
         return preferencesHelper.getBoolean(PreferencesHelper.IS_SCAN)
     }
 
-=======
->>>>>>> merubah-api-dieditprofilemitra-aris
     fun getDashboardInfo(userId: Int) {
         try {
             dashboardData.value = UiState.Loading()
