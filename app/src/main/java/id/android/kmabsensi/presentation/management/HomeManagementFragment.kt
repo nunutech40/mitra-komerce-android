@@ -654,13 +654,10 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private fun setupGreetings() {
         val greeting = vm.setGreeting()
         binding?.tvUsername?.text = greeting
-        if (user.role_id ==2){
-            binding?.imgProfile?.setImageResource(R.drawable.komerce_logo)
-        } else{
+        if (user.role_id == 2){
             binding?.imgProfile?.loadCircleImageStaff(
                 (user.photo_profile_url
-                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString()
-            )
+                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString())
         }
 
         binding?.tvPosition?.text = user.position_name

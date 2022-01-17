@@ -44,6 +44,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private var sklUsername: SkeletonScreen? = null
     private var sklPosition: SkeletonScreen? = null
     private var sklImgProfile: SkeletonScreen? = null
+    private var sklIvRight: SkeletonScreen? = null
 
     companion object {
         @JvmStatic
@@ -201,11 +202,13 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
                 sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
                 sklPosition = Skeleton.bind(tvPosition).load(R.layout.skeleton_item).show()
                 sklImgProfile = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+                sklIvRight = Skeleton.bind(imgRightProfile).load(R.layout.skeleton_badge).show()
             }
         } else {
             sklUsername?.show()
             sklPosition?.show()
             sklImgProfile?.show()
+            sklIvRight?.show()
         }
     }
 
@@ -216,6 +219,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         sklUsername?.hide()
         sklPosition?.hide()
         sklImgProfile?.hide()
+        sklIvRight?.hide()
     }
 
 }

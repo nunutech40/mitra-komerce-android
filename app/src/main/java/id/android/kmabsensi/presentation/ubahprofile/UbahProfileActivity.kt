@@ -653,18 +653,12 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
                 }
             }
 
-//            imgProfile.loadCircleImageStaff(
-//                (data.photo_profile_url
-//                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString()
-//            )
             if (data.role_id ==2){
                 imgProfile.loadCircleImageStaff(
-                    (data.photo_profile_url ?: getDrawable(R.drawable.komerce_logo)).toString()
-                )
+                    (data.photo_profile_url ?: getDrawable(R.drawable.komerce_logo)).toString())
             } else {
                 imgProfile.loadCircleImageSdm(
-                    (data.photo_profile_url ?: getDrawable(R.drawable.ic_user)).toString()
-                )
+                    (data.photo_profile_url ?: getDrawable(R.drawable.ic_user)).toString())
             }
 
 //            spinnerStatusPernikahan.setSelection(data.martial_status + 1)
