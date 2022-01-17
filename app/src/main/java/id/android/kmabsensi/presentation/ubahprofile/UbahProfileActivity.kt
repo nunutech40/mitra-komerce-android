@@ -653,12 +653,17 @@ class UbahProfileActivity : BaseActivityRf<ActivityUbahProfileBinding>(
                 }
             }
 
+//            imgProfile.loadCircleImageStaff(
+//                (data.photo_profile_url
+//                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString()
+//            )
             if (data.role_id ==2){
-                imgProfile.setImageResource(R.drawable.logo_mitra_km)
+                imgProfile.loadCircleImageStaff(
+                    (data.photo_profile_url ?: getDrawable(R.drawable.komerce_logo)).toString()
+                )
             } else {
-                imgProfile.loadCircleImage(
-                    data.photo_profile_url
-                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+                imgProfile.loadCircleImageSdm(
+                    (data.photo_profile_url ?: getDrawable(R.drawable.ic_user)).toString()
                 )
             }
 

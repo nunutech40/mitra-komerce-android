@@ -287,10 +287,9 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         vm.getDashboardInfo(user.id)
         vm.getCoworkUserData(user.id)
         binding?.apply {
-            imgProfile?.loadCircleImage(
-                user.photo_profile_url
-                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-            )
+            if (user.role_id ==1){
+                imgProfile.setImageResource(R.drawable.logo)
+            }
             tvPosition.text = getRoleName(user.role_id).capitalizeWords()
         }
     }
@@ -397,9 +396,6 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
         val greeting = vm.setGreeting()
         binding?.apply {
             tvUsername.text = greeting
-            if (user.role_id ==1){
-                imgProfile.setImageResource(R.drawable.logo)
-            }
         }
     }
 
@@ -523,7 +519,6 @@ class HomeAdminFragment : BaseFragmentRf<FragmentHomeAdminBinding>(
                 sklTimer = Skeleton.bind(tvCountDown).load(R.layout.skeleton_item).show()
                 sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
                 sklQtyPartner = Skeleton.bind(tvPartnerTotal).load(R.layout.skeleton_hm_profile).show()
-                sklPhoto = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
             }
         }else{
             sklUsername?.show()

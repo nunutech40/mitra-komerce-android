@@ -521,9 +521,9 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
     private fun setupGreetings() {
         binding?.apply {
             val greeting = vm.setGreeting()
-            imgProfile.loadCircleImage(
-                user.photo_profile_url
-                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            imgProfile.loadCircleImageSdm(
+                (user.photo_profile_url
+                    ?: resources.getDrawable(R.drawable.ic_user)).toString()
             )
             tvUsername.text = greeting
             tvPosition.text = user.position_name

@@ -655,11 +655,11 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
         val greeting = vm.setGreeting()
         binding?.tvUsername?.text = greeting
         if (user.role_id ==2){
-            binding?.imgProfile?.setImageResource(R.drawable.logo_mitra_km)
+            binding?.imgProfile?.setImageResource(R.drawable.komerce_logo)
         } else{
-            binding?.imgProfile?.loadCircleImage(
-                user.photo_profile_url
-                    ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
+            binding?.imgProfile?.loadCircleImageStaff(
+                (user.photo_profile_url
+                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString()
             )
         }
 

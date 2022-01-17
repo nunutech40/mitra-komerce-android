@@ -4,6 +4,7 @@ package id.android.kmabsensi.presentation.profile
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.ethanhua.skeleton.Skeleton
@@ -100,16 +101,16 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         vm.allBankData.observe(viewLifecycleOwner, { state ->
             when(state) {
                 is UiState.Loading -> {
-                    showSkeleton()
                     binding?.btnChangeProfile?.visible()
+                    showSkeleton()
                 }
                 is UiState.Success -> {
                     setAllBank()
                     hideSkeleton()
                 }
                 is UiState.Error -> {
-                    hideSkeleton()
                     binding?.btnChangeProfile?.gone()
+                    hideSkeleton()
                 }
             }
         })
@@ -117,16 +118,16 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         vm.userdData.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is UiState.Loading -> {
+//                    binding?.btnChangeProfile?.visible()
                     showSkeleton()
-                    binding?.btnChangeProfile?.visible()
                 }
                 is UiState.Success -> {
                     setProfile()
-                    hideSkeleton()
+//                    hideSkeleton()
                 }
                 is UiState.Error -> {
-                    hideSkeleton()
                     binding?.btnChangeProfile?.gone()
+                    hideSkeleton()
                 }
             }
         })
@@ -179,13 +180,14 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
                     imgProfile.setImageResource(R.drawable.logo)
                 }
                 2 -> {
-                    imgProfile.setImageResource(R.drawable.logo_mitra_km)
+                    imgProfile.loadCircleImageStaff(
+                        (user.photo_profile_url
+                            ?: resources.getDrawable(R.drawable.komerce_logo)).toString())
                 }
                 else -> {
                     imgProfile.loadCircleImage(
-                        user.photo_profile_url
-                            ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-                    )
+                        (user.photo_profile_url
+                            ?: resources.getDrawable(R.drawable.ic_user)).toString())
                 }
             }
             tvUsername.text = user.full_name

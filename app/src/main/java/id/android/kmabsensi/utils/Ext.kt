@@ -62,6 +62,15 @@ fun ImageView.loadCircleImageSdm(url: String){
         .into(this)
 }
 
+fun ImageView.loadCircleImageStaff(url: String){
+    if (url.isEmpty()) return
+
+    Glide.with(this.context)
+        .load(url)
+        .apply(RequestOptions.circleCropTransform().placeholder(R.drawable.komerce_logo))
+        .into(this)
+}
+
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
