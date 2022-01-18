@@ -730,10 +730,11 @@ class HomeManagementFragment : BaseFragmentRf<FragmentHomeManagementBinding>(
     private fun setupGreetings() {
         val greeting = vm.setGreeting()
         binding?.tvUsername?.text = greeting
-        binding?.imgProfile?.loadCircleImage(
-            user.photo_profile_url
-                ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-        )
+        if (user.role_id == 2){
+            binding?.imgProfile?.loadCircleImageStaff(
+                (user.photo_profile_url
+                    ?: resources.getDrawable(R.drawable.komerce_logo)).toString())
+        }
 
         binding?.tvPosition?.text = user.position_name
     }

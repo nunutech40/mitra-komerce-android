@@ -156,7 +156,32 @@
                     android:entries="@array/martial_statuses"
                     android:paddingVertical="@dimen/_12dp" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:clickable="false"
+                    android:visibility="gone"
+                    android:enabled="false"
+                    android:hint="Jenis Kelamin"
+                    app:boxStrokeColor="@color/cl_grey_2"
+                    app:boxStrokeWidth="0.3dp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tie_gender"
+                        style="@style/tv16inter_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:paddingStart="0dp"
+                        android:paddingTop="30dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_sp_gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
@@ -319,7 +344,32 @@
                     android:entries="@array/payment_methode"
                     android:paddingVertical="@dimen/_12dp" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_status_pernikahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:clickable="false"
+                    android:visibility="gone"
+                    android:enabled="false"
+                    android:hint="Status Pernikahan"
+                    app:boxStrokeColor="@color/cl_grey_2"
+                    app:boxStrokeWidth="0.3dp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tie_status_pernikahan"
+                        style="@style/tv16inter_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:paddingStart="0dp"
+                        android:paddingTop="30dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_sp_pernikahan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"

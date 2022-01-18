@@ -4,6 +4,7 @@ package id.android.kmabsensi.presentation.profile
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.ethanhua.skeleton.Skeleton
@@ -43,6 +44,7 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private var sklUsername: SkeletonScreen? = null
     private var sklPosition: SkeletonScreen? = null
     private var sklImgProfile: SkeletonScreen? = null
+    private var sklIvRight: SkeletonScreen? = null
 
     companion object {
         @JvmStatic
@@ -100,16 +102,16 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         vm.allBankData.observe(viewLifecycleOwner, { state ->
             when(state) {
                 is UiState.Loading -> {
-                    showSkeleton()
                     binding?.btnChangeProfile?.visible()
+                    showSkeleton()
                 }
                 is UiState.Success -> {
                     setAllBank()
                     hideSkeleton()
                 }
                 is UiState.Error -> {
-                    hideSkeleton()
                     binding?.btnChangeProfile?.gone()
+                    hideSkeleton()
                 }
             }
         })
@@ -117,16 +119,16 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
         vm.userdData.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is UiState.Loading -> {
+//                    binding?.btnChangeProfile?.visible()
                     showSkeleton()
-                    binding?.btnChangeProfile?.visible()
                 }
                 is UiState.Success -> {
                     setProfile()
-                    hideSkeleton()
+//                    hideSkeleton()
                 }
                 is UiState.Error -> {
-                    hideSkeleton()
                     binding?.btnChangeProfile?.gone()
+                    hideSkeleton()
                 }
             }
         })
@@ -174,13 +176,20 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
     private fun setProfile() {
         user = vm.getUserData()
         binding?.apply {
-            if (user.role_id == 1){
-                imgProfile.setImageResource(R.drawable.logo)
-            } else {
-                imgProfile.loadCircleImage(
-                    user.photo_profile_url
-                        ?: "https://cdn2.stylecraze.com/wp-content/uploads/2014/09/5-Perfect-Eyebrow-Shapes-For-Heart-Shaped-Face-1.jpg"
-                )
+            when (user.role_id) {
+                1 -> {
+                    imgProfile.setImageResource(R.drawable.logo)
+                }
+                2 -> {
+                    imgProfile.loadCircleImageStaff(
+                        (user.photo_profile_url
+                            ?: resources.getDrawable(R.drawable.komerce_logo)).toString())
+                }
+                else -> {
+                    imgProfile.loadCircleImage(
+                        (user.photo_profile_url
+                            ?: resources.getDrawable(R.drawable.ic_user)).toString())
+                }
             }
             tvUsername.text = user.full_name
             tvPosition.text = user.position_name
@@ -193,18 +202,24 @@ class MyProfileFragment : BaseFragmentRf<FragmentMyProfileBinding>(
                 sklUsername = Skeleton.bind(tvUsername).load(R.layout.skeleton_item).show()
                 sklPosition = Skeleton.bind(tvPosition).load(R.layout.skeleton_item).show()
                 sklImgProfile = Skeleton.bind(imgProfile).load(R.layout.skeleton_hm_profile).show()
+                sklIvRight = Skeleton.bind(imgRightProfile).load(R.layout.skeleton_badge).show()
             }
         } else {
             sklUsername?.show()
             sklPosition?.show()
             sklImgProfile?.show()
+            sklIvRight?.show()
         }
     }
 
     private fun hideSkeleton(){
+        if (user.role_id == 1) {
+            binding?.btnChangeProfile?.gone()
+        }
         sklUsername?.hide()
         sklPosition?.hide()
         sklImgProfile?.hide()
+        sklIvRight?.hide()
     }
 
 }
