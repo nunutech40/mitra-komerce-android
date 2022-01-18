@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="colorPrimary">#CC3300</color>-->
-<!--    <color name="colorPrimaryDark">#FF5722</color>-->
-<!--    <color name="colorAccent">#CC3300</color>-->
-
-    <color name="colorPrimary">#DE4D4E</color>
-    <color name="colorPrimaryDark">#CC3300</color>
-    <color name="colorAccent">#DE4D4E</color>
+    <color name="colorPrimary">#FF6A3A</color>
+    <color name="colorPrimaryDark">#FF6A3A</color>
+    <color name="colorAccent">#FF6A3A</color>
 
     <color name="textColor">#5A5B5C</color>
     <color name="textWhite">#F4F6F8</color>
@@ -100,7 +96,7 @@
     <color name="cl_grey_bg_new">#EDEDED</color>
     <color name="cl_white_dark_new">#F6F6F6</color>
 
-    //
+
     <color name="color_btn_disable">#C2C2C2</color>
     <color name="color_icon_back">#08A0F7</color>
     <color name="candidate_other">#ff808080</color>
