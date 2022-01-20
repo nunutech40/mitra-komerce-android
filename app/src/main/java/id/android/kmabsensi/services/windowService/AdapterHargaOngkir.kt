@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import id.android.kmabsensi.data.remote.response.komboard.CostResults
 import id.android.kmabsensi.data.remote.response.komboard.OngkirResults
 import id.android.kmabsensi.databinding.ItemHargaOngkirBinding
+import id.android.kmabsensi.services.windowService.LayoutCekongkir.Companion.daftarHarga
+import id.android.kmabsensi.services.windowService.LayoutCekongkir.Companion.hashHarga
 import kotlinx.android.synthetic.main.item_harga_ongkir.view.*
 
 class AdapterHargaOngkir (
@@ -36,10 +38,13 @@ class AdapterHargaOngkir (
             setOnClickListener {
                 if (check_harga.isChecked){
                     check_harga.isChecked = false
-                    Log.d("onunpicking", "onBindViewHolder: unpicking...")
+                    hashHarga.remove("${nama_expedisi.text}")
+                    Log.d("onunpicking", "onBindViewHolder: updated $hashHarga")
                 }else{
                     check_harga.isChecked = true
                     listener.onClick(data)
+                    hashHarga.put("${nama_expedisi.text}", "${nama_expedisi.text} ${harga_pengiriman.text} | ${prediksi_tiba.text}")
+                    Log.d("onPicking", "updated $hashHarga")
                 }
             }
         }

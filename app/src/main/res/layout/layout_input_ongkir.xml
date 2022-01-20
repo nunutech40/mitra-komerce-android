@@ -267,29 +267,6 @@
                     android:padding="@dimen/_8dp"
                     android:id="@+id/rec_Address"/>
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layout_harga"
-                    android:visibility="gone"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:padding="8dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="JNE"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rp. - "
-                            android:id="@+id/tv_hargaOngkir"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
                     android:id="@+id/lay_btn_lanjut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -387,17 +364,21 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_done" />
-                    <Button
+                        android:src="@drawable/ic_done_pick" />
+                    <com.kusu.loadingbutton.LoadingButton
                         android:id="@+id/btn_copyOngkir"
-                        style="@style/Widget.AppCompat.TextView"
+                        style="@style/Widget.AppCompat.Button"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/bg_orange_10dp"
-                        android:text="Copy Ongkir"
-                        android:textColor="#ffff"/>
+                        android:layout_marginRight="8dp"
+                        android:layout_height="50dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:enabled="true"
+                        android:textColor="@color/white"
+                        app:lb_buttonColor="@color/colorPrimary"
+                        app:lb_isShadowEnable="false"
+                        app:lb_shadowHeight="5dp"/>
                 </LinearLayout>
             </LinearLayout>
 

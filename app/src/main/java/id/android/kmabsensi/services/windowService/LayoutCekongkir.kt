@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,8 +30,18 @@ import id.android.kmabsensi.services.komboard.KomboardService
 import retrofit2.Response
 import retrofit2.Callback
 import retrofit2.Call
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+
 
 class LayoutCekongkir : Service() {
+    companion object{
+    var daftarHarga = ""
+    val hashHarga: HashMap<String, String> = HashMap<String, String>()
+    }
+
     private lateinit var customView: ViewGroup
     private var LAYOUT_TYPE = 0
     private lateinit var floatWindowLayoutParam: WindowManager.LayoutParams
@@ -65,7 +76,7 @@ class LayoutCekongkir : Service() {
 
     //layout copy ongkir
     private lateinit var layout_copyOngkir: LinearLayout
-    private lateinit var btn_copyOngkir: Button
+    private lateinit var btn_copyOngkir: LoadingButton
     private lateinit var im_doneCopy_ongkir: ImageView
 
     //field pick destination
@@ -157,18 +168,13 @@ class LayoutCekongkir : Service() {
         layout_cekOngkir = view.findViewById(R.id.layout_formCekongkir)
         layout_pickEkspedisi = view.findViewById(R.id.layout_pickExpedisi)
         layout_copyOngkir = view.findViewById(R.id.lay_btn_copyOngkir)
-        layout_harga = view.findViewById(R.id.layout_harga)
         ed_provinsi = view.findViewById(R.id.ed_pickprofinsi)
         ed_kabupaten = view.findViewById(R.id.ed_pickkabupaten)
         ed_kecamatan = view.findViewById(R.id.ed_pickkecamatan)
-        tv_harga = view.findViewById(R.id.tv_hargaOngkir)
         btn_simpanAlamat = view.findViewById(R.id.btn_donePick)
         btn_cekOngkir = view.findViewById(R.id.btn_cekOngkir)
         btn_copyOngkir = view.findViewById(R.id.btn_copyOngkir)
         im_doneCopy_ongkir = view.findViewById(R.id.im_done_copyongkir)
-//        im_donePickProv = view.findViewById(R.id.im_donePickProvinsi)
-//        im_donePickKab = view.findViewById(R.id.im_donePickKabupaten)
-//        im_donePickKec = view.findViewById(R.id.im_donePickKecamatan)
         im_back = view.findViewById(R.id.im_donePick)
         im_done = view.findViewById(R.id.im_done)
         im_donePickExpedisi = view.findViewById(R.id.im_doneLanjut)
@@ -182,6 +188,15 @@ class LayoutCekongkir : Service() {
             Log.d("onPickingAddress", "$pickingAddres")
             layout_cekOngkir.visibility = View.GONE
             layout_pickAlamat.visibility = View.VISIBLE
+            ed_provinsi.visibility = View.VISIBLE
+            ed_provinsi.setText("")
+            ed_provinsi.setError(null)
+            ed_kabupaten.visibility = View.VISIBLE
+            ed_kabupaten.setText("")
+            ed_kabupaten.setError(null)
+            ed_kecamatan.visibility = View.VISIBLE
+            ed_kecamatan.setText("")
+            ed_kecamatan.setError(null)
             layout_btnPickExpedisi.visibility= View.GONE
             layout_button_pickAlamat.visibility= View.VISIBLE
         }
@@ -192,11 +207,17 @@ class LayoutCekongkir : Service() {
             setupAdapter()
             layout_cekOngkir.visibility = View.GONE
             layout_pickAlamat.visibility = View.VISIBLE
+            ed_provinsi.visibility = View.VISIBLE
+            ed_provinsi.setText("")
+            ed_provinsi.setError(null)
+            ed_kabupaten.visibility = View.VISIBLE
+            ed_kabupaten.setText("")
+            ed_kabupaten.setError(null)
+            ed_kecamatan.visibility = View.VISIBLE
+            ed_kecamatan.setText("")
+            ed_kecamatan.setError(null)
             layout_btnPickExpedisi.visibility= View.GONE
             layout_button_pickAlamat.visibility= View.VISIBLE
-            ed_provinsi.setText("")
-            ed_kabupaten.setText("")
-            ed_kecamatan.setText("")
         }
         btn_pickExpedisi.setOnClickListener {
             tvAddresCosting.setText("$originDistrict - $destinationDistrict")
@@ -207,25 +228,34 @@ class LayoutCekongkir : Service() {
             layout_cekOngkir.visibility = View.GONE
         }
         btn_simpanAlamat.setOnClickListener {
-            if (pickingAddres == 0){
-                val alamat = "Prov. ${ed_provinsi.text}, Kab. ${ed_kabupaten.text}, Kec. ${ed_kecamatan.text}"
-                originDistrict = ed_kecamatan.text.toString()
-                tv_alamatAsal.setText(alamat)
-                layout_pickAlamat.visibility = View.GONE
-                layout_cekOngkir.visibility = View.VISIBLE
-                layout_btnPickExpedisi.visibility= View.VISIBLE
-                layout_button_pickAlamat.visibility = View.GONE
-            }else if(pickingAddres == 1){
-                val alamat = "Prov. ${ed_provinsi.text}, Kab. ${ed_kabupaten.text}, Kec. ${ed_kecamatan.text}"
-                destinationDistrict = ed_kecamatan.text.toString()
-                tv_alamatTujuan.setText(alamat)
-                layout_pickAlamat.visibility = View.GONE
-                layout_cekOngkir.visibility = View.VISIBLE
-                layout_btnPickExpedisi.visibility= View.VISIBLE
-                layout_button_pickAlamat.visibility = View.GONE
+            if (ed_provinsi.text.toString().equals("")){
+                ed_provinsi.setError("Provinsi harus diisi!")
+            }else if(ed_kabupaten.text.toString().equals("")){
+                ed_kabupaten.setError("Kabupaten harus diisi!")
+            }else if(ed_kecamatan.text.toString().equals("")){
+                ed_kecamatan.setError("Kecamatan harus diisi!")
+            }else{
+                if (pickingAddres == 0){
+                    val alamat = "Prov. ${ed_provinsi.text}, Kab. ${ed_kabupaten.text}, Kec. ${ed_kecamatan.text}"
+                    originDistrict = ed_kecamatan.text.toString()
+                    tv_alamatAsal.setText(alamat)
+                    layout_pickAlamat.visibility = View.GONE
+                    layout_cekOngkir.visibility = View.VISIBLE
+                    layout_btnPickExpedisi.visibility= View.VISIBLE
+                    layout_button_pickAlamat.visibility = View.GONE
+                }else if(pickingAddres == 1){
+                    val alamat = "Prov. ${ed_provinsi.text}, Kab. ${ed_kabupaten.text}, Kec. ${ed_kecamatan.text}"
+                    destinationDistrict = ed_kecamatan.text.toString()
+                    tv_alamatTujuan.setText(alamat)
+                    layout_pickAlamat.visibility = View.GONE
+                    layout_cekOngkir.visibility = View.VISIBLE
+                    layout_btnPickExpedisi.visibility= View.VISIBLE
+                    layout_button_pickAlamat.visibility = View.GONE
+                }
             }
         }
         btn_cekOngkir.setOnClickListener {
+            daftarHarga = ""
             btn_cekOngkir.showLoading()
             if (rbJNE.isChecked){
                 tv_pickExpedisi.setText("Ekspedisi JNE")
@@ -238,10 +268,26 @@ class LayoutCekongkir : Service() {
             }
             postCost()
             setupAdapterHarga()
+            btn_copyOngkir.text = "copy"
             rbGroup.visibility = View.GONE
         }
+        btn_copyOngkir.setOnClickListener {
+        var tracking = "Pengiriman ${tvAddresCosting.text} ${tv_pickExpedisi.text} dengan ${tvWeight.text}" +
+                "\n\n--------------------\n"
+        btn_copyOngkir.showLoading()
+        daftarHarga = ""
+        for (key in hashHarga.keys){
+            daftarHarga += "${hashHarga[key]}\n\n"
+        }
+        Log.d("onPickingHarga", "onDaftarHarga: $daftarHarga")
+        val clipboard: ClipboardManager =
+                getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("ongkir", "${tracking}"+"${daftarHarga}")
+            clipboard.setPrimaryClip(clip)
+        btn_copyOngkir.hideLoading()
+        btn_copyOngkir.text = "copied"
+        }
         ed_provinsi.setOnTouchListener { v, event ->
-//            im_donePickProv.visibility= View.VISIBLE
             ed_provinsi.isCursorVisible = true
             reqFocusWindow()
             getDataProvince()
@@ -256,7 +302,6 @@ class LayoutCekongkir : Service() {
                 ed_provinsi.setError("harap cari provinsi terlebih dahulu")
                 ed_provinsi.requestFocus()
             }else{
-//                im_donePickKab.visibility = View.VISIBLE
                 prog_kab.visibility = View.VISIBLE
                 ed_kabupaten.isCursorVisible = true
                 reqFocusWindow()
@@ -271,7 +316,6 @@ class LayoutCekongkir : Service() {
         ed_kecamatan.setOnTouchListener { v, event ->
             ed_kecamatan.isCursorVisible = true
             reqFocusWindow()
-//            im_donePickKec.visibility = View.VISIBLE
             prog_kec.visibility = View.VISIBLE
             getDataSubdistrict(id_Prov, id_Kab)
             setupAdapterDistrict()
@@ -378,7 +422,6 @@ class LayoutCekongkir : Service() {
             ) {
                 adapterAddress?.setData(response.body()?.rajaongkir?.results!!)
                 arrayAddress.addAll(response.body()?.rajaongkir?.results!!)
-//                prog_prov.visibility = View.GONE
                 Log.d("onDataProvince", "${response.body()?.rajaongkir?.results}")
             }
 
@@ -390,7 +433,6 @@ class LayoutCekongkir : Service() {
     }
     @SuppressLint("LogNotTimber")
     fun getDataCity(provinceID: Int){
-        prog_kab.visibility = View.GONE
         Log.d("onGetCity", "getDataCity: $provinceID")
         val getCity: Call<CityRespons>? =
             apiService?.getCity(
@@ -402,7 +444,7 @@ class LayoutCekongkir : Service() {
             override fun onResponse(call: Call<CityRespons>, response: Response<CityRespons>) {
                 adapterCity?.setData(response.body()?.rajaongkirCity?.resultsCity!!)
                 arrayCity.addAll(response.body()?.rajaongkirCity?.resultsCity!!)
-//                setupAdapterCity()
+                prog_kab.visibility = View.GONE
                 Log.d("onDataCity", "${response.body()?.rajaongkirCity?.resultsCity}")
             }
 
@@ -415,7 +457,6 @@ class LayoutCekongkir : Service() {
 
     @SuppressLint("LogNotTimber")
     fun getDataSubdistrict(prov: Int, kec: Int){
-        prog_kec.visibility = View.VISIBLE
         Log.d("onGetDistrict", "getDataDistrict: $prov $kec")
         val getDistrict: Call<SubDistrictRespons>? =
             apiService?.getSubdistrict(
@@ -431,8 +472,7 @@ class LayoutCekongkir : Service() {
             ) {
                 adapterDistrict?.setData(response.body()?.rajaongkirSubdistrict?.resultsSubdistrict!!)
                 arrayDistrict.addAll(response.body()?.rajaongkirSubdistrict?.resultsSubdistrict!!)
-//                prog_kec.visibility = View.GONE
-//                setupAdapterDistrict()
+                prog_kec.visibility = View.VISIBLE
                 Log.d("onDataDistrict", "${response.body()?.rajaongkirSubdistrict?.resultsSubdistrict}")
             }
 
@@ -477,7 +517,7 @@ class LayoutCekongkir : Service() {
                 adapterHargaOngkir?.setData(response.body()?.rajaongkirOngkir?.resultsOngkir!![0].costsData!!)
 //                layout_harga.visibility = View.VISIBLE
                 layout_button_cekOngkir.visibility = View.GONE
-                tv_harga.setText("Rp. ${response.body()?.rajaongkirOngkir?.resultsOngkir!![0].costsData!![0].cost!![0].valueCost}")
+//                tv_harga.setText("Rp. ${response.body()?.rajaongkirOngkir?.resultsOngkir!![0].costsData!![0].cost!![0].valueCost}")
                 layout_copyOngkir.visibility = View.VISIBLE
                 Log.d("onCostOngkir", "${response.body()?.rajaongkirOngkir?.resultsOngkir}")
             }
@@ -520,8 +560,6 @@ class LayoutCekongkir : Service() {
                 recAddress.visibility = View.GONE
                 ed_kecamatan.visibility = View.VISIBLE
                 ed_provinsi.visibility = View.VISIBLE
-//                getDataSubdistrict(dataCity.province_id!!.toInt(), dataCity.city_id!!.toInt())
-//                setupAdapterDistrict()
                 dataCity.city_id?.let {
                     id_Kab = it.toInt()
                 }
@@ -628,8 +666,8 @@ class LayoutCekongkir : Service() {
     fun filter(text: String) {
         val filteredAddress: ArrayList<ProvinceResults> = ArrayList()
         for (filtered in arrayAddress!!) {
+            filteredAddress.clear()
             if (filtered.province_name!!.toLowerCase().contains(text.toLowerCase())) {
-                filteredAddress.clear()
                 filteredAddress.add(filtered)
             }
         }
@@ -639,23 +677,23 @@ class LayoutCekongkir : Service() {
     fun filterCity(text: String) {
         val filteredAddress: ArrayList<CityResults> = ArrayList()
         for (filtered in arrayCity!!) {
+            filteredAddress.clear()
             if (filtered.city_name!!.toLowerCase().contains(text.toLowerCase())) {
                 filteredAddress.add(filtered)
             }
         }
         adapterCity?.filterList(filteredAddress)
-//        hideKeyboard()
         prog_kab.visibility = View.GONE
     }
     fun filterSubdistrict(text: String) {
         val filteredAddress: ArrayList<SubDistrictResults> = ArrayList()
         for (filtered in arrayDistrict!!) {
+            filteredAddress.clear()
             if (filtered.subdistrict_name!!.toLowerCase().contains(text.toLowerCase())) {
                 filteredAddress.add(filtered)
             }
         }
         adapterDistrict?.filterList(filteredAddress)
-//        hideKeyboard()
         prog_kec.visibility = View.GONE
     }
 }
