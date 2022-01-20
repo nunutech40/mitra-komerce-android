@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:layout_marginBottom="6dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/nama_expedisi"
+                android:text="Nama Ekspedisi"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/harga_pengiriman"
+                android:text="Rp. 0-"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/jenis_expedisi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ekspedisi"/>
+            <TextView
+                android:id="@+id/prediksi_tiba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0-n hari"/>
+        </LinearLayout>
+    </LinearLayout>
+            <CheckBox
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="30dp"
+            android:id="@+id/check_harga"
+            android:layout_height="30dp"/>
+</LinearLayout>

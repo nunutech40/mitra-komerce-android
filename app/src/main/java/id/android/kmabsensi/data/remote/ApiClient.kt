@@ -93,5 +93,32 @@ object ApiClient {
             return retrofit
         }
 }
-
+object ApiClientKomboard {
+    const val BASE_URL = BuildConfig.BASE_URL_ABSENSI_KOMSHIP
+    private var retrofit: Retrofit? = null
+    val client: Retrofit?
+        get() {
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            }
+            return retrofit
+        }
+}
+object ApiClientOngkir {
+    const val BASE_URL = "https://pro.rajaongkir.com/api/"
+    private var retrofit: Retrofit? = null
+    val client: Retrofit?
+        get(){
+            if (retrofit == null){
+                retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            }
+            return retrofit
+        }
+}
 
