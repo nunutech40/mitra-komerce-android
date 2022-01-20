@@ -224,14 +224,11 @@ dependencies {
 
     // progress bar
     implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
-<<<<<<< HEAD
-=======
 
     //loading
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.github.koushikcse:LoadingButton:1.7'
 
->>>>>>> temp-komboard-ongkir-resi
     //notif
     implementation 'com.nex3z:notification-badge:1.0.4'
     implementation project(':emoji')

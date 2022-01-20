@@ -3,9 +3,6 @@
 3    package="github.ankushsachdeva.emojicon" >
 4
 5    <uses-sdk
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 5-->/Users/mac/Documents/AndroidDoc/mitra-komerce-android/emoji/src/main/AndroidManifest.xml:4:5-72
 6        android:minSdkVersion="14"
 6-->/Users/mac/Documents/AndroidDoc/mitra-komerce-android/emoji/src/main/AndroidManifest.xml:4:15-40
@@ -18,48 +15,6 @@
 10-->/Users/mac/Documents/AndroidDoc/mitra-komerce-android/emoji/src/main/AndroidManifest.xml:6:18-44
 11        android:label="@string/app_name" >
 11-->/Users/mac/Documents/AndroidDoc/mitra-komerce-android/emoji/src/main/AndroidManifest.xml:7:9-41
-=======
-5-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:5-72
-6        android:minSdkVersion="14"
-6-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:15-40
-7        android:targetSdkVersion="31" />
-7-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:41-70
-8
-9    <application
-9-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:6:5-10:19
-10        android:allowBackup="true"
-10-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:6:18-44
-11        android:label="@string/app_name" >
-11-->D:\coding\komerce\mitra\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:7:9-41
->>>>>>> bagas-mitraadmin-uploadfoto
-=======
-5-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:4:5-72
-6        android:minSdkVersion="14"
-6-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:4:15-40
-7        android:targetSdkVersion="31" />
-7-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:4:41-70
-8
-9    <application
-9-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:6:5-10:19
-10        android:allowBackup="true"
-10-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:6:18-44
-11        android:label="@string/app_name" >
-11-->C:\Users\KOMERCE TECH\Documents\mitra-komerce-android-master-orderku\emoji\src\main\AndroidManifest.xml:7:9-41
->>>>>>> merubah-api-dieditprofilemitra-aris
-=======
-5-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:5-72
-6        android:minSdkVersion="14"
-6-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:15-40
-7        android:targetSdkVersion="31" />
-7-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:4:41-70
-8
-9    <application
-9-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:6:5-10:19
-10        android:allowBackup="true"
-10-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:6:18-44
-11        android:label="@string/app_name" >
-11-->D:\newer\mitra-komerce-android\emoji\src\main\AndroidManifest.xml:7:9-41
->>>>>>> temp-komboard-ongkir-resi
 12
 13        <!-- android:icon="@drawable/ic_launcher"> -->
 14
