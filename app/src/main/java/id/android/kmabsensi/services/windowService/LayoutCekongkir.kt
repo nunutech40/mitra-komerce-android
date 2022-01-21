@@ -302,7 +302,7 @@ class LayoutCekongkir : Service() {
                 ed_provinsi.setError("harap cari provinsi terlebih dahulu")
                 ed_provinsi.requestFocus()
             }else{
-                prog_kab.visibility = View.VISIBLE
+//                prog_kab.visibility = View.VISIBLE
                 ed_kabupaten.isCursorVisible = true
                 reqFocusWindow()
                 getDataCity(id_Prov)
@@ -316,7 +316,7 @@ class LayoutCekongkir : Service() {
         ed_kecamatan.setOnTouchListener { v, event ->
             ed_kecamatan.isCursorVisible = true
             reqFocusWindow()
-            prog_kec.visibility = View.VISIBLE
+//            prog_kec.visibility = View.VISIBLE
             getDataSubdistrict(id_Prov, id_Kab)
             setupAdapterDistrict()
             ed_provinsi.visibility = View.GONE
@@ -515,9 +515,7 @@ class LayoutCekongkir : Service() {
             @SuppressLint("LogNotTimber", "SetTextI18n")
             override fun onResponse(call: Call<OngkirRespons>, response: Response<OngkirRespons>) {
                 adapterHargaOngkir?.setData(response.body()?.rajaongkirOngkir?.resultsOngkir!![0].costsData!!)
-//                layout_harga.visibility = View.VISIBLE
                 layout_button_cekOngkir.visibility = View.GONE
-//                tv_harga.setText("Rp. ${response.body()?.rajaongkirOngkir?.resultsOngkir!![0].costsData!![0].cost!![0].valueCost}")
                 layout_copyOngkir.visibility = View.VISIBLE
                 Log.d("onCostOngkir", "${response.body()?.rajaongkirOngkir?.resultsOngkir}")
             }

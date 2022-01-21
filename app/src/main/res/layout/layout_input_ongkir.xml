@@ -32,13 +32,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">
-<!--                        <ImageView-->
-<!--                            android:visibility="gone"-->
-<!--                            android:layout_width="35dp"-->
-<!--                            android:layout_height="35dp"-->
-<!--                            android:id="@+id/im_donePickProvinsi"-->
-<!--                            android:src="@drawable/ic_done_pick"-->
-<!--                            android:elevation="1.5dp"/>-->
                         <EditText
                             android:id="@+id/ed_pickprofinsi"
                             android:layout_width="match_parent"
@@ -58,13 +51,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">
-<!--                        <ImageView-->
-<!--                            android:layout_width="35dp"-->
-<!--                            android:layout_height="35dp"-->
-<!--                            android:visibility="gone"-->
-<!--                            android:id="@+id/im_donePickKabupaten"-->
-<!--                            android:src="@drawable/ic_done_pick"-->
-<!--                            android:elevation="1.5dp"/>-->
                         <EditText
                             android:id="@+id/ed_pickkabupaten"
                             android:layout_width="match_parent"
@@ -78,7 +64,6 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:visibility="gone"
-                            android:background="@drawable/back_progress"
                             android:id="@+id/prog_kabupaten"/>
                     </LinearLayout>
                     <LinearLayout
@@ -86,13 +71,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">
-<!--                        <ImageView-->
-<!--                            android:layout_width="35dp"-->
-<!--                            android:layout_height="35dp"-->
-<!--                            android:visibility="gone"-->
-<!--                            android:id="@+id/im_donePickKecamatan"-->
-<!--                            android:src="@drawable/ic_done_pick"-->
-<!--                            android:elevation="1.5dp"/>-->
                         <EditText
                             android:id="@+id/ed_pickkecamatan"
                             android:layout_width="match_parent"
@@ -106,7 +84,6 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:visibility="gone"
-                            android:background="@drawable/back_progress"
                             android:id="@+id/prog_kecamatan"/>
                     </LinearLayout>
                 </LinearLayout>
