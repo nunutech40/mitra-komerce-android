@@ -51,14 +51,16 @@ class KomboardActivity : BaseActivityRf<ActivityKomboardBinding>(
     }
 
     private fun setupView() {
-        dataLocal =
-            Gson().fromJson<KomPartnerResponse>(
-                prefHelper.getString(PreferencesHelper.DATA_PARTNER),
-                KomPartnerResponse::class.java
-            )
 
-//        toInteger(positionPartner)
-//        positionPartnerInt?.let { binding.spPartnerKomboard.setSelection(it) }
+        if (prefHelper.getString(PreferencesHelper.DATA_PARTNER) ==  null) {
+            Log.d("test", "error or null")
+        } else {
+            dataLocal =
+                Gson().fromJson<KomPartnerResponse>(
+                    prefHelper.getString(PreferencesHelper.DATA_PARTNER),
+                    KomPartnerResponse::class.java
+                )
+        }
 
         dataLocal.data?.let { dataPartner.addAll(it) }
         setupSpinnerPartner(dataLocal.data)
