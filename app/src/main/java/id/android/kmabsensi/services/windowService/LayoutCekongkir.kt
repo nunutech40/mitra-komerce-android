@@ -387,7 +387,6 @@ class LayoutCekongkir : Service() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                Log.d("testS", "cek isi S : $s")
                 if (s.isNullOrBlank()) {
                     btn_pickExpedisi.isEnabled = false
                 }

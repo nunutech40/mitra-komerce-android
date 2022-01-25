@@ -90,7 +90,7 @@
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_point"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_8dp"
                         android:orientation="vertical"
@@ -100,9 +100,10 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/tv12inter_reg"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Poin kamu"
+                            android:textAlignment="textEnd"
                             android:textColor="@color/cl_white" />
 
                         <androidx.appcompat.widget.AppCompatTextView

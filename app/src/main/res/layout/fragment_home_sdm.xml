@@ -92,7 +92,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/tv12inter_reg"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Poin kamu"
                         android:textAlignment="textEnd"
