@@ -662,36 +662,54 @@ class LayoutCekongkir : Service() {
     }
 
     fun filter(text: String) {
-        val filteredAddress: ArrayList<ProvinceResults> = ArrayList()
-        for (filtered in arrayAddress!!) {
-            filteredAddress.clear()
-            if (filtered.province_name!!.toLowerCase().contains(text.toLowerCase())) {
-                filteredAddress.add(filtered)
-            }
+
+        val filteredAddress =  mutableSetOf<ProvinceResults>()
+        val filteredAddressArr: ArrayList<ProvinceResults> = ArrayList()
+        val filterData = arrayAddress.filter { it.province_name!!.toLowerCase().contains(text.toLowerCase()) }
+
+        for (item in filterData) {
+            filteredAddress.add(item)
         }
-        adapterAddress?.filterList(filteredAddress)
+
+        for (filtered in filteredAddress) {
+            filteredAddressArr.add(filtered)
+        }
+
+        adapterAddress?.filterList(filteredAddressArr)
+
         prog_prov.visibility = View.GONE
     }
     fun filterCity(text: String) {
-        val filteredAddress: ArrayList<CityResults> = ArrayList()
-        for (filtered in arrayCity!!) {
-            filteredAddress.clear()
-            if (filtered.city_name!!.toLowerCase().contains(text.toLowerCase())) {
-                filteredAddress.add(filtered)
-            }
+
+        val filteredAddress = mutableSetOf<CityResults>()
+        val filteredAddressArr: ArrayList<CityResults> = ArrayList()
+        val filterData = arrayCity.filter { it.city_name!!.toLowerCase().contains(text.toLowerCase()) }
+
+        for (item in filterData) {
+            filteredAddress.add(item)
         }
-        adapterCity?.filterList(filteredAddress)
+
+        for (filtered in filteredAddress) {
+            filteredAddressArr.add(filtered)
+        }
+
+        adapterCity?.filterList(filteredAddressArr)
         prog_kab.visibility = View.GONE
     }
     fun filterSubdistrict(text: String) {
-        val filteredAddress: ArrayList<SubDistrictResults> = ArrayList()
-        for (filtered in arrayDistrict!!) {
-            filteredAddress.clear()
-            if (filtered.subdistrict_name!!.toLowerCase().contains(text.toLowerCase())) {
-                filteredAddress.add(filtered)
-            }
+        val filteredAddress = mutableSetOf<SubDistrictResults>()
+        val filteredAddressArr: ArrayList<SubDistrictResults> = ArrayList()
+        val filterData = arrayDistrict.filter { it.subdistrict_name!!.toLowerCase().contains(text.toLowerCase()) }
+
+        for (item in filterData) {
+            filteredAddress.add(item)
         }
-        adapterDistrict?.filterList(filteredAddress)
+
+        for (filtered in filteredAddress) {
+            filteredAddressArr.add(filtered)
+        }
+
+        adapterDistrict?.filterList(filteredAddressArr)
         prog_kec.visibility = View.GONE
     }
 }
