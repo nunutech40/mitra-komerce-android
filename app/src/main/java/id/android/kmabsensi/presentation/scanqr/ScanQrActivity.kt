@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.zxing.Result
@@ -24,6 +25,9 @@ class ScanQrActivity : BaseActivity(), ZXingScannerView.ResultHandler, View.OnCl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("test1", "cek oncreated in scanQrActivity")
+
         setContentView(R.layout.activity_scan_qr)
         setupToolbar("Scan QR")
         initScannerView()

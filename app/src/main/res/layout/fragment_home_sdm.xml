@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/cl_white_dark_new"
-        android:minHeight="500dp"
+        android:minHeight="300dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_point"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_8dp"
                     android:orientation="vertical"
@@ -95,6 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Poin kamu"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/cl_white" />
 
                     <androidx.appcompat.widget.AppCompatTextView
