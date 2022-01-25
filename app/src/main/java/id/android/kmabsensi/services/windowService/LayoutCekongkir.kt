@@ -144,6 +144,7 @@ class LayoutCekongkir : Service() {
         windowManager.addView(customView, floatWindowLayoutParam)
     }
 
+
     @SuppressLint("ClickableViewAccessibility", "LogNotTimber")
     fun initializationItem(view: ViewGroup){
         btn_pickAsal = view.findViewById(R.id.layout_pickAlamatAsal)
@@ -339,6 +340,7 @@ class LayoutCekongkir : Service() {
         })
         ed_kabupaten.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -355,6 +357,7 @@ class LayoutCekongkir : Service() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -363,14 +366,33 @@ class LayoutCekongkir : Service() {
             }
 
         })
+
         ed_Berat.setOnTouchListener { v, event ->
+
             ed_Berat.isCursorVisible = true
             reqFocusWindow()
             if (originID != 0 && destinationID != 0){
                 btn_pickExpedisi.isEnabled = true
             }
+
             return@setOnTouchListener false
         }
+
+        ed_Berat.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                Log.d("testS", "cek isi S : $s")
+                if (s.isNullOrBlank()) {
+                    btn_pickExpedisi.isEnabled = false
+                }
+            }
+        })
 
         im_done.setOnClickListener {
             layout_cekOngkir.visibility = View.VISIBLE
@@ -587,6 +609,9 @@ class LayoutCekongkir : Service() {
                 ed_kabupaten.visibility = View.VISIBLE
                 recAddress.visibility = View.GONE
                 Log.d("onDistrictPicked", "${dataDistrict.subdistrict_name}")
+                if (originID != 0 && destinationID != 0){
+                    btn_pickExpedisi.isEnabled = true
+                }
             }
 
         })

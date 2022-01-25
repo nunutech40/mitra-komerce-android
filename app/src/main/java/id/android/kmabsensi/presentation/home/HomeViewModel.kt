@@ -38,8 +38,8 @@ class HomeViewModel(
     val authRepository: AuthRepository,
     val userRepository: UserRepository,
     val schedulerProvider: SchedulerProvider
-) : BaseViewModel() {
 
+) : BaseViewModel() {
 
     val jadwalShalatData = MutableLiveData<UiState<JadwalShalatResponse>>()
     val dashboardData = MutableLiveData<UiState<DashboardResponse>>()
