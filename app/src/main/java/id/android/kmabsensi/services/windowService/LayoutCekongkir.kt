@@ -221,12 +221,16 @@ class LayoutCekongkir : Service() {
             layout_button_pickAlamat.visibility= View.VISIBLE
         }
         btn_pickExpedisi.setOnClickListener {
-            tvAddresCosting.setText("$originDistrict - $destinationDistrict")
-            tvWeight.setText("Berat : ${ed_Berat.text.toString()}(g)")
-            layout_pickEkspedisi.visibility = View.VISIBLE
-            layout_btnPickExpedisi.visibility = View.GONE
-            layout_button_cekOngkir.visibility = View.VISIBLE
-            layout_cekOngkir.visibility = View.GONE
+            if (ed_Berat.text.toString().isEmpty()){
+                ed_Berat.setError("berat harus di isi")
+            }else{
+                tvAddresCosting.setText("$originDistrict - $destinationDistrict")
+                tvWeight.setText("Berat : ${ed_Berat.text.toString()}(g)")
+                layout_pickEkspedisi.visibility = View.VISIBLE
+                layout_btnPickExpedisi.visibility = View.GONE
+                layout_button_cekOngkir.visibility = View.VISIBLE
+                layout_cekOngkir.visibility = View.GONE
+            }
         }
         btn_simpanAlamat.setOnClickListener {
             if (ed_provinsi.text.toString().equals("")){
@@ -273,12 +277,16 @@ class LayoutCekongkir : Service() {
             rbGroup.visibility = View.GONE
         }
         btn_copyOngkir.setOnClickListener {
-        var tracking = "Pengiriman ${tvAddresCosting.text} ${tv_pickExpedisi.text} dengan ${tvWeight.text}" +
-                "\n\n--------------------\n"
+            var tracking = "Alamat Asal :\n" +
+                    "${tv_alamatAsal} \n" +
+                    "Alamat Tujuan : \n" +
+                    "${tv_alamatTujuan} \n" +
+                    "Dengan berat : ${tvWeight.text}" +
+                    "\n----------------------\n"
         btn_copyOngkir.showLoading()
         daftarHarga = ""
         for (key in hashHarga.keys){
-            daftarHarga += "${hashHarga[key]}\n\n"
+            daftarHarga += "${hashHarga[key]}\n"
         }
         Log.d("onPickingHarga", "onDaftarHarga: $daftarHarga")
         val clipboard: ClipboardManager =
@@ -442,6 +450,7 @@ class LayoutCekongkir : Service() {
                 response: Response<ProvinceRespons>
             ) {
                 adapterAddress?.setData(response.body()?.rajaongkir?.results!!)
+                arrayAddress.clear()
                 arrayAddress.addAll(response.body()?.rajaongkir?.results!!)
                 Log.d("onDataProvince", "${response.body()?.rajaongkir?.results}")
             }
@@ -464,6 +473,7 @@ class LayoutCekongkir : Service() {
             @SuppressLint("LogNotTimber")
             override fun onResponse(call: Call<CityRespons>, response: Response<CityRespons>) {
                 adapterCity?.setData(response.body()?.rajaongkirCity?.resultsCity!!)
+                arrayCity.clear()
                 arrayCity.addAll(response.body()?.rajaongkirCity?.resultsCity!!)
                 prog_kab.visibility = View.GONE
                 Log.d("onDataCity", "${response.body()?.rajaongkirCity?.resultsCity}")
@@ -492,6 +502,7 @@ class LayoutCekongkir : Service() {
                 response: Response<SubDistrictRespons>
             ) {
                 adapterDistrict?.setData(response.body()?.rajaongkirSubdistrict?.resultsSubdistrict!!)
+                arrayDistrict.clear()
                 arrayDistrict.addAll(response.body()?.rajaongkirSubdistrict?.resultsSubdistrict!!)
                 prog_kec.visibility = View.VISIBLE
                 Log.d("onDataDistrict", "${response.body()?.rajaongkirSubdistrict?.resultsSubdistrict}")
