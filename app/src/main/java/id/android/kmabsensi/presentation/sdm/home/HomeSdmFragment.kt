@@ -126,9 +126,6 @@ class HomeSdmFragment : BaseFragmentRf<FragmentHomeSdmBinding>(
             } else {
                 val intent = Intent(context, ScanQrActivity::class.java)
                 startActivityForResult(intent, REQ_SCAN_QR)
-//
-//                val intent= Intent(context, ScanQrActivity::class.java)
-//                resultLauncher.launch(intent)
             }
         }
     }
