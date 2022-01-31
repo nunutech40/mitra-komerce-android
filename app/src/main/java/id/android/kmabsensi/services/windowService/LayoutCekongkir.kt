@@ -34,6 +34,7 @@ import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Color
 
 
 class LayoutCekongkir : Service() {
@@ -260,27 +261,38 @@ class LayoutCekongkir : Service() {
             }
         }
         btn_cekOngkir.setOnClickListener {
-            daftarHarga = ""
-            btn_cekOngkir.showLoading()
-            if (rbJNE.isChecked){
-                tv_pickExpedisi.setText("Ekspedisi JNE")
+            if (!rbJNE.isChecked && !rbJNT.isChecked && !rbSICEPAT.isChecked){
+                tv_pickExpedisi.setText("Harap pilih ekspedisi dibawah ini!")
+                tv_pickExpedisi.setTextColor(Color.parseColor("#FF6A3A"))
+            }else{
+                daftarHarga = ""
+                hashHarga.clear()
+                btn_cekOngkir.showLoading()
+                if (rbJNE.isChecked){
+                    tv_pickExpedisi.setText("Ekspedisi JNE")
+                }
+                if(rbJNT.isChecked){
+                    tv_pickExpedisi.setText("Ekspedisi J&T")
+                }
+                if (rbSICEPAT.isChecked){
+                    tv_pickExpedisi.setText("Ekspedisi SICEPAT")
+                }
+                postCost()
+                setupAdapterHarga()
+                btn_copyOngkir.text = "copy"
+                rbGroup.visibility = View.GONE
             }
-            if(rbJNT.isChecked){
-                tv_pickExpedisi.setText("Ekspedisi J&T")
-            }
-            if (rbSICEPAT.isChecked){
-                tv_pickExpedisi.setText("Ekspedisi SICEPAT")
-            }
-            postCost()
-            setupAdapterHarga()
-            btn_copyOngkir.text = "copy"
-            rbGroup.visibility = View.GONE
         }
         btn_copyOngkir.setOnClickListener {
+            daftarHarga = ""
+            for (key in hashHarga.keys){
+                daftarHarga += "${hashHarga[key]}\n"
+            }
+
             var tracking = "Alamat Asal :\n" +
-                    "${tv_alamatAsal} \n" +
+                    "${tv_alamatAsal.text} \n" +
                     "Alamat Tujuan : \n" +
-                    "${tv_alamatTujuan} \n" +
+                    "${tv_alamatTujuan.text} \n" +
                     "Dengan berat : ${tvWeight.text}" +
                     "\n----------------------\n"
         btn_copyOngkir.showLoading()

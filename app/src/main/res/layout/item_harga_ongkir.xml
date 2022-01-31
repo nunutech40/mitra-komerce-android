@@ -50,5 +50,6 @@
             android:layout_marginTop="8dp"
             android:layout_width="30dp"
             android:id="@+id/check_harga"
+                android:backgroundTint="#F44336"
             android:layout_height="30dp"/>
 </LinearLayout>
