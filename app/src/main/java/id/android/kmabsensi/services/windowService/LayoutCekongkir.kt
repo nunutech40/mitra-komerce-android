@@ -39,8 +39,8 @@ import android.graphics.Color
 
 class LayoutCekongkir : Service() {
     companion object{
-    var daftarHarga = ""
-    val hashHarga: HashMap<String, String> = HashMap<String, String>()
+        var daftarHarga = ""
+        val hashHarga: HashMap<String, String> = HashMap<String, String>()
     }
 
     private lateinit var customView: ViewGroup
@@ -144,7 +144,6 @@ class LayoutCekongkir : Service() {
         apiService = ApiClientOngkir.client?.create(ApiServiceKomboard::class.java)
         windowManager.addView(customView, floatWindowLayoutParam)
     }
-
 
     @SuppressLint("ClickableViewAccessibility", "LogNotTimber")
     fun initializationItem(view: ViewGroup){
@@ -264,6 +263,12 @@ class LayoutCekongkir : Service() {
             if (!rbJNE.isChecked && !rbJNT.isChecked && !rbSICEPAT.isChecked){
                 tv_pickExpedisi.setText("Harap pilih ekspedisi dibawah ini!")
                 tv_pickExpedisi.setTextColor(Color.parseColor("#FF6A3A"))
+            }else if(rbSICEPAT.isChecked){
+                tv_pickExpedisi.setText("Expedisi SICEPAT akan segera hadir!")
+                tv_pickExpedisi.setTextColor(Color.parseColor("#FF6A3A"))
+            }else if(rbJNT.isChecked){
+                tv_pickExpedisi.setText("Expedisi J&T akan segera hadir!")
+                tv_pickExpedisi.setTextColor(Color.parseColor("#FF6A3A"))
             }else{
                 daftarHarga = ""
                 hashHarga.clear()
@@ -279,7 +284,7 @@ class LayoutCekongkir : Service() {
                 }
                 postCost()
                 setupAdapterHarga()
-                btn_copyOngkir.text = "copy"
+                btn_copyOngkir.text = "Salin Ongkir"
                 rbGroup.visibility = View.GONE
             }
         }
@@ -288,25 +293,21 @@ class LayoutCekongkir : Service() {
             for (key in hashHarga.keys){
                 daftarHarga += "${hashHarga[key]}\n"
             }
-
             var tracking = "Alamat Asal :\n" +
                     "${tv_alamatAsal.text} \n" +
                     "Alamat Tujuan : \n" +
                     "${tv_alamatTujuan.text} \n" +
-                    "Dengan berat : ${tvWeight.text}" +
-                    "\n----------------------\n"
-        btn_copyOngkir.showLoading()
-        daftarHarga = ""
-        for (key in hashHarga.keys){
-            daftarHarga += "${hashHarga[key]}\n"
-        }
-        Log.d("onPickingHarga", "onDaftarHarga: $daftarHarga")
-        val clipboard: ClipboardManager =
+                    "Dengan ${tvWeight.text}" +
+                    "\n----------------------\n" +
+                    "${tv_pickExpedisi.text}:\n"
+            btn_copyOngkir.showLoading()
+            Log.d("onPickingHarga", "onDaftarHarga: $daftarHarga")
+            val clipboard: ClipboardManager =
                 getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip: ClipData = ClipData.newPlainText("ongkir", "${tracking}"+"${daftarHarga}")
             clipboard.setPrimaryClip(clip)
-        btn_copyOngkir.hideLoading()
-        btn_copyOngkir.text = "copied"
+            btn_copyOngkir.hideLoading()
+            btn_copyOngkir.text = "Ongkir Berhasil Disalin!"
         }
         ed_provinsi.setOnTouchListener { v, event ->
             ed_provinsi.isCursorVisible = true
@@ -323,7 +324,6 @@ class LayoutCekongkir : Service() {
                 ed_provinsi.setError("harap cari provinsi terlebih dahulu")
                 ed_provinsi.requestFocus()
             }else{
-//                prog_kab.visibility = View.VISIBLE
                 ed_kabupaten.isCursorVisible = true
                 reqFocusWindow()
                 getDataCity(id_Prov)
@@ -337,7 +337,6 @@ class LayoutCekongkir : Service() {
         ed_kecamatan.setOnTouchListener { v, event ->
             ed_kecamatan.isCursorVisible = true
             reqFocusWindow()
-//            prog_kec.visibility = View.VISIBLE
             getDataSubdistrict(id_Prov, id_Kab)
             setupAdapterDistrict()
             ed_provinsi.visibility = View.GONE
@@ -360,7 +359,6 @@ class LayoutCekongkir : Service() {
         })
         ed_kabupaten.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -377,7 +375,6 @@ class LayoutCekongkir : Service() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -386,32 +383,14 @@ class LayoutCekongkir : Service() {
             }
 
         })
-
         ed_Berat.setOnTouchListener { v, event ->
-
             ed_Berat.isCursorVisible = true
             reqFocusWindow()
             if (originID != 0 && destinationID != 0){
                 btn_pickExpedisi.isEnabled = true
             }
-
             return@setOnTouchListener false
         }
-
-        ed_Berat.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrBlank()) {
-                    btn_pickExpedisi.isEnabled = false
-                }
-            }
-        })
 
         im_done.setOnClickListener {
             layout_cekOngkir.visibility = View.VISIBLE
@@ -552,9 +531,9 @@ class LayoutCekongkir : Service() {
             courier!!
         )
         val postCost: Call<OngkirRespons>? =
-        apiService?.costOngkir(
-            "68d4b8a1858b8c7fe6822c90fb6d6667",
-            bodyObject)
+            apiService?.costOngkir(
+                "68d4b8a1858b8c7fe6822c90fb6d6667",
+                bodyObject)
         postCost?.enqueue(object : Callback<OngkirRespons>{
             @SuppressLint("LogNotTimber", "SetTextI18n")
             override fun onResponse(call: Call<OngkirRespons>, response: Response<OngkirRespons>) {
@@ -631,9 +610,6 @@ class LayoutCekongkir : Service() {
                 ed_kabupaten.visibility = View.VISIBLE
                 recAddress.visibility = View.GONE
                 Log.d("onDistrictPicked", "${dataDistrict.subdistrict_name}")
-                if (originID != 0 && destinationID != 0){
-                    btn_pickExpedisi.isEnabled = true
-                }
             }
 
         })
@@ -709,54 +685,36 @@ class LayoutCekongkir : Service() {
     }
 
     fun filter(text: String) {
-
-        val filteredAddress =  mutableSetOf<ProvinceResults>()
-        val filteredAddressArr: ArrayList<ProvinceResults> = ArrayList()
-        val filterData = arrayAddress.filter { it.province_name!!.toLowerCase().contains(text.toLowerCase()) }
-
-        for (item in filterData) {
-            filteredAddress.add(item)
+        val filteredAddress: ArrayList<ProvinceResults> = ArrayList()
+        filteredAddress.clear()
+        for (filtered in arrayAddress!!) {
+            if (filtered.province_name!!.toLowerCase().contains(text.toLowerCase())) {
+                filteredAddress.add(filtered)
+            }
         }
-
-        for (filtered in filteredAddress) {
-            filteredAddressArr.add(filtered)
-        }
-
-        adapterAddress?.filterList(filteredAddressArr)
-
+        adapterAddress?.filterList(filteredAddress)
         prog_prov.visibility = View.GONE
     }
     fun filterCity(text: String) {
-
-        val filteredAddress = mutableSetOf<CityResults>()
-        val filteredAddressArr: ArrayList<CityResults> = ArrayList()
-        val filterData = arrayCity.filter { it.city_name!!.toLowerCase().contains(text.toLowerCase()) }
-
-        for (item in filterData) {
-            filteredAddress.add(item)
+        val filteredAddress: ArrayList<CityResults> = ArrayList()
+        filteredAddress.clear()
+        for (filtered in arrayCity!!) {
+            if (filtered.city_name!!.toLowerCase().contains(text.toLowerCase())) {
+                filteredAddress.add(filtered)
+            }
         }
-
-        for (filtered in filteredAddress) {
-            filteredAddressArr.add(filtered)
-        }
-
-        adapterCity?.filterList(filteredAddressArr)
+        adapterCity?.filterList(filteredAddress)
         prog_kab.visibility = View.GONE
     }
     fun filterSubdistrict(text: String) {
-        val filteredAddress = mutableSetOf<SubDistrictResults>()
-        val filteredAddressArr: ArrayList<SubDistrictResults> = ArrayList()
-        val filterData = arrayDistrict.filter { it.subdistrict_name!!.toLowerCase().contains(text.toLowerCase()) }
-
-        for (item in filterData) {
-            filteredAddress.add(item)
+        val filteredAddress: ArrayList<SubDistrictResults> = ArrayList()
+        filteredAddress.clear()
+        for (filtered in arrayDistrict!!) {
+            if (filtered.subdistrict_name!!.toLowerCase().contains(text.toLowerCase())) {
+                filteredAddress.add(filtered)
+            }
         }
-
-        for (filtered in filteredAddress) {
-            filteredAddressArr.add(filtered)
-        }
-
-        adapterDistrict?.filterList(filteredAddressArr)
+        adapterDistrict?.filterList(filteredAddress)
         prog_kec.visibility = View.GONE
     }
 }

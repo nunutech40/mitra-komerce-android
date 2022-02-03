@@ -19,7 +19,7 @@ class ResiAdapter(
     ): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResiVH = ResiVH(
-       ItemResiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ItemResiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
     @SuppressLint("LogNotTimber")
     override fun onBindViewHolder(holder: ResiVH, position: Int) {

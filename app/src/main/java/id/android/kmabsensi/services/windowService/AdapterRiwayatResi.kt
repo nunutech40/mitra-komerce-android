@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_riwayat_resi.view.*
 
 class AdapterRiwayatResi (
     val listener: onBulkResiListener
-        ): RecyclerView.Adapter<AdapterRiwayatResi.VHRiwayatResi>(){
+): RecyclerView.Adapter<AdapterRiwayatResi.VHRiwayatResi>(){
     private  var list: MutableList<DataBulkResi> = ArrayList()
     class VHRiwayatResi(
         val binding: ItemRiwayatResiBinding

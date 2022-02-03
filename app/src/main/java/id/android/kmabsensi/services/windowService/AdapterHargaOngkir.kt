@@ -13,8 +13,8 @@ import id.android.kmabsensi.services.windowService.LayoutCekongkir.Companion.has
 import kotlinx.android.synthetic.main.item_harga_ongkir.view.*
 
 class AdapterHargaOngkir (
-        val listener: onHargaOngkirListener
-        ): RecyclerView.Adapter<AdapterHargaOngkir.VHHarga>(){
+    val listener: onHargaOngkirListener
+): RecyclerView.Adapter<AdapterHargaOngkir.VHHarga>(){
     private  var list: MutableList<CostResults> = ArrayList()
     class VHHarga(
         val binding: ItemHargaOngkirBinding
@@ -35,20 +35,18 @@ class AdapterHargaOngkir (
             jenis_expedisi.text = data.descriptionCost
             harga_pengiriman.text = "Rp. ${data.cost!![0].valueCost.toString()}"
             prediksi_tiba.text = "${data.cost!![0].etdCost.toString()} Hari"
-
             check_harga.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked){
-                    //                    check_harga.isChecked = false
+//                    check_harga.isChecked = false
                     listener.onClick(data)
                     hashHarga.put("${nama_expedisi.text}", "${nama_expedisi.text} ${harga_pengiriman.text} | ${prediksi_tiba.text}")
                     Log.d("onPicking", "updated $hashHarga")
                 }else{
-                    //                    check_harga.isChecked = true
+//                    check_harga.isChecked = true
                     hashHarga.remove("${nama_expedisi.text}")
                     Log.d("onunpicking", "onBindViewHolder: updated $hashHarga")
                 }
             }
-
             setOnClickListener {
                 if (check_harga.isChecked){
                     check_harga.isChecked = false

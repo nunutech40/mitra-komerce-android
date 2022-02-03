@@ -16,7 +16,7 @@ class AddresAdapter(
 
     class VHAddres(
         val binding: ItemAddressBinding
-        ): RecyclerView.ViewHolder(binding.root)
+    ): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHAddres = VHAddres(
         ItemAddressBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -41,9 +41,11 @@ class AddresAdapter(
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredCourseList: ArrayList<ProvinceResults>) {
-        this.list = filteredCourseList;
-        notifyDataSetChanged();
+        this.list.clear()
+        this.list = filteredCourseList
+        notifyDataSetChanged()
     }
     interface onAddressAdapterLintener{
         fun onClick(dataAddress: ProvinceResults)

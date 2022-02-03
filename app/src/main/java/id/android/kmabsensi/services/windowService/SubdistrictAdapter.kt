@@ -46,7 +46,8 @@ class SubdistrictAdapter(
     }
     @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredCourseList: ArrayList<SubDistrictResults>) {
-        this.list = filteredCourseList;
-        notifyDataSetChanged();
+        this.list.clear()
+        this.list = filteredCourseList
+        notifyDataSetChanged()
     }
 }

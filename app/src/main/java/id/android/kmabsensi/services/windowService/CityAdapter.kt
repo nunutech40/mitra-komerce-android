@@ -23,11 +23,11 @@ class CityAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHCity = VHCity(
-       ItemAddressBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ItemAddressBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: VHCity, position: Int) {
-       val data = list[position]
+        val data = list[position]
         holder.itemView.apply {
             tv_nameAddress.text = data.city_name
             setOnClickListener {
@@ -47,7 +47,8 @@ class CityAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredCourseList: ArrayList<CityResults>) {
-        this.list = filteredCourseList;
-        notifyDataSetChanged();
+        this.list.clear()
+        this.list = filteredCourseList
+        notifyDataSetChanged()
     }
 }
