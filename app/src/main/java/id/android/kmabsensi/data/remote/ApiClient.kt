@@ -54,9 +54,11 @@ class AuthInterceptor(var pref: PreferencesHelper, val context:Context) : Interc
             .addHeader("Authorization", "Bearer " +pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY))
             .build()
 
-        Log.d("TAGTAGTAG", "intercept22: ${pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY)}")
+        Log.d("test1", "cek data response: $request");
+        Log.d("test1", "intercept22: ${pref.getString(PreferencesHelper.ACCESS_TOKEN_KEY)}")
 
         val response = chain.proceed(request)
+        Log.d("test1", "cek data response: $response");
 
         if (response.code == 401){
             pref.clear()
